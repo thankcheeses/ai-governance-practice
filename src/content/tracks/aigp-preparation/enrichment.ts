@@ -130,6 +130,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     keyTakeaway:
       "Disclose before information is collected, not after. Transparency that arrives once the member has already shared PHI cannot inform the decision it exists to support.",
     frameworkTags: ["Responsible AI", "EU AI Act"],
+    visualAid: {
+      type: "workflow",
+      src: "/visual-aids/disclosure-before-phi-workflow.png",
+      alt: "A member on a mobile device interacts with an AI voice agent. A missing-disclosure warning sits between the interaction and a protected health information record, which then flows to the payer server — showing PHI being collected before the member was told the agent was automated.",
+      caption:
+        "The sequence the control exists to prevent: information is collected before the member knows they are speaking to an automated system.",
+    },
   },
   20: {
     difficulty: "advanced",
@@ -286,6 +293,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     keyTakeaway:
       "Responsibility splits along the value chain: the foundation model provider answers for pre-training data, while the deployer answers for its own data, tuning, and use in context.",
     frameworkTags: ["AI Governance", "EU AI Act"],
+    visualAid: {
+      type: "responsibility-map",
+      src: "/visual-aids/value-chain-responsibility-map.png",
+      alt: "Three columns dividing obligations across the AI value chain. Provider holds the model and its training documentation. Deployer holds the serving infrastructure, assurance, and operational checks. User is the person interacting with the deployed system.",
+      caption:
+        "Obligations follow control: each actor answers for the part of the chain they hold.",
+    },
   },
   46: {
     difficulty: "foundational",
