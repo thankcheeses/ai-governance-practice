@@ -3,6 +3,7 @@
 import { Lock } from "lucide-react";
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
+import { BrandMark } from "@/components/app/brand-mark";
 import {
   DomainAccuracyChart,
   ReviewForecast,
@@ -53,11 +54,12 @@ function Dashboard() {
           <h1 className="text-2xl font-semibold tracking-tight">Progress</h1>
         </header>
         <Card>
-          <CardContent className="p-8 text-center">
-            <h2 className="font-semibold">No data yet</h2>
+          <CardContent className="flex flex-col items-center p-8 text-center">
+            <BrandMark variant="glass" />
+            <h2 className="mt-5 font-semibold">No data yet</h2>
             <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Answer a few questions and this page will show accuracy by domain,
-              what you have mastered, and what is due for review.
+              Work through a few scenarios and this page will show accuracy by
+              domain, what you have mastered, and what is due for review.
             </p>
             <Button asChild className="mt-5">
               <Link href="/study">Start studying</Link>
@@ -76,7 +78,7 @@ function Dashboard() {
       </header>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="Questions answered" value={String(attempts.length)} />
+        <Stat label="Scenarios answered" value={String(attempts.length)} />
         <Stat
           label="Correct answers"
           value={String(attempts.filter((a) => a.correct).length)}
@@ -179,7 +181,7 @@ function Dashboard() {
           </section>
         </>
       ) : (
-        <Card className="border-primary/30">
+        <Card className="border-accent/40">
           <CardContent className="p-5">
             <div className="flex items-start gap-3">
               <Lock className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
@@ -187,7 +189,7 @@ function Dashboard() {
                 <h2 className="font-semibold">Advanced analytics on Pro</h2>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                   Strength and weakness breakdowns, review scheduling forecasts,
-                  and full-library mastery tracking.
+                  and mastery tracking across the full scenario library.
                 </p>
               </div>
             </div>

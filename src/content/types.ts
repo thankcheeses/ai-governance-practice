@@ -54,6 +54,32 @@ export type FrameworkTag = (typeof FRAMEWORK_TAGS)[number];
 
 export type OptionKey = "A" | "B" | "C" | "D";
 
+/**
+ * Optional diagram attached to a question.
+ *
+ * Used sparingly and only for systems-thinking items where a diagram removes
+ * cognitive load that prose cannot — sequence, responsibility, architecture,
+ * decision flow, failure points. Target for v1 is 8-12 questions, never all of
+ * them, and never decoration.
+ *
+ * `src` points at a static asset under /public. Assets are supplied separately;
+ * the app renders what exists and shows nothing when the field is absent.
+ */
+export type VisualAidType =
+  | "workflow"
+  | "decision-tree"
+  | "responsibility-map"
+  | "architecture"
+  | "timeline";
+
+export interface VisualAid {
+  type: VisualAidType;
+  src: string;
+  /** Required — the diagram must be described for non-visual readers. */
+  alt: string;
+  caption?: string;
+}
+
 export interface QuestionOption {
   key: OptionKey;
   text: string;
@@ -73,6 +99,8 @@ export interface Question {
   correctAnswer: OptionKey;
   rationale: string;
   keyTakeaway: string;
+  /** Present only where a diagram genuinely aids comprehension. */
+  visualAid?: VisualAid;
   frameworkTags: FrameworkTag[];
   /** Free-form topic tags carried through from the source content. */
   tags: string[];
@@ -103,4 +131,6 @@ export interface QuestionEnrichment {
   difficulty: Difficulty;
   keyTakeaway: string;
   frameworkTags: FrameworkTag[];
+  /** Attached per question as diagram assets are supplied. */
+  visualAid?: VisualAid;
 }

@@ -2,6 +2,7 @@
 
 import { Check, X } from "lucide-react";
 import type { OptionKey, Question } from "@/content/types";
+import { VisualAid } from "@/components/study/visual-aid";
 import { cn } from "@/lib/utils";
 
 interface QuestionViewProps {
@@ -12,8 +13,14 @@ interface QuestionViewProps {
 }
 
 /**
- * One question per screen. Selection is single-choice and locks the moment the
- * answer is revealed, so a second tap can never change a recorded answer.
+ * One question per screen.
+ *
+ * Layout order is fixed: question text → optional visual aid → answer choices.
+ * The diagram sits between the stem and the options so it is read as context
+ * for the question rather than as commentary on an answer.
+ *
+ * Selection is single-choice and locks the moment the answer is revealed, so a
+ * second tap can never change a recorded answer.
  */
 export function QuestionView({
   question,
@@ -23,14 +30,16 @@ export function QuestionView({
 }: QuestionViewProps) {
   return (
     <div>
-      <h1 className="text-pretty text-xl font-semibold leading-snug sm:text-2xl sm:leading-snug">
+      <h1 className="text-pretty text-xl font-semibold leading-snug tracking-[-0.01em] sm:text-2xl sm:leading-snug">
         {question.question}
       </h1>
+
+      {question.visualAid ? <VisualAid aid={question.visualAid} /> : null}
 
       <div
         role="radiogroup"
         aria-label="Answer choices"
-        className="mt-6 space-y-2.5"
+        className={cn("space-y-2.5", question.visualAid ? "mt-2" : "mt-6")}
       >
         {question.options.map((option) => {
           const isSelected = selected === option.key;
@@ -47,23 +56,31 @@ export function QuestionView({
               disabled={revealed}
               onClick={() => onSelect(option.key)}
               className={cn(
-                "flex w-full items-start gap-3.5 rounded-xl border p-4 text-left transition-all duration-150",
-                "disabled:cursor-default",
+                "flex w-full items-start gap-3.5 rounded-lg border p-4 text-left",
+                "transition-all duration-200 ease-out disabled:cursor-default",
+
+                // Resting: white surface, clean border, soft lift.
                 !revealed &&
-                  "hover:border-primary/60 hover:bg-accent/40 active:scale-[0.99]",
-                isSelected && !revealed && "border-primary bg-primary/10",
-                !isSelected && !revealed && "border-border bg-card",
-                showCorrect && "border-success bg-success/10",
-                showWrong && "border-destructive bg-destructive/10",
+                  !isSelected &&
+                  "border-border bg-card shadow-[var(--shadow-card)] hover:-translate-y-px hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)]",
+
+                // Selected: teal fill, stronger teal border, slight scale up.
+                isSelected &&
+                  !revealed &&
+                  "scale-[1.01] border-accent bg-accent-subtle shadow-[var(--shadow-accent)]",
+
+                // Post-answer states stay informational, not celebratory.
+                showCorrect && "border-success bg-success-tint",
+                showWrong && "border-destructive bg-destructive-tint",
                 revealed &&
                   !showCorrect &&
                   !showWrong &&
-                  "border-border bg-card opacity-55",
+                  "border-border bg-card opacity-60",
               )}
             >
               <span
                 className={cn(
-                  "mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-md border text-xs font-semibold",
+                  "mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-md border text-xs font-semibold transition-colors",
                   isSelected &&
                     !revealed &&
                     "border-primary bg-primary text-primary-foreground",
@@ -72,7 +89,7 @@ export function QuestionView({
                     "border-destructive bg-destructive text-destructive-foreground",
                   !isSelected &&
                     !showCorrect &&
-                    "border-border text-muted-foreground",
+                    "border-border-strong text-muted-foreground",
                 )}
               >
                 {showCorrect ? (

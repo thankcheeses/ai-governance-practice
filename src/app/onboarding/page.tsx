@@ -1,10 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, BookOpen, Layers, Target } from "lucide-react";
+import { ArrowRight, Layers, Route, Target } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Logo } from "@/components/app/app-shell";
+import { BrandMark } from "@/components/app/brand-mark";
 import { Disclaimer } from "@/components/app/disclaimer";
 import { Button } from "@/components/ui/button";
 import { getTrack } from "@/content/registry";
@@ -16,7 +16,7 @@ import {
 import { useProgress } from "@/lib/store/progress-provider";
 import { cn } from "@/lib/utils";
 
-const ICONS = [BookOpen, Layers, Target];
+const ICONS = [Layers, Route, Target];
 
 /**
  * First-launch onboarding: welcome, what the product is, then the disclaimer
@@ -36,7 +36,7 @@ export default function OnboardingPage() {
   return (
     <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-8 sm:py-12">
       <header className="mb-8 flex items-center gap-2.5">
-        <Logo />
+        <BrandMark />
         <span className="text-[0.9375rem] font-semibold tracking-tight">
           {BRAND.name}
         </span>
@@ -50,9 +50,9 @@ export default function OnboardingPage() {
                 <span className="text-gradient">{ONBOARDING_WELCOME}</span>
               </h1>
               <p className="mt-4 leading-relaxed text-muted-foreground">
-                {BRAND.positioning}
+                {BRAND.category} {BRAND.lines.apply}
               </p>
-              <div className="mt-8 rounded-xl border border-border bg-card p-4">
+              <div className="mt-8 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)]">
                 <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Your track
                 </p>
@@ -61,7 +61,7 @@ export default function OnboardingPage() {
                   {track.summary}
                 </p>
                 <p className="mt-3 text-sm text-muted-foreground">
-                  {track.questionCount} questions across {track.domains.length}{" "}
+                  {track.questionCount} scenarios across {track.domains.length}{" "}
                   domains.
                 </p>
               </div>
@@ -77,10 +77,10 @@ export default function OnboardingPage() {
                   return (
                     <li
                       key={point.title}
-                      className="flex gap-3.5 rounded-xl border border-border bg-card p-4"
+                      className="flex gap-3.5 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)]"
                     >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/15">
-                        <Icon className="h-4.5 w-4.5 text-primary" />
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent-tint ring-1 ring-accent/25">
+                        <Icon className="h-[1.125rem] w-[1.125rem] text-primary" />
                       </span>
                       <div>
                         <h2 className="font-semibold">{point.title}</h2>
@@ -114,7 +114,7 @@ export default function OnboardingPage() {
               key={i}
               className={cn(
                 "h-1.5 rounded-full transition-all duration-300",
-                i === step ? "w-6 bg-primary" : "w-1.5 bg-border",
+                i === step ? "w-6 bg-accent" : "w-1.5 bg-border",
               )}
             />
           ))}

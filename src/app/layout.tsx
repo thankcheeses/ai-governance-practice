@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: `${BRAND.name} — ${BRAND.tagline}`,
     template: `%s · ${BRAND.name}`,
   },
-  description: BRAND.positioning,
+  description: `${BRAND.category} ${BRAND.positioning}`,
   applicationName: BRAND.name,
   manifest: "/manifest.webmanifest",
   appleWebApp: {
@@ -32,6 +32,7 @@ export const metadata: Metadata = {
   },
   keywords: [
     "AI governance",
+    "governance scenarios",
     "NIST AI RMF",
     "EU AI Act",
     "ISO 42001",
@@ -40,15 +41,15 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: BRAND.name,
-    description: BRAND.positioning,
+    description: `${BRAND.category} ${BRAND.positioning}`,
     type: "website",
   },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0f1622" },
-    { media: "(prefers-color-scheme: light)", color: "#fbfbfd" },
+    { media: "(prefers-color-scheme: light)", color: "#fafaf9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b1220" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -61,7 +62,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="dark"
+      data-theme="light"
       className={`${inter.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >

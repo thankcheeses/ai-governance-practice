@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle2, KeyRound, XCircle } from "lucide-react";
+import { CheckCircle2, XCircle } from "lucide-react";
 import type { Question } from "@/content/types";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -12,9 +12,12 @@ interface FeedbackPanelProps {
 }
 
 /**
- * Post-answer feedback: result, rationale, the portable takeaway, and the
- * framework tags the item maps to. Deliberately ordered so the takeaway — the
- * thing worth remembering — reads last and sits visually apart.
+ * Post-answer feedback.
+ *
+ * Hierarchy is deliberate: the result is a quiet one-line strip, the rationale
+ * is plain body text, and the Key Takeaway is a solid deep-teal block — the
+ * strongest element on the screen. The takeaway is the part worth carrying to
+ * the next scenario, so it gets the visual weight, not the score.
  */
 export function FeedbackPanel({ question, correct }: FeedbackPanelProps) {
   return (
@@ -22,20 +25,20 @@ export function FeedbackPanel({ question, correct }: FeedbackPanelProps) {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-      className="space-y-5"
+      className="space-y-6"
     >
       <div
         className={cn(
-          "flex items-center gap-2.5 rounded-xl border p-4",
+          "flex items-center gap-2.5 rounded-lg border px-4 py-3",
           correct
-            ? "border-success/35 bg-success/10 text-success"
-            : "border-destructive/35 bg-destructive/10 text-destructive",
+            ? "border-success/30 bg-success-tint text-success"
+            : "border-destructive/30 bg-destructive-tint text-destructive",
         )}
       >
         {correct ? (
-          <CheckCircle2 className="h-5 w-5 shrink-0" />
+          <CheckCircle2 className="h-[1.125rem] w-[1.125rem] shrink-0" />
         ) : (
-          <XCircle className="h-5 w-5 shrink-0" />
+          <XCircle className="h-[1.125rem] w-[1.125rem] shrink-0" />
         )}
         <div className="text-[0.9375rem] font-semibold">
           {correct ? "Correct" : "Incorrect"}
@@ -48,7 +51,7 @@ export function FeedbackPanel({ question, correct }: FeedbackPanelProps) {
       </div>
 
       <section>
-        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <h2 className="mb-2 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
           Rationale
         </h2>
         <p className="text-[0.9375rem] leading-relaxed text-foreground/90">
@@ -56,18 +59,27 @@ export function FeedbackPanel({ question, correct }: FeedbackPanelProps) {
         </p>
       </section>
 
-      <section className="rounded-xl border border-primary/30 bg-primary/[0.07] p-4">
-        <h2 className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
-          <KeyRound className="h-3.5 w-3.5" />
+      {/* The anchor of the screen. Solid brand teal, white text. */}
+      <section
+        className={cn(
+          "relative overflow-hidden rounded-lg p-5",
+          "bg-primary text-white shadow-[var(--shadow-accent)]",
+        )}
+      >
+        <span
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/25"
+          aria-hidden
+        />
+        <h2 className="mb-2.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-accent-subtle">
           Key takeaway
         </h2>
-        <p className="text-[0.9375rem] leading-relaxed text-foreground/90">
+        <p className="text-base font-medium leading-relaxed">
           {question.keyTakeaway}
         </p>
       </section>
 
       <section>
-        <h2 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <h2 className="mb-2.5 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
           Frameworks
         </h2>
         <div className="flex flex-wrap gap-2">

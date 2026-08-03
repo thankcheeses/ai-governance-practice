@@ -5,9 +5,14 @@ import type { Tier } from "./types";
 /**
  * Feature gating.
  *
- * Gating is enforced in one place so the rest of the app never branches on
- * tier inline. There is no payment integration yet — `tier` is simply a field
- * on the profile, and /upgrade explains what Pro will unlock.
+ * Gating lives in one module so nothing else branches on tier inline. There is
+ * no payment integration — `tier` is a field on the profile and /upgrade
+ * explains what each plan covers.
+ *
+ * Only Free and Pro are *enforceable* today, so only they exist in `Tier` and
+ * in the database. Lab and Enterprise are described on the upgrade screen as
+ * roadmap plans (see PLANS below) but are not modelled as runtime states —
+ * inventing tiers with nothing to gate would be dead code.
  */
 
 export const FREE_QUESTION_LIMIT = 20;
@@ -20,8 +25,10 @@ export interface Entitlements {
   spacedRepetition: boolean;
   reviewQueue: boolean;
   advancedAnalytics: boolean;
-  /** Free tier practises across domains but cannot filter to one. */
+  /** Free practises across domains but cannot filter to one. */
   domainFiltering: boolean;
+  /** Scenario questions carrying diagrams are a Pro surface. */
+  visualScenarios: boolean;
 }
 
 export function entitlementsFor(tier: Tier): Entitlements {
@@ -34,6 +41,7 @@ export function entitlementsFor(tier: Tier): Entitlements {
       reviewQueue: true,
       advancedAnalytics: true,
       domainFiltering: true,
+      visualScenarios: true,
     };
   }
 
@@ -45,12 +53,13 @@ export function entitlementsFor(tier: Tier): Entitlements {
     reviewQueue: false,
     advancedAnalytics: false,
     domainFiltering: false,
+    visualScenarios: false,
   };
 }
 
 /**
- * The questions a tier may reach. Free tier gets the first N in track order,
- * so the free experience is a coherent run rather than a random sample.
+ * The questions a tier may reach. Free gets the first N in track order, so the
+ * free experience is a coherent run rather than a random sample.
  */
 export function availableQuestions(
   tier: Tier,
@@ -69,25 +78,82 @@ export function isQuestionAvailable(
   return availableQuestions(tier, trackId).some((q) => q.id === questionId);
 }
 
-export const PRO_FEATURES = [
+/* ------------------------------------------------------------------ */
+/* Plan presentation                                                   */
+/* ------------------------------------------------------------------ */
+
+export type PlanStatus = "current" | "available" | "planned";
+
+export interface Plan {
+  id: string;
+  name: string;
+  price: string;
+  /** What the plan is for, in one line. */
+  premise: string;
+  features: string[];
+  status: PlanStatus;
+}
+
+/**
+ * Plans as presented on /upgrade.
+ *
+ * The value story is mental models and simulations, not question volume — the
+ * copy is written to say that explicitly, because "more questions" is the wrong
+ * reason to upgrade and sets the wrong expectation for Lab.
+ */
+export const PLANS: Plan[] = [
   {
-    title: "Full question library",
-    body: "All 50 scenario-based questions across every domain, rather than the first 20.",
+    id: "free",
+    name: "Free",
+    price: "$0",
+    premise: "See how the scenarios work before committing.",
+    features: [
+      `First ${FREE_QUESTION_LIMIT} scenarios`,
+      "Full rationale on every answer",
+      "Key takeaway on every answer",
+      "Basic progress tracking",
+    ],
+    status: "available",
   },
   {
-    title: "Full spaced repetition",
-    body: "SM-2 scheduling across the whole library, so every item you miss comes back at the right interval.",
+    id: "pro",
+    name: "Pro",
+    price: "$19–39",
+    premise: "Work the full track and retain what you learn.",
+    features: [
+      "Full scenario library",
+      "SM-2 spaced repetition",
+      "Prioritised review queue",
+      "Domain analytics and weak-area detection",
+      "Visual scenario questions",
+    ],
+    status: "available",
   },
   {
-    title: "Review queue",
-    body: "A prioritised daily queue built from missed questions, low-confidence answers, and due reviews.",
+    id: "lab",
+    name: "Lab",
+    price: "$99–299",
+    premise:
+      "Applied simulations in the domains where governance decisions get hard.",
+    features: [
+      "Healthcare AI governance scenarios",
+      "Voice AI governance scenarios",
+      "Agent governance simulations",
+      "Certificate of completion",
+    ],
+    status: "planned",
   },
   {
-    title: "Advanced analytics",
-    body: "Per-domain accuracy trends, mastery counts, and weak-domain identification.",
-  },
-  {
-    title: "Domain practice",
-    body: "Filter study sessions to a single domain to close a specific gap.",
+    id: "enterprise",
+    name: "Enterprise",
+    price: "Contact us",
+    premise: "Train a governance function, not one practitioner.",
+    features: [
+      "Team training programmes",
+      "Organisation dashboards",
+      "Cohort progress visibility",
+      "Organisation-specific scenarios",
+    ],
+    status: "planned",
   },
 ];

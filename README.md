@@ -2,8 +2,13 @@
 
 **AI Governance Practice for Practitioners**
 
-Judgment Labs helps professionals build practical AI governance judgment through
-original scenario-based learning.
+AI governance scenario training built for practitioners. Judgment Labs helps
+professionals build practical AI governance judgment through original
+scenario-based learning.
+
+The category is scenario training — practitioner judgment, mental models, and
+applied decision-making. AIGP Preparation is the current track and the
+acquisition wedge, not the product definition.
 
 > **Independent Educational Product.** Judgment Labs provides original
 > educational content for professional development in AI governance. This
@@ -157,20 +162,75 @@ was a product constraint, and it is enforced by the absence of the concepts from
 
 ### 7. Feature gating in one place
 
-`src/lib/entitlements.ts` is the only module that branches on tier. Free covers
-the **first 20 questions in track order** (a coherent run, not a random sample)
-with mixed practice. Pro unlocks the full library, domain filtering, the review
-queue, and advanced analytics. There is no payment integration; `/upgrade`
-explains the tiers and lets you toggle the Pro preview to exercise the gated
-paths.
+`src/lib/entitlements.ts` is the only module that branches on tier.
 
-### 8. Theming without a flash
+| Plan | Price | Covers |
+| --- | --- | --- |
+| Free | $0 | First 20 scenarios, rationales, key takeaways, basic progress |
+| Pro | $19–39 | Full library, SM-2, review queue, analytics, visual scenarios |
+| Lab | $99–299 | Healthcare / voice / agent simulations, certificate — *planned* |
+| Enterprise | Contact | Team training, organisation dashboards — *planned* |
 
-Semantic tokens (`--background`, `--card`, `--muted-foreground`, …) are defined
-once per theme in `globals.css` and consumed through Tailwind v4's `@theme`. No
-component branches on theme. An inline script in the root layout sets
-`data-theme` on `<html>` before first paint, so there is no flash of the wrong
-theme. Dark is the default; Light and System are available in Settings.
+Only **Free and Pro are enforceable states**, so only they exist in the `Tier`
+union and in the database. Lab and Enterprise are presented on `/upgrade` as
+roadmap plans via the `PLANS` array — modelling tiers with nothing to gate would
+be dead code.
+
+There is no payment integration. `/upgrade` explains the plans and lets you
+toggle the Pro preview to exercise the gated paths.
+
+The value proposition is mental models and applied simulations, **not question
+volume** — the plan copy says so explicitly, because "more questions" sets the
+wrong expectation for what Lab will be.
+
+### 8. Theming, and the two-role accent
+
+Semantic tokens are defined once per theme in `globals.css` and consumed through
+Tailwind v4's `@theme`. No component branches on theme. An inline script in the
+root layout sets `data-theme` on `<html>` before first paint, so there is no
+flash. **Light is the default**; Dark and System are available in Settings.
+
+| Role | Light |
+| --- | --- |
+| Background | `#FAFAF9` warm off-white |
+| Surface | `#FFFFFF` |
+| Primary text | `#0F172A` deep navy |
+| Brand accent | `#14B8A6` teal |
+
+There is no blue anywhere in either theme.
+
+The accent needs explaining. Teal `#14B8A6` sits at 2.5:1 against white, which is
+not legible behind body text — so the palette splits it into two roles:
+
+- `--accent` `#14B8A6` — the brand teal, used for **indicators only**: progress
+  fills, selected-state borders, icons on tinted plates, focus rings. It never
+  sits behind text.
+- `--primary` `#0F766E` — the same hue darkened for **text-bearing surfaces**:
+  CTAs and the Key Takeaway block. At 5.5:1 against white it stays legible while
+  still reading as the brand colour.
+
+This is the one place the implementation deviates from a literal reading of the
+brand spec, and it is deliberate: a Key Takeaway block filled with `#14B8A6`
+under white text would fail WCAG AA for body copy.
+
+### 9. Visual language
+
+Three languages, no others:
+
+1. **3D glass** — the logo mark. Used for brand moments only: splash, empty
+   states, and the upgrade header. `BrandMark` renders one geometry in two
+   treatments (`flat` for chrome, `glass` for moments), so there is a single
+   brand shape rather than competing marks.
+2. **Architecture glass** — for system diagrams, when supplied.
+3. **Educational sketch** — for responsibility maps, timelines, and workflows,
+   when supplied.
+
+The app ships **no invented illustrations**. Empty states use the brand mark, not
+decorative art.
+
+Target ratio is roughly 80% clean text-based learning to 20% high-value visuals
+that reduce cognitive load. Visuals explain sequence, responsibility,
+architecture, decision flow, or failure points — never decoration.
 
 ---
 
@@ -254,6 +314,39 @@ the learner never opens `/review`.
 
 ---
 
+## Visual aids
+
+Questions may carry an optional diagram:
+
+```ts
+visualAid?: {
+  type: "workflow" | "decision-tree" | "responsibility-map"
+      | "architecture" | "timeline";
+  src: string;
+  alt: string;
+  caption?: string;
+}
+```
+
+Attach one by adding the field to a question's entry in `enrichment.ts` and
+dropping the asset under `/public`. The source `questions.json` is never touched.
+
+`VisualAid` (`src/components/study/visual-aid.tsx`) renders between the question
+stem and the answer choices, so the diagram reads as context for the question
+rather than commentary on an answer. It is capped at 180px on mobile and 240px
+above `sm`, keeping the options reachable without hunting.
+
+Two rules are enforced in the component:
+
+- It renders **only** when `visualAid` exists. There are no placeholders.
+- If the asset is missing or fails to load, it renders **nothing** — the question
+  degrades silently to text rather than showing a broken frame.
+
+No diagrams ship in this repository. Assets are supplied separately; v1 targets
+8–12 questions, not all of them.
+
+---
+
 ## Project structure
 
 ```
@@ -291,7 +384,7 @@ utilities. Tap targets meet the 44px minimum, and `prefers-reduced-motion` is
 respected globally.
 
 PWA-ready: `public/manifest.webmanifest` with standalone display, theme colour,
-and maskable icon. Adding a service worker for offline study is the natural next
+and a maskable icon carrying the glass mark. Adding a service worker for offline study is the natural next
 step and needs no architectural change.
 
 ---
@@ -308,6 +401,25 @@ step and needs no architectural change.
    from CI.
 5. In Supabase, add your deployment URL to **Authentication → URL Configuration
    → Redirect URLs**.
+
+---
+
+## Positioning copy
+
+Brand copy lives in `src/lib/brand.ts` as the single source.
+
+Approved lines:
+
+- "AI governance scenario training built for practitioners."
+- "Build judgment through realistic governance scenarios."
+- "Practice applying AI governance frameworks to real-world decisions."
+
+Never used, anywhere in the product:
+
+- "Pass your AIGP exam"
+- "Official AIGP preparation"
+- "IAPP approved"
+- anything positioning the product as a certification replacement
 
 ---
 

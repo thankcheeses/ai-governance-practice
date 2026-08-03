@@ -38,7 +38,7 @@ function Study() {
       <header>
         <h1 className="text-2xl font-semibold tracking-tight">Study</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          {track.name} · {available.length} of {track.questionCount} questions
+          {track.name} · {available.length} of {track.questionCount} scenarios
           available
         </p>
       </header>
@@ -51,13 +51,13 @@ function Study() {
         <Card>
           <CardContent className="p-5">
             <div className="flex items-start gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/15">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent-tint ring-1 ring-accent/25">
                 <Shuffle className="h-4 w-4 text-primary" />
               </span>
               <div>
                 <h3 className="font-semibold">Adaptive session</h3>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  Questions across every domain, ordered by what you have not
+                  Scenarios across every domain, ordered by what you have not
                   seen and where your accuracy is weakest.
                 </p>
               </div>
@@ -65,7 +65,7 @@ function Study() {
             <div className="mt-4 grid grid-cols-3 gap-2">
               {SESSION_LENGTHS.map((count) => (
                 <Button key={count} asChild variant="secondary">
-                  <Link href={`/study/session?count=${count}`}>{count} questions</Link>
+                  <Link href={`/study/session?count=${count}`}>{count} scenarios</Link>
                 </Button>
               ))}
             </div>
@@ -101,7 +101,7 @@ function Study() {
                     ? "/upgrade"
                     : `/study/session?domain=${encodeURIComponent(domain)}`
                 }
-                className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40"
+                className="flex items-center gap-4 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-px hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)]"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
@@ -125,11 +125,11 @@ function Study() {
       </section>
 
       {!entitlements.fullLibrary ? (
-        <Card className="border-primary/30">
+        <Card className="border-accent/40">
           <CardContent className="p-5">
             <h3 className="font-semibold">You are on the free tier</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-              Free access covers the first {FREE_QUESTION_LIMIT} questions of the
+              Free access covers the first {FREE_QUESTION_LIMIT} scenarios of the
               track with mixed practice. Pro unlocks the full library, domain
               filtering, the review queue, and full spaced repetition.
             </p>

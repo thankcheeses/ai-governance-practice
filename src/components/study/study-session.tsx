@@ -158,8 +158,10 @@ export function StudySession({
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
-        <Badge variant="outline">{question.domain}</Badge>
-        <Badge variant="secondary" className="capitalize">
+        {/* Domain is the teal-tinted pill; difficulty stays neutral so the
+            two read as different kinds of metadata. */}
+        <Badge>{question.domain}</Badge>
+        <Badge variant="outline" className="capitalize">
           {question.difficulty}
         </Badge>
       </div>
@@ -202,8 +204,8 @@ export function StudySession({
                 className={cn(
                   "flex-1 rounded-lg border px-3 py-2 text-sm transition-colors",
                   confidence === option.value
-                    ? "border-primary bg-primary/10 text-foreground"
-                    : "border-border text-muted-foreground hover:bg-accent/40",
+                    ? "border-accent bg-accent-subtle text-foreground"
+                    : "border-border text-muted-foreground hover:bg-accent-tint",
                 )}
               >
                 {option.label}
@@ -231,12 +233,12 @@ export function StudySession({
                     type="button"
                     onClick={() => handleGrade(grade)}
                     className={cn(
-                      "rounded-lg border p-3 text-center transition-colors active:scale-[0.98]",
+                      "rounded-lg border bg-card p-3 text-center shadow-[var(--shadow-card)] transition-colors active:scale-[0.98]",
                       grade === "again" &&
-                        "border-destructive/40 hover:bg-destructive/10",
+                        "border-destructive/40 hover:bg-destructive-tint",
                       grade === "hard" && "border-warning/40 hover:bg-warning/10",
-                      grade === "good" && "border-primary/40 hover:bg-primary/10",
-                      grade === "easy" && "border-success/40 hover:bg-success/10",
+                      grade === "good" && "border-accent/50 hover:bg-accent-tint",
+                      grade === "easy" && "border-success/40 hover:bg-success-tint",
                     )}
                   >
                     <div className="text-sm font-medium capitalize">{grade}</div>
@@ -296,7 +298,7 @@ function SessionComplete({
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className="mx-auto max-w-md py-10 text-center"
     >
-      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
+      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-accent/40 bg-accent-tint">
         <span className="text-2xl font-semibold tabular-nums text-primary">
           {accuracy}%
         </span>

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { BarChart3, Home, Layers, RotateCcw, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BrandMark } from "@/components/app/brand-mark";
 import { dueCount } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import { BRAND } from "@/lib/brand";
@@ -155,32 +156,9 @@ function SidebarLink({
   );
 }
 
+/** Re-exported so existing call sites keep working. */
 export function Logo({ className }: { className?: string }) {
-  return (
-    <span
-      className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-md bg-primary/15",
-        className,
-      )}
-      aria-hidden
-    >
-      <svg viewBox="0 0 24 24" className="h-4.5 w-4.5 text-primary" fill="none">
-        <path
-          d="M12 3 4.5 6.2v5.1c0 4.4 3 8.5 7.5 9.7 4.5-1.2 7.5-5.3 7.5-9.7V6.2L12 3Z"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinejoin="round"
-        />
-        <path
-          d="m9 11.8 2.1 2.2L15 10"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </span>
-  );
+  return <BrandMark className={className} />;
 }
 
 function isActive(pathname: string, href: string) {

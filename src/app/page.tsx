@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Logo } from "@/components/app/app-shell";
+import { BrandMark } from "@/components/app/brand-mark";
 import { BRAND } from "@/lib/brand";
 import { useProgress } from "@/lib/store/progress-provider";
 
@@ -22,7 +22,7 @@ export default function RootPage() {
 
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center gap-4 px-6 text-center">
-      <Logo className="h-11 w-11" />
+      <BrandMark variant="glass" />
       <div>
         <p className="text-lg font-semibold tracking-tight">{BRAND.name}</p>
         <p className="mt-1 text-sm text-muted-foreground">{BRAND.tagline}</p>

@@ -71,8 +71,8 @@ function Settings() {
               className={cn(
                 "flex flex-col items-center gap-2 rounded-lg border p-3.5 text-sm transition-colors",
                 theme === option.value
-                  ? "border-primary bg-primary/10 text-foreground"
-                  : "border-border text-muted-foreground hover:bg-accent/40",
+                  ? "border-accent bg-accent-subtle text-foreground"
+                  : "border-border text-muted-foreground hover:bg-accent-tint",
               )}
             >
               <option.icon className="h-4 w-4" />
@@ -86,7 +86,7 @@ function Settings() {
       <Section title="Study">
         <div>
           <p className="mb-2.5 text-sm text-muted-foreground">
-            Daily goal — questions per day
+            Daily goal — scenarios per day
           </p>
           <div className="grid grid-cols-4 gap-2">
             {GOALS.map((goal) => (
@@ -98,8 +98,8 @@ function Settings() {
                 className={cn(
                   "rounded-lg border py-2.5 text-sm tabular-nums transition-colors",
                   progress.dailyGoal === goal
-                    ? "border-primary bg-primary/10 text-foreground"
-                    : "border-border text-muted-foreground hover:bg-accent/40",
+                    ? "border-accent bg-accent-subtle text-foreground"
+                    : "border-border text-muted-foreground hover:bg-accent-tint",
                 )}
               >
                 {goal}
@@ -169,11 +169,11 @@ function Settings() {
       {/* About */}
       <Section title={`About ${BRAND.name}`}>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          {BRAND.positioning}
+          {BRAND.category} {BRAND.positioning}
         </p>
         <div className="mt-4 space-y-1">
           <Row label="Tagline" value={BRAND.tagline} />
-          <Row label="Track" value={`${track.name} · ${track.questionCount} questions`} />
+          <Row label="Track" value={`${track.name} · ${track.questionCount} scenarios`} />
           <Row label="Version" value="1.0.0 (MVP)" />
         </div>
       </Section>
@@ -265,7 +265,7 @@ function LinkRow({
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 rounded-lg border border-border p-3.5 text-sm transition-colors hover:bg-accent/40"
+      className="flex items-center gap-3 rounded-lg border border-border p-3.5 text-sm transition-colors hover:bg-accent-tint"
     >
       <Icon className="h-4 w-4 text-muted-foreground" />
       {label}

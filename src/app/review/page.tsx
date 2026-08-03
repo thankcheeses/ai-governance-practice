@@ -1,8 +1,9 @@
 "use client";
 
-import { CalendarClock, CheckCircle2, HelpCircle, Lock, XCircle } from "lucide-react";
+import { CalendarClock, HelpCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
+import { BrandMark } from "@/components/app/brand-mark";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -50,20 +51,20 @@ function Review() {
       <header>
         <h1 className="text-2xl font-semibold tracking-tight">Review queue</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Missed questions first, then low-confidence answers, then scheduled
+          Missed scenarios first, then low-confidence answers, then scheduled
           reviews.
         </p>
       </header>
 
       {queue.length === 0 ? (
         <Card>
-          <CardContent className="p-8 text-center">
-            <CheckCircle2 className="mx-auto h-9 w-9 text-success" />
-            <h2 className="mt-4 font-semibold">Nothing due right now</h2>
+          <CardContent className="flex flex-col items-center p-8 text-center">
+            <BrandMark variant="glass" />
+            <h2 className="mt-5 font-semibold">Nothing due right now</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
               {upcomingTotal > 0
                 ? `${upcomingTotal} ${upcomingTotal === 1 ? "question" : "questions"} scheduled over the next 7 days.`
-                : "Answer some questions and anything you miss will appear here."}
+                : "Work through some scenarios and anything you miss will appear here."}
             </p>
             <Button asChild className="mt-5">
               <Link href="/study">Go to study</Link>
@@ -113,7 +114,7 @@ function Review() {
                 return (
                   <li
                     key={item.question.id}
-                    className="rounded-xl border border-border bg-card p-4"
+                    className="rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)]"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <p className="line-clamp-2 text-sm leading-relaxed">
@@ -151,14 +152,14 @@ function ReviewLocked() {
       <header>
         <h1 className="text-2xl font-semibold tracking-tight">Review queue</h1>
       </header>
-      <Card className="border-primary/30">
-        <CardContent className="p-8 text-center">
-          <Lock className="mx-auto h-8 w-8 text-muted-foreground" />
-          <h2 className="mt-4 font-semibold">Available on Pro</h2>
+      <Card className="border-accent/40">
+        <CardContent className="flex flex-col items-center p-8 text-center">
+          <BrandMark variant="glass" />
+          <h2 className="mt-5 font-semibold">Available on Pro</h2>
           <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
             The review queue resurfaces what you missed, what you were unsure
             about, and what is scheduled — using SM-2 spaced repetition across
-            the full library.
+            the full scenario library.
           </p>
           <Button asChild className="mt-5">
             <Link href="/upgrade">See what Pro includes</Link>

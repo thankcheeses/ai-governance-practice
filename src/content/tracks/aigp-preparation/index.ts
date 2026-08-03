@@ -45,6 +45,9 @@ function normalize(item: RawQuestion): Question {
     correctAnswer: item.correct.trim().toUpperCase() as OptionKey,
     rationale: item.rationale,
     keyTakeaway: enrichment.keyTakeaway,
+    // Omitted entirely when no diagram is supplied, so `visualAid` is either
+    // a complete aid or absent — never a half-populated object.
+    ...(enrichment.visualAid ? { visualAid: enrichment.visualAid } : {}),
     frameworkTags: enrichment.frameworkTags,
     tags: item.tags ?? [],
     createdDate: CREATED_DATE,

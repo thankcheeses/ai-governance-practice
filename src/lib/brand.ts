@@ -1,13 +1,27 @@
 /**
- * Brand and legal copy, kept in one module so the disclaimer text is identical
- * everywhere it appears (first launch and Settings) and can never drift.
+ * Brand and legal copy.
+ *
+ * Single source so the disclaimer is identical everywhere it appears (first
+ * launch and Settings) and can never drift.
+ *
+ * Positioning is locked: Judgment Labs is AI governance scenario training for
+ * practitioners. AIGP Preparation is the current track — an acquisition wedge,
+ * not the category. Copy must never promise exam outcomes, claim official
+ * status, or position the product as a certification replacement.
  */
 
 export const BRAND = {
   name: "Judgment Labs",
   tagline: "AI Governance Practice for Practitioners",
+  category: "AI governance scenario training built for practitioners.",
   positioning:
     "Judgment Labs helps professionals build practical AI governance judgment through original scenario-based learning.",
+  /** Short lines approved for headings and CTAs. */
+  lines: {
+    build: "Build judgment through realistic governance scenarios.",
+    apply:
+      "Practice applying AI governance frameworks to real-world decisions.",
+  },
 } as const;
 
 export const DISCLAIMER_TITLE = "Independent Educational Product";
@@ -24,15 +38,15 @@ export const ONBOARDING_WELCOME =
 
 export const ONBOARDING_POINTS = [
   {
-    title: "Original practice questions",
-    body: "Every question and scenario is original educational material written for this platform. Nothing here is drawn from any certification exam.",
+    title: "Practitioner scenarios",
+    body: "Most items put you inside a governance situation with a decision attached — a vendor deploying a voice agent, a model drifting in production — rather than asking you to recall a definition.",
   },
   {
-    title: "Framework-based learning",
-    body: "Items map to the frameworks practitioners actually work with — NIST AI RMF, the EU AI Act, ISO 42001, and responsible AI practice — so you learn where an obligation comes from.",
+    title: "Framework-based reasoning",
+    body: "Every scenario maps to the frameworks practitioners work with: NIST AI RMF, the EU AI Act, ISO 42001, and responsible AI practice. You learn where an obligation comes from, not just that it exists.",
   },
   {
-    title: "Scenario-driven training",
-    body: "Most questions put you in a situation with a decision attached rather than asking for a definition. The goal is judgment you can reuse, not recall.",
+    title: "Mental models you reuse",
+    body: "Each answer ends in a key takeaway — the underlying principle stated so it transfers to the next situation you have not seen before.",
   },
 ] as const;

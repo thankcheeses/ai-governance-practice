@@ -4,7 +4,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Logo } from "@/components/app/app-shell";
+import { BrandMark } from "@/components/app/brand-mark";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -73,7 +73,7 @@ export default function LoginPage() {
       </Button>
 
       <div className="mb-7 flex items-center gap-2.5">
-        <Logo />
+        <BrandMark />
         <span className="text-[0.9375rem] font-semibold tracking-tight">
           {BRAND.name}
         </span>
@@ -138,14 +138,14 @@ export default function LoginPage() {
               {error ? (
                 <p
                   role="alert"
-                  className="rounded-md border border-destructive/35 bg-destructive/10 p-3 text-sm text-destructive"
+                  className="rounded-md border border-destructive/30 bg-destructive-tint p-3 text-sm text-destructive"
                 >
                   {error}
                 </p>
               ) : null}
 
               {notice ? (
-                <p className="rounded-md border border-primary/35 bg-primary/10 p-3 text-sm text-primary">
+                <p className="rounded-md border border-accent/40 bg-accent-tint p-3 text-sm text-primary">
                   {notice}
                 </p>
               ) : null}

@@ -79,7 +79,7 @@ function Home() {
               {today.goalMet
                 ? `Goal met — ${today.correct} of ${today.answered} correct today.`
                 : `${today.goal - today.answered} more ${
-                    today.goal - today.answered === 1 ? "question" : "questions"
+                    today.goal - today.answered === 1 ? "scenario" : "scenarios"
                   } to hit today's goal.`}
             </p>
           </CardContent>
@@ -113,7 +113,7 @@ function Home() {
                 {!entitlements.reviewQueue
                   ? "Available on Pro"
                   : due > 0
-                    ? `${due} ${due === 1 ? "question" : "questions"} ready`
+                    ? `${due} ${due === 1 ? "scenario" : "scenarios"} ready`
                     : "Nothing due right now"}
               </span>
             </span>
@@ -133,7 +133,7 @@ function Home() {
             value={String(today.answered)}
           />
           <Stat
-            label="Total completed"
+            label="Scenarios completed"
             value={`${answeredUnique}/${available}`}
           />
           <Stat
@@ -175,7 +175,7 @@ function Home() {
 
       {mastered > 0 ? (
         <p className="text-center text-xs text-muted-foreground">
-          {mastered} {mastered === 1 ? "question" : "questions"} mastered ·{" "}
+          {mastered} {mastered === 1 ? "scenario" : "scenarios"} mastered ·{" "}
           {progress.attempts.length} total answers recorded
         </p>
       ) : null}
@@ -193,7 +193,7 @@ function Stat({
   icon?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div className="rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)]">
       <div className="flex items-center gap-1.5 text-xl font-semibold tabular-nums">
         {icon}
         {value}

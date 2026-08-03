@@ -29,7 +29,7 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
  * responsible for changes made after hydration.
  */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
+  const [theme, setThemeState] = useState<Theme>("light");
 
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
@@ -40,10 +40,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const resolvedTheme: ResolvedTheme = useMemo(() => {
     if (theme !== "system") return theme;
-    if (typeof window === "undefined") return "dark";
-    return window.matchMedia("(prefers-color-scheme: light)").matches
-      ? "light"
-      : "dark";
+    if (typeof window === "undefined") return "light";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
   }, [theme]);
 
   useEffect(() => {
@@ -53,11 +53,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Follow the OS while the preference is "system".
   useEffect(() => {
     if (theme !== "system" || typeof window === "undefined") return;
-    const media = window.matchMedia("(prefers-color-scheme: light)");
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
     const onChange = () => {
       document.documentElement.setAttribute(
         "data-theme",
-        media.matches ? "light" : "dark",
+        media.matches ? "dark" : "light",
       );
     };
     media.addEventListener("change", onChange);
@@ -94,8 +94,8 @@ export function useTheme() {
 /** Runs before hydration to set the theme attribute and avoid a flash. */
 export const THEME_INIT_SCRIPT = `
 (function(){try{
-var s=localStorage.getItem('${STORAGE_KEY}')||'dark';
-var t=s==='system'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):s;
+var s=localStorage.getItem('${STORAGE_KEY}')||'light';
+var t=s==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):s;
 document.documentElement.setAttribute('data-theme',t);
-}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
 `.trim();
