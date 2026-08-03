@@ -7,6 +7,7 @@ import { BrandMark } from "@/components/app/brand-mark";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { LABS } from "@/content/labs";
 import { PLANS, type Plan } from "@/lib/entitlements";
 import { useProgress } from "@/lib/store/progress-provider";
 import { cn } from "@/lib/utils";
@@ -21,7 +22,7 @@ export default function UpgradePage() {
 
 function Upgrade() {
   const { progress, setTier } = useProgress();
-  const isPro = progress.tier === "pro";
+  const currentTier = progress.tier;
 
   return (
     <div className="space-y-6">
@@ -41,31 +42,46 @@ function Upgrade() {
         <div className="relative">
           <BrandMark variant="glass" className="h-14 w-14 rounded-2xl" />
           <h1 className="mt-5 text-pretty text-2xl font-semibold tracking-tight text-white">
-            Go deeper than recall
+            Better judgment, not more questions
           </h1>
           <p className="mt-2.5 max-w-md text-pretty text-sm leading-relaxed text-white/75">
-            The value is not more questions. It is the mental models and applied
-            simulations that let you reason through a governance decision you
-            have not seen before.
+            The upgrade is the review system and the analysis that tell you
+            where your reasoning is weak — so you can work a governance decision
+            you have not seen before.
           </p>
         </div>
       </section>
 
       <div className="space-y-3">
         {PLANS.map((plan) => (
-          <PlanCard
-            key={plan.id}
-            plan={plan}
-            active={
-              (plan.id === "pro" && isPro) || (plan.id === "free" && !isPro)
-            }
-          />
+          <PlanCard key={plan.id} plan={plan} current={plan.id === currentTier} />
         ))}
       </div>
 
+      {/* Named so the roadmap is concrete, without creating routes or pages. */}
+      <section>
+        <h2 className="mb-3 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+          Labs in development
+        </h2>
+        <Card>
+          <CardContent className="p-5">
+            <ul className="space-y-3.5">
+              {LABS.map((lab) => (
+                <li key={lab.id}>
+                  <h3 className="text-sm font-medium">{lab.name}</h3>
+                  <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                    {lab.premise}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      </section>
+
       {/*
-        No checkout in this build. Pricing and payment land in a later release;
-        this control exists so the gated experience can be exercised end to end.
+        No checkout in this build. Payments land in a later release; this
+        control exists so the gated experience can be exercised end to end.
       */}
       <Card>
         <CardContent className="p-5">
@@ -75,20 +91,20 @@ function Upgrade() {
             can switch plans here to try the full experience.
           </p>
 
-          {isPro ? (
+          {currentTier === "free" ? (
+            <Button
+              className="mt-4 w-full sm:w-auto"
+              onClick={() => setTier("pro")}
+            >
+              Enable Pro preview
+            </Button>
+          ) : (
             <Button
               variant="outline"
               className="mt-4 w-full sm:w-auto"
               onClick={() => setTier("free")}
             >
               Switch back to Free
-            </Button>
-          ) : (
-            <Button
-              className="mt-4 w-full sm:w-auto"
-              onClick={() => setTier("pro")}
-            >
-              Enable Pro preview
             </Button>
           )}
         </CardContent>
@@ -97,26 +113,33 @@ function Upgrade() {
   );
 }
 
-function PlanCard({ plan, active }: { plan: Plan; active: boolean }) {
+function PlanCard({ plan, current }: { plan: Plan; current: boolean }) {
   const planned = plan.status === "planned";
 
   return (
-    <Card className={cn(active && "border-accent/50 ring-1 ring-accent/20")}>
+    <Card className={cn(current && "border-accent/50 ring-1 ring-accent/20")}>
       <CardContent className="p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1.5">
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-semibold">{plan.name}</h2>
-            {active ? <Badge>Current plan</Badge> : null}
+            {current ? <Badge>Current plan</Badge> : null}
             {planned ? <Badge variant="secondary">Coming later</Badge> : null}
           </div>
-          <span
-            className={cn(
-              "text-lg font-semibold tabular-nums",
-              planned && "text-muted-foreground",
-            )}
-          >
-            {plan.price}
-          </span>
+          <div className="text-right">
+            <div
+              className={cn(
+                "text-lg font-semibold tabular-nums",
+                planned && "text-muted-foreground",
+              )}
+            >
+              {plan.price}
+            </div>
+            {plan.priceNote ? (
+              <div className="text-xs text-muted-foreground">
+                {plan.priceNote}
+              </div>
+            ) : null}
+          </div>
         </div>
 
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

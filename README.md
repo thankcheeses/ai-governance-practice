@@ -32,12 +32,18 @@ app runs fully with progress stored in the browser. Supabase is optional and
 adds accounts plus cross-device sync.
 
 ```bash
-npm run build      # production build
-npm run start      # serve the production build
-npm run typecheck  # tsc --noEmit
-npm run lint       # eslint
-npm run seed       # sync the question bank into Supabase (optional)
+npm run build         # server build (Vercel)
+npm run start         # serve the production build
+npm run typecheck     # tsc --noEmit
+npm run lint          # eslint
+npm run seed          # sync the question bank into Supabase (optional)
+
+npm run build:mobile  # static export into ./out for Capacitor
+npm run mobile:sync   # build:mobile + npx cap sync
 ```
+
+Mobile packaging, store checklist, and launch blockers:
+**[docs/mobile-release.md](docs/mobile-release.md)**.
 
 ---
 
@@ -166,15 +172,20 @@ was a product constraint, and it is enforced by the absence of the concepts from
 
 | Plan | Price | Covers |
 | --- | --- | --- |
-| Free | $0 | First 20 scenarios, rationales, key takeaways, basic progress |
-| Pro | $19–39 | Full library, SM-2, review queue, analytics, visual scenarios |
-| Lab | $99–299 | Healthcare / voice / agent simulations, certificate — *planned* |
-| Enterprise | Contact | Team training, organisation dashboards — *planned* |
+| Free | $0 | 20 scenarios, rationales, key takeaways, basic progress |
+| Pro | $19–39 one-time | Full library, SM-2, review queue, analytics, visual aids |
+| Lab | $99–299 | Applied simulations per domain, certificate — *planned* |
 
-Only **Free and Pro are enforceable states**, so only they exist in the `Tier`
-union and in the database. Lab and Enterprise are presented on `/upgrade` as
-roadmap plans via the `PLANS` array — modelling tiers with nothing to gate would
-be dead code.
+All three are real values in the `Tier` union and in the database, so the first
+Lab release needs no type or schema change. `lab` grants everything Pro does
+plus `labs: true`, and `canOpenLabs()` gates on *content existing* as well as
+entitlement — a lab plan with nothing shipped still opens nothing.
+
+Lab definitions live in `src/content/labs.ts` as **data only**: four planned
+labs mapped to future `TrackId`s, so lab content reuses the existing track
+machinery rather than needing a parallel system. There are no lab routes,
+pages, or components. The upgrade screen names them as "in development"; that
+is their only appearance in the UI.
 
 There is no payment integration. `/upgrade` explains the plans and lets you
 toggle the Pro preview to exercise the gated paths.
@@ -183,7 +194,16 @@ The value proposition is mental models and applied simulations, **not question
 volume** — the plan copy says so explicitly, because "more questions" sets the
 wrong expectation for what Lab will be.
 
-### 8. Theming, and the two-role accent
+### 8. Two build targets
+
+`next.config.ts` branches on `MOBILE_BUILD`. The default is the unchanged
+server build for Vercel; `MOBILE_BUILD=1` produces a static export into `./out`
+for Capacitor, which disables middleware and the image optimizer. Neither
+matters on device — middleware only refreshes an auth cookie for server
+rendering, and bundled images need no optimizer. Keeping it behind a flag means
+neither target can silently regress the other.
+
+### 9. Theming, and the two-role accent
 
 Semantic tokens are defined once per theme in `globals.css` and consumed through
 Tailwind v4's `@theme`. No component branches on theme. An inline script in the
@@ -213,7 +233,7 @@ This is the one place the implementation deviates from a literal reading of the
 brand spec, and it is deliberate: a Key Takeaway block filled with `#14B8A6`
 under white text would fail WCAG AA for body copy.
 
-### 9. Visual language
+### 10. Visual language
 
 Three languages, no others:
 

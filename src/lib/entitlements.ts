@@ -1,25 +1,25 @@
 import type { Question, TrackId } from "@/content/types";
 import { getTrackQuestions } from "@/content/registry";
+import { AVAILABLE_LABS } from "@/content/labs";
 import type { Tier } from "./types";
 
 /**
- * Feature gating.
+ * Feature gating — the single place tier is interpreted.
  *
- * Gating lives in one module so nothing else branches on tier inline. There is
- * no payment integration — `tier` is a field on the profile and /upgrade
- * explains what each plan covers.
+ * Rules for keeping it that way:
+ *  - Components read booleans off `entitlements`, never compare tier strings.
+ *  - Adding a gated feature means adding a field here, not an `if` in a page.
+ *  - There is no payment integration; `tier` is a field on the profile and
+ *    /upgrade explains what each plan covers.
  *
- * Only Free and Pro are *enforceable* today, so only they exist in `Tier` and
- * in the database. Lab and Enterprise are described on the upgrade screen as
- * roadmap plans (see PLANS below) but are not modelled as runtime states —
- * inventing tiers with nothing to gate would be dead code.
+ * Plans are cumulative: lab ⊇ pro ⊇ free.
  */
 
 export const FREE_QUESTION_LIMIT = 20;
 
 export interface Entitlements {
   tier: Tier;
-  /** How many questions of the track the learner may reach. */
+  /** How many questions of the track the learner may reach; null = all. */
   questionLimit: number | null;
   fullLibrary: boolean;
   spacedRepetition: boolean;
@@ -27,34 +27,57 @@ export interface Entitlements {
   advancedAnalytics: boolean;
   /** Free practises across domains but cannot filter to one. */
   domainFiltering: boolean;
-  /** Scenario questions carrying diagrams are a Pro surface. */
+  /** Scenario questions carrying diagrams. */
   visualScenarios: boolean;
+  /** Applied labs. True on the lab plan, but gated again on content existing. */
+  labs: boolean;
 }
 
-export function entitlementsFor(tier: Tier): Entitlements {
-  if (tier === "pro") {
-    return {
-      tier,
-      questionLimit: null,
-      fullLibrary: true,
-      spacedRepetition: true,
-      reviewQueue: true,
-      advancedAnalytics: true,
-      domainFiltering: true,
-      visualScenarios: true,
-    };
-  }
+const FREE: Omit<Entitlements, "tier"> = {
+  questionLimit: FREE_QUESTION_LIMIT,
+  fullLibrary: false,
+  spacedRepetition: false,
+  reviewQueue: false,
+  advancedAnalytics: false,
+  domainFiltering: false,
+  visualScenarios: false,
+  labs: false,
+};
 
-  return {
-    tier,
-    questionLimit: FREE_QUESTION_LIMIT,
-    fullLibrary: false,
-    spacedRepetition: false,
-    reviewQueue: false,
-    advancedAnalytics: false,
-    domainFiltering: false,
-    visualScenarios: false,
-  };
+const PRO: Omit<Entitlements, "tier"> = {
+  questionLimit: null,
+  fullLibrary: true,
+  spacedRepetition: true,
+  reviewQueue: true,
+  advancedAnalytics: true,
+  domainFiltering: true,
+  visualScenarios: true,
+  labs: false,
+};
+
+const LAB: Omit<Entitlements, "tier"> = {
+  ...PRO,
+  labs: true,
+};
+
+export function entitlementsFor(tier: Tier): Entitlements {
+  switch (tier) {
+    case "lab":
+      return { tier, ...LAB };
+    case "pro":
+      return { tier, ...PRO };
+    default:
+      return { tier: "free", ...FREE };
+  }
+}
+
+/**
+ * Whether a lab is actually openable. Entitlement alone is not enough — a lab
+ * plan with no shipped content still has nothing to open, and this keeps that
+ * truth in one expression rather than in a component.
+ */
+export function canOpenLabs(tier: Tier): boolean {
+  return entitlementsFor(tier).labs && AVAILABLE_LABS.length > 0;
 }
 
 /**
@@ -82,12 +105,13 @@ export function isQuestionAvailable(
 /* Plan presentation                                                   */
 /* ------------------------------------------------------------------ */
 
-export type PlanStatus = "current" | "available" | "planned";
+export type PlanStatus = "available" | "planned";
 
 export interface Plan {
-  id: string;
+  id: Tier;
   name: string;
   price: string;
+  priceNote?: string;
   /** What the plan is for, in one line. */
   premise: string;
   features: string[];
@@ -97,18 +121,18 @@ export interface Plan {
 /**
  * Plans as presented on /upgrade.
  *
- * The value story is mental models and simulations, not question volume — the
- * copy is written to say that explicitly, because "more questions" is the wrong
- * reason to upgrade and sets the wrong expectation for Lab.
+ * The value story is judgment training, not question volume — the copy says so
+ * directly, because "more questions" is the wrong reason to upgrade and sets
+ * the wrong expectation for what Lab will be.
  */
 export const PLANS: Plan[] = [
   {
     id: "free",
     name: "Free",
     price: "$0",
-    premise: "See how the scenarios work before committing.",
+    premise: "Work real scenarios before deciding whether to go further.",
     features: [
-      `First ${FREE_QUESTION_LIMIT} scenarios`,
+      `${FREE_QUESTION_LIMIT} scenarios`,
       "Full rationale on every answer",
       "Key takeaway on every answer",
       "Basic progress tracking",
@@ -117,15 +141,16 @@ export const PLANS: Plan[] = [
   },
   {
     id: "pro",
-    name: "Pro",
+    name: "AI Governance Pro",
     price: "$19–39",
-    premise: "Work the full track and retain what you learn.",
+    priceNote: "One-time unlock",
+    premise: "The full track, with the review system that makes it stick.",
     features: [
-      "Full scenario library",
-      "SM-2 spaced repetition",
-      "Prioritised review queue",
-      "Domain analytics and weak-area detection",
-      "Visual scenario questions",
+      "Complete scenario library",
+      "Adaptive review with SM-2 scheduling",
+      "Advanced analytics and weak-domain analysis",
+      "Visual learning aids",
+      "Unlimited practice",
     ],
     status: "available",
   },
@@ -133,26 +158,14 @@ export const PLANS: Plan[] = [
     id: "lab",
     name: "Lab",
     price: "$99–299",
+    priceNote: "Coming later",
     premise:
       "Applied simulations in the domains where governance decisions get hard.",
     features: [
-      "Healthcare AI governance scenarios",
-      "Voice AI governance scenarios",
-      "Agent governance simulations",
+      "Case studies and practitioner scenarios",
+      "Decision trees and architecture walkthroughs",
+      "Domain simulations",
       "Certificate of completion",
-    ],
-    status: "planned",
-  },
-  {
-    id: "enterprise",
-    name: "Enterprise",
-    price: "Contact us",
-    premise: "Train a governance function, not one practitioner.",
-    features: [
-      "Team training programmes",
-      "Organisation dashboards",
-      "Cohort progress visibility",
-      "Organisation-specific scenarios",
     ],
     status: "planned",
   },

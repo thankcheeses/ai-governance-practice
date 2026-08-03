@@ -52,7 +52,12 @@ export interface DomainStat {
   total: number;
 }
 
-export type Tier = "free" | "pro";
+/**
+ * Plans. `lab` is a real runtime state so entitlement checks and the database
+ * accept it today, but no Lab content exists yet — see content/labs.ts. A user
+ * cannot reach it through the UI until a lab ships.
+ */
+export type Tier = "free" | "pro" | "lab";
 
 export interface UserProgress {
   trackId: TrackId;
