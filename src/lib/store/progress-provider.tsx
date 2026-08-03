@@ -60,6 +60,8 @@ interface ProgressContextValue {
   setTier: (tier: Tier) => void;
   resetProgress: () => void;
   signOut: () => Promise<void>;
+  /** Permanently deletes the account and all server-side progress. */
+  deleteAccount: () => Promise<void>;
 }
 
 const ProgressContext = createContext<ProgressContextValue | null>(null);
@@ -340,6 +342,33 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut();
   }, [supabase]);
 
+  /**
+   * Permanent account deletion, required by App Store guideline 5.1.1(v).
+   *
+   * Deleting an auth user needs the service role key, so the work happens in
+   * the `delete-account` edge function; the client only invokes it with its own
+   * session. On success the local session and cached progress are cleared too,
+   * so nothing survives on the device.
+   */
+  const deleteAccount = useCallback(async () => {
+    if (!supabase) throw new Error("Accounts are not configured.");
+    const currentUser = userRef.current;
+    if (!currentUser) throw new Error("You are not signed in.");
+
+    const { error } = await supabase.functions.invoke("delete-account", {
+      method: "POST",
+    });
+    if (error) throw new Error(error.message || "Could not delete account.");
+
+    // Drop the local session and wipe cached progress. SIGNED_OUT would reset
+    // state anyway, but clearing here means a failed sign-out cannot leave the
+    // deleted account's data readable on the device.
+    await supabase.auth.signOut();
+    const fresh = emptyProgress();
+    setProgress(fresh);
+    writeLocal(fresh);
+  }, [supabase]);
+
   const entitlements = useMemo(
     () => entitlementsFor(progress.tier),
     [progress.tier],
@@ -361,6 +390,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       setTier,
       resetProgress,
       signOut,
+      deleteAccount,
     }),
     [
       progress,
@@ -377,6 +407,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       setTier,
       resetProgress,
       signOut,
+      deleteAccount,
     ],
   );
 

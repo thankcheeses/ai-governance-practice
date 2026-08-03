@@ -75,10 +75,9 @@ npx cap sync
 1. **Client-side routing on `file://`.** Capacitor serves over an app scheme
    rather than `file://`, and `trailingSlash: true` emits a real `index.html`
    per route, so deep links resolve. Verified against flat-file serving.
-2. **Supabase auth redirects.** Email confirmation links point at a web URL. On
-   device this needs either a deep link (`com.judgmentlabs.app://`) registered
-   as a Supabase redirect URL, or magic-link sign-in. **Unresolved — see
-   blockers.**
+2. **Supabase auth redirects.** Resolved in code — `signUp` now sets
+   `emailRedirectTo`. The URL still has to be registered in the Supabase
+   dashboard. See section 3.2.
 3. **Apple guideline 4.2 (minimum functionality).** A web view wrapping a
    remote URL gets rejected. Bundling the assets, as configured, means the app
    is functional offline and is not a thin wrapper.
@@ -97,13 +96,13 @@ npx cap sync
 | Bundle / application ID | ✅ | `com.judgmentlabs.app` (set in `capacitor.config.ts`) |
 | App icon | ⚠️ Partial | `public/icon.svg` exists. Stores need **raster PNG** at many sizes — 1024×1024 for App Store, adaptive icon for Play. Generate with `@capacitor/assets`. |
 | Splash screen | ⚠️ Partial | Brand mark renders in-app at `/`. A **native** splash asset is still needed. |
-| Privacy policy URL | ❌ Blocker | `/settings/privacy` is a placeholder describing actual behaviour. Both stores require a **publicly reachable URL** with reviewed copy. |
-| Terms URL | ❌ Blocker | Same — `/settings/terms` is a placeholder. |
-| Support contact | ❌ Blocker | No support email or URL exists anywhere in the product. Both stores require one. |
+| Privacy policy URL | ⚠️ Blocker | `/settings/privacy` exists and is **clearly badged "Placeholder"** in-app. Still needs reviewed copy at a **publicly reachable URL** for the store listing. |
+| Terms URL | ⚠️ Blocker | Same — `/settings/terms` exists and is badged "Placeholder". Needs reviewed copy at a public URL. |
+| Support contact | ⚠️ | Settings → Support shows a mailto link, badged "Placeholder". Address lives in `SUPPORT` in `src/lib/brand.ts` — **one line to change**. |
 | Store description | ⚠️ Draft below | Not yet finalised. |
 | Screenshots | ❌ | Required per device class: 6.7" and 5.5" iPhone, 12.9" iPad if iPad is supported; phone and tablet for Play. |
 | Data safety / privacy nutrition labels | ⚠️ | Answers drafted below; must match actual behaviour. |
-| Account deletion | ❌ Blocker (iOS) | Apple requires in-app account deletion for any app offering account creation. Settings currently offers *progress* reset and sign-out, **not account deletion**. |
+| Account deletion | ✅ Implemented | Settings → Account → Delete account, shown only when signed in. Calls the `delete-account` edge function, which deletes the auth user with the service role; cascades clear progress. **Must be deployed** — see blockers. |
 | Age rating | ⚠️ | 4+ / Everyone. No objectionable content. |
 | Export compliance | ⚠️ | Uses HTTPS only. Standard exemption applies; declare it. |
 
@@ -143,31 +142,99 @@ Matches what the app actually does today:
 | Payment data | **None** — no checkout exists |
 | Data stored on device | All progress, via localStorage |
 | Encryption in transit | Yes, HTTPS to Supabase |
-| Account deletion offered | **Not yet — see blockers** |
+| Account deletion offered | **Yes** — Settings → Account (requires the edge function to be deployed) |
 
 ---
 
-## 3. Remaining launch blockers
+## 3. Mobile auth requirements (verified)
+
+Three findings from reading the auth path against a WebView deployment.
+
+### 3.1 Session storage uses cookies — needs verification on device
+
+`getBrowserSupabase()` uses `createBrowserClient` from `@supabase/ssr`, which
+persists the session in **cookies**. That is correct for the web build, where
+middleware reads the same cookie server-side.
+
+In a Capacitor WebView the app is served from `capacitor://localhost` (iOS) or
+`https://localhost` (Android). Cookies generally work there, but persistence
+across cold starts is not guaranteed the way `localStorage` is, and iOS WebView
+cookie policy has historically been the fragile part.
+
+**Not changed in this pass** — swapping the client factory affects the web
+build's middleware contract, which is architecture. The fix, if device testing
+shows session loss, is to pass a `localStorage`-backed storage adapter to the
+browser client for the mobile target only. **Must be tested on device before
+submission.**
+
+### 3.2 Email confirmation redirect — fixed
+
+`signUp` now passes `emailRedirectTo`, derived from `NEXT_PUBLIC_SITE_URL` and
+falling back to `window.location.origin`. Without it, confirmation links go to
+the project's default Site URL, which is wrong inside a WebView.
+
+Still required in the Supabase dashboard: add the value to **Authentication →
+URL Configuration → Redirect URLs**. Code cannot do this.
+
+### 3.3 Deep linking is not yet required
+
+Because confirmation returns to an https origin rather than into the app, a
+custom URL scheme is **not** needed for the current password flow. It becomes
+necessary only if you switch to magic-link or OAuth sign-in, where the callback
+must re-enter the app. Deferred deliberately rather than built speculatively.
+
+---
+
+## 4. Capacitor configuration (verified)
+
+`capacitor.config.ts` was checked field-by-field against the Capacitor 8
+`CapacitorConfig` type in `node_modules/@capacitor/cli/dist/declarations.d.ts`.
+All keys are real:
+
+| Field | Value | Why |
+| --- | --- | --- |
+| `appId` | `com.judgmentlabs.app` | Valid reverse-DNS. Must match the Apple bundle ID and Play application ID exactly. |
+| `appName` | `Judgment Labs` | Store display name |
+| `webDir` | `out` | Static export target |
+| `server.androidScheme` | `https` | Avoids mixed-content and `file://` restrictions |
+| `ios.contentInset` | `always` | Clears notch and home indicator |
+| `ios.zoomEnabled` / `android.zoomEnabled` | `false` | Pinch-zoom breaks the fixed question layout |
+| `ios.backgroundColor` / `android.backgroundColor` | `#FAFAF9` | Matches the light theme, so no white flash on launch |
+
+Both build targets were re-run after these changes and both pass. The static
+bundle was served as flat files and the full learning loop, Settings, legal
+pages, and upgrade screen were exercised with no console errors.
+
+---
+
+## 5. Remaining launch blockers
 
 Ordered by what stops a submission.
 
-1. **Account deletion (iOS).** Apple rejects apps that create accounts without
-   in-app deletion. Needs a Settings action calling a Supabase edge function
-   that deletes the auth user and cascades progress. *Estimate: small.*
+1. **Deploy the `delete-account` edge function.** The UI and function source
+   exist; the function is not deployed and could not be executed in this
+   environment. Requires:
+   ```bash
+   supabase functions deploy delete-account
+   supabase secrets set ALLOWED_ORIGINS="https://<your-domain>,capacitor://localhost,https://localhost"
+   ```
+   Then verify deletion end to end against a real project. **Until deployed,
+   the delete button surfaces an error rather than deleting.**
 2. **Hosted privacy policy and terms.** Reviewed copy at stable public URLs.
-   The in-app placeholders describe real behaviour and are a good starting
-   draft, but they are not reviewed legal copy. *Estimate: legal review.*
-3. **Support contact.** An email address or support URL, surfaced in Settings
-   and in both store listings. *Estimate: trivial once the address exists.*
-4. **Auth redirect on device.** Email confirmation currently returns to a web
-   URL. Either register a deep link scheme with Supabase or switch to
-   magic-link / OTP sign-in. *Estimate: small, but must be decided.*
-5. **Store icon and splash raster assets.** Generate from the existing mark —
-   do not redraw. *Estimate: trivial.*
-6. **Screenshots on real device frames.** *Estimate: small.*
-7. **Payments, if Pro ships as paid in-app.** Both stores require their own
-   in-app purchase for digital content; an external checkout is grounds for
-   rejection. This means StoreKit / Play Billing, not Stripe. **Decide before
-   pricing goes live** — it changes the 15–30% economics of the $19–39 unlock.
+   The in-app pages are badged placeholders and describe real behaviour, which
+   makes them a good drafting base — they are not reviewed legal copy.
+3. **Real support address.** Change `SUPPORT` in `src/lib/brand.ts` to a
+   monitored address and set `configured: true` to drop the placeholder badge.
+4. **Set `NEXT_PUBLIC_SITE_URL`** and register it in Supabase redirect URLs.
+5. **Test auth session persistence on a real device** (see 3.1). This is the
+   one item that could still force a code change.
+6. **Store icon and splash raster assets.** Generate from the existing mark
+   with `@capacitor/assets` — do not redraw.
+7. **Screenshots on real device frames.**
+8. **Payments, if Pro ships as paid.** Both stores require their own in-app
+   purchase for digital content; an external checkout is grounds for rejection.
+   That means StoreKit / Play Billing, not Stripe, and a 15–30% cut on the
+   $19–39 unlock. **Decide before pricing goes live.**
 
-Nothing on this list is architectural. The app itself is ready to package.
+Items 1–4 and 6–7 are configuration and content. Item 5 is the only one that
+might touch code, and item 8 is a business decision.

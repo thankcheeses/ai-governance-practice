@@ -24,6 +24,19 @@ export const BRAND = {
   },
 } as const;
 
+/**
+ * Support contact. Both app stores require a reachable support channel on the
+ * listing and expect one in the app.
+ *
+ * PLACEHOLDER — replace with a real, monitored address before submission. The
+ * value is centralised so there is exactly one line to change.
+ */
+export const SUPPORT = {
+  email: "support@judgmentlabs.example",
+  /** True once the address above is real and monitored. */
+  configured: false,
+} as const;
+
 export const DISCLAIMER_TITLE = "Independent Educational Product";
 
 export const DISCLAIMER_BODY = [

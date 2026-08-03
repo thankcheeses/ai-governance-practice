@@ -3,12 +3,15 @@
 import {
   ChevronRight,
   FileText,
+  LifeBuoy,
+  Loader2,
   LogOut,
   Monitor,
   Moon,
   Shield,
   Sun,
   Trash2,
+  UserX,
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -19,8 +22,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getTrack } from "@/content/registry";
-import { BRAND } from "@/lib/brand";
+import { BRAND, SUPPORT } from "@/lib/brand";
 import { useProgress } from "@/lib/store/progress-provider";
+import type { Tier } from "@/lib/types";
 import { useTheme, type Theme } from "@/lib/store/theme-provider";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +35,12 @@ const THEMES: { value: Theme; label: string; icon: React.ElementType }[] = [
 ];
 
 const GOALS = [5, 10, 20, 30];
+
+const PLAN_LABELS: Record<Tier, string> = {
+  free: "Free",
+  pro: "AI Governance Pro",
+  lab: "Lab",
+};
 
 export default function SettingsPage() {
   return (
@@ -49,8 +59,12 @@ function Settings() {
     signOut,
     setDailyGoal,
     resetProgress,
+    deleteAccount,
   } = useProgress();
   const [confirmReset, setConfirmReset] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const track = getTrack(progress.trackId);
 
   return (
@@ -113,7 +127,7 @@ function Settings() {
         <Row label="Active track" value={track.name} />
         <Row
           label="Plan"
-          value={progress.tier === "pro" ? "Pro" : "Free"}
+          value={PLAN_LABELS[progress.tier]}
           action={
             progress.tier === "free" ? (
               <Button asChild size="sm" variant="secondary">
@@ -143,6 +157,79 @@ function Settings() {
               <LogOut className="h-4 w-4" />
               Sign out
             </Button>
+
+            <Separator className="my-5" />
+
+            {/*
+              Required by App Store guideline 5.1.1(v): any app offering
+              account creation must offer in-app account deletion.
+            */}
+            <h3 className="text-sm font-medium">Delete account</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              Permanently deletes your account and everything stored with it —
+              answers, review schedule, and settings. This cannot be undone and
+              is not the same as signing out.
+            </p>
+
+            {deleteError ? (
+              <p
+                role="alert"
+                className="mt-3 rounded-md border border-destructive/30 bg-destructive-tint p-3 text-sm text-destructive"
+              >
+                {deleteError}
+              </p>
+            ) : null}
+
+            {confirmDelete ? (
+              <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                <Button
+                  variant="destructive"
+                  disabled={deleting}
+                  onClick={async () => {
+                    setDeleting(true);
+                    setDeleteError(null);
+                    try {
+                      await deleteAccount();
+                      setConfirmDelete(false);
+                    } catch (err) {
+                      setDeleteError(
+                        err instanceof Error
+                          ? err.message
+                          : "Could not delete your account.",
+                      );
+                    } finally {
+                      setDeleting(false);
+                    }
+                  }}
+                >
+                  {deleting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <UserX className="h-4 w-4" />
+                  )}
+                  Yes, delete my account permanently
+                </Button>
+                <Button
+                  variant="ghost"
+                  disabled={deleting}
+                  onClick={() => {
+                    setConfirmDelete(false);
+                    setDeleteError(null);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                className="mt-4 w-full sm:w-auto"
+                onClick={() => setConfirmDelete(true)}
+              >
+                <UserX className="h-4 w-4" />
+                Delete account
+              </Button>
+            )}
           </>
         ) : (
           <>
@@ -155,6 +242,29 @@ function Settings() {
             </Button>
           </>
         )}
+      </Section>
+
+      {/* Support */}
+      <Section title="Support">
+        <div className="flex items-start gap-3">
+          <LifeBuoy className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+          <div className="min-w-0">
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Questions about the app, your account, or the content.
+            </p>
+            <a
+              href={`mailto:${SUPPORT.email}`}
+              className="mt-1.5 inline-block break-all text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              {SUPPORT.email}
+            </a>
+            {!SUPPORT.configured ? (
+              <Badge variant="outline" className="ml-2 align-middle">
+                Placeholder
+              </Badge>
+            ) : null}
+          </div>
+        </div>
       </Section>
 
       {/* Legal */}

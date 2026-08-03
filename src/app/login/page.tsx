@@ -15,6 +15,14 @@ import { getBrowserSupabase } from "@/lib/supabase/client";
 
 type Mode = "signin" | "signup";
 
+/** Where the email confirmation link should return the user. */
+function authRedirectUrl(): string | undefined {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL;
+  if (configured) return `${configured.replace(/\/$/, "")}/login`;
+  if (typeof window !== "undefined") return `${window.location.origin}/login`;
+  return undefined;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const { authEnabled } = useProgress();
@@ -40,6 +48,11 @@ export default function LoginPage() {
         const { data, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
+          // Without this, confirmation links go to the project's default Site
+          // URL, which is wrong inside a native WebView. NEXT_PUBLIC_SITE_URL
+          // is baked in at build time so the mobile bundle can point at a
+          // reachable https origin rather than the app scheme.
+          options: { emailRedirectTo: authRedirectUrl() },
         });
         if (signUpError) throw signUpError;
         // With email confirmation on, there is no session until confirmed.

@@ -1,0 +1,6 @@
+{
+  "//": "Supabase Edge Functions run on Deno, not Node. They are excluded from the app's tsconfig; `deno check` or the Supabase CLI validates them instead.",
+  "imports": {
+    "@supabase/supabase-js": "jsr:@supabase/supabase-js@2"
+  }
+}
