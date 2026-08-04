@@ -132,7 +132,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["Responsible AI", "EU AI Act"],
     visualAid: {
       type: "workflow",
-      src: "/visual-aids/disclosure-before-phi-workflow.png",
+      src: "/visual-aids/disclosure-before-phi-workflow.webp",
       alt: "A member on a mobile device interacts with an AI voice agent. A missing-disclosure warning sits between the interaction and a protected health information record, which then flows to the payer server — showing PHI being collected before the member was told the agent was automated.",
       caption:
         "The sequence the control exists to prevent: information is collected before the member knows they are speaking to an automated system.",
@@ -295,7 +295,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "EU AI Act"],
     visualAid: {
       type: "responsibility-map",
-      src: "/visual-aids/value-chain-responsibility-map.png",
+      src: "/visual-aids/value-chain-responsibility-map.webp",
       alt: "Three columns dividing obligations across the AI value chain. Provider holds the model and its training documentation. Deployer holds the serving infrastructure, assurance, and operational checks. User is the person interacting with the deployed system.",
       caption:
         "Obligations follow control: each actor answers for the part of the chain they hold.",
