@@ -12,7 +12,8 @@
     "build:mobile": "MOBILE_BUILD=1 next build",
     "mobile:sync": "npm run build:mobile && npx cap sync",
     "mobile:android": "npm run mobile:sync && npx cap open android",
-    "mobile:ios": "npm run mobile:sync && npx cap open ios"
+    "mobile:ios": "npm run mobile:sync && npx cap open ios",
+    "check:questions": "node scripts/check-question-balance.mjs"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.15",
