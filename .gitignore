@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...but the placeholder template is meant to be committed. Without this
+# exception `.env*` ignores it, and it only stays tracked because it was
+# force-added once — a `git rm --cached` would make it silently unaddable.
+!.env.example
 
 # vercel
 .vercel
