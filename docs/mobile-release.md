@@ -261,6 +261,48 @@ testing in the launch readiness report.
 
 ---
 
+## 4b. Account deletion endpoint
+
+Apple guideline 5.1.1(v) requires in-app account deletion for any app offering
+account creation. Source: `supabase/functions/delete-account/index.ts`.
+
+```
+POST https://<project-ref>.supabase.co/functions/v1/delete-account
+Authorization: Bearer <the caller's own access token>
+```
+
+| | |
+| --- | --- |
+| Auth | Required. The user id is derived from the JWT and is **never** read from the body, so one user cannot delete another. |
+| Body | None. |
+| `200` | `{ "deleted": true }` |
+| `401` | Missing bearer token, or invalid/expired session |
+| `405` | Any method other than `POST` (`OPTIONS` returns 204 for CORS preflight) |
+| `500` | Function not configured, or the delete failed |
+
+**Environment** — `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and
+`SUPABASE_SERVICE_ROLE_KEY` are injected by the Supabase runtime.
+`ALLOWED_ORIGINS` must be set explicitly. Origins not on the list fall back to
+the first entry, so a misconfigured caller fails closed rather than open.
+
+**Data removed** — deleting the `auth.users` row is sufficient. `profiles`,
+`attempts`, and `review_cards` each declare
+`references auth.users (id) on delete cascade` in migration `0001_init.sql`
+(verified at lines 62, 85, and 112), so the database clears every row belonging
+to the user in the same transaction.
+
+```bash
+supabase functions deploy delete-account
+supabase secrets set ALLOWED_ORIGINS="https://ai-governance-practice.vercel.app,capacitor://localhost,https://localhost"
+```
+
+**Not yet deployed or executed.** The code is reviewed and the cascade is
+verified against the schema, but the function has never run against the live
+project, so the end-to-end path is unproven. Delete a real test account and
+confirm the rows are gone before submitting to Apple.
+
+---
+
 ## 5. Remaining launch blockers
 
 Ordered by what stops a submission.
