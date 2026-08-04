@@ -1,0 +1,900 @@
+[
+  {
+    "id": 1,
+    "domain": "Foundations of AI Governance",
+    "question": "A healthcare organization is evaluating whether to govern its new voice AI scheduling agent under the same policy framework used for traditional deterministic software. Which characteristic of the voice agent most strongly justifies a distinct AI governance approach?",
+    "options": [
+      "A. It can handle multiple languages",
+      "B. Its responses are probabilistic and can vary even with identical inputs",
+      "C. It requires internet connectivity",
+      "D. It was built using open-source libraries"
+    ],
+    "correct": "B",
+    "rationale": "The probabilistic (non-deterministic) nature of generative and conversational AI systems is the foundational reason they require specialized governance controls beyond traditional software, including continuous monitoring for drift and unexpected outputs.",
+    "tags": [
+      "foundations",
+      "probabilistic",
+      "voice AI"
+    ]
+  },
+  {
+    "id": 2,
+    "domain": "Foundations of AI Governance",
+    "question": "Which of the following best illustrates the principle of human-centricity in the design of a clinical voice AI system?",
+    "options": [
+      "A. The system is optimized solely for call-handling volume",
+      "B. The system is designed so that a human clinician retains final authority over any care recommendation",
+      "C. The system automatically updates its own prompts without oversight",
+      "D. The system prioritizes the lowest possible latency above all other factors"
+    ],
+    "correct": "B",
+    "rationale": "Human-centric design requires that AI systems augment rather than replace human judgment, particularly in high-stakes domains such as healthcare where patient safety and rights are involved.",
+    "tags": [
+      "human-centricity",
+      "healthcare",
+      "HITL"
+    ]
+  },
+  {
+    "id": 3,
+    "domain": "Foundations of AI Governance",
+    "question": "A payer is deploying an AI voice agent that will interact with members about claims status. Which organizational structure best supports responsible governance of this system?",
+    "options": [
+      "A. A single data scientist owns all decisions",
+      "B. A cross-functional team that includes clinical, privacy, compliance, and engineering perspectives",
+      "C. Only the vendor's recommended governance model is used",
+      "D. Governance is deferred until after full production deployment"
+    ],
+    "correct": "B",
+    "rationale": "Effective AI governance requires diverse perspectives. Cross-functional teams reduce blind spots and ensure clinical, privacy, and operational risks are considered together.",
+    "tags": [
+      "organizational structure",
+      "cross-functional",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 4,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Under the EU AI Act risk classification, an AI system used by a large hospital network to prioritize patients for specialist appointments is most likely classified as:",
+    "options": [
+      "A. Minimal risk",
+      "B. Limited risk",
+      "C. High-risk",
+      "D. Prohibited"
+    ],
+    "correct": "C",
+    "rationale": "AI systems that affect access to essential private or public services, including healthcare prioritization, fall into the high-risk category under the EU AI Act and trigger conformity assessment and transparency obligations.",
+    "tags": [
+      "EU AI Act",
+      "high-risk",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 5,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A U.S. health system is aligning its AI program to the NIST AI Risk Management Framework. Which function is primarily responsible for establishing the organizational culture, policies, and accountability structures that enable all other risk activities?",
+    "options": [
+      "A. Map",
+      "B. Measure",
+      "C. Manage",
+      "D. Govern"
+    ],
+    "correct": "D",
+    "rationale": "The Govern function is the foundational element of the NIST AI RMF. It creates the culture, policies, and clear lines of accountability that make Map, Measure, and Manage effective.",
+    "tags": [
+      "NIST AI RMF",
+      "Govern"
+    ]
+  },
+  {
+    "id": 6,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Which of the following existing legal frameworks is most directly relevant when a voice AI agent processes protected health information during a member interaction?",
+    "options": [
+      "A. Only the EU AI Act",
+      "B. HIPAA and applicable state privacy laws, in addition to any AI-specific rules",
+      "C. Only consumer protection law",
+      "D. Only intellectual property law"
+    ],
+    "correct": "B",
+    "rationale": "AI systems do not operate in a legal vacuum. When PHI is involved, HIPAA (and state analogs) continue to apply alongside any emerging AI-specific requirements.",
+    "tags": [
+      "HIPAA",
+      "privacy",
+      "voice AI",
+      "existing law"
+    ]
+  },
+  {
+    "id": 7,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organization wants a management-system standard that can be certified and that specifically addresses AI. Which standard is designed for this purpose?",
+    "options": [
+      "A. ISO/IEC 27001",
+      "B. ISO/IEC 42001",
+      "C. NIST SP 800-53",
+      "D. SOC 2"
+    ],
+    "correct": "B",
+    "rationale": "ISO/IEC 42001 establishes requirements for an Artificial Intelligence Management System (AIMS) and is the primary certifiable standard focused on AI governance.",
+    "tags": [
+      "ISO 42001",
+      "AIMS"
+    ]
+  },
+  {
+    "id": 8,
+    "domain": "Governing AI Development",
+    "question": "Before a health system begins training a voice AI model on historical call recordings, which activity most effectively identifies potential fairness and patient-safety risks?",
+    "options": [
+      "A. Selecting the final model architecture",
+      "B. Conducting an AI impact assessment that examines affected populations and possible disparate impacts",
+      "C. Writing the system prompt",
+      "D. Purchasing additional GPU capacity"
+    ],
+    "correct": "B",
+    "rationale": "An AI impact assessment performed early in the design phase is the primary proactive tool for surfacing who could be harmed and how discrimination or safety issues might arise before any training data is used.",
+    "tags": [
+      "impact assessment",
+      "bias",
+      "healthcare",
+      "voice AI"
+    ]
+  },
+  {
+    "id": 9,
+    "domain": "Governing AI Development",
+    "question": "During feature engineering for a model that predicts member call volume, a data scientist discovers that a particular zip-code feature is highly predictive. What is the most important governance concern?",
+    "options": [
+      "A. Zip codes take up storage space",
+      "B. Zip code can act as a proxy for protected characteristics such as race or socioeconomic status",
+      "C. Zip-code data is frequently missing",
+      "D. Zip codes change over time"
+    ],
+    "correct": "B",
+    "rationale": "Features that serve as proxies for protected classes can introduce or amplify bias even when the protected attribute itself is never used directly.",
+    "tags": [
+      "feature engineering",
+      "proxy bias",
+      "fairness"
+    ]
+  },
+  {
+    "id": 10,
+    "domain": "Governing AI Development",
+    "question": "A team is documenting a new clinical decision-support model. Which artifact is specifically intended to summarize the model’s intended use, performance characteristics, limitations, and ethical considerations in a standardized format?",
+    "options": [
+      "A. Data lineage report",
+      "B. Model card",
+      "C. Incident response runbook",
+      "D. Vendor questionnaire"
+    ],
+    "correct": "B",
+    "rationale": "Model cards are the widely adopted standardized documentation format used to communicate a model’s key characteristics, limitations, and intended use to stakeholders.",
+    "tags": [
+      "model card",
+      "documentation"
+    ]
+  },
+  {
+    "id": 11,
+    "domain": "Governing AI Development",
+    "question": "Which privacy-enhancing technique provides a mathematical guarantee that the presence or absence of any single individual’s data has only a negligible effect on the model’s output?",
+    "options": [
+      "A. Simple anonymization by removing names",
+      "B. Differential privacy",
+      "C. Access-control lists",
+      "D. Encryption at rest"
+    ],
+    "correct": "B",
+    "rationale": "Differential privacy adds carefully calibrated noise so that the influence of any single record is bounded, providing a formal privacy guarantee.",
+    "tags": [
+      "PETs",
+      "differential privacy"
+    ]
+  },
+  {
+    "id": 12,
+    "domain": "Governing AI Development",
+    "question": "A health system plans to combine its own clinical notes with de-identified data licensed from a research partner to train a diagnostic support model. What is the highest-priority risk that should be examined before training begins?",
+    "options": [
+      "A. The computational cost of training",
+      "B. Potential privacy risks, including re-identification or unintended leakage of sensitive information",
+      "C. The brand reputation of the research partner",
+      "D. The programming language used by the data science team"
+    ],
+    "correct": "B",
+    "rationale": "Combining datasets, even when one is labeled de-identified, introduces material privacy and re-identification risks that must be assessed and mitigated prior to training.",
+    "tags": [
+      "data combination",
+      "privacy",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 13,
+    "domain": "Governing AI Deployment and Use",
+    "question": "Three months after deploying a voice AI agent that handles claims status inquiries, the operations team observes that the rate of escalations to human agents has steadily increased and member satisfaction scores have declined. The most likely technical cause is:",
+    "options": [
+      "A. Insufficient GPU capacity",
+      "B. Data drift or concept drift in the production environment",
+      "C. A temporary network outage",
+      "D. Overfitting that only appears after deployment"
+    ],
+    "correct": "B",
+    "rationale": "Rising error rates or degraded performance over time in production are classically caused by data drift (input distribution changes) or concept drift (the relationship between inputs and desired outputs changes).",
+    "tags": [
+      "monitoring",
+      "drift",
+      "voice AI"
+    ]
+  },
+  {
+    "id": 14,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A company uses a third-party large language model via API for a member-facing voice agent. Which contractual provision is most critical for enabling ongoing oversight and auditing of the system?",
+    "options": [
+      "A. Unlimited liability for the vendor",
+      "B. Appropriate access to relevant logs, performance metrics, and information necessary to evaluate fairness and compliance",
+      "C. Guaranteed 99.99% uptime only",
+      "D. Ownership of all conversation transcripts transferred to the vendor"
+    ],
+    "correct": "B",
+    "rationale": "Effective ongoing governance requires the ability to obtain the data and metrics needed to assess performance, fairness, and regulatory compliance over time.",
+    "tags": [
+      "third-party",
+      "vendor risk",
+      "auditing"
+    ]
+  },
+  {
+    "id": 15,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organization discovers that one of its deployed AI systems is producing systematically worse outcomes for a protected demographic group. What is typically the first governance action that should be taken?",
+    "options": [
+      "A. Immediately retrain the model with new data",
+      "B. Notify the relevant cross-functional stakeholders (legal, compliance, risk, product, clinical) and rapidly assess the scope of potential harm",
+      "C. Publicly disclose the issue on social media",
+      "D. Switch to a completely different vendor model without investigation"
+    ],
+    "correct": "B",
+    "rationale": "Cross-functional notification and rapid scope assessment allow informed decisions about containment, remediation, regulatory reporting, and communication.",
+    "tags": [
+      "incident response",
+      "fairness",
+      "accountability"
+    ]
+  },
+  {
+    "id": 16,
+    "domain": "Governing AI Deployment and Use",
+    "question": "Which of the following is the most direct control for ensuring that patients or members understand they are interacting with an AI system rather than a human during a voice call?",
+    "options": [
+      "A. Measuring average call duration",
+      "B. Requiring the agent to clearly disclose its non-human identity at the beginning of the interaction",
+      "C. Using a larger language model",
+      "D. Logging every conversation for quality assurance only"
+    ],
+    "correct": "B",
+    "rationale": "Clear, timely identity disclosure is a core transparency control. In healthcare voice workflows it directly addresses the risk of impersonation and builds appropriate user expectations.",
+    "tags": [
+      "transparency",
+      "identity disclosure",
+      "NHID",
+      "voice AI"
+    ]
+  },
+  {
+    "id": 17,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A health plan’s voice AI agent is authorized only to provide general claims status information. If a member asks a clinical question about symptoms, the most appropriate governance response is:",
+    "options": [
+      "A. Allow the agent to answer using general medical knowledge",
+      "B. Escalate the interaction to a qualified human clinician according to predefined safe-escalation rules",
+      "C. Terminate the call immediately without explanation",
+      "D. Collect the clinical information and store it for later review"
+    ],
+    "correct": "B",
+    "rationale": "Safe escalation to a human with appropriate qualifications is the standard control when an AI system encounters a request outside its authorized scope, especially in clinical contexts.",
+    "tags": [
+      "safe escalation",
+      "scope limitation",
+      "healthcare",
+      "NHID"
+    ]
+  },
+  {
+    "id": 18,
+    "domain": "Governing AI Deployment and Use",
+    "question": "Which monitoring practice is most important for detecting that a conversational AI agent has begun to produce responses that are inconsistent with its approved clinical or operational guidelines?",
+    "options": [
+      "A. Tracking only the number of calls handled per hour",
+      "B. Continuous evaluation of output quality against defined behavioral and content policies, including sampling and automated checks",
+      "C. Measuring only average response latency",
+      "D. Counting the number of times the agent is interrupted"
+    ],
+    "correct": "B",
+    "rationale": "Ongoing monitoring must include qualitative and policy-compliance checks, not only quantitative operational metrics, to detect behavioral drift or policy violations.",
+    "tags": [
+      "monitoring",
+      "behavioral drift",
+      "voice AI"
+    ]
+  },
+  {
+    "id": 19,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A payer is designing a voice AI agent that will handle member authentication and then retrieve claims data. From a governance perspective, what is the strongest reason to require explicit non-human identity disclosure before any protected health information is discussed?",
+    "options": [
+      "A. It reduces average call time",
+      "B. It prevents members from forming the false belief that they are speaking with a human and supports informed consent and transparency obligations",
+      "C. It is required only for high-risk systems under the EU AI Act",
+      "D. It is primarily a marketing best practice"
+    ],
+    "correct": "B",
+    "rationale": "Proactive identity disclosure addresses the risk of impersonation, supports transparency obligations, and helps ensure that members can make informed decisions about how much information to share.",
+    "tags": [
+      "NHID",
+      "identity disclosure",
+      "transparency",
+      "PHI"
+    ]
+  },
+  {
+    "id": 20,
+    "domain": "Governing AI Deployment and Use",
+    "question": "In a healthcare voice AI workflow, the concept of a “pre-data gate” most closely refers to:",
+    "options": [
+      "A. A technical filter that blocks all international calls",
+      "B. A control that ensures required identity disclosure and authorization checks occur before sensitive data is accessed or discussed",
+      "C. A method for compressing audio recordings",
+      "D. A pricing model for voice API usage"
+    ],
+    "correct": "B",
+    "rationale": "A pre-data gate is a governance and technical control that enforces necessary disclosures and authorization before the system is allowed to handle or reveal protected or sensitive information.",
+    "tags": [
+      "NHID",
+      "pre-data gate",
+      "controls"
+    ]
+  },
+  {
+    "id": 21,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A health system evaluates two voice AI vendors. Vendor A’s agent can sound highly human-like and does not disclose its nature unless asked. Vendor B’s agent discloses its AI identity at the start of every call and supports configurable escalation rules. From a responsible AI and patient-trust perspective, which approach is preferable?",
+    "options": [
+      "A. Vendor A, because higher realism improves user satisfaction",
+      "B. Vendor B, because clear identity disclosure and escalation support reduce deception risk and support accountability",
+      "C. Either vendor is equivalent as long as accuracy is high",
+      "D. Vendor A, because it reduces the need for human agents"
+    ],
+    "correct": "B",
+    "rationale": "In regulated healthcare contexts, transparency about the non-human nature of the agent and clear escalation paths are higher-priority controls than maximizing human-likeness.",
+    "tags": [
+      "NHID",
+      "vendor selection",
+      "transparency",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 22,
+    "domain": "Governing AI Deployment and Use",
+    "question": "Which of the following is the most appropriate auditability requirement for a healthcare voice AI system that handles member inquiries involving PHI?",
+    "options": [
+      "A. No logging is required if the vendor is SOC 2 certified",
+      "B. Immutable or protected logs of key events (disclosure made, data accessed, escalation triggered, outcome) retained according to applicable retention rules",
+      "C. Logs only of failed authentication attempts",
+      "D. Logs stored only on the vendor’s systems with no customer access"
+    ],
+    "correct": "B",
+    "rationale": "Effective governance and regulatory compliance require auditable records of critical actions, especially when PHI is involved. Logs must be protected, retained appropriately, and accessible for oversight.",
+    "tags": [
+      "auditability",
+      "logging",
+      "PHI",
+      "NHID"
+    ]
+  },
+  {
+    "id": 23,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A voice AI agent is configured to escalate any request involving clinical advice or potential emergencies to a human. This design most directly implements which governance principle?",
+    "options": [
+      "A. Maximum automation",
+      "B. Safe escalation / human oversight for out-of-scope or high-risk requests",
+      "C. Cost minimization",
+      "D. Data minimization only"
+    ],
+    "correct": "B",
+    "rationale": "Defined escalation rules that route high-risk or out-of-scope interactions to qualified humans are a core operationalization of human oversight and risk management.",
+    "tags": [
+      "safe escalation",
+      "HITL",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 24,
+    "domain": "Governing AI Deployment and Use",
+    "question": "When evaluating a third-party voice platform for use in a regulated healthcare environment, which question is most important from an AI governance perspective?",
+    "options": [
+      "A. What is the platform’s monthly price per minute?",
+      "B. Does the platform support required identity disclosure, provide sufficient logging and audit access, and allow the customer to enforce escalation and data-handling policies?",
+      "C. How many languages does the text-to-speech engine support?",
+      "D. Does the platform offer the most realistic-sounding voices available?"
+    ],
+    "correct": "B",
+    "rationale": "Governance-relevant capabilities (disclosure controls, auditability, policy enforcement, escalation) take priority over purely commercial or aesthetic features when the system will handle sensitive healthcare interactions.",
+    "tags": [
+      "vendor risk",
+      "NHID",
+      "third-party",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 25,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A health plan discovers that its voice AI agent occasionally fails to disclose its non-human identity at the start of calls after a model update. What is the most appropriate immediate governance response?",
+    "options": [
+      "A. Ignore the issue if overall call volume remains high",
+      "B. Treat it as a control failure, investigate root cause, restore the disclosure behavior, and review whether any members were affected",
+      "C. Disable all logging to reduce storage costs",
+      "D. Increase the temperature parameter of the language model"
+    ],
+    "correct": "B",
+    "rationale": "Failure of a required transparency control is a governance incident. It should be investigated, remediated, and assessed for potential impact on individuals.",
+    "tags": [
+      "incident response",
+      "identity disclosure",
+      "NHID"
+    ]
+  },
+  {
+    "id": 26,
+    "domain": "Foundations of AI Governance",
+    "question": "Which of the following best describes the concept of “model drift” in a production AI system?",
+    "options": [
+      "A. The model’s source code is moved to a new repository",
+      "B. The model’s predictive performance degrades over time because the statistical relationship between inputs and outcomes has changed",
+      "C. The model is intentionally updated by engineers",
+      "D. The model is transferred to a different cloud region"
+    ],
+    "correct": "B",
+    "rationale": "Model (or concept) drift occurs when the real-world relationship that the model learned during training no longer holds, causing performance to decline.",
+    "tags": [
+      "drift",
+      "monitoring"
+    ]
+  },
+  {
+    "id": 27,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Under GDPR, when an organization uses automated decision-making that produces legal or similarly significant effects on an individual, which right is most directly relevant?",
+    "options": [
+      "A. The right to data portability only",
+      "B. The right to obtain human intervention, express one’s point of view, and contest the decision",
+      "C. The right to be forgotten only",
+      "D. The right to unrestricted access to the model’s source code"
+    ],
+    "correct": "B",
+    "rationale": "Article 22 of the GDPR provides specific rights regarding automated decision-making, including the right to human intervention and the ability to contest the decision.",
+    "tags": [
+      "GDPR",
+      "automated decision-making",
+      "rights"
+    ]
+  },
+  {
+    "id": 28,
+    "domain": "Governing AI Development",
+    "question": "Which of the following is the primary purpose of an AI impact assessment?",
+    "options": [
+      "A. To calculate the exact return on investment of the AI project",
+      "B. To anticipate and manage potential risks and harms to individuals and groups before and during development and deployment",
+      "C. To select the programming language for the model",
+      "D. To determine the marketing budget for the product launch"
+    ],
+    "correct": "B",
+    "rationale": "Impact assessments are forward-looking tools used to identify who may be affected, what harms could occur, and what mitigations are needed.",
+    "tags": [
+      "impact assessment",
+      "risk"
+    ]
+  },
+  {
+    "id": 29,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A deployer of a high-risk AI system under the EU AI Act discovers a serious incident that has resulted in harm. What is generally the expected first formal action?",
+    "options": [
+      "A. Immediately destroy the model",
+      "B. Notify the relevant provider, distributor (if applicable), and market surveillance authority according to the Act’s incident reporting requirements",
+      "C. Post a public apology on social media before any internal investigation",
+      "D. Wait 90 days before taking any action"
+    ],
+    "correct": "B",
+    "rationale": "The EU AI Act establishes specific incident reporting obligations for serious incidents involving high-risk systems. Timely notification to the appropriate parties is required.",
+    "tags": [
+      "EU AI Act",
+      "incident reporting",
+      "high-risk"
+    ]
+  },
+  {
+    "id": 30,
+    "domain": "Governing AI Development",
+    "question": "Which activity belongs primarily in the design and planning phase of the AI lifecycle rather than the testing or deployment phase?",
+    "options": [
+      "A. Performance evaluation on a held-out test set",
+      "B. Defining the business context and conducting an initial impact assessment",
+      "C. Continuous monitoring for drift in production",
+      "D. Red-teaming a live production system"
+    ],
+    "correct": "B",
+    "rationale": "Clarifying why AI is being used and performing early impact assessment are foundational design-phase activities that shape all subsequent work.",
+    "tags": [
+      "lifecycle",
+      "design phase"
+    ]
+  },
+  {
+    "id": 31,
+    "domain": "Governing AI Deployment and Use",
+    "question": "Retrieval-Augmented Generation (RAG) is most useful in a healthcare voice AI context for which reason?",
+    "options": [
+      "A. It completely eliminates the need for any human oversight",
+      "B. It allows the system to ground responses in current, approved knowledge sources (for example, policy documents or formulary data) and thereby reduce hallucinations",
+      "C. It increases the model’s parameter count",
+      "D. It removes all privacy obligations"
+    ],
+    "correct": "B",
+    "rationale": "RAG combines a language model with retrieval from trusted external knowledge, improving factual accuracy and reducing the risk of fabricated information.",
+    "tags": [
+      "RAG",
+      "hallucination",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 32,
+    "domain": "Foundations of AI Governance",
+    "question": "Which of the following is a core pillar of responsible AI that focuses on ensuring system inputs, outputs, and decision logic can be understood by relevant stakeholders?",
+    "options": [
+      "A. Fairness only",
+      "B. Transparency and explainability",
+      "C. Speed of inference",
+      "D. Model size"
+    ],
+    "correct": "B",
+    "rationale": "Transparency and explainability address the need for humans to understand how and why an AI system produces particular outputs.",
+    "tags": [
+      "transparency",
+      "explainability",
+      "pillars"
+    ]
+  },
+  {
+    "id": 33,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A health system wants to ensure that its voice AI agent never discusses clinical treatment options. Which combination of controls is most effective?",
+    "options": [
+      "A. Only relying on the base model’s general knowledge",
+      "B. Clear system instructions/scope limitations, pre-deployment testing of out-of-scope requests, and runtime escalation rules for clinical topics",
+      "C. Increasing the model temperature",
+      "D. Removing all logging"
+    ],
+    "correct": "B",
+    "rationale": "Defense-in-depth for scope control combines explicit instructions, testing of boundary cases, and operational escalation when the boundary is approached or crossed.",
+    "tags": [
+      "scope control",
+      "escalation",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 34,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Which NIST program is specifically focused on assessing the risks and impacts of AI systems through evaluation and testing activities?",
+    "options": [
+      "A. NIST Cybersecurity Framework only",
+      "B. NIST ARIA (Assessing Risks and Impacts of AI)",
+      "C. NIST SP 800-53 control catalog only",
+      "D. FIPS 140"
+    ],
+    "correct": "B",
+    "rationale": "NIST ARIA is the program oriented toward practical assessment of AI risks and impacts through testing and evaluation methods.",
+    "tags": [
+      "NIST",
+      "ARIA",
+      "assessment"
+    ]
+  },
+  {
+    "id": 35,
+    "domain": "Governing AI Development",
+    "question": "When is the use of synthetic data most appropriately considered in an AI development process?",
+    "options": [
+      "A. Only after the model is already in production",
+      "B. As a technique to address data scarcity or to enhance privacy during testing and development while preserving useful statistical properties",
+      "C. As a permanent replacement for all real patient data with no further validation",
+      "D. Only for marketing materials"
+    ],
+    "correct": "B",
+    "rationale": "Synthetic data can help overcome limited real data or reduce privacy exposure during development, provided its fidelity and limitations are properly validated.",
+    "tags": [
+      "synthetic data",
+      "privacy",
+      "development"
+    ]
+  },
+  {
+    "id": 36,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A voice AI system begins generating confident but factually incorrect statements about a health plan’s benefits. This behavior is best described as:",
+    "options": [
+      "A. Model compression",
+      "B. Hallucination",
+      "C. Feature engineering",
+      "D. Differential privacy"
+    ],
+    "correct": "B",
+    "rationale": "Hallucination refers to a generative model producing fluent but incorrect or fabricated information.",
+    "tags": [
+      "hallucination",
+      "voice AI"
+    ]
+  },
+  {
+    "id": 37,
+    "domain": "Governing AI Deployment and Use",
+    "question": "Which of the following most strongly supports accountability for an AI system used in member-facing healthcare interactions?",
+    "options": [
+      "A. Keeping the development team anonymous",
+      "B. Clearly defining roles and responsibilities of all stakeholders involved in the system’s design, deployment, and oversight",
+      "C. Avoiding any documentation of decisions",
+      "D. Relying solely on the vendor’s marketing claims"
+    ],
+    "correct": "B",
+    "rationale": "Accountability requires that it is clear who is responsible for which decisions and outcomes throughout the AI lifecycle.",
+    "tags": [
+      "accountability",
+      "roles"
+    ]
+  },
+  {
+    "id": 38,
+    "domain": "Governing AI Development",
+    "question": "Adversarial robustness testing (red-teaming) of a healthcare voice AI system is primarily intended to:",
+    "options": [
+      "A. Increase the model’s parameter count",
+      "B. Identify vulnerabilities, toxic outputs, or failure modes by deliberately stressing the system with challenging or malicious inputs",
+      "C. Reduce the cost of cloud hosting",
+      "D. Replace the need for any human evaluation"
+    ],
+    "correct": "B",
+    "rationale": "Red-teaming and adversarial testing probe the system for weaknesses that ordinary testing may miss, supporting safer deployment.",
+    "tags": [
+      "red-teaming",
+      "robustness",
+      "testing"
+    ]
+  },
+  {
+    "id": 39,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A U.S. organization is using AI in employment decisions. Which existing body of law is most directly relevant in addition to any emerging AI-specific rules?",
+    "options": [
+      "A. Only maritime law",
+      "B. Federal and state nondiscrimination and employment laws (for example, Title VII and related statutes)",
+      "C. Only patent law",
+      "D. Only tax law"
+    ],
+    "correct": "B",
+    "rationale": "AI systems used in employment remain subject to longstanding civil-rights and employment nondiscrimination laws.",
+    "tags": [
+      "existing law",
+      "employment",
+      "nondiscrimination"
+    ]
+  },
+  {
+    "id": 40,
+    "domain": "Governing AI Deployment and Use",
+    "question": "In the context of a healthcare voice AI agent, “human-in-the-loop” most accurately means:",
+    "options": [
+      "A. A human designed the original training dataset",
+      "B. A qualified human reviews and can approve, modify, or override AI outputs before they result in significant actions or advice",
+      "C. Humans are never involved after deployment",
+      "D. The system is trained exclusively on human-generated text"
+    ],
+    "correct": "B",
+    "rationale": "Human-in-the-loop refers to operational designs in which humans retain meaningful review and decision authority over AI outputs.",
+    "tags": [
+      "HITL",
+      "human oversight",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 41,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A health plan wants to measure whether its voice AI agent is treating members from different demographic groups equitably. Which approach is most appropriate?",
+    "options": [
+      "A. Measuring only overall average call duration",
+      "B. Disaggregating key performance and outcome metrics by relevant demographic groups and investigating disparities",
+      "C. Assuming fairness if the training data was large",
+      "D. Measuring only the number of escalations"
+    ],
+    "correct": "B",
+    "rationale": "Fairness evaluation requires examining outcomes across groups rather than relying solely on aggregate metrics.",
+    "tags": [
+      "fairness",
+      "monitoring",
+      "disparate impact"
+    ]
+  },
+  {
+    "id": 42,
+    "domain": "Governing AI Development",
+    "question": "Which of the following is a key reason to document data lineage for training data used in a clinical AI system?",
+    "options": [
+      "A. It is required only for marketing materials",
+      "B. It supports traceability, quality assessment, and the ability to investigate issues or respond to regulatory inquiries about data origin and transformations",
+      "C. It reduces the need for any testing",
+      "D. It automatically removes all bias"
+    ],
+    "correct": "B",
+    "rationale": "Data lineage provides the audit trail needed to understand where data came from, how it was processed, and whether it remains suitable for the intended use.",
+    "tags": [
+      "data lineage",
+      "traceability"
+    ]
+  },
+  {
+    "id": 43,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A voice AI agent is allowed to schedule routine appointments but must escalate any request that involves changing a treatment plan. This design primarily implements:",
+    "options": [
+      "A. Unrestricted automation",
+      "B. Role- and risk-based scope limitation with human escalation for higher-stakes actions",
+      "C. Cost-cutting only",
+      "D. Elimination of all human roles"
+    ],
+    "correct": "B",
+    "rationale": "Clear boundaries on what the AI may do autonomously, combined with escalation for higher-risk actions, is a practical expression of risk-based human oversight.",
+    "tags": [
+      "scope limitation",
+      "escalation",
+      "risk-based"
+    ]
+  },
+  {
+    "id": 44,
+    "domain": "Foundations of AI Governance",
+    "question": "Which statement best captures why AI systems can produce harms at greater speed and scale than traditional software?",
+    "options": [
+      "A. AI systems are always more accurate",
+      "B. Once deployed, AI systems can affect large numbers of people rapidly and can propagate errors or biased patterns widely before detection",
+      "C. AI systems never require updates",
+      "D. AI systems are immune to data quality issues"
+    ],
+    "correct": "B",
+    "rationale": "The combination of automation, reach, and probabilistic behavior means that problems can spread quickly and widely, which is why continuous monitoring and rapid response capabilities are essential.",
+    "tags": [
+      "speed and scale",
+      "risk"
+    ]
+  },
+  {
+    "id": 45,
+    "domain": "Governing AI Deployment and Use",
+    "question": "When a healthcare organization uses an external foundation model for a member-facing voice agent, which party is typically responsible for ensuring that the base training data was collected and used lawfully?",
+    "options": [
+      "A. Only the downstream healthcare organization",
+      "B. The provider of the foundation model, with the healthcare organization remaining responsible for its own fine-tuning data and deployment context",
+      "C. Only the cloud hosting provider",
+      "D. No party has responsibility"
+    ],
+    "correct": "B",
+    "rationale": "Foundation model providers are generally responsible for the legality of their pre-training data, while deployers remain responsible for their own data, fine-tuning, and how the system is used in context.",
+    "tags": [
+      "third-party",
+      "foundation models",
+      "responsibility"
+    ]
+  },
+  {
+    "id": 46,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A health system’s policy requires that every voice AI interaction begin with a clear statement that the caller is speaking with an automated system. This requirement most directly supports which responsible AI principle?",
+    "options": [
+      "A. Maximum efficiency",
+      "B. Transparency",
+      "C. Model compression",
+      "D. Unrestricted personalization"
+    ],
+    "correct": "B",
+    "rationale": "Mandatory identity disclosure is a concrete transparency control that enables users to understand the nature of the system they are interacting with.",
+    "tags": [
+      "transparency",
+      "NHID",
+      "identity disclosure"
+    ]
+  },
+  {
+    "id": 47,
+    "domain": "Governing AI Development",
+    "question": "Which of the following is the most appropriate reason to perform a conformity assessment before placing a high-risk AI system on the EU market?",
+    "options": [
+      "A. To increase the model’s size",
+      "B. To demonstrate that the system meets the applicable regulatory requirements for safety, transparency, and risk management",
+      "C. To reduce the need for any post-market monitoring",
+      "D. To avoid documenting the system at all"
+    ],
+    "correct": "B",
+    "rationale": "Conformity assessment is the formal process used to verify that a high-risk AI system satisfies the obligations set out in the EU AI Act before it is made available.",
+    "tags": [
+      "conformity assessment",
+      "EU AI Act",
+      "high-risk"
+    ]
+  },
+  {
+    "id": 48,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A voice AI agent that previously performed well begins to give incorrect answers about a health plan’s prior-authorization rules after the plan updates its policy documents. The most effective technical mitigation is:",
+    "options": [
+      "A. Increasing the model temperature",
+      "B. Updating the knowledge source used by retrieval-augmented generation (or otherwise refreshing the grounded policy content) and validating the change",
+      "C. Disabling all escalations",
+      "D. Removing the identity disclosure message"
+    ],
+    "correct": "B",
+    "rationale": "When factual content changes, systems that rely on retrieval or grounded knowledge must have their knowledge sources updated and the change verified.",
+    "tags": [
+      "RAG",
+      "knowledge update",
+      "drift"
+    ]
+  },
+  {
+    "id": 49,
+    "domain": "Foundations of AI Governance",
+    "question": "Which of the following best describes the relationship between AI governance and existing privacy, security, and civil-rights obligations?",
+    "options": [
+      "A. AI governance completely replaces all previous legal obligations",
+      "B. AI governance operates alongside and must be integrated with existing privacy, security, and nondiscrimination requirements",
+      "C. Existing laws never apply to AI systems",
+      "D. Only security controls matter; privacy and civil rights are optional"
+    ],
+    "correct": "B",
+    "rationale": "AI systems remain subject to the full body of applicable law. Effective governance integrates AI-specific practices with existing privacy, security, and civil-rights frameworks.",
+    "tags": [
+      "integration",
+      "existing law"
+    ]
+  },
+  {
+    "id": 50,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A health plan is preparing to launch a voice AI agent. Which set of controls most completely reflects a mature, practitioner-oriented approach to non-human identity and safe interaction?",
+    "options": [
+      "A. Realistic voice only, no disclosure, no escalation path",
+      "B. Clear identity disclosure at the start of the interaction, defined scope limits, safe escalation to humans for clinical or high-risk requests, and auditable logging of key events",
+      "C. Disclosure only if the member asks whether they are speaking to a bot",
+      "D. Full automation of all clinical advice with no human involvement"
+    ],
+    "correct": "B",
+    "rationale": "A mature approach combines proactive transparency (identity disclosure), clear operational boundaries, human escalation for higher-risk situations, and auditability — the core elements of responsible healthcare voice AI design.",
+    "tags": [
+      "NHID",
+      "identity disclosure",
+      "safe escalation",
+      "healthcare",
+      "maturity"
+    ]
+  }
+]
