@@ -207,6 +207,60 @@ pages, and upgrade screen were exercised with no console errors.
 
 ---
 
+## 4a. Store icons, splash, and screenshots (generated)
+
+### Regenerating
+
+Source assets live in `assets/` and are derived mechanically from the existing
+brand mark in `public/icon.svg` — nothing is drawn by hand:
+
+```bash
+node scripts/build-store-assets.mjs   # icon.svg -> assets/*.png
+npx capacitor-assets generate         # assets/*.png -> android/, ios/, PWA icons
+```
+
+`build-store-assets.mjs` emits five sources: a full-bleed `icon.png`, the
+Android adaptive pair (`icon-background.png` plus `icon-foreground.png`, whose
+mark is scaled to 62% to survive launcher masking), and light/dark
+`splash*.png` matching the `--background` tokens.
+
+That produces 136 Android assets, 13 iOS assets, and the PWA icon set. The
+Android launcher icons are the Judgment Labs shield, **not** the Capacitor
+placeholder — verified against `mipmap-xxxhdpi/ic_launcher.png`.
+
+### Two things `capacitor-assets` does that you must undo
+
+It is destructive outside the platform folders. After every run, check:
+
+1. **It deletes `public/icon.svg` and `public/icon-maskable.svg`.** Restore them
+   (`git checkout public/icon.svg public/icon-maskable.svg`).
+2. **It rewrites `public/manifest.webmanifest`**, replacing the icon list with
+   entries pointing at `../icons/...` — a path that escapes the web root and
+   404s — and mislabels the WebP files as `image/png`. The committed manifest is
+   the corrected version; do not accept the generated one.
+
+Raster PWA icons are written to `./icons/` at the repo root and belong in
+`public/icons/`.
+
+### Screenshots
+
+`docs/store/screenshots/` holds captures taken from the real static export at
+exact store dimensions:
+
+| Set | Pixels | Store requirement |
+| --- | --- | --- |
+| `ios-6.7-*` | 1290 × 2796 | App Store 6.7" iPhone |
+| `android-phone-*` | 1080 × 1920 | Play phone |
+
+Seven screens each: welcome, home, study, question, rationale, progress, plans.
+Regenerate by serving `out/` on port 4321 and re-running the capture script.
+
+**These are Chromium captures at device viewport, not captures from a physical
+device.** Both stores accept them, but they cannot substitute for the on-device
+testing in the launch readiness report.
+
+---
+
 ## 5. Remaining launch blockers
 
 Ordered by what stops a submission.
