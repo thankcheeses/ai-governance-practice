@@ -12,7 +12,7 @@ import {
 export type Theme = "dark" | "light" | "system";
 export type ResolvedTheme = "dark" | "light";
 
-const STORAGE_KEY = "judgment-labs:theme";
+const STORAGE_KEY = "nhid-clinical:theme";
 
 interface ThemeContextValue {
   theme: Theme;

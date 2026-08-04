@@ -121,6 +121,8 @@ export interface Plan {
   features: string[];
   /** Named but not yet built. Rendered as "coming soon" so nothing overclaims. */
   comingSoon?: string[];
+  /** Shows the sales address. Only true for plans sold by conversation. */
+  contactSales?: boolean;
   status: PlanStatus;
 }
 
@@ -153,7 +155,10 @@ export const PLANS: Plan[] = [
     id: "professional",
     name: "Professional",
     price: "$19",
-    priceNote: "per month",
+    // Billing is not implemented. The plan is marked planned so the card reads
+    // "Coming soon" rather than implying it can be bought today — an app store
+    // will reject a paid tier that cannot actually be purchased.
+    priceNote: "per month at launch",
     tier: "pro",
     premise: "The full library, with the review system that makes it stick.",
     features: [
@@ -164,13 +169,14 @@ export const PLANS: Plan[] = [
       "Visual scenario diagrams",
       "Practice by domain",
     ],
-    status: "available",
+    status: "planned",
   },
   {
     id: "enterprise",
     name: "Enterprise",
     price: "Contact sales",
     premise: "Roll governance training out across a team and see where it lands.",
+    contactSales: true,
     features: [],
     comingSoon: [
       "Team access and seat management",

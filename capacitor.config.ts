@@ -19,8 +19,8 @@ import type { CapacitorConfig } from "@capacitor/cli";
  * remote-URL wrapper as grounds for rejection under guideline 4.2.
  */
 const config: CapacitorConfig = {
-  appId: "com.judgmentlabs.app",
-  appName: "Judgment Labs",
+  appId: "org.nhidclinical.app",
+  appName: "NHID-Clinical",
   webDir: "out",
   server: {
     androidScheme: "https",

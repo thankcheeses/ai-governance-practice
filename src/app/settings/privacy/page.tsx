@@ -2,14 +2,14 @@
 
 import { AppGate } from "@/components/app/app-gate";
 import { LegalDocument } from "@/components/app/legal-document";
-import { BRAND, COMPANY } from "@/lib/brand";
+import { COMPANY } from "@/lib/brand";
 
 export default function PrivacyPage() {
   return (
     <AppGate>
       <LegalDocument
         title="Privacy Policy"
-        summary={`How ${COMPANY.name} handles your data in ${BRAND.name}. Every statement below describes what the app does today, not what it may do later.`}
+        summary={`How ${COMPANY.name} handles your data. Every statement below describes what the app does today, not what it may do later.`}
         sections={[
           {
             heading: "Who we are",

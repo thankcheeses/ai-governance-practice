@@ -31,7 +31,7 @@ import {
 } from "@/lib/types";
 import { daysBetween, todayISO } from "@/lib/utils";
 
-const STORAGE_KEY = "judgment-labs:progress:v1";
+const STORAGE_KEY = "nhid-clinical:progress:v1";
 
 export interface AnswerResult {
   correct: boolean;
@@ -463,11 +463,25 @@ export function effectiveStreak(progress: UserProgress, now = todayISO()) {
 /* localStorage                                                        */
 /* ------------------------------------------------------------------ */
 
+/**
+ * The key the app used before the rename to NHID-Clinical. Read once so a
+ * beta tester who already has progress under the old key does not silently
+ * lose it. Safe to delete once no pre-rename installs remain.
+ */
+const LEGACY_STORAGE_KEY = "judgment-labs:progress:v1";
+
 function readLocal(): UserProgress | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
+    let raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      const legacy = window.localStorage.getItem(LEGACY_STORAGE_KEY);
+      if (!legacy) return null;
+      // Migrate forward, then drop the old key so this runs exactly once.
+      window.localStorage.setItem(STORAGE_KEY, legacy);
+      window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+      raw = legacy;
+    }
     const parsed = JSON.parse(raw) as Partial<UserProgress>;
     // Spread over a fresh object so older stored shapes remain loadable.
     return { ...emptyProgress(), ...parsed };

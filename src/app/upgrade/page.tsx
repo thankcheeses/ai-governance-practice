@@ -90,11 +90,11 @@ function Upgrade() {
       */}
       <Card>
         <CardContent className="p-5">
-          <h2 className="font-semibold">Pricing is not live yet</h2>
+          <h2 className="font-semibold">Billing is not live yet</h2>
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-            Billing is not wired up in this beta, so no plan can be purchased and
-            no payment details are collected. You can switch plans here to try
-            the Professional experience.
+            No plan can be purchased yet and no payment details are collected.
+            Prices shown are what each plan will cost at launch. You can switch
+            plans here to try the Professional experience during the beta.
           </p>
 
           {currentTier === "free" ? (
@@ -194,7 +194,7 @@ function PlanCard({ plan, current }: { plan: Plan; current: boolean }) {
           </div>
         ) : null}
 
-        {plan.status === "planned" ? (
+        {plan.contactSales ? (
           <a
             href={`mailto:${COMPANY.email}?subject=${encodeURIComponent("Enterprise enquiry")}`}
             className="mt-4 inline-block text-sm font-medium text-primary underline-offset-4 hover:underline"

@@ -2,18 +2,18 @@
 
 import { AppGate } from "@/components/app/app-gate";
 import { LegalDocument } from "@/components/app/legal-document";
-import { BRAND, COMPANY } from "@/lib/brand";
+import { COMPANY } from "@/lib/brand";
 
 export default function TermsPage() {
   return (
     <AppGate>
       <LegalDocument
         title="Terms of Service"
-        summary={`These terms govern your use of ${BRAND.name}, operated by ${COMPANY.name}. By creating an account or continuing to use the app, you agree to them.`}
+        summary={`These terms govern your use of the ${COMPANY.name} app. By creating an account or continuing to use it, you agree to them.`}
         sections={[
           {
             heading: "The service",
-            body: `${COMPANY.name} is ${COMPANY.descriptor}. ${BRAND.name} is its scenario-based training product: you work through governance situations drawn from AI risk, privacy, security, and healthcare practice, and receive a rationale and a transferable takeaway on each. All scenarios, rationales, and takeaways are original material written for professional development.`,
+            body: `${COMPANY.name} is ${COMPANY.descriptor}. This app is its scenario-based training product: you work through governance situations drawn from AI risk, privacy, security, and healthcare practice, and receive a rationale and a transferable takeaway on each. All scenarios, rationales, and takeaways are original material written for professional development.`,
           },
           {
             heading: "Educational purpose — not professional advice",

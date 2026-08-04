@@ -1,6 +1,6 @@
 # Launch readiness report
 
-Audit of Judgment Labs against App Store and Play Store submission. No features
+Audit of NHID-Clinical against App Store and Play Store submission. No features
 were added and no architecture changed during this pass — this is an assessment
 plus the evidence behind it.
 
@@ -67,11 +67,11 @@ Both stores require a reachable URL. `/settings/privacy` and `/settings/terms`
 exist and are correctly badged "Placeholder" (verified), and they describe the
 app's real data behaviour — a good drafting base, but not reviewed legal copy.
 
-### B4. Support contact is a placeholder — **hard blocker**
+### B4. Support contact — **resolved**
 
-`support@judgmentlabs.example` is not a real domain. Both stores require a
-working support channel. One line: `SUPPORT` in `src/lib/brand.ts`, then set
-`configured: true` to drop the in-app badge.
+**Resolved.** The placeholder address is gone; `COMPANY` in `src/lib/brand.ts`
+now carries `contact@nhid-clinical.org`, and the in-app placeholder badges were
+removed with it.
 
 ### B5. Screenshots — **hard blocker**
 
@@ -148,8 +148,8 @@ Then: enable Developer Options and USB debugging on the phone, connect it,
 select it in the Studio toolbar, and press Run. For a shareable build,
 **Build → Generate Signed Bundle / APK**.
 
-Verified already: the scaffold produces `applicationId com.judgmentlabs.app`,
-app name "Judgment Labs", and all 15 HTML routes plus both diagrams land in
+Verified already: the scaffold produces `applicationId org.nhidclinical.app`,
+app name "NHID-Clinical", and all 15 HTML routes plus both diagrams land in
 `android/app/src/main/assets/public/`.
 
 ### iPhone
@@ -164,8 +164,8 @@ Then: in **Signing & Capabilities** select your Apple Developer team, connect
 the iPhone, choose it as the run destination, press Run. The device must trust
 the developer certificate under **Settings → General → VPN & Device Management**.
 
-Verified already: `PRODUCT_BUNDLE_IDENTIFIER = com.judgmentlabs.app`,
-`CFBundleDisplayName = Judgment Labs`, 15 HTML routes in `ios/App/App/public/`.
+Verified already: `PRODUCT_BUNDLE_IDENTIFIER = org.nhidclinical.app`,
+`CFBundleDisplayName = NHID-Clinical`, 15 HTML routes in `ios/App/App/public/`.
 
 **Note:** `android/` and `ios/` are gitignored. They are generated output —
 regenerate rather than commit them.
