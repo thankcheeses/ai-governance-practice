@@ -138,14 +138,14 @@ export default function OnboardingPage() {
             <p className="mt-3 text-center text-xs leading-relaxed text-muted-foreground">
               By continuing you agree to our{" "}
               <Link
-                href="/settings/terms"
+                href="/terms"
                 className="font-medium text-primary underline-offset-4 hover:underline"
               >
                 Terms of Service
               </Link>{" "}
               and{" "}
               <Link
-                href="/settings/privacy"
+                href="/privacy"
                 className="font-medium text-primary underline-offset-4 hover:underline"
               >
                 Privacy Policy

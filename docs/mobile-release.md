@@ -291,15 +291,56 @@ the first entry, so a misconfigured caller fails closed rather than open.
 (verified at lines 62, 85, and 112), so the database clears every row belonging
 to the user in the same transaction.
 
+### Deploying
+
 ```bash
 supabase functions deploy delete-account
 supabase secrets set ALLOWED_ORIGINS="https://ai-governance-practice.vercel.app,capacitor://localhost,https://localhost"
 ```
 
+`ALLOWED_ORIGINS` is a comma-separated list with no spaces. It must contain
+every origin the app is served from:
+
+| Origin | Needed for |
+| --- | --- |
+| `https://<your-vercel-domain>` | the web build |
+| `capacitor://localhost` | the iOS WebView |
+| `https://localhost` | the Android WebView |
+| `http://localhost:3000` | local development, optional |
+
+An origin missing from the list falls back to the first entry, so the browser
+rejects the response and the delete button reports a network error rather than
+silently deleting.
+
+### Testing it end to end
+
+Run this against the real project before submitting. It is the exact path an
+App Store reviewer will exercise.
+
+1. Sign up with a throwaway address and confirm the email.
+2. Answer two or three scenarios so `attempts` and `review_cards` have rows.
+3. In the SQL editor, note the user id and confirm the rows exist:
+   ```sql
+   select id from auth.users where email = '<test address>';
+   select count(*) from public.profiles      where id      = '<user id>';
+   select count(*) from public.attempts      where user_id = '<user id>';
+   select count(*) from public.review_cards  where user_id = '<user id>';
+   ```
+4. In the app: Settings → Account → Delete account → confirm. Expect the app to
+   return to a signed-out state with local progress cleared.
+5. Re-run the four queries. **Every one must return 0 rows.**
+6. Try to sign in with the same address and password. Expect
+   "Invalid login credentials" — the account no longer exists.
+7. Try to sign up again with the same address. It should succeed as a brand new
+   account, proving nothing was left behind holding the email.
+
+If step 5 returns rows, the cascade did not fire and the function deleted only
+the auth record — stop and check the foreign keys in `0001_init.sql` before
+submitting.
+
 **Not yet deployed or executed.** The code is reviewed and the cascade is
-verified against the schema, but the function has never run against the live
-project, so the end-to-end path is unproven. Delete a real test account and
-confirm the rows are gone before submitting to Apple.
+verified against the schema and against PostgreSQL 16 locally, but the function
+has never run against the live project, so the end-to-end path is unproven.
 
 ---
 
