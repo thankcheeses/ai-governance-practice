@@ -42,8 +42,10 @@ npm run build:mobile  # static export into ./out for Capacitor
 npm run mobile:sync   # build:mobile + npx cap sync
 ```
 
-Mobile packaging, store checklist, and launch blockers:
-**[docs/mobile-release.md](docs/mobile-release.md)**.
+- **[docs/launch-readiness.md](docs/launch-readiness.md)** — readiness score,
+  blockers, device test steps, launch order of operations
+- **[docs/mobile-release.md](docs/mobile-release.md)** — packaging detail and
+  store submission checklist
 
 ---
 
