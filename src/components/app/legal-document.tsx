@@ -1,0 +1,73 @@
+"use client";
+
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Disclaimer } from "@/components/app/disclaimer";
+import { COMPANY, LEGAL_EFFECTIVE_DATE } from "@/lib/brand";
+
+interface LegalDocumentProps {
+  title: string;
+  summary: string;
+  sections: { heading: string; body: string }[];
+}
+
+/**
+ * Shared shell for the Terms and Privacy Policy.
+ *
+ * Both documents describe what the app actually does rather than generic
+ * boilerplate, so every clause here is checkable against the code. Each carries
+ * the effective date and the company contact address, which both app stores
+ * expect to find inside the app as well as on the listing.
+ */
+export function LegalDocument({ title, summary, sections }: LegalDocumentProps) {
+  return (
+    <div className="space-y-6">
+      <div>
+        <Button asChild variant="ghost" size="sm" className="-ml-2 mb-3">
+          <Link href="/settings">
+            <ArrowLeft className="h-4 w-4" />
+            Settings
+          </Link>
+        </Button>
+        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+        <p className="mt-1 text-xs text-muted-foreground">
+          {COMPANY.name} · Effective {LEGAL_EFFECTIVE_DATE}
+        </p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {summary}
+        </p>
+      </div>
+
+      <Card>
+        <CardContent className="space-y-5 p-5">
+          {sections.map((section) => (
+            <section key={section.heading}>
+              <h2 className="text-sm font-semibold">{section.heading}</h2>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                {section.body}
+              </p>
+            </section>
+          ))}
+
+          <section>
+            <h2 className="text-sm font-semibold">Contact</h2>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              Questions about this document, your account, or your data go to{" "}
+              <a
+                href={`mailto:${COMPANY.email}`}
+                className="break-all font-medium text-primary underline-offset-4 hover:underline"
+              >
+                {COMPANY.email}
+              </a>
+              .
+            </p>
+          </section>
+        </CardContent>
+      </Card>
+
+      <Disclaimer />
+    </div>
+  );
+}

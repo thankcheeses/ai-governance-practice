@@ -19,8 +19,8 @@ good?". Those diverge sharply here.
 | App functionality and quality | 95 | 51/51 flow checks and 28/28 entitlement checks pass; zero JS errors; zero failed requests |
 | Entitlement / monetization architecture | 90 | Boundary tested directly, fails closed on unknown tier. Loses points only because no purchase path exists |
 | Mobile packaging | 80 | Static export verified; **both** native platforms scaffold with correct bundle id and assets. Never built or run on a device |
-| Store assets | 25 | No raster icons, no splash, no screenshots. Launcher icons are still Capacitor's generic placeholder |
-| Legal and compliance | 45 | Deletion implemented but undeployed; privacy, terms, and support are badged placeholders |
+| Store assets | 85 | Icons, splash, and 14 store-spec screenshots generated from the brand mark |
+| Legal and compliance | 70 | Full Terms and Privacy Policy shipped with a real contact address; deletion implemented but still undeployed, and legal copy is unreviewed |
 | Payments | 0 | No IAP. Blocks a paid launch only |
 
 **Read this as:** the product is close to done; the *submission package* is not.

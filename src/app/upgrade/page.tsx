@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, Clock } from "lucide-react";
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
 import { BrandMark } from "@/components/app/brand-mark";
@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LABS } from "@/content/labs";
+import { COMPANY } from "@/lib/brand";
 import { PLANS, type Plan } from "@/lib/entitlements";
 import { useProgress } from "@/lib/store/progress-provider";
 import { cn } from "@/lib/utils";
@@ -54,7 +55,11 @@ function Upgrade() {
 
       <div className="space-y-3">
         {PLANS.map((plan) => (
-          <PlanCard key={plan.id} plan={plan} current={plan.id === currentTier} />
+          <PlanCard
+            key={plan.id}
+            plan={plan}
+            current={plan.tier !== undefined && plan.tier === currentTier}
+          />
         ))}
       </div>
 
@@ -87,8 +92,9 @@ function Upgrade() {
         <CardContent className="p-5">
           <h2 className="font-semibold">Pricing is not live yet</h2>
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-            Payments are not part of this release. While Pro is in preview you
-            can switch plans here to try the full experience.
+            Billing is not wired up in this beta, so no plan can be purchased and
+            no payment details are collected. You can switch plans here to try
+            the Professional experience.
           </p>
 
           {currentTier === "free" ? (
@@ -96,7 +102,7 @@ function Upgrade() {
               className="mt-4 w-full sm:w-auto"
               onClick={() => setTier("pro")}
             >
-              Enable Pro preview
+              Enable Professional preview
             </Button>
           ) : (
             <Button
@@ -123,7 +129,7 @@ function PlanCard({ plan, current }: { plan: Plan; current: boolean }) {
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-semibold">{plan.name}</h2>
             {current ? <Badge>Current plan</Badge> : null}
-            {planned ? <Badge variant="secondary">Coming later</Badge> : null}
+            {planned ? <Badge variant="secondary">Coming soon</Badge> : null}
           </div>
           <div className="text-right">
             <div
@@ -146,22 +152,56 @@ function PlanCard({ plan, current }: { plan: Plan; current: boolean }) {
           {plan.premise}
         </p>
 
-        <ul className="mt-4 space-y-2">
-          {plan.features.map((feature) => (
-            <li key={feature} className="flex items-start gap-2.5 text-sm">
-              <Check
-                className={cn(
-                  "mt-0.5 h-4 w-4 shrink-0",
-                  planned ? "text-muted-foreground" : "text-accent",
-                )}
-                strokeWidth={2.5}
-              />
-              <span className={cn(planned && "text-muted-foreground")}>
-                {feature}
-              </span>
-            </li>
-          ))}
-        </ul>
+        {plan.features.length > 0 ? (
+          <ul className="mt-4 space-y-2">
+            {plan.features.map((feature) => (
+              <li key={feature} className="flex items-start gap-2.5 text-sm">
+                <Check
+                  className={cn(
+                    "mt-0.5 h-4 w-4 shrink-0",
+                    planned ? "text-muted-foreground" : "text-accent",
+                  )}
+                  strokeWidth={2.5}
+                />
+                <span className={cn(planned && "text-muted-foreground")}>
+                  {feature}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+
+        {/*
+          Deliberately not ticked. These are named so the plan is concrete, and
+          marked unbuilt so the card cannot be read as a list of what you get.
+        */}
+        {plan.comingSoon?.length ? (
+          <div className="mt-4">
+            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+              Coming soon
+            </p>
+            <ul className="mt-2 space-y-2">
+              {plan.comingSoon.map((feature) => (
+                <li
+                  key={feature}
+                  className="flex items-start gap-2.5 text-sm text-muted-foreground"
+                >
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={2.5} />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        {plan.status === "planned" ? (
+          <a
+            href={`mailto:${COMPANY.email}?subject=${encodeURIComponent("Enterprise enquiry")}`}
+            className="mt-4 inline-block text-sm font-medium text-primary underline-offset-4 hover:underline"
+          >
+            {COMPANY.email}
+          </a>
+        ) : null}
       </CardContent>
     </Card>
   );

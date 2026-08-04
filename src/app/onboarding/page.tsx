@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Layers, Route, Target } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BrandMark } from "@/components/app/brand-mark";
@@ -126,9 +127,32 @@ export default function OnboardingPage() {
             <ArrowRight className="h-4 w-4" />
           </Button>
         ) : (
-          <Button size="lg" className="w-full" onClick={finish}>
-            I understand — start studying
-          </Button>
+          <>
+            <Button size="lg" className="w-full" onClick={finish}>
+              I understand — start studying
+            </Button>
+            {/*
+              Acceptance is recorded at this tap, so the documents being agreed
+              to have to be reachable from here rather than only from Settings.
+            */}
+            <p className="mt-3 text-center text-xs leading-relaxed text-muted-foreground">
+              By continuing you agree to our{" "}
+              <Link
+                href="/settings/terms"
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/settings/privacy"
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+          </>
         )}
 
         {step > 0 ? (

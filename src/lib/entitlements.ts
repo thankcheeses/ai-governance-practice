@@ -108,64 +108,75 @@ export function isQuestionAvailable(
 export type PlanStatus = "available" | "planned";
 
 export interface Plan {
-  id: Tier;
+  /** Presentation id. Not a Tier — Enterprise has no tier until it ships. */
+  id: string;
   name: string;
   price: string;
   priceNote?: string;
+  /** The entitlement tier this plan grants, where one exists. */
+  tier?: Tier;
   /** What the plan is for, in one line. */
   premise: string;
+  /** Features live today. Never list anything unbuilt here. */
   features: string[];
+  /** Named but not yet built. Rendered as "coming soon" so nothing overclaims. */
+  comingSoon?: string[];
   status: PlanStatus;
 }
 
 /**
  * Plans as presented on /upgrade.
  *
- * The value story is judgment training, not question volume — the copy says so
- * directly, because "more questions" is the wrong reason to upgrade and sets
- * the wrong expectation for what Lab will be.
+ * Two rules, both load-bearing for store review:
+ *  - `features` lists only what is built and reachable today. Anything named
+ *    but unbuilt goes in `comingSoon` and renders as such.
+ *  - No plan implies a purchase is possible. Billing is not wired, and the
+ *    screen says so rather than showing a checkout that cannot complete.
  */
 export const PLANS: Plan[] = [
   {
     id: "free",
     name: "Free",
     price: "$0",
+    tier: "free",
     premise: "Work real scenarios before deciding whether to go further.",
     features: [
-      `${FREE_QUESTION_LIMIT} scenarios`,
+      `${FREE_QUESTION_LIMIT} governance scenarios`,
+      "Basic learning tracks",
       "Full rationale on every answer",
       "Key takeaway on every answer",
-      "Basic progress tracking",
+      "Personal progress tracking",
     ],
     status: "available",
   },
   {
-    id: "pro",
-    name: "AI Governance Pro",
-    price: "$19–39",
-    priceNote: "One-time unlock",
-    premise: "The full track, with the review system that makes it stick.",
+    id: "professional",
+    name: "Professional",
+    price: "$19",
+    priceNote: "per month",
+    tier: "pro",
+    premise: "The full library, with the review system that makes it stick.",
     features: [
-      "Complete scenario library",
-      "Adaptive review with SM-2 scheduling",
-      "Advanced analytics and weak-domain analysis",
-      "Visual learning aids",
-      "Unlimited practice",
+      "Full scenario library",
+      "Progress analytics and weak-domain breakdown",
+      "Governance assessments across every domain",
+      "Adaptive review scheduling",
+      "Visual scenario diagrams",
+      "Practice by domain",
     ],
     status: "available",
   },
   {
-    id: "lab",
-    name: "Lab",
-    price: "$99–299",
-    priceNote: "Coming later",
-    premise:
-      "Applied simulations in the domains where governance decisions get hard.",
-    features: [
-      "Case studies and practitioner scenarios",
-      "Decision trees and architecture walkthroughs",
-      "Domain simulations",
-      "Certificate of completion",
+    id: "enterprise",
+    name: "Enterprise",
+    price: "Contact sales",
+    premise: "Roll governance training out across a team and see where it lands.",
+    features: [],
+    comingSoon: [
+      "Team access and seat management",
+      "Administrator controls",
+      "Team reporting and completion tracking",
+      "Consolidated billing",
     ],
     status: "planned",
   },

@@ -25,17 +25,31 @@ export const BRAND = {
 } as const;
 
 /**
+ * The operating entity. The app is a product; NHID-Clinical is the company that
+ * publishes it, contracts with users through the Terms, and answers support.
+ * Legal pages and store listings name the company, not the product.
+ */
+export const COMPANY = {
+  name: "NHID-Clinical",
+  descriptor: "an AI governance and security platform",
+  email: "contact@nhid-clinical.org",
+} as const;
+
+/**
  * Support contact. Both app stores require a reachable support channel on the
- * listing and expect one in the app.
- *
- * PLACEHOLDER — replace with a real, monitored address before submission. The
- * value is centralised so there is exactly one line to change.
+ * listing and expect one in the app. Single source so there is one line to
+ * change if it ever moves.
  */
 export const SUPPORT = {
-  email: "support@judgmentlabs.example",
-  /** True once the address above is real and monitored. */
-  configured: false,
+  email: COMPANY.email,
 } as const;
+
+/**
+ * Bumped whenever the substance of the Terms or Privacy Policy changes, not on
+ * copy-editing passes. Shown on both documents so a user can tell which version
+ * they agreed to.
+ */
+export const LEGAL_EFFECTIVE_DATE = "4 August 2026";
 
 export const DISCLAIMER_TITLE = "Independent Educational Product";
 

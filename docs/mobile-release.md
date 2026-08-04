@@ -96,9 +96,9 @@ npx cap sync
 | Bundle / application ID | ✅ | `com.judgmentlabs.app` (set in `capacitor.config.ts`) |
 | App icon | ⚠️ Partial | `public/icon.svg` exists. Stores need **raster PNG** at many sizes — 1024×1024 for App Store, adaptive icon for Play. Generate with `@capacitor/assets`. |
 | Splash screen | ⚠️ Partial | Brand mark renders in-app at `/`. A **native** splash asset is still needed. |
-| Privacy policy URL | ⚠️ Blocker | `/settings/privacy` exists and is **clearly badged "Placeholder"** in-app. Still needs reviewed copy at a **publicly reachable URL** for the store listing. |
-| Terms URL | ⚠️ Blocker | Same — `/settings/terms` exists and is badged "Placeholder". Needs reviewed copy at a public URL. |
-| Support contact | ⚠️ | Settings → Support shows a mailto link, badged "Placeholder". Address lives in `SUPPORT` in `src/lib/brand.ts` — **one line to change**. |
+| Privacy policy URL | ✅ In-app | `/settings/privacy` carries a full policy naming NHID-Clinical as controller, with an effective date. Still needs to be reachable at a **public URL** for the store listing, and reviewed by counsel. |
+| Terms URL | ✅ In-app | `/settings/terms` carries full Terms of Service. Same two caveats: public URL for the listing, and counsel review. |
+| Support contact | ✅ | `contact@nhid-clinical.org`, from `COMPANY` in `src/lib/brand.ts`. |
 | Store description | ⚠️ Draft below | Not yet finalised. |
 | Screenshots | ❌ | Required per device class: 6.7" and 5.5" iPhone, 12.9" iPad if iPad is supported; phone and tablet for Play. |
 | Data safety / privacy nutrition labels | ⚠️ | Answers drafted below; must match actual behaviour. |
