@@ -22,7 +22,7 @@ export default function UpgradePage() {
 }
 
 function Upgrade() {
-  const { progress, setTier } = useProgress();
+  const { progress } = useProgress();
   const currentTier = progress.tier;
 
   return (
@@ -46,9 +46,9 @@ function Upgrade() {
             Better judgment, not more questions
           </h1>
           <p className="mt-2.5 max-w-md text-pretty text-sm leading-relaxed text-white/75">
-            The upgrade is the review system and the analysis that tell you
-            where your reasoning is weak — so you can work a governance decision
-            you have not seen before.
+            The review system and the analysis that tell you where your
+            reasoning is weak — so you can work a governance decision you have
+            not seen before. All of it is open during the beta.
           </p>
         </div>
       </section>
@@ -84,35 +84,16 @@ function Upgrade() {
         </Card>
       </section>
 
-      {/*
-        No checkout in this build. Payments land in a later release; this
-        control exists so the gated experience can be exercised end to end.
-      */}
+      {/* Beta posture: no checkout, no gating, and the screen says so. */}
       <Card>
         <CardContent className="p-5">
-          <h2 className="font-semibold">Billing is not live yet</h2>
+          <h2 className="font-semibold">Everything is unlocked during the beta</h2>
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-            No plan can be purchased yet and no payment details are collected.
-            Prices shown are what each plan will cost at launch. You can switch
-            plans here to try the Professional experience during the beta.
+            The full scenario library and every feature are available to you at
+            no cost while this beta runs. Nothing can be purchased, no payment
+            details are collected, and the prices below are indicative of what
+            plans may cost later.
           </p>
-
-          {currentTier === "free" ? (
-            <Button
-              className="mt-4 w-full sm:w-auto"
-              onClick={() => setTier("pro")}
-            >
-              Enable Professional preview
-            </Button>
-          ) : (
-            <Button
-              variant="outline"
-              className="mt-4 w-full sm:w-auto"
-              onClick={() => setTier("free")}
-            >
-              Switch back to Free
-            </Button>
-          )}
         </CardContent>
       </Card>
     </div>
