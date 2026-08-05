@@ -896,5 +896,613 @@
       "healthcare",
       "maturity"
     ]
+  },
+  {
+    "id": 51,
+    "domain": "Foundations of AI Governance",
+    "question": "A manufacturer wants to replace a rules-based automation tool with a machine learning system that adjusts equipment settings from live sensor data. Which factor most justifies governing the new system differently from the one it replaces?",
+    "options": [
+      "A. It consumes substantially more compute, so infrastructure cost and capacity planning change.",
+      "B. It comes from a different vendor, so the existing supplier assurances no longer transfer.",
+      "C. It will be operated by more staff, so the training and access footprint grows considerably.",
+      "D. Its outputs are probabilistic and cannot be fully predicted from the underlying logic."
+    ],
+    "correct": "D",
+    "rationale": "The probabilistic, non-deterministic nature of machine learning is the substantive reason it needs governance beyond traditional software. The same input may not yield the same output, and behaviour cannot be established by reading the logic, so monitoring and evaluation controls become necessary. Compute, vendor, and headcount are operational details that do not change the governance rationale.",
+    "tags": [
+      "foundations",
+      "non-determinism",
+      "AI vs software",
+      "oversight"
+    ]
+  },
+  {
+    "id": 52,
+    "domain": "Foundations of AI Governance",
+    "question": "During design review of a resume-screening tool, a reviewer insists hiring managers must be able to understand in plain terms why one candidate ranked above another. Which responsible AI principle does this most directly reflect?",
+    "options": [
+      "A. Data minimisation, limiting the personal data collected to what the ranking actually requires.",
+      "B. Transparency and explainability, so the basis for an output is intelligible to those relying on it.",
+      "C. Accountability, assigning a named owner responsible for the ranking decisions the tool produces.",
+      "D. Human oversight, ensuring a recruiter formally approves the ranking before interviews are offered."
+    ],
+    "correct": "B",
+    "rationale": "Making a system's reasoning understandable to the people relying on it is a direct expression of transparency and explainability. The other principles named are real and adjacent — minimisation governs what data is used, accountability governs who answers for the outcome, oversight governs who can intervene — but none of them is the requirement that a decision be comprehensible.",
+    "tags": [
+      "foundations",
+      "transparency",
+      "explainability",
+      "hiring"
+    ]
+  },
+  {
+    "id": 53,
+    "domain": "Foundations of AI Governance",
+    "question": "A retailer's newly formed AI governance committee is staffed entirely by data scientists. Leadership questions the structure before it approves its first high-risk use case. What gap does this staffing most likely create?",
+    "options": [
+      "A. Risks outside technical performance, such as legal and ethical exposure, go unrecognised.",
+      "B. Decisions slow down because the members are unfamiliar with agile delivery practices.",
+      "C. Access to the underlying model source code becomes harder to obtain for review purposes.",
+      "D. Consensus becomes difficult to reach because the committee has grown too large to steer."
+    ],
+    "correct": "A",
+    "rationale": "Governance depends on cross-functional composition precisely so legal, ethical, and business considerations sit alongside technical ones. A body drawn from a single function, however skilled, sees only the risks that function is trained to see. The scenario also describes a narrow committee rather than an oversized one, and a data-science group would have more access to code, not less.",
+    "tags": [
+      "foundations",
+      "governance structure",
+      "cross-functional",
+      "blind spots"
+    ]
+  },
+  {
+    "id": 54,
+    "domain": "Foundations of AI Governance",
+    "question": "A nonprofit licenses a general-purpose chatbot and configures it to answer donor questions on its website, without building or training any part of the underlying model. What best describes its governance role?",
+    "options": [
+      "A. An end user with no organisation-level obligations, since staff simply operate a licensed tool.",
+      "B. A developer obliged to repeat the vendor's pre-training data governance for the model it uses.",
+      "C. A deployer responsible for governing how it configures, monitors, and uses the system.",
+      "D. A deployer with no obligations of its own, since the vendor built and trained the model."
+    ],
+    "correct": "C",
+    "rationale": "Governance frameworks separate developer duties, which attach to building or training a model, from deployer duties, which attach to putting a system into operational use in a particular context. An organisation can hold deployer obligations without training anything. Configuring and operating the chatbot creates real responsibility for its configuration, monitoring, and use.",
+    "tags": [
+      "foundations",
+      "deployer",
+      "developer",
+      "roles"
+    ]
+  },
+  {
+    "id": 55,
+    "domain": "Foundations of AI Governance",
+    "question": "A logistics company has privacy and security policies that predate its use of AI, and is now piloting an AI route optimisation tool. What is the most appropriate governance step regarding those policies?",
+    "options": [
+      "A. Leave them as they are, since any policy covering data already covers AI systems by extension.",
+      "B. Review and update them to address AI-specific considerations the originals never anticipated.",
+      "C. Replace them with a separate AI policy set written specifically for machine learning systems.",
+      "D. Defer policy work until the pilot concludes and the tool's actual behaviour is better understood."
+    ],
+    "correct": "B",
+    "rationale": "Extending existing privacy, security, data governance, and IP policies to cover AI-specific concerns preserves the institutional maturity already built into them while closing gaps such as training data provenance and model drift. Discarding them wastes relevant work, assuming they already suffice is a common and risky shortcut, and deferring leaves the pilot running without coverage.",
+    "tags": [
+      "foundations",
+      "policy",
+      "AI-specific",
+      "pilot"
+    ]
+  },
+  {
+    "id": 56,
+    "domain": "Foundations of AI Governance",
+    "question": "A hospital network's standard vendor questionnaire does not ask about training data sources or algorithmic risk, but procurement wants to proceed with an AI scheduling tool. What should governance require first?",
+    "options": [
+      "A. Nothing further, because the existing questionnaire already captures the material vendor risks.",
+      "B. A commitment from the vendor to publish its model source code before the contract is signed.",
+      "C. A decision to build an equivalent tool in-house rather than accept unassessed vendor risk.",
+      "D. Updated procurement processes and contract terms covering training data, bias, and accountability."
+    ],
+    "correct": "D",
+    "rationale": "Managing third-party AI risk means updating assessments, procurement processes, and contracts to capture issues pre-AI questionnaires were never written to surface: where training data came from, how bias is tested, and who is accountable for performance. Building in-house is disproportionate, and adequate assessment never requires a vendor to publish source code.",
+    "tags": [
+      "foundations",
+      "procurement",
+      "third-party risk",
+      "contracts"
+    ]
+  },
+  {
+    "id": 57,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A streaming service begins using an AI model to personalise recommendations from viewing history, but users were never told at signup that this processing would occur. Which privacy concept is most directly implicated?",
+    "options": [
+      "A. Purpose limitation, since the data is being used beyond the purpose disclosed at collection.",
+      "B. Data portability, since subscribers have no straightforward way to export their viewing history.",
+      "C. Right to erasure, since the retained viewing history now feeds a purpose users never accepted.",
+      "D. Cross-border transfer, since the service processes subscriber data across several jurisdictions."
+    ],
+    "correct": "A",
+    "rationale": "Purpose limitation requires that personal data be used only for the purposes disclosed at collection or a compatible one. Repurposing viewing history to drive a new recommendation feature without notice is the textbook case. The other concepts are real, but nothing in the facts involves an export request, a deletion request, or a transfer across borders.",
+    "tags": [
+      "laws",
+      "purpose limitation",
+      "GDPR",
+      "personalisation"
+    ]
+  },
+  {
+    "id": 58,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A lender's AI model approves or denies loan applications with no human review before applicants are notified. What obligation does this most likely trigger for the lender as a data controller?",
+    "options": [
+      "A. A duty to retain every application record indefinitely so decisions remain auditable later.",
+      "B. A duty to publish the scoring model's source code so applicants can inspect how it works.",
+      "C. A duty tied to automated decision-making, such as providing a route to human review.",
+      "D. A duty to obtain a separate licence authorising the use of AI in consumer lending decisions."
+    ],
+    "correct": "C",
+    "rationale": "Privacy laws commonly impose specific obligations where a decision is fully automated and has a significant effect on a person, and a loan denial is the standard example. Those obligations typically include a path to human intervention and a way to contest the outcome. The other options describe generic compliance activity that is not tied to automated decision-making.",
+    "tags": [
+      "laws",
+      "automated decision-making",
+      "human review",
+      "lending"
+    ]
+  },
+  {
+    "id": 59,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A media company trains a generative model on copyrighted news articles scraped from publisher websites without permission. Which area of existing law is most directly at issue?",
+    "options": [
+      "A. Consumer protection law, treating the affected publishers as consumers of the model's output.",
+      "B. Intellectual property law, because copyrighted material was used for training without permission.",
+      "C. Product liability law, because the model shipped without disclosing a defect in its training data.",
+      "D. Nondiscrimination law, because some publishers were scraped more heavily than others were."
+    ],
+    "correct": "B",
+    "rationale": "Using copyrighted material to train a model raises intellectual property questions, since the law in this area may restrict such use absent permission or a valid exception. Product liability concerns defective products rather than data sourcing, publishers are not consumers of the model, and nondiscrimination law protects classes of people rather than content owners.",
+    "tags": [
+      "laws",
+      "intellectual property",
+      "training data",
+      "copyright"
+    ]
+  },
+  {
+    "id": 60,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An insurer's underwriting model never takes race as an input, yet systematically charges higher premiums in zip codes that correlate strongly with race. Why might this still raise nondiscrimination concerns?",
+    "options": [
+      "A. Because nondiscrimination law is triggered only where a protected trait is used as a direct input.",
+      "B. Because insurance pricing sits outside the scope of nondiscrimination law in most jurisdictions.",
+      "C. Because the model's overall predictive accuracy has fallen below the accepted industry benchmark.",
+      "D. Because a facially neutral factor can still produce a discriminatory effect without being an input."
+    ],
+    "correct": "D",
+    "rationale": "Nondiscrimination law in lending, insurance, employment, and housing can be violated through disparate impact: a neutral-looking factor that correlates with a protected characteristic and produces a discriminatory outcome, even when the protected trait is never used. Insurance is a commonly cited context for this, and model accuracy is a separate question entirely.",
+    "tags": [
+      "laws",
+      "disparate impact",
+      "proxy variables",
+      "insurance"
+    ]
+  },
+  {
+    "id": 61,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company is classifying an AI tool that screens resumes and selects candidates for interview under a risk-tiered AI regulatory framework. How would this use case most likely be classified?",
+    "options": [
+      "A. High risk, given its effect on individuals' access to employment opportunities.",
+      "B. Limited risk, because the tool only ranks candidates and a recruiter makes the final call.",
+      "C. Minimal risk, because resume screening is a routine and long-established business function.",
+      "D. Prohibited, because using AI to filter candidates for employment is banned outright."
+    ],
+    "correct": "A",
+    "rationale": "Risk-tiered frameworks commonly place employment uses, including recruitment and resume screening, in the high-risk tier because of their effect on access to economic opportunity, which brings obligations around risk management, documentation, and human oversight. Classification follows the impact of the use case, not whether a human is nominally in the loop.",
+    "tags": [
+      "laws",
+      "EU AI Act",
+      "risk classification",
+      "employment"
+    ]
+  },
+  {
+    "id": 62,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company builds a general-purpose foundation model that other organisations license for varied downstream uses. How do its obligations typically compare with those of a company building a narrow, purpose-built tool?",
+    "options": [
+      "A. It is generally exempt, because it does not control or foresee how licensees will use the model.",
+      "B. It carries distinct obligations of its own, alongside the obligations attaching to downstream use.",
+      "C. It is regulated only once one of its licensees puts the model into a high-risk deployment.",
+      "D. It faces the identical use-case-specific requirements that a narrow-purpose tool builder faces."
+    ],
+    "correct": "B",
+    "rationale": "AI-specific law increasingly places obligations on general-purpose model providers — technical documentation, transparency about training — in addition to, not instead of, the obligations that attach to particular downstream deployments. The distinction between model-level and use-case-level duties is drawn deliberately, so neither exemption nor equivalence is right.",
+    "tags": [
+      "laws",
+      "general-purpose AI",
+      "foundation models",
+      "EU AI Act"
+    ]
+  },
+  {
+    "id": 63,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A governance team organises its risk activities around functions commonly described as govern, map, measure, and manage. Which framework does this describe?",
+    "options": [
+      "A. ISO/IEC 42001, whose structure follows the certification audit cycle for management systems.",
+      "B. The OECD AI Principles, whose structure follows agreement among participating member countries.",
+      "C. The NIST AI Risk Management Framework, a voluntary framework built around core functions.",
+      "D. The EU AI Act, whose structure follows the risk tiers and the penalties attaching to each."
+    ],
+    "correct": "C",
+    "rationale": "The NIST AI Risk Management Framework is organised around core functions — govern, map, measure, and manage — each with categories and subcategories beneath it, and it is voluntary rather than binding. ISO/IEC 42001 is a certifiable management system standard, and the EU AI Act is binding law structured around risk tiers.",
+    "tags": [
+      "laws",
+      "NIST AI RMF",
+      "frameworks",
+      "voluntary"
+    ]
+  },
+  {
+    "id": 64,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company wants to certify formally that it operates a functioning AI management system, much as it once certified its information security management system. Which standard fits this goal?",
+    "options": [
+      "A. ISO/IEC 22989, which establishes shared terminology and concepts for artificial intelligence.",
+      "B. ISO/IEC 42001, which specifies certifiable requirements for an AI management system.",
+      "C. ISO/IEC 42005, which addresses how to conduct impact assessments for AI systems.",
+      "D. The NIST AI RMF, which offers a voluntary structure for identifying and treating AI risk."
+    ],
+    "correct": "B",
+    "rationale": "ISO/IEC 42001 specifies requirements for an AI management system that an organisation can be certified against, in the same way ISO/IEC 27001 works for information security. The other documents are real and relevant but serve different purposes: terminology, impact assessment methodology, and a voluntary risk framework that is not designed for certification.",
+    "tags": [
+      "laws",
+      "ISO 42001",
+      "certification",
+      "management system"
+    ]
+  },
+  {
+    "id": 65,
+    "domain": "Governing AI Development",
+    "question": "A product team begins building an AI tool from a vague request to improve customer service, without documenting the problem it solves or how success will be judged. What is the most significant governance risk?",
+    "options": [
+      "A. The team may settle on a data science framework nobody else in the organisation knows well.",
+      "B. The team may be unable to recruit enough engineers to hit the delivery date it has committed to.",
+      "C. Marketing may be left out of the launch, weakening the reception the finished tool receives.",
+      "D. Undefined scope makes it hard to assess risk, guide design, and evaluate success afterwards."
+    ],
+    "correct": "D",
+    "rationale": "Defining the business context and use case is the foundational step in governing AI design: it anchors every later decision about architecture, risk assessment, metrics, and oversight. Skipping it makes each downstream governance activity harder to perform meaningfully. The alternatives are ordinary project concerns unrelated to undefined scope.",
+    "tags": [
+      "development",
+      "use case definition",
+      "scope",
+      "design phase"
+    ]
+  },
+  {
+    "id": 66,
+    "domain": "Governing AI Development",
+    "question": "An analyst flags that an AI call-centre triage tool could occasionally misroute urgent complaints. The team debates whether to eliminate, reduce, or accept the risk. What should guide the decision?",
+    "options": [
+      "A. A risk mitigation hierarchy that directs the most severe risks toward elimination or reduction.",
+      "B. A practice of documenting every identified risk equally, without ranking severity or likelihood.",
+      "C. A practice of escalating every identified risk to executives so no prioritisation call is needed.",
+      "D. A decision deferred until six months of production data shows how often misrouting truly occurs."
+    ],
+    "correct": "A",
+    "rationale": "A risk mitigation hierarchy — typically elimination, then reduction, then control, then acceptance with monitoring — directs effort toward the risks that matter most, judged on severity and probability. Treating all risks alike defeats prioritisation, blanket escalation avoids the judgement rather than making it, and waiting for production data leaves people exposed in the interim.",
+    "tags": [
+      "development",
+      "risk mitigation",
+      "prioritisation",
+      "severity"
+    ]
+  },
+  {
+    "id": 67,
+    "domain": "Governing AI Development",
+    "question": "A team completes the design phase of a fraud-detection model but never records why it selected certain input features over others. Why is this a governance concern?",
+    "options": [
+      "A. Because design documentation exists mainly to give marketing accurate material to work from.",
+      "B. Because undocumented rationale weakens the ability to demonstrate compliance and manage risk later.",
+      "C. Because undocumented choices only become a problem if the model underperforms during testing.",
+      "D. Because well-commented source code cannot substitute for a formal architectural specification."
+    ],
+    "correct": "B",
+    "rationale": "Documenting design decisions exists to establish compliance and manage risk: it lets an organisation explain and defend its choices to regulators, auditors, or affected individuals later, and it supports troubleshooting. The value is proactive rather than conditional on something going wrong, and code comments are a technical artefact, not a record of governance reasoning.",
+    "tags": [
+      "development",
+      "documentation",
+      "design rationale",
+      "auditability"
+    ]
+  },
+  {
+    "id": 68,
+    "domain": "Governing AI Development",
+    "question": "A reviewer asks a data science team to trace where a model's training data originated and how it was transformed, and the team cannot fully reconstruct that history. Which concept does this gap relate to?",
+    "options": [
+      "A. Data minimisation, since more data appears to have been collected than the model actually needs.",
+      "B. Data retention, since the training data has evidently been kept longer than its purpose justifies.",
+      "C. Data lineage and provenance, since the origin and transformations of the data cannot be traced.",
+      "D. Data portability, since the training data cannot readily be exported into another environment."
+    ],
+    "correct": "C",
+    "rationale": "Data lineage and provenance is precisely the ability to trace where data came from and how it changed over time, which is the gap described. The other terms name real data governance concerns — excessive collection, over-retention, and inability to export — but none of those problems appears in the facts.",
+    "tags": [
+      "development",
+      "data lineage",
+      "provenance",
+      "traceability"
+    ]
+  },
+  {
+    "id": 69,
+    "domain": "Governing AI Development",
+    "question": "Before releasing a resume-screening tool, a testing team wants to confirm the model does not systematically disadvantage any demographic group, in addition to being accurate overall. Which testing type addresses that second goal?",
+    "options": [
+      "A. Unit testing, which verifies that individual components of the codebase behave as specified.",
+      "B. Bias testing, which evaluates whether outputs disproportionately disadvantage particular groups.",
+      "C. Integration testing, which verifies that separately built components work correctly together.",
+      "D. Performance testing, which measures response time and resource consumption under realistic load."
+    ],
+    "correct": "B",
+    "rationale": "Bias testing is aimed squarely at identifying disparate outcomes across groups, which is the stated second goal. Unit and integration testing establish technical correctness, and performance testing measures speed and resource use. All are legitimate and necessary, but only bias testing answers the fairness question being asked.",
+    "tags": [
+      "development",
+      "bias testing",
+      "fairness",
+      "pre-release"
+    ]
+  },
+  {
+    "id": 70,
+    "domain": "Governing AI Development",
+    "question": "During testing, engineers find a model performs very well on its training data but poorly on new, unseen data. What does this pattern most likely indicate, and what response follows?",
+    "options": [
+      "A. A privacy incident affecting the training set, requiring notification to the regulator.",
+      "B. A breach of the data supplier's contract, requiring legal review of the licensing terms.",
+      "C. Insufficient server capacity during evaluation, requiring additional hardware before retesting.",
+      "D. Overfitting to the training data, requiring investigation before deployment goes any further."
+    ],
+    "correct": "D",
+    "rationale": "Strong performance on training data paired with weak performance on new data is the classic signature of overfitting, where the model has learned the training set rather than the underlying pattern. It is a well-understood risk that testing exists to catch, and it should be investigated and addressed before deployment proceeds.",
+    "tags": [
+      "development",
+      "overfitting",
+      "generalisation",
+      "testing"
+    ]
+  },
+  {
+    "id": 71,
+    "domain": "Governing AI Development",
+    "question": "A team moving a model from testing into production wants to document its intended use, limitations, and performance characteristics in a standardised format for stakeholders. What artefact is it producing?",
+    "options": [
+      "A. A model card, the standard format for intended use, limitations, and performance.",
+      "B. A software licence agreement, setting out the terms on which the model may be used.",
+      "C. A vendor invoice, recording what was paid for the components used to build the model.",
+      "D. A marketing brochure, describing the model's strengths for prospective internal adopters."
+    ],
+    "correct": "A",
+    "rationale": "A model card is the standard artefact for communicating a model's intended use, limitations, and performance characteristics before release, supporting both internal governance and external transparency. The other documents are real business artefacts, but none serves the documentation purpose described.",
+    "tags": [
+      "development",
+      "model card",
+      "documentation",
+      "transparency"
+    ]
+  },
+  {
+    "id": 72,
+    "domain": "Governing AI Development",
+    "question": "A demand forecasting model has run in production for over a year and its predictions have grown noticeably less accurate, though the underlying code has not changed. What explains this, and what addresses it?",
+    "options": [
+      "A. A security compromise of the inference pipeline, requiring incident response and notification.",
+      "B. Model or data drift, requiring continuous monitoring and a scheduled retraining cadence.",
+      "C. A licensing violation in a training data source, requiring renegotiation with the supplier.",
+      "D. An ownership dispute over the training data, requiring legal review before the model is reused."
+    ],
+    "correct": "B",
+    "rationale": "Gradual performance decay with no code change points to model or data drift, where real-world conditions move away from the distribution the model was trained on. The standard governance response is continuous monitoring paired with a scheduled programme of maintenance and retraining. The alternatives describe legal and security scenarios the facts do not suggest.",
+    "tags": [
+      "development",
+      "model drift",
+      "monitoring",
+      "retraining"
+    ]
+  },
+  {
+    "id": 73,
+    "domain": "Governing AI Development",
+    "question": "A company that builds AI systems for other businesses must show how it meets transparency obligations toward the organisations deploying its models. What best satisfies that obligation?",
+    "options": [
+      "A. Requiring every deployer to sign a nondisclosure agreement before receiving system details.",
+      "B. Publishing marketing material that sets out the model's capabilities and competitive advantages.",
+      "C. Providing technical documentation, instructions for use, and post-market monitoring plans.",
+      "D. Publishing the complete training dataset openly so deployers can inspect it for themselves."
+    ],
+    "correct": "C",
+    "rationale": "Transparency toward deployers usually means supplying the information they need to operate the system responsibly: technical documentation, instructions for use, and post-market monitoring plans. Promotional material is not governance documentation, a nondisclosure agreement restricts information rather than sharing it, and publishing a training dataset creates fresh risks of its own.",
+    "tags": [
+      "development",
+      "provider obligations",
+      "documentation",
+      "deployers"
+    ]
+  },
+  {
+    "id": 74,
+    "domain": "Governing AI Deployment and Use",
+    "question": "Before deploying an AI writing assistant across its support team, a reviewer asks about employee readiness to use the tool appropriately, beyond its technical performance. What is being evaluated?",
+    "options": [
+      "A. Model architecture, covering how the system is designed internally and where its limits sit.",
+      "B. Workforce readiness, covering the training and understanding needed to use the tool well.",
+      "C. Data availability, covering whether enough representative data exists to support the use case.",
+      "D. Vendor reputation, covering the provider's standing and track record in the wider market."
+    ],
+    "correct": "B",
+    "rationale": "Assessing a use case's context includes workforce readiness — whether the people who will use a tool have the training and understanding to use it appropriately — alongside business objectives, data availability, and ethical considerations. The other options are genuine considerations from the same area, but they concern data, design, and suppliers rather than people.",
+    "tags": [
+      "deployment",
+      "workforce readiness",
+      "training",
+      "use case context"
+    ]
+  },
+  {
+    "id": 75,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A company compares an inspectable, modifiable open-source language model against a closed proprietary model reachable only through an API. What is a governance-relevant difference between them?",
+    "options": [
+      "A. The open-source model can be assumed more accurate, since its weights are open to scrutiny.",
+      "B. The proprietary model can be assumed compliant, since the vendor accepts regulatory exposure.",
+      "C. Governance obligations attach to proprietary models but not to open-source deployments.",
+      "D. The open-source model offers more direct visibility and control than the proprietary option."
+    ],
+    "correct": "D",
+    "rationale": "The governance-relevant distinction is the degree of visibility and control available: an open model can be inspected and modified directly, while a proprietary one requires greater reliance on the vendor's documentation and assurances. Licensing model does not determine accuracy, does not confer compliance, and does not switch governance obligations on or off.",
+    "tags": [
+      "deployment",
+      "open source",
+      "proprietary models",
+      "vendor reliance"
+    ]
+  },
+  {
+    "id": 76,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A company wants its AI assistant to answer questions using current internal documents, without retraining the model each time those documents change. Which technique best fits?",
+    "options": [
+      "A. Retrieval augmented generation, letting the model consult the documents at query time.",
+      "B. Fine-tuning the model on the complete document archive on a weekly refresh schedule.",
+      "C. Deploying the model entirely on-premise, with no outbound internet connectivity permitted.",
+      "D. Using the model as supplied, relying on what it already learned during its original training."
+    ],
+    "correct": "A",
+    "rationale": "Retrieval augmented generation lets a model reference current, approved sources at query time, which removes the need to retrain whenever those sources change and reduces fabricated answers. Weekly fine-tuning is resource-heavy and still lags the documents, on-premise deployment addresses infrastructure location rather than freshness, and an unmodified model has no access to the documents at all.",
+    "tags": [
+      "deployment",
+      "RAG",
+      "grounding",
+      "knowledge freshness"
+    ]
+  },
+  {
+    "id": 77,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A company has selected a third-party vendor for a new hiring tool and is about to sign when a governance team member recommends one further step. What is that step?",
+    "options": [
+      "A. Negotiating a reduction in the annual licensing fee before the agreement is executed.",
+      "B. Performing or reviewing an impact assessment covering the AI system that was selected.",
+      "C. Scheduling an internal launch event so affected teams learn about the tool in good time.",
+      "D. Confirming the vendor's brand will not be visible to candidates during the screening process."
+    ],
+    "correct": "B",
+    "rationale": "Performing or reviewing an impact assessment on the selected system is the governance step that belongs before a high-stakes deployment such as a hiring tool is contractually locked in. Commercial negotiation, internal communications, and branding are ordinary business activities that do not surface the risks an assessment is designed to find.",
+    "tags": [
+      "deployment",
+      "impact assessment",
+      "vendor selection",
+      "hiring"
+    ]
+  },
+  {
+    "id": 78,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A company reviewing an AI vendor contract notices it is silent on who bears responsibility if the system produces a discriminatory outcome that creates legal liability. What should governance do?",
+    "options": [
+      "A. Assume the vendor bears the liability, since it developed and trained the underlying model.",
+      "B. Proceed to signature, since allocating legal liability is properly a matter for the legal team.",
+      "C. Treat the silence as a key contractual risk and negotiate explicit liability terms before signing.",
+      "D. End the vendor relationship, since a gap this significant indicates the supplier cannot be trusted."
+    ],
+    "correct": "C",
+    "rationale": "Identifying and evaluating key terms in vendor agreements, liability allocation among them, is a governance responsibility when assessing a system for deployment. Silence is a real risk to be resolved by negotiation rather than assumed away, treated as somebody else's remit, or escalated into ending a relationship that a contract amendment would fix.",
+    "tags": [
+      "deployment",
+      "vendor contracts",
+      "liability",
+      "negotiation"
+    ]
+  },
+  {
+    "id": 79,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A financial services company decides to build and deploy its own proprietary credit-scoring model rather than license one. How does that choice generally affect its governance obligations?",
+    "options": [
+      "A. It reduces them, because the company now controls the model and can change it at will.",
+      "B. It increases them, because the company now carries both developer and deployer responsibilities.",
+      "C. It leaves them unchanged, because obligations follow the use case rather than who built the system.",
+      "D. It transfers them to the sector regulator, which supervises credit-scoring models directly."
+    ],
+    "correct": "B",
+    "rationale": "Building and deploying a proprietary model means taking on developer-level responsibilities as well as deployer-level ones, where licensing would have left part of that burden with the vendor. Control does not reduce obligation, the distinction is a meaningful one rather than a formality, and regulators supervise organisations rather than absorbing their duties.",
+    "tags": [
+      "deployment",
+      "build vs buy",
+      "developer duties",
+      "liability"
+    ]
+  },
+  {
+    "id": 80,
+    "domain": "Governing AI Deployment and Use",
+    "question": "After deploying a fraud-detection model that passed all pre-deployment testing, a bank's governance team debates whether ongoing oversight is still required. What is the correct expectation?",
+    "options": [
+      "A. No further oversight is needed, since the system cleared every pre-deployment test applied to it.",
+      "B. Oversight should restart only once a customer complaint indicates the model is misbehaving.",
+      "C. Oversight passes to the vendor at the point the system enters production and is handed over.",
+      "D. Continuous monitoring should run alongside a regular maintenance and retraining schedule."
+    ],
+    "correct": "D",
+    "rationale": "Governing a deployed system includes continuous monitoring and a defined schedule for maintenance, updates, and retraining, because real-world conditions evolve and pre-deployment testing cannot guarantee sustained performance. Treating launch as a finish line, waiting for complaints, or assuming a vendor absorbs the duty all leave the deploying organisation exposed.",
+    "tags": [
+      "deployment",
+      "continuous monitoring",
+      "post-deployment",
+      "maintenance"
+    ]
+  },
+  {
+    "id": 81,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A chatbot deployed to answer basic product questions is being used informally by staff to draft internal HR communications, a use never assessed or approved. What risk does this illustrate?",
+    "options": [
+      "A. Secondary or unintended use, requiring assessment of risks outside the approved scope.",
+      "B. A licensing cost overrun, requiring the vendor agreement to be renegotiated at renewal.",
+      "C. A storage capacity problem, requiring additional infrastructure to handle the extra volume.",
+      "D. An adoption success signal, requiring the tool to be promoted more widely across the business."
+    ],
+    "correct": "A",
+    "rationale": "Anticipating and reducing the risk of secondary or unintended use is a governance responsibility for deployed systems, because informal uses carry risks that the original assessment never examined. Drafting HR communications raises fairness, confidentiality, and accuracy questions that answering product questions does not.",
+    "tags": [
+      "deployment",
+      "secondary use",
+      "scope creep",
+      "shadow AI"
+    ]
+  },
+  {
+    "id": 82,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A regulator in one country issues rules an AI pricing tool cannot meet without modification. The company must respond quickly there while keeping the tool running elsewhere. What control should already exist?",
+    "options": [
+      "A. A policy shutting the tool down in every market whenever any single jurisdiction changes its rules.",
+      "B. A policy and controls allowing the system to be deactivated or localised where necessary.",
+      "C. A policy barring operation in any jurisdiction whose AI regulation is still actively evolving.",
+      "D. A policy delegating the regulatory response decision to the pricing system's own optimisation logic."
+    ],
+    "correct": "B",
+    "rationale": "Maintaining a policy and the technical controls to deactivate or localise a deployed system — for instance in response to new requirements in one market — is a named governance responsibility. A global shutdown penalises compliant markets, refusing evolving jurisdictions forecloses most of the world, and regulatory judgement cannot be delegated to the system itself.",
+    "tags": [
+      "deployment",
+      "deactivation",
+      "localisation",
+      "regulatory change"
+    ]
   }
 ]

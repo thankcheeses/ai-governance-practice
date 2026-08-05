@@ -17,6 +17,20 @@ import type { Tier } from "./types";
 
 export const FREE_QUESTION_LIMIT = 20;
 
+/**
+ * Everything is unlocked while the beta runs.
+ *
+ * There is no billing integration, so tier gating cannot be lifted by paying —
+ * it can only lock people out of a product they have no way to buy. Gating 62
+ * of 82 scenarios behind an unpurchasable plan makes the app a demo rather than
+ * a study tool.
+ *
+ * Set to false when a purchase path exists. Nothing else needs to change: the
+ * tier plumbing, the entitlement fields, and the plan presentation all stay as
+ * they are, so this is one line to reverse.
+ */
+export const BETA_ALL_ACCESS = true;
+
 export interface Entitlements {
   tier: Tier;
   /** How many questions of the track the learner may reach; null = all. */
@@ -61,6 +75,14 @@ const LAB: Omit<Entitlements, "tier"> = {
 };
 
 export function entitlementsFor(tier: Tier): Entitlements {
+  // During the beta every tier resolves to full access. The tier itself is
+  // still carried and still displayed, so flipping BETA_ALL_ACCESS off restores
+  // gating without touching any caller.
+  if (BETA_ALL_ACCESS) {
+    const resolved: Tier = tier === "lab" || tier === "pro" ? tier : "free";
+    return { tier: resolved, ...PRO };
+  }
+
   switch (tier) {
     case "lab":
       return { tier, ...LAB };
