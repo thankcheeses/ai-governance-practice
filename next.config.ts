@@ -22,6 +22,10 @@ import type { NextConfig } from "next";
 const isMobileBuild = process.env.MOBILE_BUILD === "1";
 
 const nextConfig: NextConfig = {
+  // Read by the service worker registration, which is web-only: Capacitor
+  // already serves every asset locally, so a second cache layer there would
+  // only risk serving stale assets after an app update.
+  env: { NEXT_PUBLIC_MOBILE_BUILD: isMobileBuild ? "1" : "0" },
   ...(isMobileBuild
     ? {
         output: "export" as const,
