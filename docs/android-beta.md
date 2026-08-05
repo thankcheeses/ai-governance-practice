@@ -125,6 +125,39 @@ file manager, and allow installation from unknown sources when prompted.
 
 ---
 
+## Offline on the web, without an APK
+
+The web deployment registers a **network-first service worker** (`public/sw.js`,
+no dependency). Once a visitor has loaded the app while online, it keeps working
+with the network off — including after closing and reopening the browser.
+
+| | Web (service worker) | Android APK |
+| --- | --- | --- |
+| Works offline after first visit | Yes | Yes, from first launch |
+| Needs one online visit first | Yes | No |
+| Updates | Automatic on next online load | Manual reinstall |
+| Install friction | Add to Home Screen | Sideload warnings |
+| Works on iPhone | Yes | No |
+
+Network-first means an online user always gets the newest deployment; the cache
+is only consulted when the network fails. Verified by deploying a changed build
+and confirming an online client with a primed cache picked up the change.
+
+**Not cached, deliberately:** anything cross-origin. Every Supabase auth and sync
+call goes straight to the network or fails on its own terms — a cached auth
+response would be both wrong and a security problem. Only `GET` requests are
+intercepted at all.
+
+Progress is untouched by any of this. It lives in `localStorage` and never
+passes through the service worker.
+
+The service worker is **not** registered in the mobile build. Capacitor already
+serves every asset from the device, so a second caching layer would add nothing
+and could serve stale assets after an app update. `NEXT_PUBLIC_MOBILE_BUILD`
+gates it, and the mobile bundle contains no registration code at all.
+
+---
+
 ## What still needs the internet
 
 Only two things, and neither is required to study:

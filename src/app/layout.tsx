@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { ServiceWorker } from "@/components/app/service-worker";
 import { BRAND } from "@/lib/brand";
 import { ProgressProvider } from "@/lib/store/progress-provider";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/store/theme-provider";
@@ -71,6 +72,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body className="min-h-dvh antialiased">
+        <ServiceWorker />
         <ThemeProvider>
           <ProgressProvider>{children}</ProgressProvider>
         </ThemeProvider>

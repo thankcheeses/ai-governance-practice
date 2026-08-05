@@ -186,7 +186,9 @@ regenerate rather than commit them.
 1. Sign in, force-quit, reopen — **is the session still there?** (blocker B8)
 2. Safe areas on a notched device: question text and the bottom action bar
 3. OS font size at maximum — does the question layout overflow?
-4. Answer a question offline — the bundle is local, so it should work
+4. Answer a question offline — the bundle is local, so it should work. The web
+   deployment now does this too, via a network-first service worker, but only
+   after one online visit has primed the cache
 5. Account deletion end to end, after deploying the edge function
 6. Back-gesture behaviour on Android from a study session
 
