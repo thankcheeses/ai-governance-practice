@@ -1,31 +1,39 @@
 # Launch readiness report
 
-Audit of Judgment Labs against App Store and Play Store submission. No features
-were added and no architecture changed during this pass — this is an assessment
-plus the evidence behind it.
+Audit of NHID-Clinical against App Store and Play Store submission.
 
 Companion document: [`mobile-release.md`](mobile-release.md) carries the
-packaging detail and store checklist.
+packaging detail, the `delete-account` endpoint contract, and the store
+checklist.
 
 ---
 
-## A. Readiness score: 68 / 100
+## Status at a glance
 
-The score answers "can this be submitted to the stores today?", not "is the app
-good?". Those diverge sharply here.
+### Complete
 
-| Area | Score | Basis |
+| Item | Evidence |
+| --- | --- |
+| Branding rename | `NHID-Clinical`, bundle id `org.nhidclinical.app`. Verified on regenerated native projects: Android `namespace`/`applicationId`/`app_name`, iOS `PRODUCT_BUNDLE_IDENTIFIER` on both configurations, `CFBundleDisplayName` |
+| Legal documents | Terms (10 sections) and Privacy Policy (12 sections) naming NHID-Clinical and `contact@nhid-clinical.org`, with an effective date. Public at `/terms` and `/privacy`, no auth or onboarding gate |
+| Pricing placeholders removed | Free / Professional / Enterprise. No plan implies a purchase is possible; Professional reads "Coming soon" because billing is not implemented |
+| Asset cleanup | `public/visual-aids/components/` removed — 11 files, 3.6 MB, zero references. `public/` is 3.8 MB → 196 KB |
+| Question validation | Answer leaks closed: 96% "B" → 18%, longest-is-correct 86% → 34%. Enforced by `npm run check:questions` |
+| Builds passing | `lint`, `build`, `build:mobile`, `check:questions`, `tsc --noEmit` all exit 0 |
+| Account deletion implemented | Settings → Account → Delete account, with confirmation. Edge function derives the user id from the caller's JWT; cascade verified against the schema and against PostgreSQL 16 |
+| Store assets | Icons, splash, and 14 store-spec screenshots generated from the brand mark |
+
+### Remaining
+
+| Item | Why it blocks | Who can do it |
 | --- | --- | --- |
-| App functionality and quality | 95 | 51/51 flow checks and 28/28 entitlement checks pass; zero JS errors; zero failed requests |
-| Entitlement / monetization architecture | 90 | Boundary tested directly, fails closed on unknown tier. Loses points only because no purchase path exists |
-| Mobile packaging | 80 | Static export verified; **both** native platforms scaffold with correct bundle id and assets. Never built or run on a device |
-| Store assets | 25 | No raster icons, no splash, no screenshots. Launcher icons are still Capacitor's generic placeholder |
-| Legal and compliance | 45 | Deletion implemented but undeployed; privacy, terms, and support are badged placeholders |
-| Payments | 0 | No IAP. Blocks a paid launch only |
+| Apply database migrations | The database is empty. `profiles.active_track_id` has a foreign key to `tracks`, so **every signup fails** until `supabase/apply-all.sql` is run | You, in the SQL editor |
+| `delete-account` testing | The function has never been deployed or executed. Apple reviewers exercise this path specifically | You, after deploying |
+| Physical device test | Never run on real hardware. Session persistence across a cold start is the one risk that can still force a code change | You, with a device |
+| App Store Connect setup | Bundle id registration, listing, screenshots, age rating, export compliance | You |
 
-**Read this as:** the product is close to done; the *submission package* is not.
-Every remaining blocker is configuration, content, or an account you have to
-own — none require code changes to the app itself.
+Nothing on the remaining list requires a code change to the app, with the
+single exception of the session-persistence risk if it materialises.
 
 ---
 
@@ -33,21 +41,20 @@ own — none require code changes to the app itself.
 
 Ordered by what stops a submission. Nothing here is architectural.
 
-### B1. Store icons and splash are Capacitor defaults — **hard blocker**
+### B1. Store icons and splash — **resolved**
 
-`npx cap add android` produced 20 launcher icon files, all still the generic
-Capacitor logo. Submitting with these fails review and, if it passed, would ship
-someone else's mark as your brand.
+`scripts/build-store-assets.mjs` rasterises the existing shield in
+`public/icon.svg` into the five sources `@capacitor/assets` consumes, producing
+136 Android assets, 13 iOS assets, and the PWA icon set. Verified that
+`mipmap-xxxhdpi/ic_launcher.png` renders the brand mark, not the Capacitor
+placeholder.
 
-Only `public/icon.svg` exists. Stores need raster PNG: 1024×1024 for App Store,
-adaptive foreground/background for Play, and a native splash for both.
-
-Fix — generate from the **existing** mark, do not redraw:
+Re-run after any change to the mark:
 ```bash
-npm i -D @capacitor/assets            # verified to exist, v3.0.5
-# place a 1024x1024 icon.png and 2732x2732 splash.png in ./assets
-npx capacitor-assets generate
+node scripts/build-store-assets.mjs && npx capacitor-assets generate
 ```
+That generator deletes `public/icon.svg` and rewrites the web manifest — see
+`mobile-release.md` §4a for what to restore afterwards.
 
 ### B2. `delete-account` edge function is not deployed — **hard blocker (iOS)**
 
@@ -61,22 +68,26 @@ supabase secrets set ALLOWED_ORIGINS="https://<domain>,capacitor://localhost,htt
 ```
 Then delete a real test account end to end and confirm the rows are gone.
 
-### B3. Privacy policy and terms need public URLs — **hard blocker**
+### B3. Privacy policy and terms — **resolved in code, needs a live domain**
 
 Both stores require a reachable URL. `/settings/privacy` and `/settings/terms`
 exist and are correctly badged "Placeholder" (verified), and they describe the
 app's real data behaviour — a good drafting base, but not reviewed legal copy.
 
-### B4. Support contact is a placeholder — **hard blocker**
+### B4. Support contact — **resolved**
 
-`support@judgmentlabs.example` is not a real domain. Both stores require a
-working support channel. One line: `SUPPORT` in `src/lib/brand.ts`, then set
-`configured: true` to drop the in-app badge.
+**Resolved.** The placeholder address is gone; `COMPANY` in `src/lib/brand.ts`
+now carries `contact@nhid-clinical.org`, and the in-app placeholder badges were
+removed with it.
 
-### B5. Screenshots — **hard blocker**
+### B5. Screenshots — **resolved**
 
-None exist. Required per device class: 6.7" and 5.5" iPhone (plus 12.9" iPad if
-iPad is supported), phone and tablet for Play.
+`docs/store/screenshots/` holds 14 captures taken from the real static export at
+exact store dimensions: 1290×2796 for App Store 6.7", 1080×1920 for Play phone,
+seven screens each. They are Chromium captures at device viewport — both stores
+accept them, but they do not substitute for on-device testing.
+
+Still needed if you support iPad: a 12.9" set.
 
 ### B6. In-app purchase — **blocks a paid launch only**
 
@@ -148,8 +159,8 @@ Then: enable Developer Options and USB debugging on the phone, connect it,
 select it in the Studio toolbar, and press Run. For a shareable build,
 **Build → Generate Signed Bundle / APK**.
 
-Verified already: the scaffold produces `applicationId com.judgmentlabs.app`,
-app name "Judgment Labs", and all 15 HTML routes plus both diagrams land in
+Verified already: the scaffold produces `applicationId org.nhidclinical.app`,
+app name "NHID-Clinical", and all 15 HTML routes plus both diagrams land in
 `android/app/src/main/assets/public/`.
 
 ### iPhone
@@ -164,8 +175,8 @@ Then: in **Signing & Capabilities** select your Apple Developer team, connect
 the iPhone, choose it as the run destination, press Run. The device must trust
 the developer certificate under **Settings → General → VPN & Device Management**.
 
-Verified already: `PRODUCT_BUNDLE_IDENTIFIER = com.judgmentlabs.app`,
-`CFBundleDisplayName = Judgment Labs`, 15 HTML routes in `ios/App/App/public/`.
+Verified already: `PRODUCT_BUNDLE_IDENTIFIER = org.nhidclinical.app`,
+`CFBundleDisplayName = NHID-Clinical`, 15 HTML routes in `ios/App/App/public/`.
 
 **Note:** `android/` and `ios/` are gitignored. They are generated output —
 regenerate rather than commit them.

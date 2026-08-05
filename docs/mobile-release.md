@@ -1,6 +1,6 @@
 # Mobile release
 
-Assessment and checklist for shipping Judgment Labs to the App Store and Play
+Assessment and checklist for shipping NHID-Clinical to the App Store and Play
 Store. Written against the state of the repo at the time of the mobile pass.
 
 ---
@@ -92,13 +92,13 @@ npx cap sync
 
 | Item | Status | Notes |
 | --- | --- | --- |
-| App name | ✅ | Judgment Labs |
-| Bundle / application ID | ✅ | `com.judgmentlabs.app` (set in `capacitor.config.ts`) |
+| App name | ✅ | NHID-Clinical |
+| Bundle / application ID | ✅ | `org.nhidclinical.app` (set in `capacitor.config.ts`) |
 | App icon | ⚠️ Partial | `public/icon.svg` exists. Stores need **raster PNG** at many sizes — 1024×1024 for App Store, adaptive icon for Play. Generate with `@capacitor/assets`. |
 | Splash screen | ⚠️ Partial | Brand mark renders in-app at `/`. A **native** splash asset is still needed. |
-| Privacy policy URL | ⚠️ Blocker | `/settings/privacy` exists and is **clearly badged "Placeholder"** in-app. Still needs reviewed copy at a **publicly reachable URL** for the store listing. |
-| Terms URL | ⚠️ Blocker | Same — `/settings/terms` exists and is badged "Placeholder". Needs reviewed copy at a public URL. |
-| Support contact | ⚠️ | Settings → Support shows a mailto link, badged "Placeholder". Address lives in `SUPPORT` in `src/lib/brand.ts` — **one line to change**. |
+| Privacy policy URL | ✅ In-app | `/settings/privacy` carries a full policy naming NHID-Clinical as controller, with an effective date. Still needs to be reachable at a **public URL** for the store listing, and reviewed by counsel. |
+| Terms URL | ✅ In-app | `/settings/terms` carries full Terms of Service. Same two caveats: public URL for the listing, and counsel review. |
+| Support contact | ✅ | `contact@nhid-clinical.org`, from `COMPANY` in `src/lib/brand.ts`. |
 | Store description | ⚠️ Draft below | Not yet finalised. |
 | Screenshots | ❌ | Required per device class: 6.7" and 5.5" iPhone, 12.9" iPad if iPad is supported; phone and tablet for Play. |
 | Data safety / privacy nutrition labels | ⚠️ | Answers drafted below; must match actual behaviour. |
@@ -108,7 +108,7 @@ npx cap sync
 
 ### Draft store description
 
-> **Judgment Labs — AI Governance Practice for Practitioners**
+> **NHID-Clinical — AI Governance Practice for Practitioners**
 >
 > AI governance scenario training built for practitioners. Work through
 > realistic governance situations and build the judgment to reason through
@@ -193,8 +193,8 @@ All keys are real:
 
 | Field | Value | Why |
 | --- | --- | --- |
-| `appId` | `com.judgmentlabs.app` | Valid reverse-DNS. Must match the Apple bundle ID and Play application ID exactly. |
-| `appName` | `Judgment Labs` | Store display name |
+| `appId` | `org.nhidclinical.app` | Valid reverse-DNS. Must match the Apple bundle ID and Play application ID exactly. |
+| `appName` | `NHID-Clinical` | Store display name |
 | `webDir` | `out` | Static export target |
 | `server.androidScheme` | `https` | Avoids mixed-content and `file://` restrictions |
 | `ios.contentInset` | `always` | Clears notch and home indicator |
@@ -225,7 +225,7 @@ mark is scaled to 62% to survive launcher masking), and light/dark
 `splash*.png` matching the `--background` tokens.
 
 That produces 136 Android assets, 13 iOS assets, and the PWA icon set. The
-Android launcher icons are the Judgment Labs shield, **not** the Capacitor
+Android launcher icons are the NHID-Clinical shield, **not** the Capacitor
 placeholder — verified against `mipmap-xxxhdpi/ic_launcher.png`.
 
 ### Two things `capacitor-assets` does that you must undo
@@ -291,15 +291,56 @@ the first entry, so a misconfigured caller fails closed rather than open.
 (verified at lines 62, 85, and 112), so the database clears every row belonging
 to the user in the same transaction.
 
+### Deploying
+
 ```bash
 supabase functions deploy delete-account
 supabase secrets set ALLOWED_ORIGINS="https://ai-governance-practice.vercel.app,capacitor://localhost,https://localhost"
 ```
 
+`ALLOWED_ORIGINS` is a comma-separated list with no spaces. It must contain
+every origin the app is served from:
+
+| Origin | Needed for |
+| --- | --- |
+| `https://<your-vercel-domain>` | the web build |
+| `capacitor://localhost` | the iOS WebView |
+| `https://localhost` | the Android WebView |
+| `http://localhost:3000` | local development, optional |
+
+An origin missing from the list falls back to the first entry, so the browser
+rejects the response and the delete button reports a network error rather than
+silently deleting.
+
+### Testing it end to end
+
+Run this against the real project before submitting. It is the exact path an
+App Store reviewer will exercise.
+
+1. Sign up with a throwaway address and confirm the email.
+2. Answer two or three scenarios so `attempts` and `review_cards` have rows.
+3. In the SQL editor, note the user id and confirm the rows exist:
+   ```sql
+   select id from auth.users where email = '<test address>';
+   select count(*) from public.profiles      where id      = '<user id>';
+   select count(*) from public.attempts      where user_id = '<user id>';
+   select count(*) from public.review_cards  where user_id = '<user id>';
+   ```
+4. In the app: Settings → Account → Delete account → confirm. Expect the app to
+   return to a signed-out state with local progress cleared.
+5. Re-run the four queries. **Every one must return 0 rows.**
+6. Try to sign in with the same address and password. Expect
+   "Invalid login credentials" — the account no longer exists.
+7. Try to sign up again with the same address. It should succeed as a brand new
+   account, proving nothing was left behind holding the email.
+
+If step 5 returns rows, the cascade did not fire and the function deleted only
+the auth record — stop and check the foreign keys in `0001_init.sql` before
+submitting.
+
 **Not yet deployed or executed.** The code is reviewed and the cascade is
-verified against the schema, but the function has never run against the live
-project, so the end-to-end path is unproven. Delete a real test account and
-confirm the rows are gone before submitting to Apple.
+verified against the schema and against PostgreSQL 16 locally, but the function
+has never run against the live project, so the end-to-end path is unproven.
 
 ---
 

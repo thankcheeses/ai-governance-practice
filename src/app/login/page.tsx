@@ -167,6 +167,27 @@ export default function LoginPage() {
                 {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                 {mode === "signin" ? "Sign in" : "Create account"}
               </Button>
+
+              {/* Shown on sign-up, where the agreement is actually formed. */}
+              {mode === "signup" ? (
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  By creating an account you agree to our{" "}
+                  <Link
+                    href="/terms"
+                    className="font-medium text-primary underline-offset-4 hover:underline"
+                  >
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="/privacy"
+                    className="font-medium text-primary underline-offset-4 hover:underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
+                </p>
+              ) : null}
             </form>
 
             <button

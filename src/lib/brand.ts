@@ -4,18 +4,18 @@
  * Single source so the disclaimer is identical everywhere it appears (first
  * launch and Settings) and can never drift.
  *
- * Positioning is locked: Judgment Labs is AI governance scenario training for
+ * Positioning is locked: NHID-Clinical is AI governance scenario training for
  * practitioners. AIGP Preparation is the current track — an acquisition wedge,
  * not the category. Copy must never promise exam outcomes, claim official
  * status, or position the product as a certification replacement.
  */
 
 export const BRAND = {
-  name: "Judgment Labs",
+  name: "NHID-Clinical",
   tagline: "AI Governance Practice for Practitioners",
   category: "AI governance scenario training built for practitioners.",
   positioning:
-    "Judgment Labs helps professionals build practical AI governance judgment through original scenario-based learning.",
+    "NHID-Clinical helps professionals build practical AI governance judgment through original scenario-based learning.",
   /** Short lines approved for headings and CTAs. */
   lines: {
     build: "Build judgment through realistic governance scenarios.",
@@ -25,22 +25,36 @@ export const BRAND = {
 } as const;
 
 /**
+ * The operating entity. The app is a product; NHID-Clinical is the company that
+ * publishes it, contracts with users through the Terms, and answers support.
+ * Legal pages and store listings name the company, not the product.
+ */
+export const COMPANY = {
+  name: "NHID-Clinical",
+  descriptor: "an AI governance and security platform",
+  email: "contact@nhid-clinical.org",
+} as const;
+
+/**
  * Support contact. Both app stores require a reachable support channel on the
- * listing and expect one in the app.
- *
- * PLACEHOLDER — replace with a real, monitored address before submission. The
- * value is centralised so there is exactly one line to change.
+ * listing and expect one in the app. Single source so there is one line to
+ * change if it ever moves.
  */
 export const SUPPORT = {
-  email: "support@judgmentlabs.example",
-  /** True once the address above is real and monitored. */
-  configured: false,
+  email: COMPANY.email,
 } as const;
+
+/**
+ * Bumped whenever the substance of the Terms or Privacy Policy changes, not on
+ * copy-editing passes. Shown on both documents so a user can tell which version
+ * they agreed to.
+ */
+export const LEGAL_EFFECTIVE_DATE = "4 August 2026";
 
 export const DISCLAIMER_TITLE = "Independent Educational Product";
 
 export const DISCLAIMER_BODY = [
-  "Judgment Labs provides original educational content for professional development in AI governance.",
+  "NHID-Clinical provides original educational content for professional development in AI governance.",
   "This product is not affiliated with, endorsed by, sponsored by, or connected to the International Association of Privacy Professionals (IAPP), CompTIA, Cloud Security Alliance, or any certification body.",
   "This product does not contain actual certification exam questions and does not guarantee exam success.",
   "All questions and scenarios are original educational material.",

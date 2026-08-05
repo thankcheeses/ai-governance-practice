@@ -17,12 +17,11 @@ import Link from "next/link";
 import { useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { Disclaimer } from "@/components/app/disclaimer";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getTrack } from "@/content/registry";
-import { BRAND, SUPPORT } from "@/lib/brand";
+import { BRAND, COMPANY, SUPPORT } from "@/lib/brand";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { Tier } from "@/lib/types";
 import { useTheme, type Theme } from "@/lib/store/theme-provider";
@@ -38,7 +37,7 @@ const GOALS = [5, 10, 20, 30];
 
 const PLAN_LABELS: Record<Tier, string> = {
   free: "Free",
-  pro: "AI Governance Pro",
+  pro: "Professional",
   lab: "Lab",
 };
 
@@ -258,11 +257,6 @@ function Settings() {
             >
               {SUPPORT.email}
             </a>
-            {!SUPPORT.configured ? (
-              <Badge variant="outline" className="ml-2 align-middle">
-                Placeholder
-              </Badge>
-            ) : null}
           </div>
         </div>
       </Section>
@@ -284,7 +278,8 @@ function Settings() {
         <div className="mt-4 space-y-1">
           <Row label="Tagline" value={BRAND.tagline} />
           <Row label="Track" value={`${track.name} · ${track.questionCount} scenarios`} />
-          <Row label="Version" value="1.0.0 (MVP)" />
+          <Row label="Version" value="1.0.0-beta" />
+          <Row label="Published by" value={COMPANY.name} />
         </div>
       </Section>
 
@@ -379,10 +374,7 @@ function LinkRow({
     >
       <Icon className="h-4 w-4 text-muted-foreground" />
       {label}
-      <Badge variant="outline" className="ml-auto">
-        Placeholder
-      </Badge>
-      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground" />
     </Link>
   );
 }

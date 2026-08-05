@@ -1,4 +1,4 @@
--- Judgment Labs — initial schema
+-- NHID-Clinical — initial schema
 --
 -- Design notes
 -- ------------
