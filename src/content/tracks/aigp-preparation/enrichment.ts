@@ -80,7 +80,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   11: {
     difficulty: "applied",
     keyTakeaway:
-      "Differential privacy bounds the influence of any single record through calibrated noise, giving a formal mathematical guarantee rather than a procedural assurance.",
+      "When a privacy claim has to survive scrutiny, reach for differential privacy: calibrated noise bounds any single record's influence, so the guarantee is mathematical rather than a promise that the data was de-identified.",
     frameworkTags: ["Responsible AI"],
   },
   12: {
@@ -153,7 +153,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   22: {
     difficulty: "applied",
     keyTakeaway:
-      "Auditability means the critical actions can be reconstructed later — logged, protected, retained appropriately, and reachable by the people who provide oversight.",
+      "Specify what must be reconstructable before the system goes live — which actions are logged, how the logs are protected, how long they are kept, and who can reach them. Auditability left unspecified on any of those four points is not a control.",
     frameworkTags: ["AI Governance", "EU AI Act"],
   },
   23: {
@@ -207,7 +207,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   31: {
     difficulty: "applied",
     keyTakeaway:
-      "Retrieval grounds generation in trusted sources, which reduces fabrication and makes answers checkable against something.",
+      "Reach for retrieval when answers have to be checkable against something. Grounding generation in trusted sources is what turns a fluent answer into one a reviewer can verify.",
     frameworkTags: ["Responsible AI"],
   },
   32: {
@@ -237,7 +237,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   36: {
     difficulty: "foundational",
     keyTakeaway:
-      "Hallucination is fluent, confident, fabricated output. The danger is that its form is indistinguishable from a correct answer.",
+      "How confident the output sounds tells you nothing about whether it is right. A hallucination reads exactly like a correct answer, so detection has to come from grounding and review rather than from tone.",
     frameworkTags: ["Responsible AI"],
   },
   37: {
@@ -261,7 +261,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   40: {
     difficulty: "foundational",
     keyTakeaway:
-      "Human-in-the-loop means a human retains meaningful review and decision authority — meaningful being the operative word, not merely present in the workflow.",
+      "Ask what the human can actually change. A reviewer who cannot overrule the output is oversight on paper — human-in-the-loop means meaningful review and decision authority.",
     frameworkTags: ["Responsible AI"],
   },
   41: {
@@ -273,7 +273,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   42: {
     difficulty: "applied",
     keyTakeaway:
-      "Data lineage is the audit trail: where data came from, how it was processed, and whether it is still suitable for the use it is being put to.",
+      "Record lineage while the data is being assembled, not when someone asks for it. The question it answers later — is this data still suitable for this use — cannot be reconstructed after the fact.",
     frameworkTags: ["AI Governance", "ISO 42001"],
   },
   43: {
@@ -304,7 +304,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   46: {
     difficulty: "foundational",
     keyTakeaway:
-      "Mandatory identity disclosure is transparency made concrete — a specific control implementing a principle that would otherwise stay abstract.",
+      "To make a principle auditable, write it as a specific required action. A rule to be transparent cannot be checked; a rule that every call opens by disclosing the system is automated can.",
     frameworkTags: ["Responsible AI"],
   },
   47: {
@@ -436,7 +436,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   68: {
     difficulty: "foundational",
     keyTakeaway:
-      "Lineage and provenance mean knowing where data came from and what was done to it. Without that trail you cannot answer questions about a model's inputs after the fact.",
+      "When training history cannot be reconstructed, the gap is lineage — not over-collection, over-retention, or portability. Naming the gap correctly matters, because each of those has a different fix.",
     frameworkTags: ["AI Governance"],
   },
   69: {
@@ -454,7 +454,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   71: {
     difficulty: "foundational",
     keyTakeaway:
-      "A model card carries intended use, limitations, and performance in a standard shape, so the people adopting a model inherit its caveats rather than discovering them.",
+      "Write intended use, limitations, and performance into a model card before release. The teams adopting the model then inherit its caveats instead of discovering them in production.",
     frameworkTags: ["Responsible AI"],
   },
   72: {
@@ -478,7 +478,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   75: {
     difficulty: "applied",
     keyTakeaway:
-      "The governance difference between open and proprietary models is visibility and control. Licensing model says nothing about accuracy, and nothing about whether obligations apply.",
+      "Choose between open and proprietary models on how much visibility and control you need, not on licence. Neither choice changes which obligations apply — one you can inspect, the other you must take on the vendor's assurances.",
     frameworkTags: ["AI Governance"],
   },
   76: {
