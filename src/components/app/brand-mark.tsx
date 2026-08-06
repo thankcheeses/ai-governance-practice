@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * The NHID-Clinical mark — a shield with a verification check.
+ * The AI Governance Practice mark — a shield with a verification check.
  *
  * Two treatments of the *same* geometry, so there is one brand shape:
  *

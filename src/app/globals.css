@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
-  NHID-Clinical design system.
+  AI Governance Practice design system.
 
   Light is the default. Both themes drive the same semantic token names so no
   component branches on theme — they reference `bg-card`, `text-muted-foreground`

@@ -1,4 +1,4 @@
--- NHID-Clinical — initial schema
+-- AI Governance Practice — initial schema
 --
 -- Design notes
 -- ------------

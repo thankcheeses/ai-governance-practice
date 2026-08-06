@@ -20,7 +20,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
  */
 const config: CapacitorConfig = {
   appId: "org.nhidclinical.app",
-  appName: "NHID-Clinical",
+  appName: "AI Governance Practice",
   webDir: "out",
   server: {
     androidScheme: "https",

@@ -1,6 +1,6 @@
 # Mobile release
 
-Assessment and checklist for shipping NHID-Clinical to the App Store and Play
+Assessment and checklist for shipping AI Governance Practice to the App Store and Play
 Store. Written against the state of the repo at the time of the mobile pass.
 
 ---
@@ -92,7 +92,7 @@ npx cap sync
 
 | Item | Status | Notes |
 | --- | --- | --- |
-| App name | ✅ | NHID-Clinical |
+| App name | ✅ | AI Governance Practice |
 | Bundle / application ID | ✅ | `org.nhidclinical.app` (set in `capacitor.config.ts`) |
 | App icon | ⚠️ Partial | `public/icon.svg` exists. Stores need **raster PNG** at many sizes — 1024×1024 for App Store, adaptive icon for Play. Generate with `@capacitor/assets`. |
 | Splash screen | ⚠️ Partial | Brand mark renders in-app at `/`. A **native** splash asset is still needed. |
@@ -108,7 +108,7 @@ npx cap sync
 
 ### Draft store description
 
-> **NHID-Clinical — AI Governance Practice for Practitioners**
+> **AI Governance Practice — scenario training for AI governance practitioners**
 >
 > AI governance scenario training built for practitioners. Work through
 > realistic governance situations and build the judgment to reason through
@@ -194,7 +194,7 @@ All keys are real:
 | Field | Value | Why |
 | --- | --- | --- |
 | `appId` | `org.nhidclinical.app` | Valid reverse-DNS. Must match the Apple bundle ID and Play application ID exactly. |
-| `appName` | `NHID-Clinical` | Store display name |
+| `appName` | `AI Governance Practice` | Store display name |
 | `webDir` | `out` | Static export target |
 | `server.androidScheme` | `https` | Avoids mixed-content and `file://` restrictions |
 | `ios.contentInset` | `always` | Clears notch and home indicator |
@@ -225,7 +225,7 @@ mark is scaled to 62% to survive launcher masking), and light/dark
 `splash*.png` matching the `--background` tokens.
 
 That produces 136 Android assets, 13 iOS assets, and the PWA icon set. The
-Android launcher icons are the NHID-Clinical shield, **not** the Capacitor
+Android launcher icons are the AI Governance Practice shield, **not** the Capacitor
 placeholder — verified against `mipmap-xxxhdpi/ic_launcher.png`.
 
 ### Two things `capacitor-assets` does that you must undo
