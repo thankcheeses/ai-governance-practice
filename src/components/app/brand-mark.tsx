@@ -3,15 +3,15 @@ import { cn } from "@/lib/utils";
 /**
  * The AI Governance Practice mark — a shield with a verification check.
  *
- * Two treatments of the *same* geometry, so there is one brand shape:
+ * Two sizes of the *same* geometry, so there is one brand shape:
  *
- *  - `flat`  (default) monochrome on a tinted plate. Used in chrome: header,
- *            sidebar, anywhere the mark is an identifier rather than a moment.
- *  - `glass` the 3D glass language: deep navy → teal → cyan gradient body,
- *            a specular sheen, inner highlight, and soft depth shadow.
- *            Reserved for brand moments — splash and empty states.
+ *  - `flat`  (default) the mark on a bordered plate. Used in chrome: header,
+ *            sidebar, anywhere the mark is an identifier.
+ *  - `glass` the same mark at signage scale, inverted — solid foreground fill,
+ *            background-coloured mark. Used for splash and empty states.
  *
- * No new brand geometry is introduced here; `glass` is a surface treatment.
+ * The name `glass` is kept so callers do not change; the treatment is flat.
+ * Gradients, sheens and depth shadows are out of the system entirely.
  */
 export function BrandMark({
   variant = "flat",
@@ -25,12 +25,12 @@ export function BrandMark({
   return (
     <span
       className={cn(
-        "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent-tint ring-1 ring-accent/25",
+        "flex h-8 w-8 shrink-0 items-center justify-center border border-border-strong bg-card",
         className,
       )}
       aria-hidden
     >
-      <ShieldPath className="h-[1.125rem] w-[1.125rem] text-primary" />
+      <ShieldPath className="h-[1.125rem] w-[1.125rem] text-foreground" />
     </span>
   );
 }
@@ -39,17 +39,12 @@ function GlassMark({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-[1.125rem]",
-        "brand-glass shadow-raised ring-1 ring-white/12",
+        "flex h-16 w-16 shrink-0 items-center justify-center bg-foreground",
         className,
       )}
       aria-hidden
     >
-      {/* Specular sheen across the upper-left face. */}
-      <span className="brand-glass-sheen pointer-events-none absolute inset-0" />
-      {/* Inner top highlight, the edge-light that reads as glass thickness. */}
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/40" />
-      <ShieldPath className="relative h-1/2 w-1/2 text-white drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.35)]" />
+      <ShieldPath className="h-1/2 w-1/2 text-background" />
     </span>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowRight, Flame, RotateCcw, Target } from "lucide-react";
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
@@ -35,7 +34,8 @@ function Home() {
   const accuracy = overallAccuracy(progress.attempts);
   const mastered = masteredQuestionIds(progress.attempts).size;
   const available = getTrackQuestions(progress.trackId).length;
-  const answeredUnique = new Set(progress.attempts.map((a) => a.questionId)).size;
+  const answeredUnique = new Set(progress.attempts.map((a) => a.questionId))
+    .size;
   const due = dueCount(progress);
   const focus = focusDomains(progress, progress.trackId);
   const weakest = focus[0];
@@ -45,46 +45,40 @@ function Home() {
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
           {isNew ? "Welcome" : greeting()}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">{track.name}</p>
       </header>
 
       {/* Daily goal */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2.5">
-                <Target className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium">Daily goal</span>
-              </div>
-              <span className="text-sm tabular-nums text-muted-foreground">
-                {today.answered} / {today.goal}
-              </span>
+      <Card>
+        <CardContent className="p-5">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2.5">
+              <Target className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium">Daily goal</span>
             </div>
+            <span className="text-sm tabular-nums text-muted-foreground">
+              {today.answered} / {today.goal}
+            </span>
+          </div>
 
-            <Progress
-              value={today.progressPct}
-              className="mt-3.5"
-              indicatorClassName={cn(today.goalMet && "bg-success")}
-            />
+          <Progress
+            value={today.progressPct}
+            className="mt-3.5"
+            indicatorClassName={cn(today.goalMet && "bg-success")}
+          />
 
-            <p className="mt-3 text-sm text-muted-foreground">
-              {today.goalMet
-                ? `Goal met — ${today.correct} of ${today.answered} correct today.`
-                : `${today.goal - today.answered} more ${
-                    today.goal - today.answered === 1 ? "scenario" : "scenarios"
-                  } to hit today's goal.`}
-            </p>
-          </CardContent>
-        </Card>
-      </motion.div>
+          <p className="mt-3 text-sm text-muted-foreground">
+            {today.goalMet
+              ? `Goal met — ${today.correct} of ${today.answered} correct today.`
+              : `${today.goal - today.answered} more ${
+                  today.goal - today.answered === 1 ? "scenario" : "scenarios"
+                } to hit today's goal.`}
+          </p>
+        </CardContent>
+      </Card>
 
       {/* Primary actions */}
       <div className="grid gap-3 sm:grid-cols-2">
@@ -93,7 +87,9 @@ function Home() {
             <span className="text-left">
               <span className="block font-semibold">Continue studying</span>
               <span className="block text-xs font-normal opacity-80">
-                {isNew ? "Start your first session" : "Pick up where you left off"}
+                {isNew
+                  ? "Start your first session"
+                  : "Pick up where you left off"}
               </span>
             </span>
             <ArrowRight className="h-4 w-4 shrink-0" />
@@ -122,14 +118,11 @@ function Home() {
 
       {/* Stats */}
       <section>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Your progress
         </h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat
-            label="Answered today"
-            value={String(today.answered)}
-          />
+          <Stat label="Answered today" value={String(today.answered)} />
           <Stat
             label="Scenarios completed"
             value={`${answeredUnique}/${available}`}
@@ -141,7 +134,9 @@ function Home() {
           <Stat
             label="Streak"
             value={streak > 0 ? `${streak}d` : "—"}
-            icon={streak > 0 ? <Flame className="h-3.5 w-3.5 text-warning" /> : null}
+            icon={
+              streak > 0 ? <Flame className="h-3.5 w-3.5 text-warning" /> : null
+            }
           />
         </div>
       </section>
@@ -187,7 +182,7 @@ function Stat({
   icon?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)]">
+    <div className="border border-border bg-card p-4 shadow-[var(--shadow-card)]">
       <div className="flex items-center gap-1.5 text-xl font-semibold tabular-nums">
         {icon}
         {value}

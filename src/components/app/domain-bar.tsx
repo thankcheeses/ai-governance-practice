@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import type { DomainStat } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +13,7 @@ export function DomainAccuracyChart({ stats }: { stats: DomainStat[] }) {
 
   return (
     <ul className="space-y-4">
-      {sorted.map((stat, i) => {
+      {sorted.map((stat) => {
         const started = stat.answered > 0;
         return (
           <li key={stat.domain}>
@@ -26,20 +25,14 @@ export function DomainAccuracyChart({ stats }: { stats: DomainStat[] }) {
             </div>
 
             <div
-              className="h-2 overflow-hidden rounded-full bg-secondary"
+              className="h-2 overflow-hidden bg-secondary ring-1 ring-inset ring-border-strong"
               role="img"
               aria-label={`${stat.domain}: ${started ? `${stat.accuracy}% accuracy` : "not started"}`}
             >
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${started ? stat.accuracy : 0}%` }}
-                transition={{
-                  duration: 0.6,
-                  delay: i * 0.06,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
+              <div
+                style={{ width: `${started ? stat.accuracy : 0}%` }}
                 className={cn(
-                  "h-full rounded-full",
+                  "h-full",
                   stat.accuracy >= 80
                     ? "bg-success"
                     : stat.accuracy >= 60
@@ -71,18 +64,16 @@ export function ReviewForecast({
 
   return (
     <div className="flex items-end justify-between gap-2" role="img" aria-label="Reviews scheduled over the next seven days">
-      {data.map((day, i) => (
+      {data.map((day) => (
         <div key={day.date} className="flex flex-1 flex-col items-center gap-2">
           <span className="text-xs tabular-nums text-muted-foreground">
             {day.count || ""}
           </span>
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: `${Math.max(4, (day.count / max) * 64)}px` }}
-            transition={{ duration: 0.5, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+          <div
+            style={{ height: `${Math.max(4, (day.count / max) * 64)}px` }}
             className={cn(
-              "w-full rounded-md",
-              day.count > 0 ? "bg-primary" : "bg-secondary",
+              "w-full",
+              day.count > 0 ? "bg-foreground" : "bg-secondary",
             )}
           />
           <span className="text-[0.6875rem] text-muted-foreground">
