@@ -116,7 +116,7 @@ file manager, and allow installation from unknown sources when prompted.
 
 ### What to check on the device
 
-1. App name reads **AIGP Practice** in the launcher, with the shield icon.
+1. App name reads **AI Governance Practice** in the launcher, with the shield icon.
 2. Onboarding runs, the disclaimer appears, and the Terms and Privacy links open.
 3. Answer several scenarios — rationale and key takeaway appear each time.
 4. Force-quit and reopen: **progress is still there**.

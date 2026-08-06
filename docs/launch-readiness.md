@@ -1,6 +1,6 @@
 # Launch readiness report
 
-Audit of AIGP Practice against App Store and Play Store submission.
+Audit of AI Governance Practice against App Store and Play Store submission.
 
 Companion document: [`mobile-release.md`](mobile-release.md) carries the
 packaging detail, the `delete-account` endpoint contract, and the store
@@ -14,8 +14,8 @@ checklist.
 
 | Item | Evidence |
 | --- | --- |
-| Branding rename | `AIGP Practice`, bundle id `org.nhidclinical.app`. Verified on regenerated native projects: Android `namespace`/`applicationId`/`app_name`, iOS `PRODUCT_BUNDLE_IDENTIFIER` on both configurations, `CFBundleDisplayName` |
-| Legal documents | Terms (10 sections) and Privacy Policy (12 sections) naming AIGP Practice and `contact@nhid-clinical.org`, with an effective date. Public at `/terms` and `/privacy`, no auth or onboarding gate |
+| Branding rename | `AI Governance Practice`, bundle id `org.nhidclinical.app`. Verified on regenerated native projects: Android `namespace`/`applicationId`/`app_name`, iOS `PRODUCT_BUNDLE_IDENTIFIER` on both configurations, `CFBundleDisplayName` |
+| Legal documents | Terms (10 sections) and Privacy Policy (12 sections) naming AI Governance Practice and `contact@nhid-clinical.org`, with an effective date. Public at `/terms` and `/privacy`, no auth or onboarding gate |
 | Pricing placeholders removed | Free / Professional / Enterprise. No plan implies a purchase is possible; Professional reads "Coming soon" because billing is not implemented |
 | Asset cleanup | `public/visual-aids/components/` removed — 11 files, 3.6 MB, zero references. `public/` is 3.8 MB → 196 KB |
 | Question validation | Answer leaks closed: 96% "B" → 18%, longest-is-correct 86% → 34%. Enforced by `npm run check:questions` |
@@ -160,7 +160,7 @@ select it in the Studio toolbar, and press Run. For a shareable build,
 **Build → Generate Signed Bundle / APK**.
 
 Verified already: the scaffold produces `applicationId org.nhidclinical.app`,
-app name "AIGP Practice", and all 15 HTML routes plus both diagrams land in
+app name "AI Governance Practice", and all 15 HTML routes plus both diagrams land in
 `android/app/src/main/assets/public/`.
 
 ### iPhone
@@ -176,7 +176,7 @@ the iPhone, choose it as the run destination, press Run. The device must trust
 the developer certificate under **Settings → General → VPN & Device Management**.
 
 Verified already: `PRODUCT_BUNDLE_IDENTIFIER = org.nhidclinical.app`,
-`CFBundleDisplayName = AIGP Practice`, 15 HTML routes in `ios/App/App/public/`.
+`CFBundleDisplayName = AI Governance Practice`, 15 HTML routes in `ios/App/App/public/`.
 
 **Note:** `android/` and `ios/` are gitignored. They are generated output —
 regenerate rather than commit them.
