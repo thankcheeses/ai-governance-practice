@@ -1,6 +1,6 @@
 {
-  "name": "NHID-Clinical",
-  "short_name": "NHID-Clinical",
+  "name": "AIGP Practice",
+  "short_name": "AIGP Practice",
   "description": "AI governance scenario training built for practitioners",
   "start_url": "/home",
   "scope": "/",

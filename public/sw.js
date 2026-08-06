@@ -22,7 +22,7 @@
  */
 
 // Bump to invalidate every cached asset. Old caches are deleted on activate.
-const CACHE = "nhid-clinical-v1";
+const CACHE = "aigp-practice-v1";
 
 /**
  * Fetched on install so a first-time visitor who goes offline immediately still

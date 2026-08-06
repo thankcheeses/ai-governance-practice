@@ -1,8 +1,8 @@
-# NHID-Clinical
+# AIGP Practice
 
 **AI Governance Practice for Practitioners**
 
-AI governance scenario training built for practitioners. NHID-Clinical helps
+AI governance scenario training built for practitioners. AIGP Practice helps
 professionals build practical AI governance judgment through original
 scenario-based learning.
 
@@ -10,7 +10,7 @@ The category is scenario training — practitioner judgment, mental models, and
 applied decision-making. AIGP Preparation is the current track and the
 acquisition wedge, not the product definition.
 
-> **Independent Educational Product.** NHID-Clinical provides original
+> **Independent Educational Product.** AIGP Practice provides original
 > educational content for professional development in AI governance. This
 > product is not affiliated with, endorsed by, sponsored by, or connected to the
 > International Association of Privacy Professionals (IAPP), CompTIA, Cloud

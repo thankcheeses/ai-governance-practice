@@ -1,4 +1,4 @@
--- NHID-Clinical — initial schema
+-- AIGP Practice — initial schema
 --
 -- Design notes
 -- ------------

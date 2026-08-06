@@ -1,4 +1,4 @@
--- NHID-Clinical — complete database initialisation
+-- AIGP Practice — complete database initialisation
 -- Paste this whole file into the Supabase SQL Editor and run it once.
 --
 -- Concatenation of migrations 0001, 0002, and 0003, in order. Every
@@ -10,7 +10,7 @@
 -- ===========================================================================
 -- 0001_init.sql
 -- ===========================================================================
--- NHID-Clinical — initial schema
+-- AIGP Practice — initial schema
 --
 -- Design notes
 -- ------------

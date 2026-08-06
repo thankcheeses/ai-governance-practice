@@ -464,7 +464,7 @@ export function effectiveStreak(progress: UserProgress, now = todayISO()) {
 /* ------------------------------------------------------------------ */
 
 /**
- * The key the app used before the rename to NHID-Clinical. Read once so a
+ * The key the app used under its original name. Read once so a
  * beta tester who already has progress under the old key does not silently
  * lose it. Safe to delete once no pre-rename installs remain.
  */

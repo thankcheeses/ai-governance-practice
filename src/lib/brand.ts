@@ -4,18 +4,22 @@
  * Single source so the disclaimer is identical everywhere it appears (first
  * launch and Settings) and can never drift.
  *
- * Positioning is locked: NHID-Clinical is AI governance scenario training for
- * practitioners. AIGP Preparation is the current track — an acquisition wedge,
- * not the category. Copy must never promise exam outcomes, claim official
- * status, or position the product as a certification replacement.
+ * Positioning is locked: AIGP Practice is AI governance scenario training for
+ * practitioners, published by NHID-Clinical. Copy must never promise exam
+ * outcomes, claim official status, imply endorsement by any certification
+ * body, or position the product as a certification replacement.
+ *
+ * BRAND is the product; COMPANY is the entity that publishes it, contracts
+ * through the Terms, and answers support. They are deliberately separate — the
+ * legal documents name the company, the UI names the product.
  */
 
 export const BRAND = {
-  name: "NHID-Clinical",
+  name: "AIGP Practice",
   tagline: "AI Governance Practice for Practitioners",
   category: "AI governance scenario training built for practitioners.",
   positioning:
-    "NHID-Clinical helps professionals build practical AI governance judgment through original scenario-based learning.",
+    "AIGP Practice helps professionals build practical AI governance judgment through original scenario-based learning.",
   /** Short lines approved for headings and CTAs. */
   lines: {
     build: "Build judgment through realistic governance scenarios.",
@@ -54,7 +58,7 @@ export const LEGAL_EFFECTIVE_DATE = "4 August 2026";
 export const DISCLAIMER_TITLE = "Independent Educational Product";
 
 export const DISCLAIMER_BODY = [
-  "NHID-Clinical provides original educational content for professional development in AI governance.",
+  "AIGP Practice provides original educational content for professional development in AI governance.",
   "This product is not affiliated with, endorsed by, sponsored by, or connected to the International Association of Privacy Professionals (IAPP), CompTIA, Cloud Security Alliance, or any certification body.",
   "This product does not contain actual certification exam questions and does not guarantee exam success.",
   "All questions and scenarios are original educational material.",

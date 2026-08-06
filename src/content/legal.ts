@@ -8,7 +8,7 @@
  * Every clause describes what the app actually does and is checkable against
  * the code. Change behaviour and this text has to change with it.
  */
-import { COMPANY, LEGAL_EFFECTIVE_DATE } from "@/lib/brand";
+import { BRAND, COMPANY, LEGAL_EFFECTIVE_DATE } from "@/lib/brand";
 
 export interface LegalSection {
   heading: string;
@@ -17,12 +17,12 @@ export interface LegalSection {
 
 export { LEGAL_EFFECTIVE_DATE };
 
-export const TERMS_SUMMARY = `These terms govern your use of the ${COMPANY.name} app. By creating an account or continuing to use it, you agree to them.`;
+export const TERMS_SUMMARY = `These terms govern your use of ${BRAND.name}, published by ${COMPANY.name}. By creating an account or continuing to use the app, you agree to them.`;
 
 export const TERMS_SECTIONS: LegalSection[] = [
   {
     heading: "The service",
-    body: `${COMPANY.name} is ${COMPANY.descriptor}. This app is its scenario-based training product: you work through governance situations drawn from AI risk, privacy, security, and healthcare practice, and receive a rationale and a transferable takeaway on each. All scenarios, rationales, and takeaways are original material written for professional development.`,
+    body: `${BRAND.name} is published by ${COMPANY.name}, ${COMPANY.descriptor}. It is a scenario-based training product: you work through governance situations drawn from AI risk, privacy, security, and healthcare practice, and receive a rationale and a transferable takeaway on each. All scenarios, rationales, and takeaways are original material written for professional development.`,
   },
   {
     heading: "Educational purpose — not professional advice",
@@ -62,7 +62,7 @@ export const TERMS_SECTIONS: LegalSection[] = [
   },
 ];
 
-export const PRIVACY_SUMMARY = `How ${COMPANY.name} handles your data. Every statement below describes what the app does today, not what it may do later.`;
+export const PRIVACY_SUMMARY = `How ${COMPANY.name}, publisher of ${BRAND.name}, handles your data. Every statement below describes what the app does today, not what it may do later.`;
 
 export const PRIVACY_SECTIONS: LegalSection[] = [
   {
