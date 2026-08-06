@@ -74,10 +74,9 @@ Home → Select study → Question → Answer → Feedback → Rationale
 | Home | `/home` | Daily goal, streak, answered today, total completed, accuracy |
 | Study | `/study` | Mixed adaptive sessions and per-domain practice |
 | Session | `/study/session` | One question per screen with full feedback |
-| Review | `/review` | Prioritised SM-2 queue (Pro) |
+| Review | `/review` | Prioritised SM-2 queue |
 | Progress | `/dashboard` | Accuracy, domain performance, mastery, review forecast |
 | Settings | `/settings` | Theme, daily goal, account, disclaimer, legal, reset |
-| Upgrade | `/upgrade` | Feature gating placeholder — no checkout |
 
 ---
 
@@ -168,33 +167,24 @@ and a streak — what a working professional actually uses to hold a habit. This
 was a product constraint, and it is enforced by the absence of the concepts from
 `lib/types.ts` rather than by convention.
 
-### 7. Feature gating in one place
+### 7. No plans, no gating
 
-`src/lib/entitlements.ts` is the only module that branches on tier.
+Everything is free. There is no paid tier, no checkout, no `/upgrade` route, and
+no entitlement module — every scenario, the review queue, spaced repetition,
+domain filtering, and the full analytics are available to everyone, signed in or
+not.
 
-| Plan | Price | Covers |
-| --- | --- | --- |
-| Free | $0 | 20 scenarios, rationales, key takeaways, basic progress |
-| Pro | $19–39 one-time | Full library, SM-2, review queue, analytics, visual aids |
-| Lab | $99–299 | Applied simulations per domain, certificate — *planned* |
+This is a deliberate removal rather than an unbuilt feature. A gate with no
+purchase path behind it cannot be opened by paying; it can only lock people out
+of a product they have no way to buy. The plumbing that carried it — the `Tier`
+union, `profiles.tier`, `entitlementsFor()`, the plan cards — is gone rather
+than dormant, so no reader has to work out whether gating is live. Migration
+`0004_drop_tier.sql` removes the column.
 
-All three are real values in the `Tier` union and in the database, so the first
-Lab release needs no type or schema change. `lab` grants everything Pro does
-plus `labs: true`, and `canOpenLabs()` gates on *content existing* as well as
-entitlement — a lab plan with nothing shipped still opens nothing.
-
-Lab definitions live in `src/content/labs.ts` as **data only**: four planned
+Lab definitions still live in `src/content/labs.ts` as **data only**: planned
 labs mapped to future `TrackId`s, so lab content reuses the existing track
-machinery rather than needing a parallel system. There are no lab routes,
-pages, or components. The upgrade screen names them as "in development"; that
-is their only appearance in the UI.
-
-There is no payment integration. `/upgrade` explains the plans and lets you
-toggle the Pro preview to exercise the gated paths.
-
-The value proposition is mental models and applied simulations, **not question
-volume** — the plan copy says so explicitly, because "more questions" sets the
-wrong expectation for what Lab will be.
+machinery rather than needing a parallel system. There are no lab routes, pages,
+or components, and nothing in the UI mentions them.
 
 ### 8. Two build targets
 
@@ -240,7 +230,7 @@ under white text would fail WCAG AA for body copy.
 Three languages, no others:
 
 1. **3D glass** — the logo mark. Used for brand moments only: splash, empty
-   states, and the upgrade header. `BrandMark` renders one geometry in two
+   states, and the sign-in header. `BrandMark` renders one geometry in two
    treatments (`flat` for chrome, `glass` for moments), so there is a single
    brand shape rather than competing marks.
 2. **Architecture glass** — for system diagrams, when supplied.
@@ -258,13 +248,13 @@ architecture, decision flow, or failure points — never decoration.
 
 ## Database
 
-Schema: `supabase/migrations/0001_init.sql`
+Schema: `supabase/migrations/` (run `supabase/apply-all.sql` once)
 
 | Table | Purpose |
 | --- | --- |
 | `tracks` | Learning tracks; only `active` ones surface in the app |
 | `questions` | Reference content, track-scoped, with `position` for ordering |
-| `profiles` | Per-user settings: tier, daily goal, streak, theme, onboarding |
+| `profiles` | Per-user settings: daily goal, streak, theme, onboarding |
 | `attempts` | One row per answered question, with confidence and mode |
 | `review_cards` | SM-2 state: repetitions, ease factor, interval, next review |
 
@@ -377,7 +367,7 @@ src/
 │   ├── layout.tsx           # fonts, theme init script, providers
 │   ├── page.tsx             # entry — routes to onboarding or home
 │   ├── onboarding/  home/  study/  review/  dashboard/  settings/
-│   ├── upgrade/  login/
+│   ├── login/  privacy/  terms/
 │   └── globals.css          # design tokens for both themes
 ├── components/
 │   ├── ui/                  # shadcn-style primitives
@@ -387,7 +377,6 @@ src/
 ├── lib/
 │   ├── adaptive.ts          # difficulty targeting, domain stats, selection
 │   ├── spaced-repetition.ts # SM-2 + review queue
-│   ├── entitlements.ts      # feature gating
 │   ├── brand.ts             # brand + disclaimer copy (single source)
 │   ├── store/               # progress and theme providers
 │   └── supabase/            # client, server, sync

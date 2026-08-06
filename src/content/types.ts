@@ -25,6 +25,13 @@ export interface Track {
   name: string;
   /** One line describing what the learner builds by working through it. */
   summary: string;
+  /**
+   * How the track relates to an outside body of knowledge, stated neutrally.
+   * Naming a certification's subject matter is descriptive; claiming
+   * affiliation, endorsement, or exam equivalence is not, and must never
+   * appear here.
+   */
+  context?: string;
   status: TrackStatus;
   /** Ordered domain list for this track, derived from its own content. */
   domains: string[];

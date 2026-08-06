@@ -7,14 +7,13 @@ import { AppGate } from "@/components/app/app-gate";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { getTrack } from "@/content/registry";
+import { getTrack, getTrackQuestions } from "@/content/registry";
 import {
+  focusDomains,
   masteredQuestionIds,
   overallAccuracy,
   todaySummary,
-  weakDomains,
 } from "@/lib/adaptive";
-import { availableQuestions } from "@/lib/entitlements";
 import { dueCount } from "@/lib/spaced-repetition";
 import { effectiveStreak, useProgress } from "@/lib/store/progress-provider";
 import { cn } from "@/lib/utils";
@@ -28,17 +27,18 @@ export default function HomePage() {
 }
 
 function Home() {
-  const { progress, entitlements } = useProgress();
+  const { progress } = useProgress();
   const track = getTrack(progress.trackId);
 
   const today = todaySummary(progress);
   const streak = effectiveStreak(progress);
   const accuracy = overallAccuracy(progress.attempts);
   const mastered = masteredQuestionIds(progress.attempts).size;
-  const available = availableQuestions(progress.tier, progress.trackId).length;
+  const available = getTrackQuestions(progress.trackId).length;
   const answeredUnique = new Set(progress.attempts.map((a) => a.questionId)).size;
-  const due = entitlements.reviewQueue ? dueCount(progress) : 0;
-  const weak = weakDomains(progress, progress.trackId)[0];
+  const due = dueCount(progress);
+  const focus = focusDomains(progress, progress.trackId);
+  const weakest = focus[0];
 
   const isNew = progress.attempts.length === 0;
 
@@ -110,11 +110,9 @@ function Home() {
             <span className="text-left">
               <span className="block font-semibold">Review queue</span>
               <span className="block text-xs font-normal text-muted-foreground">
-                {!entitlements.reviewQueue
-                  ? "Available on Pro"
-                  : due > 0
-                    ? `${due} ${due === 1 ? "scenario" : "scenarios"} ready`
-                    : "Nothing due right now"}
+                {due > 0
+                  ? `${due} ${due === 1 ? "scenario" : "scenarios"} ready`
+                  : "Nothing due right now"}
               </span>
             </span>
             <RotateCcw className="h-4 w-4 shrink-0" />
@@ -149,25 +147,21 @@ function Home() {
       </section>
 
       {/* Weak-domain nudge, once there is enough evidence to mean something. */}
-      {weak ? (
+      {weakest ? (
         <Card>
           <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-medium">Weakest domain right now</p>
               <p className="mt-1 text-sm text-muted-foreground">
-                {weak.domain} — {weak.accuracy}% across {weak.answered} answered
+                {weakest.domain} — {weakest.accuracy}% across {weakest.answered}{" "}
+                answered
+                {focus.length > 1
+                  ? ` · ${focus.length - 1} more below target`
+                  : ""}
               </p>
             </div>
             <Button asChild variant="secondary" size="sm" className="shrink-0">
-              <Link
-                href={
-                  entitlements.domainFiltering
-                    ? `/study/session?domain=${encodeURIComponent(weak.domain)}`
-                    : "/upgrade"
-                }
-              >
-                {entitlements.domainFiltering ? "Practise it" : "Unlock with Pro"}
-              </Link>
+              <Link href="/study/session?focus=weak&count=10">Drill it</Link>
             </Button>
           </CardContent>
         </Card>

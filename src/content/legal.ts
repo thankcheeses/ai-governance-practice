@@ -42,11 +42,11 @@ export const TERMS_SECTIONS: LegalSection[] = [
   },
   {
     heading: "Acceptable use",
-    body: "Do not scrape, bulk-export, resell, republish, or use the scenario content to train a machine learning model. Do not share, resell, or circumvent access to paid tiers. Do not attempt to breach authentication, access another user's data, probe or disrupt the service, or submit unlawful content. Do not present this content as certification exam material or as the output of any certification body.",
+    body: "Do not scrape, bulk-export, resell, republish, or use the scenario content to train a machine learning model. Do not attempt to breach authentication, access another user's data, probe or disrupt the service, or submit unlawful content. Do not present this content as certification exam material or as the output of any certification body.",
   },
   {
-    heading: "Plans and billing",
-    body: "The Free plan is available at no cost. Paid plans are described in the app and are not yet purchasable. No payment processing is active, so no charge is taken and no payment details are collected. When billing begins, prices, renewal terms, and refund rights will be presented for acceptance before any charge, and purchases made through an app store are additionally governed by that store's terms.",
+    heading: "Price",
+    body: "The service is free. There are no paid plans, no subscriptions, and no locked features — every scenario, the review queue, and the progress analytics are available to everyone. No payment processing exists, no charge is taken, and no payment details are collected. If that ever changes, the terms will change with it and the change will be presented for acceptance before any charge.",
   },
   {
     heading: "Beta status and changes",
@@ -75,7 +75,7 @@ export const PRIVACY_SECTIONS: LegalSection[] = [
   },
   {
     heading: "What we collect if you create an account",
-    body: "Your email address, and your learning progress: which scenarios you answered, the option you chose, whether it was correct, how long you took, your self-reported confidence, your review schedule, your streak, and your plan tier. We do not ask for your name, employer, job title, or any health information, and you should not enter patient data, protected health information, or confidential material anywhere in the app.",
+    body: "Your email address, and your learning progress: which scenarios you answered, the option you chose, whether it was correct, how long you took, your self-reported confidence, your review schedule, and your streak. We do not ask for your name, employer, job title, or any health information, and you should not enter patient data, protected health information, or confidential material anywhere in the app.",
   },
   {
     heading: "What we never collect",

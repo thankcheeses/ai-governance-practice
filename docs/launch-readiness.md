@@ -16,7 +16,7 @@ checklist.
 | --- | --- |
 | Branding rename | `AI Governance Practice`, bundle id `org.nhidclinical.app`. Verified on regenerated native projects: Android `namespace`/`applicationId`/`app_name`, iOS `PRODUCT_BUNDLE_IDENTIFIER` on both configurations, `CFBundleDisplayName` |
 | Legal documents | Terms (10 sections) and Privacy Policy (12 sections) naming AI Governance Practice and `contact@nhid-clinical.org`, with an effective date. Public at `/terms` and `/privacy`, no auth or onboarding gate |
-| Pricing placeholders removed | Free / Professional / Enterprise. No plan implies a purchase is possible; Professional reads "Coming soon" because billing is not implemented |
+| Paywall removed | No plans, no tiers, no `/upgrade` route, no entitlement module. Every scenario and every feature is free. `profiles.tier` dropped by migration `0004` |
 | Asset cleanup | `public/visual-aids/components/` removed — 11 files, 3.6 MB, zero references. `public/` is 3.8 MB → 196 KB |
 | Question validation | Answer leaks closed: 96% "B" → 18%, longest-is-correct 86% → 34%. Enforced by `npm run check:questions` |
 | Builds passing | `lint`, `build`, `build:mobile`, `check:questions`, `tsc --noEmit` all exit 0 |
@@ -89,14 +89,12 @@ accept them, but they do not substitute for on-device testing.
 
 Still needed if you support iPad: a 12.9" set.
 
-### B6. In-app purchase — **blocks a paid launch only**
+### B6. In-app purchase — **resolved, not applicable**
 
-Both stores require *their* IAP for digital content; an external checkout is
-grounds for rejection. That means StoreKit / Play Billing, not Stripe, and a
-15–30% cut on the $19–39 unlock.
-
-**This is a business decision before it is an engineering one.** Launching Free
-only, with Pro disabled, removes this blocker entirely and is the faster path.
+Both stores require *their* IAP for digital content, so a paid tier would mean
+StoreKit / Play Billing and a 15–30% cut. The app has no paid tier: nothing is
+sold, nothing is gated, and no checkout exists anywhere in the bundle. This
+blocker is closed by removal rather than by implementation.
 
 ### B7. Never run on a physical device — **must do before submitting**
 
@@ -126,9 +124,9 @@ Worth doing, none stop a submission.
 1. **Supplied diagrams are AI-generated clipart.** The two wired VisualAids are
    the least premium surface in the app and clash with the enterprise aesthetic.
    Swapping them is a file replace, no code change.
-2. **Free tier has no visual scenarios.** Both diagram-carrying questions (19,
-   45) sit outside the first 20, so free users never see the feature Pro
-   advertises. Moving one into the free window would demonstrate it.
+2. **Supplied diagrams reach only two scenarios.** Questions 19 and 45 are the
+   only ones carrying a VisualAid. Every user reaches them now that nothing is
+   gated, but two out of 82 is thin coverage for the format.
 3. **Age rating and export compliance** need declaring at submission: 4+ /
    Everyone; HTTPS-only so the standard encryption exemption applies.
 4. **No analytics.** Correct for a privacy-clean data-safety declaration, but
@@ -199,10 +197,8 @@ regenerate rather than commit them.
 Sequenced so nothing is done twice and the cheap blockers clear first.
 
 **Phase 1 — decide (before any work)**
-1. Free-only launch, or paid Pro? This determines whether B6 (IAP) is in scope
-   and is the single biggest fork in the schedule. *Recommendation: launch Free
-   only.* It removes the largest blocker, and the entitlement architecture
-   already supports flipping Pro on later with no restructuring.
+1. ~~Free-only launch, or paid Pro?~~ **Decided: everything is free.** The
+   paywall is removed from the code, not disabled, so B6 (IAP) is out of scope.
 2. Register the real support address and the domain that will host legal pages.
 
 **Phase 2 — cheap blockers (hours)**
@@ -240,10 +236,11 @@ Everything above was verified in this pass, not inferred:
 
 - `tsc --noEmit`, `eslint`, `npm run build`, `npm run build:mobile` — all clean
 - All 13 routes return 200 as flat files with no server
-- 51/51 UI flow checks: onboarding, study, answer, feedback, persistence,
-  upgrade, Pro unlock, settings, theme, legal placeholders
-- 28/28 entitlement checks run against the real modules, including that an
-  unknown tier fails closed to free
+- UI flow checks: onboarding, study, answer, feedback, persistence, settings,
+  theme, legal pages
+- Schema verified against PostgreSQL 16: `supabase/apply-all.sql` applies three
+  times in a row without error, signup provisions a profile, the tier-free
+  profile upsert succeeds, and deleting the auth user cascades every row
 - `npx cap add android` and `npx cap add ios` both scaffold cleanly, with the
   correct bundle identifier, display name, and all web assets copied
 - `@capacitor/assets` confirmed to exist at v3.0.5

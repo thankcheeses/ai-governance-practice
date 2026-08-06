@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
 import { buildReviewQueue } from "@/lib/spaced-repetition";
@@ -19,12 +18,7 @@ export default function ReviewSessionPage() {
 }
 
 function ReviewSession() {
-  const router = useRouter();
-  const { progress, entitlements } = useProgress();
-
-  useEffect(() => {
-    if (!entitlements.reviewQueue) router.replace("/upgrade");
-  }, [entitlements.reviewQueue, router]);
+  const { progress } = useProgress();
 
   // Snapshot at mount: grading a card changes its due date, and we do not want
   // the queue reordering underneath the learner mid-session.
@@ -33,8 +27,6 @@ function ReviewSession() {
       .slice(0, REVIEW_BATCH)
       .map((item) => item.question),
   );
-
-  if (!entitlements.reviewQueue) return null;
 
   return (
     <StudySession

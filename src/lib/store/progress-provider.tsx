@@ -11,7 +11,6 @@ import {
   useState,
 } from "react";
 import type { OptionKey, Question } from "@/content/types";
-import { entitlementsFor, type Entitlements } from "@/lib/entitlements";
 import { newReviewCard, scheduleReview } from "@/lib/spaced-repetition";
 import { getBrowserSupabase } from "@/lib/supabase/client";
 import {
@@ -26,7 +25,6 @@ import {
   type Confidence,
   type ReviewGrade,
   type StudyMode,
-  type Tier,
   type UserProgress,
 } from "@/lib/types";
 import { daysBetween, todayISO } from "@/lib/utils";
@@ -36,11 +34,16 @@ const STORAGE_KEY = "nhid-clinical:progress:v1";
 export interface AnswerResult {
   correct: boolean;
   correctAnswer: OptionKey;
+  /**
+   * True when this answer put the question into the review queue for the first
+   * time. Reported back so a session can tell the learner what it scheduled
+   * instead of leaving the queue to be discovered.
+   */
+  queuedForReview: boolean;
 }
 
 interface ProgressContextValue {
   progress: UserProgress;
-  entitlements: Entitlements;
   /** False until local/remote hydration completes — gates first paint. */
   ready: boolean;
   user: User | null;
@@ -57,7 +60,6 @@ interface ProgressContextValue {
   completeOnboarding: () => void;
   ackDisclaimer: () => void;
   setDailyGoal: (goal: number) => void;
-  setTier: (tier: Tier) => void;
   resetProgress: () => void;
   signOut: () => Promise<void>;
   /** Permanently deletes the account and all server-side progress. */
@@ -208,7 +210,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       // A missed question enters the review queue immediately, so it survives
       // between sessions even if the learner never opens /review.
       const reviewCards = { ...prev.reviewCards };
-      if (!correct && !reviewCards[question.id]) {
+      const queuedForReview = !correct && !reviewCards[question.id];
+      if (queuedForReview) {
         reviewCards[question.id] = newReviewCard(
           question.id,
           question.trackId,
@@ -245,7 +248,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         })();
       }
 
-      return { correct, correctAnswer: question.correctAnswer };
+      return { correct, correctAnswer: question.correctAnswer, queuedForReview };
     },
     [supabase],
   );
@@ -311,23 +314,11 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [persistProfile],
   );
 
-  const setTier = useCallback(
-    (tier: Tier) => {
-      setProgress((prev) => {
-        const next = { ...prev, tier, updatedAt: new Date().toISOString() };
-        persistProfile(next);
-        return next;
-      });
-    },
-    [persistProfile],
-  );
-
   const resetProgress = useCallback(() => {
     const prev = progressRef.current;
     // Preserve the things that are settings rather than progress.
     const fresh: UserProgress = {
       ...emptyProgress(prev.trackId),
-      tier: prev.tier,
       dailyGoal: prev.dailyGoal,
       onboardingCompletedAt: prev.onboardingCompletedAt,
       disclaimerAckedAt: prev.disclaimerAckedAt,
@@ -369,15 +360,9 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     writeLocal(fresh);
   }, [supabase]);
 
-  const entitlements = useMemo(
-    () => entitlementsFor(progress.tier),
-    [progress.tier],
-  );
-
   const value = useMemo<ProgressContextValue>(
     () => ({
       progress,
-      entitlements,
       ready,
       user,
       authEnabled,
@@ -387,14 +372,12 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       completeOnboarding,
       ackDisclaimer,
       setDailyGoal,
-      setTier,
       resetProgress,
       signOut,
       deleteAccount,
     }),
     [
       progress,
-      entitlements,
       ready,
       user,
       authEnabled,
@@ -404,7 +387,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       completeOnboarding,
       ackDisclaimer,
       setDailyGoal,
-      setTier,
       resetProgress,
       signOut,
       deleteAccount,

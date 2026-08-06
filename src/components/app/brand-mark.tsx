@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  *            sidebar, anywhere the mark is an identifier rather than a moment.
  *  - `glass` the 3D glass language: deep navy → teal → cyan gradient body,
  *            a specular sheen, inner highlight, and soft depth shadow.
- *            Reserved for brand moments — splash, empty states, upgrade.
+ *            Reserved for brand moments — splash and empty states.
  *
  * No new brand geometry is introduced here; `glass` is a surface treatment.
  */

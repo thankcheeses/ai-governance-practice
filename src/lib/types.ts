@@ -52,16 +52,8 @@ export interface DomainStat {
   total: number;
 }
 
-/**
- * Plans. `lab` is a real runtime state so entitlement checks and the database
- * accept it today, but no Lab content exists yet — see content/labs.ts. A user
- * cannot reach it through the UI until a lab ships.
- */
-export type Tier = "free" | "pro" | "lab";
-
 export interface UserProgress {
   trackId: TrackId;
-  tier: Tier;
   onboardingCompletedAt: string | null;
   disclaimerAckedAt: string | null;
   /** Questions the learner aims to answer each day. */
@@ -79,7 +71,6 @@ export const DEFAULT_DAILY_GOAL = 10;
 export function emptyProgress(trackId: TrackId = "aigp-preparation"): UserProgress {
   return {
     trackId,
-    tier: "free",
     onboardingCompletedAt: null,
     disclaimerAckedAt: null,
     dailyGoal: DEFAULT_DAILY_GOAL,

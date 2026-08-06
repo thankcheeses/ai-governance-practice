@@ -23,7 +23,6 @@ import { Separator } from "@/components/ui/separator";
 import { getTrack } from "@/content/registry";
 import { BRAND, COMPANY, SUPPORT } from "@/lib/brand";
 import { useProgress } from "@/lib/store/progress-provider";
-import type { Tier } from "@/lib/types";
 import { useTheme, type Theme } from "@/lib/store/theme-provider";
 import { cn } from "@/lib/utils";
 
@@ -34,12 +33,6 @@ const THEMES: { value: Theme; label: string; icon: React.ElementType }[] = [
 ];
 
 const GOALS = [5, 10, 20, 30];
-
-const PLAN_LABELS: Record<Tier, string> = {
-  free: "Free",
-  pro: "Professional",
-  lab: "Lab",
-};
 
 export default function SettingsPage() {
   return (
@@ -124,17 +117,7 @@ function Settings() {
         <Separator className="my-4" />
 
         <Row label="Active track" value={track.name} />
-        <Row
-          label="Plan"
-          value={PLAN_LABELS[progress.tier]}
-          action={
-            progress.tier === "free" ? (
-              <Button asChild size="sm" variant="secondary">
-                <Link href="/upgrade">Upgrade</Link>
-              </Button>
-            ) : null
-          }
-        />
+        <Row label="Access" value="Everything, free" />
       </Section>
 
       {/* Account */}

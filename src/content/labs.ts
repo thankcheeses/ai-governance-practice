@@ -10,7 +10,7 @@ import type { TrackId } from "./types";
  * This file deliberately contains no routes, pages, or components. It exists so
  * that when a lab does ship, the work is: add its content folder, register its
  * track, flip `status` to "available". Nothing here renders anywhere in the app
- * except as named "coming later" copy on the upgrade screen.
+ * today.
  *
  * Each lab maps to a `TrackId` so lab content reuses the existing track
  * machinery — question bank, SM-2 scheduling, progress — rather than needing a
