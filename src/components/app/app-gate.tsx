@@ -22,7 +22,7 @@ export function AppGate({ children }: { children: React.ReactNode }) {
     return (
       <div className="flex min-h-dvh items-center justify-center">
         <span className="sr-only">Loading</span>
-        <span className="h-6 w-6 animate-spin rounded-full border-2 border-border border-t-primary" />
+        <span className="skeleton h-2 w-40" role="status" aria-label="Loading" />
       </div>
     );
   }

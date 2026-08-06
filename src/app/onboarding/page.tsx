@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Layers, Route, Target } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -44,17 +43,16 @@ export default function OnboardingPage() {
       </header>
 
       <div className="flex-1">
-        <AnimatePresence mode="wait">
           {step === 0 ? (
             <Step key="welcome">
               <h1 className="text-pretty text-3xl font-semibold leading-tight tracking-tight">
-                <span className="text-gradient">{ONBOARDING_WELCOME}</span>
+                {ONBOARDING_WELCOME}
               </h1>
-              <p className="mt-4 leading-relaxed text-muted-foreground">
+              <p className="measure mt-4 leading-relaxed text-muted-foreground">
                 {BRAND.category} {BRAND.lines.apply}
               </p>
-              <div className="mt-8 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)]">
-                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <div className="mt-8 border border-border bg-card p-4 shadow-[var(--shadow-card)]">
+                <p className="text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
                   Your track
                 </p>
                 <p className="mt-2 font-semibold">{track.name}</p>
@@ -69,7 +67,7 @@ export default function OnboardingPage() {
             </Step>
           ) : step === 1 ? (
             <Step key="what">
-              <h1 className="text-2xl font-semibold tracking-tight">
+              <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
                 How this works
               </h1>
               <ul className="mt-6 space-y-4">
@@ -78,9 +76,9 @@ export default function OnboardingPage() {
                   return (
                     <li
                       key={point.title}
-                      className="flex gap-3.5 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)]"
+                      className="flex gap-3.5 border border-border bg-card p-4 shadow-[var(--shadow-card)]"
                     >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent-tint ring-1 ring-accent/25">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-border-strong bg-secondary">
                         <Icon className="h-[1.125rem] w-[1.125rem] text-primary" />
                       </span>
                       <div>
@@ -96,7 +94,7 @@ export default function OnboardingPage() {
             </Step>
           ) : (
             <Step key="disclaimer">
-              <h1 className="text-2xl font-semibold tracking-tight">
+              <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
                 Before you start
               </h1>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -105,7 +103,6 @@ export default function OnboardingPage() {
               <Disclaimer className="mt-5" />
             </Step>
           )}
-        </AnimatePresence>
       </div>
 
       <footer className="mt-8">
@@ -114,7 +111,7 @@ export default function OnboardingPage() {
             <span
               key={i}
               className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
+                "h-1.5 transition-colors duration-150",
                 i === step ? "w-6 bg-accent" : "w-1.5 bg-border",
               )}
             />
@@ -169,15 +166,10 @@ export default function OnboardingPage() {
   );
 }
 
+/**
+ * Steps swap without transition. Advancing is a state change the learner
+ * initiated, so it is shown, not performed.
+ */
 function Step({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 16 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -16 }}
-      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div>{children}</div>;
 }

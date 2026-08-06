@@ -2,8 +2,9 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Surface primitive. Elevation comes from a soft two-layer shadow plus a 1px
- * border — enough to lift off the warm background without looking glossy.
+ * Surface primitive. Sharp corners, a 1px stroke, and a shadow no heavier than
+ * the system ceiling. The border does the separating; the shadow only keeps
+ * stacked surfaces from merging.
  */
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -12,10 +13,10 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border border-border bg-card text-card-foreground",
+      "border border-border bg-card text-card-foreground",
       "shadow-[var(--shadow-card)]",
       interactive &&
-        "transition-all duration-200 hover:-translate-y-px hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)]",
+        "transition-colors duration-150 hover:border-border-strong hover:bg-secondary",
       className,
     )}
     {...props}

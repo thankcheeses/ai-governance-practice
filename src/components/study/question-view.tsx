@@ -30,7 +30,7 @@ export function QuestionView({
 }: QuestionViewProps) {
   return (
     <div>
-      <h1 className="text-pretty text-xl font-semibold leading-snug tracking-[-0.01em] sm:text-2xl sm:leading-snug">
+      <h1 className="measure text-pretty text-xl font-semibold leading-snug tracking-[-0.01em] sm:text-2xl sm:leading-snug">
         {question.question}
       </h1>
 
@@ -56,18 +56,20 @@ export function QuestionView({
               disabled={revealed}
               onClick={() => onSelect(option.key)}
               className={cn(
-                "flex w-full items-start gap-3.5 rounded-lg border p-4 text-left",
-                "transition-all duration-200 ease-out disabled:cursor-default",
+                "flex w-full items-start gap-3.5 border p-4 text-left",
+                "transition-colors duration-150 disabled:cursor-default",
 
-                // Resting: white surface, clean border, soft lift.
+                // Resting: plain surface, 1px rule.
                 !revealed &&
                   !isSelected &&
-                  "border-border bg-card shadow-[var(--shadow-card)] hover:-translate-y-px hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)]",
+                  "border-border bg-card hover:border-border-strong hover:bg-secondary",
 
-                // Selected: teal fill, stronger teal border, slight scale up.
+                // Selected: the stroke doubles and darkens. No tint, no
+                // scaling — selection is a border weight the eye reads at a
+                // glance. Padding drops 1px so the box does not shift.
                 isSelected &&
                   !revealed &&
-                  "scale-[1.01] border-accent bg-accent-subtle shadow-[var(--shadow-accent)]",
+                  "border-2 border-foreground bg-secondary p-[0.9375rem]",
 
                 // Post-answer states stay informational, not celebratory.
                 showCorrect && "border-success bg-success-tint",
@@ -80,10 +82,10 @@ export function QuestionView({
             >
               <span
                 className={cn(
-                  "mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-md border text-xs font-semibold transition-colors",
+                  "mt-px flex h-6 w-6 shrink-0 items-center justify-center border text-xs font-semibold transition-colors",
                   isSelected &&
                     !revealed &&
-                    "border-primary bg-primary text-primary-foreground",
+                    "border-foreground bg-foreground text-background",
                   showCorrect && "border-success bg-success text-success-foreground",
                   showWrong &&
                     "border-destructive bg-destructive text-destructive-foreground",
