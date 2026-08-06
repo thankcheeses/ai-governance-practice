@@ -6,7 +6,6 @@ import {
   type Confidence,
   type ReviewCard,
   type StudyMode,
-  type Tier,
   type UserProgress,
 } from "@/lib/types";
 
@@ -91,7 +90,6 @@ export async function loadProgress(
   return {
     ...base,
     trackId: (p?.active_track_id ?? base.trackId) as TrackId,
-    tier: (p?.tier ?? "free") as Tier,
     onboardingCompletedAt: p?.onboarding_completed_at ?? null,
     disclaimerAckedAt: p?.disclaimer_acked_at ?? null,
     dailyGoal: p?.daily_goal ?? base.dailyGoal,
@@ -117,7 +115,6 @@ export async function pushProfile(
       id: userId,
       email: email ?? undefined,
       active_track_id: progress.trackId,
-      tier: progress.tier,
       daily_goal: progress.dailyGoal,
       streak: progress.streak,
       longest_streak: progress.longestStreak,

@@ -121,7 +121,7 @@ file manager, and allow installation from unknown sources when prompted.
 3. Answer several scenarios — rationale and key takeaway appear each time.
 4. Force-quit and reopen: **progress is still there**.
 5. Turn on airplane mode and repeat step 3. Everything should still work.
-6. Study screen reports **82 of 82 scenarios** — the beta unlocks the full bank.
+6. Study screen reports **82 scenarios, all free** — nothing is gated.
 
 ---
 

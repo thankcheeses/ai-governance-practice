@@ -1,7 +1,7 @@
 -- AI Governance Practice — complete database initialisation
 -- Paste this whole file into the Supabase SQL Editor and run it once.
 --
--- Concatenation of migrations 0001, 0002, and 0003, in order. Every
+-- Migrations 0001, 0003, and 0004, in order (0002 is superseded — see below). Every
 -- statement is idempotent (create if not exists / drop policy if exists /
 -- on conflict do update), so re-running it is safe.
 --
@@ -221,24 +221,14 @@ create trigger tracks_touch_updated_at
   for each row execute function public.touch_updated_at();
 
 -- ===========================================================================
--- 0002_lab_tier.sql
+-- 0002_lab_tier.sql — omitted, superseded by 0004
 -- ===========================================================================
--- Add the `lab` plan to the tier constraint.
---
--- Separate migration rather than an edit to 0001 so deployed databases can move
--- forward without a reset. Existing rows are unaffected: the default stays
--- 'free' and no data is rewritten.
---
--- No Lab content exists yet (see src/content/labs.ts). This makes the tier a
--- valid stored value ahead of that, so entitlement checks and the profile sync
--- do not need changing again when the first lab ships.
-
-alter table public.profiles
-  drop constraint if exists profiles_tier_check;
-
-alter table public.profiles
-  add constraint profiles_tier_check
-  check (tier in ('free', 'pro', 'lab'));
+-- 0002 widened the `profiles.tier` check constraint. 0004 drops the column
+-- outright, so replaying 0002 here would add a constraint on a column that the
+-- next section removes — and would fail outright on the second run of this
+-- script, breaking the idempotence promised at the top. The migration file is
+-- kept in supabase/migrations/ as history for any database that already ran it;
+-- 0004 cleans up after it there.
 
 -- ===========================================================================
 -- 0003_seed_tracks.sql
@@ -274,3 +264,21 @@ on conflict (id) do update
       status     = excluded.status,
       sort_order = excluded.sort_order;
 
+-- ===========================================================================
+-- 0004_drop_tier.sql
+-- ===========================================================================
+-- Remove the plan tier. Everything in the app is free.
+--
+-- There are no paid plans, no billing integration, and nothing gated. A column
+-- the client never reads and never writes is a trap: it invites a future reader
+-- to assume gating exists somewhere. Dropping it makes the absence explicit.
+--
+-- Safe on a database that has already run 0001–0003: the constraint added by
+-- 0002 is dropped with the column it constrains, and no other table references
+-- it. Idempotent, so re-running the full script is harmless.
+
+alter table public.profiles
+  drop constraint if exists profiles_tier_check;
+
+alter table public.profiles
+  drop column if exists tier;

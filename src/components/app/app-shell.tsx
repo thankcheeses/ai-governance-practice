@@ -24,8 +24,8 @@ const NAV = [
  */
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { progress, entitlements } = useProgress();
-  const due = entitlements.reviewQueue ? dueCount(progress) : 0;
+  const { progress } = useProgress();
+  const due = dueCount(progress);
 
   return (
     <div className="min-h-dvh lg:flex">

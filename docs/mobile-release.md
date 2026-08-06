@@ -203,7 +203,7 @@ All keys are real:
 
 Both build targets were re-run after these changes and both pass. The static
 bundle was served as flat files and the full learning loop, Settings, legal
-pages, and upgrade screen were exercised with no console errors.
+pages were exercised with no console errors.
 
 ---
 
@@ -368,10 +368,11 @@ Ordered by what stops a submission.
 6. **Store icon and splash raster assets.** Generate from the existing mark
    with `@capacitor/assets` — do not redraw.
 7. **Screenshots on real device frames.**
-8. **Payments, if Pro ships as paid.** Both stores require their own in-app
-   purchase for digital content; an external checkout is grounds for rejection.
-   That means StoreKit / Play Billing, not Stripe, and a 15–30% cut on the
-   $19–39 unlock. **Decide before pricing goes live.**
+8. **Payments.** Not applicable. The app is free and nothing is gated, so there
+   is no digital purchase for either store's IAP rules to attach to. Noted only
+   so the constraint is on record if that ever changes: both stores require
+   *their* in-app purchase for digital content, which would mean StoreKit /
+   Play Billing rather than an external checkout.
 
 Items 1–4 and 6–7 are configuration and content. Item 5 is the only one that
-might touch code, and item 8 is a business decision.
+might touch code; item 8 needs nothing.

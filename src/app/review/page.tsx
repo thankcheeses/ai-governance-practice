@@ -28,11 +28,7 @@ export default function ReviewPage() {
 }
 
 function Review() {
-  const { progress, entitlements } = useProgress();
-
-  if (!entitlements.reviewQueue) {
-    return <ReviewLocked />;
-  }
+  const { progress } = useProgress();
 
   const queue = buildReviewQueue(progress);
   const upcoming = upcomingReviews(progress, 7);
@@ -142,30 +138,6 @@ function Review() {
           </section>
         </>
       )}
-    </div>
-  );
-}
-
-function ReviewLocked() {
-  return (
-    <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-semibold tracking-tight">Review queue</h1>
-      </header>
-      <Card className="border-accent/40">
-        <CardContent className="flex flex-col items-center p-8 text-center">
-          <BrandMark variant="glass" />
-          <h2 className="mt-5 font-semibold">Available on Pro</h2>
-          <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            The review queue resurfaces what you missed, what you were unsure
-            about, and what is scheduled — using SM-2 spaced repetition across
-            the full scenario library.
-          </p>
-          <Button asChild className="mt-5">
-            <Link href="/upgrade">See what Pro includes</Link>
-          </Button>
-        </CardContent>
-      </Card>
     </div>
   );
 }

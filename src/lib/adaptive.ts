@@ -1,8 +1,7 @@
 import type { Difficulty, Question, TrackId } from "@/content/types";
 import { DIFFICULTY_RANK } from "@/content/types";
 import { getTrackQuestions } from "@/content/registry";
-import { availableQuestions } from "./entitlements";
-import type { Attempt, DomainStat, Tier, UserProgress } from "./types";
+import type { Attempt, DomainStat, UserProgress } from "./types";
 import { daysBetween, shuffle, todayISO } from "./utils";
 
 /**
@@ -102,6 +101,25 @@ export function strongDomains(
     .sort((a, b) => b.accuracy - a.accuracy);
 }
 
+/** How many domains a focus session draws from at most. */
+export const FOCUS_DOMAIN_LIMIT = 2;
+
+/**
+ * The domains a focus session should draw from: the weakest ones the learner
+ * has answered enough of for the number to mean something.
+ *
+ * Deliberately returns nothing until there is evidence. A drill aimed at a
+ * domain with two attempts behind it is guesswork dressed up as coaching, and
+ * the surfaces that offer it hide themselves when this is empty.
+ */
+export function focusDomains(
+  progress: UserProgress,
+  trackId: TrackId = "aigp-preparation",
+  limit: number = FOCUS_DOMAIN_LIMIT,
+): DomainStat[] {
+  return weakDomains(progress, trackId).slice(0, limit);
+}
+
 /* ------------------------------------------------------------------ */
 /* Difficulty targeting                                                */
 /* ------------------------------------------------------------------ */
@@ -156,9 +174,9 @@ export function todaySummary(progress: UserProgress): TodaySummary {
 
 export interface SelectionOptions {
   count: number;
-  tier: Tier;
   trackId?: TrackId;
-  domain?: string;
+  /** One domain, or several — a focus session draws from the weakest few. */
+  domain?: string | string[];
   /** Restrict to an explicit set, used by the review queue. */
   only?: string[];
 }
@@ -177,14 +195,17 @@ export function selectQuestions(
   options: SelectionOptions,
 ): Question[] {
   const trackId = options.trackId ?? progress.trackId;
-  let pool = availableQuestions(options.tier, trackId);
+  let pool = getTrackQuestions(trackId);
 
   if (options.only) {
     const allowed = new Set(options.only);
     pool = pool.filter((q) => allowed.has(q.id));
   }
   if (options.domain) {
-    pool = pool.filter((q) => q.domain === options.domain);
+    const wanted = new Set(
+      Array.isArray(options.domain) ? options.domain : [options.domain],
+    );
+    pool = pool.filter((q) => wanted.has(q.domain));
   }
   if (!pool.length) return [];
 

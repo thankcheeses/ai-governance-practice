@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, X } from "lucide-react";
+import { ArrowRight, RotateCcw, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
@@ -50,6 +50,7 @@ export function StudySession({
   const [revealed, setRevealed] = useState(false);
   const [wasCorrect, setWasCorrect] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
+  const [queuedCount, setQueuedCount] = useState(0);
   const [finished, setFinished] = useState(false);
 
   const questionStart = useRef(Date.now());
@@ -70,6 +71,7 @@ export function StudySession({
     setRevealed(true);
     setWasCorrect(result.correct);
     if (result.correct) setCorrectCount((c) => c + 1);
+    if (result.queuedForReview) setQueuedCount((c) => c + 1);
     requestAnimationFrame(() =>
       feedbackAnchor.current?.scrollIntoView({
         behavior: "smooth",
@@ -120,7 +122,14 @@ export function StudySession({
   }, [revealed, selected, finished, withScheduling, handleSubmit, advance]);
 
   if (finished) {
-    return <SessionComplete correct={correctCount} total={total} label={label} />;
+    return (
+      <SessionComplete
+        correct={correctCount}
+        total={total}
+        label={label}
+        queued={queuedCount}
+      />
+    );
   }
 
   if (!question) {
@@ -285,12 +294,16 @@ function SessionComplete({
   correct,
   total,
   label,
+  queued,
 }: {
   correct: number;
   total: number;
   label: string;
+  /** Scenarios this session added to the review queue. */
+  queued: number;
 }) {
   const accuracy = pct(correct, total);
+  const showQueue = queued > 0;
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -308,8 +321,30 @@ function SessionComplete({
         {correct} of {total} correct in {label.toLowerCase()}.
       </p>
 
+      {/* The queue fills itself on every miss. Saying so here is the only
+          place a learner finds out without going looking. */}
+      {showQueue ? (
+        <div className="mt-6 rounded-lg border border-accent/40 bg-accent-tint p-4 text-left">
+          <p className="text-sm font-medium">
+            {queued} {queued === 1 ? "scenario is" : "scenarios are"} now in your
+            review queue
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Missed scenarios come back on a spaced schedule so they stick.
+          </p>
+        </div>
+      ) : null}
+
       <div className="mt-8 flex flex-col gap-2.5">
-        <Button asChild size="lg">
+        {showQueue ? (
+          <Button asChild size="lg">
+            <Link href="/review">
+              <RotateCcw className="h-4 w-4" />
+              Review them now
+            </Link>
+          </Button>
+        ) : null}
+        <Button asChild size="lg" variant={showQueue ? "outline" : "default"}>
           <Link href="/home">Back to home</Link>
         </Button>
         <Button asChild variant="outline" size="lg">

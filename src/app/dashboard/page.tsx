@@ -1,6 +1,5 @@
 "use client";
 
-import { Lock } from "lucide-react";
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
 import { BrandMark } from "@/components/app/brand-mark";
@@ -11,16 +10,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getTrack } from "@/content/registry";
+import { getTrack, getTrackQuestions } from "@/content/registry";
 import {
   domainStats,
+  focusDomains,
   masteredQuestionIds,
   overallAccuracy,
   strongDomains,
   targetDifficulty,
   weakDomains,
 } from "@/lib/adaptive";
-import { availableQuestions } from "@/lib/entitlements";
 import { dueCount, upcomingReviews } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 
@@ -33,17 +32,18 @@ export default function DashboardPage() {
 }
 
 function Dashboard() {
-  const { progress, entitlements } = useProgress();
+  const { progress } = useProgress();
   const track = getTrack(progress.trackId);
 
   const attempts = progress.attempts;
   const accuracy = overallAccuracy(attempts);
   const mastered = masteredQuestionIds(attempts);
-  const available = availableQuestions(progress.tier, progress.trackId);
+  const available = getTrackQuestions(progress.trackId);
   const stats = domainStats(progress, progress.trackId);
-  const due = entitlements.reviewQueue ? dueCount(progress) : 0;
+  const due = dueCount(progress);
   const forecast = upcomingReviews(progress, 7);
   const weak = weakDomains(progress, progress.trackId);
+  const focus = focusDomains(progress, progress.trackId);
   const strong = strongDomains(progress, progress.trackId);
   const level = targetDifficulty(attempts);
 
@@ -106,99 +106,81 @@ function Dashboard() {
         </Card>
       </section>
 
-      {entitlements.advancedAnalytics ? (
-        <>
-          {(weak.length > 0 || strong.length > 0) && (
-            <section className="grid gap-3 sm:grid-cols-2">
-              {strong.length > 0 ? (
-                <Card>
-                  <CardContent className="p-5">
-                    <h2 className="text-sm font-semibold">Strengths</h2>
-                    <ul className="mt-3 space-y-2">
-                      {strong.map((d) => (
-                        <li
-                          key={d.domain}
-                          className="flex items-baseline justify-between gap-3 text-sm"
-                        >
-                          <span className="truncate text-muted-foreground">
-                            {d.domain}
-                          </span>
-                          <span className="shrink-0 tabular-nums text-success">
-                            {d.accuracy}%
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              ) : null}
+      {weak.length > 0 || strong.length > 0 ? (
+        <section className="grid gap-3 sm:grid-cols-2">
+        {strong.length > 0 ? (
+          <Card>
+            <CardContent className="p-5">
+              <h2 className="text-sm font-semibold">Strengths</h2>
+              <ul className="mt-3 space-y-2">
+                {strong.map((d) => (
+                  <li
+                    key={d.domain}
+                    className="flex items-baseline justify-between gap-3 text-sm"
+                  >
+                    <span className="truncate text-muted-foreground">
+                      {d.domain}
+                    </span>
+                    <span className="shrink-0 tabular-nums text-success">
+                      {d.accuracy}%
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        ) : null}
 
-              {weak.length > 0 ? (
-                <Card>
-                  <CardContent className="p-5">
-                    <h2 className="text-sm font-semibold">Needs work</h2>
-                    <ul className="mt-3 space-y-2">
-                      {weak.map((d) => (
-                        <li
-                          key={d.domain}
-                          className="flex items-baseline justify-between gap-3 text-sm"
-                        >
-                          <span className="truncate text-muted-foreground">
-                            {d.domain}
-                          </span>
-                          <span className="shrink-0 tabular-nums text-warning">
-                            {d.accuracy}%
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              ) : null}
-            </section>
-          )}
+        {weak.length > 0 ? (
+          <Card>
+            <CardContent className="flex h-full flex-col p-5">
+              <h2 className="text-sm font-semibold">Needs work</h2>
+              <ul className="mt-3 space-y-2">
+                {weak.map((d) => (
+                  <li
+                    key={d.domain}
+                    className="flex items-baseline justify-between gap-3 text-sm"
+                  >
+                    <span className="truncate text-muted-foreground">
+                      {d.domain}
+                    </span>
+                    <span className="shrink-0 tabular-nums text-warning">
+                      {d.accuracy}%
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              {/* A readout the learner cannot act on is just a scold. */}
+              <Button asChild variant="secondary" className="mt-4 w-full">
+                <Link href="/study/session?focus=weak&count=10">
+                  {focus.length === 1
+                    ? "Drill the weakest domain"
+                    : `Drill the ${focus.length} weakest domains`}
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        ) : null}
+        </section>
+      ) : null}
 
-          <section>
-            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Review schedule
-            </h2>
-            <Card>
-              <CardContent className="p-5">
-                <div className="mb-5 flex items-baseline gap-2">
-                  <span className="text-2xl font-semibold tabular-nums">
-                    {due}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    due now
-                  </span>
-                </div>
-                <ReviewForecast data={forecast} />
-                <p className="mt-4 text-xs text-muted-foreground">
-                  Next 7 days of scheduled reviews
-                </p>
-              </CardContent>
-            </Card>
-          </section>
-        </>
-      ) : (
-        <Card className="border-accent/40">
+      <section>
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Review schedule
+        </h2>
+        <Card>
           <CardContent className="p-5">
-            <div className="flex items-start gap-3">
-              <Lock className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
-              <div>
-                <h2 className="font-semibold">Advanced analytics on Pro</h2>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                  Strength and weakness breakdowns, review scheduling forecasts,
-                  and mastery tracking across the full scenario library.
-                </p>
-              </div>
+            <div className="mb-5 flex items-baseline gap-2">
+              <span className="text-2xl font-semibold tabular-nums">{due}</span>
+              <span className="text-sm text-muted-foreground">due now</span>
             </div>
-            <Button asChild className="mt-4 w-full sm:w-auto">
-              <Link href="/upgrade">See what Pro includes</Link>
-            </Button>
+            <ReviewForecast data={forecast} />
+            <p className="mt-4 text-xs text-muted-foreground">
+              Next 7 days of scheduled reviews
+            </p>
           </CardContent>
         </Card>
-      )}
+      </section>
     </div>
   );
 }

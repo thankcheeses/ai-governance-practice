@@ -18,6 +18,8 @@ const TRACKS: Track[] = [
     name: "AIGP Preparation",
     summary:
       "Build practical governance judgment across AI foundations, laws and frameworks, development, and deployment.",
+    context:
+      "The four domains below follow the subject areas the IAPP publishes for the AIGP certification, so study here maps onto the ground that exam covers. Every scenario is original material written for this track. AIGP is a certification mark of the IAPP; this product is independent of the IAPP and is not affiliated with, endorsed by, or approved by it.",
     status: "active",
     domains: aigpDomains,
     questionCount: aigpQuestions.length,
