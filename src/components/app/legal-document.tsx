@@ -35,7 +35,7 @@ export function LegalDocument({
   backHref,
 }: LegalDocumentProps) {
   return (
-    <div className="space-y-6">
+    <div className="measure space-y-6">
       <div>
         {backHref ? (
           <Button asChild variant="ghost" size="sm" className="-ml-2 mb-3">

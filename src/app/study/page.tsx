@@ -35,12 +35,12 @@ function Study() {
   return (
     <div className="space-y-7">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight">Study</h1>
+        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Study</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {track.name} · {track.questionCount} scenarios, all free
         </p>
         {track.context ? (
-          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+          <p className="measure mt-3 text-xs leading-relaxed text-muted-foreground">
             {track.context}
           </p>
         ) : null}
@@ -49,20 +49,21 @@ function Study() {
       {/* Focus session — only once weak-domain accuracy means something. */}
       {focus.length > 0 ? (
         <section>
-          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
             Focus session
           </h2>
-          <Card className="border-accent/40">
+          <Card className="border-2 border-foreground">
             <CardContent className="p-5">
               <div className="flex items-start gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent-tint ring-1 ring-accent/25">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-border-strong bg-secondary">
                   <Target className="h-4 w-4 text-primary" />
                 </span>
                 <div className="min-w-0">
                   <h3 className="font-semibold">
-                    Drill your {focus.length === 1 ? "weakest domain" : "weakest domains"}
+                    Drill your{" "}
+                    {focus.length === 1 ? "weakest domain" : "weakest domains"}
                   </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  <p className="measure mt-1 text-sm leading-relaxed text-muted-foreground">
                     Scenarios drawn only from where your accuracy is lowest.
                   </p>
                   <ul className="mt-3 space-y-1.5">
@@ -82,9 +83,9 @@ function Study() {
                   </ul>
                 </div>
               </div>
-              <div className="mt-4 grid grid-cols-3 gap-2">
+              <div className="mt-4 grid gap-2 sm:grid-cols-3">
                 {SESSION_LENGTHS.map((count) => (
-                  <Button key={count} asChild>
+                  <Button key={count} asChild className="px-2">
                     <Link href={`/study/session?focus=weak&count=${count}`}>
                       {count} scenarios
                     </Link>
@@ -98,27 +99,29 @@ function Study() {
 
       {/* Mixed practice */}
       <section>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Mixed practice
         </h2>
         <Card>
           <CardContent className="p-5">
             <div className="flex items-start gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent-tint ring-1 ring-accent/25">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-border-strong bg-secondary">
                 <Shuffle className="h-4 w-4 text-primary" />
               </span>
               <div>
                 <h3 className="font-semibold">Adaptive session</h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="measure mt-1 text-sm leading-relaxed text-muted-foreground">
                   Scenarios across every domain, ordered by what you have not
                   seen and where your accuracy is weakest.
                 </p>
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-2">
+            <div className="mt-4 grid gap-2 sm:grid-cols-3">
               {SESSION_LENGTHS.map((count) => (
-                <Button key={count} asChild variant="secondary">
-                  <Link href={`/study/session?count=${count}`}>{count} scenarios</Link>
+                <Button key={count} asChild variant="secondary" className="px-2">
+                  <Link href={`/study/session?count=${count}`}>
+                    {count} scenarios
+                  </Link>
                 </Button>
               ))}
             </div>
@@ -128,11 +131,12 @@ function Study() {
 
       {/* Domain practice */}
       <section>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Practise by domain
         </h2>
 
-        <div className="space-y-2.5">
+        {/* Ruled rows rather than spaced cards — alignment does the work. */}
+        <div className="rule-y border border-border">
           {track.domains.map((domain) => {
             const stat = stats.find((s) => s.domain === domain);
             const count = countByDomain.get(domain) ?? 0;
@@ -141,7 +145,7 @@ function Study() {
               <Link
                 key={domain}
                 href={`/study/session?domain=${encodeURIComponent(domain)}`}
-                className="flex items-center gap-4 rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-px hover:border-accent/50 hover:shadow-[var(--shadow-card-hover)]"
+                className="flex items-center gap-4 bg-card p-4 transition-colors duration-150 hover:bg-secondary"
               >
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate font-medium">{domain}</h3>

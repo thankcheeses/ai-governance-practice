@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, RotateCcw, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -135,7 +134,7 @@ export function StudySession({
   if (!question) {
     return (
       <div className="py-16 text-center">
-        <h1 className="text-xl font-semibold">Nothing to study here</h1>
+        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Nothing to study here</h1>
         <p className="mt-2 text-muted-foreground">
           Try a different domain or come back once more questions are due.
         </p>
@@ -175,30 +174,16 @@ export function StudySession({
         </Badge>
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={question.id}
-          initial={{ opacity: 0, x: 12 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -12 }}
-          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <QuestionView
-            question={question}
-            selected={selected}
-            revealed={revealed}
-            onSelect={setSelected}
-          />
-        </motion.div>
-      </AnimatePresence>
+      <QuestionView
+        question={question}
+        selected={selected}
+        revealed={revealed}
+        onSelect={setSelected}
+      />
 
       {/* Optional confidence capture — feeds review queue prioritisation. */}
       {!revealed && selected ? (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mt-6"
-        >
+        <div className="mt-6">
           <p className="mb-2 text-xs font-medium text-muted-foreground">
             How confident are you? (optional)
           </p>
@@ -211,17 +196,17 @@ export function StudySession({
                   setConfidence((c) => (c === option.value ? null : option.value))
                 }
                 className={cn(
-                  "flex-1 rounded-lg border px-3 py-2 text-sm transition-colors",
+                  "flex-1 border px-3 py-2 text-sm transition-colors",
                   confidence === option.value
-                    ? "border-accent bg-accent-subtle text-foreground"
-                    : "border-border text-muted-foreground hover:bg-accent-tint",
+                    ? "border-2 border-foreground bg-secondary text-foreground"
+                    : "border-border text-muted-foreground hover:bg-secondary",
                 )}
               >
                 {option.label}
               </button>
             ))}
           </div>
-        </motion.div>
+        </div>
       ) : null}
 
       <div ref={feedbackAnchor} className="scroll-mt-6" />
@@ -242,12 +227,12 @@ export function StudySession({
                     type="button"
                     onClick={() => handleGrade(grade)}
                     className={cn(
-                      "rounded-lg border bg-card p-3 text-center shadow-[var(--shadow-card)] transition-colors active:scale-[0.98]",
+                      "border border-l-4 bg-card p-3 text-center transition-colors active:translate-y-px",
                       grade === "again" &&
-                        "border-destructive/40 hover:bg-destructive-tint",
-                      grade === "hard" && "border-warning/40 hover:bg-warning/10",
-                      grade === "good" && "border-accent/50 hover:bg-accent-tint",
-                      grade === "easy" && "border-success/40 hover:bg-success-tint",
+                        "border-destructive hover:bg-destructive-tint",
+                      grade === "hard" && "border-warning hover:bg-warning/15",
+                      grade === "good" && "border-border-strong hover:bg-secondary",
+                      grade === "easy" && "border-success hover:bg-success-tint",
                     )}
                   >
                     <div className="text-sm font-medium capitalize">{grade}</div>
@@ -305,18 +290,13 @@ function SessionComplete({
   const accuracy = pct(correct, total);
   const showQueue = queued > 0;
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      className="mx-auto max-w-md py-10 text-center"
-    >
-      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-accent/40 bg-accent-tint">
+    <div className="mx-auto max-w-md py-10 text-center">
+      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center border-2 border-foreground">
         <span className="text-2xl font-semibold tabular-nums text-primary">
           {accuracy}%
         </span>
       </div>
-      <h1 className="text-2xl font-semibold">Session complete</h1>
+      <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Session complete</h1>
       <p className="mt-2 text-muted-foreground">
         {correct} of {total} correct in {label.toLowerCase()}.
       </p>
@@ -324,7 +304,7 @@ function SessionComplete({
       {/* The queue fills itself on every miss. Saying so here is the only
           place a learner finds out without going looking. */}
       {showQueue ? (
-        <div className="mt-6 rounded-lg border border-accent/40 bg-accent-tint p-4 text-left">
+        <div className="mt-6 border border-l-4 border-foreground bg-secondary p-4 text-left">
           <p className="text-sm font-medium">
             {queued} {queued === 1 ? "scenario is" : "scenarios are"} now in your
             review queue
@@ -351,6 +331,6 @@ function SessionComplete({
           <Link href="/study">Start another session</Link>
         </Button>
       </div>
-    </motion.div>
+    </div>
   );
 }

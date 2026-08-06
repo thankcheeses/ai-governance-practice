@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { BarChart3, Home, Layers, RotateCcw, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -58,8 +57,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Main column */}
       <div className="flex min-w-0 flex-1 flex-col">
         <MobileHeader />
-        <main className="flex-1 px-4 py-5 pb-safe-nav sm:px-6 lg:px-8 lg:pb-10 lg:pt-8">
-          <div className="mx-auto w-full max-w-3xl">{children}</div>
+        <main className="flex-1 px-6 py-5 pb-safe-nav lg:pb-10 lg:pt-8">
+          {/* 1280px containment with 1.5rem side padding, per the layout rule. */}
+          <div className="mx-auto w-full max-w-[1280px]">{children}</div>
         </main>
       </div>
 
@@ -100,18 +100,14 @@ function MobileTabBar({ pathname, due }: { pathname: string; due: number }) {
               <span className="relative">
                 <item.icon className="h-5 w-5" />
                 {item.href === "/review" && due > 0 ? (
-                  <span className="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[0.625rem] font-semibold text-primary-foreground">
+                  <span className="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center bg-destructive px-1 text-[0.625rem] font-semibold text-destructive-foreground">
                     {due > 99 ? "99+" : due}
                   </span>
                 ) : null}
               </span>
               {item.label}
               {active ? (
-                <motion.span
-                  layoutId="tab-indicator"
-                  className="absolute inset-x-4 top-0 h-0.5 rounded-full bg-primary"
-                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                />
+                <span className="absolute inset-x-4 top-0 h-0.5 bg-foreground" />
               ) : null}
             </Link>
           );
@@ -139,7 +135,7 @@ function SidebarLink({
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+        "flex items-center gap-3 px-3 py-2 text-sm font-medium transition-colors",
         active
           ? "bg-secondary text-foreground"
           : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
@@ -148,7 +144,7 @@ function SidebarLink({
       <Icon className="h-4 w-4" />
       {label}
       {badge > 0 ? (
-        <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[0.6875rem] font-semibold text-primary-foreground">
+        <span className="ml-auto flex h-5 min-w-5 items-center justify-center bg-destructive px-1.5 text-[0.6875rem] font-semibold text-destructive-foreground">
           {badge > 99 ? "99+" : badge}
         </span>
       ) : null}

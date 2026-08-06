@@ -51,7 +51,7 @@ function Dashboard() {
     return (
       <div className="space-y-6">
         <header>
-          <h1 className="text-2xl font-semibold tracking-tight">Progress</h1>
+          <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Progress</h1>
         </header>
         <Card>
           <CardContent className="flex flex-col items-center p-8 text-center">
@@ -73,7 +73,7 @@ function Dashboard() {
   return (
     <div className="space-y-7">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight">Progress</h1>
+        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Progress</h1>
         <p className="mt-1 text-sm text-muted-foreground">{track.name}</p>
       </header>
 
@@ -84,15 +84,12 @@ function Dashboard() {
           value={String(attempts.filter((a) => a.correct).length)}
         />
         <Stat label="Accuracy" value={`${accuracy}%`} />
-        <Stat
-          label="Mastered"
-          value={`${mastered.size}/${available.length}`}
-        />
+        <Stat label="Mastered" value={`${mastered.size}/${available.length}`} />
       </section>
 
       <section>
         <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <h2 className="text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
             Domain performance
           </h2>
           <Badge variant="outline" className="capitalize">
@@ -107,65 +104,71 @@ function Dashboard() {
       </section>
 
       {weak.length > 0 || strong.length > 0 ? (
-        <section className="grid gap-3 sm:grid-cols-2">
-        {strong.length > 0 ? (
-          <Card>
-            <CardContent className="p-5">
-              <h2 className="text-sm font-semibold">Strengths</h2>
-              <ul className="mt-3 space-y-2">
-                {strong.map((d) => (
-                  <li
-                    key={d.domain}
-                    className="flex items-baseline justify-between gap-3 text-sm"
-                  >
-                    <span className="truncate text-muted-foreground">
-                      {d.domain}
-                    </span>
-                    <span className="shrink-0 tabular-nums text-success">
-                      {d.accuracy}%
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        ) : null}
+        <section className="grid gap-3 sm:grid-cols-2 [&>*]:min-w-0">
+          {strong.length > 0 ? (
+            <Card>
+              <CardContent className="p-5">
+                <h2 className="text-sm font-semibold">Strengths</h2>
+                <ul className="mt-3 space-y-2">
+                  {strong.map((d) => (
+                    <li
+                      key={d.domain}
+                      className="flex items-baseline justify-between gap-3 text-sm"
+                    >
+                      <span className="truncate text-muted-foreground">
+                        {d.domain}
+                      </span>
+                      <span className="shrink-0 tabular-nums text-success">
+                        {d.accuracy}%
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          ) : null}
 
-        {weak.length > 0 ? (
-          <Card>
-            <CardContent className="flex h-full flex-col p-5">
-              <h2 className="text-sm font-semibold">Needs work</h2>
-              <ul className="mt-3 space-y-2">
-                {weak.map((d) => (
-                  <li
-                    key={d.domain}
-                    className="flex items-baseline justify-between gap-3 text-sm"
-                  >
-                    <span className="truncate text-muted-foreground">
-                      {d.domain}
-                    </span>
-                    <span className="shrink-0 tabular-nums text-warning">
-                      {d.accuracy}%
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              {/* A readout the learner cannot act on is just a scold. */}
-              <Button asChild variant="secondary" className="mt-4 w-full">
-                <Link href="/study/session?focus=weak&count=10">
-                  {focus.length === 1
-                    ? "Drill the weakest domain"
-                    : `Drill the ${focus.length} weakest domains`}
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        ) : null}
+          {weak.length > 0 ? (
+            <Card>
+              <CardContent className="flex h-full flex-col p-5">
+                <h2 className="text-sm font-semibold">Needs work</h2>
+                <ul className="mt-3 space-y-2">
+                  {weak.map((d) => (
+                    <li
+                      key={d.domain}
+                      className="flex items-baseline justify-between gap-3 text-sm"
+                    >
+                      <span className="truncate text-muted-foreground">
+                        {d.domain}
+                      </span>
+                      <span className="shrink-0 tabular-nums text-warning">
+                        {d.accuracy}%
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                {/* A readout the learner cannot act on is just a scold. */}
+                {/* whitespace-nowrap on the button base would force this
+                    column wider than a 320px viewport; the label wraps. */}
+                <Button
+                  asChild
+                  variant="secondary"
+                  className="mt-4 h-auto w-full whitespace-normal py-2.5 text-center"
+                >
+                  <Link href="/study/session?focus=weak&count=10">
+                    {focus.length === 1
+                      ? "Drill the weakest domain"
+                      : `Drill the ${focus.length} weakest domains`}
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          ) : null}
         </section>
       ) : null}
 
       <section>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Review schedule
         </h2>
         <Card>
@@ -187,7 +190,7 @@ function Dashboard() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div className="border border-border bg-card p-4">
       <div className="text-xl font-semibold tabular-nums">{value}</div>
       <div className="mt-1 text-xs text-muted-foreground">{label}</div>
     </div>

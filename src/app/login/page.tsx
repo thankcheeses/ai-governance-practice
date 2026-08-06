@@ -109,7 +109,7 @@ export default function LoginPage() {
       ) : (
         <Card>
           <CardContent className="p-5">
-            <h1 className="text-xl font-semibold tracking-tight">
+            <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
               {mode === "signin" ? "Sign in" : "Create your account"}
             </h1>
             <p className="mt-1.5 text-sm text-muted-foreground">
@@ -151,14 +151,14 @@ export default function LoginPage() {
               {error ? (
                 <p
                   role="alert"
-                  className="rounded-md border border-destructive/30 bg-destructive-tint p-3 text-sm text-destructive"
+                  className="border border-l-4 border-destructive bg-destructive-tint p-3 text-sm text-destructive"
                 >
                   {error}
                 </p>
               ) : null}
 
               {notice ? (
-                <p className="rounded-md border border-accent/40 bg-accent-tint p-3 text-sm text-primary">
+                <p className="border border-l-4 border-success bg-success-tint p-3 text-sm text-success">
                   {notice}
                 </p>
               ) : null}

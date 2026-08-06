@@ -1,29 +1,47 @@
 @import "tailwindcss";
 
 /*
-  AI Governance Practice design system.
+  AI Governance Practice — Utilitarian design system.
 
-  Light is the default. Both themes drive the same semantic token names so no
-  component branches on theme — they reference `bg-card`, `text-muted-foreground`
-  and so on, and the values swap underneath.
+  Implemented from the supplied specification. Light is the default. Both
+  themes drive the same semantic token names so no component branches on
+  theme — they reference `bg-card`, `text-muted-foreground` and so on, and the
+  values swap underneath.
 
-  Theme is applied by a `data-theme` attribute on <html>, set before first paint
-  by an inline script in the root layout to avoid a flash.
+  Theme is applied by a `data-theme` attribute on <html>, set before first
+  paint by an inline script in the root layout to avoid a flash.
 
   ---------------------------------------------------------------------------
-  Accent policy (important)
+  Palette — functional, not decorative
 
-  The brand accent is teal #14B8A6. At 2.5:1 against white it is not usable
-  behind body text, so the palette splits it into two roles:
+    #FFFFFF  Pure White       light surface
+    #0A0A0A  Off-black        dark surface. The spec lists Pure Black as the
+                              dark background but its Don'ts forbid #000000
+                              outright; charcoal satisfies both.
+    #333333  Dark Grey        deep contrast surface
+    #666666  Medium Grey      secondary text, strong borders
+    #CCCCCC  Light Grey       borders, muted rules
+    #FFD700  Safety Yellow    warning
+    #CC0000  Signal Red       error, destructive
+    #003366  Industrial Blue  info
 
-    --accent   #14B8A6  brand teal. Indicators only: progress fills, borders,
-                        selected-state rings, icons on tinted surfaces.
-                        Never sits behind text.
-    --primary  #0F766E  the same hue, darkened for text-bearing surfaces.
-                        5.5:1 against white, so CTAs and the Key Takeaway block
-                        stay legible while still reading as the brand colour.
+  Colour is a signal here. Red means stop, yellow means caution, blue means
+  information. None of them is an accent, and none is used decoratively.
 
-  There is no blue anywhere in either theme.
+  Yellow on white is 1.6:1 and red on charcoal is 2.6:1 — neither carries body
+  text. They appear as fills, rules and indicators, always paired with a
+  foreground token that clears AA.
+
+  ---------------------------------------------------------------------------
+  Deliberate omissions
+
+    radius     0 at every step. The spec's Shapes section and both component
+               rules say sharp edges; the rounded tokens in its front matter
+               are overridden.
+    shadow     capped at 0 2px 8px rgb(0 0 0 / 0.08), the spec's stated
+               ceiling. The card rule's 12px blur exceeds it.
+    gradients  none. Flat colour only.
+    motion     state changes only. No entry animations, no hover scaling.
 */
 
 @theme {
@@ -57,115 +75,134 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --radius-lg: 0.875rem;
-  --radius-md: 0.625rem;
-  --radius-sm: 0.375rem;
+  /* Sharp edges. Every step is 0 so no component can round by accident. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo,
-    monospace;
+  /* Monospace only. One family across display, body, UI and code. */
+  --font-sans: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
 
-  /* Elevation — soft and low-contrast, so cards lift without looking glossy. */
-  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 1px 3px rgb(15 23 42 / 0.06);
-  --shadow-card-hover: 0 2px 4px rgb(15 23 42 / 0.05),
-    0 6px 16px rgb(15 23 42 / 0.08);
-  --shadow-raised: 0 1px 2px rgb(15 23 42 / 0.05),
-    0 8px 24px rgb(15 23 42 / 0.1);
-  --shadow-accent: 0 1px 2px rgb(13 148 136 / 0.2),
-    0 6px 16px rgb(13 148 136 / 0.18);
+  /*
+    Elevation exists to separate a surface from the one behind it, nothing
+    more. One value, at the spec's ceiling; `raised` and `accent` are aliases
+    so no component carries a heavier shadow than the rule permits.
+  */
+  --shadow-card: 0 1px 0 rgb(0 0 0 / 0.06);
+  --shadow-card-hover: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-raised: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-accent: 0 2px 8px rgb(0 0 0 / 0.08);
 }
 
 /* --------------------------------------------------------------- Light --- */
 :root,
 :root[data-theme="light"] {
-  --background: #fafaf9;
-  --foreground: #0f172a;
+  --background: #ffffff;
+  --foreground: #0a0a0a;
 
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #0a0a0a;
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
+  --popover-foreground: #0a0a0a;
 
-  --primary: #0f766e;
+  /*
+    Primary is the inverted surface, not a hue. A stark fill is the signage
+    convention, and it leaves red free to mean destructive rather than
+    "the main action".
+  */
+  --primary: #0a0a0a;
   --primary-foreground: #ffffff;
-  --primary-strong: #115e59;
+  --primary-strong: #333333;
 
-  --accent: #14b8a6;
-  --accent-foreground: #115e59;
-  --accent-subtle: #ccfbf1;
-  --accent-tint: #f0fdfa;
+  /* Rules and indicators. Never behind text. */
+  --accent: #666666;
+  --accent-foreground: #0a0a0a;
+  --accent-subtle: #cccccc;
+  --accent-tint: #f2f2f2;
 
-  --secondary: #f5f5f4;
-  --secondary-foreground: #1e293b;
-  --muted: #f5f5f4;
-  --muted-foreground: #57616f;
+  --secondary: #f2f2f2;
+  --secondary-foreground: #0a0a0a;
+  --muted: #f2f2f2;
+  --muted-foreground: #595959;
 
-  --destructive: #b91c1c;
+  --destructive: #cc0000;
   --destructive-foreground: #ffffff;
-  --destructive-tint: #fef2f2;
+  --destructive-tint: #ffeded;
 
-  --success: #15803d;
+  /*
+    The palette carries no green. Information blue takes the affirmative role
+    so the coding stays inside the specified set: blue confirms, red alerts,
+    yellow warns.
+  */
+  --success: #003366;
   --success-foreground: #ffffff;
-  --success-tint: #f0fdf4;
+  --success-tint: #eaf0f6;
 
-  --warning: #a16207;
-  --warning-foreground: #ffffff;
+  --warning: #8a6d00;
+  --warning-foreground: #0a0a0a;
 
-  --border: #e7e5e4;
-  --border-strong: #d6d3d1;
-  --input: #d6d3d1;
-  --ring: #14b8a6;
+  --border: #cccccc;
+  --border-strong: #666666;
+  --input: #666666;
+  --ring: #0a0a0a;
 
   color-scheme: light;
 }
 
 /* ---------------------------------------------------------------- Dark --- */
 :root[data-theme="dark"] {
-  --background: #0b1220;
-  --foreground: #f1f5f9;
+  --background: #0a0a0a;
+  --foreground: #ffffff;
 
-  --card: #121b2b;
-  --card-foreground: #f1f5f9;
-  --popover: #16202f;
-  --popover-foreground: #f1f5f9;
+  --card: #141414;
+  --card-foreground: #ffffff;
+  --popover: #141414;
+  --popover-foreground: #ffffff;
 
-  /* On dark surfaces the light teal is the legible one, so the roles invert. */
-  --primary: #2dd4bf;
-  --primary-foreground: #06201d;
-  --primary-strong: #5eead4;
+  --primary: #ffffff;
+  --primary-foreground: #0a0a0a;
+  --primary-strong: #cccccc;
 
-  --accent: #14b8a6;
-  --accent-foreground: #99f6e4;
-  --accent-subtle: #10403c;
-  --accent-tint: #0d2a28;
+  --accent: #666666;
+  --accent-foreground: #ffffff;
+  --accent-subtle: #333333;
+  --accent-tint: #1c1c1c;
 
-  --secondary: #1c2739;
-  --secondary-foreground: #e2e8f0;
-  --muted: #1c2739;
-  --muted-foreground: #94a3b8;
+  --secondary: #1c1c1c;
+  --secondary-foreground: #ffffff;
+  --muted: #1c1c1c;
+  --muted-foreground: #a6a6a6;
 
-  --destructive: #f87171;
-  --destructive-foreground: #2a0a0a;
-  --destructive-tint: #2a1416;
+  /* Signal red is too dark to read on charcoal; lifted to clear AA. */
+  --destructive: #ff5c5c;
+  --destructive-foreground: #0a0a0a;
+  --destructive-tint: #2a1010;
 
-  --success: #4ade80;
-  --success-foreground: #052e16;
-  --success-tint: #10281a;
+  /* Industrial blue likewise. */
+  --success: #6fa8dc;
+  --success-foreground: #0a0a0a;
+  --success-tint: #10202e;
 
-  --warning: #fbbf24;
-  --warning-foreground: #291a04;
+  --warning: #ffd700;
+  --warning-foreground: #0a0a0a;
 
-  --border: #253047;
-  --border-strong: #33405c;
-  --input: #33405c;
-  --ring: #2dd4bf;
+  --border: #333333;
+  --border-strong: #666666;
+  --input: #666666;
+  --ring: #ffffff;
 
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.24);
-  --shadow-card-hover: 0 2px 4px rgb(0 0 0 / 0.3), 0 6px 16px rgb(0 0 0 / 0.36);
-  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.44);
-  --shadow-accent: 0 1px 2px rgb(20 184 166 / 0.24),
-    0 6px 16px rgb(20 184 166 / 0.22);
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.08);
+  --shadow-card-hover: 0 2px 8px rgb(0 0 0 / 0.6);
+  --shadow-raised: 0 2px 8px rgb(0 0 0 / 0.6);
+  --shadow-accent: 0 2px 8px rgb(0 0 0 / 0.6);
 
   color-scheme: dark;
 }
@@ -188,11 +225,19 @@
     text-rendering: optimizeLegibility;
   }
 
-  ::selection {
-    background-color: var(--color-accent-subtle);
-    color: var(--color-primary-strong);
+  /* Tight tracking on headings, per the display rule. */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
   }
 
+  ::selection {
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  /* 2px ring, offset 2px — the specified focus treatment. */
   :focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
@@ -210,39 +255,56 @@
   }
 }
 
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 @layer utilities {
   /*
-    Brand surface for premium moments — splash, empty states, upgrade.
-    Deep navy through teal to cyan, matching the 3D glass logo mark.
-    Used only where the spec calls for a brand moment, never as decoration.
+    Loading state. A shimmer pass across a block the size of the content it
+    stands in for — the spec rules out circular spinners, and a rectangle at
+    the right dimensions tells the reader what is arriving.
   */
-  .brand-glass {
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-secondary);
+  }
+
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     background-image: linear-gradient(
-      145deg,
-      #0f172a 0%,
-      #115e59 55%,
-      #0e7490 100%
+      90deg,
+      transparent 0%,
+      var(--color-border) 50%,
+      transparent 100%
     );
+    animation: shimmer 1.2s linear infinite;
   }
 
-  .brand-glass-sheen {
-    background-image: linear-gradient(
-      160deg,
-      rgb(255 255 255 / 0.22) 0%,
-      rgb(255 255 255 / 0.04) 38%,
-      transparent 62%
-    );
+  /*
+    Body copy is capped at 72 characters. The container is wide (1280px) so
+    tables, rows and metadata can use the full width; running text must not,
+    or the eye loses the line on the return sweep.
+  */
+  .measure {
+    max-width: 72ch;
   }
 
-  .text-gradient {
-    background-image: linear-gradient(100deg, #0f172a 30%, #0f766e 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  :root[data-theme="dark"] .text-gradient {
-    background-image: linear-gradient(100deg, #f1f5f9 30%, #5eead4 100%);
+  /*
+    Visible grid lines as a design element. A hairline rule between rows,
+    replacing the gaps a softer system would use — alignment does the work
+    that whitespace used to.
+  */
+  .rule-y > * + * {
+    border-top: 1px solid var(--color-border);
   }
 
   .no-scrollbar::-webkit-scrollbar {

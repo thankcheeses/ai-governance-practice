@@ -195,49 +195,68 @@ matters on device — middleware only refreshes an auth cookie for server
 rendering, and bundled images need no optimizer. Keeping it behind a flag means
 neither target can silently regress the other.
 
-### 9. Theming, and the two-role accent
+### 9. Theming and the Utilitarian palette
 
 Semantic tokens are defined once per theme in `globals.css` and consumed through
 Tailwind v4's `@theme`. No component branches on theme. An inline script in the
 root layout sets `data-theme` on `<html>` before first paint, so there is no
 flash. **Light is the default**; Dark and System are available in Settings.
 
-| Role | Light |
-| --- | --- |
-| Background | `#FAFAF9` warm off-white |
-| Surface | `#FFFFFF` |
-| Primary text | `#0F172A` deep navy |
-| Brand accent | `#14B8A6` teal |
+The system is Utilitarian: industrial signage rather than product marketing.
+Colour is a signal, never an accent.
 
-There is no blue anywhere in either theme.
+| Role | Light | Dark |
+| --- | --- | --- |
+| Background | `#FFFFFF` | `#0A0A0A` off-black |
+| Surface | `#FFFFFF` | `#141414` |
+| Primary text | `#0A0A0A` | `#FFFFFF` |
+| Primary fill | `#0A0A0A` on white | `#FFFFFF` on black |
+| Alert | `#CC0000` signal red | `#FF5C5C` |
+| Warning | `#8A6D00` | `#FFD700` safety yellow |
+| Info / affirmative | `#003366` industrial blue | `#6FA8DC` |
+| Rules | `#CCCCCC` / `#666666` | `#333333` / `#666666` |
 
-The accent needs explaining. Teal `#14B8A6` sits at 2.5:1 against white, which is
-not legible behind body text — so the palette splits it into two roles:
+Three notes on where the implementation reads the spec rather than transcribing
+it:
 
-- `--accent` `#14B8A6` — the brand teal, used for **indicators only**: progress
-  fills, selected-state borders, icons on tinted plates, focus rings. It never
-  sits behind text.
-- `--primary` `#0F766E` — the same hue darkened for **text-bearing surfaces**:
-  CTAs and the Key Takeaway block. At 5.5:1 against white it stays legible while
-  still reading as the brand colour.
+- **No pure black.** The spec lists `#000000` as the dark background and then
+  forbids it outright in its Don'ts. Charcoal `#0A0A0A` satisfies both.
+- **No green.** The palette has none, and functional coding assigns blue to
+  information. Industrial blue therefore carries the affirmative role — a
+  correct answer, a met goal — where a conventional system would use green.
+- **Signal colours are lifted in dark mode.** `#CC0000` on charcoal is 2.6:1 and
+  `#FFD700` on white is 1.6:1; neither can carry text. Both themes use adjusted
+  values behind text and reserve the pure signal hues for fills and rules. Every
+  text pair in both themes clears WCAG AA at 4.5:1, verified against the
+  computed tokens.
 
-This is the one place the implementation deviates from a literal reading of the
-brand spec, and it is deliberate: a Key Takeaway block filled with `#14B8A6`
-under white text would fail WCAG AA for body copy.
+Radius is `0` at every step, shadows are capped at `0 2px 8px rgb(0 0 0 / 0.08)`,
+and there are no gradients anywhere.
 
-### 10. Visual language
+### 10. Typography and motion
 
-Three languages, no others:
+**IBM Plex Mono only** — display, body, UI labels and technical values all sit on
+one face, so columns scan vertically and nothing reads as a different kind of
+text. Hero `clamp(2.5rem, 5vw, 4rem)`, H1 `2.25rem`, H2 `1.5rem`, body `1rem/1.6`
+capped at **72 characters** via the `.measure` utility, small `0.875rem`.
 
-1. **3D glass** — the logo mark. Used for brand moments only: splash, empty
-   states, and the sign-in header. `BrandMark` renders one geometry in two
-   treatments (`flat` for chrome, `glass` for moments), so there is a single
-   brand shape rather than competing marks.
-2. **Architecture glass** — for system diagrams, when supplied.
-3. **Educational sketch** — for responsibility maps, timelines, and workflows,
+**No animation except functional state changes.** There is no entry animation, no
+hover scaling, no page transition, and no animation library in the bundle —
+removing `framer-motion` took roughly 40 kB off every route. What remains is
+colour transitions on hover, a 1px translate on press, and a shimmer skeleton
+for loading; the spec rules out circular spinners.
+
+### 11. Visual language
+
+Two languages, no others:
+
+1. **The mark** — a shield with a verification check, in one geometry at two
+   sizes. `flat` for chrome, `glass` (a legacy prop name; the treatment is flat)
+   for splash and empty states.
+2. **Educational sketch** — for responsibility maps, timelines, and workflows,
    when supplied.
 
-The app ships **no invented illustrations**. Empty states use the brand mark, not
+The app ships **no invented illustrations**. Empty states use the mark, not
 decorative art.
 
 Target ratio is roughly 80% clean text-based learning to 20% high-value visuals
@@ -395,7 +414,7 @@ utilities. Tap targets meet the 44px minimum, and `prefers-reduced-motion` is
 respected globally.
 
 PWA-ready: `public/manifest.webmanifest` with standalone display, theme colour,
-and a maskable icon carrying the glass mark. Adding a service worker for offline study is the natural next
+and a maskable icon carrying the brand mark. Adding a service worker for offline study is the natural next
 step and needs no architectural change.
 
 ---

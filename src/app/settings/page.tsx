@@ -62,7 +62,7 @@ function Settings() {
   return (
     <div className="space-y-7">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
+        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Settings</h1>
       </header>
 
       {/* Appearance */}
@@ -75,10 +75,10 @@ function Settings() {
               onClick={() => setTheme(option.value)}
               aria-pressed={theme === option.value}
               className={cn(
-                "flex flex-col items-center gap-2 rounded-lg border p-3.5 text-sm transition-colors",
+                "flex flex-col items-center gap-2 border p-3.5 text-sm transition-colors",
                 theme === option.value
-                  ? "border-accent bg-accent-subtle text-foreground"
-                  : "border-border text-muted-foreground hover:bg-accent-tint",
+                  ? "border-2 border-foreground bg-secondary text-foreground"
+                  : "border-border text-muted-foreground hover:bg-secondary",
               )}
             >
               <option.icon className="h-4 w-4" />
@@ -102,10 +102,10 @@ function Settings() {
                 onClick={() => setDailyGoal(goal)}
                 aria-pressed={progress.dailyGoal === goal}
                 className={cn(
-                  "rounded-lg border py-2.5 text-sm tabular-nums transition-colors",
+                  "border py-2.5 text-sm tabular-nums transition-colors",
                   progress.dailyGoal === goal
-                    ? "border-accent bg-accent-subtle text-foreground"
-                    : "border-border text-muted-foreground hover:bg-accent-tint",
+                    ? "border-2 border-foreground bg-secondary text-foreground"
+                    : "border-border text-muted-foreground hover:bg-secondary",
                 )}
               >
                 {goal}
@@ -156,7 +156,7 @@ function Settings() {
             {deleteError ? (
               <p
                 role="alert"
-                className="mt-3 rounded-md border border-destructive/30 bg-destructive-tint p-3 text-sm text-destructive"
+                className="mt-3 border border-l-4 border-destructive bg-destructive-tint p-3 text-sm text-destructive"
               >
                 {deleteError}
               </p>
@@ -311,7 +311,7 @@ function Section({
 }) {
   return (
     <section>
-      <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+      <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
         {title}
       </h2>
       <Card>
@@ -353,7 +353,7 @@ function LinkRow({
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 rounded-lg border border-border p-3.5 text-sm transition-colors hover:bg-accent-tint"
+      className="flex items-center gap-3 border border-border p-3.5 text-sm transition-colors hover:bg-secondary"
     >
       <Icon className="h-4 w-4 text-muted-foreground" />
       {label}

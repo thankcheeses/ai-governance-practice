@@ -45,7 +45,7 @@ function Review() {
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="text-2xl font-semibold tracking-tight">Review queue</h1>
+        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Review queue</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Missed scenarios first, then low-confidence answers, then scheduled
           reviews.
@@ -101,7 +101,7 @@ function Review() {
           </Card>
 
           <section>
-            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
               In the queue
             </h2>
             <ul className="space-y-2.5">
@@ -110,7 +110,7 @@ function Review() {
                 return (
                   <li
                     key={item.question.id}
-                    className="rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-card)]"
+                    className="border border-border bg-card p-4 shadow-[var(--shadow-card)]"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <p className="line-clamp-2 text-sm leading-relaxed">
