@@ -1,11 +1,12 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { Suspense, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
 import { focusDomains, selectQuestions } from "@/lib/adaptive";
 import { weakAreaQuestionIds } from "@/lib/analytics";
+import { newSeed, parseSeed, presentQuestions } from "@/lib/presentation";
 import { useProgress } from "@/lib/store/progress-provider";
 
 export default function StudySessionPage() {
@@ -20,7 +21,22 @@ export default function StudySessionPage() {
 
 function Session() {
   const params = useSearchParams();
+  const router = useRouter();
   const { progress } = useProgress();
+
+  /*
+   * The session seed drives both the question order and every option shuffle.
+   * It is written into the URL so a refresh reproduces the same sitting rather
+   * than dealing a new one — the same reason it is fixed for the session's
+   * lifetime instead of regenerated on render.
+   */
+  const [seed] = useState(() => parseSeed(params.get("seed")) ?? newSeed());
+  useEffect(() => {
+    if (params.get("seed")) return;
+    const next = new URLSearchParams(params.toString());
+    next.set("seed", String(seed));
+    router.replace(`?${next.toString()}`, { scroll: false });
+  }, [params, router, seed]);
 
   const domainParam = params.get("domain");
   const focusParam = params.get("focus");
@@ -49,12 +65,16 @@ function Session() {
 
   // Fixed for the lifetime of the session so answering never reshuffles it.
   const [questions] = useState(() =>
-    selectQuestions(progress, {
-      count,
-      trackId: progress.trackId,
-      domain: drillIds.length ? undefined : selectedDomains,
-      ...(drillIds.length ? { only: drillIds } : {}),
-    }),
+    presentQuestions(
+      selectQuestions(progress, {
+        count,
+        trackId: progress.trackId,
+        domain: drillIds.length ? undefined : selectedDomains,
+        ...(drillIds.length ? { only: drillIds } : {}),
+        seed,
+      }),
+      seed,
+    ),
   );
 
   const label = useMemo(() => {
@@ -69,6 +89,7 @@ function Session() {
   return (
     <StudySession
       questions={questions}
+      seed={seed}
       mode={selectedDomains || drillIds.length ? "domain" : "practice"}
       label={label}
       exitHref="/study"

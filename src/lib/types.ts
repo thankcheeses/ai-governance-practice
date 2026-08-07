@@ -1,4 +1,4 @@
-import type { Difficulty, OptionKey, TrackId } from "@/content/types";
+import type { Difficulty, TrackId } from "@/content/types";
 
 /**
  * User-progress domain model.
@@ -14,8 +14,13 @@ export interface Attempt {
   id: string;
   trackId: TrackId;
   questionId: string;
-  /** Every option the learner chose. One entry for single-select items. */
-  selected: OptionKey[];
+  /**
+   * Ids of every option the learner chose, one entry for single-select items.
+   *
+   * Ids, not letters: options are shuffled per session, so a letter recorded
+   * today would describe a position that no longer exists tomorrow.
+   */
+  selected: string[];
   correct: boolean;
   responseTimeMs: number;
   difficulty: Difficulty;

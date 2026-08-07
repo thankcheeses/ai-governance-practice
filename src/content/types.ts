@@ -117,8 +117,21 @@ export interface VisualAid {
 }
 
 export interface QuestionOption {
-  key: OptionKey;
+  /**
+   * Stable identity, derived from the option's position in the source file
+   * and never changing: "aigp-004-o2".
+   *
+   * Correctness is recorded against this, not against a letter. Options are
+   * shuffled per session, so a letter describes where an option happened to
+   * land on one screen and means nothing anywhere else.
+   */
+  id: string;
   text: string;
+}
+
+/** An option as presented: the option itself plus the letter it was dealt. */
+export interface PresentedOption extends QuestionOption {
+  key: OptionKey;
 }
 
 /**
@@ -133,12 +146,12 @@ export interface Question {
   question: string;
   options: QuestionOption[];
   /**
-   * Every key that must be selected. Length 1 is a single-select item; more
-   * than one makes it multi-select, graded all-or-nothing. Arity is derived
-   * from this rather than carried as a separate flag, so the two cannot
-   * disagree. See lib/grading.ts.
+   * Ids of every option that must be selected. Length 1 is a single-select
+   * item; more than one makes it multi-select, graded all-or-nothing. Arity is
+   * derived from this rather than carried as a separate flag, so the two
+   * cannot disagree. See lib/grading.ts.
    */
-  correctAnswers: OptionKey[];
+  correctOptionIds: string[];
   rationale: string;
   keyTakeaway: string;
   /** Present only where a diagram genuinely aids comprehension. */

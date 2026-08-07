@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
+import { newSeed } from "@/lib/presentation";
 import { buildReviewQueue } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 
@@ -19,6 +20,7 @@ export default function ReviewSessionPage() {
 
 function ReviewSession() {
   const { progress } = useProgress();
+  const [seed] = useState(() => newSeed());
 
   // Snapshot at mount: grading a card changes its due date, and we do not want
   // the queue reordering underneath the learner mid-session.
@@ -31,6 +33,7 @@ function ReviewSession() {
   return (
     <StudySession
       questions={questions}
+      seed={seed}
       mode="review"
       label="Review"
       withScheduling

@@ -8,8 +8,9 @@ import { QuestionView } from "@/components/study/question-view";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import type { OptionKey, Question } from "@/content/types";
+import type { Question } from "@/content/types";
 import { canSubmit, toggleSelection } from "@/lib/grading";
+import { correctKeys, presentOptions } from "@/lib/presentation";
 import { gradePreview, newReviewCard } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { Confidence, ReviewGrade, StudyMode } from "@/lib/types";
@@ -17,6 +18,8 @@ import { cn, pct } from "@/lib/utils";
 
 interface StudySessionProps {
   questions: Question[];
+  /** Seeds this session's option shuffle; same seed, same presentation. */
+  seed: number;
   mode: StudyMode;
   label: string;
   /** Show Again/Hard/Good/Easy scheduling after each answer (review mode). */
@@ -37,6 +40,7 @@ const CONFIDENCE_OPTIONS: { value: Confidence; label: string }[] = [
  */
 export function StudySession({
   questions,
+  seed,
   mode,
   label,
   withScheduling = false,
@@ -45,7 +49,8 @@ export function StudySession({
   const { recordAnswer, gradeReview, progress } = useProgress();
 
   const [index, setIndex] = useState(0);
-  const [selected, setSelected] = useState<OptionKey[]>([]);
+  // Option ids, never letters — letters are a per-session presentation.
+  const [selected, setSelected] = useState<string[]>([]);
   const [confidence, setConfidence] = useState<Confidence | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [wasCorrect, setWasCorrect] = useState(false);
@@ -58,6 +63,17 @@ export function StudySession({
 
   const question = questions[index];
   const total = questions.length;
+
+  // Dealt fresh per question from the session seed, so a learner cannot
+  // memorise an answer's position between sittings.
+  const options = useMemo(
+    () => (question ? presentOptions(question, seed) : []),
+    [question, seed],
+  );
+  const answerKeys = useMemo(
+    () => (question ? correctKeys(options, question) : []),
+    [options, question],
+  );
 
   const handleSubmit = useCallback(() => {
     if (revealed || !question || !canSubmit(question, selected)) return;
@@ -177,6 +193,7 @@ export function StudySession({
 
       <QuestionView
         question={question}
+        options={options}
         selected={selected}
         revealed={revealed}
         onSelect={(key) =>
@@ -216,7 +233,11 @@ export function StudySession({
 
       {revealed ? (
         <div className="mt-7">
-          <FeedbackPanel question={question} correct={wasCorrect} />
+          <FeedbackPanel
+            question={question}
+            correct={wasCorrect}
+            correctKeys={answerKeys}
+          />
 
           {withScheduling ? (
             <div className="mt-6">

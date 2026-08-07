@@ -34,7 +34,7 @@ const STORAGE_KEY = "nhid-clinical:progress:v1";
 
 export interface AnswerResult {
   correct: boolean;
-  correctAnswers: OptionKey[];
+  correctOptionIds: string[];
   /**
    * True when this answer put the question into the review queue for the first
    * time. Reported back so a session can tell the learner what it scheduled
@@ -52,7 +52,7 @@ interface ProgressContextValue {
   syncing: boolean;
   recordAnswer: (
     question: Question,
-    selected: OptionKey[],
+    selected: string[],
     responseTimeMs: number,
     mode: StudyMode,
     confidence?: Confidence | null,
@@ -249,7 +249,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         })();
       }
 
-      return { correct, correctAnswers: question.correctAnswers, queuedForReview };
+      return { correct, correctOptionIds: question.correctOptionIds, queuedForReview };
     },
     [supabase],
   );

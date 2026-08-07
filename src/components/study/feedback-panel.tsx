@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircle2, XCircle } from "lucide-react";
-import type { Question } from "@/content/types";
+import type { OptionKey, Question } from "@/content/types";
 import { formatAnswer, isMultiSelect } from "@/lib/grading";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 interface FeedbackPanelProps {
   question: Question;
   correct: boolean;
+  /** Letters the correct options were dealt in this session's shuffle. */
+  correctKeys: readonly OptionKey[];
 }
 
 /**
@@ -22,7 +24,11 @@ interface FeedbackPanelProps {
  * Colour is functional. Blue confirms and red alerts, per the palette; the
  * left rule carries the signal so the text beside it stays fully legible.
  */
-export function FeedbackPanel({ question, correct }: FeedbackPanelProps) {
+export function FeedbackPanel({
+  question,
+  correct,
+  correctKeys,
+}: FeedbackPanelProps) {
   return (
     <div className="space-y-6">
       <div
@@ -43,7 +49,7 @@ export function FeedbackPanel({ question, correct }: FeedbackPanelProps) {
           {!correct ? (
             <span className="ml-1.5 font-normal opacity-90">
               — the {isMultiSelect(question) ? "answers are" : "answer is"}{" "}
-              {formatAnswer(question.correctAnswers)}
+              {formatAnswer(correctKeys)}
             </span>
           ) : null}
         </div>

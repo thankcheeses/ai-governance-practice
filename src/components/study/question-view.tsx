@@ -1,16 +1,19 @@
 "use client";
 
 import { Check, X } from "lucide-react";
-import type { OptionKey, Question } from "@/content/types";
+import type { PresentedOption, Question } from "@/content/types";
 import { VisualAid } from "@/components/study/visual-aid";
 import { isMultiSelect, requiredSelections } from "@/lib/grading";
 import { cn } from "@/lib/utils";
 
 interface QuestionViewProps {
   question: Question;
-  selected: readonly OptionKey[];
+  /** Options in the order this session deals them, with their letters. */
+  options: readonly PresentedOption[];
+  /** Option ids, not letters — see lib/presentation.ts. */
+  selected: readonly string[];
   revealed: boolean;
-  onSelect: (key: OptionKey) => void;
+  onSelect: (optionId: string) => void;
 }
 
 /**
@@ -29,6 +32,7 @@ interface QuestionViewProps {
  */
 export function QuestionView({
   question,
+  options,
   selected,
   revealed,
   onSelect,
@@ -59,20 +63,20 @@ export function QuestionView({
           question.visualAid ? "mt-2" : multi ? "mt-3" : "mt-6",
         )}
       >
-        {question.options.map((option) => {
-          const isSelected = selected.includes(option.key);
-          const isAnswer = question.correctAnswers.includes(option.key);
+        {options.map((option) => {
+          const isSelected = selected.includes(option.id);
+          const isAnswer = question.correctOptionIds.includes(option.id);
           const showCorrect = revealed && isAnswer;
           const showWrong = revealed && isSelected && !isAnswer;
 
           return (
             <button
-              key={option.key}
+              key={option.id}
               type="button"
               role={multi ? "checkbox" : "radio"}
               aria-checked={isSelected}
               disabled={revealed}
-              onClick={() => onSelect(option.key)}
+              onClick={() => onSelect(option.id)}
               className={cn(
                 "flex w-full items-start gap-3.5 border p-4 text-left",
                 "transition-colors duration-150 disabled:cursor-default",

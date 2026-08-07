@@ -26,7 +26,7 @@ function progressWith(pairs: [string, boolean][]): UserProgress {
       id: `${questionId}-${i}`,
       trackId: "aigp-preparation",
       questionId,
-      selected: [correct ? q.correctAnswers[0] : "B"],
+      selected: correct ? [q.correctOptionIds[0]] : [`${questionId}-o9`],
       correct,
       responseTimeMs: 1000,
       difficulty: q.difficulty,
