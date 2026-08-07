@@ -144,6 +144,16 @@ export interface Question {
   /** Present only where a diagram genuinely aids comprehension. */
   visualAid?: VisualAid;
   frameworkTags: FrameworkTag[];
+  /**
+   * The Body of Knowledge sub-domain this item tests, e.g. "III.B".
+   *
+   * Surfaced onto the question so analytics can resolve an attempt's
+   * sub-domain from its `questionId` alone. Deliberately not copied onto
+   * `Attempt`: re-mapping a question during a future BoK revision then
+   * corrects historical analytics instead of leaving stale values frozen in
+   * old rows.
+   */
+  bokSubdomain: string;
   /** Free-form topic tags carried through from the source content. */
   tags: string[];
   createdDate: string;

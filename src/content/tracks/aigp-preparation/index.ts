@@ -61,6 +61,7 @@ function normalize(item: RawQuestion): Question {
     // a complete aid or absent — never a half-populated object.
     ...(enrichment.visualAid ? { visualAid: enrichment.visualAid } : {}),
     frameworkTags: enrichment.frameworkTags,
+    bokSubdomain: enrichment.bokSubdomain,
     tags: item.tags ?? [],
     createdDate: CREATED_DATE,
     updatedDate: UPDATED_DATE,

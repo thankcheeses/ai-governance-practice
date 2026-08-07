@@ -24,6 +24,7 @@ function q(correctAnswers: OptionKey[], optionCount = 4): Question {
     rationale: "",
     keyTakeaway: "",
     frameworkTags: [],
+    bokSubdomain: "I.A",
     tags: [],
     createdDate: "",
     updatedDate: "",

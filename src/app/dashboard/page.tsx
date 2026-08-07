@@ -3,23 +3,19 @@
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
 import { BrandMark } from "@/components/app/brand-mark";
-import {
-  DomainAccuracyChart,
-  ReviewForecast,
-} from "@/components/app/domain-bar";
-import { Badge } from "@/components/ui/badge";
+import { ReviewForecast } from "@/components/app/domain-bar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getTrack, getTrackQuestions } from "@/content/registry";
+import { getTrack } from "@/content/registry";
 import {
-  domainStats,
-  focusDomains,
-  masteredQuestionIds,
-  overallAccuracy,
-  strongDomains,
-  targetDifficulty,
-  weakDomains,
-} from "@/lib/adaptive";
+  bokDomainSlices,
+  focusAreas,
+  overallStats,
+  strongestArea,
+  subdomainSlices,
+  weakestArea,
+} from "@/lib/analytics";
+import { AnalyticsView } from "@/components/app/analytics-view";
 import { dueCount, upcomingReviews } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 
@@ -36,16 +32,16 @@ function Dashboard() {
   const track = getTrack(progress.trackId);
 
   const attempts = progress.attempts;
-  const accuracy = overallAccuracy(attempts);
-  const mastered = masteredQuestionIds(attempts);
-  const available = getTrackQuestions(progress.trackId);
-  const stats = domainStats(progress, progress.trackId);
   const due = dueCount(progress);
   const forecast = upcomingReviews(progress, 7);
-  const weak = weakDomains(progress, progress.trackId);
-  const focus = focusDomains(progress, progress.trackId);
-  const strong = strongDomains(progress, progress.trackId);
-  const level = targetDifficulty(attempts);
+
+  // Study analytics — a read-only layer over the same attempts.
+  const overall = overallStats(progress, progress.trackId);
+  const bokDomains = bokDomainSlices(progress, progress.trackId);
+  const subdomains = subdomainSlices(progress, progress.trackId);
+  const focus = focusAreas(progress, progress.trackId);
+  const strongest = strongestArea(progress, progress.trackId);
+  const weakest = weakestArea(progress, progress.trackId);
 
   if (attempts.length === 0) {
     return (
@@ -77,95 +73,14 @@ function Dashboard() {
         <p className="mt-1 text-sm text-muted-foreground">{track.name}</p>
       </header>
 
-      <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="Scenarios answered" value={String(attempts.length)} />
-        <Stat
-          label="Correct answers"
-          value={String(attempts.filter((a) => a.correct).length)}
-        />
-        <Stat label="Accuracy" value={`${accuracy}%`} />
-        <Stat label="Mastered" value={`${mastered.size}/${available.length}`} />
-      </section>
-
-      <section>
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
-            Domain performance
-          </h2>
-          <Badge variant="outline" className="capitalize">
-            Current level: {level}
-          </Badge>
-        </div>
-        <Card>
-          <CardContent className="p-5">
-            <DomainAccuracyChart stats={stats} />
-          </CardContent>
-        </Card>
-      </section>
-
-      {weak.length > 0 || strong.length > 0 ? (
-        <section className="grid gap-3 sm:grid-cols-2 [&>*]:min-w-0">
-          {strong.length > 0 ? (
-            <Card>
-              <CardContent className="p-5">
-                <h2 className="text-sm font-semibold">Strengths</h2>
-                <ul className="mt-3 space-y-2">
-                  {strong.map((d) => (
-                    <li
-                      key={d.domain}
-                      className="flex items-baseline justify-between gap-3 text-sm"
-                    >
-                      <span className="truncate text-muted-foreground">
-                        {d.domain}
-                      </span>
-                      <span className="shrink-0 tabular-nums text-success">
-                        {d.accuracy}%
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ) : null}
-
-          {weak.length > 0 ? (
-            <Card>
-              <CardContent className="flex h-full flex-col p-5">
-                <h2 className="text-sm font-semibold">Needs work</h2>
-                <ul className="mt-3 space-y-2">
-                  {weak.map((d) => (
-                    <li
-                      key={d.domain}
-                      className="flex items-baseline justify-between gap-3 text-sm"
-                    >
-                      <span className="truncate text-muted-foreground">
-                        {d.domain}
-                      </span>
-                      <span className="shrink-0 tabular-nums text-warning">
-                        {d.accuracy}%
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                {/* A readout the learner cannot act on is just a scold. */}
-                {/* whitespace-nowrap on the button base would force this
-                    column wider than a 320px viewport; the label wraps. */}
-                <Button
-                  asChild
-                  variant="secondary"
-                  className="mt-4 h-auto w-full whitespace-normal py-2.5 text-center"
-                >
-                  <Link href="/study/session?focus=weak&count=10">
-                    {focus.length === 1
-                      ? "Drill the weakest domain"
-                      : `Drill the ${focus.length} weakest domains`}
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ) : null}
-        </section>
-      ) : null}
+      <AnalyticsView
+        overall={overall}
+        domains={bokDomains}
+        subdomains={subdomains}
+        focus={focus}
+        strongest={strongest}
+        weakest={weakest}
+      />
 
       <section>
         <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
@@ -184,15 +99,6 @@ function Dashboard() {
           </CardContent>
         </Card>
       </section>
-    </div>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="border border-border bg-card p-4">
-      <div className="text-xl font-semibold tabular-nums">{value}</div>
-      <div className="mt-1 text-xs text-muted-foreground">{label}</div>
     </div>
   );
 }
