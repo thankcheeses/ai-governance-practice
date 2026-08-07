@@ -67,11 +67,19 @@ Re-check is **event-triggered, not calendar-triggered**:
 - the domain structure changes materially
 - content is added that would claim coverage beyond what was last checked
 
-Deliberately **not** "annually" or any other fixed cadence. The IAPP sets its
-own revision schedule; inventing a calendar on our side would be an assertion
-about someone else's process, and would go stale in whichever direction the real
-schedule differs. If a periodic glance is wanted, treat it as a prompt to look
-for a trigger — not as a review that licenses moving the date.
+Deliberately **not** a cadence of our own. An earlier version of this document
+said no cadence was asserted by anyone; that was wrong, and the primary source
+corrects it. The BoK states:
+
+> Every year, the BoK is reviewed and, if necessary, updated. Changes are
+> reflected in the annual exam updates and communicated to candidates at least
+> 90 days before the new content appears in the exam.
+
+So the authority reviews annually and gives **at least 90 days' notice** before
+changed content reaches the exam. That notice window is the useful signal: it
+means a new version is knowable in advance rather than discovered late. Watch
+for the announcement; do not invent a calendar of our own, which would go stale
+in whichever direction the real schedule differs.
 
 **Move `contextReviewed` only after the check has actually been repeated.**
 Bumping it because time passed is the one failure this whole mechanism exists to
@@ -93,40 +101,72 @@ prevent.
 
 ---
 
-## Procedure: the sub-domain coverage audit
+## Coverage audit — completed 7 August 2026
 
-This is what would justify the stronger claim. It has not been done.
+Performed against the primary document (`AIGP Body of Knowledge v2.1`, approved
+9 September 2025, effective 2 February 2026, supersedes 2.0.1). Every question
+was read against the published performance indicators and assigned a
+`bokSubdomain` in the enrichment sidecar. Coverage is therefore **computed from
+the content**, not asserted here — `npm run check:bok` rebuilds this table and
+fails if any sub-domain drops to zero.
 
-Build a traceability matrix from BoK sub-domain to question id:
+**Result: 13/13 sub-domains covered, 82/82 questions mapped.**
 
-| BoK v2.1 | Questions | Coverage |
-| --- | --- | --- |
-| I.A | … | |
-| I.B | … | |
-| … | | |
-| IV.C | … | |
+| Sub-domain | Competency | Exam | Bank | |
+| --- | --- | --- | --- | --- |
+| I.A | Understand what AI is and why it needs governance | 4–6 | 9 | over |
+| I.B | Establish and communicate organizational expectations | 5–7 | 5 | |
+| I.C | Establish policies and procedures across the life cycle | 6–8 | 3 | **under** |
+| II.A | How existing data privacy laws apply to AI | 4–6 | 4 | |
+| II.B | How other existing laws apply to AI | 4–6 | 3 | **under** |
+| II.C | Main elements of AI-specific laws | 6–8 | 5 | **under** |
+| II.D | Main industry standards and tools | 3–5 | 5 | |
+| III.A | Govern the designing and building of the AI system | 6–8 | 6 | |
+| III.B | Govern data collection and use in training and testing | 6–8 | 8 | |
+| III.C | Govern release, monitoring and maintenance | 8–10 | 6 | **under** |
+| IV.A | Evaluate factors and risks relevant to deploying | 6–8 | 4 | **under** |
+| IV.B | Perform key activities to assess the AI system | 5–7 | 6 | |
+| IV.C | Govern the deployment and use of the AI system | 9–11 | 18 | over |
 
-Then:
+"Exam" is the blueprint's min/max question count per competency. A practice bank
+is not obliged to mirror an exam, so these are proportional signals rather than
+failures — but the shape is worth acting on. The bank (82) and the exam (~85)
+are close enough in size that the comparison is meaningful.
 
-- **Every sub-domain with at least one question** → coverage can be claimed at
-  sub-domain level, and the study copy can say so.
-- **Any sub-domain with none** → either write scenarios for it, or keep the
-  weaker claim. Softening the wording to fit a gap is the wrong direction; the
-  gap is the finding.
-- **Any question mapping to a topic the current version removed** → mark it, and
-  decide whether it stays as general governance material or comes out. v2.1
-  removed at least one topic relative to v2.0.1.
+**What the shape says.** IV.C carries 18 questions against a blueprint maximum
+of 11, largely because the track's voice-AI scenarios cluster in deployment
+governance. Five competencies sit below the blueprint minimum. Writing roughly
+a dozen scenarios — three each for I.C and III.C, two each for II.B, II.C and
+IV.A — would bring every competency into range without removing anything.
 
-Record the matrix in this file when it is done, with the date it was done. Only
-then change the study copy, and add a `contextCoverage` field rather than
-overloading the existing three.
+Questions were mapped by **what they test**, not by which of the four track
+domains they are filed under. Several sit in one and test another: item 26
+(model drift) is filed under Foundations but tests III.C; items 36, 40 and 46
+are filed under Deployment but test the responsible-AI principles in I.A; item
+47 (conformity assessment) is filed under Development but tests II.C. That is
+not a defect — a scenario can teach one thing while living somewhere sensible
+for a learner — but it is why coverage is computed from `bokSubdomain` rather
+than inferred from the track's own domain field.
 
----
+### Re-running the audit
+
+1. Re-read the current BoK's performance indicators.
+2. Re-assign `bokSubdomain` for any question whose best fit changed.
+3. Tag any new questions.
+4. `npm run check:bok` — it fails on an unmapped question, an unknown
+   sub-domain id, or a sub-domain with no questions.
+5. Update the table above, `contextCoverage`, and `contextReviewed`.
 
 ## Note on sourcing
 
-The domain-title comparison recorded above was made against secondary sources.
-The authority's own PDF was unreachable from the environment the check ran in
-(egress policy), so it has not been read directly. Anyone repeating this check
-should read the primary document and, if it disagrees with the table above,
-correct the table and treat the discrepancy as the finding.
+The audit above was performed against the **primary document** — the published
+AIGP Body of Knowledge PDF, supplied directly. Version, approval date, effective
+date, superseded version, domain titles, competency statements, performance
+indicators and blueprint numbers all come from it.
+
+An earlier revision of this file recorded that the comparison rested on
+secondary sources because the PDF was unreachable from the build environment.
+That limitation no longer applies. The secondary sources turned out to be
+correct on every checkable point — version 2.1, effective 2 February 2026,
+superseding 2.0.1, four domains, thirteen sub-domains — but that was luck, not
+method, and the primary document is what the table now reflects.

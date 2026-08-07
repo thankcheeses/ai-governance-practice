@@ -131,6 +131,55 @@ if (context.includes("four-domain") && domains.size !== 4) {
   );
 }
 
+/* -- traceability: every sub-domain must have at least one question ----- */
+
+/**
+ * AIGP BoK v2.1 exam blueprint, read from the published document. The numbers
+ * are the min/max questions the *exam* draws from each competency — not a
+ * prescription for a practice bank. They are used here only as a proportional
+ * signal, which is meaningful because the bank (82) and the exam (~85) happen
+ * to be close in size.
+ */
+const BLUEPRINT = [
+  ["I.A", 4, 6], ["I.B", 5, 7], ["I.C", 6, 8],
+  ["II.A", 4, 6], ["II.B", 4, 6], ["II.C", 6, 8], ["II.D", 3, 5],
+  ["III.A", 6, 8], ["III.B", 6, 8], ["III.C", 8, 10],
+  ["IV.A", 6, 8], ["IV.B", 5, 7], ["IV.C", 9, 11],
+];
+
+const enrichment = readFileSync(
+  join(root, "src/content/tracks/aigp-preparation/enrichment.ts"),
+  "utf8",
+);
+const tagged = {};
+for (const m of enrichment.matchAll(/bokSubdomain:\s*"([^"]+)"/g)) {
+  tagged[m[1]] = (tagged[m[1]] ?? 0) + 1;
+}
+const questionCount = JSON.parse(
+  readFileSync(join(root, "src/content/tracks/aigp-preparation/questions.json"), "utf8"),
+).length;
+const taggedTotal = Object.values(tagged).reduce((a, b) => a + b, 0);
+
+if (taggedTotal !== questionCount) {
+  errors.push(
+    `${taggedTotal} of ${questionCount} questions carry a bokSubdomain. Coverage cannot be computed from a partial mapping.`,
+  );
+}
+
+const known = new Set(BLUEPRINT.map(([id]) => id));
+for (const id of Object.keys(tagged)) {
+  if (!known.has(id)) {
+    errors.push(`bokSubdomain "${id}" is not a sub-domain of the recorded version.`);
+  }
+}
+
+const uncovered = BLUEPRINT.filter(([id]) => !tagged[id]).map(([id]) => id);
+if (uncovered.length) {
+  errors.push(
+    `No questions map to ${uncovered.join(", ")}. Either write scenarios for them or stop claiming full sub-domain coverage.`,
+  );
+}
+
 /* -- report ------------------------------------------------------------- */
 
 console.log("Body of Knowledge assertion");
@@ -138,6 +187,20 @@ console.log(`  authority  ${authority ?? "—"}`);
 console.log(`  version    ${version ?? "—"}`);
 console.log(`  reviewed   ${reviewed ?? "—"}${ageDays !== null ? `  (${ageDays} days ago)` : ""}`);
 console.log(`  domains    ${domains.size}`);
+console.log(`  coverage   ${BLUEPRINT.length - uncovered.length}/${BLUEPRINT.length} sub-domains, ${taggedTotal}/${questionCount} questions mapped`);
+console.log();
+
+console.log("Traceability against the v2.1 exam blueprint");
+console.log("  sub-domain  exam  bank  ");
+for (const [id, lo, hi] of BLUEPRINT) {
+  const n = tagged[id] ?? 0;
+  const flag = n === 0 ? "  NOT COVERED" : n < lo ? "  under" : n > hi ? "  over" : "";
+  console.log(`  ${id.padEnd(10)} ${`${lo}-${hi}`.padStart(5)} ${String(n).padStart(5)}${flag}`);
+}
+console.log();
+console.log("  `under`/`over` compare bank counts to the exam's own weighting.");
+console.log("  They are proportional signals, not failures — a practice bank is");
+console.log("  not obliged to mirror an exam. Coverage gaps are failures.");
 console.log();
 
 if (errors.length) {
@@ -148,7 +211,9 @@ if (errors.length) {
 
 console.log("Assertion is well-formed and consistent with the content.");
 console.log();
-console.log("Re-check when any of these happen — not on a schedule:");
+console.log("The authority reviews its BoK annually and gives at least 90 days'");
+console.log("notice before changed content reaches the exam. Re-check on an event,");
+console.log("not on a calendar of our own:");
 console.log("  - the authority publishes a new Body of Knowledge version");
 console.log("  - the authority changes the exam blueprint");
 console.log("  - the domain structure changes materially");

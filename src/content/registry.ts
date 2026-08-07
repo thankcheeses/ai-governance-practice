@@ -21,11 +21,13 @@ const TRACKS: Track[] = [
     /*
      * Version currency is the thing a study tool is easiest to be quietly
      * wrong about, so the structure this track was written against is named
-     * explicitly — along with the limit of what is claimed: domain-level
-     * alignment, not sub-domain coverage. Auditing the question bank against
-     * the thirteen sub-domains of v2.1 has not been done, so it is not
-     * asserted. See docs/bok-maintenance.md for the audit procedure that
-     * would justify the stronger claim.
+     * explicitly, and the coverage claim is computed rather than asserted.
+     *
+     * Every question carries a `bokSubdomain` in the enrichment sidecar,
+     * assigned by reading it against the published performance indicators.
+     * `npm run check:bok` derives coverage from those tags and fails if any
+     * sub-domain has no questions — so the sentence below cannot outlive the
+     * fact it describes. See docs/bok-maintenance.md for the matrix.
      *
      * The three context* fields below move only when the check is genuinely
      * repeated, and only on one of the triggers in that document. There is no
@@ -34,10 +36,11 @@ const TRACKS: Track[] = [
      * else's process.
      */
     context:
-      "The four domains below follow the four-domain structure of the IAPP's AIGP Body of Knowledge, version 2.1 (effective 2 February 2026). Alignment is at domain level; this track does not claim to cover every sub-domain, and the IAPP's published Body of Knowledge is the authority on what the exam tests. Every scenario is original material written for this track. AIGP is a certification mark of the IAPP; this product is independent of the IAPP and is not affiliated with, endorsed by, or approved by it.",
+      "The four domains below follow the IAPP's AIGP Body of Knowledge, version 2.1 (effective 2 February 2026). Every one of its thirteen sub-domains has at least one scenario here, though the number per sub-domain does not mirror the exam's own weighting — the IAPP's published Body of Knowledge remains the authority on what the exam tests. Every scenario is original material written for this track. AIGP is a certification mark of the IAPP; this product is independent of the IAPP and is not affiliated with, endorsed by, or approved by it.",
     contextAuthority: "IAPP AIGP Body of Knowledge",
     contextVersion: "v2.1",
     contextReviewed: "2026-08-07",
+    contextCoverage: "13/13 sub-domains",
     status: "active",
     domains: aigpDomains,
     questionCount: aigpQuestions.length,

@@ -50,6 +50,13 @@ export interface Track {
   contextVersion?: string;
   /** ISO 8601 date the check was last genuinely performed. */
   contextReviewed?: string;
+  /**
+   * What the check found, in the form the study page states it. Separate from
+   * the three fields above because "we checked the structure" and "we audited
+   * the coverage" are different claims and must be able to disagree.
+   * Computed and enforced by `npm run check:bok`; never hand-waved.
+   */
+  contextCoverage?: string;
   status: TrackStatus;
   /** Ordered domain list for this track, derived from its own content. */
   domains: string[];
@@ -153,6 +160,16 @@ export interface RawQuestion {
  * item; the key takeaway restates the item's own rationale as a portable rule.
  */
 export interface QuestionEnrichment {
+  /**
+   * The AIGP Body of Knowledge sub-domain this item tests, e.g. "III.B".
+   *
+   * Assigned by reading the item against the published performance indicators,
+   * and by what the item actually tests rather than which of the four domains
+   * it is filed under — an item can sit in one and test another. This is what
+   * makes coverage a computed fact rather than an assertion; `npm run check:bok`
+   * derives the traceability matrix from it.
+   */
+  bokSubdomain: string;
   difficulty: Difficulty;
   keyTakeaway: string;
   frameworkTags: FrameworkTag[];
