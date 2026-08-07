@@ -11,6 +11,22 @@ import { useProgress } from "@/lib/store/progress-provider";
 
 const SESSION_LENGTHS = [5, 10, 20];
 
+/**
+ * ISO date to "7 August 2026". Parsed and formatted in UTC so the displayed
+ * date is the date that was recorded, not the reader's local shift of it —
+ * an audit assertion that changes by timezone is not an audit assertion.
+ */
+function formatReviewDate(iso: string): string {
+  const parsed = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return iso;
+  return parsed.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 export default function StudyPage() {
   return (
     <AppGate>
@@ -44,11 +60,20 @@ function Study() {
             <p className="measure text-xs leading-relaxed text-muted-foreground">
               {track.context}
             </p>
+            {/*
+              Three assertions, three lines. Crammed onto one they ran to 192
+              characters and stopped being scannable; separated, each is a
+              distinct claim a reader can check independently.
+            */}
             {track.contextReviewed ? (
-              <p className="mt-1.5 text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
-                Checked against the published Body of Knowledge:{" "}
-                {track.contextReviewed}
-              </p>
+              <dl className="measure mt-2.5 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+                <dt>Authority</dt>
+                <dd>{track.contextAuthority ?? "—"}</dd>
+                <dt>Version</dt>
+                <dd>{track.contextVersion ?? "—"}</dd>
+                <dt>Checked</dt>
+                <dd>{formatReviewDate(track.contextReviewed)}</dd>
+              </dl>
             ) : null}
           </div>
         ) : null}

@@ -33,11 +33,22 @@ export interface Track {
    */
   context?: string;
   /**
-   * When the track was last checked against that outside body of knowledge.
-   * Shown to the learner, because a study tool going quietly stale is the
-   * failure they cannot detect for themselves. Move it only after the check
-   * has actually been repeated.
+   * The three fields below are one controlled maintenance assertion, kept
+   * machine-readable so it can be validated rather than trusted.
+   *
+   * Together they say: *this content was checked against this named authority
+   * at this version, on this date.* They do not say the content will remain
+   * aligned after it — alignment is a property of the authority's next
+   * revision, which is outside our control.
+   *
+   * Re-check is event-triggered, never calendar-triggered. See
+   * docs/bok-maintenance.md; `npm run check:bok` enforces the invariants.
    */
+  /** The document that defines what the exam covers. */
+  contextAuthority?: string;
+  /** That document's version, as the authority labels it. */
+  contextVersion?: string;
+  /** ISO 8601 date the check was last genuinely performed. */
   contextReviewed?: string;
   status: TrackStatus;
   /** Ordered domain list for this track, derived from its own content. */
