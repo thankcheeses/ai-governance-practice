@@ -16,7 +16,7 @@ export function Disclaimer({
   return (
     <section
       className={cn(
-        "measure border border-border bg-card p-4 sm:p-5",
+        "border border-border bg-card p-4 sm:p-5",
         className,
       )}
       aria-labelledby="disclaimer-title"
@@ -35,7 +35,9 @@ export function Disclaimer({
         )}
       >
         {DISCLAIMER_BODY.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+          <p key={paragraph} className="measure">
+            {paragraph}
+          </p>
         ))}
       </div>
     </section>

@@ -13,7 +13,9 @@
     "mobile:sync": "npm run build:mobile && npx cap sync",
     "mobile:android": "npm run mobile:sync && npx cap open android",
     "mobile:ios": "npm run mobile:sync && npx cap open ios",
-    "check:questions": "node scripts/check-question-balance.mjs"
+    "check:questions": "node scripts/check-question-balance.mjs",
+    "check:bok": "node scripts/check-bok-currency.mjs",
+    "check": "npm run lint && npm run typecheck && npm run check:questions && npm run check:bok"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.15",

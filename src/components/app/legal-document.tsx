@@ -35,7 +35,7 @@ export function LegalDocument({
   backHref,
 }: LegalDocumentProps) {
   return (
-    <div className="measure space-y-6">
+    <div className="space-y-6">
       <div>
         {backHref ? (
           <Button asChild variant="ghost" size="sm" className="-ml-2 mb-3">
@@ -49,7 +49,7 @@ export function LegalDocument({
         <p className="mt-1 text-xs text-muted-foreground">
           {COMPANY.name} · Effective {LEGAL_EFFECTIVE_DATE}
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
           {summary}
         </p>
       </div>
@@ -59,7 +59,7 @@ export function LegalDocument({
           {sections.map((section) => (
             <section key={section.heading}>
               <h2 className="text-sm font-semibold">{section.heading}</h2>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              <p className="measure mt-1.5 text-sm leading-relaxed text-muted-foreground">
                 {section.body}
               </p>
             </section>
@@ -67,7 +67,7 @@ export function LegalDocument({
 
           <section>
             <h2 className="text-sm font-semibold">Contact</h2>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+            <p className="measure mt-1.5 text-sm leading-relaxed text-muted-foreground">
               Questions about this document, your account, or your data go to{" "}
               <a
                 href={`mailto:${COMPANY.email}`}

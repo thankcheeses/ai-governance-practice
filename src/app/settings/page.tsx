@@ -91,7 +91,7 @@ function Settings() {
       {/* Study */}
       <Section title="Study">
         <div>
-          <p className="mb-2.5 text-sm text-muted-foreground">
+          <p className="measure mb-2.5 text-sm text-muted-foreground">
             Daily goal — scenarios per day
           </p>
           <div className="grid grid-cols-4 gap-2">
@@ -123,7 +123,7 @@ function Settings() {
       {/* Account */}
       <Section title="Account">
         {!authEnabled ? (
-          <p className="text-sm leading-relaxed text-muted-foreground">
+          <p className="measure text-sm leading-relaxed text-muted-foreground">
             Accounts are not configured for this deployment. Progress is stored
             in this browser only. Add Supabase credentials to enable sign-in and
             cross-device sync.
@@ -147,7 +147,7 @@ function Settings() {
               account creation must offer in-app account deletion.
             */}
             <h3 className="text-sm font-medium">Delete account</h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+            <p className="measure mt-1.5 text-sm leading-relaxed text-muted-foreground">
               Permanently deletes your account and everything stored with it —
               answers, review schedule, and settings. This cannot be undone and
               is not the same as signing out.
@@ -215,7 +215,7 @@ function Settings() {
           </>
         ) : (
           <>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="measure text-sm leading-relaxed text-muted-foreground">
               You are studying without an account. Progress is saved in this
               browser. Sign in to sync across devices.
             </p>
@@ -231,7 +231,7 @@ function Settings() {
         <div className="flex items-start gap-3">
           <LifeBuoy className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
           <div className="min-w-0">
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="measure text-sm leading-relaxed text-muted-foreground">
               Questions about the app, your account, or the content.
             </p>
             <a
@@ -255,7 +255,7 @@ function Settings() {
 
       {/* About */}
       <Section title={`About ${BRAND.name}`}>
-        <p className="text-sm leading-relaxed text-muted-foreground">
+        <p className="measure text-sm leading-relaxed text-muted-foreground">
           {BRAND.category} {BRAND.positioning}
         </p>
         <div className="mt-4 space-y-1">
@@ -268,7 +268,7 @@ function Settings() {
 
       {/* Danger zone */}
       <Section title="Data">
-        <p className="text-sm leading-relaxed text-muted-foreground">
+        <p className="measure text-sm leading-relaxed text-muted-foreground">
           Clears every answer and review schedule. Your settings and plan are
           kept. This cannot be undone.
         </p>
