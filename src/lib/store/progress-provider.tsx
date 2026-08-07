@@ -11,6 +11,7 @@ import {
   useState,
 } from "react";
 import type { OptionKey, Question } from "@/content/types";
+import { gradeAnswer } from "@/lib/grading";
 import { newReviewCard, scheduleReview } from "@/lib/spaced-repetition";
 import { getBrowserSupabase } from "@/lib/supabase/client";
 import {
@@ -33,7 +34,7 @@ const STORAGE_KEY = "nhid-clinical:progress:v1";
 
 export interface AnswerResult {
   correct: boolean;
-  correctAnswer: OptionKey;
+  correctAnswers: OptionKey[];
   /**
    * True when this answer put the question into the review queue for the first
    * time. Reported back so a session can tell the learner what it scheduled
@@ -51,7 +52,7 @@ interface ProgressContextValue {
   syncing: boolean;
   recordAnswer: (
     question: Question,
-    selected: OptionKey,
+    selected: OptionKey[],
     responseTimeMs: number,
     mode: StudyMode,
     confidence?: Confidence | null,
@@ -191,7 +192,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       const now = new Date().toISOString();
       const today = todayISO();
       const prev = progressRef.current;
-      const correct = selected === question.correctAnswer;
+      const correct = gradeAnswer(question, selected);
 
       const attempt: Attempt = {
         id: `${question.id}-${Date.now()}`,
@@ -248,7 +249,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         })();
       }
 
-      return { correct, correctAnswer: question.correctAnswer, queuedForReview };
+      return { correct, correctAnswers: question.correctAnswers, queuedForReview };
     },
     [supabase],
   );

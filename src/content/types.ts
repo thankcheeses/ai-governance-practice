@@ -84,7 +84,11 @@ export const FRAMEWORK_TAGS = [
 
 export type FrameworkTag = (typeof FRAMEWORK_TAGS)[number];
 
-export type OptionKey = "A" | "B" | "C" | "D";
+/**
+ * Option labels. E exists for multi-select items, which the certification
+ * exam presents as "select N of 5". Single-select items use A-D.
+ */
+export type OptionKey = "A" | "B" | "C" | "D" | "E";
 
 /**
  * Optional diagram attached to a question.
@@ -128,7 +132,13 @@ export interface Question {
   difficulty: Difficulty;
   question: string;
   options: QuestionOption[];
-  correctAnswer: OptionKey;
+  /**
+   * Every key that must be selected. Length 1 is a single-select item; more
+   * than one makes it multi-select, graded all-or-nothing. Arity is derived
+   * from this rather than carried as a separate flag, so the two cannot
+   * disagree. See lib/grading.ts.
+   */
+  correctAnswers: OptionKey[];
   rationale: string;
   keyTakeaway: string;
   /** Present only where a diagram genuinely aids comprehension. */
@@ -147,6 +157,7 @@ export interface RawQuestion {
   question: string;
   /** Prefixed with "A. ", "B. " and so on in the source file. */
   options: string[];
+  /** One key, or several comma-separated for multi-select: "A,C,D". */
   correct: string;
   rationale: string;
   tags?: string[];

@@ -13,7 +13,7 @@ const TRACK_ID = "aigp-preparation" as const;
 const CREATED_DATE = "2025-01-01T00:00:00.000Z";
 const UPDATED_DATE = "2025-01-01T00:00:00.000Z";
 
-const OPTION_KEYS: OptionKey[] = ["A", "B", "C", "D"];
+const OPTION_KEYS: OptionKey[] = ["A", "B", "C", "D", "E"];
 
 /**
  * Source options are prefixed with their letter ("A. Some text"). Strip the
@@ -23,8 +23,20 @@ const OPTION_KEYS: OptionKey[] = ["A", "B", "C", "D"];
 function normalizeOptions(options: string[]): QuestionOption[] {
   return options.map((text, i) => ({
     key: OPTION_KEYS[i],
-    text: text.replace(/^\s*[A-D][.)]\s*/, "").trim(),
+    text: text.replace(/^\s*[A-E][.)]\s*/, "").trim(),
   }));
+}
+
+/**
+ * "A" for single-select, "A,C,D" for multi-select. Parsed here so the source
+ * file keeps one readable convention and the rest of the app only ever sees a
+ * normalised array.
+ */
+function normalizeCorrect(correct: string): OptionKey[] {
+  return correct
+    .split(",")
+    .map((k) => k.trim().toUpperCase())
+    .filter(Boolean) as OptionKey[];
 }
 
 function normalize(item: RawQuestion): Question {
@@ -42,7 +54,7 @@ function normalize(item: RawQuestion): Question {
     difficulty: enrichment.difficulty,
     question: item.question,
     options: normalizeOptions(item.options),
-    correctAnswer: item.correct.trim().toUpperCase() as OptionKey,
+    correctAnswers: normalizeCorrect(item.correct),
     rationale: item.rationale,
     keyTakeaway: enrichment.keyTakeaway,
     // Omitted entirely when no diagram is supplied, so `visualAid` is either
