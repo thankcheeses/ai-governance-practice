@@ -50,6 +50,13 @@ export interface Track {
   contextVersion?: string;
   /** ISO 8601 date the check was last genuinely performed. */
   contextReviewed?: string;
+  /**
+   * What the check found, in the form the study page states it. Separate from
+   * the three fields above because "we checked the structure" and "we audited
+   * the coverage" are different claims and must be able to disagree.
+   * Computed and enforced by `npm run check:bok`; never hand-waved.
+   */
+  contextCoverage?: string;
   status: TrackStatus;
   /** Ordered domain list for this track, derived from its own content. */
   domains: string[];
@@ -77,7 +84,11 @@ export const FRAMEWORK_TAGS = [
 
 export type FrameworkTag = (typeof FRAMEWORK_TAGS)[number];
 
-export type OptionKey = "A" | "B" | "C" | "D";
+/**
+ * Option labels. E exists for multi-select items, which the certification
+ * exam presents as "select N of 5". Single-select items use A-D.
+ */
+export type OptionKey = "A" | "B" | "C" | "D" | "E";
 
 /**
  * Optional diagram attached to a question.
@@ -121,7 +132,13 @@ export interface Question {
   difficulty: Difficulty;
   question: string;
   options: QuestionOption[];
-  correctAnswer: OptionKey;
+  /**
+   * Every key that must be selected. Length 1 is a single-select item; more
+   * than one makes it multi-select, graded all-or-nothing. Arity is derived
+   * from this rather than carried as a separate flag, so the two cannot
+   * disagree. See lib/grading.ts.
+   */
+  correctAnswers: OptionKey[];
   rationale: string;
   keyTakeaway: string;
   /** Present only where a diagram genuinely aids comprehension. */
@@ -140,6 +157,7 @@ export interface RawQuestion {
   question: string;
   /** Prefixed with "A. ", "B. " and so on in the source file. */
   options: string[];
+  /** One key, or several comma-separated for multi-select: "A,C,D". */
   correct: string;
   rationale: string;
   tags?: string[];
@@ -153,6 +171,16 @@ export interface RawQuestion {
  * item; the key takeaway restates the item's own rationale as a portable rule.
  */
 export interface QuestionEnrichment {
+  /**
+   * The AIGP Body of Knowledge sub-domain this item tests, e.g. "III.B".
+   *
+   * Assigned by reading the item against the published performance indicators,
+   * and by what the item actually tests rather than which of the four domains
+   * it is filed under — an item can sit in one and test another. This is what
+   * makes coverage a computed fact rather than an assertion; `npm run check:bok`
+   * derives the traceability matrix from it.
+   */
+  bokSubdomain: string;
   difficulty: Difficulty;
   keyTakeaway: string;
   frameworkTags: FrameworkTag[];

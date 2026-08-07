@@ -1504,5 +1504,502 @@
       "localisation",
       "regulatory change"
     ]
+  },
+  {
+    "id": 83,
+    "domain": "Foundations of AI Governance",
+    "question": "A retail chain rolls out an AI demand-forecasting tool to 400 store managers, most of whom have never worked with a predictive model. Forecasts are accurate in testing. What does the rollout still lack?",
+    "options": [
+      "A. A training programme covering what the tool does, where it fails, and when to override it.",
+      "B. A second forecasting model that cross-checks the first before any manager sees a result.",
+      "C. A restriction keeping the tool with head-office analysts until managers formally request it.",
+      "D. A monthly accuracy report circulated to the executive team for oversight purposes."
+    ],
+    "correct": "A",
+    "rationale": "Stakeholders who cannot interpret an output cannot exercise oversight of it. Training and awareness across affected roles is a named governance activity, not an adoption nicety. A duplicate model, a narrower audience and an executive report all leave the 400 people actually acting on forecasts no better equipped.",
+    "tags": [
+      "foundations",
+      "training",
+      "awareness",
+      "retail"
+    ]
+  },
+  {
+    "id": 84,
+    "domain": "Foundations of AI Governance",
+    "question": "A 30-person software company adopts the AI governance structure of a multinational bank: three standing committees, a dedicated AI risk function, and quarterly board reporting. Six months on, none of it has convened. What is the governance error?",
+    "options": [
+      "A. Committees are the wrong mechanism for AI oversight in any organisation.",
+      "B. Board reporting should have been established before any AI risk function.",
+      "C. The structure was not scaled to the organisation's size, maturity and risk profile.",
+      "D. The company should have appointed an external adviser before designing any structure."
+    ],
+    "correct": "C",
+    "rationale": "Governance approaches are expected to differ by company size, maturity, industry and risk tolerance. A structure borrowed wholesale from a far larger regulated institution exceeds what a 30-person company can staff, so it fails quietly rather than governing anything. Committees, reporting order and certification are not the issue.",
+    "tags": [
+      "foundations",
+      "maturity",
+      "proportionality",
+      "structure"
+    ]
+  },
+  {
+    "id": 85,
+    "domain": "Foundations of AI Governance",
+    "question": "Staff at a professional services firm have begun pasting client material into public generative AI tools to speed up drafting. No rule currently addresses this. What should the firm put in place first?",
+    "options": [
+      "A. A firm-wide block on all generative AI tools until a vendor is formally selected.",
+      "B. An acceptable use policy defining permitted tools, permitted data, and prohibited uses.",
+      "C. A monitoring rule that flags large clipboard operations on managed devices.",
+      "D. A clause added to client engagement letters disclaiming liability for AI-assisted work."
+    ],
+    "correct": "B",
+    "rationale": "Acceptable use is one of the named third-party and workforce policy areas for AI. It answers the actual question staff face — which tools, with which data, for what — before the behaviour becomes entrenched. A blanket block drives the practice onto personal devices, clipboard monitoring treats a policy gap as a detection problem, and a liability disclaimer does not stop confidential data leaving.",
+    "tags": [
+      "foundations",
+      "acceptable use",
+      "policy",
+      "shadow AI"
+    ]
+  },
+  {
+    "id": 86,
+    "domain": "Foundations of AI Governance",
+    "question": "A bank's incident response policy defines severity tiers, escalation paths and regulatory notification for security breaches and outages. It is silent on a model producing systematically skewed outputs. What is the appropriate response?",
+    "options": [
+      "A. Treat skewed model output as a data quality defect handled through the ordinary engineering backlog.",
+      "B. Rely on the security incident process, since any AI failure will surface as an outage.",
+      "C. Wait until a specific incident occurs and design the response path from that experience.",
+      "D. Extend the incident policy to cover AI-specific failure modes and escalation."
+    ],
+    "correct": "D",
+    "rationale": "Existing policies are expected to be evaluated and updated for AI rather than replaced or left as they are. A skewed model is a governance incident with its own severity criteria, escalation route and possible notification duties, none of which a security-and-outage policy describes. Deferring to the backlog, to the security process, or to a future incident all leave the path undefined at the moment it is needed.",
+    "tags": [
+      "foundations",
+      "incident policy",
+      "lifecycle",
+      "finance"
+    ]
+  },
+  {
+    "id": 87,
+    "domain": "Foundations of AI Governance",
+    "question": "A public sector body is about to procure an AI case-triage system. Its standard procurement process evaluates price, references and information security. What should governance add before the tender closes?",
+    "options": [
+      "A. Criteria covering data provenance, evaluation evidence and ongoing obligations.",
+      "B. A requirement that the supplier hold professional indemnity insurance at a level set by the finance team.",
+      "C. A stipulation that the winning supplier be headquartered within the same jurisdiction.",
+      "D. A clause reserving the right to publish the contract value once the award is made."
+    ],
+    "correct": "A",
+    "rationale": "Third-party risk for AI is managed through procurement criteria, assessments and contract terms, and those criteria have to reach the things that make an AI system risky: where its data came from, what evidence of performance exists, and what the supplier owes after go-live. Insurance, domicile and publication are ordinary procurement matters that say nothing about the system.",
+    "tags": [
+      "foundations",
+      "procurement",
+      "third-party risk",
+      "public sector"
+    ]
+  },
+  {
+    "id": 88,
+    "domain": "Foundations of AI Governance",
+    "question": "A marketing agency's intellectual property policy assigns ownership of work products created by employees and contractors. The agency now delivers client campaigns partly generated by a licensed AI tool. Which policy question is most urgent?",
+    "options": [
+      "A. Whether the agency's existing brand guidelines still apply to campaign visuals produced this way.",
+      "B. Whether contractors should be paid differently for AI-assisted deliverables.",
+      "C. What rights the agency and its clients hold in AI-generated output.",
+      "D. Whether the agency should register each generated asset with a copyright office."
+    ],
+    "correct": "C",
+    "rationale": "Updating existing intellectual property policy for AI is a named lifecycle activity. The live question is what the licence grants: whether output can be delivered to clients, whether exclusivity is possible, and what the client is actually receiving. Brand guidelines, contractor rates and registration mechanics all assume the rights question has already been answered.",
+    "tags": [
+      "foundations",
+      "intellectual property",
+      "policy",
+      "agency"
+    ]
+  },
+  {
+    "id": 89,
+    "domain": "Foundations of AI Governance",
+    "question": "A manufacturer is introducing AI across several functions and asks which existing policies must be reviewed rather than left unchanged. Select the three that most directly require revision for AI.",
+    "options": [
+      "A. Data governance, because training and inference introduce new collection and retention questions.",
+      "B. The corporate travel and expenses policy, which governs employee reimbursement.",
+      "C. Procurement and third-party risk, because AI suppliers carry obligations ordinary vendors do not.",
+      "D. The physical site access policy governing badge issuance at manufacturing plants.",
+      "E. Incident management, because AI failure modes do not resemble outages or breaches."
+    ],
+    "correct": "A,C,E",
+    "rationale": "Data governance, third-party risk and incident management are each named as existing policy areas that must be evaluated and updated for AI: each one has assumptions that AI breaks. Travel and site access are unaffected by whether a model is in use, and reviewing them would consume effort without reducing any AI risk.",
+    "tags": [
+      "foundations",
+      "policy review",
+      "lifecycle",
+      "manufacturing"
+    ]
+  },
+  {
+    "id": 90,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A retailer wants to add facial recognition to its loss-prevention system, matching shoppers against a watchlist of previous offenders. Which characteristic of the data most changes the legal analysis?",
+    "options": [
+      "A. The images are captured in a physical space rather than collected online.",
+      "B. Facial templates are biometric data and form a special category.",
+      "C. The watchlist is maintained by the retailer itself rather than being supplied by a third-party provider.",
+      "D. The system runs on cameras the retailer already operates for general security."
+    ],
+    "correct": "B",
+    "rationale": "Data privacy law imposes additional requirements on sensitive or special categories, and biometric identifiers are the clearest example. That classification drives the lawful basis, the assessment obligations and in some jurisdictions whether the use is permitted at all. Where the cameras sit, who curates the list, and whether the hardware is already installed do not change the category of the data.",
+    "tags": [
+      "laws",
+      "biometrics",
+      "special category",
+      "retail"
+    ]
+  },
+  {
+    "id": 91,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A manufacturer headquartered in the EU wants to train a quality-inspection model using production data from plants in several countries, with training performed by an affiliate outside the EU. Which requirement most directly governs the arrangement?",
+    "options": [
+      "A. The model must be retrained separately in each country where data originates.",
+      "B. Training data must be aggregated to plant level before any analysis is permitted.",
+      "C. The affiliate must be given controller status so that the internal reporting line is simpler to administer.",
+      "D. Cross-border transfer requirements apply and need a lawful mechanism."
+    ],
+    "correct": "D",
+    "rationale": "Obligations on controllers include cross-border data transfers, and moving personal data to an affiliate outside the region engages them regardless of the corporate relationship. Per-country retraining and forced aggregation are engineering constraints that no rule imposes, and reassigning controller status to suit reporting lines misstates a role determined by who decides purposes and means.",
+    "tags": [
+      "laws",
+      "cross-border transfer",
+      "training data",
+      "manufacturing"
+    ]
+  },
+  {
+    "id": 92,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An e-commerce company advertises its recommendation engine as using AI that 'knows what you need before you do'. Internally the system applies simple collaborative filtering with no such capability. Which body of law is most directly engaged?",
+    "options": [
+      "A. Consumer protection law, which prohibits unfair or deceptive claims about a product.",
+      "B. Intellectual property law, because the description characterises the underlying algorithm.",
+      "C. Product liability law, because the claim describes the product's performance.",
+      "D. Nondiscrimination law, because recommendations differ between individual shoppers."
+    ],
+    "correct": "A",
+    "rationale": "Consumer protection law prohibits unfair and deceptive acts and practices, and overstating what an AI system can do is a straightforward instance. Intellectual property governs rights in the technology rather than how it is described, product liability concerns harm from defects, and differential recommendations are not discrimination absent a protected characteristic.",
+    "tags": [
+      "laws",
+      "consumer protection",
+      "deceptive claims",
+      "e-commerce"
+    ]
+  },
+  {
+    "id": 93,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An industrial equipment maker ships machinery with an embedded AI vision system that halts the machine when it detects a hand near the blade. A design flaw in the detector causes it to miss dark gloves, and an operator is injured. Which existing body of law is most directly relevant?",
+    "options": [
+      "A. Consumer protection law, because the buyer relied on the safety feature when purchasing.",
+      "B. Data privacy law, because camera footage of the operator was processed at the moment of injury.",
+      "C. Product liability law, which addresses harm caused by design and manufacturing defects.",
+      "D. Employment law, because the person injured was working when the failure occurred."
+    ],
+    "correct": "C",
+    "rationale": "Product liability law addresses defects in design and manufacture, and a detector that systematically fails on a foreseeable input is a design defect that caused physical harm. Privacy and employment law may also be engaged by surrounding facts, but neither addresses the defect itself, and consumer protection concerns the claims made rather than the injury.",
+    "tags": [
+      "laws",
+      "product liability",
+      "safety",
+      "manufacturing"
+    ]
+  },
+  {
+    "id": 94,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A property management company uses an AI screening tool to rank rental applicants. The model draws heavily on eviction records and credit history, and approval rates differ sharply by applicant race. Which legal exposure is most direct?",
+    "options": [
+      "A. Consumer protection law, on the basis that applicants were never shown the ranking the model assigned them.",
+      "B. Nondiscrimination law as it applies to housing, including disparate impact.",
+      "C. Intellectual property law, because the scoring logic was licensed from a third party.",
+      "D. Product liability law, because the ranking tool performed differently than specified."
+    ],
+    "correct": "B",
+    "rationale": "Nondiscrimination law applies to AI in housing alongside employment, credit, lending and insurance, and a facially neutral model producing sharply different outcomes by race is the classic disparate impact pattern. The other three describe real bodies of law that this fact pattern does not engage.",
+    "tags": [
+      "laws",
+      "nondiscrimination",
+      "housing",
+      "disparate impact"
+    ]
+  },
+  {
+    "id": 95,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A city government proposes an AI system that would assign residents a general trustworthiness rating from unrelated public records, used by multiple departments to decide access to discretionary services. Under a risk-tiered AI regulatory framework, what is the most likely classification?",
+    "options": [
+      "A. Minimal risk, because every one of the underlying records is already available to the public on request.",
+      "B. Limited risk, requiring only that residents are told a rating exists.",
+      "C. High risk, permitted once a conformity assessment has been completed.",
+      "D. A prohibited practice, because general social scoring by public authorities is banned."
+    ],
+    "correct": "D",
+    "rationale": "Risk-tiered frameworks reserve an outright prohibition for a small set of practices, and general social scoring of individuals by public authorities across unrelated contexts is among them. Prohibited means unavailable at any level of documentation, which is why the high-risk answer is wrong: a conformity assessment cannot license a practice the framework forbids.",
+    "tags": [
+      "laws",
+      "prohibited practices",
+      "social scoring",
+      "public sector"
+    ]
+  },
+  {
+    "id": 96,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A European distributor buys an AI-enabled inspection system built by a manufacturer outside the region and resells it unchanged under the original brand. The distributor believes obligations rest entirely with the manufacturer. Is that correct?",
+    "options": [
+      "A. No — importers and distributors carry duties of their own.",
+      "B. Yes — obligations attach only to the provider that developed and trained the system.",
+      "C. Yes — reselling without modification transfers all responsibility to the end deployer.",
+      "D. No — reselling a system unchanged makes the distributor the provider for all regulatory purposes."
+    ],
+    "correct": "A",
+    "rationale": "AI-specific law differentiates obligations by organisational context: providers, deployers, importers and distributors each carry duties. An importer or distributor must satisfy itself that required documentation and conformity steps exist before placing a system on the market. It does not thereby become the provider, which is why the fourth option overstates the position as badly as the first two understate it.",
+    "tags": [
+      "laws",
+      "importer",
+      "distributor",
+      "value chain"
+    ]
+  },
+  {
+    "id": 97,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company is preparing a high-risk AI system for the EU market. Select the three obligations that must be satisfied before the system is placed on the market.",
+    "options": [
+      "A. A conformity assessment appropriate to the system's classification.",
+      "B. Publication of the model's full training dataset for independent inspection.",
+      "C. Technical documentation sufficient to demonstrate the system meets its requirements.",
+      "D. A risk management process operating across the system's lifecycle.",
+      "E. Certification of the developing organisation against an information security standard."
+    ],
+    "correct": "A,C,D",
+    "rationale": "Conformity assessment, technical documentation and lifecycle risk management are core pre-market requirements for high-risk systems, alongside data governance and record keeping. Publishing the training dataset is not required and would often be unlawful, and no AI framework conditions market access on the developer holding an information security certification.",
+    "tags": [
+      "laws",
+      "high-risk",
+      "conformity assessment",
+      "technical documentation"
+    ]
+  },
+  {
+    "id": 98,
+    "domain": "Governing AI Development",
+    "question": "A team is designing a model that flags university applications for manual review. Engineering proposes optimising for overall accuracy and setting the review threshold once the model is trained. What should governance require instead?",
+    "options": [
+      "A. That overall accuracy be replaced entirely by a single fairness metric as the model's optimisation target.",
+      "B. That the threshold be set by whichever value produces the fewest manual reviews.",
+      "C. That success metrics and thresholds be defined during design, across applicant groups.",
+      "D. That the model be trained on the full applicant history before any metric is chosen."
+    ],
+    "correct": "C",
+    "rationale": "Metric and threshold evaluation is a design-phase activity, not a post-training adjustment. Choosing them beforehand fixes what the system is trying to achieve and how failure will be recognised, including how error is distributed across groups. Replacing accuracy outright, minimising workload, or deferring until after training all let the metric be chosen to flatter the result.",
+    "tags": [
+      "development",
+      "metrics",
+      "thresholds",
+      "education"
+    ]
+  },
+  {
+    "id": 99,
+    "domain": "Governing AI Development",
+    "question": "A government agency is designing an AI system to prioritise applications for a hardship benefit. The design team is drawn entirely from engineering and finance. Which design-phase activity is most clearly missing?",
+    "options": [
+      "A. A benchmark comparing the planned model against the commercially available alternatives on the market.",
+      "B. Stakeholder engagement with caseworkers and applicant representatives.",
+      "C. A pilot restricted to applications already approved through the manual process.",
+      "D. A decision on whether the model will run on agency infrastructure or in the cloud."
+    ],
+    "correct": "B",
+    "rationale": "Stakeholder engagement and feedback is a named part of applying policies and best practice when designing a system. The people who administer the benefit and those who receive it hold information about failure modes that engineering and finance cannot supply. Benchmarking, pilot scope and hosting are real decisions that do not surface who the design might harm.",
+    "tags": [
+      "development",
+      "stakeholder engagement",
+      "design phase",
+      "public sector"
+    ]
+  },
+  {
+    "id": 100,
+    "domain": "Governing AI Development",
+    "question": "A payments company has finished testing a fraud model and the team wants to release. Governance asks what has to be true before production. Which answer best describes a release readiness gate?",
+    "options": [
+      "A. That the model outperformed the incumbent on the held-out test set.",
+      "B. That the engineering team has the capacity to support the system through the months after launch.",
+      "C. That the release date has been communicated to affected internal teams.",
+      "D. That defined criteria — performance, documentation, conformity, rollback — are met and recorded."
+    ],
+    "correct": "D",
+    "rationale": "Assessing readiness and preparing for release means testing the release against criteria agreed in advance and recording the result, so that a go decision is auditable and a no-go is possible. Beating the incumbent is one input among several, and support capacity and internal communication are launch logistics rather than a readiness standard.",
+    "tags": [
+      "development",
+      "release readiness",
+      "gate",
+      "payments"
+    ]
+  },
+  {
+    "id": 101,
+    "domain": "Governing AI Development",
+    "question": "A retailer's recommendation model is retrained nightly from live customer interactions. Security asks what periodic assessment should cover beyond ordinary performance monitoring.",
+    "options": [
+      "A. Threat modelling and adversarial testing of the training pipeline.",
+      "B. Renegotiation of the cloud hosting agreement in order to secure improved availability terms overall.",
+      "C. Verification that recommendation latency remains within the agreed service target.",
+      "D. Confirmation that the model's accuracy has not fallen below its launch measurement."
+    ],
+    "correct": "A",
+    "rationale": "Periodic activities to assess a system include audits, red teaming, threat modelling and security testing. A pipeline that learns continuously from user-influenced data is exposed to deliberate manipulation of its training inputs, which no accuracy or latency measure detects. Hosting terms are commercial, and latency and accuracy are the ordinary monitoring the question already excludes.",
+    "tags": [
+      "development",
+      "threat modelling",
+      "security testing",
+      "retail"
+    ]
+  },
+  {
+    "id": 102,
+    "domain": "Governing AI Development",
+    "question": "A logistics company's route optimisation model begins producing unusable routes for one region. Engineering identifies the immediate cause within a day. What does governance require beyond the fix?",
+    "options": [
+      "A. Suspension of the model in all regions until the fix has run for a full quarter.",
+      "B. Reassignment of model ownership to the regional operations team most affected by the failure itself.",
+      "C. Documentation of the incident and cross-functional review of why it arose.",
+      "D. A public statement describing the failure and the corrective action taken."
+    ],
+    "correct": "C",
+    "rationale": "Managing and documenting incidents, and collaborating with cross-functional stakeholders to understand why they arise — brittleness, data quality, insufficient testing, drift — is a named maintenance responsibility. The immediate cause explains the symptom; the review explains why controls did not catch it. Global suspension, reassignment and public disclosure are responses to different problems.",
+    "tags": [
+      "development",
+      "incident documentation",
+      "root cause",
+      "logistics"
+    ]
+  },
+  {
+    "id": 103,
+    "domain": "Governing AI Development",
+    "question": "An energy utility retrains its demand model only when someone notices the forecasts have become unreliable. Over two years this has happened three times, each after weeks of degraded output. What should replace this practice?",
+    "options": [
+      "A. A policy of retraining the model immediately after any forecast miss exceeds tolerance once.",
+      "B. Continuous monitoring with a defined maintenance, update and retraining schedule.",
+      "C. A switch to a simpler statistical model that is less sensitive to changing conditions.",
+      "D. An annual external audit of the model's forecasting performance and methodology."
+    ],
+    "correct": "B",
+    "rationale": "Conducting continuous monitoring and establishing a regular schedule for maintenance, updates and retraining is the named control. Waiting for someone to notice guarantees weeks of degraded output every time. Retraining on a single miss overreacts to noise, replacing the model abandons capability to avoid a maintenance problem, and an annual audit would detect the drift long after it caused harm.",
+    "tags": [
+      "development",
+      "monitoring",
+      "retraining schedule",
+      "energy"
+    ]
+  },
+  {
+    "id": 104,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A law firm wants an AI assistant that summarises privileged client documents. Confidentiality obligations prevent client material leaving firm-controlled infrastructure. Which deployment consideration follows most directly?",
+    "options": [
+      "A. The assistant should be limited to documents drawn from client matters that have already concluded.",
+      "B. The firm should require every lawyer to review each summary before it is relied upon.",
+      "C. The firm should select the largest available model to minimise summarisation errors.",
+      "D. Deployment options must be evaluated, favouring on-premise or private hosting."
+    ],
+    "correct": "D",
+    "rationale": "Understanding the differences in deployment options — cloud, on-premise, edge — is part of evaluating a deployment decision, and a constraint that data must not leave controlled infrastructure resolves directly to where the model runs. Restricting to closed matters, mandating review and choosing a larger model are all reasonable practices that leave the confidentiality constraint unaddressed.",
+    "tags": [
+      "deployment",
+      "deployment options",
+      "on-premise",
+      "legal"
+    ]
+  },
+  {
+    "id": 105,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An insurer needs to predict claim severity from twelve structured fields with a decade of labelled history. A team proposes a large language model. What is the strongest governance objection?",
+    "options": [
+      "A. A model type poorly matched to a structured task adds opacity and cost.",
+      "B. Language models cannot be applied to numerical data under any circumstances.",
+      "C. Insurance regulators prohibit generative models in all claims-related processes.",
+      "D. The decade of historical claims data would first have to be converted into natural language form."
+    ],
+    "correct": "A",
+    "rationale": "Understanding the differences between model types — classic versus generative among them — is part of the deployment decision. A well-understood tabular problem with abundant labels is where classic approaches are strongest and most explainable; reaching for a generative model imports opacity, cost and evaluation difficulty for no gain. The alternatives state prohibitions and technical impossibilities that do not exist.",
+    "tags": [
+      "deployment",
+      "model selection",
+      "classic vs generative",
+      "insurance"
+    ]
+  },
+  {
+    "id": 106,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A company wants an internal assistant to answer questions from an engineering handbook that is revised most weeks. Accuracy against the current text matters more than writing style. Which approach best fits?",
+    "options": [
+      "A. Fine-tune a base model on the handbook and repeat the fine-tune after each revision.",
+      "B. Deploy the base model unchanged and instruct staff to verify answers against the handbook.",
+      "C. Use retrieval against the current handbook at query time, leaving the base model unmodified.",
+      "D. Train a model from scratch on the handbook so that no external content can influence answers."
+    ],
+    "correct": "C",
+    "rationale": "Deployment options include using a model as is, fine-tuning it, or applying retrieval, and the choice follows the requirement. Content that changes weekly and must be answered accurately points to retrieval, which reads the current text at query time. Repeated fine-tuning is expensive and always lags, unmodified deployment does not know the handbook, and training from scratch is disproportionate.",
+    "tags": [
+      "deployment",
+      "RAG",
+      "fine-tuning",
+      "knowledge freshness"
+    ]
+  },
+  {
+    "id": 107,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A distribution business is deciding whether to deploy a third-party AI system for warehouse staffing. Select the three factors most relevant to the deployment decision itself.",
+    "options": [
+      "A. Whether the intended use case is clearly defined with measurable business objectives.",
+      "B. Whether the vendor's user interface matches the company's internal design conventions.",
+      "C. Whether data of sufficient quality and availability exists to support the intended use.",
+      "D. Whether the workforce is prepared to operate and question the system appropriately.",
+      "E. Whether the vendor's engineering team is larger than that of competing suppliers."
+    ],
+    "correct": "A,C,D",
+    "rationale": "Understanding the context of the use case covers business objectives, performance requirements, data availability, ethical considerations and workforce readiness. Interface conventions are an aesthetic preference, and supplier headcount is not evidence about the system being bought.",
+    "tags": [
+      "deployment",
+      "deploy decision",
+      "use case",
+      "workforce readiness"
+    ]
+  },
+  {
+    "id": 108,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A vendor supplies its own completed impact assessment for an AI scheduling system and asks the buyer to accept it as satisfying the buyer's assessment obligation. How should the buyer respond?",
+    "options": [
+      "A. Accept it, since the vendor understands the system's internals better than the buyer can.",
+      "B. Review it and perform its own assessment of the system as deployed in its context.",
+      "C. Reject it and commission an independent third party to repeat the work from scratch.",
+      "D. Accept it on condition the vendor indemnifies the buyer against any assessment error."
+    ],
+    "correct": "B",
+    "rationale": "Performing or reviewing an impact assessment on the selected system is the deployer's activity. A vendor assessment is useful evidence about the system in general, but it cannot cover the buyer's population, use case or controls, which is where the impact actually lands. Wholesale acceptance skips the part only the buyer can do; commissioning a third party to start over discards useful work; and an indemnity transfers cost, not the obligation.",
+    "tags": [
+      "deployment",
+      "impact assessment",
+      "vendor",
+      "scheduling"
+    ]
   }
 ]

@@ -57,14 +57,43 @@ let sumCorrect = 0;
 let sumDistractor = 0;
 let distractorCount = 0;
 
-for (const q of questions) {
-  const options = q.options.map(strip);
-  const correctIndex = "ABCD".indexOf(q.correct);
+/**
+ * Multi-select items are excluded from the length and position statistics.
+ * Both measures assume exactly one correct option: "is the correct answer the
+ * longest" and "which letter carries the answer" are undefined when three of
+ * five options are correct. They are validated for shape only, and counted
+ * separately in the summary so the exclusion is visible rather than silent.
+ */
+const KEYS = ["A", "B", "C", "D", "E"];
+const parseCorrect = (c) => String(c).split(",").map((k) => k.trim().toUpperCase());
+const singleSelect = questions.filter((q) => parseCorrect(q.correct).length === 1);
+const multiSelect = questions.filter((q) => parseCorrect(q.correct).length > 1);
 
-  if (correctIndex < 0 || correctIndex >= options.length) {
-    failures.push(`q${q.id}: correct answer "${q.correct}" is not one of the options`);
-    continue;
+for (const q of questions) {
+  const keys = parseCorrect(q.correct);
+  const seen = new Set();
+  for (const k of keys) {
+    const i = KEYS.indexOf(k);
+    if (i < 0 || i >= q.options.length) {
+      failures.push(`q${q.id}: correct answer "${k}" is not one of the options`);
+    }
+    if (seen.has(k)) failures.push(`q${q.id}: correct answer "${k}" is repeated`);
+    seen.add(k);
   }
+  if (keys.length > 1 && q.options.length < 5) {
+    failures.push(
+      `q${q.id}: multi-select needs five options, has ${q.options.length}`,
+    );
+  }
+  if (keys.length >= q.options.length) {
+    failures.push(`q${q.id}: every option is correct — there is nothing to choose`);
+  }
+}
+
+for (const q of singleSelect) {
+  const options = q.options.map(strip);
+  const correctIndex = KEYS.indexOf(parseCorrect(q.correct)[0]);
+  if (correctIndex < 0 || correctIndex >= options.length) continue;
 
   const lengths = options.map((o) => o.length);
   const max = Math.max(...lengths);
@@ -99,7 +128,7 @@ for (const q of questions) {
   }
 }
 
-const n = questions.length;
+const n = singleSelect.length;
 const longestRate = longestCount / n;
 const meanRatio = sumCorrect / n / (sumDistractor / distractorCount);
 
@@ -113,7 +142,13 @@ console.log(
 );
 
 const positions = { A: 0, B: 0, C: 0, D: 0 };
-for (const q of questions) positions[q.correct] = (positions[q.correct] ?? 0) + 1;
+for (const q of singleSelect) {
+  const k = parseCorrect(q.correct)[0];
+  positions[k] = (positions[k] ?? 0) + 1;
+}
+console.log(
+  `single-select ${n} of ${questions.length}; multi-select ${multiSelect.length} (excluded from length and position statistics)`,
+);
 console.log(
   "answer positions: " +
     ["A", "B", "C", "D"].map((k) => `${k} ${Math.round((positions[k] / n) * 100)}%`).join("  ") +

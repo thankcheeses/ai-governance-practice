@@ -18,114 +18,133 @@ import type { QuestionEnrichment } from "@/content/types";
  */
 export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   1: {
+    bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
       "Non-determinism is what separates AI governance from software governance. If identical inputs can yield different outputs, you need monitoring and evaluation controls that traditional software never required.",
     frameworkTags: ["AI Governance", "Responsible AI"],
   },
   2: {
+    bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
       "Human-centric design means AI augments human judgment rather than replacing it. In high-stakes domains, a qualified human keeps final authority over the decision.",
     frameworkTags: ["Responsible AI"],
   },
   3: {
+    bokSubdomain: "I.B",
     difficulty: "foundational",
     keyTakeaway:
       "A governance body sees only the risks its members can see. Cross-functional composition — clinical, privacy, compliance, engineering — is what closes the blind spots.",
     frameworkTags: ["AI Governance"],
   },
   4: {
+    bokSubdomain: "II.C",
     difficulty: "applied",
     keyTakeaway:
       "Systems affecting access to essential services fall into the EU AI Act's high-risk tier, which triggers conformity assessment and transparency obligations.",
     frameworkTags: ["EU AI Act", "AI Risk Management"],
   },
   5: {
+    bokSubdomain: "II.D",
     difficulty: "foundational",
     keyTakeaway:
       "Govern is the foundation of the NIST AI RMF. Without the culture, policy, and accountability it establishes, Map, Measure, and Manage have nothing to operate within.",
     frameworkTags: ["NIST AI RMF"],
   },
   6: {
+    bokSubdomain: "II.A",
     difficulty: "applied",
     keyTakeaway:
       "AI systems do not operate in a legal vacuum. When PHI is involved, existing health privacy law applies in full alongside any AI-specific requirements.",
     frameworkTags: ["AI Governance"],
   },
   7: {
+    bokSubdomain: "II.D",
     difficulty: "foundational",
     keyTakeaway:
       "ISO/IEC 42001 is the certifiable AI management system standard. Reach for it when you need externally verifiable assurance rather than internal methodology.",
     frameworkTags: ["ISO 42001"],
   },
   8: {
+    bokSubdomain: "III.A",
     difficulty: "applied",
     keyTakeaway:
       "Impact assessment belongs before training data is touched. It is the proactive tool for identifying who could be harmed while the design can still change.",
     frameworkTags: ["AI Risk Management", "Responsible AI"],
   },
   9: {
+    bokSubdomain: "III.B",
     difficulty: "applied",
     keyTakeaway:
       "Removing a protected attribute does not remove bias. Correlated features act as proxies, so examine what a predictive feature is actually standing in for.",
     frameworkTags: ["Responsible AI", "AI Risk Management"],
   },
   10: {
+    bokSubdomain: "III.C",
     difficulty: "foundational",
     keyTakeaway:
       "A model card exists so someone who did not build the system can decide whether to rely on it — intended use, performance, limitations, and ethical considerations in one standard place.",
     frameworkTags: ["Responsible AI", "AI Governance"],
   },
   11: {
+    bokSubdomain: "III.B",
     difficulty: "applied",
     keyTakeaway:
       "When a privacy claim has to survive scrutiny, reach for differential privacy: calibrated noise bounds any single record's influence, so the guarantee is mathematical rather than a promise that the data was de-identified.",
     frameworkTags: ["Responsible AI"],
   },
   12: {
+    bokSubdomain: "III.B",
     difficulty: "applied",
     keyTakeaway:
       "Combining datasets creates re-identification risk that neither dataset carried alone. De-identified is not the same as non-identifiable once linkage is possible.",
     frameworkTags: ["AI Risk Management"],
   },
   13: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "Performance that degrades after a clean launch usually points to drift — either the inputs have shifted or the relationship the model learned no longer holds.",
     frameworkTags: ["AI Risk Management", "NIST AI RMF"],
   },
   14: {
+    bokSubdomain: "IV.B",
     difficulty: "applied",
     keyTakeaway:
       "You cannot govern what you cannot see. Contract for access to performance and monitoring data before signature, because leverage disappears afterwards.",
     frameworkTags: ["AI Governance", "AI Risk Management"],
   },
   15: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "The first move on a suspected disparate-outcome finding is notification and scope assessment — you need to know how far it reaches before choosing a remedy.",
     frameworkTags: ["AI Risk Management", "Responsible AI"],
   },
   16: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "Identity disclosure is the most direct transparency control in a voice workflow. It sets accurate expectations and addresses the impersonation risk head-on.",
     frameworkTags: ["Responsible AI", "EU AI Act"],
   },
   17: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "When a request falls outside the system's authorized scope, escalate to a qualified human. Answering anyway is the failure mode, especially in clinical contexts.",
     frameworkTags: ["Responsible AI", "AI Risk Management"],
   },
   18: {
+    bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
       "Operational metrics will not catch a policy violation. Monitoring must include qualitative review of what the system actually said, not only how fast it said it.",
     frameworkTags: ["AI Risk Management", "NIST AI RMF"],
   },
   19: {
+    bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
       "Disclose before information is collected, not after. Transparency that arrives once the member has already shared PHI cannot inform the decision it exists to support.",
@@ -139,156 +158,182 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
   },
   20: {
+    bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
       "A pre-data gate enforces required disclosure and authorization before the system may touch or reveal sensitive information — a control in the flow, not a policy on paper.",
     frameworkTags: ["AI Governance", "Responsible AI"],
   },
   21: {
+    bokSubdomain: "IV.B",
     difficulty: "applied",
     keyTakeaway:
       "In regulated settings, transparency and escalation control beat human-likeness. A more convincing agent that conceals its nature is a liability, not a feature.",
     frameworkTags: ["Responsible AI", "AI Governance"],
   },
   22: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "Specify what must be reconstructable before the system goes live — which actions are logged, how the logs are protected, how long they are kept, and who can reach them. Auditability left unspecified on any of those four points is not a control.",
     frameworkTags: ["AI Governance", "EU AI Act"],
   },
   23: {
+    bokSubdomain: "IV.C",
     difficulty: "foundational",
     keyTakeaway:
       "Defined escalation rules are how human oversight becomes operational. Without a routing rule, oversight is an intention rather than a control.",
     frameworkTags: ["Responsible AI"],
   },
   24: {
+    bokSubdomain: "IV.B",
     difficulty: "applied",
     keyTakeaway:
       "Evaluate vendors on governance capability — disclosure, auditability, policy enforcement, escalation — before commercial or aesthetic features, when sensitive data is in scope.",
     frameworkTags: ["AI Governance", "AI Risk Management"],
   },
   25: {
+    bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
       "A transparency control that stops working is a governance incident. Investigate it, remediate it, and assess who was affected while it was failing.",
     frameworkTags: ["AI Risk Management", "Responsible AI"],
   },
   26: {
+    bokSubdomain: "III.C",
     difficulty: "foundational",
     keyTakeaway:
       "Drift is the real world moving away from what the model learned. The model did not change; the conditions it was validated against did.",
     frameworkTags: ["AI Risk Management"],
   },
   27: {
+    bokSubdomain: "II.A",
     difficulty: "applied",
     keyTakeaway:
       "Where automated decisions carry legal or similarly significant effects, data protection law grants rights to human intervention and to contest the outcome.",
     frameworkTags: ["AI Governance"],
   },
   28: {
+    bokSubdomain: "III.A",
     difficulty: "foundational",
     keyTakeaway:
       "An impact assessment is forward-looking: who could be affected, what harms could occur, and what mitigations are needed — decided while there is still time to change course.",
     frameworkTags: ["AI Risk Management"],
   },
   29: {
+    bokSubdomain: "II.C",
     difficulty: "applied",
     keyTakeaway:
       "Serious incidents involving high-risk systems carry formal notification duties on a defined timeline. Reporting is triggered by the incident, not by the conclusion of root cause analysis.",
     frameworkTags: ["EU AI Act"],
   },
   30: {
+    bokSubdomain: "III.A",
     difficulty: "foundational",
     keyTakeaway:
       "Establishing why AI is being used, and assessing its impact, are design-phase activities. Deferring them to testing means the expensive decisions are already made.",
     frameworkTags: ["AI Governance", "AI Risk Management"],
   },
   31: {
+    bokSubdomain: "IV.A",
     difficulty: "applied",
     keyTakeaway:
       "Reach for retrieval when answers have to be checkable against something. Grounding generation in trusted sources is what turns a fluent answer into one a reviewer can verify.",
     frameworkTags: ["Responsible AI"],
   },
   32: {
+    bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
       "Transparency and explainability are about whether the people who need to understand a system's inputs, outputs, and logic actually can.",
     frameworkTags: ["Responsible AI"],
   },
   33: {
+    bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
       "Scope control needs defense in depth: explicit instruction, boundary-case testing, and escalation when the boundary is approached. One layer alone will leak.",
     frameworkTags: ["Responsible AI", "AI Risk Management"],
   },
   34: {
+    bokSubdomain: "II.D",
     difficulty: "applied",
     keyTakeaway:
       "NIST ARIA is the evaluation-and-testing programme for assessing AI risks and impacts in practice, distinct from the risk framework itself.",
     frameworkTags: ["NIST AI RMF"],
   },
   35: {
+    bokSubdomain: "III.B",
     difficulty: "applied",
     keyTakeaway:
       "Synthetic data helps where real data is scarce or privacy exposure is high — provided its fidelity and limitations are validated rather than assumed.",
     frameworkTags: ["Responsible AI"],
   },
   36: {
+    bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
       "How confident the output sounds tells you nothing about whether it is right. A hallucination reads exactly like a correct answer, so detection has to come from grounding and review rather than from tone.",
     frameworkTags: ["Responsible AI"],
   },
   37: {
+    bokSubdomain: "I.B",
     difficulty: "foundational",
     keyTakeaway:
       "Accountability means it is clear who owns which decision across the lifecycle. Diffuse ownership is indistinguishable from no ownership when something goes wrong.",
     frameworkTags: ["AI Governance"],
   },
   38: {
+    bokSubdomain: "III.C",
     difficulty: "applied",
     keyTakeaway:
       "Red-teaming probes for the weaknesses ordinary testing is not designed to find. It asks how the system fails under pressure, not whether it works when used as intended.",
     frameworkTags: ["AI Risk Management", "NIST AI RMF"],
   },
   39: {
+    bokSubdomain: "II.B",
     difficulty: "applied",
     keyTakeaway:
       "AI used in employment decisions remains fully subject to existing civil-rights and nondiscrimination law, regardless of any AI-specific rules layered on top.",
     frameworkTags: ["AI Governance"],
   },
   40: {
+    bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
       "Ask what the human can actually change. A reviewer who cannot overrule the output is oversight on paper — human-in-the-loop means meaningful review and decision authority.",
     frameworkTags: ["Responsible AI"],
   },
   41: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "Fairness requires disaggregated outcomes across groups. An aggregate metric is an average that hides the population you most need to see.",
     frameworkTags: ["Responsible AI", "AI Risk Management"],
   },
   42: {
+    bokSubdomain: "III.B",
     difficulty: "applied",
     keyTakeaway:
       "Record lineage while the data is being assembled, not when someone asks for it. The question it answers later — is this data still suitable for this use — cannot be reconstructed after the fact.",
     frameworkTags: ["AI Governance", "ISO 42001"],
   },
   43: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "Risk-based oversight means autonomy is granted per action, not per system. Routine actions proceed; higher-risk actions route to a human.",
     frameworkTags: ["AI Risk Management", "Responsible AI"],
   },
   44: {
+    bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
       "Automation, reach, and probabilistic behaviour combine so that a single error propagates widely before anyone notices — which is why continuous monitoring is not optional.",
     frameworkTags: ["AI Risk Management"],
   },
   45: {
+    bokSubdomain: "I.B",
     difficulty: "advanced",
     keyTakeaway:
       "Responsibility splits along the value chain: the foundation model provider answers for pre-training data, while the deployer answers for its own data, tuning, and use in context.",
@@ -302,225 +347,444 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
   },
   46: {
+    bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
       "To make a principle auditable, write it as a specific required action. A rule to be transparent cannot be checked; a rule that every call opens by disclosing the system is automated can.",
     frameworkTags: ["Responsible AI"],
   },
   47: {
+    bokSubdomain: "II.C",
     difficulty: "applied",
     keyTakeaway:
       "Conformity assessment is the formal verification that a high-risk system meets its obligations before it reaches the market — a gate, not a retrospective review.",
     frameworkTags: ["EU AI Act"],
   },
   48: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "When the underlying facts change, retrieval sources must be updated and the change verified. The model is not wrong; its knowledge source is stale.",
     frameworkTags: ["AI Risk Management"],
   },
   49: {
+    bokSubdomain: "I.C",
     difficulty: "foundational",
     keyTakeaway:
       "AI governance layers onto existing privacy, security, and civil-rights obligations rather than replacing them. Integration, not substitution.",
     frameworkTags: ["AI Governance"],
   },
   50: {
+    bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
       "Mature practice combines proactive disclosure, clear operational boundaries, human escalation for higher-risk situations, and auditability. Any one alone leaves a gap.",
     frameworkTags: ["Responsible AI", "AI Governance"],
   },
   51: {
+    bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
       "Non-determinism is the dividing line. If the same input can produce different outputs, reading the logic no longer tells you how the system behaves, and monitoring becomes a control rather than a nicety.",
     frameworkTags: ["AI Governance", "Responsible AI"],
   },
   52: {
+    bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
       "Explainability is about the person relying on the output, not the engineer who built it. If a decision-maker cannot state why the system ranked one option above another, the principle is not satisfied.",
     frameworkTags: ["Responsible AI"],
   },
   53: {
+    bokSubdomain: "I.B",
     difficulty: "applied",
     keyTakeaway:
       "A governance body only sees the risks its members are trained to see. Single-function composition is itself a risk finding, regardless of how strong that function is.",
     frameworkTags: ["AI Governance"],
   },
   54: {
+    bokSubdomain: "I.B",
     difficulty: "applied",
     keyTakeaway:
       "Deployer duties attach to operating a system in your own context, not to building it. You can owe governance obligations for a model you had no hand in training.",
     frameworkTags: ["AI Governance", "EU AI Act"],
   },
   55: {
+    bokSubdomain: "I.C",
     difficulty: "applied",
     keyTakeaway:
       "Extend existing policy rather than replacing or ignoring it. The institutional maturity in a mature privacy policy is worth keeping; what it lacks is AI-specific coverage like provenance and drift.",
     frameworkTags: ["AI Governance"],
   },
   56: {
+    bokSubdomain: "I.C",
     difficulty: "applied",
     keyTakeaway:
       "Pre-AI procurement questionnaires do not ask the questions AI risk turns on. Update the assessment and the contract before the purchase, not after the tool is in production.",
     frameworkTags: ["AI Governance", "AI Risk Management"],
   },
   57: {
+    bokSubdomain: "II.A",
     difficulty: "foundational",
     keyTakeaway:
       "Purpose limitation binds you to the purpose disclosed at collection. Repurposing existing data for a new AI feature is a privacy decision before it is a product decision.",
     frameworkTags: ["Responsible AI"],
   },
   58: {
+    bokSubdomain: "II.A",
     difficulty: "applied",
     keyTakeaway:
       "Fully automated decisions with significant effects trigger specific duties, typically a route to human intervention and a way to contest. The trigger is the absence of human involvement, not the technology used.",
     frameworkTags: ["Responsible AI", "EU AI Act"],
   },
   59: {
+    bokSubdomain: "II.B",
     difficulty: "foundational",
     keyTakeaway:
       "Training data is somebody's property. Copyright applies to what a model learns from, not only to what it produces.",
     frameworkTags: ["AI Governance"],
   },
   60: {
+    bokSubdomain: "II.B",
     difficulty: "advanced",
     keyTakeaway:
       "Discrimination does not require the protected trait as an input. A neutral feature that correlates with it can produce the same outcome, which is why disparate impact is tested for rather than assumed away.",
     frameworkTags: ["Responsible AI", "AI Risk Management"],
   },
   61: {
+    bokSubdomain: "II.C",
     difficulty: "applied",
     keyTakeaway:
       "Risk tier follows the consequence for the person, not the sophistication of the tool. Anything gating access to employment sits high regardless of whether a human signs off.",
     frameworkTags: ["EU AI Act"],
   },
   62: {
+    bokSubdomain: "II.C",
     difficulty: "advanced",
     keyTakeaway:
       "Model-level and use-case-level obligations stack rather than substitute. Building a general-purpose model does not exempt you because you cannot foresee downstream use.",
     frameworkTags: ["EU AI Act"],
   },
   63: {
+    bokSubdomain: "II.D",
     difficulty: "foundational",
     keyTakeaway:
       "Govern, map, measure, manage identifies the NIST AI RMF — a voluntary framework, not binding law and not a certifiable standard.",
     frameworkTags: ["NIST AI RMF"],
   },
   64: {
+    bokSubdomain: "II.D",
     difficulty: "foundational",
     keyTakeaway:
       "ISO/IEC 42001 is the certifiable one. If the goal is an audited certificate for an AI management system, that is the standard; the rest serve terminology, assessment, or voluntary risk work.",
     frameworkTags: ["ISO 42001"],
   },
   65: {
+    bokSubdomain: "III.A",
     difficulty: "applied",
     keyTakeaway:
       "Undefined scope makes every later governance activity weaker. You cannot assess risk against a use case nobody has written down.",
     frameworkTags: ["AI Governance", "AI Risk Management"],
   },
   66: {
+    bokSubdomain: "III.A",
     difficulty: "advanced",
     keyTakeaway:
       "Prioritise by severity and likelihood: eliminate, then reduce, then control, then accept with monitoring. Treating all risks equally and escalating everything are both ways of avoiding the judgement.",
     frameworkTags: ["AI Risk Management", "NIST AI RMF"],
   },
   67: {
+    bokSubdomain: "III.A",
     difficulty: "applied",
     keyTakeaway:
       "Design documentation exists so you can defend a decision later, to a regulator or an affected person. Its value is proactive, and code comments do not substitute for it.",
     frameworkTags: ["AI Governance"],
   },
   68: {
+    bokSubdomain: "III.B",
     difficulty: "foundational",
     keyTakeaway:
       "When training history cannot be reconstructed, the gap is lineage — not over-collection, over-retention, or portability. Naming the gap correctly matters, because each of those has a different fix.",
     frameworkTags: ["AI Governance"],
   },
   69: {
+    bokSubdomain: "III.B",
     difficulty: "foundational",
     keyTakeaway:
       "Accuracy and fairness are separate properties tested separately. A model can be accurate overall and still disadvantage a group systematically.",
     frameworkTags: ["Responsible AI", "AI Risk Management"],
   },
   70: {
+    bokSubdomain: "III.B",
     difficulty: "foundational",
     keyTakeaway:
       "Strong on training data, weak on new data means the model learned the sample rather than the pattern. Catching it is what a held-out test set is for.",
     frameworkTags: ["AI Risk Management"],
   },
   71: {
+    bokSubdomain: "III.C",
     difficulty: "foundational",
     keyTakeaway:
       "Write intended use, limitations, and performance into a model card before release. The teams adopting the model then inherit its caveats instead of discovering them in production.",
     frameworkTags: ["Responsible AI"],
   },
   72: {
+    bokSubdomain: "III.C",
     difficulty: "applied",
     keyTakeaway:
       "Accuracy decaying with no code change points to drift: the world moved, the model did not. The response is monitoring plus a retraining cadence, not a one-off fix.",
     frameworkTags: ["AI Risk Management", "NIST AI RMF"],
   },
   73: {
+    bokSubdomain: "III.C",
     difficulty: "applied",
     keyTakeaway:
       "Transparency to a deployer means giving them what they need to operate safely — documentation, instructions, monitoring plans — not marketing material and not the raw training set.",
     frameworkTags: ["EU AI Act"],
   },
   74: {
+    bokSubdomain: "IV.A",
     difficulty: "applied",
     keyTakeaway:
       "Readiness is a property of the people, not the model. A capable tool used by untrained staff is an unassessed risk.",
     frameworkTags: ["AI Governance", "Responsible AI"],
   },
   75: {
+    bokSubdomain: "IV.A",
     difficulty: "applied",
     keyTakeaway:
       "Choose between open and proprietary models on how much visibility and control you need, not on licence. Neither choice changes which obligations apply — one you can inspect, the other you must take on the vendor's assurances.",
     frameworkTags: ["AI Governance"],
   },
   76: {
+    bokSubdomain: "IV.A",
     difficulty: "applied",
     keyTakeaway:
       "Retrieval keeps answers current without retraining, by grounding them in approved sources at query time. It is the standard answer to content that changes faster than a training cycle.",
     frameworkTags: ["AI Governance"],
   },
   77: {
+    bokSubdomain: "IV.B",
     difficulty: "applied",
     keyTakeaway:
       "Assess before you sign. Once the contract is executed, the leverage to change terms or walk away is gone.",
     frameworkTags: ["AI Risk Management", "AI Governance"],
   },
   78: {
+    bokSubdomain: "IV.B",
     difficulty: "advanced",
     keyTakeaway:
       "Contractual silence on liability is a finding, not a neutral fact. Resolve it by negotiation before signature rather than assuming it falls on the vendor.",
     frameworkTags: ["AI Governance"],
   },
   79: {
+    bokSubdomain: "IV.B",
     difficulty: "advanced",
     keyTakeaway:
       "Building your own model adds developer obligations on top of deployer ones. More control means more responsibility, not less.",
     frameworkTags: ["AI Governance", "EU AI Act"],
   },
   80: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "Passing pre-deployment testing is a starting gate, not a finish line. Continuous monitoring and a retraining schedule are what keep a live system inside its tested envelope.",
     frameworkTags: ["NIST AI RMF", "AI Risk Management"],
   },
   81: {
+    bokSubdomain: "IV.C",
     difficulty: "applied",
     keyTakeaway:
       "Systems get used for things nobody assessed. Watching for secondary use is a standing deployment duty, because the original assessment does not cover the new use.",
     frameworkTags: ["AI Risk Management"],
   },
   82: {
+    bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
       "Build the off switch before you need it. Being able to deactivate or localise a system per market is what lets you answer a regulator quickly without shutting down everywhere.",
     frameworkTags: ["AI Governance", "EU AI Act"],
+  },
+  83: {
+    bokSubdomain: "I.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Deploying a tool is not the same as building the capability to use it. Oversight is only real when the people acting on an output understand where it fails.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+  },
+  84: {
+    bokSubdomain: "I.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Governance that cannot be staffed is not governance. Match the structure to the organisation's size, maturity and risk, or it will exist only on the org chart.",
+    frameworkTags: ["AI Governance"],
+  },
+  85: {
+    bokSubdomain: "I.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "When staff have already found a tool, the control that works is a clear rule about what may be used and with what data. Detection and disclaimers come after the rule, not instead of it.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+  },
+  86: {
+    bokSubdomain: "I.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "AI failures are rarely outages. If the incident policy only recognises breaches and downtime, a model quietly harming people has no escalation path at all.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  87: {
+    bokSubdomain: "I.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Standard procurement asks whether a supplier is sound. AI procurement also has to ask what the system was built from and what evidence exists that it works.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  88: {
+    bokSubdomain: "I.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Before an AI-assisted deliverable reaches a client, know what the tool's licence lets you hand over. Ownership of output is a term you accepted, not a default you can assume.",
+    frameworkTags: ["AI Governance"],
+  },
+  89: {
+    bokSubdomain: "I.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Adopting AI does not mean rewriting the policy library. It means finding the specific policies whose assumptions no longer hold — data, suppliers, and incidents — and revising those.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  90: {
+    bokSubdomain: "II.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Ask what category the data falls into before asking what the system does with it. Biometric identifiers carry requirements that ordinary personal data does not.",
+    frameworkTags: ["AI Governance"],
+  },
+  91: {
+    bokSubdomain: "II.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "An internal transfer is still a transfer. Moving training data across borders needs a lawful mechanism even when both ends of the pipeline belong to the same company.",
+    frameworkTags: ["AI Governance"],
+  },
+  92: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Marketing copy about AI capability is a regulated statement. If the system cannot do what the advertisement says, the exposure is deceptive practice, not engineering.",
+    frameworkTags: ["AI Governance"],
+  },
+  93: {
+    bokSubdomain: "II.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "When an AI component is part of a physical product, a systematic failure is a design defect. Product liability applies to AI-enabled machinery exactly as it does to a faulty brake.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  94: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Nondiscrimination law reaches housing decisions, not just hiring and lending. A neutral-looking input set that reproduces a protected characteristic is where the exposure sits.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+  },
+  95: {
+    bokSubdomain: "II.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "The top tier of a risk framework is not the strictest set of controls — it is the line past which no controls help. Check whether a use is prohibited before designing its assessment.",
+    frameworkTags: ["EU AI Act", "AI Risk Management"],
+  },
+  96: {
+    bokSubdomain: "II.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Selling something you did not build is still a regulated role. Importers and distributors owe verification duties of their own, short of the provider's full obligations.",
+    frameworkTags: ["EU AI Act"],
+  },
+  97: {
+    bokSubdomain: "II.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Pre-market obligations for a high-risk system are about demonstrable process — assessed conformity, documentation that stands up, and risk management that runs throughout. They are not satisfied by disclosure or by unrelated certifications.",
+    frameworkTags: ["EU AI Act", "AI Risk Management"],
+  },
+  98: {
+    bokSubdomain: "III.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Decide what good looks like before the model exists. A threshold chosen after seeing the output is a description of the model, not a standard it had to meet.",
+    frameworkTags: ["AI Risk Management", "Responsible AI"],
+  },
+  99: {
+    bokSubdomain: "III.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "The people closest to a decision know how it goes wrong. Engaging them during design is what turns a technically sound system into one that works on real cases.",
+    frameworkTags: ["Responsible AI", "AI Governance"],
+  },
+  100: {
+    bokSubdomain: "III.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A release gate is a set of criteria agreed before anyone wants to ship. If the only question at the gate is whether the model looks good, it is a formality rather than a control.",
+    frameworkTags: ["AI Risk Management", "AI Governance"],
+  },
+  101: {
+    bokSubdomain: "III.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A model that retrains on user behaviour can be taught by users. Security assessment has to cover the pipeline that feeds the model, not just the answers it returns.",
+    frameworkTags: ["AI Risk Management", "NIST AI RMF"],
+  },
+  102: {
+    bokSubdomain: "III.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Fixing the fault closes the incident. Understanding why nothing caught it is what stops the next one, and it needs the people outside engineering who saw the effects.",
+    frameworkTags: ["AI Risk Management", "NIST AI RMF"],
+  },
+  103: {
+    bokSubdomain: "III.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Noticing is not monitoring. Without thresholds and a retraining schedule agreed in advance, degradation is discovered by whoever is affected by it.",
+    frameworkTags: ["AI Risk Management", "NIST AI RMF"],
+  },
+  104: {
+    bokSubdomain: "IV.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Work out where the data is allowed to be before choosing a model. A hosting constraint decides the deployment option, and no amount of review compensates for sending material somewhere it may not go.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  105: {
+    bokSubdomain: "IV.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Match the model type to the problem. Generative capability is not a general upgrade, and on a structured task it trades away the explainability a regulated decision needs.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+  },
+  106: {
+    bokSubdomain: "IV.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "How often the source changes decides the technique. Retrieval suits knowledge that moves; fine-tuning suits behaviour and format that stay put.",
+    frameworkTags: ["AI Governance"],
+  },
+  107: {
+    bokSubdomain: "IV.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "The deployment decision turns on the use case, the data behind it, and the people who will operate it. Vendor attributes that describe the supplier rather than the system belong in procurement, not this decision.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  108: {
+    bokSubdomain: "IV.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A vendor can tell you about the system. Only you can assess what it does to your users in your context — so review what they supply, then do your own.",
+    frameworkTags: ["AI Risk Management", "Responsible AI"],
   },
 };

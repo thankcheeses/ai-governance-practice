@@ -1,7 +1,7 @@
 -- AI Governance Practice — complete database initialisation
 -- Paste this whole file into the Supabase SQL Editor and run it once.
 --
--- Migrations 0001, 0003, and 0004, in order (0002 is superseded — see below). Every
+-- Migrations 0001, 0003, 0004 and 0005, in order (0002 is superseded — see below). Every
 -- statement is idempotent (create if not exists / drop policy if exists /
 -- on conflict do update), so re-running it is safe.
 --
@@ -282,3 +282,25 @@ alter table public.profiles
 
 alter table public.profiles
   drop column if exists tier;
+
+-- ===========================================================================
+-- 0005_multi_select.sql
+-- ===========================================================================
+-- Widen `attempts.selected` to hold a set of option keys.
+--
+-- Multi-select items are graded all-or-nothing, so the answer a learner gave
+-- is a set, not a letter. The column stays `text` and stores the keys
+-- comma-joined in canonical order ("A,C,D") — the same convention the source
+-- content and the published answer keys use, which keeps the stored value
+-- readable in a SQL console.
+--
+-- The old constraint allowed only a single letter A-D. The new one allows one
+-- or more of A-E, so single-select rows written before this migration remain
+-- valid and need no rewrite.
+
+alter table public.attempts
+  drop constraint if exists attempts_selected_check;
+
+alter table public.attempts
+  add constraint attempts_selected_check
+  check (selected ~ '^[A-E](,[A-E])*$');

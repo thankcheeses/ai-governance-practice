@@ -67,7 +67,7 @@ async function main() {
         difficulty: q.difficulty,
         question: q.question,
         options: q.options,
-        correct_answer: q.correctAnswer,
+        correct_answer: q.correctAnswers.join(","),
         rationale: q.rationale,
         key_takeaway: q.keyTakeaway,
         framework_tags: q.frameworkTags,

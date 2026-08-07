@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import type { OptionKey, Question } from "@/content/types";
+import { canSubmit, toggleSelection } from "@/lib/grading";
 import { gradePreview, newReviewCard } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { Confidence, ReviewGrade, StudyMode } from "@/lib/types";
@@ -44,7 +45,7 @@ export function StudySession({
   const { recordAnswer, gradeReview, progress } = useProgress();
 
   const [index, setIndex] = useState(0);
-  const [selected, setSelected] = useState<OptionKey | null>(null);
+  const [selected, setSelected] = useState<OptionKey[]>([]);
   const [confidence, setConfidence] = useState<Confidence | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [wasCorrect, setWasCorrect] = useState(false);
@@ -59,7 +60,7 @@ export function StudySession({
   const total = questions.length;
 
   const handleSubmit = useCallback(() => {
-    if (!selected || revealed || !question) return;
+    if (revealed || !question || !canSubmit(question, selected)) return;
     const result = recordAnswer(
       question,
       selected,
@@ -85,7 +86,7 @@ export function StudySession({
       return;
     }
     setIndex((i) => i + 1);
-    setSelected(null);
+    setSelected([]);
     setConfidence(null);
     setRevealed(false);
     questionStart.current = Date.now();
@@ -113,12 +114,12 @@ export function StudySession({
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key !== "Enter" || finished) return;
-      if (!revealed && selected) handleSubmit();
+      if (!revealed && question && canSubmit(question, selected)) handleSubmit();
       else if (revealed && !withScheduling) advance();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [revealed, selected, finished, withScheduling, handleSubmit, advance]);
+  }, [revealed, selected, question, finished, withScheduling, handleSubmit, advance]);
 
   if (finished) {
     return (
@@ -178,11 +179,13 @@ export function StudySession({
         question={question}
         selected={selected}
         revealed={revealed}
-        onSelect={setSelected}
+        onSelect={(key) =>
+          setSelected((cur) => toggleSelection(question, cur, key))
+        }
       />
 
       {/* Optional confidence capture — feeds review queue prioritisation. */}
-      {!revealed && selected ? (
+      {!revealed && selected.length > 0 ? (
         <div className="mt-6">
           <p className="mb-2 text-xs font-medium text-muted-foreground">
             How confident are you? (optional)
@@ -254,7 +257,7 @@ export function StudySession({
             <Button
               size="lg"
               className="w-full"
-              disabled={!selected}
+              disabled={!canSubmit(question, selected)}
               onClick={handleSubmit}
             >
               Submit answer

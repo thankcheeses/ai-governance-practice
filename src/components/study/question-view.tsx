@@ -3,11 +3,12 @@
 import { Check, X } from "lucide-react";
 import type { OptionKey, Question } from "@/content/types";
 import { VisualAid } from "@/components/study/visual-aid";
+import { isMultiSelect, requiredSelections } from "@/lib/grading";
 import { cn } from "@/lib/utils";
 
 interface QuestionViewProps {
   question: Question;
-  selected: OptionKey | null;
+  selected: readonly OptionKey[];
   revealed: boolean;
   onSelect: (key: OptionKey) => void;
 }
@@ -19,7 +20,11 @@ interface QuestionViewProps {
  * The diagram sits between the stem and the options so it is read as context
  * for the question rather than as commentary on an answer.
  *
- * Selection is single-choice and locks the moment the answer is revealed, so a
+ * Arity follows the question. Single-select renders radios; multi-select
+ * renders checkboxes and states how many choices are required *before* the
+ * learner answers, because the grading is all-or-nothing and discovering the
+ * requirement afterwards would be an interface failure rather than a knowledge
+ * one. Either way selection locks the moment the answer is revealed, so a
  * second tap can never change a recorded answer.
  */
 export function QuestionView({
@@ -28,6 +33,9 @@ export function QuestionView({
   revealed,
   onSelect,
 }: QuestionViewProps) {
+  const multi = isMultiSelect(question);
+  const required = requiredSelections(question);
+
   return (
     <div>
       <h1 className="measure text-pretty text-xl font-semibold leading-snug tracking-[-0.01em] sm:text-2xl sm:leading-snug">
@@ -36,14 +44,24 @@ export function QuestionView({
 
       {question.visualAid ? <VisualAid aid={question.visualAid} /> : null}
 
+      {multi ? (
+        <p className="mt-5 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+          Multi-select · choose {required} of {question.options.length} · no
+          partial credit
+        </p>
+      ) : null}
+
       <div
-        role="radiogroup"
+        role={multi ? "group" : "radiogroup"}
         aria-label="Answer choices"
-        className={cn("space-y-2.5", question.visualAid ? "mt-2" : "mt-6")}
+        className={cn(
+          "space-y-2.5",
+          question.visualAid ? "mt-2" : multi ? "mt-3" : "mt-6",
+        )}
       >
         {question.options.map((option) => {
-          const isSelected = selected === option.key;
-          const isAnswer = option.key === question.correctAnswer;
+          const isSelected = selected.includes(option.key);
+          const isAnswer = question.correctAnswers.includes(option.key);
           const showCorrect = revealed && isAnswer;
           const showWrong = revealed && isSelected && !isAnswer;
 
@@ -51,7 +69,7 @@ export function QuestionView({
             <button
               key={option.key}
               type="button"
-              role="radio"
+              role={multi ? "checkbox" : "radio"}
               aria-checked={isSelected}
               disabled={revealed}
               onClick={() => onSelect(option.key)}

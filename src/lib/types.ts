@@ -14,7 +14,8 @@ export interface Attempt {
   id: string;
   trackId: TrackId;
   questionId: string;
-  selected: OptionKey;
+  /** Every option the learner chose. One entry for single-select items. */
+  selected: OptionKey[];
   correct: boolean;
   responseTimeMs: number;
   difficulty: Difficulty;

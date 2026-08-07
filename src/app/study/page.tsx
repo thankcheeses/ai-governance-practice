@@ -73,6 +73,12 @@ function Study() {
                 <dd>{track.contextVersion ?? "—"}</dd>
                 <dt>Checked</dt>
                 <dd>{formatReviewDate(track.contextReviewed)}</dd>
+                {track.contextCoverage ? (
+                  <>
+                    <dt>Coverage</dt>
+                    <dd>{track.contextCoverage}</dd>
+                  </>
+                ) : null}
               </dl>
             ) : null}
           </div>

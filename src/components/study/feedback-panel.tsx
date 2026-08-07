@@ -2,6 +2,7 @@
 
 import { CheckCircle2, XCircle } from "lucide-react";
 import type { Question } from "@/content/types";
+import { formatAnswer, isMultiSelect } from "@/lib/grading";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -41,7 +42,8 @@ export function FeedbackPanel({ question, correct }: FeedbackPanelProps) {
           {correct ? "Correct" : "Incorrect"}
           {!correct ? (
             <span className="ml-1.5 font-normal opacity-90">
-              — the answer is {question.correctAnswer}
+              — the {isMultiSelect(question) ? "answers are" : "answer is"}{" "}
+              {formatAnswer(question.correctAnswers)}
             </span>
           ) : null}
         </div>
