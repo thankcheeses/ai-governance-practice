@@ -163,7 +163,13 @@ export function StudySession({
   }
 
   return (
-    <div className="pb-32">
+    /*
+      The session runs in a single reading column, the same width as the action
+      bar below it. The app container is 1280px so tables and dashboards can use
+      it; a question stem must not, or a scenario becomes a 150-character line
+      and the eye loses its place on the return sweep.
+    */
+    <div className="mx-auto max-w-3xl pb-32">
       {/* Session header */}
       <div className="mb-6 flex items-center gap-3">
         <Button asChild variant="ghost" size="icon" aria-label="Exit session">
@@ -174,7 +180,7 @@ export function StudySession({
         <div className="min-w-0 flex-1">
           <div className="mb-1.5 flex items-baseline justify-between gap-3">
             <span className="truncate text-sm font-medium">{label}</span>
-            <span className="shrink-0 text-sm tabular-nums text-muted-foreground">
+            <span className="shrink-0 font-mono text-sm tabular-nums text-muted-foreground">
               {index + 1} / {total}
             </span>
           </div>
@@ -216,10 +222,10 @@ export function StudySession({
                   setConfidence((c) => (c === option.value ? null : option.value))
                 }
                 className={cn(
-                  "flex-1 border px-3 py-2 text-sm transition-colors",
+                  "flex-1 rounded-lg border px-3 py-2 text-sm transition-colors",
                   confidence === option.value
-                    ? "border-2 border-foreground bg-secondary text-foreground"
-                    : "border-border text-muted-foreground hover:bg-secondary",
+                    ? "border-primary bg-accent-tint font-medium text-primary ring-1 ring-inset ring-primary"
+                    : "border-border bg-card text-muted-foreground hover:bg-secondary",
                 )}
               >
                 {option.label}
@@ -251,7 +257,7 @@ export function StudySession({
                     type="button"
                     onClick={() => handleGrade(grade)}
                     className={cn(
-                      "border border-l-4 bg-card p-3 text-center transition-colors active:translate-y-px",
+                      "rounded-lg border border-l-4 bg-card p-3 text-center shadow-[var(--shadow-card)] transition-colors active:translate-y-px",
                       grade === "again" &&
                         "border-destructive hover:bg-destructive-tint",
                       grade === "hard" && "border-warning hover:bg-warning/15",
@@ -315,8 +321,8 @@ function SessionComplete({
   const showQueue = queued > 0;
   return (
     <div className="mx-auto max-w-md py-10 text-center">
-      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center border-2 border-foreground">
-        <span className="text-2xl font-semibold tabular-nums text-primary">
+      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
+        <span className="font-mono text-2xl font-semibold tabular-nums text-primary">
           {accuracy}%
         </span>
       </div>
@@ -328,7 +334,7 @@ function SessionComplete({
       {/* The queue fills itself on every miss. Saying so here is the only
           place a learner finds out without going looking. */}
       {showQueue ? (
-        <div className="mt-6 border border-l-4 border-foreground bg-secondary p-4 text-left">
+        <div className="mt-6 rounded-lg border border-l-4 border-primary bg-accent-tint p-4 text-left">
           <p className="text-sm font-medium">
             {queued} {queued === 1 ? "scenario is" : "scenarios are"} now in your
             review queue

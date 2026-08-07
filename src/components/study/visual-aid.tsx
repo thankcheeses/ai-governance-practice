@@ -30,7 +30,7 @@ export function VisualAid({
     <figure className={cn("my-6", className)}>
       <div
         className={cn(
-          "relative overflow-hidden border border-border bg-card shadow-[var(--shadow-card)]",
+          "relative overflow-hidden rounded-xl border border-border bg-card shadow-[var(--shadow-card)]",
           "h-[180px] sm:h-[240px]",
         )}
       >

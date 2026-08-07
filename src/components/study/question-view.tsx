@@ -2,6 +2,7 @@
 
 import { Check, X } from "lucide-react";
 import type { PresentedOption, Question } from "@/content/types";
+import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { VisualAid } from "@/components/study/visual-aid";
 import { isMultiSelect, requiredSelections } from "@/lib/grading";
 import { cn } from "@/lib/utils";
@@ -43,15 +44,17 @@ export function QuestionView({
   return (
     <div>
       <h1 className="measure text-pretty text-xl font-semibold leading-snug tracking-[-0.01em] sm:text-2xl sm:leading-snug">
-        {question.question}
+        <ConceptHighlight text={question.question} limit={3} />
       </h1>
 
       {question.visualAid ? <VisualAid aid={question.visualAid} /> : null}
 
       {multi ? (
-        <p className="mt-5 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
-          Multi-select · choose {required} of {question.options.length} · no
-          partial credit
+        /* One text node, spaces and all: the separators are decoration, and a
+           screen reader must still hear "choose 2 of 5, no partial credit". */
+        <p className="mt-5 inline-block rounded-md border border-accent-subtle bg-accent-tint px-2.5 py-1.5 font-mono text-xs font-medium text-accent-foreground">
+          <span className="font-semibold">Multi-select</span>
+          {` · choose ${required} of ${question.options.length} · no partial credit`}
         </p>
       ) : null}
 
@@ -78,23 +81,25 @@ export function QuestionView({
               disabled={revealed}
               onClick={() => onSelect(option.id)}
               className={cn(
-                "flex w-full items-start gap-3.5 border p-4 text-left",
-                "transition-colors duration-150 disabled:cursor-default",
+                "flex w-full items-start gap-3.5 rounded-lg border p-4 text-left",
+                "transition-[background-color,border-color,box-shadow] duration-150",
+                "disabled:cursor-default",
 
-                // Resting: plain surface, 1px rule.
+                // Resting: a card of its own, lifted just off the page so the
+                // choices read as separate objects rather than as list rows.
                 !revealed &&
                   !isSelected &&
-                  "border-border bg-card hover:border-border-strong hover:bg-secondary",
+                  "border-border bg-card shadow-[var(--shadow-card)] hover:border-border-strong hover:bg-secondary",
 
-                // Selected: the stroke doubles and darkens. No tint, no
-                // scaling — selection is a border weight the eye reads at a
-                // glance. Padding drops 1px so the box does not shift.
+                // Selected: a teal ring drawn *inside* the border rather than a
+                // heavier border, so the box never changes size and the row
+                // does not shift under the cursor.
                 isSelected &&
                   !revealed &&
-                  "border-2 border-foreground bg-secondary p-[0.9375rem]",
+                  "border-primary bg-accent-tint ring-1 ring-inset ring-primary",
 
                 // Post-answer states stay informational, not celebratory.
-                showCorrect && "border-success bg-success-tint",
+                showCorrect && "border-success bg-success-tint ring-1 ring-inset ring-success",
                 showWrong && "border-destructive bg-destructive-tint",
                 revealed &&
                   !showCorrect &&
@@ -104,10 +109,11 @@ export function QuestionView({
             >
               <span
                 className={cn(
-                  "mt-px flex h-6 w-6 shrink-0 items-center justify-center border text-xs font-semibold transition-colors",
+                  "mt-px flex h-6 w-6 shrink-0 items-center justify-center border font-mono text-xs font-semibold transition-colors",
+                  multi ? "rounded-md" : "rounded-full",
                   isSelected &&
                     !revealed &&
-                    "border-foreground bg-foreground text-background",
+                    "border-primary bg-primary text-primary-foreground",
                   showCorrect && "border-success bg-success text-success-foreground",
                   showWrong &&
                     "border-destructive bg-destructive text-destructive-foreground",
@@ -124,7 +130,7 @@ export function QuestionView({
                   option.key
                 )}
               </span>
-              <span className="text-[0.9375rem] leading-relaxed sm:text-base">
+              <span className="measure text-[0.9375rem] leading-relaxed sm:text-base">
                 {option.text}
               </span>
             </button>

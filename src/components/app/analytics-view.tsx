@@ -57,12 +57,12 @@ function Meter({ slice }: { slice: Slice }) {
           {measured ? (
             <>
               <span className={BAND_TEXT[slice.band]}>{slice.accuracy}%</span>
-              <span className="ml-2 text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+              <span className="ml-2 font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
                 {BAND_LABEL[slice.band]}
               </span>
             </>
           ) : (
-            <span className="text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
               Not started
             </span>
           )}
@@ -86,7 +86,7 @@ function Meter({ slice }: { slice: Slice }) {
 function Headline({ label, value }: { label: string; value: string }) {
   return (
     <div className="border border-border bg-card p-4">
-      <div className="text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
+      <div className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
         {label}
       </div>
       <div className="mt-1.5 text-lg font-semibold leading-tight">{value}</div>
@@ -115,7 +115,7 @@ export function AnalyticsView({
     <div className="space-y-7">
       {/* Overall */}
       <section>
-        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+        <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Overall performance
         </h2>
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -138,7 +138,7 @@ export function AnalyticsView({
       {/* Focus areas — the recommendation is the product, not the bar. */}
       {focus.length > 0 ? (
         <section>
-          <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+          <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
             Focus areas
           </h2>
           <div className="rule-y border border-border">
@@ -160,7 +160,7 @@ export function AnalyticsView({
                 <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
                   {area.recommendation}
                 </p>
-                <p className="mt-2 text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+                <p className="mt-2 font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
                   {area.correct} of {area.answered} correct
                 </p>
               </div>
@@ -176,7 +176,7 @@ export function AnalyticsView({
 
       {/* Domains, each expandable to its sub-domains */}
       <section>
-        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+        <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Domain breakdown
         </h2>
         <div className="rule-y border border-border">
@@ -200,7 +200,7 @@ export function AnalyticsView({
                       label: `Domain ${domain.roman} — ${domain.label}`,
                     }}
                   />
-                  <span className="mt-2 flex items-center gap-1.5 text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+                  <span className="mt-2 flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
                     <ChevronDown
                       className={cn("h-3 w-3", isOpen && "rotate-180")}
                       aria-hidden

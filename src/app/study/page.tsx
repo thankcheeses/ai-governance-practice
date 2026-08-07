@@ -66,7 +66,7 @@ function Study() {
               distinct claim a reader can check independently.
             */}
             {track.contextReviewed ? (
-              <dl className="measure mt-2.5 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+              <dl className="measure mt-2.5 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
                 <dt>Authority</dt>
                 <dd>{track.contextAuthority ?? "—"}</dd>
                 <dt>Version</dt>
@@ -88,13 +88,13 @@ function Study() {
       {/* Focus session — only once weak-domain accuracy means something. */}
       {focus.length > 0 ? (
         <section>
-          <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+          <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
             Focus session
           </h2>
-          <Card className="border-2 border-foreground">
+          <Card className="border-primary/30 shadow-[var(--shadow-accent)]">
             <CardContent className="p-5">
               <div className="flex items-start gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-border-strong bg-secondary">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/25 bg-accent-tint">
                   <Target className="h-4 w-4 text-primary" />
                 </span>
                 <div className="min-w-0">
@@ -138,13 +138,13 @@ function Study() {
 
       {/* Mixed practice */}
       <section>
-        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+        <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Mixed practice
         </h2>
         <Card>
           <CardContent className="p-5">
             <div className="flex items-start gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-border-strong bg-secondary">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
                 <Shuffle className="h-4 w-4 text-primary" />
               </span>
               <div>
@@ -170,7 +170,7 @@ function Study() {
 
       {/* Domain practice */}
       <section>
-        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+        <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Practise by domain
         </h2>
 

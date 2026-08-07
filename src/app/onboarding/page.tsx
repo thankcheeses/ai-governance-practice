@@ -52,7 +52,7 @@ export default function OnboardingPage() {
                 {BRAND.category} {BRAND.lines.apply}
               </p>
               <div className="mt-8 border border-border bg-card p-4 shadow-[var(--shadow-card)]">
-                <p className="text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+                <p className="font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
                   Your track
                 </p>
                 <p className="mt-2 font-semibold">{track.name}</p>
@@ -78,7 +78,7 @@ export default function OnboardingPage() {
                       key={point.title}
                       className="flex gap-3.5 border border-border bg-card p-4 shadow-[var(--shadow-card)]"
                     >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-border-strong bg-secondary">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
                         <Icon className="h-[1.125rem] w-[1.125rem] text-primary" />
                       </span>
                       <div>
@@ -136,14 +136,14 @@ export default function OnboardingPage() {
               By continuing you agree to our{" "}
               <Link
                 href="/terms"
-                className="font-medium text-primary underline-offset-4 hover:underline"
+                className="font-medium text-link underline decoration-link/40 underline-offset-4 transition-colors hover:text-link-hover hover:decoration-link-hover"
               >
                 Terms of Service
               </Link>{" "}
               and{" "}
               <Link
                 href="/privacy"
-                className="font-medium text-primary underline-offset-4 hover:underline"
+                className="font-medium text-link underline decoration-link/40 underline-offset-4 transition-colors hover:text-link-hover hover:decoration-link-hover"
               >
                 Privacy Policy
               </Link>

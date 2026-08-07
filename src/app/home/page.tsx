@@ -118,7 +118,7 @@ function Home() {
 
       {/* Stats */}
       <section>
-        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+        <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Your progress
         </h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

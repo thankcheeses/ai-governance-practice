@@ -83,7 +83,7 @@ function Dashboard() {
       />
 
       <section>
-        <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+        <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           Review schedule
         </h2>
         <Card>

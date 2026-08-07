@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils";
  *
  *  - `flat`  (default) the mark on a bordered plate. Used in chrome: header,
  *            sidebar, anywhere the mark is an identifier.
- *  - `glass` the same mark at signage scale, inverted — solid foreground fill,
- *            background-coloured mark. Used for splash and empty states.
+ *  - `glass` the same mark at signage scale on the brand teal. Used for splash
+ *            and empty states.
  *
- * The name `glass` is kept so callers do not change; the treatment is flat.
- * Gradients, sheens and depth shadows are out of the system entirely.
+ * The name `glass` is kept so callers do not change; the treatment is a flat
+ * fill. Gradients and sheens are out of the system entirely.
  */
 export function BrandMark({
   variant = "flat",
@@ -25,12 +25,12 @@ export function BrandMark({
   return (
     <span
       className={cn(
-        "flex h-8 w-8 shrink-0 items-center justify-center border border-border-strong bg-card",
+        "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border-strong bg-card shadow-[var(--shadow-card)]",
         className,
       )}
       aria-hidden
     >
-      <ShieldPath className="h-[1.125rem] w-[1.125rem] text-foreground" />
+      <ShieldPath className="h-[1.125rem] w-[1.125rem] text-primary" />
     </span>
   );
 }
@@ -39,12 +39,12 @@ function GlassMark({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "flex h-16 w-16 shrink-0 items-center justify-center bg-foreground",
+        "flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary shadow-[var(--shadow-accent)]",
         className,
       )}
       aria-hidden
     >
-      <ShieldPath className="h-1/2 w-1/2 text-background" />
+      <ShieldPath className="h-1/2 w-1/2 text-primary-foreground" />
     </span>
   );
 }

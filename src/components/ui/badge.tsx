@@ -3,11 +3,17 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /*
- * A label, in the industrial sense: rectangular, bordered, uppercase, and
- * letter-spaced so it scans as metadata rather than as prose.
+ * A label: bordered, tinted, and set apart from prose by size and a soft
+ * capsule rather than by shouting.
+ *
+ * An earlier revision set these in 11px letter-spaced uppercase. That scans as
+ * metadata, but badges here also carry framework names — "NIST AI RMF",
+ * "ISO/IEC 42001" — which a learner needs to *read*, and uppercasing an
+ * acronym-laden string at 11px makes it a texture. Sentence case at 12px keeps
+ * the label role without costing legibility.
  */
 const badgeVariants = cva(
-  "inline-flex items-center gap-1.5 rounded-none border px-2 py-0.5 text-[0.6875rem] font-medium uppercase tracking-[0.06em] transition-colors",
+  "inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-xs font-medium transition-colors",
   {
     variants: {
       variant: {

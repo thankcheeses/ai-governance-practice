@@ -71,7 +71,7 @@ export function LegalDocument({
               Questions about this document, your account, or your data go to{" "}
               <a
                 href={`mailto:${COMPANY.email}`}
-                className="break-all font-medium text-primary underline-offset-4 hover:underline"
+                className="break-all font-medium text-link underline decoration-link/40 underline-offset-4 transition-colors hover:text-link-hover hover:decoration-link-hover"
               >
                 {COMPANY.email}
               </a>
