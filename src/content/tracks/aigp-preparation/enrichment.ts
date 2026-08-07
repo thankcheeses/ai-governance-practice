@@ -605,4 +605,186 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "Build the off switch before you need it. Being able to deactivate or localise a system per market is what lets you answer a regulator quickly without shutting down everywhere.",
     frameworkTags: ["AI Governance", "EU AI Act"],
   },
+  83: {
+    bokSubdomain: "I.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Deploying a tool is not the same as building the capability to use it. Oversight is only real when the people acting on an output understand where it fails.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+  },
+  84: {
+    bokSubdomain: "I.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Governance that cannot be staffed is not governance. Match the structure to the organisation's size, maturity and risk, or it will exist only on the org chart.",
+    frameworkTags: ["AI Governance"],
+  },
+  85: {
+    bokSubdomain: "I.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "When staff have already found a tool, the control that works is a clear rule about what may be used and with what data. Detection and disclaimers come after the rule, not instead of it.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+  },
+  86: {
+    bokSubdomain: "I.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "AI failures are rarely outages. If the incident policy only recognises breaches and downtime, a model quietly harming people has no escalation path at all.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  87: {
+    bokSubdomain: "I.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Standard procurement asks whether a supplier is sound. AI procurement also has to ask what the system was built from and what evidence exists that it works.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  88: {
+    bokSubdomain: "I.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Before an AI-assisted deliverable reaches a client, know what the tool's licence lets you hand over. Ownership of output is a term you accepted, not a default you can assume.",
+    frameworkTags: ["AI Governance"],
+  },
+  89: {
+    bokSubdomain: "I.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Adopting AI does not mean rewriting the policy library. It means finding the specific policies whose assumptions no longer hold — data, suppliers, and incidents — and revising those.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  90: {
+    bokSubdomain: "II.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Ask what category the data falls into before asking what the system does with it. Biometric identifiers carry requirements that ordinary personal data does not.",
+    frameworkTags: ["AI Governance"],
+  },
+  91: {
+    bokSubdomain: "II.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "An internal transfer is still a transfer. Moving training data across borders needs a lawful mechanism even when both ends of the pipeline belong to the same company.",
+    frameworkTags: ["AI Governance"],
+  },
+  92: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Marketing copy about AI capability is a regulated statement. If the system cannot do what the advertisement says, the exposure is deceptive practice, not engineering.",
+    frameworkTags: ["AI Governance"],
+  },
+  93: {
+    bokSubdomain: "II.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "When an AI component is part of a physical product, a systematic failure is a design defect. Product liability applies to AI-enabled machinery exactly as it does to a faulty brake.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  94: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Nondiscrimination law reaches housing decisions, not just hiring and lending. A neutral-looking input set that reproduces a protected characteristic is where the exposure sits.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+  },
+  95: {
+    bokSubdomain: "II.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "The top tier of a risk framework is not the strictest set of controls — it is the line past which no controls help. Check whether a use is prohibited before designing its assessment.",
+    frameworkTags: ["EU AI Act", "AI Risk Management"],
+  },
+  96: {
+    bokSubdomain: "II.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Selling something you did not build is still a regulated role. Importers and distributors owe verification duties of their own, short of the provider's full obligations.",
+    frameworkTags: ["EU AI Act"],
+  },
+  97: {
+    bokSubdomain: "II.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Pre-market obligations for a high-risk system are about demonstrable process — assessed conformity, documentation that stands up, and risk management that runs throughout. They are not satisfied by disclosure or by unrelated certifications.",
+    frameworkTags: ["EU AI Act", "AI Risk Management"],
+  },
+  98: {
+    bokSubdomain: "III.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Decide what good looks like before the model exists. A threshold chosen after seeing the output is a description of the model, not a standard it had to meet.",
+    frameworkTags: ["AI Risk Management", "Responsible AI"],
+  },
+  99: {
+    bokSubdomain: "III.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "The people closest to a decision know how it goes wrong. Engaging them during design is what turns a technically sound system into one that works on real cases.",
+    frameworkTags: ["Responsible AI", "AI Governance"],
+  },
+  100: {
+    bokSubdomain: "III.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A release gate is a set of criteria agreed before anyone wants to ship. If the only question at the gate is whether the model looks good, it is a formality rather than a control.",
+    frameworkTags: ["AI Risk Management", "AI Governance"],
+  },
+  101: {
+    bokSubdomain: "III.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A model that retrains on user behaviour can be taught by users. Security assessment has to cover the pipeline that feeds the model, not just the answers it returns.",
+    frameworkTags: ["AI Risk Management", "NIST AI RMF"],
+  },
+  102: {
+    bokSubdomain: "III.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Fixing the fault closes the incident. Understanding why nothing caught it is what stops the next one, and it needs the people outside engineering who saw the effects.",
+    frameworkTags: ["AI Risk Management", "NIST AI RMF"],
+  },
+  103: {
+    bokSubdomain: "III.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Noticing is not monitoring. Without thresholds and a retraining schedule agreed in advance, degradation is discovered by whoever is affected by it.",
+    frameworkTags: ["AI Risk Management", "NIST AI RMF"],
+  },
+  104: {
+    bokSubdomain: "IV.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Work out where the data is allowed to be before choosing a model. A hosting constraint decides the deployment option, and no amount of review compensates for sending material somewhere it may not go.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  105: {
+    bokSubdomain: "IV.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Match the model type to the problem. Generative capability is not a general upgrade, and on a structured task it trades away the explainability a regulated decision needs.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+  },
+  106: {
+    bokSubdomain: "IV.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "How often the source changes decides the technique. Retrieval suits knowledge that moves; fine-tuning suits behaviour and format that stay put.",
+    frameworkTags: ["AI Governance"],
+  },
+  107: {
+    bokSubdomain: "IV.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "The deployment decision turns on the use case, the data behind it, and the people who will operate it. Vendor attributes that describe the supplier rather than the system belong in procurement, not this decision.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+  },
+  108: {
+    bokSubdomain: "IV.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A vendor can tell you about the system. Only you can assess what it does to your users in your context — so review what they supply, then do your own.",
+    frameworkTags: ["AI Risk Management", "Responsible AI"],
+  },
 };

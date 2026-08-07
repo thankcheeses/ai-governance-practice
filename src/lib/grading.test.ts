@@ -131,3 +131,22 @@ test("answers display in canonical order regardless of selection order", () => {
   assert.equal(formatAnswer(["D", "A", "C"]), "A, C, D");
   assert.equal(formatAnswer(["B"]), "B");
 });
+
+/* ---------------------------------------------- legacy shape migration -- */
+
+test("a legacy single-key attempt coerces to a one-element set", () => {
+  // Mirrors migrateProgress in the store: progress saved before multi-select
+  // stored `selected` as "B", and every write path now calls .join() on it.
+  const coerce = (v: string | OptionKey[]): OptionKey[] =>
+    Array.isArray(v)
+      ? v
+      : (String(v)
+          .split(",")
+          .map((k) => k.trim().toUpperCase())
+          .filter(Boolean) as OptionKey[]);
+
+  assert.deepEqual(coerce("B"), ["B"]);
+  assert.deepEqual(coerce("A,C,D"), ["A", "C", "D"]);
+  assert.deepEqual(coerce(["B"]), ["B"]);
+  assert.doesNotThrow(() => coerce("B").join(","));
+});

@@ -467,10 +467,37 @@ function readLocal(): UserProgress | null {
     }
     const parsed = JSON.parse(raw) as Partial<UserProgress>;
     // Spread over a fresh object so older stored shapes remain loadable.
-    return { ...emptyProgress(), ...parsed };
+    return migrateProgress({ ...emptyProgress(), ...parsed });
   } catch {
     return null;
   }
+}
+
+/**
+ * Forward-migrate a stored progress object.
+ *
+ * `Attempt.selected` was a single OptionKey before multi-select landed and is
+ * an array after it. Anyone with progress saved by an earlier build has the
+ * old shape in localStorage, and every write path now calls `.join()` on it —
+ * so without this, the first sync after upgrading would throw and the learner
+ * would silently stop syncing. Cheap to run, and it costs nothing once the
+ * stored data has been rewritten in the new shape.
+ */
+function migrateProgress(progress: UserProgress): UserProgress {
+  let changed = false;
+  const attempts = progress.attempts.map((attempt) => {
+    if (Array.isArray(attempt.selected)) return attempt;
+    changed = true;
+    const legacy = attempt.selected as unknown as string;
+    return {
+      ...attempt,
+      selected: String(legacy)
+        .split(",")
+        .map((k) => k.trim().toUpperCase())
+        .filter(Boolean) as OptionKey[],
+    };
+  });
+  return changed ? { ...progress, attempts } : progress;
 }
 
 function writeLocal(progress: UserProgress) {
