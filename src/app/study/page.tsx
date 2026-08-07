@@ -40,9 +40,17 @@ function Study() {
           {track.name} · {track.questionCount} scenarios, all free
         </p>
         {track.context ? (
-          <p className="measure mt-3 text-xs leading-relaxed text-muted-foreground">
-            {track.context}
-          </p>
+          <div className="mt-3 border-l-2 border-border-strong pl-3">
+            <p className="measure text-xs leading-relaxed text-muted-foreground">
+              {track.context}
+            </p>
+            {track.contextReviewed ? (
+              <p className="mt-1.5 text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+                Checked against the published Body of Knowledge:{" "}
+                {track.contextReviewed}
+              </p>
+            ) : null}
+          </div>
         ) : null}
       </header>
 

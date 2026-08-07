@@ -32,6 +32,13 @@ export interface Track {
    * appear here.
    */
   context?: string;
+  /**
+   * When the track was last checked against that outside body of knowledge.
+   * Shown to the learner, because a study tool going quietly stale is the
+   * failure they cannot detect for themselves. Move it only after the check
+   * has actually been repeated.
+   */
+  contextReviewed?: string;
   status: TrackStatus;
   /** Ordered domain list for this track, derived from its own content. */
   domains: string[];

@@ -18,8 +18,19 @@ const TRACKS: Track[] = [
     name: "AIGP Preparation",
     summary:
       "Build practical governance judgment across AI foundations, laws and frameworks, development, and deployment.",
+    /*
+     * Version currency is the thing a study tool is easiest to be quietly
+     * wrong about. The IAPP revises the AIGP Body of Knowledge annually, so
+     * the structure this track was written against is named explicitly, along
+     * with the limit of what is claimed: domain-level alignment, not
+     * sub-domain coverage. Auditing the question bank against the thirteen
+     * sub-domains of v2.1 has not been done, so it is not asserted.
+     *
+     * `contextReviewed` moves only when that check is genuinely repeated.
+     */
     context:
-      "The four domains below follow the subject areas the IAPP publishes for the AIGP certification, so study here maps onto the ground that exam covers. Every scenario is original material written for this track. AIGP is a certification mark of the IAPP; this product is independent of the IAPP and is not affiliated with, endorsed by, or approved by it.",
+      "The four domains below follow the four-domain structure of the IAPP's AIGP Body of Knowledge, version 2.1 (effective 2 February 2026). Alignment is at domain level; this track does not claim to cover every sub-domain, and the IAPP's published Body of Knowledge is the authority on what the exam tests. Every scenario is original material written for this track. AIGP is a certification mark of the IAPP; this product is independent of the IAPP and is not affiliated with, endorsed by, or approved by it.",
+    contextReviewed: "7 August 2026",
     status: "active",
     domains: aigpDomains,
     questionCount: aigpQuestions.length,
