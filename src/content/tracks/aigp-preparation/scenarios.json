@@ -1,0 +1,66 @@
+[
+  {
+    "id": "sc-001",
+    "title": "Consumer lending model at a retail bank",
+    "sector": "financial services",
+    "body": [
+      "Meridian Retail Bank operates in the United States and, through a small subsidiary, in Ireland. Its Credit Products group has built a machine learning model that scores applications for unsecured personal loans. The model does not approve or decline on its own: it returns a score band, and underwriters hold final authority. In practice, underwriters follow the score band in roughly 94% of cases, and the underwriting handbook instructs them to record a written justification only when they depart from it.",
+      "The model was developed in-house on eleven years of the bank's own lending history. The data science team removed race, sex, age and postal code from the feature set before training. Remaining features include debt-to-income ratio, length of credit history, employment tenure, number of recent credit enquiries, and the applicant's device type at the point of application.",
+      "The bank has an AI governance committee chaired by the Chief Risk Officer, with standing members from Legal, Compliance, Model Risk Management, Data Science and the first-line business. Model Risk Management runs an independent validation before any model goes live, and owns the model inventory. The Credit Products group owns the business outcome and funds the work.",
+      "Pre-deployment validation was completed nine months ago and the model went live shortly after. Validation covered discrimination performance, stability, and a fair-lending review that tested outcome rates across protected classes using proxy inference on the applicant population. No disparity exceeded the bank's internal threshold at that time.",
+      "Last month's quarterly monitoring pack showed two things. First, the model's discrimination performance has degraded modestly but remains inside tolerance. Second, and separately, approval rates for applicants in one metropolitan area have fallen 14 percentage points relative to the same quarter last year, while approval rates elsewhere are flat. The area in question has a substantially higher share of one racial group than the national average. Model Risk Management has not yet established whether the shift is driven by the model, by a change in the applicant mix, or by an unrelated change to the bank's marketing spend in that region.",
+      "The Credit Products group has asked the committee to approve an expansion of the model to small-business lending next quarter, arguing that the underlying creditworthiness signal is the same and that a second validation would duplicate work already done."
+    ],
+    "facts": [
+      { "label": "Lifecycle stage", "value": "In production nine months; expansion proposed" },
+      { "label": "Human oversight", "value": "Underwriter override available; followed 94% of the time" },
+      { "label": "Jurisdictions", "value": "United States; Ireland (subsidiary)" },
+      { "label": "Model ownership", "value": "Credit Products (business); Model Risk Management (validation, inventory)" },
+      { "label": "Monitoring signal", "value": "Regional approval rate down 14pp; cause not established" },
+      { "label": "Protected attributes", "value": "Removed from features before training" }
+    ]
+  },
+  {
+    "id": "sc-002",
+    "title": "Procured résumé-screening tool at a logistics firm",
+    "sector": "employment / logistics",
+    "body": [
+      "Calderon Freight employs 18,000 people across warehouse, driving and corporate roles. Talent Acquisition has licensed a résumé-screening product from an external vendor to handle the first pass on warehouse applications, which run to about 40,000 a year. The tool ranks applicants and surfaces the top 20% to a recruiter. Applicants outside the top 20% are not seen by a human unless a recruiter searches for them specifically.",
+      "The vendor built and trained the model. Calderon supplied no training data and cannot inspect the model weights or the feature set. The vendor supplies a model card, a summary of an annual third-party bias audit, and an SLA covering uptime and support response. The contract was negotiated by Procurement with input from Legal; the AI governance function was not consulted before signature, because the tool was classified as a recruitment SaaS purchase under the existing vendor policy.",
+      "Calderon configures the tool by uploading a job description and selecting weightings across three sliders labelled 'experience', 'reliability signals' and 'role fit'. What sits behind each slider is not documented beyond a one-paragraph description in the product help centre.",
+      "Calderon operates in several US states and has a small distribution site in the Netherlands that uses the same tool for warehouse hiring.",
+      "Six weeks into use, a recruiter notices that applicants whose résumés show employment gaps of more than four months are almost never surfaced, including several who went on to be hired successfully through referral. Nobody at Calderon configured a rule about employment gaps. The vendor's bias audit summary reports no adverse impact on race or sex, and does not mention employment history.",
+      "Calderon's Chief People Officer wants to expand the tool to driver hiring, where a licence check and a regulated safety record already form part of the process."
+    ],
+    "facts": [
+      { "label": "Role", "value": "Calderon deploys; the vendor develops and trains" },
+      { "label": "Visibility", "value": "No access to weights, features or training data" },
+      { "label": "Human review", "value": "Only the top-ranked 20% reach a recruiter" },
+      { "label": "Jurisdictions", "value": "Multiple US states; Netherlands site" },
+      { "label": "Vendor evidence", "value": "Model card; annual bias audit covering race and sex only" },
+      { "label": "Observed signal", "value": "Employment-gap applicants rarely surfaced; not a configured rule" },
+      { "label": "Governance involvement", "value": "Not consulted before contract signature" }
+    ]
+  },
+  {
+    "id": "sc-003",
+    "title": "Generative assistant for a municipal benefits agency",
+    "sector": "government / public sector",
+    "body": [
+      "The Department of Housing Support for a city of 900,000 residents administers rental assistance. Caseworkers field about 3,000 enquiries a week. The department has piloted an assistant built on a commercial large language model, accessed through the provider's API, that answers caseworker questions about programme rules by retrieving from the department's own policy manuals and returning a drafted answer with citations.",
+      "The assistant is used by caseworkers, not by residents. A caseworker reads the drafted answer, checks the cited passage, and then communicates with the resident in their own words. Nothing the assistant produces reaches a resident directly, and it plays no part in deciding eligibility.",
+      "The department is the deployer. The model provider is a general-purpose AI provider and offers no commitment on model version stability beyond 90 days' deprecation notice. The retrieval index is built and maintained by the department's own IT team from the current policy manuals, and is rebuilt nightly.",
+      "During the pilot the department logged every query and every drafted answer. Review of a 400-item sample found that 6% of drafted answers cited a policy passage that did not support the claim made in the answer, and a further 2% cited a passage that had been superseded by a policy change the index had not yet picked up. In every one of those cases the caseworker caught the problem before speaking to a resident, because checking the citation is a required step.",
+      "The department's records-retention schedule requires that any record forming part of a benefits determination be retained for six years. Enquiry logs currently roll off after 30 days. Legal has raised, but not resolved, whether a drafted answer that a caseworker relied on becomes part of the determination record.",
+      "The city council has asked for a public statement about how AI is used in the department before the assistant moves from pilot to full deployment."
+    ],
+    "facts": [
+      { "label": "Role", "value": "Department deploys; a general-purpose AI provider supplies the model" },
+      { "label": "Audience", "value": "Internal caseworkers only; no resident-facing output" },
+      { "label": "Decision role", "value": "No part in eligibility determination" },
+      { "label": "Pilot findings", "value": "6% unsupported citations; 2% superseded passages; all caught in review" },
+      { "label": "Retention", "value": "Logs roll off at 30 days; determination records must be kept six years" },
+      { "label": "Provider commitment", "value": "90 days' deprecation notice; no version stability guarantee" }
+    ]
+  }
+]

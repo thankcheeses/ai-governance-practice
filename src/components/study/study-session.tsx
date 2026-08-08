@@ -297,6 +297,8 @@ export function StudySession({
             question={question}
             correct={wasCorrect}
             correctKeys={answerKeys}
+            options={options}
+            selected={selected}
           />
 
           {withScheduling ? (

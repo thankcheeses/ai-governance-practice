@@ -85,5 +85,46 @@ export function presentQuestions(
   questions: readonly Question[],
   seed: number,
 ): Question[] {
-  return shuffle(questions, seed);
+  return groupScenarioFamilies(shuffle(questions, seed));
+}
+
+/**
+ * Pull questions sharing a fact pattern next to each other.
+ *
+ * Every scenario question is gradable on its own — the fact pattern travels
+ * with each one — so this is not a correctness requirement. It is a reading
+ * requirement: meeting three questions about the same 400-word scenario at
+ * positions 2, 7 and 9 makes a learner re-read it three times, and breaks the
+ * case-study rhythm the format exists to create.
+ *
+ * The family lands where its first member fell, so the shuffle still decides
+ * position and the result stays a pure function of the seed. Within a family,
+ * source order is restored: the questions were authored to be met in that
+ * sequence, and none of them depends on another's answer.
+ */
+export function groupScenarioFamilies(
+  questions: readonly Question[],
+): Question[] {
+  const out: Question[] = [];
+  const placed = new Set<string>();
+
+  for (const question of questions) {
+    if (placed.has(question.id)) continue;
+
+    if (!question.scenario) {
+      out.push(question);
+      placed.add(question.id);
+      continue;
+    }
+
+    const family = questions
+      .filter((q) => q.scenario?.id === question.scenario!.id)
+      .sort((a, b) => a.id.localeCompare(b.id));
+    for (const member of family) {
+      out.push(member);
+      placed.add(member.id);
+    }
+  }
+
+  return out;
 }

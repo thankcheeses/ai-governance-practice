@@ -116,6 +116,48 @@ export interface VisualAid {
   caption?: string;
 }
 
+/**
+ * A fact pattern several questions interrogate.
+ *
+ * Certification testing at this level is not a definition quiz: a candidate is
+ * given an organisation, a system, a lifecycle stage, competing priorities and
+ * a set of signals, and has to work out which facts bear on the decision in
+ * front of them. A scenario is authored once and its questions attack different
+ * dimensions of it — sequencing, accountability, risk priority, control
+ * selection, regulatory applicability, monitoring.
+ *
+ * Two rules keep a family honest:
+ *
+ *  - every question must be gradable from the scenario alone, so the order
+ *    they are met in never matters and no question depends on having answered
+ *    a sibling;
+ *  - no question may give away another's answer.
+ *
+ * `sector` exists so the bank's industry balance can be audited rather than
+ * assumed — see scripts/check-question-balance.mjs.
+ */
+export interface Scenario {
+  id: string;
+  title: string;
+  /** Industry or organisational context, e.g. "financial services". */
+  sector: string;
+  /** The fact pattern, one entry per paragraph. */
+  body: string[];
+  /**
+   * Structured particulars a candidate must read against the prose — monitoring
+   * results, jurisdictions, dates, roles. Rendered as a definition list.
+   */
+  facts?: { label: string; value: string }[];
+}
+
+export interface RawScenario {
+  id: string;
+  title: string;
+  sector: string;
+  body: string[];
+  facts?: { label: string; value: string }[];
+}
+
 export interface QuestionOption {
   /**
    * Stable identity, derived from the option's position in the source file
@@ -156,6 +198,25 @@ export interface Question {
   keyTakeaway: string;
   /** Present only where a diagram genuinely aids comprehension. */
   visualAid?: VisualAid;
+  /**
+   * The fact pattern this item belongs to, resolved from `scenarioId`.
+   * Standalone items have none and read exactly as they always did.
+   */
+  scenario?: Scenario;
+  /**
+   * Why each wrong option is wrong, keyed by option id.
+   *
+   * Kept per option rather than folded into the rationale because most of the
+   * learning in a judgement item is in the near-miss: an answer that is a real
+   * governance action but the wrong one *here*, or right but out of sequence.
+   */
+  distractorNotes?: Record<string, string>;
+  /**
+   * Public sources supporting the rationale — a framework clause, a published
+   * standard, a statute article. Present so a learner can check the claim
+   * rather than trust it.
+   */
+  sources?: string[];
   frameworkTags: FrameworkTag[];
   /**
    * The Body of Knowledge sub-domain this item tests, e.g. "III.B".
@@ -184,6 +245,8 @@ export interface RawQuestion {
   correct: string;
   rationale: string;
   tags?: string[];
+  /** Links this item to a fact pattern in scenarios.json. */
+  scenarioId?: string;
 }
 
 /**
@@ -209,4 +272,12 @@ export interface QuestionEnrichment {
   frameworkTags: FrameworkTag[];
   /** Attached per question as diagram assets are supplied. */
   visualAid?: VisualAid;
+  /**
+   * Why each wrong option is wrong, keyed by the source letter ("A", "B", ...)
+   * — the same convention `correct` uses. Converted to option ids on load, so
+   * the shuffle can never misattribute a note.
+   */
+  distractorNotes?: Partial<Record<OptionKey, string>>;
+  /** Public framework, standard or statute supporting the rationale. */
+  sources?: string[];
 }

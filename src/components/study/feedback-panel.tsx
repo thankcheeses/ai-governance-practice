@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircle2, XCircle } from "lucide-react";
-import type { OptionKey, Question } from "@/content/types";
+import type { OptionKey, PresentedOption, Question } from "@/content/types";
 import { formatAnswer, isMultiSelect } from "@/lib/grading";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,10 @@ interface FeedbackPanelProps {
   correct: boolean;
   /** Letters the correct options were dealt in this session's shuffle. */
   correctKeys: readonly OptionKey[];
+  /** Options in this session's dealt order, so notes carry their own letter. */
+  options: readonly PresentedOption[];
+  /** Option ids the learner chose, so their own near-miss is called out first. */
+  selected: readonly string[];
 }
 
 /**
@@ -58,7 +62,26 @@ export function FeedbackPanel({
   question,
   correct,
   correctKeys,
+  options,
+  selected,
 }: FeedbackPanelProps) {
+  /*
+    Wrong options that carry a note, ordered so the learner's own choice comes
+    first. Most of the learning in a judgement item is in the near-miss — an
+    action that is genuinely governance work but wrong here, or right but out
+    of sequence — and the one they picked is the one they need explained.
+  */
+  const distractors = options
+    .filter(
+      (o) =>
+        !question.correctOptionIds.includes(o.id) &&
+        question.distractorNotes?.[o.id],
+    )
+    .sort((a, b) => {
+      const aChosen = selected.includes(a.id) ? 0 : 1;
+      const bChosen = selected.includes(b.id) ? 0 : 1;
+      return aChosen - bChosen || a.key.localeCompare(b.key);
+    });
   return (
     <div className="space-y-6">
       <div
@@ -103,6 +126,48 @@ export function FeedbackPanel({
           <ConceptHighlight text={question.keyTakeaway} limit={2} />
         </p>
       </section>
+
+      {distractors.length ? (
+        <section>
+          <SectionLabel>Why the others are wrong</SectionLabel>
+          <ul className="space-y-2.5">
+            {distractors.map((option) => (
+              <li
+                key={option.id}
+                className={cn(
+                  "measure flex gap-3 rounded-lg border p-3.5 text-[0.875rem] leading-[1.7]",
+                  selected.includes(option.id)
+                    ? "border-destructive/40 bg-destructive-tint"
+                    : "border-border bg-card",
+                )}
+              >
+                <span className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-border-strong font-mono text-[0.6875rem] font-semibold text-muted-foreground">
+                  {option.key}
+                </span>
+                <span className="text-foreground/90">
+                  {question.distractorNotes![option.id]}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {question.sources?.length ? (
+        <section>
+          <SectionLabel>Check it against</SectionLabel>
+          <ul className="measure space-y-1 font-mono text-[0.8125rem] leading-relaxed text-muted-foreground">
+            {question.sources.map((source) => (
+              <li key={source} className="flex gap-2">
+                <span aria-hidden className="select-none text-border-strong">
+                  &middot;
+                </span>
+                {source}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section>
         <SectionLabel>Frameworks referenced</SectionLabel>
