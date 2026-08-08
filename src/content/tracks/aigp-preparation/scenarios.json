@@ -218,5 +218,174 @@
         "value": "Planner name on the order; agent identifier under the pilot"
       }
     ]
+  },
+  {
+    "id": "sc-007",
+    "title": "Model risk in a general insurer's claims operation",
+    "sector": "insurance",
+    "body": [
+      "Kestrel Mutual settles about 240,000 motor claims a year. It has deployed a model that triages incoming claims into three lanes: straight-through settlement for low-value, low-complexity claims; standard handling; and referral to the special investigations unit. Only the third lane has a material adverse consequence for a customer — a referred claim is held while investigated, typically for eleven days.",
+      "The model was validated before launch and is monitored monthly on referral rate, straight-through rate and settlement cost. It has run for two years without a validation refresh, on the basis that monitoring has stayed inside tolerance.",
+      "A recent internal review found that referral rates for claims from three postcodes are roughly double the book average. Those postcodes were not features. Two of them have among the highest recorded fraud rates in the insurer's own history; the third does not, and has a demographic profile unlike the other two.",
+      "Kestrel's fraud team regards the referral model as its most valuable tool and points to a measurable fall in fraudulent payouts since launch. Its customer ombudsman liaison notes that complaints about claim delays have risen over the same period, and that the complaints cluster geographically."
+    ],
+    "facts": [
+      {
+        "label": "Consequence",
+        "value": "Referred claims held ~11 days pending investigation"
+      },
+      {
+        "label": "Validation",
+        "value": "Pre-launch only; no refresh in two years"
+      },
+      {
+        "label": "Monitoring",
+        "value": "Referral rate, straight-through rate, settlement cost"
+      },
+      {
+        "label": "Signal",
+        "value": "Referral rate ~2x book average in three postcodes"
+      },
+      {
+        "label": "Feature set",
+        "value": "Postcode is not a feature"
+      },
+      {
+        "label": "Competing evidence",
+        "value": "Fraud payouts down; delay complaints up and clustered"
+      }
+    ]
+  },
+  {
+    "id": "sc-008",
+    "title": "Foundation-model assistant inside a software company",
+    "sector": "technology",
+    "body": [
+      "Halden Systems builds developer tooling. It has embedded a commercial foundation model into its product as an assistant that explains code and proposes fixes. Halden does not train the model; it sends the customer's code as context at inference time and returns the response.",
+      "Halden's contract with the model provider permits commercial use and states that inputs are not used for training. Halden's own customer contracts predate the assistant and describe the product as processing customer code solely to provide the service.",
+      "A prospective enterprise customer has asked three questions Halden cannot currently answer from documentation: which sub-processors receive their code, where inference happens geographically, and what happens to their code if the model provider changes its terms.",
+      "Halden's engineering lead notes the assistant materially improves resolution times. Its head of legal notes the customer contracts were written before any third party saw customer code."
+    ],
+    "facts": [
+      {
+        "label": "Role",
+        "value": "Halden deploys and redistributes; the provider supplies the model"
+      },
+      {
+        "label": "Data flow",
+        "value": "Customer code sent as inference context, not for training"
+      },
+      {
+        "label": "Provider terms",
+        "value": "Commercial use allowed; no training on inputs"
+      },
+      {
+        "label": "Customer contracts",
+        "value": "Predate the assistant; no sub-processor disclosure"
+      },
+      {
+        "label": "Open questions",
+        "value": "Sub-processors, inference geography, term-change exit"
+      }
+    ]
+  },
+  {
+    "id": "sc-009",
+    "title": "Automated grading pilot at a school district",
+    "sector": "education",
+    "body": [
+      "The Brightwater district is piloting automated scoring of written responses on interim assessments across 42 schools. Scores inform instructional grouping for the following term; they do not appear on transcripts and carry no graduation consequence.",
+      "The vendor's model was trained on responses from a different state, scored by that state's rubric. Brightwater's rubric differs in how it weights evidence use. The vendor says the models are 'rubric-agnostic'.",
+      "During the pilot, teachers may override any score. Override data shows teachers overrode 3% of scores overall, but 11% for responses from students designated as English learners, almost always upward.",
+      "The district's assessment director wants to expand to end-of-course exams next year, where scores do affect placement and, indirectly, course access."
+    ],
+    "facts": [
+      {
+        "label": "Current stakes",
+        "value": "Instructional grouping only; no transcript effect"
+      },
+      {
+        "label": "Proposed stakes",
+        "value": "End-of-course exams affecting placement"
+      },
+      {
+        "label": "Training data",
+        "value": "Another state's responses and rubric"
+      },
+      {
+        "label": "Vendor claim",
+        "value": "Models are 'rubric-agnostic'"
+      },
+      {
+        "label": "Override signal",
+        "value": "3% overall; 11% for English learners, mostly upward"
+      }
+    ]
+  },
+  {
+    "id": "sc-010",
+    "title": "Computer-vision safety monitoring on a production line",
+    "sector": "manufacturing",
+    "body": [
+      "Vantage Components runs three plants making pressed-metal parts. Its newest plant installed a computer-vision system that watches the forming lines and raises an alert when a worker's hand approaches a press while it is cycling, or when a forklift and a pedestrian converge in an aisle. The system was bought and justified entirely as a safety control, and the works council was consulted on that basis.",
+      "In its first eight months the system logged 1,240 proximity alerts. Recordable injuries at the plant fell by roughly a third over the same period, though the plant also changed its shift pattern and replaced two of the older presses during the trial.",
+      "Alerts are written to a log that names the workstation, the time, and — because the cameras also read the badge readers at each station — the operator on shift. Three line supervisors have begun opening that log before performance conversations, and one has started citing alert counts in written feedback. Nobody decided this; the data was there and the reports were easy to build.",
+      "Operations now wants the system extended to the two older plants, where the ceilings are lower, the lighting is poorer, and camera coverage would be roughly half as dense. The vendor says the model 'generalises well across industrial environments' and has offered a discount for the additional sites."
+    ],
+    "facts": [
+      {
+        "label": "Stated purpose",
+        "value": "Collision and entanglement prevention"
+      },
+      {
+        "label": "Consultation basis",
+        "value": "Works council agreed to a safety control"
+      },
+      {
+        "label": "Alert log contains",
+        "value": "Workstation, time, and the operator on shift"
+      },
+      {
+        "label": "Emerging use",
+        "value": "Supervisors citing alert counts in performance feedback"
+      },
+      {
+        "label": "Proposed expansion",
+        "value": "Two older plants with about half the camera density"
+      }
+    ]
+  },
+  {
+    "id": "sc-011",
+    "title": "Synthetic content labelling at a video platform",
+    "sector": "media",
+    "body": [
+      "Meridian Stream hosts user-uploaded video and also produces its own short news explainers. Six months ago it began using generative tools in three places: synthetic presenters that read scripts on camera and are visually indistinguishable from people, AI-assisted editing that reconstructs missing frames in archive footage, and an automatic dubbing feature that reproduces a speaker's voice in other languages.",
+      "Meridian labels some of this and not the rest. The rule lives in a configuration value owned by the product team: content is labelled 'AI-generated' when a third-party detector's confidence exceeds a threshold. That threshold has been changed three times since launch — twice to reduce complaints from creators whose ordinary footage was being flagged, once during an unrelated release. None of the changes were recorded, and no one outside the product team was told.",
+      "The detector's vendor advertises 94% accuracy. Meridian has not asked what content that figure was measured on, nor how the errors divide between synthetic clips that go unlabelled and genuine clips that are wrongly marked as fake.",
+      "A national broadcaster has asked Meridian to confirm, in writing, how it identifies and labels synthetic media before it will license its archive."
+    ],
+    "facts": [
+      {
+        "label": "Generative uses",
+        "value": "Synthetic presenters, frame reconstruction, voice dubbing"
+      },
+      {
+        "label": "Labelling rule",
+        "value": "A detector confidence threshold in product configuration"
+      },
+      {
+        "label": "Change history",
+        "value": "Altered three times; no record, no owner outside the team"
+      },
+      {
+        "label": "Vendor claim",
+        "value": "94% detection accuracy, measurement conditions unknown"
+      },
+      {
+        "label": "External pressure",
+        "value": "A broadcaster wants the labelling process in writing"
+      }
+    ]
   }
 ]

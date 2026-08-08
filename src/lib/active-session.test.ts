@@ -55,7 +55,7 @@ function startSitting(
   const sitting = buildSitting(progress, { seed, count, trackId: TRACK });
   const { questionIds, optionIds } = sittingComposition(sitting);
   const snapshot: ActiveSession = {
-    version: 1,
+    version: 2,
     seed,
     trackId: TRACK,
     mode: "practice",
@@ -70,6 +70,8 @@ function startSitting(
     confidence: null,
     correctCount: 0,
     queuedCount: 0,
+    answers: {},
+    startedAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
   return { sitting, snapshot };
@@ -321,7 +323,8 @@ test("10c. a selection that is not on the current question fails safely", () => 
 test("10d. a stale version is discarded rather than migrated", () => {
   const { snapshot } = startSitting();
   assert.equal(validateActiveSession({ ...snapshot, version: 0 }), null);
-  assert.equal(validateActiveSession({ ...snapshot, version: 2 }), null);
+  assert.equal(validateActiveSession({ ...snapshot, version: 1 }), null);
+  assert.equal(validateActiveSession({ ...snapshot, version: 3 }), null);
 });
 
 test("10e. impossible tallies fail safely", () => {
@@ -404,7 +407,7 @@ test("14. multi-select all-or-nothing grading survives restoration", () => {
   const { questionIds, optionIds } = sittingComposition(sitting);
   writeActiveSession(
     {
-      version: 1,
+      version: 2,
       seed,
       trackId: TRACK,
       mode: "practice",
@@ -419,6 +422,8 @@ test("14. multi-select all-or-nothing grading survives restoration", () => {
       confidence: null,
       correctCount: 0,
       queuedCount: 0,
+      answers: {},
+      startedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
     storage,

@@ -32,8 +32,17 @@ import type { Confidence, StudyMode } from "./types";
 
 export const ACTIVE_SESSION_KEY = "nhid-clinical:active-session:v1";
 
-/** Bumped when the shape changes; a mismatch is discarded, never migrated. */
-const VERSION = 1;
+/**
+ * Bumped when the shape changes; a mismatch is discarded, never migrated.
+ *
+ * v2 added `answers` and `startedAt`. Without them a completed sitting could
+ * not produce a result — the per-question choices were thrown away as the
+ * learner advanced, so nothing survived to score, print or send.
+ */
+export const ACTIVE_SESSION_VERSION = 2;
+
+/** Local alias, kept so the validation below reads as it always has. */
+const VERSION = ACTIVE_SESSION_VERSION;
 
 const CONFIDENCES: Confidence[] = ["guessed", "unsure", "confident"];
 const MODES: StudyMode[] = ["practice", "domain", "review"];
@@ -55,8 +64,20 @@ export interface ActiveSession {
   selected: string[];
   revealed: boolean;
   confidence: Confidence | null;
+  /**
+   * questionId -> the option ids submitted for it. Written when an answer is
+   * checked, so it accumulates across the sitting and is what the completed
+   * result is built from. Absent means not yet answered.
+   *
+   * Deliberately not a running tally of right and wrong: correctness is
+   * re-derived from these choices whenever it is needed, so a stored sitting
+   * can never disagree with the question it refers to.
+   */
+  answers: Record<string, string[]>;
   correctCount: number;
   queuedCount: number;
+  /** When the sitting began — the start of the elapsed time on the result. */
+  startedAt: string;
   updatedAt: string;
 }
 
@@ -176,6 +197,8 @@ export function validateActiveSession(
   if (typeof s.withScheduling !== "boolean") return null;
   if (typeof s.exitHref !== "string") return null;
   if (typeof s.updatedAt !== "string") return null;
+  if (typeof s.startedAt !== "string") return null;
+  if (!Number.isFinite(new Date(s.startedAt).getTime())) return null;
 
   // The requested sitting must be the stored one.
   if (expected) {
@@ -223,6 +246,23 @@ export function validateActiveSession(
       !CONFIDENCES.includes(s.confidence as Confidence))
   ) {
     return null;
+  }
+
+  // Answers so far. Each key must be a question in this sitting, and each
+  // choice an option belonging to that question — an answer that points
+  // somewhere else would score against the wrong item on completion.
+  if (!s.answers || typeof s.answers !== "object" || Array.isArray(s.answers)) {
+    return null;
+  }
+  for (const [questionId, chosen] of Object.entries(
+    s.answers as Record<string, unknown>,
+  )) {
+    const at = s.questionIds.indexOf(questionId);
+    if (at === -1) return null;
+    if (!isStringArray(chosen)) return null;
+    if (new Set(chosen).size !== chosen.length) return null;
+    const own = questions[at]!.options.map((o) => o.id);
+    if (!chosen.every((id) => own.includes(id))) return null;
   }
 
   // Tallies.

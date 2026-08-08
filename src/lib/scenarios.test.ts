@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { SUBDOMAINS, domainOf } from "@/content/bok";
 import { getTrackQuestions } from "@/content/registry";
 import type { Question } from "@/content/types";
 import { gradeAnswer, isMultiSelect, requiredSelections } from "./grading";
@@ -270,10 +271,144 @@ test("a distractor note is never attached to a correct option", () => {
 test("items carrying sources name something checkable", () => {
   const withSources = ALL.filter((q) => q.sources?.length);
   assert.ok(withSources.length >= 27, `only ${withSources.length} items cite a source`);
-  const named = /NIST|EU AI Act|ISO\/IEC|OECD|GDPR|Annex|Art\./;
+  // A source is usable when a learner can go and read the named thing: a
+  // framework, a standard, a regulation, or a titled statute. Free prose is not.
+  const named = /NIST|EU AI Act|ISO\/IEC|OECD|GDPR|Annex|Art\.|Title [IVX]+|Act\b|Convention|Directive/;
   for (const q of withSources) {
     for (const s of q.sources!) {
       assert.ok(named.test(s), `${q.id}: unusable source reference "${s}"`);
+    }
+  }
+});
+
+/* ------------------------------------------------------- bank quality -- */
+
+test("the bank is large enough to sustain repeated sittings", () => {
+  // A 100-question exam drawn from a bank barely larger than itself deals
+  // nearly the same paper every time.
+  assert.ok(ALL.length >= 250, `the bank holds only ${ALL.length} questions`);
+  assert.ok(
+    ALL.length <= 320,
+    `${ALL.length} questions — growth past this needs a coverage argument, not momentum`,
+  );
+});
+
+test("every published sub-domain is covered, and none is a token entry", () => {
+  const counts = new Map<string, number>();
+  for (const q of ALL) counts.set(q.bokSubdomain, (counts.get(q.bokSubdomain) ?? 0) + 1);
+  for (const sub of SUBDOMAINS) {
+    const n = counts.get(sub.id) ?? 0;
+    assert.ok(n >= 12, `${sub.id} has only ${n} questions`);
+  }
+  assert.equal(counts.size, SUBDOMAINS.length, "a question maps outside the outline");
+});
+
+test("no domain dominates the bank", () => {
+  const byDomain = new Map<string, number>();
+  for (const q of ALL) {
+    const roman = domainOf(q.bokSubdomain);
+    if (!roman) continue;
+    byDomain.set(roman, (byDomain.get(roman) ?? 0) + 1);
+  }
+  for (const [roman, n] of byDomain) {
+    const share = n / ALL.length;
+    assert.ok(
+      share >= 0.15 && share <= 0.35,
+      `domain ${roman} is ${(share * 100).toFixed(1)}% of the bank`,
+    );
+  }
+});
+
+test("healthcare is one context among many, not the house style", () => {
+  /*
+    The product began as a clinical-governance tool and the bank inherited its
+    examples. A learner sitting a general AI governance exam has to reason
+    about lending, employment, education, media and manufacturing too, so this
+    caps the concentration rather than forbidding the sector.
+  */
+  const clinical =
+    /health|clinic|patient|hospital|\bPHI\b|HIPAA|medical|triage|sepsis|radiolog/i;
+  const n = ALL.filter((q) => clinical.test(q.question + q.tags.join(" "))).length;
+  assert.ok(
+    n / ALL.length < 0.25,
+    `${((n / ALL.length) * 100).toFixed(1)}% of the bank is healthcare`,
+  );
+});
+
+test("multi-select items are present without taking over", () => {
+  const share = ALL.filter(isMultiSelect).length / ALL.length;
+  assert.ok(
+    share >= 0.08 && share <= 0.25,
+    `${(share * 100).toFixed(1)}% of the bank is multi-select`,
+  );
+});
+
+test("difficulty spans the range rather than sitting at one level", () => {
+  const counts = new Map<string, number>();
+  for (const q of ALL) counts.set(q.difficulty, (counts.get(q.difficulty) ?? 0) + 1);
+  for (const level of ["foundational", "applied", "advanced"]) {
+    const n = counts.get(level) ?? 0;
+    assert.ok(n / ALL.length >= 0.08, `only ${n} ${level} questions`);
+  }
+});
+
+test("the correct answer is not the longest option often enough to be a tell", () => {
+  /*
+    The classic multiple-choice giveaway: the right answer is the one the
+    author elaborated, so a candidate who knows nothing can score well above
+    chance by picking the longest option. Measured two ways, because either
+    alone can be gamed — how often the correct option is the longest, and how
+    much longer it runs on average.
+  */
+  let longest = 0;
+  let totalDelta = 0;
+  for (const q of ALL) {
+    const correct = q.options.filter((o) => q.correctOptionIds.includes(o.id));
+    const wrong = q.options.filter((o) => !q.correctOptionIds.includes(o.id));
+    const max = Math.max(...q.options.map((o) => o.text.length));
+    if (correct.some((o) => o.text.length === max)) longest += 1;
+    const mean = (os: typeof correct) =>
+      os.reduce((n, o) => n + o.text.length, 0) / os.length;
+    totalDelta += mean(correct) - mean(wrong);
+  }
+  const share = longest / ALL.length;
+  const delta = totalDelta / ALL.length;
+  assert.ok(
+    share < 0.5,
+    `the correct option is the longest in ${(share * 100).toFixed(1)}% of items`,
+  );
+  assert.ok(
+    Math.abs(delta) < 8,
+    `correct options run ${delta.toFixed(1)} characters longer than distractors on average`,
+  );
+});
+
+test("no two questions are near-duplicates of each other", () => {
+  // Cheap shingle overlap over the stems. Two items testing one idea in
+  // near-identical words waste a sitting and inflate the bank's apparent size.
+  const shingles = (s: string) => {
+    const words = s
+      .toLowerCase()
+      .replace(/[^a-z\s]/g, " ")
+      .split(/\s+/)
+      .filter(Boolean);
+    const out = new Set<string>();
+    for (let i = 0; i + 4 < words.length; i++) out.add(words.slice(i, i + 5).join(" "));
+    return out;
+  };
+  const prepared = ALL.map((q) => ({ id: q.id, grams: shingles(q.question) }));
+  for (let i = 0; i < prepared.length; i++) {
+    for (let j = i + 1; j < prepared.length; j++) {
+      const a = prepared[i].grams;
+      const b = prepared[j].grams;
+      if (!a.size || !b.size) continue;
+      let shared = 0;
+      for (const g of a) if (b.has(g)) shared += 1;
+      const overlap = shared / Math.min(a.size, b.size);
+      assert.ok(
+        overlap < 0.5,
+        `${prepared[i].id} and ${prepared[j].id} share ${(overlap * 100).toFixed(0)}% of their phrasing`,
+      );
     }
   }
 });

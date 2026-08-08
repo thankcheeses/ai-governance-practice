@@ -8,7 +8,13 @@ import { resumeActiveSession } from "@/lib/active-session";
 import { focusDomains } from "@/lib/adaptive";
 import { weakAreaQuestionIds } from "@/lib/analytics";
 import { newSeed, parseSeed } from "@/lib/presentation";
-import { buildSitting, sittingFromSnapshot } from "@/lib/session";
+import type { CompletedResult } from "@/lib/results";
+import { readResult } from "@/lib/results-storage";
+import {
+  buildSitting,
+  sittingFromComposition,
+  sittingFromSnapshot,
+} from "@/lib/session";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { StudyMode } from "@/lib/types";
 
@@ -60,6 +66,29 @@ function Session() {
     recomputed — `progress` changes on every answer.
   */
   const [session] = useState(() => {
+    /*
+      A finished sitting outranks everything below.
+
+      Completion clears the in-flight sitting, so without this a refresh on the
+      summary screen found nothing to resume and dealt a fresh sitting —
+      destroying the result the learner was looking at. The stored result is
+      matched by seed, which is what the URL carries, so it restores the
+      summary for *this* sitting and not for some earlier one.
+    */
+    const completed = readResult("practice");
+    if (completed && completed.seed === seed) {
+      const restored = sittingFromResult(completed);
+      if (restored) {
+        return {
+          sitting: restored,
+          resumed: null,
+          completed,
+          mode: "practice" as StudyMode,
+          label: completed.label,
+        };
+      }
+    }
+
     const stored =
       resumeActiveSession({ mode: "practice", seed }) ??
       resumeActiveSession({ mode: "domain", seed });
@@ -68,6 +97,7 @@ function Session() {
       return {
         sitting: restored,
         resumed: stored,
+        completed: null,
         mode: stored.mode,
         label: stored.label,
       };
@@ -115,6 +145,7 @@ function Session() {
     return {
       sitting,
       resumed: null,
+      completed: null,
       mode: (selectedDomains || drillIds.length ? "domain" : "practice") as StudyMode,
       label,
     };
@@ -124,11 +155,21 @@ function Session() {
     <StudySession
       sitting={session.sitting}
       resumed={session.resumed}
+      completedResult={session.completed}
       mode={session.mode}
       label={session.label}
       exitHref="/study"
     />
   );
+}
+
+/**
+ * Rebuild the sitting a result refers to, so the summary can show the same
+ * questions with the same options in the same order. A lookup over stored ids,
+ * exactly as resuming an in-flight sitting is — never a re-selection.
+ */
+function sittingFromResult(result: CompletedResult) {
+  return sittingFromComposition(result.questionIds, result.optionIds, result.seed);
 }
 
 function SessionSkeleton() {

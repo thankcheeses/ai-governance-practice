@@ -9,14 +9,33 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import type { ActiveSession } from "@/lib/active-session";
-import { clearActiveSession, writeActiveSession } from "@/lib/active-session";
+import {
+  ACTIVE_SESSION_VERSION,
+  clearActiveSession,
+  writeActiveSession,
+} from "@/lib/active-session";
 import { canSubmit, gradeAnswer, toggleSelection } from "@/lib/grading";
 import { correctKeys } from "@/lib/presentation";
-import { type Sitting, sittingComposition } from "@/lib/session";
+import { ResultActions } from "@/components/results/result-actions";
+import { SUBDOMAINS } from "@/content/bok";
+import {
+  type CompletedResult,
+  type ResultSlice,
+  elapsedMs,
+  formatDuration,
+  scoreSitting,
+  weakestSubdomains,
+} from "@/lib/results";
+import { writeResult } from "@/lib/results-storage";
+import {
+  resultFromActiveSession,
+  type Sitting,
+  sittingComposition,
+} from "@/lib/session";
 import { gradePreview, newReviewCard } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { Confidence, ReviewGrade, StudyMode } from "@/lib/types";
-import { cn, pct } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface StudySessionProps {
   /** Questions and their dealt options — already built, or already restored. */
@@ -28,6 +47,11 @@ interface StudySessionProps {
   exitHref?: string;
   /** Where the learner was, when this sitting is being resumed. */
   resumed?: ActiveSession | null;
+  /**
+   * A finished result for this sitting, when the learner is returning to the
+   * summary rather than to the sitting. Mutually exclusive with `resumed`.
+   */
+  completedResult?: CompletedResult | null;
 }
 
 const CONFIDENCE_OPTIONS: { value: Confidence; label: string }[] = [
@@ -48,6 +72,7 @@ export function StudySession({
   withScheduling = false,
   exitHref = "/home",
   resumed = null,
+  completedResult = null,
 }: StudySessionProps) {
   const { recordAnswer, gradeReview, progress } = useProgress();
   const { seed, questions } = sitting;
@@ -72,13 +97,33 @@ export function StudySession({
     const q = sitting.questions[resumed.index];
     return q ? gradeAnswer(q, resumed.selected) : false;
   });
+  /*
+    Every answer given so far, keyed by question id. This is what makes a
+    finished sitting reportable: without it the choices vanish as the learner
+    advances, and the summary screen can only exist for as long as the tab is
+    not reloaded.
+  */
+  const [answers, setAnswers] = useState<Record<string, string[]>>(
+    () => resumed?.answers ?? {},
+  );
+  const [startedAt] = useState(
+    () => resumed?.startedAt ?? new Date().toISOString(),
+  );
   const [correctCount, setCorrectCount] = useState(
     () => resumed?.correctCount ?? 0,
   );
   const [queuedCount, setQueuedCount] = useState(
     () => resumed?.queuedCount ?? 0,
   );
-  const [finished, setFinished] = useState(false);
+  const [finished, setFinished] = useState(() => completedResult !== null);
+  /*
+    The result of this sitting, once it has one. Held here as well as in
+    storage so the summary renders from the same object that was persisted,
+    rather than from a second derivation that could disagree with it.
+  */
+  const [completed, setCompleted] = useState<CompletedResult | null>(
+    () => completedResult ?? null,
+  );
 
   const questionStart = useRef(Date.now());
   const feedbackAnchor = useRef<HTMLDivElement>(null);
@@ -103,7 +148,7 @@ export function StudySession({
     if (finished || !question) return;
     const { questionIds, optionIds } = sittingComposition(sitting);
     writeActiveSession({
-      version: 1,
+      version: ACTIVE_SESSION_VERSION,
       seed,
       trackId: progress.trackId,
       mode,
@@ -116,14 +161,16 @@ export function StudySession({
       selected,
       revealed,
       confidence,
+      answers,
       correctCount,
       queuedCount,
+      startedAt,
       updatedAt: new Date().toISOString(),
     });
   }, [
     sitting, seed, progress.trackId, mode, label, withScheduling, exitHref,
-    index, selected, revealed, confidence, correctCount, queuedCount,
-    finished, question,
+    index, selected, revealed, confidence, answers, correctCount, queuedCount,
+    startedAt, finished, question,
   ]);
 
   const handleSubmit = useCallback(() => {
@@ -137,6 +184,7 @@ export function StudySession({
     );
     setRevealed(true);
     setWasCorrect(result.correct);
+    setAnswers((a) => ({ ...a, [question.id]: selected }));
     if (result.correct) setCorrectCount((c) => c + 1);
     if (result.queuedForReview) setQueuedCount((c) => c + 1);
     requestAnimationFrame(() =>
@@ -149,7 +197,36 @@ export function StudySession({
 
   const advance = useCallback(() => {
     if (index + 1 >= total) {
-      // The sitting is over; nothing left to come back to.
+      /*
+        The sitting is over. Turn it into a result before clearing it: the
+        summary used to live only in React state, so refreshing this screen
+        destroyed it and dealt a brand-new sitting. The result is written to
+        its own durable store first, and the in-flight sitting is cleared
+        second, so the screen can be rebuilt from storage on the way back in.
+      */
+      const { questionIds, optionIds } = sittingComposition(sitting);
+      const record = resultFromActiveSession({
+        version: ACTIVE_SESSION_VERSION,
+        seed,
+        trackId: progress.trackId,
+        mode,
+        label,
+        withScheduling,
+        exitHref,
+        questionIds,
+        optionIds,
+        index,
+        selected,
+        revealed,
+        confidence,
+        answers,
+        correctCount,
+        queuedCount,
+        startedAt,
+        updatedAt: new Date().toISOString(),
+      });
+      writeResult(record);
+      setCompleted(record);
       clearActiveSession();
       setFinished(true);
       return;
@@ -160,7 +237,11 @@ export function StudySession({
     setRevealed(false);
     questionStart.current = Date.now();
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [index, total]);
+  }, [
+    index, total, sitting, seed, progress.trackId, mode, label, withScheduling,
+    exitHref, selected, revealed, confidence, answers, correctCount,
+    queuedCount, startedAt,
+  ]);
 
   const handleGrade = useCallback(
     (grade: ReviewGrade) => {
@@ -190,15 +271,8 @@ export function StudySession({
     return () => window.removeEventListener("keydown", onKey);
   }, [revealed, selected, question, finished, withScheduling, handleSubmit, advance]);
 
-  if (finished) {
-    return (
-      <SessionComplete
-        correct={correctCount}
-        total={total}
-        label={label}
-        queued={queuedCount}
-      />
-    );
+  if (finished && completed) {
+    return <SessionComplete result={completed} queued={queuedCount} />;
   }
 
   if (!question) {
@@ -334,7 +408,7 @@ export function StudySession({
       ) : null}
 
       {/* Action bar */}
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/90 px-4 py-3 backdrop-blur-md pb-safe-nav sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:backdrop-blur-none">
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background px-4 py-3 pb-safe-nav sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0">
         <div className="mx-auto max-w-3xl">
           {!revealed ? (
             <Button
@@ -362,35 +436,47 @@ export function StudySession({
 }
 
 function SessionComplete({
-  correct,
-  total,
-  label,
+  result,
   queued,
 }: {
-  correct: number;
-  total: number;
-  label: string;
+  result: CompletedResult;
   /** Scenarios this session added to the review queue. */
   queued: number;
 }) {
-  const accuracy = pct(correct, total);
+  const score = scoreSitting(result);
   const showQueue = queued > 0;
+  const weak = weakestSubdomains(score);
   return (
-    <div className="mx-auto max-w-md py-10 text-center">
-      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
-        <span className="font-mono text-2xl font-semibold tabular-nums text-primary">
-          {accuracy}%
-        </span>
-      </div>
-      <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Session complete</h1>
-      <p className="mt-2 text-muted-foreground">
-        {correct} of {total} correct in {label.toLowerCase()}.
-      </p>
+    <div className="mx-auto max-w-3xl pb-16">
+      <header className="mb-6 text-center">
+        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
+          <span className="font-mono text-2xl font-semibold tabular-nums text-primary">
+            {score.percentage}%
+          </span>
+        </div>
+        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+          Session complete
+        </h1>
+        <p className="mt-2 text-muted-foreground">
+          {score.correct} of {score.total} correct in {result.label.toLowerCase()}.
+        </p>
+      </header>
+
+      <section className="mb-6 rounded-lg border border-border bg-card p-5">
+        <dl className="flex flex-wrap gap-x-6 gap-y-1 font-mono text-sm">
+          <SummaryStat label="Correct" value={score.correct} />
+          <SummaryStat label="Incorrect" value={score.incorrect} />
+          {score.unanswered > 0 ? (
+            <SummaryStat label="Unanswered" value={score.unanswered} />
+          ) : null}
+          <SummaryStat label="Time used" value={formatDuration(elapsedMs(result))} />
+        </dl>
+      </section>
 
       {/* The queue fills itself on every miss. Saying so here is the only
           place a learner finds out without going looking. */}
       {showQueue ? (
-        <div className="mt-6 rounded-lg border border-l-4 border-primary bg-accent-tint p-4 text-left">
+        <div className="mb-6 rounded-lg border border-l-4 border-primary bg-accent-tint p-4">
           <p className="text-sm font-medium">
             {queued} {queued === 1 ? "scenario is" : "scenarios are"} now in your
             review queue
@@ -401,7 +487,68 @@ function SessionComplete({
         </div>
       ) : null}
 
-      <div className="mt-8 flex flex-col gap-2.5">
+      {score.byDomain.length ? (
+        <section className="mb-8">
+          <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+            Domain performance
+          </h2>
+          <ul className="space-y-3">
+            {score.byDomain.map((d) => (
+              <SummaryRow key={d.key} prefix={d.roman} label={d.label} slice={d} />
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {score.bySubdomain.length ? (
+        <section className="mb-8">
+          <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+            Sub-domain performance
+          </h2>
+          <ul className="space-y-3">
+            {score.bySubdomain.map((sub) => (
+              <SummaryRow
+                key={sub.key}
+                prefix={sub.key}
+                label={SUBDOMAINS.find((x) => x.id === sub.key)?.competency ?? sub.key}
+                slice={sub}
+              />
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {weak.length ? (
+        <section className="mb-8">
+          <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+            Where to study next
+          </h2>
+          <ul className="space-y-3">
+            {weak.map((sub) => {
+              const meta = SUBDOMAINS.find((x) => x.id === sub.key);
+              return (
+                <li key={sub.key} className="rounded-lg border border-border bg-card p-4">
+                  <p className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+                    {sub.key} · {sub.correct}/{sub.total} correct
+                  </p>
+                  <p className="measure mt-1 text-[0.9375rem] font-medium">
+                    {meta?.competency ?? sub.key}
+                  </p>
+                  {meta?.recommendation ? (
+                    <p className="measure mt-1.5 text-[0.875rem] leading-relaxed text-muted-foreground">
+                      {meta.recommendation}
+                    </p>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : null}
+
+      <ResultActions result={result} />
+
+      <div className="mt-8 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
         {showQueue ? (
           <Button asChild size="lg">
             <Link href="/review">
@@ -418,5 +565,50 @@ function SessionComplete({
         </Button>
       </div>
     </div>
+  );
+}
+
+function SummaryStat({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div className="flex items-baseline gap-1.5">
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className="font-semibold tabular-nums">{value}</dd>
+    </div>
+  );
+}
+
+function SummaryRow({
+  prefix,
+  label,
+  slice,
+}: {
+  prefix: string;
+  label: string;
+  slice: ResultSlice;
+}) {
+  return (
+    <li>
+      <div className="mb-1.5 flex items-baseline justify-between gap-3">
+        <span className="truncate text-sm">
+          <span className="font-mono text-muted-foreground">{prefix}</span> {label}
+        </span>
+        <span className="shrink-0 font-mono text-sm tabular-nums text-muted-foreground">
+          {slice.correct}/{slice.total}
+        </span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-secondary ring-1 ring-inset ring-border">
+        <div
+          style={{ width: `${slice.accuracy}%` }}
+          className={cn(
+            "h-full rounded-full",
+            slice.accuracy >= 80
+              ? "bg-success"
+              : slice.accuracy >= 60
+                ? "bg-primary"
+                : "bg-warning",
+          )}
+        />
+      </div>
+    </li>
   );
 }

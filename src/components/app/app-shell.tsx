@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Home, Layers, RotateCcw, Settings } from "lucide-react";
+import { BarChart3, Home, Layers, RotateCcw, Settings, Timer } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandMark } from "@/components/app/brand-mark";
@@ -13,6 +13,7 @@ const NAV = [
   { href: "/home", label: "Home", icon: Home },
   { href: "/study", label: "Study", icon: Layers },
   { href: "/review", label: "Review", icon: RotateCcw },
+  { href: "/exam", label: "Exam", icon: Timer },
   { href: "/dashboard", label: "Progress", icon: BarChart3 },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
@@ -70,7 +71,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
 function MobileHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-md pt-safe lg:hidden">
+    <header className="sticky top-0 z-30 border-b border-border bg-background pt-safe lg:hidden">
       <div className="flex h-14 items-center gap-2.5 px-4">
         <Logo />
         <span className="text-[0.9375rem] font-semibold tracking-tight">
@@ -83,8 +84,14 @@ function MobileHeader() {
 
 function MobileTabBar({ pathname, due }: { pathname: string; due: number }) {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/90 backdrop-blur-md pb-safe lg:hidden">
-      <div className="mx-auto grid max-w-lg grid-cols-5">
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background pb-safe lg:hidden">
+      {/* One column per nav entry. A fixed count silently wraps to a second
+          row when an item is added, which doubles the bar's height and buries
+          whatever is anchored above it. */}
+      <div
+        className="mx-auto grid max-w-lg"
+        style={{ gridTemplateColumns: `repeat(${NAV.length}, minmax(0, 1fr))` }}
+      >
         {NAV.map((item) => {
           const active = isActive(pathname, item.href);
           return (
@@ -93,7 +100,7 @@ function MobileTabBar({ pathname, due }: { pathname: string; due: number }) {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "relative flex flex-col items-center gap-1 py-2.5 text-[0.6875rem] font-medium transition-colors",
+                "relative flex min-w-0 flex-col items-center gap-1 px-0.5 py-2.5 text-center text-[0.6875rem] font-medium transition-colors",
                 active ? "text-primary" : "text-muted-foreground",
               )}
             >
