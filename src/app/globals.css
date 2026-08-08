@@ -1,46 +1,69 @@
 @import "tailwindcss";
 
 /*
-  AI Governance Practice design system.
+  AI Governance Practice — OpenCode Terminal Mono.
 
-  Light is the default. Both themes drive the same semantic token names so no
-  component branches on theme — they reference `bg-card`, `text-muted-foreground`
-  and so on, and the values swap underneath. Theme is applied by a `data-theme`
-  attribute on <html>, set before first paint by an inline script in the root
-  layout to avoid a flash.
+  Both themes drive the same semantic token names, so no component branches on
+  theme: they reference `bg-card`, `text-muted-foreground` and so on, and the
+  values swap underneath. Theme is applied by a `data-theme` attribute on
+  <html>, set before first paint by an inline script in the root layout.
 
   ---------------------------------------------------------------------------
-  Direction
+  Source
 
-  A professional certification product: a soft neutral ground with white cards
-  lifted off it, teal as the brand accent, and type doing the hierarchy. An
-  earlier revision applied a strict monochrome, monospace-everywhere treatment;
-  it was precise but read as a technical document rather than something a
-  practitioner would pay to study with, so the palette and typography have been
-  reopened. What survives from it is the discipline: colour still means
-  something, motion is still limited to state changes, and nothing is decorated
-  for its own sake.
+  Values come from the OpenCode Terminal Mono specification: warm dark
+  #201D1D, warm off-white #FDFCFC, mid grey #9A9898, and the Apple HIG
+  semantics — blue #007AFF, red #FF3B30, green #30D158, orange #FF9F0A — over
+  warm transparent borders rgba(15,0,0,0.12). Berkeley Mono is the only
+  typeface. Radius is 4px. Links are underlined. There are no gradients, no
+  glass, and no glows.
+
+  ---------------------------------------------------------------------------
+  Two deliberate departures, both documented
+
+  1. LIGHT IS THE PRODUCT DEFAULT.
+
+     The source marks light as "not recommended" and is designed dark-first.
+     The product default is light regardless; the source governs the visual
+     language, not which theme ships first. So the light theme here is built
+     from the source's own palette rather than borrowed from elsewhere: the
+     warm off-white becomes the ground, the warm dark becomes the ink, and the
+     relationship between them is simply inverted.
+
+  2. THE SEMANTIC HUES ARE DARKENED FOR TEXT IN LIGHT MODE — AND ONLY THERE.
+
+     Measured against the warm off-white ground, every Apple HIG value fails
+     WCAG AA as body text:
+
+       #007AFF  3.92:1     #FF3B30  3.46:1
+       #30D158  1.97:1     #FF9F0A  2.01:1     #9A9898  2.80:1
+
+     They were never meant to carry text on a light ground — on #201D1D they
+     all pass comfortably, which is where the source puts them. Rather than
+     abandon the palette or ship unreadable text, each hue keeps its identity
+     as a *fill and indicator* at the source value, and gains a darkened
+     variant for *text*, holding the hue and dropping only lightness. Every
+     pairing in this file is measured; the ratio is noted beside it.
+
+     In dark mode the source values are used directly for text, because there
+     they pass. The one exception is the blue: #007AFF scores 4.17:1 on the
+     warm dark, so dark mode lifts it to #5CB0FF (7.26:1).
 
   ---------------------------------------------------------------------------
   Colour roles
 
-    --primary        #0F766E  brand teal, darkened for text-bearing surfaces.
-                              CTAs and the Key Takeaway block. 5.5:1 on white.
-    --accent         #14B8A6  the lighter teal. Indicators only: progress
-                              fills, selected rings, icons on tints.
-    --accent-strong  #0F766E  concept marks in body copy — see
-                              components/study/concept-highlight.tsx.
-    --link           #0369A1  sky, deliberately not the brand teal, so a link
-                              never reads as a call to action. The brief asked
-                              for a light blue; at 1.9:1 on this ground that
-                              fails AA for text, so light mode uses the deeper
-                              sky and dark mode uses #7DD3FC where it clears.
-    --destructive    #B91C1C  error and destructive actions.
-    --warning        #A16207  caution.
-    --success        #15803D  affirmative.
+    --primary        the single button variant. Dark fill, light text, per the
+                     source's "fundo escuro, texto claro". Inverted in dark.
+    --accent         #007AFF at source value. Focus rings and indicators only,
+                     never behind text.
+    --accent-strong  the readable blue. Concept marks in body copy.
+    --link           underlined by default, per the source.
+    --destructive / --success / --warning
+                     text-safe in both themes; the `-tint` variants are the
+                     backgrounds they sit on.
 
-  Signal colours are never the only signal: every band and state carries a text
-  label too, so meaning survives greyscale and colour blindness.
+  Signal colours are never the only signal: every band and state carries a
+  text label too, so meaning survives greyscale and colour blindness.
 */
 
 @theme {
@@ -57,6 +80,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-accent-subtle: var(--accent-subtle);
   --color-accent-tint: var(--accent-tint);
+  --color-accent-strong: var(--accent-strong);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -73,159 +97,159 @@
   --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-accent-strong: var(--accent-strong);
   --color-link: var(--link);
   --color-link-hover: var(--link-hover);
 
   /*
-    A small, restrained radius. Enough to read as a considered surface rather
-    than a terminal window; not enough to become the loudest thing on screen.
+    Minimal radius: 4px. The source's scale is sm 4 / md 8 / lg 12, but its
+    components — buttons, cards, inputs — all specify 4px, so the common
+    utilities collapse onto it and only the largest containers open up.
+    `rounded-full` is untouched, so genuinely circular controls stay circular.
   */
   --radius-xs: 2px;
   --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 10px;
-  --radius-2xl: 12px;
-  --radius-3xl: 14px;
-  --radius-4xl: 16px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --radius-2xl: 8px;
+  --radius-3xl: 8px;
+  --radius-4xl: 12px;
 
   /*
-    Two families with distinct jobs. Inter carries everything a learner reads —
-    scenarios, options, rationales — because a proportional face is easier at
-    length and gives hierarchy something to work with. Plex Mono is reserved
-    for the genuinely technical: counts, ids, tags, metadata.
+    Berkeley Mono as the only typeface — monospace for display, body, UI and
+    code alike. It is commercially licensed and cannot be bundled, so it leads
+    the stack and IBM Plex Mono carries the design where it is absent. Both
+    families resolve to the same stack on purpose: there is no proportional
+    face in this system to fall back to.
   */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo,
-    Consolas, monospace;
+  --font-sans: "Berkeley Mono", var(--font-plex-mono), ui-monospace,
+    SFMono-Regular, Menlo, Consolas, monospace;
+  --font-mono: "Berkeley Mono", var(--font-plex-mono), ui-monospace,
+    SFMono-Regular, Menlo, Consolas, monospace;
 
   /*
-    Elevation exists to separate a surface from the one behind it, nothing
-    more. One value, at the spec's ceiling; `raised` and `accent` are aliases
-    so no component carries a heavier shadow than the rule permits.
+    Restrained. The source caps shadows at 0 2px 8px rgba(0,0,0,0.08) and
+    specifies 0 2px 12px rgba(0,0,0,0.06) for cards. Nothing here exceeds
+    either, and there are no coloured glows — `accent` is an alias so no
+    component can reintroduce one.
   */
-  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 1px 3px rgb(16 24 40 / 0.06);
-  --shadow-card-hover: 0 2px 4px rgb(16 24 40 / 0.05),
-    0 8px 20px rgb(16 24 40 / 0.08);
-  --shadow-raised: 0 2px 4px rgb(16 24 40 / 0.05),
-    0 10px 28px rgb(16 24 40 / 0.10);
-  --shadow-accent: 0 1px 2px rgb(15 118 110 / 0.16),
-    0 6px 16px rgb(15 118 110 / 0.14);
+  --shadow-card: 0 2px 12px rgb(0 0 0 / 0.06);
+  --shadow-card-hover: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-raised: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-accent: 0 2px 8px rgb(0 0 0 / 0.08);
 }
 
 /* --------------------------------------------------------------- Light --- */
+/* The product default. Source palette, inverted: warm off-white ground,
+   warm dark ink. No pure white anywhere, per the source. */
 :root,
 :root[data-theme="light"] {
-  --background: #f7f8f8;
-  --foreground: #16191d;
+  --background: #f7f5f5;
+  --foreground: #201d1d; /* 15.41:1 on the ground */
 
-  --card: #ffffff;
-  --card-foreground: #16191d;
-  --popover: #ffffff;
-  --popover-foreground: #16191d;
+  --card: #fdfcfc; /* the source off-white, lifted off the ground */
+  --card-foreground: #201d1d; /* 16.34:1 */
+  --popover: #fdfcfc;
+  --popover-foreground: #201d1d;
 
-  /*
-    Primary is the brand teal, dark enough to carry white text at 5.5:1. It
-    marks the main action and nothing else, which leaves red free to mean
-    destructive rather than "the loudest button".
-  */
-  --primary: #0f766e;
-  --primary-foreground: #ffffff;
-  --primary-strong: #115e59;
+  /* The single button variant: dark fill, light text. */
+  --primary: #201d1d;
+  --primary-foreground: #fdfcfc; /* 16.34:1 */
+  --primary-strong: #0f0d0d; /* the source's 8% hover darken */
 
-  /* Rules and indicators. Never behind text. */
-  --accent: #14b8a6;
-  --accent-foreground: #115e59;
-  --accent-strong: #0f766e;
-  --accent-subtle: #ccfbf1;
-  --accent-tint: #f0fdfa;
+  /* Source blue, kept exact — rings and indicators only, never behind text. */
+  --accent: #007aff;
+  --accent-foreground: #0063d1; /* 5.02:1 on the tint */
+  --accent-strong: #0063d1; /* concept marks: 5.53:1 on card */
+  --accent-subtle: #cfe2fb;
+  --accent-tint: #eaf2fd;
 
-  /* Links. Sky rather than the brand teal, so a link never reads as a CTA. */
-  --link: #0369a1;
-  --link-hover: #075985;
+  /* Underlined by default. Darkened from #007AFF, which is 3.92:1 here. */
+  --link: #0063d1; /* 5.53:1 on card */
+  --link-hover: #00499b; /* 8.45:1 */
 
-  --secondary: #eef0f2;
-  --secondary-foreground: #16191d;
-  --muted: #eef0f2;
-  --muted-foreground: #55606c;
+  --secondary: #efecec;
+  --secondary-foreground: #201d1d;
+  --muted: #efecec;
+  --muted-foreground: #6f6d6d; /* from #9A9898, which is 2.80:1 here */
 
-  --destructive: #b91c1c;
-  --destructive-foreground: #ffffff;
-  --destructive-tint: #fef2f2;
+  /* From #FF3B30 (3.46:1 here). */
+  --destructive: #c83026; /* 5.25:1 on card */
+  --destructive-foreground: #fdfcfc;
+  --destructive-tint: #fdeeed;
 
-  /*
-    Green confirms, red alerts, amber warns. Green sits far enough from the
-    brand teal in hue that "you were right" never reads as "this is the
-    primary action" — the two are distinguished by more than saturation.
-  */
-  --success: #15803d;
-  --success-foreground: #ffffff;
-  --success-tint: #f0fdf4;
+  /* From #30D158 (1.97:1 here). */
+  --success: #1c7a33; /* 5.28:1 on card */
+  --success-foreground: #fdfcfc;
+  --success-tint: #eaf7ed;
 
-  --warning: #a16207;
-  --warning-foreground: #ffffff;
+  /* From #FF9F0A (2.01:1 here). */
+  --warning: #985f05; /* 5.16:1 on card */
+  --warning-foreground: #fdfcfc;
 
-  --border: #e2e6ea;
-  --border-strong: #c3cad2;
-  --input: #c3cad2;
-  --ring: #0f766e;
+  /* The source's warm transparent border, used exactly. */
+  --border: rgb(15 0 0 / 0.12);
+  --border-strong: rgb(15 0 0 / 0.24);
+  --input: rgb(15 0 0 / 0.24);
+  --ring: #007aff;
 
   color-scheme: light;
 }
 
 /* ---------------------------------------------------------------- Dark --- */
+/* The source's native orientation. Values used directly, since on the warm
+   dark they all clear AA. */
 :root[data-theme="dark"] {
-  --background: #0e1116;
-  --foreground: #f2f5f7;
+  --background: #201d1d;
+  --foreground: #fdfcfc; /* 16.34:1 */
 
-  --card: #161b22;
-  --card-foreground: #f2f5f7;
-  --popover: #161b22;
-  --popover-foreground: #f2f5f7;
+  --card: #282525; /* the warm dark, lifted one step */
+  --card-foreground: #fdfcfc; /* 14.84:1 */
+  --popover: #282525;
+  --popover-foreground: #fdfcfc;
 
-  --primary: #2dd4bf;
-  --primary-foreground: #06201d;
-  --primary-strong: #5eead4;
+  /* The button inverts with the ground: light fill, dark text. */
+  --primary: #fdfcfc;
+  --primary-foreground: #201d1d;
+  --primary-strong: #e6e2e2;
 
-  --accent: #14b8a6;
-  --accent-foreground: #99f6e4;
-  --accent-strong: #5eead4;
-  --accent-subtle: #10403c;
-  --accent-tint: #0f2a28;
+  --accent: #0a84ff; /* Apple's dark-mode system blue */
+  --accent-foreground: #9fcfff;
+  --accent-strong: #5cb0ff; /* concept marks: 6.59:1 on card */
+  --accent-subtle: #16375c;
+  --accent-tint: #1b2a3a;
 
-  /* The light blue reads properly here; in light mode it would fail AA. */
-  --link: #7dd3fc;
-  --link-hover: #bae6fd;
+  /* #007AFF is 4.17:1 on the warm dark — the one source value lifted here. */
+  --link: #5cb0ff; /* 7.26:1 */
+  --link-hover: #9fcfff; /* 10.23:1 */
 
-  --secondary: #1e242c;
-  --secondary-foreground: #f2f5f7;
-  --muted: #1e242c;
-  --muted-foreground: #9aa6b2;
+  --secondary: #302c2c;
+  --secondary-foreground: #fdfcfc;
+  --muted: #302c2c;
+  --muted-foreground: #9a9898; /* the source grey, exact — 5.83:1 */
 
-  /* Signal red is too dark to read on charcoal; lifted to clear AA. */
-  --destructive: #f87171;
-  --destructive-foreground: #2a0a0a;
-  --destructive-tint: #2a1416;
+  /* #FF3B30 is 4.72:1 here; lifted slightly for headroom on raised cards. */
+  --destructive: #ff6961; /* 5.93:1 */
+  --destructive-foreground: #201d1d;
+  --destructive-tint: #33201f;
 
-  /* Industrial blue likewise. */
-  --success: #4ade80;
-  --success-foreground: #052e16;
-  --success-tint: #10281a;
+  --success: #30d158; /* the source green, exact — 8.28:1 */
+  --success-foreground: #201d1d;
+  --success-tint: #1c2a20;
 
-  --warning: #fbbf24;
-  --warning-foreground: #291a04;
+  --warning: #ff9f0a; /* the source orange, exact — 8.14:1 */
+  --warning-foreground: #201d1d;
 
-  --border: #262d36;
-  --border-strong: #3a434f;
-  --input: #3a434f;
-  --ring: #2dd4bf;
+  /* The warm border inverts: a warm light transparent over the dark ground. */
+  --border: rgb(253 252 252 / 0.12);
+  --border-strong: rgb(253 252 252 / 0.24);
+  --input: rgb(253 252 252 / 0.24);
+  --ring: #0a84ff;
 
-  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.08);
-  --shadow-card-hover: 0 2px 8px rgb(0 0 0 / 0.6);
-  --shadow-raised: 0 2px 8px rgb(0 0 0 / 0.6);
-  --shadow-accent: 0 2px 8px rgb(0 0 0 / 0.6);
+  --shadow-card: 0 2px 12px rgb(0 0 0 / 0.4);
+  --shadow-card-hover: 0 2px 8px rgb(0 0 0 / 0.5);
+  --shadow-raised: 0 2px 8px rgb(0 0 0 / 0.5);
+  --shadow-accent: 0 2px 8px rgb(0 0 0 / 0.5);
 
   color-scheme: dark;
 }
@@ -244,23 +268,26 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    /* Source: body 1rem / 1.6. */
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  /* Tight tracking on headings, per the display rule. */
+  /* Display type is monospace at weight 700 with tight tracking. */
   h1,
   h2,
   h3 {
     letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
   ::selection {
     background-color: var(--color-accent-subtle);
-    color: var(--color-primary-strong);
+    color: var(--color-foreground);
   }
 
-  /* 2px ring, offset 2px — the specified focus treatment. */
+  /* 2px accent ring, offset 2px — the specified focus treatment. */
   :focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
@@ -290,7 +317,7 @@
 @layer utilities {
   /*
     Loading state. A shimmer pass across a block the size of the content it
-    stands in for — the spec rules out circular spinners, and a rectangle at
+    stands in for — the source rules out circular spinners, and a rectangle at
     the right dimensions tells the reader what is arriving.
   */
   .skeleton {
@@ -306,25 +333,27 @@
     background-image: linear-gradient(
       90deg,
       transparent 0%,
-      var(--color-border) 50%,
+      var(--color-muted-foreground) 50%,
       transparent 100%
     );
+    opacity: 0.25;
     animation: shimmer 1.2s linear infinite;
   }
 
   /*
-    Body copy is capped at 72 characters. The container is wide (1280px) so
-    tables, rows and metadata can use the full width; running text must not,
-    or the eye loses the line on the return sweep.
+    Body copy is capped at 72 characters, per the source. The container is wide
+    (1280px) so tables and metadata can use the full width; running text must
+    not. Applied to the text element itself — `ch` resolves against the
+    element's own font-size, so putting this on a wrapper gives smaller
+    children *more* characters, not fewer.
   */
   .measure {
     max-width: 72ch;
   }
 
   /*
-    Visible grid lines as a design element. A hairline rule between rows,
-    replacing the gaps a softer system would use — alignment does the work
-    that whitespace used to.
+    A hairline rule between rows, in the warm border colour. Alignment does the
+    work that whitespace would in a softer system.
   */
   .rule-y > * + * {
     border-top: 1px solid var(--color-border);

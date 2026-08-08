@@ -95,7 +95,7 @@ function Study() {
             <CardContent className="p-5">
               <div className="flex items-start gap-3">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/25 bg-accent-tint">
-                  <Target className="h-4 w-4 text-primary" />
+                  <Target className="h-4 w-4 text-accent-strong" />
                 </span>
                 <div className="min-w-0">
                   <h3 className="font-semibold">
@@ -145,7 +145,7 @@ function Study() {
           <CardContent className="p-5">
             <div className="flex items-start gap-3">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
-                <Shuffle className="h-4 w-4 text-primary" />
+                <Shuffle className="h-4 w-4 text-accent-strong" />
               </span>
               <div>
                 <h3 className="font-semibold">Adaptive session</h3>

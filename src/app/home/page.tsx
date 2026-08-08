@@ -56,7 +56,7 @@ function Home() {
         <CardContent className="p-5">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <Target className="h-4 w-4 text-primary" />
+              <Target className="h-4 w-4 text-accent-strong" />
               <span className="text-sm font-medium">Daily goal</span>
             </div>
             <span className="text-sm tabular-nums text-muted-foreground">

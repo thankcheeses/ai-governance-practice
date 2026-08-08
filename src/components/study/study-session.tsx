@@ -8,23 +8,26 @@ import { QuestionView } from "@/components/study/question-view";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import type { Question } from "@/content/types";
-import { canSubmit, toggleSelection } from "@/lib/grading";
-import { correctKeys, presentOptions } from "@/lib/presentation";
+import type { ActiveSession } from "@/lib/active-session";
+import { clearActiveSession, writeActiveSession } from "@/lib/active-session";
+import { canSubmit, gradeAnswer, toggleSelection } from "@/lib/grading";
+import { correctKeys } from "@/lib/presentation";
+import { type Sitting, sittingComposition } from "@/lib/session";
 import { gradePreview, newReviewCard } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { Confidence, ReviewGrade, StudyMode } from "@/lib/types";
 import { cn, pct } from "@/lib/utils";
 
 interface StudySessionProps {
-  questions: Question[];
-  /** Seeds this session's option shuffle; same seed, same presentation. */
-  seed: number;
+  /** Questions and their dealt options — already built, or already restored. */
+  sitting: Sitting;
   mode: StudyMode;
   label: string;
   /** Show Again/Hard/Good/Easy scheduling after each answer (review mode). */
   withScheduling?: boolean;
   exitHref?: string;
+  /** Where the learner was, when this sitting is being resumed. */
+  resumed?: ActiveSession | null;
 }
 
 const CONFIDENCE_OPTIONS: { value: Confidence; label: string }[] = [
@@ -39,23 +42,42 @@ const CONFIDENCE_OPTIONS: { value: Confidence; label: string }[] = [
  * SM-2 scheduling buttons in place of the plain Continue action.
  */
 export function StudySession({
-  questions,
-  seed,
+  sitting,
   mode,
   label,
   withScheduling = false,
   exitHref = "/home",
+  resumed = null,
 }: StudySessionProps) {
   const { recordAnswer, gradeReview, progress } = useProgress();
+  const { seed, questions } = sitting;
 
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(() => resumed?.index ?? 0);
   // Option ids, never letters — letters are a per-session presentation.
-  const [selected, setSelected] = useState<string[]>([]);
-  const [confidence, setConfidence] = useState<Confidence | null>(null);
-  const [revealed, setRevealed] = useState(false);
-  const [wasCorrect, setWasCorrect] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [queuedCount, setQueuedCount] = useState(0);
+  const [selected, setSelected] = useState<string[]>(
+    () => resumed?.selected ?? [],
+  );
+  const [confidence, setConfidence] = useState<Confidence | null>(
+    () => resumed?.confidence ?? null,
+  );
+  const [revealed, setRevealed] = useState(() => resumed?.revealed ?? false);
+  /*
+    Resuming a revealed question re-derives the verdict from the stored option
+    ids rather than re-answering. Calling recordAnswer here would write a
+    second attempt for one answer, inflating accuracy and the review queue
+    every time someone refreshed.
+  */
+  const [wasCorrect, setWasCorrect] = useState(() => {
+    if (!resumed?.revealed) return false;
+    const q = sitting.questions[resumed.index];
+    return q ? gradeAnswer(q, resumed.selected) : false;
+  });
+  const [correctCount, setCorrectCount] = useState(
+    () => resumed?.correctCount ?? 0,
+  );
+  const [queuedCount, setQueuedCount] = useState(
+    () => resumed?.queuedCount ?? 0,
+  );
   const [finished, setFinished] = useState(false);
 
   const questionStart = useRef(Date.now());
@@ -64,16 +86,45 @@ export function StudySession({
   const question = questions[index];
   const total = questions.length;
 
-  // Dealt fresh per question from the session seed, so a learner cannot
-  // memorise an answer's position between sittings.
-  const options = useMemo(
-    () => (question ? presentOptions(question, seed) : []),
-    [question, seed],
-  );
+  // Dealt once when the sitting was built or restored — never re-shuffled
+  // here, so a re-render cannot move the choices under the learner.
+  const options = useMemo(() => sitting.options[index] ?? [], [sitting, index]);
   const answerKeys = useMemo(
     () => (question ? correctKeys(options, question) : []),
     [options, question],
   );
+
+  /*
+    Persist after every change that alters where the learner is. Writing on a
+    state change rather than on an interval means the stored sitting is never
+    more than one render behind the screen.
+  */
+  useEffect(() => {
+    if (finished || !question) return;
+    const { questionIds, optionIds } = sittingComposition(sitting);
+    writeActiveSession({
+      version: 1,
+      seed,
+      trackId: progress.trackId,
+      mode,
+      label,
+      withScheduling,
+      exitHref,
+      questionIds,
+      optionIds,
+      index,
+      selected,
+      revealed,
+      confidence,
+      correctCount,
+      queuedCount,
+      updatedAt: new Date().toISOString(),
+    });
+  }, [
+    sitting, seed, progress.trackId, mode, label, withScheduling, exitHref,
+    index, selected, revealed, confidence, correctCount, queuedCount,
+    finished, question,
+  ]);
 
   const handleSubmit = useCallback(() => {
     if (revealed || !question || !canSubmit(question, selected)) return;
@@ -98,6 +149,8 @@ export function StudySession({
 
   const advance = useCallback(() => {
     if (index + 1 >= total) {
+      // The sitting is over; nothing left to come back to.
+      clearActiveSession();
       setFinished(true);
       return;
     }
@@ -173,7 +226,8 @@ export function StudySession({
       {/* Session header */}
       <div className="mb-6 flex items-center gap-3">
         <Button asChild variant="ghost" size="icon" aria-label="Exit session">
-          <Link href={exitHref}>
+          {/* Leaving on purpose abandons the sitting; only a refresh resumes. */}
+          <Link href={exitHref} onClick={() => clearActiveSession()}>
             <X className="h-4 w-4" />
           </Link>
         </Button>
@@ -189,7 +243,7 @@ export function StudySession({
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
-        {/* Domain is the teal-tinted pill; difficulty stays neutral so the
+        {/* Domain is the accent-tinted pill; difficulty stays neutral so the
             two read as different kinds of metadata. */}
         <Badge>{question.domain}</Badge>
         <Badge variant="outline" className="capitalize">
@@ -224,7 +278,7 @@ export function StudySession({
                 className={cn(
                   "flex-1 rounded-lg border px-3 py-2 text-sm transition-colors",
                   confidence === option.value
-                    ? "border-primary bg-accent-tint font-medium text-primary ring-1 ring-inset ring-primary"
+                    ? "border-accent bg-accent-tint font-medium text-accent-foreground ring-1 ring-inset ring-accent"
                     : "border-border bg-card text-muted-foreground hover:bg-secondary",
                 )}
               >

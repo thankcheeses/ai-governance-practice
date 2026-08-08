@@ -24,7 +24,8 @@ interface FeedbackPanelProps {
  *   2. The rationale — plain body text at reading measure, with terms of art
  *      marked so the concept under test can be found without reading every
  *      word.
- *   3. The key takeaway — a teal panel, the heaviest element here. It is the
+ *   3. The key takeaway — an accent-tinted panel, the heaviest element here.
+ *      It is the
  *      part worth carrying into the next scenario, so it outweighs the score.
  *
  * Colour is functional throughout: green confirms, red alerts, and the left
@@ -92,12 +93,12 @@ export function FeedbackPanel({
       </section>
 
       {/*
-        The anchor of the screen. Teal rather than an inverted black slab: it
-        still outweighs everything around it, but it reads as the product's
+        The anchor of the screen. An accent tint rather than an inverted slab:
+        it still outweighs everything around it, but it reads as the product's
         own voice rather than as a warning notice.
       */}
-      <section className="rounded-xl border border-primary/20 bg-accent-tint p-5 shadow-[var(--shadow-card)]">
-        <SectionLabel className="text-primary">Key takeaway</SectionLabel>
+      <section className="rounded-lg border border-accent/30 bg-accent-tint p-5 shadow-[var(--shadow-card)]">
+        <SectionLabel className="text-accent-strong">Key takeaway</SectionLabel>
         <p className="measure text-base font-medium leading-[1.7] text-foreground">
           <ConceptHighlight text={question.keyTakeaway} limit={2} />
         </p>
