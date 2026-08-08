@@ -218,5 +218,108 @@
         "value": "Planner name on the order; agent identifier under the pilot"
       }
     ]
+  },
+  {
+    "id": "sc-007",
+    "title": "Model risk in a general insurer's claims operation",
+    "sector": "insurance",
+    "body": [
+      "Kestrel Mutual settles about 240,000 motor claims a year. It has deployed a model that triages incoming claims into three lanes: straight-through settlement for low-value, low-complexity claims; standard handling; and referral to the special investigations unit. Only the third lane has a material adverse consequence for a customer — a referred claim is held while investigated, typically for eleven days.",
+      "The model was validated before launch and is monitored monthly on referral rate, straight-through rate and settlement cost. It has run for two years without a validation refresh, on the basis that monitoring has stayed inside tolerance.",
+      "A recent internal review found that referral rates for claims from three postcodes are roughly double the book average. Those postcodes were not features. Two of them have among the highest recorded fraud rates in the insurer's own history; the third does not, and has a demographic profile unlike the other two.",
+      "Kestrel's fraud team regards the referral model as its most valuable tool and points to a measurable fall in fraudulent payouts since launch. Its customer ombudsman liaison notes that complaints about claim delays have risen over the same period, and that the complaints cluster geographically."
+    ],
+    "facts": [
+      {
+        "label": "Consequence",
+        "value": "Referred claims held ~11 days pending investigation"
+      },
+      {
+        "label": "Validation",
+        "value": "Pre-launch only; no refresh in two years"
+      },
+      {
+        "label": "Monitoring",
+        "value": "Referral rate, straight-through rate, settlement cost"
+      },
+      {
+        "label": "Signal",
+        "value": "Referral rate ~2x book average in three postcodes"
+      },
+      {
+        "label": "Feature set",
+        "value": "Postcode is not a feature"
+      },
+      {
+        "label": "Competing evidence",
+        "value": "Fraud payouts down; delay complaints up and clustered"
+      }
+    ]
+  },
+  {
+    "id": "sc-008",
+    "title": "Foundation-model assistant inside a software company",
+    "sector": "technology",
+    "body": [
+      "Halden Systems builds developer tooling. It has embedded a commercial foundation model into its product as an assistant that explains code and proposes fixes. Halden does not train the model; it sends the customer's code as context at inference time and returns the response.",
+      "Halden's contract with the model provider permits commercial use and states that inputs are not used for training. Halden's own customer contracts predate the assistant and describe the product as processing customer code solely to provide the service.",
+      "A prospective enterprise customer has asked three questions Halden cannot currently answer from documentation: which sub-processors receive their code, where inference happens geographically, and what happens to their code if the model provider changes its terms.",
+      "Halden's engineering lead notes the assistant materially improves resolution times. Its head of legal notes the customer contracts were written before any third party saw customer code."
+    ],
+    "facts": [
+      {
+        "label": "Role",
+        "value": "Halden deploys and redistributes; the provider supplies the model"
+      },
+      {
+        "label": "Data flow",
+        "value": "Customer code sent as inference context, not for training"
+      },
+      {
+        "label": "Provider terms",
+        "value": "Commercial use allowed; no training on inputs"
+      },
+      {
+        "label": "Customer contracts",
+        "value": "Predate the assistant; no sub-processor disclosure"
+      },
+      {
+        "label": "Open questions",
+        "value": "Sub-processors, inference geography, term-change exit"
+      }
+    ]
+  },
+  {
+    "id": "sc-009",
+    "title": "Automated grading pilot at a school district",
+    "sector": "education",
+    "body": [
+      "The Brightwater district is piloting automated scoring of written responses on interim assessments across 42 schools. Scores inform instructional grouping for the following term; they do not appear on transcripts and carry no graduation consequence.",
+      "The vendor's model was trained on responses from a different state, scored by that state's rubric. Brightwater's rubric differs in how it weights evidence use. The vendor says the models are 'rubric-agnostic'.",
+      "During the pilot, teachers may override any score. Override data shows teachers overrode 3% of scores overall, but 11% for responses from students designated as English learners, almost always upward.",
+      "The district's assessment director wants to expand to end-of-course exams next year, where scores do affect placement and, indirectly, course access."
+    ],
+    "facts": [
+      {
+        "label": "Current stakes",
+        "value": "Instructional grouping only; no transcript effect"
+      },
+      {
+        "label": "Proposed stakes",
+        "value": "End-of-course exams affecting placement"
+      },
+      {
+        "label": "Training data",
+        "value": "Another state's responses and rubric"
+      },
+      {
+        "label": "Vendor claim",
+        "value": "Models are 'rubric-agnostic'"
+      },
+      {
+        "label": "Override signal",
+        "value": "3% overall; 11% for English learners, mostly upward"
+      }
+    ]
   }
 ]

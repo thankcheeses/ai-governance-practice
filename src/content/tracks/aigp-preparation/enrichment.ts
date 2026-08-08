@@ -2060,4 +2060,592 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Govern: measuring programme effectiveness)",
     ],
   },
+  176: {
+    bokSubdomain: "IV.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Dropping a protected attribute does not remove it from the model. When an unexplained disparity tracks an excluded feature, find the proxy carrying it before deciding anything else.",
+    frameworkTags: ["Responsible AI", "AI Risk Management"],
+    distractorNotes: {
+      B:
+        "Commercial value is not in question and does not explain the disparity.",
+      C:
+        "A complaint threshold tells you when someone else will look, not what is happening.",
+      D:
+        "Feasibility of a remedy is premature while the mechanism is unknown.",
+    },
+    sources: [
+      "NIST AI RMF (Measure: harmful bias and fairness)",
+      "ISO/IEC 42001 (performance evaluation)",
+    ],
+  },
+  177: {
+    bokSubdomain: "III.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Monitoring tests the metrics you chose; validation tests whether those were the right metrics. Green dashboards are not evidence that revalidation can wait.",
+    frameworkTags: ["AI Risk Management", "AI Governance"],
+    distractorNotes: {
+      A:
+        "No general rule caps the validation interval at two years.",
+      C:
+        "Monitoring can detect population change; here it simply was not measuring for this.",
+      D:
+        "An annual trigger is a policy some firms adopt, not the reason this gap opened.",
+    },
+    sources: [
+      "NIST AI RMF (Measure: TEVV throughout the lifecycle)",
+      "ISO/IEC 42001 (monitoring, measurement, analysis and evaluation)",
+    ],
+  },
+  178: {
+    bokSubdomain: "I.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "When two sound measurements point opposite ways, you have a trade-off, not a factual dispute. Trade-offs are resolved against a stated risk appetite, not by more data.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+    distractorNotes: {
+      A:
+        "Complaint clustering is measured evidence too; dismissing it as subjective is a preference, not a finding.",
+      B:
+        "A blanket priority rule replaces the judgement governance exists to make.",
+      D:
+        "Escalation without framing the trade-off moves the same open question upward.",
+    },
+    sources: [
+      "NIST AI RMF (Govern: risk tolerance and trade-offs)",
+      "ISO/IEC 42001 (risk criteria; management review)",
+    ],
+  },
+  179: {
+    bokSubdomain: "IV.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Adding a third-party model changes what you have promised your own customers. Check the commitments already made before designing any remedy.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      B:
+        "Renegotiating upstream presupposes knowing what was promised downstream.",
+      C:
+        "An opt-in is one possible remedy, chosen after the commitments are known.",
+      D:
+        "An assessment is a process step, not the gap the customer's questions reveal.",
+    },
+    sources: [
+      "ISO/IEC 42001 (Annex A: suppliers and third parties)",
+      "NIST AI RMF (Govern: third-party risks in the value chain)",
+    ],
+  },
+  180: {
+    bokSubdomain: "II.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "In an AI value chain, obligations follow control and contract. You owe what you decided and what you promised; you do not inherit the developer's duties by embedding its model.",
+    frameworkTags: ["EU AI Act", "AI Governance"],
+    distractorNotes: {
+      C:
+        "Training-data disclosure sits with whoever developed and trained the model.",
+      D:
+        "Frontier systemic-risk evaluation attaches to the model provider, not the integrator.",
+      E:
+        "No general duty makes an integrator guarantee a model's output accuracy.",
+    },
+    sources: [
+      "EU AI Act (obligations along the value chain; provider and deployer roles)",
+      "NIST AI RMF (Govern: roles and responsibilities across the supply chain)",
+    ],
+  },
+  181: {
+    bokSubdomain: "III.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A one-directional error gap concentrated in one group points at the training distribution. Random difficulty produces corrections in both directions.",
+    frameworkTags: ["AI Risk Management", "Responsible AI"],
+    distractorNotes: {
+      A:
+        "Leniency would not cluster in a single group in a single direction.",
+      C:
+        "Objectively harder responses would produce overrides running both ways.",
+      D:
+        "Override volume is the symptom being explained, not an explanation.",
+    },
+    sources: [
+      "NIST AI RMF (Map: data representativeness; Measure: disaggregated evaluation)",
+      "ISO/IEC 42001 (data quality for AI systems)",
+    ],
+  },
+  182: {
+    bokSubdomain: "II.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Governance scales with consequence, not with technology. The same model in a higher-stakes decision needs stronger evidence before you rely on it.",
+    frameworkTags: ["EU AI Act", "AI Risk Management"],
+    distractorNotes: {
+      A:
+        "Identical technology in a higher-stakes use is not an identical governance question.",
+      C:
+        "Raising the stakes does not transfer accountability to the vendor.",
+      D:
+        "Removing overrides would strip the control that surfaced the disparity.",
+    },
+    sources: [
+      "EU AI Act (education as a high-risk use context)",
+      "NIST AI RMF (Map: context of use and potential impacts)",
+    ],
+  },
+  183: {
+    bokSubdomain: "III.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "A vendor claim you can test cheaply is a hypothesis, not an assurance. Score a sample against your own ground truth before accepting or rejecting it.",
+    frameworkTags: ["AI Risk Management", "AI Governance"],
+    distractorNotes: {
+      A:
+        "Vendor visibility does not discharge the accountability that stays with the district.",
+      C:
+        "Overrides are the control already behaving unevenly; they cannot be the answer.",
+      D:
+        "Treating the claim as disqualifying forecloses a tool without evidence either way.",
+    },
+    sources: [
+      "NIST AI RMF (Measure: independent validity evidence)",
+      "ISO/IEC 42001 (Annex A: third-party and supplier assurance)",
+    ],
+  },
+  184: {
+    bokSubdomain: "I.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Data governance is about the inputs. AI governance is about what the system does with them, and keeps doing after release.",
+    frameworkTags: ["AI Governance"],
+    distractorNotes: {
+      B:
+        "Both are subject to regulation in various forms; the distinction is not voluntary versus mandatory.",
+      C:
+        "Ownership varies by organisation and does not explain what the two disciplines cover.",
+      D:
+        "AI governance builds on data governance rather than superseding it; the input controls are still required.",
+    },
+    sources: [
+      "NIST AI RMF (Govern: integration with existing governance)",
+      "ISO/IEC 42001 (context and scope)",
+    ],
+  },
+  185: {
+    bokSubdomain: "I.B",
+    difficulty: "foundational",
+    keyTakeaway:
+      "A foundation model's governance problem is that its intended use is not settled when it is built. Downstream adaptation keeps moving it.",
+    frameworkTags: ["AI Governance"],
+    distractorNotes: {
+      B:
+        "Inference cost varies enormously and small foundation models exist; cost is not the distinction.",
+      C:
+        "Foundation models produce images, audio, code and embeddings as well as text.",
+      D:
+        "Many are open-weight and run internally; access method is a commercial choice.",
+    },
+    sources: [
+      "NIST AI RMF (Map: system characteristics)",
+      "OECD AI Principles (general-purpose AI)",
+    ],
+  },
+  186: {
+    bokSubdomain: "I.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Retrieval buys you a source to check against, not a guarantee of correctness. The index becomes a thing you now have to govern.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      B:
+        "Retrieval sits outside the model; the weights are exactly as opaque as before.",
+      C:
+        "Grounded systems still misstate what a retrieved passage says, and can cite a superseded one.",
+      D:
+        "A retrieval index goes stale, which is an additional monitoring obligation rather than fewer.",
+    },
+    sources: [
+      "NIST AI RMF (Measure: validity; Manage: monitoring)",
+      "ISO/IEC 42001 (operational control)",
+    ],
+  },
+  187: {
+    bokSubdomain: "I.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Ask where the policy sits in the path of a decision. A document nobody has to pass through changes nothing.",
+    frameworkTags: ["AI Governance"],
+    distractorNotes: {
+      A:
+        "Scope definitions matter, but a well-scoped policy with no gate still stops nothing.",
+      B:
+        "A commitment sets tone and gives no one a reason to pause a launch.",
+      D:
+        "A regulatory inventory informs the policy without creating any decision point.",
+    },
+    sources: [
+      "ISO/IEC 42001 (policy; operational planning and control)",
+      "NIST AI RMF (Govern: policies and procedures)",
+    ],
+  },
+  188: {
+    bokSubdomain: "II.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Automating a decision does not move it out of the law that already governed it. Discrimination law follows the outcome, not the method.",
+    frameworkTags: ["AI Governance"],
+    distractorNotes: {
+      B:
+        "Trade secret protection concerns the vendor's interest in its model, not the employee's treatment.",
+      C:
+        "Disclosure duties to investors do not govern how a promotion decision is made.",
+      D:
+        "Contract law allocates risk between employer and vendor; the employee is not a party to it.",
+    },
+    sources: [
+      "Title VII of the Civil Rights Act (US)",
+      "NIST AI RMF (Govern: legal and regulatory requirements)",
+    ],
+  },
+  189: {
+    bokSubdomain: "II.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Reusing data for a new purpose is a lawfulness question first. Compatibility is the gate; security and accuracy are what happens after you pass it.",
+    frameworkTags: ["AI Governance"],
+    distractorNotes: {
+      B:
+        "Access control is a security requirement that applies once the processing is lawful.",
+      C:
+        "Commercial usefulness has no bearing on whether the reuse is permitted.",
+      D:
+        "Agent consent concerns the agents; the customers in the transcripts are the larger group at issue.",
+    },
+    sources: [
+      "GDPR Art. 5(1)(b) (purpose limitation)",
+      "GDPR Art. 6(4) (compatibility assessment)",
+    ],
+  },
+  190: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Classification follows consequence, not technology. The same model is a different regulatory object in a different use.",
+    frameworkTags: ["EU AI Act", "AI Risk Management"],
+    distractorNotes: {
+      B:
+        "Turnover affects some penalty calculations, not whether a use is heightened-risk.",
+      C:
+        "A simple model making consequential decisions is squarely in scope; complexity is irrelevant.",
+      D:
+        "Procurement changes which role you hold, not whether the use attracts obligations.",
+    },
+    sources: [
+      "EU AI Act Art. 6 and Annex III (classification by use)",
+      "NIST AI RMF (Map: context)",
+    ],
+  },
+  191: {
+    bokSubdomain: "II.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Logs exist to make an operation reconstructable after the fact. Anything else you do with them is a by-product.",
+    frameworkTags: ["EU AI Act", "AI Governance"],
+    distractorNotes: {
+      B:
+        "Reusing operational logs as training data raises its own purpose and lawfulness questions.",
+      C:
+        "Usage metering is a commercial function unrelated to the traceability duty.",
+      D:
+        "Fault diagnosis is useful but is not why record-keeping is required.",
+    },
+    sources: [
+      "EU AI Act Art. 12 (record-keeping) and Art. 26 (deployer obligations)",
+      "ISO/IEC 42001 (documented information)",
+    ],
+  },
+  192: {
+    bokSubdomain: "II.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Ask what the worst outcome is for the person. Not receiving a discretionary offer is a different order of harm from losing access to something.",
+    frameworkTags: ["EU AI Act", "AI Risk Management"],
+    distractorNotes: {
+      B:
+        "Almost all customer-facing systems process personal data to differentiate; that alone cannot be the test.",
+      C:
+        "Pricing effects matter, but a discretionary discount is not a denial of access or an adverse action.",
+      D:
+        "Risk-based frameworks classify all uses, including those that land in the lowest category.",
+    },
+    sources: [
+      "EU AI Act Art. 6 (classification)",
+      "NIST AI RMF (Map: impact assessment)",
+    ],
+  },
+  193: {
+    bokSubdomain: "II.D",
+    difficulty: "applied",
+    keyTakeaway:
+      "A certificate says you run a managed process. It does not say you comply with any given law, and it never moves liability.",
+    frameworkTags: ["ISO 42001", "AI Governance"],
+    distractorNotes: {
+      B:
+        "No jurisdiction treats management-system certification as discharging substantive legal obligations.",
+      C:
+        "A legal register tracks obligations; certification does not enumerate or satisfy them.",
+      D:
+        "Liability stays with the organisation; a certification body attests, it does not indemnify.",
+    },
+    sources: [
+      "ISO/IEC 42001 (scope; management system requirements)",
+      "NIST AI RMF (Govern: compliance)",
+    ],
+  },
+  194: {
+    bokSubdomain: "II.D",
+    difficulty: "foundational",
+    keyTakeaway:
+      "Outcome-based means you choose the how, not whether. The outcomes are the commitment; the practices are context.",
+    frameworkTags: ["NIST AI RMF", "AI Governance"],
+    distractorNotes: {
+      B:
+        "Choosing practices by cost rather than by whether they achieve the outcome is not adoption.",
+      C:
+        "Voluntary frameworks are widely referenced in supervisory expectations and contracts.",
+      D:
+        "Regulated organisations commonly use such frameworks to structure how they meet obligations.",
+    },
+    sources: [
+      "NIST AI RMF 1.0 (framing and intended use)",
+    ],
+  },
+  195: {
+    bokSubdomain: "III.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "The cheapest, largest source quietly becomes the model's view of the world. Ask who is in it and how they got there.",
+    frameworkTags: ["AI Risk Management", "Responsible AI"],
+    distractorNotes: {
+      B:
+        "Training duration is a scheduling matter, not a property of what the model learns.",
+      C:
+        "Licensing cost affects the budget and not the model's behaviour.",
+      D:
+        "More data generally reduces overfitting; the problem here is composition, not volume.",
+    },
+    sources: [
+      "EU AI Act Art. 10 (representativeness)",
+      "NIST AI RMF (Map: data provenance)",
+    ],
+  },
+  196: {
+    bokSubdomain: "III.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Representative of what? The benchmark is the population the system will act on, not any population that happens to be available.",
+    frameworkTags: ["AI Risk Management"],
+    distractorNotes: {
+      A:
+        "National demographics are one possible benchmark and are the wrong one where the user base differs.",
+      C:
+        "Comparing a dataset to an intended population is a pre-training analysis, not a post-training one.",
+      D:
+        "Documentation records a decision; it does not make an inapt benchmark apt.",
+    },
+    sources: [
+      "EU AI Act Art. 10(3) (relevance and representativeness)",
+      "NIST AI RMF (Map: intended population)",
+    ],
+  },
+  197: {
+    bokSubdomain: "III.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Reconstructing a decision needs version, input and configuration. Approval records tell you a decision was allowed, not what it was.",
+    frameworkTags: ["AI Governance", "ISO 42001"],
+    distractorNotes: {
+      B:
+        "Minutes show the deployment was approved; they say nothing about a particular output.",
+      C:
+        "Marketing documentation describes intended capability rather than actual behaviour.",
+      D:
+        "Staffing records identify who built the system, not what it did on a given day.",
+    },
+    sources: [
+      "EU AI Act Art. 12 (record-keeping)",
+      "ISO/IEC 42001 (traceability of AI system decisions)",
+    ],
+  },
+  198: {
+    bokSubdomain: "III.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A model card goes stale in two directions. Date what you measured, and re-issue when the thing you described changes.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      C:
+        "Tone review improves readability without preventing a claim from going out of date.",
+      D:
+        "Publishing principles alongside adds context, not currency.",
+      E:
+        "Translation widens the audience for whatever the card says, accurate or not.",
+    },
+    sources: [
+      "ISO/IEC 42001 (documented information; control of documents)",
+      "NIST AI RMF (Govern: transparency artefacts)",
+    ],
+  },
+  199: {
+    bokSubdomain: "III.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "A test suite is a list of the failures someone thought of. Passing it bounds what you checked, not what can happen.",
+    frameworkTags: ["AI Risk Management"],
+    distractorNotes: {
+      B:
+        "Production differs from a test harness in inputs, load and context; equivalence does not follow.",
+      C:
+        "A clean pass carries no information about whether the test set was adequately sized.",
+      D:
+        "Training duration is unrelated to whether a designed test suite was comprehensive.",
+    },
+    sources: [
+      "NIST AI RMF (Measure: TEVV limitations)",
+      "ISO/IEC 42001 (verification and validation)",
+    ],
+  },
+  200: {
+    bokSubdomain: "III.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Fairness metrics genuinely conflict. Choosing between them means deciding whose error you are least willing to distribute unequally.",
+    frameworkTags: ["Responsible AI", "AI Risk Management"],
+    distractorNotes: {
+      A:
+        "Equal accuracy is compatible with one group bearing far more of the costly error type.",
+      C:
+        "Divergence is expected; the measures are mathematically incompatible in general.",
+      D:
+        "A disparity on one measure requires interpretation against what that error costs, not an automatic verdict.",
+    },
+    sources: [
+      "NIST AI RMF (Measure: fairness metrics and trade-offs)",
+      "OECD AI Principles (fairness)",
+    ],
+  },
+  201: {
+    bokSubdomain: "IV.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Size oversight by reversibility and cost of error, not by accuracy. Being right most of the time does not help if being wrong cannot be undone.",
+    frameworkTags: ["Responsible AI", "EU AI Act"],
+    distractorNotes: {
+      B:
+        "Accuracy affects how often oversight catches something, not how much is warranted.",
+      C:
+        "Available staffing is a constraint to solve for, not a determinant of what the risk needs.",
+      D:
+        "Team confidence is not evidence, and is systematically optimistic about one's own work.",
+    },
+    sources: [
+      "EU AI Act Art. 14 (human oversight, proportionate to risk)",
+      "NIST AI RMF (Govern: human-AI configuration)",
+    ],
+  },
+  202: {
+    bokSubdomain: "IV.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Contract for what you need to discharge duties you cannot delegate. Money after the fact does not let you answer for a decision.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+    distractorNotes: {
+      B:
+        "An indemnity allocates cost after harm; it does not enable the deployer to meet its own obligations.",
+      C:
+        "Service credits address downtime, which is not the governance exposure here.",
+      D:
+        "Security certification speaks to confidentiality and availability, not to explaining a decision.",
+    },
+    sources: [
+      "EU AI Act Art. 13 and Art. 26 (information to deployers; deployer duties)",
+      "ISO/IEC 42001 (supplier controls)",
+    ],
+  },
+  203: {
+    bokSubdomain: "IV.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Input drift is visible before outcomes arrive. Anything that needs labels tells you late, and by then the decisions are made.",
+    frameworkTags: ["AI Risk Management"],
+    distractorNotes: {
+      B:
+        "Complaints lag badly and only a small, unrepresentative fraction of affected users complain.",
+      C:
+        "Serving cost follows request volume and says nothing about output quality.",
+      D:
+        "Fewer overrides may indicate automation bias rather than a better model.",
+    },
+    sources: [
+      "NIST AI RMF (Measure: monitoring for drift)",
+      "ISO/IEC 42001 (monitoring and measurement)",
+    ],
+  },
+  204: {
+    bokSubdomain: "IV.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "First hour: stop it, and find out how many. Everything else depends on knowing the answer to the second.",
+    frameworkTags: ["AI Risk Management", "Responsible AI"],
+    distractorNotes: {
+      C:
+        "Communications drafted before the facts are established are usually wrong and hard to retract.",
+      D:
+        "Retraining takes days or weeks and does nothing for the people already affected.",
+      E:
+        "Cost recovery is a commercial question with no bearing on the immediate response.",
+    },
+    sources: [
+      "NIST AI RMF (Manage: incident response)",
+      "ISO/IEC 42001 (nonconformity and corrective action)",
+    ],
+  },
+  205: {
+    bokSubdomain: "IV.C",
+    difficulty: "applied",
+    keyTakeaway:
+      "Ask what the reader can do differently having read it. A notice that changes nobody's options is a formality, not transparency.",
+    frameworkTags: ["Responsible AI", "AI Governance"],
+    distractorNotes: {
+      B:
+        "Timing matters, and an early notice that offers no action is still not meaningful.",
+      C:
+        "Regulatory terminology can be precise and still leave a reader with nothing to do.",
+      D:
+        "Acknowledgement records that a notice was shown, not that it was useful.",
+    },
+    sources: [
+      "GDPR Art. 13-14 and Recital 71 (meaningful information)",
+      "OECD AI Principles (transparency)",
+    ],
+  },
+  206: {
+    bokSubdomain: "IV.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "The obligation is local and actionable: why this outcome, and what you can do about it. Global opacity is not an exemption.",
+    frameworkTags: ["Responsible AI", "AI Governance"],
+    distractorNotes: {
+      B:
+        "Local explanation methods work on ensembles; global opacity does not discharge the duty.",
+      C:
+        "Average importances may not describe this individual's outcome at all.",
+      D:
+        "A re-run produces another result, not an account of why either was reached.",
+    },
+    sources: [
+      "GDPR Art. 22 and Recital 71 (contesting automated decisions)",
+      "NIST AI RMF (Measure: explainability)",
+    ],
+  },
 };

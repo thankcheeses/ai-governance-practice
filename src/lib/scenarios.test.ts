@@ -270,7 +270,9 @@ test("a distractor note is never attached to a correct option", () => {
 test("items carrying sources name something checkable", () => {
   const withSources = ALL.filter((q) => q.sources?.length);
   assert.ok(withSources.length >= 27, `only ${withSources.length} items cite a source`);
-  const named = /NIST|EU AI Act|ISO\/IEC|OECD|GDPR|Annex|Art\./;
+  // A source is usable when a learner can go and read the named thing: a
+  // framework, a standard, a regulation, or a titled statute. Free prose is not.
+  const named = /NIST|EU AI Act|ISO\/IEC|OECD|GDPR|Annex|Art\.|Title [IVX]+|Act\b/;
   for (const q of withSources) {
     for (const s of q.sources!) {
       assert.ok(named.test(s), `${q.id}: unusable source reference "${s}"`);

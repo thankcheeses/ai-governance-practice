@@ -3231,5 +3231,564 @@
       "programme metrics",
       "assurance coverage"
     ]
+  },
+  {
+    "id": 176,
+    "scenarioId": "sc-007",
+    "domain": "Governing AI Deployment and Use",
+    "question": "Referral rates are double the book average in three postcodes, which were not features. What should Kestrel establish FIRST?",
+    "options": [
+      "A. Whether the model is reconstructing location from other features, and with what effect.",
+      "B. Whether the fraud team agrees the referral model remains commercially valuable.",
+      "C. Whether complaint volumes in those postcodes exceed the ombudsman's threshold.",
+      "D. Whether removing the affected postcodes from scoring is technically feasible."
+    ],
+    "correct": "A",
+    "rationale": "A feature being absent from the input does not mean the information is absent from the model. Something in the remaining features is carrying location, and the question that governs every later decision is what that is and whether the resulting difference is justified. Commercial value, complaint thresholds and remediation feasibility all become relevant once the mechanism is understood; none of them can be judged before it.",
+    "tags": [
+      "proxy variables",
+      "monitoring",
+      "insurance"
+    ]
+  },
+  {
+    "id": 177,
+    "scenarioId": "sc-007",
+    "domain": "Governing AI Development",
+    "question": "Kestrel has not refreshed validation in two years, arguing that monitoring has stayed inside tolerance. What is the strongest objection?",
+    "options": [
+      "A. Two years exceeds the maximum interval permitted for model validation.",
+      "B. Monitoring watches the measures chosen at launch; validation asks whether they are still the right ones.",
+      "C. Monitoring cannot detect changes in the underlying claims population.",
+      "D. Validation is required whenever a model has been in production for a full year."
+    ],
+    "correct": "B",
+    "rationale": "The three monitored measures were selected when the model was built, and all three stayed green while a geographic disparity developed underneath them. That is exactly the blind spot revalidation exists to find: monitoring answers whether the model still does what you measured, and validation asks whether you are measuring the right things. No general rule fixes an interval at one or two years, and monitoring can detect population change — it simply was not looking for this.",
+    "tags": [
+      "validation",
+      "monitoring",
+      "model risk"
+    ]
+  },
+  {
+    "id": 178,
+    "scenarioId": "sc-007",
+    "domain": "Foundations of AI Governance",
+    "question": "The fraud team cites reduced payouts; the ombudsman liaison cites clustered delay complaints. How should this conflict be resolved?",
+    "options": [
+      "A. In favour of the fraud team, since reduced payouts are measured and complaints are subjective.",
+      "B. In favour of the liaison, since customer harm always outweighs commercial benefit.",
+      "C. By recognising both as real effects of one system and deciding against Kestrel's stated risk appetite.",
+      "D. By escalating to the board, since two functions of equal standing disagree."
+    ],
+    "correct": "C",
+    "rationale": "Both measurements are sound and they are measuring different consequences of the same design. That is not a dispute about facts, so more evidence will not settle it — it is a trade-off, and trade-offs are settled against what the organisation has said it is willing to accept. A blanket rule in either direction substitutes a slogan for that judgement, and escalation without framing the trade-off just moves the same unanswered question upward.",
+    "tags": [
+      "risk appetite",
+      "competing priorities",
+      "governance"
+    ]
+  },
+  {
+    "id": 179,
+    "scenarioId": "sc-008",
+    "domain": "Governing AI Deployment and Use",
+    "question": "A prospective customer asks which sub-processors receive their code, where inference happens, and what happens if the provider changes terms. What do these questions most directly expose?",
+    "options": [
+      "A. That Halden's customer contracts were written for a product that did not send code to a third party.",
+      "B. That Halden should renegotiate its agreement with the model provider.",
+      "C. That the assistant should be made opt-in for enterprise customers.",
+      "D. That Halden needs a data protection impact assessment before the sale closes."
+    ],
+    "correct": "A",
+    "rationale": "All three questions have the same root: the contracts describe processing code solely to provide the service, written when nothing left Halden. The product now routes customer code to a third party, and the paperwork has not caught up. Renegotiation, an opt-in and an assessment may all follow, but each of them presupposes knowing what Halden has actually committed to — which is the gap the questions reveal.",
+    "tags": [
+      "third-party risk",
+      "contracts",
+      "transparency"
+    ]
+  },
+  {
+    "id": 180,
+    "scenarioId": "sc-008",
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Halden embeds a commercial foundation model and ships the result to its own customers. Which TWO obligations most clearly attach to Halden rather than the model provider?",
+    "options": [
+      "A. Telling its customers that their code is processed by a third party.",
+      "B. Ensuring the assistant's use in its product stays inside the provider's permitted terms.",
+      "C. Publishing the model's training data sources.",
+      "D. Evaluating the base model for systemic risk at the frontier.",
+      "E. Guaranteeing the model's output accuracy to its customers."
+    ],
+    "correct": "A,B",
+    "rationale": "Halden's obligations follow from being the party its customers contract with and the party choosing how the model is used. Disclosure of third-party processing is owed to its customers by Halden, and staying inside the licence is Halden's to control because Halden decides the integration. Training-data publication and frontier systemic-risk evaluation sit with whoever developed the model, and no general duty makes an integrator guarantee output accuracy.",
+    "tags": [
+      "value chain",
+      "provider vs deployer",
+      "technology"
+    ]
+  },
+  {
+    "id": 181,
+    "scenarioId": "sc-009",
+    "domain": "Governing AI Development",
+    "question": "Teachers override 3% of automated scores overall but 11% for English learners, almost always upward. What does this most likely indicate?",
+    "options": [
+      "A. Teachers apply a more generous standard to English learners than the rubric requires.",
+      "B. The model systematically under-scores a group whose responses differ from its training data.",
+      "C. English learners produce responses that are objectively harder to score.",
+      "D. The override mechanism is being used more often than the district intended."
+    ],
+    "correct": "B",
+    "rationale": "A one-directional gap concentrated in one group is a signal about the model, not about teacher generosity: if teachers were simply lenient the corrections would not cluster, and if the responses were merely hard the overrides would run both ways. The model was trained on another state's responses, so the most economical explanation is that this group's writing sits furthest from what it learned. Override volume is the symptom being explained, not an explanation.",
+    "tags": [
+      "training data",
+      "representation",
+      "education"
+    ]
+  },
+  {
+    "id": 182,
+    "scenarioId": "sc-009",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The district wants to expand to end-of-course exams, where scores affect placement. What changes most about the governance required?",
+    "options": [
+      "A. Nothing material, since the same model and the same override mechanism apply.",
+      "B. The consequence to students rises, so the assurance the district needs before relying on it rises with it.",
+      "C. The vendor becomes responsible for outcomes once scores affect placement.",
+      "D. Teacher overrides must be removed to keep scoring consistent across schools."
+    ],
+    "correct": "B",
+    "rationale": "Governance scales with consequence. The same model producing the same scores is a different proposition when a score routes a student into or out of a course, because the cost of being wrong lands on the student and is hard to reverse. Identical technology therefore needs stronger evidence, not the same evidence. Responsibility does not transfer to the vendor by the district raising the stakes, and removing overrides would strip the control that surfaced the disparity.",
+    "tags": [
+      "risk classification",
+      "lifecycle",
+      "education"
+    ]
+  },
+  {
+    "id": 183,
+    "scenarioId": "sc-009",
+    "domain": "Governing AI Development",
+    "question": "The vendor states its models are 'rubric-agnostic' and Brightwater's rubric weights evidence use differently. How should the district treat that claim?",
+    "options": [
+      "A. As sufficient, since the vendor has visibility into the model that the district lacks.",
+      "B. As testable, by scoring a sample against both rubrics and comparing to human scores.",
+      "C. As irrelevant, since teacher overrides correct any rubric mismatch.",
+      "D. As disqualifying, since a model trained on one rubric cannot serve another."
+    ],
+    "correct": "B",
+    "rationale": "The claim is not obviously true or obviously false, and it is cheap to check: the district holds responses, its own rubric and human scores, which is everything needed to test whether the model tracks what Brightwater actually rewards. Accepting the assertion outsources a judgement the district is accountable for, dismissing it outright forecloses a workable tool, and treating overrides as the answer relies on a control that is already behaving unevenly.",
+    "tags": [
+      "vendor claims",
+      "validation",
+      "construct validity"
+    ]
+  },
+  {
+    "id": 184,
+    "domain": "Foundations of AI Governance",
+    "question": "A logistics firm's board asks why the company needs AI governance when it already has strong data governance. What is the most accurate answer?",
+    "options": [
+      "A. Data governance addresses inputs; AI governance also addresses how a system behaves once deployed.",
+      "B. AI governance is required by regulation whereas data governance is voluntary in most jurisdictions.",
+      "C. Data governance is owned by IT while AI governance belongs to the risk function.",
+      "D. AI governance replaces data governance for any system that uses machine learning."
+    ],
+    "correct": "A",
+    "rationale": "Data governance establishes that inputs are lawful, accurate and fit for purpose, and that remains necessary. What it does not cover is behaviour after deployment: a model built on impeccable data can still drift, produce unfair outcomes, or be used for something nobody assessed. AI governance extends the discipline across the lifecycle rather than replacing it.",
+    "tags": [
+      "programme rationale",
+      "data governance"
+    ]
+  },
+  {
+    "id": 185,
+    "domain": "Foundations of AI Governance",
+    "question": "Which characteristic most distinguishes a foundation model from a conventional task-specific model?",
+    "options": [
+      "A. It is trained on broad data and adapted to many downstream tasks it was not built for.",
+      "B. It requires substantially more computing power to run a single inference.",
+      "C. It produces natural language rather than structured numeric output.",
+      "D. It is always accessed through a commercial API rather than run internally."
+    ],
+    "correct": "A",
+    "rationale": "The defining property is generality of purpose: broad pre-training produces capability that is then adapted, so a single model underpins tasks its developers never enumerated. That is what makes governance harder — intended use is not fixed at build time, and downstream adaptation moves it again. Compute, output modality and access method vary widely and describe none of that.",
+    "tags": [
+      "foundation model",
+      "AI concepts"
+    ]
+  },
+  {
+    "id": 186,
+    "domain": "Foundations of AI Governance",
+    "question": "A team describes their system as using 'retrieval-augmented generation'. What governance property does that architecture most directly improve?",
+    "options": [
+      "A. The traceability of an answer to a source the organisation controls.",
+      "B. The mathematical interpretability of the underlying model weights.",
+      "C. The guarantee that the model will not produce an incorrect statement.",
+      "D. The elimination of the need to monitor the system after deployment."
+    ],
+    "correct": "A",
+    "rationale": "Retrieval grounds a response in documents the organisation supplies and can cite, which makes an answer checkable against a source rather than trusted as an assertion. That is a traceability gain, and a real one. It does not make the weights interpretable, does not guarantee correctness — a model can still misread or misattribute a retrieved passage — and increases rather than removes the need to monitor, because the index can drift out of date.",
+    "tags": [
+      "retrieval-augmented generation",
+      "traceability"
+    ]
+  },
+  {
+    "id": 187,
+    "domain": "Foundations of AI Governance",
+    "question": "An organisation is drafting its first AI policy. Which content most determines whether the policy has any operational effect?",
+    "options": [
+      "A. A definition of AI broad enough to cover systems the organisation has not built yet.",
+      "B. A statement of the organisation's commitment to responsible and ethical AI.",
+      "C. A named decision point where a system cannot proceed without a governance judgement.",
+      "D. A list of the regulations the organisation believes apply to it."
+    ],
+    "correct": "C",
+    "rationale": "A policy changes behaviour only where it sits in the path of a decision. A named gate — a point at which something cannot proceed until someone with authority has judged it — is what converts a document into a control. A definition matters for scope and a commitment matters for tone, but a policy with both and no gate leaves every system shipping exactly as it did before.",
+    "tags": [
+      "policy design",
+      "governance gates"
+    ]
+  },
+  {
+    "id": 188,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A US employer uses an AI tool to rank internal candidates for promotion. Which existing body of law applies most directly, independent of any AI-specific rule?",
+    "options": [
+      "A. Employment discrimination law, which governs the outcome regardless of how the decision was reached.",
+      "B. Trade secret law, which protects the vendor's model from disclosure in a dispute.",
+      "C. Securities regulation, where the employer is publicly listed and discloses workforce metrics.",
+      "D. Contract law, which determines the employer's remedies against the tool's vendor."
+    ],
+    "correct": "A",
+    "rationale": "Discrimination law attaches to the effect of an employment decision, not to the mechanism that produced it. An automated ranking that disadvantages a protected group is exposed on exactly the same basis as a human panel doing the same thing, and predates every AI-specific rule. The others are real bodies of law that govern adjacent relationships — with the vendor, with investors — not the promotion decision itself.",
+    "tags": [
+      "employment",
+      "existing law"
+    ]
+  },
+  {
+    "id": 189,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation subject to GDPR wants to reuse customer support transcripts to train a quality-scoring model. Which analysis is required before it may proceed?",
+    "options": [
+      "A. Whether training is compatible with the purpose for which the transcripts were collected.",
+      "B. Whether the transcripts can be stored in a system with adequate access controls.",
+      "C. Whether the resulting model will be accurate enough to be commercially useful.",
+      "D. Whether the support agents consented to their conversations being recorded."
+    ],
+    "correct": "A",
+    "rationale": "Reuse for a new purpose is gated by compatibility with the original one. If training is not compatible, no security control, accuracy result or agent consent makes the processing lawful — and the compatibility assessment is the step that determines which of those questions even arise. Access control is necessary but downstream, accuracy is a product question, and agent consent addresses a different set of interests from the customers whose data is in the transcripts.",
+    "tags": [
+      "purpose limitation",
+      "secondary use",
+      "GDPR"
+    ]
+  },
+  {
+    "id": 190,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Which factor most determines whether an AI system falls into a heightened-risk category under a risk-based regulatory regime?",
+    "options": [
+      "A. The domain it operates in and the consequence of its output for individuals.",
+      "B. The size of the organisation deploying it and its annual turnover.",
+      "C. The technical complexity of the underlying model architecture.",
+      "D. Whether the system was developed in-house or procured from a vendor."
+    ],
+    "correct": "A",
+    "rationale": "Risk-based regimes classify by what a system does to people — the sector it acts in and how much its output determines access, treatment or opportunity. That is why identical technology can be trivial in one use and heavily regulated in another. Organisation size, model complexity and build-versus-buy all change how obligations are met without changing whether they attach.",
+    "tags": [
+      "risk classification",
+      "EU AI Act"
+    ]
+  },
+  {
+    "id": 191,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation deploys a heightened-risk AI system and keeps automatically generated logs of its operation. What is the primary governance purpose of that logging duty?",
+    "options": [
+      "A. To enable an operation to be reconstructed and examined after the fact.",
+      "B. To provide training data for future versions of the same system.",
+      "C. To demonstrate the volume of use for licensing and cost allocation.",
+      "D. To allow the provider to debug faults reported by the deployer."
+    ],
+    "correct": "A",
+    "rationale": "Logging exists so that a decision can be reconstructed once it matters — an individual contests an outcome, an incident is investigated, a regulator asks. That is a traceability obligation attached to the operation of the system, and it works only if the record is kept independently of whether anyone expected to need it. Reusing logs to train, count usage or debug are all possible side benefits and none is the reason the duty exists.",
+    "tags": [
+      "logging",
+      "traceability",
+      "EU AI Act"
+    ]
+  },
+  {
+    "id": 192,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An AI system recommends which customers receive a retention discount. It does not restrict access to any service and no adverse action follows from a low score. How should this most appropriately be classified?",
+    "options": [
+      "A. Lower risk, because no individual is denied access to anything on the basis of the score.",
+      "B. Heightened risk, because the model processes personal data to differentiate between customers.",
+      "C. Heightened risk, because commercial decisions about pricing affect consumers directly.",
+      "D. Unclassifiable, because retention marketing is not addressed by risk-based frameworks."
+    ],
+    "correct": "A",
+    "rationale": "Classification turns on consequence, and here the downside case is not receiving a discretionary offer — not the loss of a service, an entitlement or an opportunity. That places it well below the uses risk-based regimes single out. Processing personal data and making commercial distinctions describe most marketing; if either were sufficient, the heightened category would swallow the ordinary one. It is classifiable, and the answer is simply that it sits low.",
+    "tags": [
+      "risk classification",
+      "proportionality"
+    ]
+  },
+  {
+    "id": 193,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation certified to an AI management system standard is asked how certification relates to legal compliance. What is the most accurate answer?",
+    "options": [
+      "A. Certification evidences a managed process; it does not establish compliance with any specific law.",
+      "B. Certification satisfies regulatory obligations in jurisdictions that recognise the standard.",
+      "C. Certification replaces the need for a separate legal register once maintained annually.",
+      "D. Certification transfers regulatory liability to the certification body that issued it."
+    ],
+    "correct": "A",
+    "rationale": "A management-system certificate attests that an organisation runs a defined, auditable process for identifying and treating AI risk. That is genuinely useful evidence and it is a statement about process, not about outcomes against any particular statute. A certified organisation can still be non-compliant, and compliance obligations remain with the organisation regardless of who audited it.",
+    "tags": [
+      "ISO 42001",
+      "certification",
+      "compliance"
+    ]
+  },
+  {
+    "id": 194,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A risk management framework describes itself as voluntary and outcome-based rather than prescriptive. What does that most directly mean for an organisation adopting it?",
+    "options": [
+      "A. The organisation decides which practices achieve the outcomes in its own context.",
+      "B. The organisation may adopt only the parts that do not require additional resourcing.",
+      "C. The framework carries no weight with regulators or commercial counterparties.",
+      "D. The framework applies only to organisations without a binding regulatory obligation."
+    ],
+    "correct": "A",
+    "rationale": "An outcome-based framework names what good looks like and leaves the means to the adopter, because the right control for a two-person team and a global bank are not the same. That is a delegation of method, not of ambition. Selective adoption on cost grounds abandons the outcomes; voluntary frameworks are routinely referenced by regulators and in contracts; and adoption is not limited to the unregulated.",
+    "tags": [
+      "NIST AI RMF",
+      "frameworks"
+    ]
+  },
+  {
+    "id": 195,
+    "domain": "Governing AI Development",
+    "question": "A team assembling a training set finds one data source is far larger and cheaper to obtain than the others. What risk does relying on it most directly create?",
+    "options": [
+      "A. The model's behaviour will reflect that source's population and collection method disproportionately.",
+      "B. The training run will take longer than the project timeline allows.",
+      "C. The organisation will owe higher licensing fees as the dataset grows.",
+      "D. The model will overfit because the dataset contains too many examples."
+    ],
+    "correct": "A",
+    "rationale": "Whoever is over-represented in the data is over-represented in the model. A source that dominates by volume imposes its own population and its own collection quirks on everything the model learns, and the effect is largest exactly where the other sources were meant to provide balance. Runtime, licensing cost and overfitting are real project concerns that say nothing about whose behaviour the model ends up encoding.",
+    "tags": [
+      "training data",
+      "representativeness"
+    ]
+  },
+  {
+    "id": 196,
+    "domain": "Governing AI Development",
+    "question": "Two teams disagree about a training dataset: one says it is 'representative' because it matches the national population, the other says it is not because it does not match the product's users. Who is right?",
+    "options": [
+      "A. The first, since national demographics are the accepted benchmark for representativeness.",
+      "B. The second, since representativeness is relative to the population the model will act on.",
+      "C. Neither, since representativeness cannot be assessed before the model is trained.",
+      "D. Both, since either benchmark is defensible provided the choice is documented."
+    ],
+    "correct": "B",
+    "rationale": "Representativeness is not a property of a dataset in isolation; it is a relationship between the data and the population the system will actually be applied to. A model serving a product's users is evaluated against those users, and matching the national population is beside the point if the user base differs. Documenting an arbitrary choice does not make it correct, and the assessment is possible — indeed necessary — before training.",
+    "tags": [
+      "training data",
+      "representativeness",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 197,
+    "domain": "Governing AI Development",
+    "question": "Which record most directly supports an organisation's ability to answer 'why did this system produce that output' two years after deployment?",
+    "options": [
+      "A. The model version, input data and configuration in effect at the time of the output.",
+      "B. The minutes of the governance committee meeting that approved the deployment.",
+      "C. The vendor's marketing documentation describing the model's capabilities.",
+      "D. The project plan showing which team members worked on the system."
+    ],
+    "correct": "A",
+    "rationale": "Answering that question means reconstructing the conditions of a specific decision: which version ran, what it was given, and how it was configured. Without those three, no amount of surrounding documentation gets you back to the output. Committee minutes evidence that approval happened, marketing material describes intent, and a project plan records staffing — all useful context, none of them able to reconstruct a decision.",
+    "tags": [
+      "traceability",
+      "documentation",
+      "record keeping"
+    ]
+  },
+  {
+    "id": 198,
+    "domain": "Governing AI Development",
+    "question": "An organisation publishes a model card describing intended use, performance and limitations. Which TWO practices most protect it from becoming misleading over time?",
+    "options": [
+      "A. Recording the date and model version the stated performance was measured on.",
+      "B. Updating it when the model, its data or its intended use materially change.",
+      "C. Having it reviewed for tone by the communications team before publication.",
+      "D. Publishing it alongside the organisation's responsible AI principles.",
+      "E. Translating it into every language the product is offered in."
+    ],
+    "correct": "A,B",
+    "rationale": "A model card decays in one of two ways: the numbers stay while the world moves, or the model moves while the card stays. Dating and versioning the measurements makes the first visible, and a change trigger addresses the second. Tone review, adjacency to a principles document and translation all affect how the card is received, and none of them keeps a stale claim from being read as current.",
+    "tags": [
+      "model card",
+      "documentation",
+      "maintenance"
+    ]
+  },
+  {
+    "id": 199,
+    "domain": "Governing AI Development",
+    "question": "A model passes every pre-deployment test the team designed. What is the most important limitation of that result?",
+    "options": [
+      "A. It shows the model handles the situations the team thought to test.",
+      "B. It shows the model will perform identically in production.",
+      "C. It shows the test set was too small to be informative.",
+      "D. It shows the model has been trained for long enough."
+    ],
+    "correct": "A",
+    "rationale": "Test suites encode the failure modes their authors imagined. Passing them all is genuinely good news about those failure modes and silent about everything nobody anticipated — which is where most production surprises come from. That is why red-teaming, staged rollout and monitoring exist alongside testing rather than after it. A clean pass says nothing about test-set size or training duration.",
+    "tags": [
+      "testing",
+      "evaluation",
+      "release readiness"
+    ]
+  },
+  {
+    "id": 200,
+    "domain": "Governing AI Development",
+    "question": "A fairness evaluation shows equal accuracy across groups but unequal false-positive rates. How should this be interpreted?",
+    "options": [
+      "A. The model is fair, since accuracy is equal across the groups tested.",
+      "B. Different fairness measures disagree, and which one matters depends on what a false positive costs.",
+      "C. The evaluation is flawed, since accuracy and false-positive parity cannot diverge.",
+      "D. The model is unfair, since any metric showing disparity establishes unfairness."
+    ],
+    "correct": "B",
+    "rationale": "Equal accuracy and equal error rates are different definitions, and outside artificial conditions they cannot generally both hold. So the result is not a contradiction to be resolved by better measurement — it is the normal situation, and the question becomes which error the organisation is unwilling to distribute unevenly. Where a false positive means a wrongful investigation, false-positive parity is the one that matters.",
+    "tags": [
+      "fairness metrics",
+      "evaluation",
+      "trade-offs"
+    ]
+  },
+  {
+    "id": 201,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organisation is deciding how much human oversight a deployed system needs. Which consideration should weigh most heavily?",
+    "options": [
+      "A. How reversible the system's action is and how costly an error would be.",
+      "B. How accurate the model was on its most recent evaluation set.",
+      "C. How many staff are available to perform review at expected volume.",
+      "D. How confident the development team is in the system's design."
+    ],
+    "correct": "A",
+    "rationale": "Oversight is a control against consequence, so it is sized by what happens when the system is wrong and whether that can be undone. A highly accurate system taking irreversible action may warrant more oversight than a less accurate one whose output is easily corrected. Accuracy informs how often review will find something; staffing and team confidence describe what is convenient and what is hoped, not what the risk requires.",
+    "tags": [
+      "human oversight",
+      "risk-based controls"
+    ]
+  },
+  {
+    "id": 202,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A vendor's AI system will be used to make decisions the deploying organisation is accountable for. Which contractual term most improves the deployer's governance position?",
+    "options": [
+      "A. A right to the information and evidence needed to meet its own obligations.",
+      "B. An indemnity covering regulatory fines arising from the system's outputs.",
+      "C. A service credit regime tied to availability and response times.",
+      "D. A commitment that the vendor holds recognised security certification."
+    ],
+    "correct": "A",
+    "rationale": "The deployer's problem is that duties it cannot delegate — oversight, monitoring, explaining a decision to the person affected — depend on information only the vendor holds. A right to that information is what makes those duties dischargeable. An indemnity may recover money after a failure without preventing it or helping the deployer answer for it, availability credits address a different risk, and security certification addresses another again.",
+    "tags": [
+      "procurement",
+      "third-party risk",
+      "contracts"
+    ]
+  },
+  {
+    "id": 203,
+    "domain": "Governing AI Deployment and Use",
+    "question": "Which signal is the earliest practical indication that a deployed model may be degrading, before accuracy falls?",
+    "options": [
+      "A. A shift in the distribution of inputs the model is receiving.",
+      "B. An increase in the number of user complaints about the product.",
+      "C. A rise in the infrastructure cost of serving predictions.",
+      "D. A drop in the frequency with which staff override the model."
+    ],
+    "correct": "A",
+    "rationale": "Input drift is observable immediately and without labels, which is what makes it the early signal: outcome data usually arrives late, sometimes months late, and accuracy cannot be computed until it does. Complaints are a lagging and heavily filtered indicator, cost tracks volume rather than quality, and a falling override rate is at least as likely to mean growing deference as improving performance.",
+    "tags": [
+      "monitoring",
+      "drift",
+      "early warning"
+    ]
+  },
+  {
+    "id": 204,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organisation discovers a deployed model has been producing a biased outcome for eleven months. Which TWO actions belong in the first hour of the response?",
+    "options": [
+      "A. Establish whether the bias is still occurring and can be stopped now.",
+      "B. Determine the population affected over the eleven months.",
+      "C. Draft external communications for customers and regulators.",
+      "D. Begin retraining the model on corrected data.",
+      "E. Review the vendor contract for cost-recovery provisions."
+    ],
+    "correct": "A,B",
+    "rationale": "Two things matter immediately: stop the harm accruing, and size what has already accrued — the affected population determines the scale of every remedy that follows and takes time to establish. Communications must wait until there is something accurate to say, retraining is the durable fix on a much longer clock, and contractual recovery is commercial and affects no affected person's experience.",
+    "tags": [
+      "incident response",
+      "sequencing",
+      "bias"
+    ]
+  },
+  {
+    "id": 205,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organisation wants to tell users that AI was involved in a decision affecting them. What most determines whether the disclosure is meaningful?",
+    "options": [
+      "A. Whether it tells the person something they can act on.",
+      "B. Whether it appears before the person interacts with the system.",
+      "C. Whether it uses terminology consistent with the applicable regulation.",
+      "D. Whether it is acknowledged by the user before the decision is made."
+    ],
+    "correct": "A",
+    "rationale": "A disclosure earns its place by changing what someone can do — contest the outcome, ask for review, supply information that was missing. Notices that satisfy a formality while leaving the reader with no available action are the common failure, and they are why 'this decision involved automated processing' on its own achieves so little. Timing, terminology and acknowledgement all matter and all serve that test rather than replacing it.",
+    "tags": [
+      "transparency",
+      "disclosure",
+      "redress"
+    ]
+  },
+  {
+    "id": 206,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An individual asks an organisation to explain an automated decision that affected them. The model is a gradient-boosted ensemble the organisation cannot interpret globally. What is the most appropriate response?",
+    "options": [
+      "A. Explain the main factors that drove this individual's outcome and how to contest it.",
+      "B. Explain that the model's complexity makes an explanation technically impossible.",
+      "C. Provide the model's overall feature importance rankings.",
+      "D. Offer to re-run the decision manually and report whether the result matches."
+    ],
+    "correct": "A",
+    "rationale": "The duty is to give the person something usable about their own case, not a lecture on the model. Local attribution plus a route to challenge meets that, and is achievable for an ensemble regardless of whether anyone can characterise it globally. Declaring explanation impossible mistakes global interpretability for the obligation; global importances describe the average case; and a manual re-run confirms or contradicts the outcome without explaining either.",
+    "tags": [
+      "explainability",
+      "redress",
+      "automated decisions"
+    ]
   }
 ]
