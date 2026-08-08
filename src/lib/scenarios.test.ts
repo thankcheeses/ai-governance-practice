@@ -38,15 +38,63 @@ test("the bank has scenario families to check", () => {
   }
 });
 
-test("a scenario carries enough fact pattern to reason over", () => {
+test("every scenario carries a real fact pattern", () => {
+  // A floor, not a target. Below roughly this length there is nothing to sift,
+  // and the exercise collapses into an ordinary stem with extra words.
   for (const [id, members] of FAMILIES) {
     const scenario = members[0].scenario!;
     const words = scenario.body.join(" ").split(/\s+/).length;
-    assert.ok(words >= 150, `${id} is only ${words} words`);
+    assert.ok(words >= 110, `${id} is only ${words} words`);
     assert.ok(scenario.body.length >= 3, `${id} has ${scenario.body.length} paragraphs`);
     assert.ok(scenario.sector.length > 0, `${id} has no sector`);
     assert.ok(scenario.title.length > 0, `${id} has no title`);
   }
+});
+
+test("scenario length spans a spectrum rather than clustering", () => {
+  /*
+    The bank is meant to train sustained reasoning *and* quick application, so
+    it needs both. A bank of nothing but 400-word case studies trains stamina
+    and starves everything else; a bank of nothing but short ones never builds
+    the stamina at all. This pins the spread so neither drift passes review.
+  */
+  const lengths = [...FAMILIES.values()].map((m) =>
+    m[0].scenario!.body.join(" ").split(/\s+/).length,
+  );
+  assert.ok(
+    lengths.some((n) => n < 200),
+    `no medium scenario under 200 words: ${lengths.join(", ")}`,
+  );
+  assert.ok(
+    lengths.some((n) => n >= 300),
+    `no long scenario of 300+ words: ${lengths.join(", ")}`,
+  );
+});
+
+test("family sizes span a spectrum rather than clustering", () => {
+  // Two-question families, three-to-four, and longer sustained ones all train
+  // something different. Requiring each keeps the format from converging.
+  const sizes = [...FAMILIES.values()].map((m) => m.length);
+  assert.ok(sizes.includes(2), `no two-question family: ${sizes.join(", ")}`);
+  assert.ok(
+    sizes.some((n) => n >= 3 && n <= 4),
+    `no three-or-four-question family: ${sizes.join(", ")}`,
+  );
+  assert.ok(sizes.some((n) => n >= 5), `no sustained family: ${sizes.join(", ")}`);
+});
+
+test("standalone questions remain the bulk of the bank", () => {
+  /*
+    Scenario families are the demanding minority, not the default. If most of
+    the bank sat behind a fact pattern, a learner could not practise quick
+    application, and a short session would become unusable.
+  */
+  const withScenario = ALL.filter((q) => q.scenario).length;
+  const share = withScenario / ALL.length;
+  assert.ok(
+    share > 0.05 && share < 0.4,
+    `${(share * 100).toFixed(0)}% of the bank is scenario-based`,
+  );
 });
 
 test("every member of a family shares one scenario object", () => {
