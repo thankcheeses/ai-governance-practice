@@ -110,9 +110,30 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         setSyncing(true);
         try {
           const remote = await loadProgress(supabase, currentUser.id);
-          if (!cancelled) setProgress(remote);
+          /*
+            Reconcile, never replace.
+
+            The remote copy is not automatically the better one. A device that
+            has been used offline is ahead of it; a fresh account is behind it;
+            a read that succeeded but returned nothing looks exactly like both.
+            Taking remote unconditionally meant a signed-in user could refresh
+            and watch their history disappear — and the persistence effect
+            below then wrote that emptiness to localStorage, so the loss was
+            permanent rather than a bad render.
+
+            Whichever side holds more attempts wins, and the local side wins
+            ties so an equal-but-stale remote cannot roll anything back. This
+            is the same judgement the SIGNED_IN handler already made; it
+            belongs on every load, not only on sign-in.
+          */
+          if (!cancelled) {
+            const current = progressRef.current;
+            setProgress(
+              remote.attempts.length >= current.attempts.length ? remote : current,
+            );
+          }
         } catch {
-          // Network or schema issue — keep working from local state.
+          // A failed read is not an empty account. Keep local state as it is.
         } finally {
           if (!cancelled) setSyncing(false);
         }
