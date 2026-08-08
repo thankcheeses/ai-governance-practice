@@ -1,8 +1,13 @@
 import { getQuestion } from "@/content/registry";
-import { DOMAIN_TITLES, type DomainRoman, domainOf } from "@/content/bok";
 import type { OptionKey, PresentedOption, Question, TrackId } from "@/content/types";
-import { gradeAnswer } from "./grading";
 import { presentOptions, presentQuestions } from "./presentation";
+import {
+  type CompletedResult,
+  RESULT_VERSION,
+  type ResultSlice,
+  type SittingScore,
+  scoreSitting,
+} from "./results";
 import { selectQuestions } from "./adaptive";
 import type { UserProgress } from "./types";
 
@@ -272,28 +277,16 @@ export function submitIfExpired(
 /* Scoring                                                             */
 /* ------------------------------------------------------------------ */
 
-export interface ExamSlice {
-  key: string;
-  label: string;
-  correct: number;
-  answered: number;
-  total: number;
-  accuracy: number;
-}
-
-export interface ExamResult {
-  total: number;
-  correct: number;
-  incorrect: number;
-  unanswered: number;
-  /** Correct as a share of every question, not just those attempted. */
-  percentage: number;
-  byDomain: (ExamSlice & { roman: DomainRoman })[];
-  bySubdomain: ExamSlice[];
-  /** Question ids answered wrongly or left blank, in sitting order. */
-  missedIds: string[];
-  flaggedCount: number;
-}
+/**
+ * The exam's slice and score shapes are the shared result shapes.
+ *
+ * Exam and practice sittings are scored identically once they are over — the
+ * only difference is how they were composed — so the arithmetic lives in
+ * `results.ts` and both call it. Kept as aliases rather than removed so the
+ * exam surfaces continue to read in their own vocabulary.
+ */
+export type ExamSlice = ResultSlice;
+export type ExamResult = SittingScore;
 
 /**
  * Score from the persisted sitting.
@@ -305,76 +298,34 @@ export interface ExamResult {
  * wrong.
  */
 export function scoreExam(session: ExamSession): ExamResult {
-  const bySub = new Map<string, ExamSlice>();
-  const byDom = new Map<string, ExamSlice & { roman: DomainRoman }>();
-  const missedIds: string[] = [];
-  let correct = 0;
-  let unanswered = 0;
+  return scoreSitting(session);
+}
 
-  for (const questionId of session.questionIds) {
-    const question = getQuestion(questionId);
-    if (!question) continue;
-
-    const chosen = session.answers[questionId];
-    const attempted = Array.isArray(chosen) && chosen.length > 0;
-    const isRight = attempted && gradeAnswer(question, chosen);
-
-    if (!attempted) unanswered += 1;
-    if (isRight) correct += 1;
-    else missedIds.push(questionId);
-
-    const sub = question.bokSubdomain;
-    const subSlice = bySub.get(sub) ?? {
-      key: sub,
-      label: sub,
-      correct: 0,
-      answered: 0,
-      total: 0,
-      accuracy: 0,
-    };
-    subSlice.total += 1;
-    if (attempted) subSlice.answered += 1;
-    if (isRight) subSlice.correct += 1;
-    bySub.set(sub, subSlice);
-
-    // A sub-domain outside the published four-domain structure has no domain to
-    // roll up into. It still counts in the sub-domain breakdown and in the
-    // total; it is simply left out of the domain view rather than inventing a
-    // bucket for it.
-    const roman = domainOf(sub);
-    if (!roman) continue;
-
-    const domSlice = byDom.get(roman) ?? {
-      key: roman,
-      roman,
-      label: DOMAIN_TITLES[roman],
-      correct: 0,
-      answered: 0,
-      total: 0,
-      accuracy: 0,
-    };
-    domSlice.total += 1;
-    if (attempted) domSlice.answered += 1;
-    if (isRight) domSlice.correct += 1;
-    byDom.set(roman, domSlice);
-  }
-
-  const finish = <T extends ExamSlice>(s: T): T => ({
-    ...s,
-    accuracy: s.total ? Math.round((s.correct / s.total) * 100) : 0,
-  });
-
-  const total = session.questionIds.length;
+/**
+ * The durable record of a finished exam.
+ *
+ * The exam session is authoritative while the sitting is alive; this is what
+ * survives it. Returns null for an exam still in progress, because there is no
+ * result to speak of until it has been closed one way or the other.
+ */
+export function resultFromExam(session: ExamSession): CompletedResult | null {
+  if (!session.submittedAt) return null;
   return {
-    total,
-    correct,
-    incorrect: total - correct - unanswered,
-    unanswered,
-    percentage: total ? Math.round((correct / total) * 100) : 0,
-    byDomain: Array.from(byDom.values()).map(finish).sort((a, b) => a.roman.localeCompare(b.roman)),
-    bySubdomain: Array.from(bySub.values()).map(finish).sort((a, b) => a.key.localeCompare(b.key)),
-    missedIds,
-    flaggedCount: session.flagged.length,
+    version: RESULT_VERSION,
+    mode: "exam",
+    sittingId: session.examId,
+    trackId: session.trackId,
+    label: `Exam · ${session.questionIds.length} questions`,
+    seed: session.seed,
+    questionIds: [...session.questionIds],
+    optionIds: session.optionIds.map((row) => [...row]),
+    answers: { ...session.answers },
+    flagged: [...session.flagged],
+    startedAt: session.startedAt,
+    completedAt: session.submittedAt,
+    reason: session.submittedReason ?? "manual",
+    durationMs: session.durationMs,
+    deadline: session.deadline,
   };
 }
 

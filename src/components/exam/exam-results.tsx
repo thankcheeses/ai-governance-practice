@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { getQuestion } from "@/content/registry";
 import { SUBDOMAINS } from "@/content/bok";
+import { ResultActions } from "@/components/results/result-actions";
 import {
   type ExamSession,
   type ExamSlice,
+  resultFromExam,
   scoreExam,
   sittingFromExam,
 } from "@/lib/exam";
+import { elapsedMs, formatDuration, timeRemainingAtFinish } from "@/lib/results";
 import { cn } from "@/lib/utils";
 
 /**
@@ -34,6 +37,7 @@ export function ExamResults({
 }) {
   const result = useMemo(() => scoreExam(session), [session]);
   const sitting = useMemo(() => sittingFromExam(session), [session]);
+  const record = useMemo(() => resultFromExam(session), [session]);
   const [openId, setOpenId] = useState<string | null>(null);
 
   const weakest = useMemo(
@@ -76,6 +80,15 @@ export function ExamResults({
             <Stat label="Flagged" value={result.flaggedCount} />
           </dl>
         </div>
+        {record ? (
+          <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-1 border-t border-border pt-4 font-mono text-sm">
+            <Stat label="Time used" value={formatDuration(elapsedMs(record))} />
+            <Stat
+              label="Time remaining"
+              value={formatDuration(timeRemainingAtFinish(record) ?? 0)}
+            />
+          </dl>
+        ) : null}
       </section>
 
       <Section title="Domain performance">
@@ -232,6 +245,8 @@ export function ExamResults({
         </Section>
       ) : null}
 
+      {record ? <ResultActions result={record} /> : null}
+
       <div className="mt-8 flex flex-wrap gap-2.5">
         <Button asChild>
           <Link href="/home">Back to home</Link>
@@ -244,7 +259,7 @@ export function ExamResults({
   );
 }
 
-function Stat({ label, value }: { label: string; value: number }) {
+function Stat({ label, value }: { label: string; value: number | string }) {
   return (
     <div className="flex items-baseline gap-1.5">
       <dt className="text-muted-foreground">{label}</dt>

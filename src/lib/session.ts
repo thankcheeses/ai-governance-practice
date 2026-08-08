@@ -8,6 +8,7 @@ import type {
 import type { ActiveSession } from "./active-session";
 import { selectQuestions } from "./adaptive";
 import { presentOptions, presentQuestions } from "./presentation";
+import { type CompletedResult, RESULT_VERSION } from "./results";
 import type { UserProgress } from "./types";
 
 /**
@@ -106,14 +107,34 @@ export function buildSitting(
  * validated already; this is the second line of defence, not the first.
  */
 export function sittingFromSnapshot(session: ActiveSession): Sitting | null {
+  return sittingFromComposition(
+    session.questionIds,
+    session.optionIds,
+    session.seed,
+  );
+}
+
+/**
+ * Rebuild a sitting from stored ids alone.
+ *
+ * Shared by the in-flight snapshot and by a completed result, because both
+ * store the same two facts — which questions, in which order, with options
+ * dealt in which order — and both must put back exactly what was on screen
+ * rather than anything re-derived from the seed.
+ */
+export function sittingFromComposition(
+  questionIds: readonly string[],
+  optionIds: readonly (readonly string[])[],
+  seed: number,
+): Sitting | null {
   const questions: Question[] = [];
   const options: PresentedOption[][] = [];
 
-  for (let i = 0; i < session.questionIds.length; i++) {
-    const question = getQuestion(session.questionIds[i]);
+  for (let i = 0; i < questionIds.length; i++) {
+    const question = getQuestion(questionIds[i]);
     if (!question) return null;
 
-    const row = session.optionIds[i];
+    const row = optionIds[i];
     if (!row || row.length !== question.options.length) return null;
 
     const dealt: PresentedOption[] = [];
@@ -127,7 +148,43 @@ export function sittingFromSnapshot(session: ActiveSession): Sitting | null {
     options.push(dealt);
   }
 
-  return { seed: session.seed, questions, options };
+  return { seed, questions, options };
+}
+
+/**
+ * The durable record of a finished practice sitting.
+ *
+ * Built from the snapshot rather than from component state, so what is stored
+ * is what was on screen: the same questions, in the same order, with the same
+ * options dealt the same way. Everything a results screen shows — score,
+ * domain breakdown, which questions were missed — is derived from it at read
+ * time by `scoreSitting`, never frozen here.
+ */
+export function resultFromActiveSession(
+  session: ActiveSession,
+  completedAt = new Date().toISOString(),
+): CompletedResult {
+  return {
+    version: RESULT_VERSION,
+    mode: "practice",
+    // The seed identifies the sitting: it is what the URL carries, so a
+    // refresh can ask for the result of the sitting it was just looking at.
+    sittingId: `practice-${session.seed}`,
+    trackId: session.trackId,
+    label: session.label,
+    seed: session.seed,
+    questionIds: [...session.questionIds],
+    optionIds: session.optionIds.map((row) => [...row]),
+    answers: { ...session.answers },
+    // Flagging is an exam affordance; a practice sitting reveals and moves on.
+    flagged: [],
+    startedAt: session.startedAt,
+    completedAt,
+    reason: "completed",
+    // Practice runs to no allowance, so there is no deadline to report.
+    durationMs: null,
+    deadline: null,
+  };
 }
 
 /** The composition of a sitting, in the form the snapshot stores it. */

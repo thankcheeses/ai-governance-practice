@@ -85,7 +85,13 @@ function MobileHeader() {
 function MobileTabBar({ pathname, due }: { pathname: string; due: number }) {
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background pb-safe lg:hidden">
-      <div className="mx-auto grid max-w-lg grid-cols-5">
+      {/* One column per nav entry. A fixed count silently wraps to a second
+          row when an item is added, which doubles the bar's height and buries
+          whatever is anchored above it. */}
+      <div
+        className="mx-auto grid max-w-lg"
+        style={{ gridTemplateColumns: `repeat(${NAV.length}, minmax(0, 1fr))` }}
+      >
         {NAV.map((item) => {
           const active = isActive(pathname, item.href);
           return (
@@ -94,7 +100,7 @@ function MobileTabBar({ pathname, due }: { pathname: string; due: number }) {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "relative flex flex-col items-center gap-1 py-2.5 text-[0.6875rem] font-medium transition-colors",
+                "relative flex min-w-0 flex-col items-center gap-1 px-0.5 py-2.5 text-center text-[0.6875rem] font-medium transition-colors",
                 active ? "text-primary" : "text-muted-foreground",
               )}
             >

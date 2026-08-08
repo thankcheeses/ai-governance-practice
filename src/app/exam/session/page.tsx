@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { ExamResults } from "@/components/exam/exam-results";
 import { ExamRunner } from "@/components/exam/exam-runner";
@@ -11,9 +11,11 @@ import {
   type ExamSession,
   createExamSession,
   isSubmitted,
+  resultFromExam,
   sittingFromExam,
   submitIfExpired,
 } from "@/lib/exam";
+import { writeResult } from "@/lib/results-storage";
 import {
   clearExamSession,
   resumeExamSession,
@@ -74,6 +76,21 @@ function ExamSessionView() {
     writeExamSession(created);
     return created;
   });
+
+  /*
+    Keep the finished exam as a result in its own right.
+
+    The exam session already survives a refresh, but it is the record of a
+    *sitting* and "Start a new exam" clears it. The result is a different kind
+    of thing — something the learner earned and may want to print or send
+    later — so it is copied into the results store the moment the exam closes,
+    however it closed.
+  */
+  useEffect(() => {
+    if (!isSubmitted(session)) return;
+    const record = resultFromExam(session);
+    if (record) writeResult(record);
+  }, [session]);
 
   const handleDiscard = useCallback(() => {
     clearExamSession();
