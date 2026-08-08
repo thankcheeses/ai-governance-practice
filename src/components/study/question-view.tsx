@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, X } from "lucide-react";
-import type { PresentedOption, Question } from "@/content/types";
+import type { PresentedOption, Question, Scenario } from "@/content/types";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { VisualAid } from "@/components/study/visual-aid";
 import { isMultiSelect, requiredSelections } from "@/lib/grading";
@@ -43,6 +43,8 @@ export function QuestionView({
 
   return (
     <div>
+      {question.scenario ? <ScenarioPanel scenario={question.scenario} /> : null}
+
       <h1 className="measure text-pretty text-xl font-semibold leading-snug tracking-[-0.01em] sm:text-2xl sm:leading-snug">
         <ConceptHighlight text={question.question} limit={3} />
       </h1>
@@ -138,5 +140,61 @@ export function QuestionView({
         })}
       </div>
     </div>
+  );
+}
+
+/**
+ * The fact pattern, above the question it belongs to.
+ *
+ * Deliberately not collapsed by default and deliberately not truncated. The
+ * skill being practised is reading a dense brief and working out which facts
+ * bear on the decision — hiding two thirds of it behind a "show more" would
+ * remove the exercise. It is set at reading measure and given its own surface
+ * so the eye can tell scenario from question at a glance.
+ *
+ * The same scenario renders above each of its questions. That is intentional:
+ * every question is gradable on its own, so a learner who meets one in
+ * isolation still has everything they need.
+ */
+function ScenarioPanel({ scenario }: { scenario: Scenario }) {
+  return (
+    <section
+      aria-label="Scenario"
+      className="mb-6 rounded-lg border border-border bg-card p-5 shadow-[var(--shadow-card)]"
+    >
+      <header className="mb-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <h2 className="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+          Scenario
+        </h2>
+        <span className="font-mono text-[0.6875rem] text-muted-foreground">
+          {scenario.sector}
+        </span>
+      </header>
+
+      <p className="measure mb-3 text-[0.9375rem] font-semibold leading-snug">
+        {scenario.title}
+      </p>
+
+      <div className="space-y-3">
+        {scenario.body.map((paragraph, i) => (
+          <p key={i} className="measure text-[0.875rem] leading-[1.7] text-foreground/90">
+            <ConceptHighlight text={paragraph} limit={2} />
+          </p>
+        ))}
+      </div>
+
+      {scenario.facts?.length ? (
+        <dl className="mt-4 grid gap-x-4 gap-y-1.5 border-t border-border pt-3 text-[0.8125rem] sm:grid-cols-[minmax(9rem,auto)_1fr]">
+          {scenario.facts.map((fact) => (
+            <div key={fact.label} className="contents">
+              <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground sm:pt-0.5">
+                {fact.label}
+              </dt>
+              <dd className="measure mb-1.5 leading-relaxed sm:mb-0">{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+    </section>
   );
 }
