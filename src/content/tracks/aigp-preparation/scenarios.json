@@ -321,5 +321,71 @@
         "value": "3% overall; 11% for English learners, mostly upward"
       }
     ]
+  },
+  {
+    "id": "sc-010",
+    "title": "Computer-vision safety monitoring on a production line",
+    "sector": "manufacturing",
+    "body": [
+      "Vantage Components runs three plants making pressed-metal parts. Its newest plant installed a computer-vision system that watches the forming lines and raises an alert when a worker's hand approaches a press while it is cycling, or when a forklift and a pedestrian converge in an aisle. The system was bought and justified entirely as a safety control, and the works council was consulted on that basis.",
+      "In its first eight months the system logged 1,240 proximity alerts. Recordable injuries at the plant fell by roughly a third over the same period, though the plant also changed its shift pattern and replaced two of the older presses during the trial.",
+      "Alerts are written to a log that names the workstation, the time, and — because the cameras also read the badge readers at each station — the operator on shift. Three line supervisors have begun opening that log before performance conversations, and one has started citing alert counts in written feedback. Nobody decided this; the data was there and the reports were easy to build.",
+      "Operations now wants the system extended to the two older plants, where the ceilings are lower, the lighting is poorer, and camera coverage would be roughly half as dense. The vendor says the model 'generalises well across industrial environments' and has offered a discount for the additional sites."
+    ],
+    "facts": [
+      {
+        "label": "Stated purpose",
+        "value": "Collision and entanglement prevention"
+      },
+      {
+        "label": "Consultation basis",
+        "value": "Works council agreed to a safety control"
+      },
+      {
+        "label": "Alert log contains",
+        "value": "Workstation, time, and the operator on shift"
+      },
+      {
+        "label": "Emerging use",
+        "value": "Supervisors citing alert counts in performance feedback"
+      },
+      {
+        "label": "Proposed expansion",
+        "value": "Two older plants with about half the camera density"
+      }
+    ]
+  },
+  {
+    "id": "sc-011",
+    "title": "Synthetic content labelling at a video platform",
+    "sector": "media",
+    "body": [
+      "Meridian Stream hosts user-uploaded video and also produces its own short news explainers. Six months ago it began using generative tools in three places: synthetic presenters that read scripts on camera and are visually indistinguishable from people, AI-assisted editing that reconstructs missing frames in archive footage, and an automatic dubbing feature that reproduces a speaker's voice in other languages.",
+      "Meridian labels some of this and not the rest. The rule lives in a configuration value owned by the product team: content is labelled 'AI-generated' when a third-party detector's confidence exceeds a threshold. That threshold has been changed three times since launch — twice to reduce complaints from creators whose ordinary footage was being flagged, once during an unrelated release. None of the changes were recorded, and no one outside the product team was told.",
+      "The detector's vendor advertises 94% accuracy. Meridian has not asked what content that figure was measured on, nor how the errors divide between synthetic clips that go unlabelled and genuine clips that are wrongly marked as fake.",
+      "A national broadcaster has asked Meridian to confirm, in writing, how it identifies and labels synthetic media before it will license its archive."
+    ],
+    "facts": [
+      {
+        "label": "Generative uses",
+        "value": "Synthetic presenters, frame reconstruction, voice dubbing"
+      },
+      {
+        "label": "Labelling rule",
+        "value": "A detector confidence threshold in product configuration"
+      },
+      {
+        "label": "Change history",
+        "value": "Altered three times; no record, no owner outside the team"
+      },
+      {
+        "label": "Vendor claim",
+        "value": "94% detection accuracy, measurement conditions unknown"
+      },
+      {
+        "label": "External pressure",
+        "value": "A broadcaster wants the labelling process in writing"
+      }
+    ]
   }
 ]

@@ -3790,5 +3790,1273 @@
       "redress",
       "automated decisions"
     ]
+  },
+  {
+    "id": 207,
+    "domain": "Foundations of AI Governance",
+    "question": "A retailer's demand-forecasting model has run unchanged for four years and its accuracy has slowly declined. Which characteristic of AI systems does this most directly illustrate?",
+    "options": [
+      "A. Opacity — nobody can explain how the model reaches a forecast.",
+      "B. Dependence on a world that keeps moving after the model stops learning.",
+      "C. Autonomy — the model acts without a human authorising each forecast.",
+      "D. Scale — the model produces far more forecasts than analysts could."
+    ],
+    "correct": "B",
+    "rationale": "A model encodes the relationships present in the data it was trained on. Those relationships do not hold still: buying patterns, product mixes and supply conditions all move, and a frozen model keeps answering a question about a world that no longer exists. Opacity, autonomy and scale are all real properties of the system, but none of them explains why performance would decay specifically over time.",
+    "tags": [
+      "drift",
+      "foundations",
+      "retail"
+    ]
+  },
+  {
+    "id": 208,
+    "domain": "Foundations of AI Governance",
+    "question": "A governance lead is explaining why AI harms are hard to contain once a system is live. Which TWO properties most directly explain that difficulty?",
+    "options": [
+      "A. A single flawed rule can be applied to millions of cases before anyone notices.",
+      "B. Those affected often cannot tell that an automated system was involved.",
+      "C. AI systems are more expensive to build than conventional software, so fewer teams can afford to run one.",
+      "D. AI systems require specialist staff who are difficult to recruit and harder still to retain once trained.",
+      "E. AI models are usually written in frameworks that internal audit functions are not equipped to read."
+    ],
+    "correct": "A,B",
+    "rationale": "Containment depends on someone noticing and on the damage being bounded while they do. Scale removes the second: an error is executed uniformly and instantly rather than case by case. Invisibility removes the first: people who do not know a system decided anything have no reason to complain, so the feedback that would surface the error never arrives. Cost, staffing and implementation language are real constraints on building AI, not on how far a harm spreads.",
+    "tags": [
+      "harm",
+      "scale",
+      "foundations"
+    ]
+  },
+  {
+    "id": 209,
+    "domain": "Foundations of AI Governance",
+    "question": "A board member asks what distinguishes a generative model from the classifiers the company already uses. Which distinction matters most for governance?",
+    "options": [
+      "A. Generative models are larger and cost more to run, so fewer of them can be kept under active evaluation.",
+      "B. Generative models produce open-ended output whose range cannot be enumerated in advance.",
+      "C. Generative models are newer, so the profession has had less time to agree what good practice looks like.",
+      "D. Generative models are always trained on data scraped from the public internet."
+    ],
+    "correct": "B",
+    "rationale": "A classifier can only emit one of a known set of labels, so testing can enumerate the output space and controls can be written against it. A generative model's output space is effectively unbounded, which is precisely why evaluation shifts from checking every possible answer to sampling, red teaming and monitoring in production. Size, novelty and training-data provenance are all consequential, but none of them changes the shape of the testing problem.",
+    "tags": [
+      "generative AI",
+      "evaluation",
+      "foundations"
+    ]
+  },
+  {
+    "id": 210,
+    "domain": "Foundations of AI Governance",
+    "question": "Two teams disagree about whether a rules engine with no learning component falls under the organisation's AI policy. What is the most useful way to settle the question?",
+    "options": [
+      "A. Apply the policy only if the system meets a technical definition of machine learning.",
+      "B. Apply the policy based on the decisions the system makes and the consequences they carry.",
+      "C. Exclude it, since a deterministic rules engine is conventional software and the existing change process already covers it.",
+      "D. Include it, since any system that reaches a decision without a person is AI for policy purposes."
+    ],
+    "correct": "B",
+    "rationale": "A policy exists to control consequences, and the consequences of an automated decision do not depend on whether a model learned the rule or a person wrote it. Scoping by technique invites exactly this argument at the boundary and lets a high-impact system escape review on a definitional technicality. The blanket answers in either direction settle the dispute without asking the question that matters.",
+    "tags": [
+      "scope",
+      "policy",
+      "definitions"
+    ]
+  },
+  {
+    "id": 211,
+    "domain": "Foundations of AI Governance",
+    "question": "A model is accurate overall but its errors fall disproportionately on one group of customers. Which responsible AI principle does this most directly engage?",
+    "options": [
+      "A. Transparency, since customers are not told how the model works.",
+      "B. Fairness, since the burden of the model's errors is unevenly distributed.",
+      "C. Robustness, since the model performs inconsistently across inputs.",
+      "D. Accountability, since no individual owns the model's outcomes."
+    ],
+    "correct": "B",
+    "rationale": "Aggregate accuracy hides distribution. A system that is right 95% of the time can still be wrong almost every time for a particular group, and the question of who bears the cost of the errors is the fairness question. Robustness concerns behaviour under perturbation or unusual conditions rather than across populations, and transparency and accountability describe what is disclosed and who answers for it, not how harm is distributed.",
+    "tags": [
+      "fairness",
+      "disaggregation",
+      "principles"
+    ]
+  },
+  {
+    "id": 212,
+    "domain": "Foundations of AI Governance",
+    "question": "An executive argues that because the organisation buys all its AI rather than building it, AI governance is really vendor management. What is the strongest reply?",
+    "options": [
+      "A. Vendor management cannot reach systems hosted outside the organisation's own infrastructure and control.",
+      "B. The organisation still chooses where the system is used and who is affected, which the vendor does not control.",
+      "C. Vendor contracts rarely secure a right to audit the model, so the assessment rests on the vendor's own account.",
+      "D. Buying rather than building raises total risk, because the organisation understands less of what it operates."
+    ],
+    "correct": "B",
+    "rationale": "Procurement controls what you acquire; it does not control the decision to point a tool at a particular population in a particular context, which is where most impact is created and which no vendor can assess for you. Audit rights and hosting arrangements are worth negotiating and sometimes hard to get, but they are details inside vendor management rather than reasons it is insufficient. Whether buying raises or lowers total risk depends entirely on the alternative.",
+    "tags": [
+      "procurement",
+      "deployer",
+      "roles"
+    ]
+  },
+  {
+    "id": 213,
+    "domain": "Foundations of AI Governance",
+    "question": "A team claims its recommendation system carries no meaningful risk because it only suggests articles. Which TWO considerations most directly challenge that claim?",
+    "options": [
+      "A. What the system's suggestions do to the range of material people encounter over time.",
+      "B. Whether the signals it optimises for align with what the organisation says it values.",
+      "C. Whether the system uses a neural network rather than a simpler algorithm.",
+      "D. Whether the engineering team has documented the training pipeline to the organisation's own standard.",
+      "E. Whether the system's latency meets the targets the product team set for the recommendation surface."
+    ],
+    "correct": "A,B",
+    "rationale": "A recommender's effects are cumulative and indirect, which is exactly why they get dismissed: no single suggestion is consequential, but the aggregate shapes what an audience sees and stops seeing. The second half of the problem is the objective — a system optimising engagement will faithfully deliver engagement even where that pulls against the publisher's stated purpose. Model architecture, pipeline documentation and latency are engineering facts that do not speak to whether the system's effects are benign.",
+    "tags": [
+      "recommender systems",
+      "optimisation",
+      "harm"
+    ]
+  },
+  {
+    "id": 214,
+    "domain": "Foundations of AI Governance",
+    "question": "Why is 'human in the loop' an incomplete description of an oversight control?",
+    "options": [
+      "A. It does not say whether the human can realistically reach a different conclusion and act on it.",
+      "B. It does not specify how many reviewers see each case, or whether one of them can overrule the others.",
+      "C. It does not indicate whether the reviewer is an employee, a contractor, or an outsourced team.",
+      "D. It does not record how long the reviewer spends on each case before the decision is released."
+    ],
+    "correct": "A",
+    "rationale": "The phrase describes a position in a workflow, not a capability. A reviewer facing a queue they cannot clear, with no access to the information behind the recommendation and no authority to depart from it, is in the loop and mitigating nothing. Headcount, employment status and handling time are things you might measure once the control is real, but none of them is what makes it real.",
+    "tags": [
+      "human oversight",
+      "controls",
+      "foundations"
+    ]
+  },
+  {
+    "id": 215,
+    "domain": "Foundations of AI Governance",
+    "question": "An organisation publishes an AI policy but leaves each business unit to decide which of its systems it covers. What is the most likely consequence?",
+    "options": [
+      "A. Business units will over-report, declaring low-risk systems so the register looks conscientious.",
+      "B. Coverage will vary with each unit's incentives, and the systems most worth reviewing will be least likely to be declared.",
+      "C. The policy will be applied inconsistently between geographies while remaining consistent within each one, which regulators will notice first.",
+      "D. Central governance will lose the ability to measure whether the policy is having any effect at all."
+    ],
+    "correct": "B",
+    "rationale": "Self-scoping puts the decision to invite scrutiny in the hands of the team that pays the cost of it. The systems whose owners most want to avoid review are usually those under commercial pressure or moving fastest — the same ones most likely to warrant it. Losing measurability is a genuine consequence but a downstream one, and geography is not the variable doing the work here.",
+    "tags": [
+      "scope",
+      "policy",
+      "accountability"
+    ]
+  },
+  {
+    "id": 216,
+    "domain": "Foundations of AI Governance",
+    "question": "A company assigns AI governance to its data protection officer alongside their existing duties. What risk does this most directly create?",
+    "options": [
+      "A. The DPO's statutory independence will be compromised by taking on a second accountable role.",
+      "B. AI risks that are not privacy risks — safety, accuracy, discrimination — will receive less attention.",
+      "C. The organisation will be unable to certify against a management system standard with one person in the role.",
+      "D. Regulators will read a combined appointment as evidence that the programme is under-resourced."
+    ],
+    "correct": "B",
+    "rationale": "People govern through the frame they know. A privacy specialist will reliably see and act on privacy exposure and will less reliably see a model that is accurate on average and wrong for one group, or one whose failure mode is a safety event. That is a coverage gap rather than a competence failure. Independence concerns and certification eligibility are separate questions, and regulators do not draw inferences from a single appointment.",
+    "tags": [
+      "roles",
+      "governance",
+      "coverage"
+    ]
+  },
+  {
+    "id": 217,
+    "domain": "Foundations of AI Governance",
+    "question": "An AI review board has met monthly for a year and has never rejected or materially altered a proposal. What should this most prompt?",
+    "options": [
+      "A. Confidence that proposals are well prepared by the time they reach the board, and that review is working.",
+      "B. An examination of whether the board sees proposals early enough and has authority to stop them.",
+      "C. A reduction in meeting frequency, since a year of approvals suggests the workload does not justify it.",
+      "D. Expansion of the board's remit, since it evidently has capacity to cover more of the portfolio."
+    ],
+    "correct": "B",
+    "rationale": "A perfect approval record has two possible explanations, and the benign one has to be established rather than assumed. The common alternative is that proposals arrive after the commitments have been made, so the board is ratifying decisions it cannot practically reverse. Reducing cadence or widening remit both act on the record without first establishing what produced it.",
+    "tags": [
+      "governance body",
+      "effectiveness",
+      "authority"
+    ]
+  },
+  {
+    "id": 218,
+    "domain": "Foundations of AI Governance",
+    "question": "A firm is defining AI training for its staff. Which TWO groups have needs that generic awareness training will not meet?",
+    "options": [
+      "A. Front-line staff who must decide whether to accept or override a system's recommendation.",
+      "B. Procurement staff who evaluate vendor claims about model performance.",
+      "C. Facilities staff, whose work does not involve relying on the output of any AI system.",
+      "D. Board members, who receive an annual summary of the AI portfolio and its principal risks.",
+      "E. Interns, who use the company's public website in the same way any other visitor does."
+    ],
+    "correct": "A,B",
+    "rationale": "Training has to match the decision a person actually makes. A front-line reviewer needs to know when the system is likely to be wrong and how to act on that, which no awareness module conveys. Procurement needs to know which vendor performance claims are meaningful and which are unfalsifiable, which is a specific evaluative skill. Facilities staff and website users make no such decision, and a board receiving a summary needs a briefing rather than training.",
+    "tags": [
+      "training",
+      "competence",
+      "roles"
+    ]
+  },
+  {
+    "id": 219,
+    "domain": "Foundations of AI Governance",
+    "question": "A company describes itself as a 'deployer' of a model it fine-tuned on its own data and rebranded as its own product. Why is that description likely wrong?",
+    "options": [
+      "A. Any use of a third-party model in a commercial product makes the user a provider of that model.",
+      "B. Fine-tuning and putting the result on the market under its own name are the acts that create provider obligations.",
+      "C. Deployer status requires the system to run on infrastructure the company itself operates, controls and can inspect end to end.",
+      "D. Rebranding is a marketing decision, and regulatory role follows who trained the underlying model."
+    ],
+    "correct": "B",
+    "rationale": "Roles in the AI value chain follow acts, not self-description. Substantially modifying a model and placing it on the market under your own name are provider acts, and both are present here. Merely using someone else's model does not make you a provider, hosting arrangements do not determine the role, and putting your name on a product is precisely the kind of act regulators treat as role-defining.",
+    "tags": [
+      "roles",
+      "value chain",
+      "fine-tuning"
+    ]
+  },
+  {
+    "id": 220,
+    "domain": "Foundations of AI Governance",
+    "question": "An organisation wants a single metric to report AI governance health to its board. Which is most informative?",
+    "options": [
+      "A. The number of AI systems recorded in the inventory, tracked as it grows quarter on quarter.",
+      "B. The proportion of AI systems in production that completed the required review before launch.",
+      "C. The number of staff who have completed AI awareness training, as a share of those in scope.",
+      "D. The number of AI policies and standards published, weighted by how recently each was reviewed."
+    ],
+    "correct": "B",
+    "rationale": "The failure this programme has to detect is systems reaching production without passing through the control, so the useful measure is coverage: what fraction actually went through it. Inventory size counts what exists, training completion counts attendance, and policy count measures writing — each can rise steadily while systems continue to ship around the process.",
+    "tags": [
+      "metrics",
+      "assurance",
+      "reporting"
+    ]
+  },
+  {
+    "id": 221,
+    "domain": "Foundations of AI Governance",
+    "question": "A large organisation is choosing between centralised AI governance and governance embedded in each business unit. Which TWO statements most accurately characterise the trade-off?",
+    "options": [
+      "A. Central governance gives consistent decisions but is slower and further from context.",
+      "B. Embedded governance is closer to the work but risks divergent standards between units.",
+      "C. Central governance removes the need for business units to keep an inventory.",
+      "D. Embedded governance removes the need for a written policy, since practice is set locally.",
+      "E. Central governance transfers legal liability from the business unit to the centre."
+    ],
+    "correct": "A,B",
+    "rationale": "The trade-off is proximity against consistency, and each model buys one at the cost of the other. Most organisations resolve it with a hybrid — central standards, local application — precisely because neither pure form is satisfactory. The remaining options describe things neither model does: inventories and written policy are needed under both, and internal structure does not move legal liability.",
+    "tags": [
+      "operating model",
+      "governance",
+      "structure"
+    ]
+  },
+  {
+    "id": 222,
+    "domain": "Foundations of AI Governance",
+    "question": "Engineers routinely use a public generative AI assistant for code, and the company has no position on it. What should governance address first?",
+    "options": [
+      "A. Whether the assistant's output quality is adequate for production code.",
+      "B. What may and may not be entered into it, and what happens to code that comes out.",
+      "C. Whether the company should negotiate an enterprise licence with the vendor.",
+      "D. Whether engineers should be required to disclose which code was AI-assisted."
+    ],
+    "correct": "B",
+    "rationale": "Two exposures are already live and growing every day the silence continues: proprietary code and customer data leaving the organisation, and code of unknown provenance entering the codebase. An acceptable use position addresses both immediately and costs nothing to state. Quality, licensing and disclosure are all worth settling, but each is a refinement on top of a boundary that does not yet exist.",
+    "tags": [
+      "acceptable use",
+      "shadow AI",
+      "policy"
+    ]
+  },
+  {
+    "id": 223,
+    "scenarioId": "sc-011",
+    "domain": "Foundations of AI Governance",
+    "question": "Meridian's labelling rule sits with the product team and has changed three times without record. What does this most clearly indicate is missing?",
+    "options": [
+      "A. A policy owner with the authority to set the rule and a record of when it changed.",
+      "B. A technical detector with a higher confidence threshold than the one currently configured.",
+      "C. A legal opinion on whether labelling is mandatory in Meridian's markets.",
+      "D. An external audit of the labelling decisions Meridian has already made across its three surfaces."
+    ],
+    "correct": "A",
+    "rationale": "A rule that anyone can change and nobody records is not a control — it cannot be audited, explained to a regulator, or applied consistently across the three product surfaces. Ownership and change history are what convert an implementation detail into something the organisation can stand behind. A better detector, a legal opinion and an audit all presuppose a settled rule to detect against, advise on, or audit.",
+    "tags": [
+      "policy ownership",
+      "change control",
+      "media"
+    ]
+  },
+  {
+    "id": 224,
+    "domain": "Foundations of AI Governance",
+    "question": "A company is updating existing policies for AI. Which TWO existing policies most often need substantive change rather than a cross-reference?",
+    "options": [
+      "A. Data management, because training and fine-tuning create new uses of data already held.",
+      "B. Intellectual property, because both model inputs and generated outputs raise ownership questions.",
+      "C. Expense reimbursement, because AI tooling is procured through routes the policy did not anticipate.",
+      "D. Physical security, because model artefacts are stored in data centres holding other sensitive assets.",
+      "E. Travel, because evaluating a model vendor may involve visiting its offices or facilities."
+    ],
+    "correct": "A,B",
+    "rationale": "AI does not create wholly new policy domains so much as break assumptions inside existing ones. Data policy typically assumes data is used for the purpose it was collected for, which training quietly violates. IP policy typically assumes a human author and a clean chain of rights, which neither scraped inputs nor generated outputs satisfy. Expense, physical security and travel policies carry no assumption that AI disturbs.",
+    "tags": [
+      "policy",
+      "data governance",
+      "intellectual property"
+    ]
+  },
+  {
+    "id": 225,
+    "domain": "Foundations of AI Governance",
+    "question": "A procurement team wants one contractual term that would most improve its position when an AI vendor's model changes after signature. Which is it?",
+    "options": [
+      "A. A service credit payable whenever measured accuracy falls below an agreed level for a full month.",
+      "B. Notice of material model changes before they take effect, with a defined response window.",
+      "C. A warranty that the model was trained only on data the vendor had the rights to use.",
+      "D. A right to terminate for convenience on ninety days' notice, with no early-exit charge."
+    ],
+    "correct": "B",
+    "rationale": "The specific failure being guarded against is a silent change: the model behind the service is replaced or retrained, and the deployer discovers it through its own outcomes weeks later. Advance notice with a window is what converts that into a managed event where re-validation can happen first. Service credits compensate after harm, a training-data warranty addresses a different risk, and termination is a remedy of last resort that does nothing for the deployment in place.",
+    "tags": [
+      "contracts",
+      "vendor management",
+      "change"
+    ]
+  },
+  {
+    "id": 226,
+    "domain": "Foundations of AI Governance",
+    "question": "An organisation's AI inventory lists system names, owners and vendors. A regulator asks which systems make decisions about individuals. Why can the inventory not answer?",
+    "options": [
+      "A. It records what the organisation has, not what each system does or to whom.",
+      "B. It is maintained by procurement rather than by the governance function.",
+      "C. It does not distinguish production systems from pilots that were never taken any further.",
+      "D. It has not been reviewed within the last twelve months, so several entries are out of date."
+    ],
+    "correct": "A",
+    "rationale": "An inventory answers only the questions its fields anticipate. Names, owners and vendors support asset management; almost every governance question that follows — risk tier, affected population, legal basis, whether a human decides — needs attributes about purpose and impact that were never captured. Ownership of the list, pilot status and review currency are all fixable process issues that would not add the missing fields.",
+    "tags": [
+      "inventory",
+      "records",
+      "governance"
+    ]
+  },
+  {
+    "id": 227,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company wants to train a model on customer records it collected to provide a service. Under general data protection principles, what is the primary obstacle?",
+    "options": [
+      "A. The volume of records held exceeds what would be proportionate for training a model of this kind.",
+      "B. Model training is a new purpose, and the original collection purpose does not automatically extend to it.",
+      "C. Training data must be anonymised before use, whatever the basis for holding the original records.",
+      "D. Customers must be compensated where their data is put to a new commercial use."
+    ],
+    "correct": "B",
+    "rationale": "Purpose limitation is the constraint that bites first. Data lawfully held for service delivery is not thereby available for any other use, and training a model is a different purpose that needs its own analysis — compatibility, or a fresh basis, or both. Volume is assessed against the purpose rather than in the abstract, anonymisation is one route rather than a requirement, and there is no general duty to pay for use.",
+    "tags": [
+      "purpose limitation",
+      "training data",
+      "privacy"
+    ]
+  },
+  {
+    "id": 228,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A model has been trained on personal data and a data subject requests erasure. Which TWO points are most relevant to the response?",
+    "options": [
+      "A. Whether the underlying records can be deleted from the training corpus and downstream stores.",
+      "B. Whether the model itself retains information that could identify the individual.",
+      "C. Whether the model's accuracy would fall measurably if that individual's record were removed.",
+      "D. Whether the individual consented to the original collection, or it rested on another basis.",
+      "E. Whether other data subjects have made the same request, so the work can be batched."
+    ],
+    "correct": "A,B",
+    "rationale": "Erasure has to be assessed everywhere the data went, and training splits that into two places: the corpus and the copies fed from it, and the model, which may have memorised enough to identify the person. Accuracy cost is not a ground for refusing a right, the original basis for collection does not settle a later erasure request, and other people's requests are irrelevant to this one.",
+    "tags": [
+      "data subject rights",
+      "erasure",
+      "privacy"
+    ]
+  },
+  {
+    "id": 229,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A retailer plans large-scale automated profiling of shoppers to set individual offers. Which prior step is most clearly indicated?",
+    "options": [
+      "A. A data protection impact assessment, because systematic profiling at scale is a high-risk processing pattern.",
+      "B. Registration of the profiling activity with the supervisory authority before offers are shown.",
+      "C. Appointment of a local representative in each market where personalised offers will appear, before any profiling begins.",
+      "D. Certification of the profiling model against a recognised standard for automated decision-making."
+    ],
+    "correct": "A",
+    "rationale": "Systematic, extensive profiling of individuals is one of the canonical triggers for an impact assessment before processing begins, precisely because the risks are foreseeable and the assessment is meant to shape the design. General registration duties were largely replaced by the accountability model, representatives are required by establishment rather than by processing type, and certification is voluntary.",
+    "tags": [
+      "DPIA",
+      "profiling",
+      "retail"
+    ]
+  },
+  {
+    "id": 230,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An AI vendor processes customer personal data solely on documented instructions from its client. What does that role imply about the vendor's obligations?",
+    "options": [
+      "A. It bears no obligations of its own, since the client determines both the purpose and the means.",
+      "B. It carries direct duties of its own, including security and constraints on engaging sub-processors.",
+      "C. It becomes jointly liable with the client for the purpose the client chose to pursue.",
+      "D. It must independently assess whether the client's stated purpose is lawful before proceeding."
+    ],
+    "correct": "B",
+    "rationale": "Acting on instructions limits what the vendor decides; it does not empty its obligations. Security of processing, restrictions on onward engagement of sub-processors, assistance with data subject rights and breach notification all attach directly to the processing role. It does not thereby become a joint controller, and it is not required to audit the lawfulness of its client's purpose.",
+    "tags": [
+      "processor",
+      "roles",
+      "privacy"
+    ]
+  },
+  {
+    "id": 231,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A team argues that because its training set contains no names or identifiers, privacy law does not apply. What is the strongest counter?",
+    "options": [
+      "A. Privacy law reaches all data used to train a machine learning model, whatever that data contains.",
+      "B. Removing identifiers does not make data anonymous if individuals remain distinguishable from the remaining attributes.",
+      "C. The team would have to prove the data was never personal at any point in its history.",
+      "D. Anonymisation counts only where the technique used has been reviewed and approved by a supervisory authority in advance."
+    ],
+    "correct": "B",
+    "rationale": "Anonymity is a property of the whole record set and the context around it, not of one column. A combination of postcode, birth date, job title and transaction history can single someone out with no name in sight, which is why the legal test is whether identification remains reasonably possible. Privacy law does not blanket-cover all training data, historical status is not the test, and no approval regime governs anonymisation methods.",
+    "tags": [
+      "anonymisation",
+      "re-identification",
+      "privacy"
+    ]
+  },
+  {
+    "id": 232,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A model is trained in one country and serves users in another. Which TWO questions most directly determine the cross-border compliance position?",
+    "options": [
+      "A. Where the personal data physically moves, and under what transfer mechanism.",
+      "B. Which jurisdictions' laws attach because of where the individuals are and what is offered to them.",
+      "C. Which cloud provider hosts the training infrastructure, and in which of its regions.",
+      "D. Which programming framework the model was implemented in, how portable that makes it, and who maintains it.",
+      "E. Whether the model was trained on GPUs or on general-purpose compute, and at what cost."
+    ],
+    "correct": "A,B",
+    "rationale": "Two separate questions have to be answered and are often conflated. Transfer rules govern the movement of data across borders and require a lawful mechanism for each flow. Territorial scope is a different matter entirely: several regimes attach to conduct directed at people in their territory regardless of where the processing happens. Hosting vendor, framework and hardware bear on architecture, not on which law applies.",
+    "tags": [
+      "cross-border",
+      "territorial scope",
+      "transfers"
+    ]
+  },
+  {
+    "id": 233,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A generative assistant occasionally reproduces a customer's earlier input to a different customer. Beyond confidentiality, which obligation is most directly engaged?",
+    "options": [
+      "A. Accuracy, since content reproduced from an earlier session may be out of date by the time it appears.",
+      "B. Integrity and confidentiality of processing, which requires technical measures preventing unauthorised disclosure.",
+      "C. Storage limitation, since user inputs are evidently being retained for longer than delivering the service requires.",
+      "D. Data portability, since customers are entitled to receive the inputs they have provided."
+    ],
+    "correct": "B",
+    "rationale": "Personal data reaching someone with no right to see it is an unauthorised disclosure, and the security principle requires measures appropriate to the risk to prevent exactly that. Retention length may be a contributing factor, but the breach is the disclosure itself rather than the storage period. Accuracy and portability concern different aspects of the same data and are not what has gone wrong.",
+    "tags": [
+      "security",
+      "data leakage",
+      "generative AI"
+    ]
+  },
+  {
+    "id": 234,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A hiring model infers likely disability status from gaps in employment history, though no health data was supplied. What does this most directly raise?",
+    "options": [
+      "A. Nothing, since no health data was collected and the model was given only employment history.",
+      "B. Processing of special category data, since the inference itself concerns health.",
+      "C. A data minimisation issue, since employment history is excessive for hiring.",
+      "D. A transparency issue, since candidates were not told which features were used."
+    ],
+    "correct": "B",
+    "rationale": "Sensitivity attaches to what the data is about, not to how it was obtained. A system that derives a health-related characteristic is processing information concerning health, and the heightened conditions apply to the inference just as they would to a declared diagnosis. Minimisation and transparency issues may also exist, but neither describes the central problem, and the belief that inference escapes the regime is the misconception being tested.",
+    "tags": [
+      "special category data",
+      "inference",
+      "employment"
+    ]
+  },
+  {
+    "id": 235,
+    "scenarioId": "sc-010",
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Line supervisors have begun using Vantage's proximity alerts in performance conversations. Which body of law does that shift most directly implicate?",
+    "options": [
+      "A. Product safety law, since the system was procured, justified and consulted on as a safety device.",
+      "B. Employment and worker-monitoring law, since the data is now used to assess individuals.",
+      "C. Competition law, since the vendor holds a dominant position in safety systems.",
+      "D. Export control law, since the vendor supplying the models is based in another jurisdiction."
+    ],
+    "correct": "B",
+    "rationale": "The system has not changed but its function has: data gathered to prevent collisions is now evidence about a named worker's conduct. That is monitoring for performance purposes, which carries its own consultation, notice and proportionality expectations in most jurisdictions and is what the original safety justification does not cover. Product safety governs the equipment itself, and competition and export law are not engaged by an internal change of use.",
+    "tags": [
+      "worker monitoring",
+      "secondary use",
+      "manufacturing"
+    ]
+  },
+  {
+    "id": 236,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A lender's model declines applicants at markedly different rates by ethnicity, and the lender says the model is a legitimate business tool. Which TWO points are most relevant under nondiscrimination law?",
+    "options": [
+      "A. Whether the practice is justified by a substantial legitimate aim.",
+      "B. Whether a less discriminatory alternative achieving the same aim was available.",
+      "C. Whether the lender intended to disadvantage applicants of any particular ethnicity.",
+      "D. Whether the model's developer holds a recognised professional certification in fair lending.",
+      "E. Whether the affected applicants were told that an automated model informed the decision."
+    ],
+    "correct": "A,B",
+    "rationale": "Disparate impact analysis does not stop at showing a legitimate purpose. The recognised structure asks first whether the practice serves a substantial legitimate aim and then whether a less discriminatory means of achieving it existed — and the second limb is where model-based decisions frequently fail, because alternative feature sets and thresholds are usually available and testable. Intent is not required for impact liability, and certification and notice address other duties.",
+    "tags": [
+      "nondiscrimination",
+      "disparate impact",
+      "lending"
+    ]
+  },
+  {
+    "id": 237,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company markets an AI tool with claims about accuracy it has not tested. Which legal exposure is most immediate?",
+    "options": [
+      "A. Consumer protection liability for unfair or deceptive claims.",
+      "B. Breach of a licensing requirement specific to AI tools of this kind.",
+      "C. Infringement of the training data provider's copyright.",
+      "D. Failure to register the system in a public database."
+    ],
+    "correct": "A",
+    "rationale": "Consumer protection regimes reach unsubstantiated performance claims directly and do not wait for AI-specific legislation, which is why enforcement against overstated AI marketing has arrived well ahead of it. Licensing regimes for AI tools are not generally in force, copyright exposure would depend on facts about the training data rather than the marketing, and registration duties attach only to particular high-risk categories.",
+    "tags": [
+      "consumer protection",
+      "marketing claims",
+      "enforcement"
+    ]
+  },
+  {
+    "id": 238,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A generative tool produces marketing copy closely resembling a competitor's copyrighted campaign. Where does responsibility most clearly sit?",
+    "options": [
+      "A. With the model provider, since the resemblance originates in its training data.",
+      "B. With the publishing company, since it decided to use and distribute the output.",
+      "C. With neither, since text produced by a machine cannot infringe a human author's copyright.",
+      "D. With the individual employee who wrote the prompt that produced the copy."
+    ],
+    "correct": "B",
+    "rationale": "Infringement analysis follows the act of copying and distribution, and it is the publisher who reproduced the material and put it in front of the public. The provider's position depends on separate questions about training and outputs that do not discharge the publisher's own act. Machine involvement does not immunise the output, and internal attribution to an employee does not shift liability from the company that published.",
+    "tags": [
+      "intellectual property",
+      "copyright",
+      "generative AI"
+    ]
+  },
+  {
+    "id": 239,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An AI feature is embedded in a physical consumer device and a defect in its behaviour causes injury. Which legal framework is most likely to be applied?",
+    "options": [
+      "A. Product liability, treating the AI-enabled device as a defective product.",
+      "B. Professional negligence, applied to the engineers who designed and tested the feature.",
+      "C. Contract law only, with recovery limited by the terms of sale the buyer accepted.",
+      "D. Data protection law, since the device processes personal data."
+    ],
+    "correct": "A",
+    "rationale": "Where software is integral to a product placed on the market and its behaviour causes physical harm, product liability regimes are the natural fit, and several jurisdictions have been explicitly extending them to cover software and AI components. Professional negligence targets individual practitioners rather than the manufacturer, contractual limits do not exclude injury claims by third parties, and data protection addresses a different kind of harm.",
+    "tags": [
+      "product liability",
+      "safety",
+      "consumer devices"
+    ]
+  },
+  {
+    "id": 240,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company wants to use a public web corpus for training. Which TWO questions most directly bear on whether it may?",
+    "options": [
+      "A. Whether the terms of the sites and any licence attached to the material permit this use.",
+      "B. Whether the corpus contains personal data and on what basis it could be processed.",
+      "C. Whether the corpus is large enough to support a model of the size the team intends to train.",
+      "D. Whether comparable companies have trained on the same corpus without being challenged.",
+      "E. Whether the corpus is stored in the same region as the cluster that will train on it."
+    ],
+    "correct": "A,B",
+    "rationale": "Public availability answers neither of the two questions that decide the matter. Accessibility is not a licence: site terms and the rights in the underlying works both constrain what may be done with the material. Separately, publicly posted content is full of personal data, and its being public does not by itself supply a basis for processing it. Corpus size, competitor practice and storage region do not bear on lawfulness.",
+    "tags": [
+      "training data",
+      "licensing",
+      "web scraping"
+    ]
+  },
+  {
+    "id": 241,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An insurer uses an AI model to set premiums and a regulator asks how it complies with sector rules requiring rates to be justified. What does the AI element change?",
+    "options": [
+      "A. Nothing — the existing rate justification requirements apply unchanged to the model's outputs.",
+      "B. The requirement is waived where pricing is automated and calibrated to the individual policyholder.",
+      "C. The burden shifts to the regulator, which must show the resulting rates are unjustified.",
+      "D. Only the AI-specific transparency rules apply, displacing the sector's rate-justification requirement."
+    ],
+    "correct": "A",
+    "rationale": "Sector regulation attaches to the outcome, not the technique. A rate has to be justifiable whether a person, a table or a model produced it, and the practical effect of using a model is that the insurer must be able to explain what drives it. Nothing about automation waives the requirement, moves the burden, or displaces sector rules in favour of AI-specific ones, which sit alongside rather than instead of them.",
+    "tags": [
+      "sector regulation",
+      "insurance",
+      "pricing"
+    ]
+  },
+  {
+    "id": 242,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company's terms let it use customer content to 'improve our services'. It now wants to train a foundation model on that content. What is the main weakness of relying on that clause?",
+    "options": [
+      "A. The clause is unenforceable because it appears in standard terms the customer could not negotiate.",
+      "B. 'Improve our services' would not be read by a customer as permitting training a general-purpose model on their content.",
+      "C. Contractual permission is never sufficient on its own where personal data is processed for a purpose the customer did not foresee.",
+      "D. The clause would need to be re-accepted periodically to keep covering an expanding use."
+    ],
+    "correct": "B",
+    "rationale": "Broad permissions are construed against the drafter and against the reasonable expectations of the person who agreed to them. A clause written for service improvement will not comfortably stretch to training a model whose capabilities and downstream uses are unrelated to the service, and regulators have taken exactly that view. Standard terms are not automatically unenforceable, contract can be part of a lawful basis, and permissions do not expire annually.",
+    "tags": [
+      "contracts",
+      "consent",
+      "training data"
+    ]
+  },
+  {
+    "id": 243,
+    "scenarioId": "sc-011",
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Meridian generates synthetic presenters that appear human. Which obligation attaches most directly to that fact alone?",
+    "options": [
+      "A. A conformity assessment completed before any synthetic presenter may be published.",
+      "B. Disclosure to viewers that the content they are seeing is artificially generated.",
+      "C. Registration of the generation model in a public database of deployed AI systems.",
+      "D. A prohibition, since presenting a synthetic human as a real one is a banned practice."
+    ],
+    "correct": "B",
+    "rationale": "Content that could be mistaken for authentic human material carries a transparency obligation aimed at the viewer: they should be able to tell. That duty attaches to the deception risk itself and is separate from the high-risk regime, which brings conformity assessment and registration and is triggered by use in particular consequential contexts rather than by synthetic media as such. Nothing here amounts to a prohibited practice.",
+    "tags": [
+      "synthetic media",
+      "transparency",
+      "media"
+    ]
+  },
+  {
+    "id": 244,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Which use is most likely to fall within a prohibited practice rather than the high-risk category?",
+    "options": [
+      "A. Scoring individuals across unrelated contexts to determine access to public services.",
+      "B. Screening job applicants with an automated model that ranks them for interview.",
+      "C. Triaging emergency calls by predicted urgency so responders are dispatched sooner.",
+      "D. Assessing creditworthiness from an applicant's financial history and repayment record."
+    ],
+    "correct": "A",
+    "rationale": "General-purpose social scoring — aggregating behaviour across unrelated contexts and using it to allocate treatment — is one of the practices treated as unacceptable rather than merely risky, because no amount of accuracy or documentation makes it acceptable. Employment screening, emergency triage and creditworthiness assessment are all recognised high-risk uses: permitted, but subject to conformity assessment, oversight and documentation.",
+    "tags": [
+      "prohibited practices",
+      "risk classification",
+      "EU AI Act"
+    ]
+  },
+  {
+    "id": 245,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company deploys a high-risk AI system bought from a provider. Which TWO obligations fall on the deployer rather than the provider?",
+    "options": [
+      "A. Using the system in accordance with the provider's instructions for use.",
+      "B. Assigning competent human oversight to the system in operation.",
+      "C. Carrying out the conformity assessment before the system is placed on the market.",
+      "D. Drawing up the technical documentation describing how the system was built and tested.",
+      "E. Establishing the post-market monitoring system that tracks the model in the field."
+    ],
+    "correct": "A,B",
+    "rationale": "The split follows who controls what. The deployer controls how the system is operated day to day, so following the instructions for use and putting competent people in the oversight role are its obligations. Conformity assessment, technical documentation and the post-market monitoring system are all things the provider must do before and around placing the system on the market, and a deployer cannot perform them.",
+    "tags": [
+      "deployer obligations",
+      "EU AI Act",
+      "roles"
+    ]
+  },
+  {
+    "id": 246,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A provider of a general-purpose AI model argues it cannot be responsible for downstream uses it did not foresee. What obligation does it nonetheless carry?",
+    "options": [
+      "A. Approving each downstream application individually before that application goes live.",
+      "B. Providing documentation that lets downstream integrators meet their own obligations.",
+      "C. Indemnifying downstream deployers against penalties arising from their own use of the model.",
+      "D. Restricting the model to a defined list of uses it has assessed and permitted in advance."
+    ],
+    "correct": "B",
+    "rationale": "The regulatory answer to the unforeseeability problem is information flow: a general-purpose model provider cannot vet every downstream use, but it can and must supply capability, limitation and evaluation information sufficient for integrators to discharge their own duties. Approving each application is impractical and not required, indemnities are commercial terms rather than obligations, and a closed list of permitted uses is not what general-purpose means.",
+    "tags": [
+      "general-purpose AI",
+      "value chain",
+      "documentation"
+    ]
+  },
+  {
+    "id": 247,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A firm is planning for AI regulation that applies in stages over several years. What is the most useful planning stance?",
+    "options": [
+      "A. Wait until each obligation is actually in force, since requirements are frequently amended in the period before they apply.",
+      "B. Sequence work by when each obligation applies, starting with the ones whose lead time exceeds the runway.",
+      "C. Treat every obligation as immediately applicable, so no date has to be tracked at all.",
+      "D. Apply only the obligations attaching to the firm's single highest-risk system, and extend later."
+    ],
+    "correct": "B",
+    "rationale": "Staged application exists so that organisations can prepare, and the binding constraint is lead time rather than the date itself: an obligation requiring a conformity assessment, a documentation set and a monitoring system cannot be met by starting when it applies. Waiting concedes the runway, treating everything as immediate wastes effort on obligations that may still change, and scoping to one system leaves the rest of the portfolio unaddressed.",
+    "tags": [
+      "compliance planning",
+      "phased application",
+      "readiness"
+    ]
+  },
+  {
+    "id": 248,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Which TWO factors most influence whether an AI system is classified as high-risk under a risk-tiered regime?",
+    "options": [
+      "A. The domain it operates in and the consequences of its decisions for individuals.",
+      "B. Whether it is used as a safety component of a regulated product.",
+      "C. The number of parameters in the underlying model and the compute used to train it.",
+      "D. Whether the system was developed in-house or purchased from an external supplier.",
+      "E. The size of the organisation deploying it, and how many people it affects internally."
+    ],
+    "correct": "A,B",
+    "rationale": "Risk tiering is driven by use rather than by technology. The two routes into the high-risk tier are the listed consequential domains — employment, credit, education, essential services, law enforcement and the like — and use as a safety component of a product already subject to regulation. Model size, build-versus-buy and organisation size affect capability, obligations and resourcing but do not determine the tier.",
+    "tags": [
+      "risk classification",
+      "high-risk",
+      "EU AI Act"
+    ]
+  },
+  {
+    "id": 249,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation operates the same AI system in two jurisdictions with differing AI rules. What is the most sustainable compliance approach?",
+    "options": [
+      "A. Build to the least demanding regime, then add local controls in each jurisdiction that turns out to require more.",
+      "B. Identify the common core of obligations and build to it, layering jurisdiction-specific requirements above it.",
+      "C. Operate a separate model in each jurisdiction so the two sets of rules never meet.",
+      "D. Apply the most demanding regime everywhere, regardless of what it costs to do so."
+    ],
+    "correct": "B",
+    "rationale": "Most AI regimes converge on the same substance — risk assessment, documentation, human oversight, monitoring, transparency — and diverge on thresholds and formalities. Building once to the common core and layering the differences keeps a single system of record while remaining honest about where the regimes actually differ. Building to the floor guarantees rework, separate models per jurisdiction multiply the governance burden, and applying the strictest regime everywhere spends money on obligations that do not apply.",
+    "tags": [
+      "multi-jurisdiction",
+      "compliance",
+      "operating model"
+    ]
+  },
+  {
+    "id": 250,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation is comparing the NIST AI Risk Management Framework with ISO/IEC 42001 before choosing one as the backbone of its programme. What is the most significant practical difference between them?",
+    "options": [
+      "A. One is voluntary guidance while the other carries legal force in the jurisdictions adopting it.",
+      "B. One is a voluntary framework of practices; the other is a management system standard an organisation can be certified against.",
+      "C. One addresses generative and foundation models while the other predates them.",
+      "D. One is written for the organisations that build AI systems and the other for the organisations that deploy them."
+    ],
+    "correct": "B",
+    "rationale": "Both are voluntary, which is why the useful distinction is what each offers. The framework describes functions and practices to organise risk work around, with no conformity mechanism. The management system standard specifies requirements an organisation can be audited and certified against, which is what makes it usable as evidence to a customer or regulator. Neither is limited by model type or by role in the value chain.",
+    "tags": [
+      "NIST AI RMF",
+      "ISO 42001",
+      "standards"
+    ]
+  },
+  {
+    "id": 251,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation has completed Map and Measure activities but its risk register never changes. Which NIST AI RMF function is most likely weak?",
+    "options": [
+      "A. Govern, since the risk register is a governance artefact and its upkeep sits there.",
+      "B. Manage, since it is where identified and measured risks are prioritised, acted on and tracked.",
+      "C. Map, since risks that never move were probably not identified correctly to begin with.",
+      "D. Measure, since measurements that never change are evidently not sensitive enough."
+    ],
+    "correct": "B",
+    "rationale": "Map identifies, Measure quantifies, and Manage is where something is decided and done — allocation, treatment, monitoring and closure. A register that never moves is the signature of work that stops after measurement, which is a Manage failure. Govern surrounds all three but is not where treatment happens, and a static register does not by itself indicate that identification or measurement went wrong.",
+    "tags": [
+      "NIST AI RMF",
+      "risk management",
+      "functions"
+    ]
+  },
+  {
+    "id": 252,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A customer asks a vendor to demonstrate mature AI governance. Which TWO pieces of evidence are most probative?",
+    "options": [
+      "A. Certification against a management system standard, with the certificate's scope stated.",
+      "B. Records showing risk assessments were performed and acted on for the specific system being sold.",
+      "C. A public commitment to responsible AI principles, published on the vendor's website and signed by its executive team.",
+      "D. The number of governance and assurance staff the vendor employs across its business.",
+      "E. Membership of an industry AI association that publishes a code of conduct."
+    ],
+    "correct": "A,B",
+    "rationale": "Probative evidence is either independently verified or specific to the system in question. A certificate is third-party verified, and its scope is the part that matters, since a narrow scope can exclude the very product being bought. System-specific assessment records show the process was actually applied here rather than described in the abstract. Published principles, headcount and association membership are unverified, generic, or both.",
+    "tags": [
+      "assurance",
+      "vendor evaluation",
+      "certification"
+    ]
+  },
+  {
+    "id": 253,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "What does an ISO/IEC 42001 certificate tell a purchaser?",
+    "options": [
+      "A. That the organisation's AI systems have each been tested by the certification body and found safe for their intended use.",
+      "B. That the organisation operates a management system meeting the standard's requirements within a stated scope.",
+      "C. That the organisation complies with the AI legislation applicable in its markets.",
+      "D. That the organisation's models meet accuracy thresholds defined by the standard."
+    ],
+    "correct": "B",
+    "rationale": "Management system certification is about process, not product: it attests that the organisation has, and operates, a system meeting the standard's requirements across a defined scope. It makes no claim about any particular model's safety or accuracy, and it does not certify legal compliance — a certified organisation can still breach a law, and the certificate would not say otherwise.",
+    "tags": [
+      "certification",
+      "ISO 42001",
+      "assurance"
+    ]
+  },
+  {
+    "id": 254,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation already certified to ISO/IEC 27001 is adopting ISO/IEC 42001. What is the most efficient approach?",
+    "options": [
+      "A. Run the two management systems separately, so that each audit scope stays clean and the two certifications stay independent.",
+      "B. Extend the existing management system, reusing shared clauses and adding the AI-specific requirements.",
+      "C. Replace the information security management system with the AI one, which subsumes it.",
+      "D. Delay adoption until the two standards have been formally harmonised by their committees."
+    ],
+    "correct": "B",
+    "rationale": "Management system standards share a common structure — context, leadership, planning, support, operation, evaluation, improvement — so an organisation running one already has most of the scaffolding. Extending it and adding the AI-specific controls avoids duplicating governance machinery. Running parallel systems duplicates effort, replacement discards security obligations that remain, and the shared structure means there is nothing to wait for.",
+    "tags": [
+      "ISO 42001",
+      "integration",
+      "management systems"
+    ]
+  },
+  {
+    "id": 255,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Why do the OECD AI Principles matter to an organisation that is not bound by them?",
+    "options": [
+      "A. They are enforced through national regulators in the countries that have adopted them.",
+      "B. They supply the shared vocabulary and definitions that many national frameworks and laws were built on.",
+      "C. They provide detailed technical controls that an individual AI system can be assessed and certified against.",
+      "D. They establish certification requirements that providers of AI systems must satisfy."
+    ],
+    "correct": "B",
+    "rationale": "Their influence is definitional. The AI system definition and the principle set — inclusive growth, human-centred values, transparency, robustness, accountability — recur across national strategies, frameworks and statutes, so understanding them makes the instruments built on them legible. They are not directly enforced, contain no technical controls, and establish no certification regime.",
+    "tags": [
+      "OECD",
+      "principles",
+      "standards"
+    ]
+  },
+  {
+    "id": 256,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A team is choosing between a framework and a standard as the backbone of its AI programme. Which TWO considerations should drive the choice?",
+    "options": [
+      "A. Whether the organisation needs to demonstrate conformity to external parties.",
+      "B. Whether the organisation needs flexibility to adapt practices to its own maturity and context.",
+      "C. Which instrument is cited most frequently in industry press, analyst commentary and customer questionnaires.",
+      "D. Which instrument was published most recently, and is therefore most current.",
+      "E. Which instrument is shortest, and so quickest for the team to work through."
+    ],
+    "correct": "A,B",
+    "rationale": "The choice is between demonstrability and adaptability, and each instrument is optimised for one of them. A certifiable standard produces evidence a customer or regulator will accept and imposes a defined structure to get it. A framework leaves the organisation free to shape practices to its own maturity but yields nothing externally verifiable. Citation frequency, publication date and length are not decision criteria.",
+    "tags": [
+      "standards",
+      "frameworks",
+      "programme design"
+    ]
+  },
+  {
+    "id": 257,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation maps its controls to a framework and finds every function marked 'implemented'. What should a reviewer check first?",
+    "options": [
+      "A. Whether the mapping was reviewed by an external assessor before the organisation signed it off as complete.",
+      "B. Whether each claim points to evidence of the control operating, rather than to a document describing it.",
+      "C. Whether the mapping was made against the most recent version of the framework.",
+      "D. Whether that framework was the right choice for an organisation of this size and sector."
+    ],
+    "correct": "B",
+    "rationale": "Self-assessment against a framework degrades in a predictable way: a policy that describes a control gets recorded as the control. The first check is therefore whether each claim resolves to evidence that something happened — a completed assessment, a monitoring record, a decision log — rather than to the document asserting it should. Version currency, external review and instrument choice are all worth examining once the claims are known to mean something.",
+    "tags": [
+      "self-assessment",
+      "evidence",
+      "assurance"
+    ]
+  },
+  {
+    "id": 258,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "How should an organisation treat a model card and a system card, given both describe an AI system?",
+    "options": [
+      "A. As interchangeable, since both are standard documentation of the same underlying artefact.",
+      "B. As complementary: one describes the model's properties, the other the deployed system and its context of use.",
+      "C. As alternatives, taking whichever of the two the vendor happens to supply.",
+      "D. As internal documents, which carry commercial detail about the build and should not be passed to deployers."
+    ],
+    "correct": "B",
+    "rationale": "They answer different questions. A model card characterises the model itself — intended use, performance across conditions, limitations. A system card describes what was built around it: the surrounding components, the human role, the operating context and the safeguards. A deployer needs both, because a well-characterised model can still be embedded in an unsafe system, and neither is meaningfully private from the party relying on it.",
+    "tags": [
+      "documentation",
+      "model cards",
+      "transparency"
+    ]
+  },
+  {
+    "id": 259,
+    "domain": "Governing AI Development",
+    "question": "A team is defining success metrics for a customer-support model before development starts. Which TWO choices most reduce the risk of optimising the wrong thing?",
+    "options": [
+      "A. Pairing the primary metric with a guardrail metric that would degrade if the system gamed the primary.",
+      "B. Defining, in advance, the outcome the system exists to improve rather than the proxy that is easy to measure.",
+      "C. Selecting the metric on which the model already performs best across the evaluation set.",
+      "D. Deferring metric selection until the first evaluation run has shown what the model is actually capable of.",
+      "E. Adopting the same metric the previous vendor reported, so the two can be compared."
+    ],
+    "correct": "A,B",
+    "rationale": "Proxy metrics are chosen because they are measurable, and systems optimise exactly what they are pointed at. Naming the real outcome first keeps the proxy accountable to something, and a guardrail metric — one that would move the wrong way if the primary were being gamed — is what makes the gaming visible. Choosing the metric the model already wins on, deferring until after results are seen, and inheriting a vendor's metric all let the measurement be selected to flatter the system.",
+    "tags": [
+      "metrics",
+      "design",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 260,
+    "domain": "Governing AI Development",
+    "question": "Stakeholder engagement for a new AI system has consisted of interviews with the internal teams who will operate it. What is the main gap?",
+    "options": [
+      "A. Operators cannot assess whether the design the team has proposed is technically feasible to build and run.",
+      "B. The people the system will make decisions about have not been consulted, and they experience risks operators do not.",
+      "C. Interviews are a less reliable way of gathering requirements than a structured survey would be.",
+      "D. The engagement was not documented in a form an external auditor would accept as evidence."
+    ],
+    "correct": "B",
+    "rationale": "Operators know where the system is awkward to use; they do not experience being wrongly declined, or being unable to find out why. Those harms are only visible from the receiving end, which is why affected-population engagement is a distinct requirement rather than a broader version of user research. Feasibility is not what operators were asked about, method and documentation are secondary to who was in the room.",
+    "tags": [
+      "stakeholder engagement",
+      "design",
+      "affected parties"
+    ]
+  },
+  {
+    "id": 261,
+    "domain": "Governing AI Development",
+    "question": "A training set was assembled by combining four internal databases over several years. Which characteristic most limits the team's ability to answer questions about it later?",
+    "options": [
+      "A. The absence of lineage recording where each record came from and under what terms.",
+      "B. The total size of the combined dataset, and the storage it now occupies.",
+      "C. The number of features carried through into the final feature set.",
+      "D. The storage format the combined dataset uses, and how easily it can be read."
+    ],
+    "correct": "A",
+    "rationale": "Almost every later question — may we use this, must we delete that, why does the model behave this way for one segment — resolves to where a record came from and what was permitted. Lineage is cheap to capture at assembly time and effectively unrecoverable afterwards, which is what makes its absence the binding constraint. Size, feature count and format are all tractable problems by comparison.",
+    "tags": [
+      "data lineage",
+      "provenance",
+      "training data"
+    ]
+  },
+  {
+    "id": 262,
+    "domain": "Governing AI Development",
+    "question": "A validation set was created by randomly splitting a dataset in which the same customer appears many times. Which TWO problems does this create?",
+    "options": [
+      "A. Records from the same customer appear in both training and validation, inflating measured performance.",
+      "B. Measured performance will not predict behaviour on customers the model has never seen.",
+      "C. The validation set will be too small for the resulting numbers to be statistically meaningful.",
+      "D. The model will overfit to whichever feature dominates the combined dataset.",
+      "E. The split will breach data minimisation, since every record is used more than once."
+    ],
+    "correct": "A,B",
+    "rationale": "Random splitting assumes rows are independent, and repeated customers break that assumption: the model sees a customer in training and is then tested on the same customer, so it is being asked to recall rather than generalise. The two consequences are one problem stated twice over — the number comes out too high, and it does not describe the case the model will actually face in production. Set size, feature dominance and minimisation are unrelated to the leakage.",
+    "tags": [
+      "data leakage",
+      "validation",
+      "testing"
+    ]
+  },
+  {
+    "id": 263,
+    "domain": "Governing AI Development",
+    "question": "A team wants to reduce a demographic performance gap by adding more data from the under-performing group. When is this most likely to fail?",
+    "options": [
+      "A. When the gap is caused by label quality rather than by sample size.",
+      "B. When the additional data is stored in a different system.",
+      "C. When the model uses a gradient-boosted architecture rather than a neural network.",
+      "D. When the additional data increases total training time."
+    ],
+    "correct": "A",
+    "rationale": "More data fixes a representation problem, and representation is not the only cause of a gap. If the labels for that group were produced by a process that was itself unreliable or biased, additional examples supply more of the same wrong signal and can widen the gap rather than close it. Storage location, model architecture and training time affect the cost of the attempt, not whether it addresses the cause.",
+    "tags": [
+      "bias mitigation",
+      "labels",
+      "data quality"
+    ]
+  },
+  {
+    "id": 264,
+    "domain": "Governing AI Development",
+    "question": "An organisation uses synthetic data to train a model where real data is scarce. Which governance question matters most?",
+    "options": [
+      "A. Whether the synthetic data was generated on infrastructure the organisation has approved.",
+      "B. Whether the synthetic data reproduces the relationships the model must learn, including the rare cases.",
+      "C. Whether the synthetic data exceeds in volume the real data that was available to the team to begin with.",
+      "D. Whether the synthetic data can be told apart from real records by manual inspection."
+    ],
+    "correct": "B",
+    "rationale": "Synthetic data inherits the assumptions of whatever generated it, and generators reproduce the common patterns far more faithfully than the tails. Since the tails are usually where the consequential failures live, fidelity on rare cases is the question that decides whether the model learns anything useful. Infrastructure, volume and inspectability are operational matters that do not bear on whether the data represents the problem.",
+    "tags": [
+      "synthetic data",
+      "data quality",
+      "training"
+    ]
+  },
+  {
+    "id": 265,
+    "domain": "Governing AI Development",
+    "question": "A model is being retired and replaced. Which TWO governance actions are most important at retirement?",
+    "options": [
+      "A. Retaining the records needed to explain decisions the retired model made.",
+      "B. Confirming that every downstream consumer has moved off it before it is switched off.",
+      "C. Publishing the retired model's weights so external researchers can study it.",
+      "D. Deleting every record associated with the retired model, including its decision logs.",
+      "E. Notifying the model's original vendor of the date on which it was retired."
+    ],
+    "correct": "A,B",
+    "rationale": "Retirement obligations run in two directions. Backwards: decisions the model made remain live for the people they affected, who may contest them long after the model is gone, so the explanatory record has to survive it. Forwards: models acquire undocumented consumers, and switching one off without confirming who still calls it is a common outage. Publishing weights is unrelated, wholesale deletion destroys exactly what the first obligation requires, and vendor notice is a contractual detail.",
+    "tags": [
+      "decommissioning",
+      "lifecycle",
+      "records"
+    ]
+  },
+  {
+    "id": 266,
+    "scenarioId": "sc-010",
+    "domain": "Governing AI Deployment and Use",
+    "question": "Vantage is deciding whether to extend the safety system to its two older plants, where camera coverage is sparser. What should weigh most heavily?",
+    "options": [
+      "A. Whether the alerting model performs adequately under the conditions those plants actually present.",
+      "B. Whether the older plants have the network capacity to stream video from every camera continuously.",
+      "C. Whether the vendor will discount the licence in exchange for covering two additional sites.",
+      "D. Whether workers at those plants have been consulted about where the cameras would be placed."
+    ],
+    "correct": "A",
+    "rationale": "A system validated in one environment is not thereby validated in another, and sparser coverage changes the input the model was tuned on. If it degrades quietly in the new setting, the plant gains a safety system that reports fewer hazards than exist — worse than no system, because it is trusted. Bandwidth and pricing are feasibility questions, and consultation matters but does not answer whether the system works there.",
+    "tags": [
+      "deployment context",
+      "validation",
+      "manufacturing"
+    ]
+  },
+  {
+    "id": 267,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organisation is choosing between retrieval-augmented generation and fine-tuning for a policy assistant. Which TWO considerations most favour retrieval?",
+    "options": [
+      "A. Source policies change frequently and answers must reflect the current version.",
+      "B. Users need to see which document an answer came from.",
+      "C. The assistant must respond in under fifty milliseconds to feel usable in the workflow.",
+      "D. The organisation wants to reduce the number of documents it maintains.",
+      "E. The organisation wants the model to adopt a particular writing style."
+    ],
+    "correct": "A,B",
+    "rationale": "Retrieval's advantages are currency and traceability: the knowledge lives in an index that can be updated without retraining, and every answer can point at the passage behind it. Fine-tuning bakes knowledge into weights, so a policy change means another training run and there is nothing to cite. Latency favours the fine-tuned model if anything, retrieval does not reduce the document estate, and style is exactly what fine-tuning is good at.",
+    "tags": [
+      "RAG",
+      "fine-tuning",
+      "architecture"
+    ]
+  },
+  {
+    "id": 268,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A team proposes an agentic system that can take actions in production systems on a user's behalf. Which factor most changes the risk profile compared with a system that only produces text?",
+    "options": [
+      "A. Agentic systems require substantially more computational resources to operate at the same volume.",
+      "B. An action taken in another system has effects that cannot be reviewed before they occur.",
+      "C. Agentic systems are harder for users to understand, so trust in them is harder to calibrate.",
+      "D. Agentic systems require more sophisticated prompting, which fewer staff can write reliably."
+    ],
+    "correct": "B",
+    "rationale": "A text output sits in front of a person who can discard it; the harm ceiling is what someone does after reading. An agent that writes to another system has already acted by the time anyone reviews, which is why agentic designs need authorisation boundaries, action logging and reversibility built in rather than added later. Compute, comprehensibility and prompt sophistication are real differences that do not change what the system can do unsupervised.",
+    "tags": [
+      "agentic AI",
+      "autonomy",
+      "controls"
+    ]
+  },
+  {
+    "id": 269,
+    "scenarioId": "sc-011",
+    "domain": "Governing AI Deployment and Use",
+    "question": "Meridian's vendor reports 94% detection accuracy for synthetic content. What should Meridian establish before relying on that figure?",
+    "options": [
+      "A. Whether the vendor's benchmark resembles the content Meridian actually receives, and how the errors split between misses and false flags.",
+      "B. Whether 94% is higher than the figures competing detection products report for themselves.",
+      "C. Whether the vendor will contractually warrant the 94% figure for the full term of the licensing agreement, with a remedy if it is missed.",
+      "D. Whether the 94% figure has been independently audited by a third party."
+    ],
+    "correct": "A",
+    "rationale": "A single accuracy number conceals both things Meridian needs. It was measured on some distribution of content, and if that distribution is not Meridian's the number does not transfer. It also averages two failures with opposite consequences: a missed synthetic item reaches viewers unlabelled, a false flag brands genuine footage as fake. Benchmarks against competitors, warranties and audits all take the headline figure as the thing to compare, warrant or verify.",
+    "tags": [
+      "vendor claims",
+      "evaluation",
+      "media"
+    ]
+  },
+  {
+    "id": 270,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A vendor declines to disclose training data sources, citing confidentiality. What is the most constructive response?",
+    "options": [
+      "A. Abandon the procurement, since a model whose training data is undisclosed cannot be assessed at all.",
+      "B. Seek warranties and evidence about the properties that matter — rights to use the data, known limitations, evaluation results — rather than the sources themselves.",
+      "C. Accept the position, since the composition of a training corpus is standard trade secret material.",
+      "D. Require the vendor to disclose its training sources to an independent third party under a non-disclosure agreement before the contract is signed."
+    ],
+    "correct": "B",
+    "rationale": "Source lists are rarely obtainable and would not, by themselves, answer the buyer's questions. What the buyer actually needs to know is whether the vendor had the rights, what the evaluation showed, and where the model is known to fail — all of which can be warranted and evidenced without naming a corpus. Walking away discards workable options, accepting silence leaves the questions unanswered, and third-party disclosure is heavy machinery for a problem that has a lighter solution.",
+    "tags": [
+      "procurement",
+      "vendor assessment",
+      "transparency"
+    ]
+  },
+  {
+    "id": 271,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organisation is assessing the impact of a system it plans to deploy. Which TWO inputs make the assessment most useful?",
+    "options": [
+      "A. What happens to a person when the system is wrong, and how they would find out.",
+      "B. Which groups the system will treat differently, and whether that difference is justified.",
+      "C. The number of engineers who built the system, and how long they worked on it.",
+      "D. The cloud region the system will run in, and who operates that region.",
+      "E. The projected licensing cost over the first three years, and how it scales with usage."
+    ],
+    "correct": "A,B",
+    "rationale": "An impact assessment earns its place by answering questions the business case does not. The first is the consequence of error from the affected person's position, including whether they would ever know — an error nobody can detect is never corrected. The second is differential treatment and its justification, which is where discrimination exposure lives. Team size, hosting region and licensing cost belong to delivery planning.",
+    "tags": [
+      "impact assessment",
+      "harm analysis",
+      "deployment"
+    ]
+  },
+  {
+    "id": 272,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A company deploys a model it built itself. Which obligation applies to it that would not apply if it had bought the same capability?",
+    "options": [
+      "A. Ensuring that staff are trained to use the system and to recognise when not to rely on it.",
+      "B. Accounting for the model's development — data rights, design choices and evaluation — as well as its use.",
+      "C. Monitoring the system's performance in production and acting on it when the model degrades.",
+      "D. Informing the individuals affected by its decisions that an AI system was involved."
+    ],
+    "correct": "B",
+    "rationale": "Training, monitoring and disclosure attach to deploying a system and are owed whoever built it. Building adds a second set of obligations on top: the organisation now holds the development record and must be able to account for where the data came from, why the design choices were made, and what the evaluation showed. Buying transfers that burden to the vendor; it does not remove any of the deployment duties.",
+    "tags": [
+      "build vs buy",
+      "provider obligations",
+      "accountability"
+    ]
+  },
+  {
+    "id": 273,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A licence permits use of a model for 'internal business purposes'. The company wants to expose it in a customer-facing feature. Which TWO steps are indicated?",
+    "options": [
+      "A. Establishing whether customer-facing use falls inside the licensed scope.",
+      "B. Checking what the licence requires or prohibits regarding output attribution and downstream use.",
+      "C. Increasing inference capacity so the model can handle customer-facing request volume.",
+      "D. Publishing the relevant licence terms on the company's own website for customers to read.",
+      "E. Registering the customer-facing feature with the industry body that lists deployed models."
+    ],
+    "correct": "A,B",
+    "rationale": "Two distinct licence questions arise, and the second is the one teams forget. Scope decides whether this use is permitted at all — internal use and external service provision are commonly separated, and sometimes priced differently. Output terms decide what the company may then do with what the model produces, including attribution duties and restrictions on downstream reuse. Capacity is an engineering matter, and the remaining options describe nothing licences require.",
+    "tags": [
+      "licensing",
+      "scope of use",
+      "contracts"
+    ]
+  },
+  {
+    "id": 274,
+    "scenarioId": "sc-010",
+    "domain": "Governing AI Deployment and Use",
+    "question": "What control would most directly address the way Vantage's alert data is now being used?",
+    "options": [
+      "A. Increasing the alert confidence threshold, so that fewer alerts are generated and logged.",
+      "B. Defining permitted uses of alert data and enforcing that boundary in access and retention.",
+      "C. Replacing the vendor with one whose model produces materially fewer false positives.",
+      "D. Extending camera coverage so that alerts are distributed more evenly across the line."
+    ],
+    "correct": "B",
+    "rationale": "The problem is not that the alerts are wrong; it is that data collected for one purpose has drifted into another with no decision having been taken. The control that matches is a stated boundary on use, made real by who can see the data and how long it is kept — a purpose limit nobody can enforce is a sentence in a document. Threshold tuning, a new vendor and wider coverage all change the alerts while leaving the drift untouched.",
+    "tags": [
+      "secondary use",
+      "access control",
+      "manufacturing"
+    ]
+  },
+  {
+    "id": 275,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A deployed model's monitoring shows stable accuracy, but complaints about its decisions have tripled. Which TWO responses are most appropriate?",
+    "options": [
+      "A. Examining whether accuracy is stable in aggregate while degrading for a particular segment.",
+      "B. Treating the complaints as a monitoring signal the current metrics do not capture.",
+      "C. Reassuring complainants that monitoring shows the model is performing correctly.",
+      "D. Retraining the model on more recent data as a precaution while the cause is investigated.",
+      "E. Raising the threshold at which the model defers a decision to a human reviewer."
+    ],
+    "correct": "A,B",
+    "rationale": "Two sound-looking sources disagree, and the resolution is almost always that they are measuring different things. Aggregate stability is compatible with a segment deteriorating badly, so disaggregation is the first check. The wider lesson is that complaints are data about the deployment that the chosen metrics did not anticipate — the sort of gap monitoring cannot close by itself. Reassurance asserts the conclusion, and retraining or threshold changes act before the cause is known.",
+    "tags": [
+      "monitoring",
+      "feedback",
+      "operations"
+    ]
   }
 ]
