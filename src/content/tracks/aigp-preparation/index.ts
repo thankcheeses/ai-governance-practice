@@ -15,14 +15,22 @@ const UPDATED_DATE = "2025-01-01T00:00:00.000Z";
 
 const OPTION_KEYS: OptionKey[] = ["A", "B", "C", "D", "E"];
 
+function optionId(questionId: string, index: number): string {
+  return `${questionId}-o${index + 1}`;
+}
+
 /**
  * Source options are prefixed with their letter ("A. Some text"). Strip the
- * prefix so the UI owns presentation, and key each option by position so
- * scoring never depends on the label surviving a render.
+ * prefix so the UI owns presentation, and give each option an identity tied to
+ * its source position — the letter it is eventually shown under is decided per
+ * session and is not part of the content.
  */
-function normalizeOptions(options: string[]): QuestionOption[] {
+function normalizeOptions(
+  questionId: string,
+  options: string[],
+): QuestionOption[] {
   return options.map((text, i) => ({
-    key: OPTION_KEYS[i],
+    id: optionId(questionId, i),
     text: text.replace(/^\s*[A-E][.)]\s*/, "").trim(),
   }));
 }
@@ -32,14 +40,16 @@ function normalizeOptions(options: string[]): QuestionOption[] {
  * file keeps one readable convention and the rest of the app only ever sees a
  * normalised array.
  */
-function normalizeCorrect(correct: string): OptionKey[] {
+function normalizeCorrect(questionId: string, correct: string): string[] {
   return correct
     .split(",")
-    .map((k) => k.trim().toUpperCase())
-    .filter(Boolean) as OptionKey[];
+    .map((k) => OPTION_KEYS.indexOf(k.trim().toUpperCase() as OptionKey))
+    .filter((i) => i >= 0)
+    .map((i) => optionId(questionId, i));
 }
 
 function normalize(item: RawQuestion): Question {
+  const id = `aigp-${String(item.id).padStart(3, "0")}`;
   const enrichment = AIGP_ENRICHMENT[item.id];
   if (!enrichment) {
     throw new Error(
@@ -48,19 +58,20 @@ function normalize(item: RawQuestion): Question {
   }
 
   return {
-    id: `aigp-${String(item.id).padStart(3, "0")}`,
+    id,
     trackId: TRACK_ID,
     domain: item.domain,
     difficulty: enrichment.difficulty,
     question: item.question,
-    options: normalizeOptions(item.options),
-    correctAnswers: normalizeCorrect(item.correct),
+    options: normalizeOptions(id, item.options),
+    correctOptionIds: normalizeCorrect(id, item.correct),
     rationale: item.rationale,
     keyTakeaway: enrichment.keyTakeaway,
     // Omitted entirely when no diagram is supplied, so `visualAid` is either
     // a complete aid or absent — never a half-populated object.
     ...(enrichment.visualAid ? { visualAid: enrichment.visualAid } : {}),
     frameworkTags: enrichment.frameworkTags,
+    bokSubdomain: enrichment.bokSubdomain,
     tags: item.tags ?? [],
     createdDate: CREATED_DATE,
     updatedDate: UPDATED_DATE,

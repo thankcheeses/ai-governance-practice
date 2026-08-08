@@ -6,12 +6,13 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /*
- * Sharp edges at every size, weight 600, and a -1px translate on press so the
- * control reads as physically depressed rather than scaled. No outer glows.
+ * Weight 600 at every size, a 1px translate on press so the control reads as
+ * depressed rather than scaled, and no outer glows. The radius is small enough
+ * that a row of buttons still aligns crisply against the cards behind them.
  */
 const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none text-sm font-semibold",
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold",
     "transition-colors duration-150 focus-visible:outline-none",
     "disabled:pointer-events-none disabled:opacity-50",
     "active:translate-y-px",
@@ -20,7 +21,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary-strong",
+        default:
+          "bg-primary text-primary-foreground shadow-[var(--shadow-card)] hover:bg-primary-strong",
         secondary:
           "border border-border bg-secondary text-secondary-foreground hover:border-border-strong hover:bg-muted",
         // Ghost/outline carry the specified 1.5px stroke in the muted colour.
@@ -29,7 +31,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-secondary hover:text-foreground",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        link: "text-foreground underline underline-offset-4",
+        link: "text-link underline decoration-link/40 underline-offset-4 hover:text-link-hover hover:decoration-link-hover",
       },
       size: {
         default: "h-10 px-4 py-2",

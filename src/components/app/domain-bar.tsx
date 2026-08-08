@@ -25,14 +25,14 @@ export function DomainAccuracyChart({ stats }: { stats: DomainStat[] }) {
             </div>
 
             <div
-              className="h-2 overflow-hidden bg-secondary ring-1 ring-inset ring-border-strong"
+              className="h-2 overflow-hidden rounded-full bg-secondary ring-1 ring-inset ring-border"
               role="img"
               aria-label={`${stat.domain}: ${started ? `${stat.accuracy}% accuracy` : "not started"}`}
             >
               <div
                 style={{ width: `${started ? stat.accuracy : 0}%` }}
                 className={cn(
-                  "h-full",
+                  "h-full rounded-full transition-[width] duration-500 ease-out",
                   stat.accuracy >= 80
                     ? "bg-success"
                     : stat.accuracy >= 60
@@ -72,8 +72,8 @@ export function ReviewForecast({
           <div
             style={{ height: `${Math.max(4, (day.count / max) * 64)}px` }}
             className={cn(
-              "w-full",
-              day.count > 0 ? "bg-foreground" : "bg-secondary",
+              "w-full rounded-sm",
+              day.count > 0 ? "bg-primary" : "bg-secondary",
             )}
           />
           <span className="text-[0.6875rem] text-muted-foreground">

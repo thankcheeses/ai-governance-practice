@@ -1,4 +1,4 @@
-import type { OptionKey, Question } from "@/content/types";
+import type { Question } from "@/content/types";
 
 /**
  * Answer grading.
@@ -7,6 +7,10 @@ import type { OptionKey, Question } from "@/content/types";
  * decides whether a learner was right can be tested directly. Everything that
  * records an answer routes through `gradeAnswer`; nothing compares option keys
  * by hand.
+ *
+ * Selections are option ids, never display letters: options are shuffled per
+ * session, so a letter says where something landed on one screen and nothing
+ * more.
  *
  * Multi-select is **all-or-nothing**. Selecting three of four correct options
  * scores the same as selecting none: wrong. That mirrors how the certification
@@ -17,7 +21,7 @@ import type { OptionKey, Question } from "@/content/types";
 
 /** True when the question expects more than one option to be selected. */
 export function isMultiSelect(question: Question): boolean {
-  return question.correctAnswers.length > 1;
+  return question.correctOptionIds.length > 1;
 }
 
 /**
@@ -25,7 +29,7 @@ export function isMultiSelect(question: Question): boolean {
  * requirement is stated before answering rather than discovered after.
  */
 export function requiredSelections(question: Question): number {
-  return question.correctAnswers.length;
+  return question.correctOptionIds.length;
 }
 
 /**
@@ -35,10 +39,10 @@ export function requiredSelections(question: Question): number {
  */
 export function gradeAnswer(
   question: Question,
-  selected: readonly OptionKey[],
+  selectedOptionIds: readonly string[],
 ): boolean {
-  const chosen = new Set(selected);
-  const expected = new Set(question.correctAnswers);
+  const chosen = new Set(selectedOptionIds);
+  const expected = new Set(question.correctOptionIds);
   if (chosen.size !== expected.size) return false;
   for (const key of expected) {
     if (!chosen.has(key)) return false;
@@ -54,19 +58,19 @@ export function gradeAnswer(
  */
 export function toggleSelection(
   question: Question,
-  current: readonly OptionKey[],
-  key: OptionKey,
-): OptionKey[] {
+  current: readonly string[],
+  optionId: string,
+): string[] {
   if (!isMultiSelect(question)) {
-    return current.length === 1 && current[0] === key ? [] : [key];
+    return current.length === 1 && current[0] === optionId ? [] : [optionId];
   }
-  return current.includes(key)
-    ? current.filter((k) => k !== key)
-    : [...current, key];
+  return current.includes(optionId)
+    ? current.filter((id) => id !== optionId)
+    : [...current, optionId];
 }
 
-/** Canonical display order for a set of keys, e.g. ["C","A"] → "A, C". */
-export function formatAnswer(keys: readonly OptionKey[]): string {
+/** Canonical display order for a set of letters, e.g. ["C","A"] → "A, C". */
+export function formatAnswer(keys: readonly string[]): string {
   return [...keys].sort().join(", ");
 }
 
@@ -80,7 +84,7 @@ export function formatAnswer(keys: readonly OptionKey[]): string {
  */
 export function canSubmit(
   question: Question,
-  selected: readonly OptionKey[],
+  selected: readonly string[],
 ): boolean {
   return isMultiSelect(question)
     ? selected.length === requiredSelections(question)

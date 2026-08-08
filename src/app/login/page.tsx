@@ -174,14 +174,14 @@ export default function LoginPage() {
                   By creating an account you agree to our{" "}
                   <Link
                     href="/terms"
-                    className="font-medium text-primary underline-offset-4 hover:underline"
+                    className="font-medium text-link underline decoration-link/40 underline-offset-4 transition-colors hover:text-link-hover hover:decoration-link-hover"
                   >
                     Terms of Service
                   </Link>{" "}
                   and{" "}
                   <Link
                     href="/privacy"
-                    className="font-medium text-primary underline-offset-4 hover:underline"
+                    className="font-medium text-link underline decoration-link/40 underline-offset-4 transition-colors hover:text-link-hover hover:decoration-link-hover"
                   >
                     Privacy Policy
                   </Link>

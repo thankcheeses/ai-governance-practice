@@ -1,10 +1,12 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { Suspense, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
 import { focusDomains, selectQuestions } from "@/lib/adaptive";
+import { weakAreaQuestionIds } from "@/lib/analytics";
+import { newSeed, parseSeed, presentQuestions } from "@/lib/presentation";
 import { useProgress } from "@/lib/store/progress-provider";
 
 export default function StudySessionPage() {
@@ -19,7 +21,22 @@ export default function StudySessionPage() {
 
 function Session() {
   const params = useSearchParams();
+  const router = useRouter();
   const { progress } = useProgress();
+
+  /*
+   * The session seed drives both the question order and every option shuffle.
+   * It is written into the URL so a refresh reproduces the same sitting rather
+   * than dealing a new one — the same reason it is fixed for the session's
+   * lifetime instead of regenerated on render.
+   */
+  const [seed] = useState(() => parseSeed(params.get("seed")) ?? newSeed());
+  useEffect(() => {
+    if (params.get("seed")) return;
+    const next = new URLSearchParams(params.toString());
+    next.set("seed", String(seed));
+    router.replace(`?${next.toString()}`, { scroll: false });
+  }, [params, router, seed]);
 
   const domainParam = params.get("domain");
   const focusParam = params.get("focus");
@@ -29,6 +46,15 @@ function Session() {
   // Resolved once, at mount, alongside the question set — a focus session must
   // keep drilling the domains it started on even as answering moves the
   // accuracy that picked them.
+  // A sub-domain drill is resolved once, at mount, to an explicit question
+  // list. Empty means nothing qualified, and the caller falls through to the
+  // ordinary selection rather than opening a drill over everything.
+  const [drillIds] = useState<string[]>(() =>
+    focusParam === "subdomain"
+      ? weakAreaQuestionIds(progress, progress.trackId, count)
+      : [],
+  );
+
   const [selectedDomains] = useState<string | string[] | undefined>(() => {
     if (focusParam !== "weak") return domainParam ?? undefined;
     const weakest = focusDomains(progress, progress.trackId).map((d) => d.domain);
@@ -39,25 +65,32 @@ function Session() {
 
   // Fixed for the lifetime of the session so answering never reshuffles it.
   const [questions] = useState(() =>
-    selectQuestions(progress, {
-      count,
-      trackId: progress.trackId,
-      domain: selectedDomains,
-    }),
+    presentQuestions(
+      selectQuestions(progress, {
+        count,
+        trackId: progress.trackId,
+        domain: drillIds.length ? undefined : selectedDomains,
+        ...(drillIds.length ? { only: drillIds } : {}),
+        seed,
+      }),
+      seed,
+    ),
   );
 
   const label = useMemo(() => {
+    if (drillIds.length) return "Focus · your weakest areas";
     if (!selectedDomains) return "Mixed practice";
     if (!Array.isArray(selectedDomains)) return selectedDomains;
     return selectedDomains.length === 1
       ? `Focus · ${selectedDomains[0]}`
       : `Focus · ${selectedDomains.length} weakest domains`;
-  }, [selectedDomains]);
+  }, [selectedDomains, drillIds]);
 
   return (
     <StudySession
       questions={questions}
-      mode={selectedDomains ? "domain" : "practice"}
+      seed={seed}
+      mode={selectedDomains || drillIds.length ? "domain" : "practice"}
       label={label}
       exitHref="/study"
     />

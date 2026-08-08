@@ -152,10 +152,22 @@ console.log(
 console.log(
   "answer positions: " +
     ["A", "B", "C", "D"].map((k) => `${k} ${Math.round((positions[k] / n) * 100)}%`).join("  ") +
-    `  allowed ${Math.round(LIMITS.minPositionShare * 100)}-${Math.round(LIMITS.maxPositionShare * 100)}%`,
+    "  (informational — options are shuffled per session)",
 );
 
-for (const letter of ["A", "B", "C", "D"]) {
+/*
+ * Position is now informational, not enforced.
+ *
+ * Options are shuffled per session and dealt fresh letters, so where an answer
+ * sits in the source file is invisible to a learner — the same question shows
+ * its answer under a different letter each sitting. The distribution is still
+ * printed because a wildly skewed source is a smell worth seeing, but it can
+ * no longer bias anyone and so no longer fails the build.
+ *
+ * The length checks above remain failures: shuffling moves an option, it does
+ * not make the correct one shorter.
+ */
+for (const letter of []) {
   const share = positions[letter] / n;
   if (share > LIMITS.maxPositionShare) {
     failures.push(

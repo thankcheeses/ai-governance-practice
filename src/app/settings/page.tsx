@@ -75,9 +75,9 @@ function Settings() {
               onClick={() => setTheme(option.value)}
               aria-pressed={theme === option.value}
               className={cn(
-                "flex flex-col items-center gap-2 border p-3.5 text-sm transition-colors",
+                "flex flex-col items-center gap-2 rounded-lg border bg-card p-3.5 text-sm transition-colors",
                 theme === option.value
-                  ? "border-2 border-foreground bg-secondary text-foreground"
+                  ? "border-primary bg-accent-tint font-medium text-primary ring-1 ring-inset ring-primary"
                   : "border-border text-muted-foreground hover:bg-secondary",
               )}
             >
@@ -102,9 +102,9 @@ function Settings() {
                 onClick={() => setDailyGoal(goal)}
                 aria-pressed={progress.dailyGoal === goal}
                 className={cn(
-                  "border py-2.5 text-sm tabular-nums transition-colors",
+                  "rounded-lg border bg-card py-2.5 font-mono text-sm tabular-nums transition-colors",
                   progress.dailyGoal === goal
-                    ? "border-2 border-foreground bg-secondary text-foreground"
+                    ? "border-primary bg-accent-tint font-semibold text-primary ring-1 ring-inset ring-primary"
                     : "border-border text-muted-foreground hover:bg-secondary",
                 )}
               >
@@ -236,7 +236,7 @@ function Settings() {
             </p>
             <a
               href={`mailto:${SUPPORT.email}`}
-              className="mt-1.5 inline-block break-all text-sm font-medium text-primary underline-offset-4 hover:underline"
+              className="mt-1.5 inline-block break-all text-sm font-medium text-link underline decoration-link/40 underline-offset-4 transition-colors hover:text-link-hover hover:decoration-link-hover"
             >
               {SUPPORT.email}
             </a>
@@ -311,7 +311,7 @@ function Section({
 }) {
   return (
     <section>
-      <h2 className="mb-3 text-[0.875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+      <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
         {title}
       </h2>
       <Card>

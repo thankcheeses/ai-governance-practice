@@ -179,6 +179,12 @@ export interface SelectionOptions {
   domain?: string | string[];
   /** Restrict to an explicit set, used by the review queue. */
   only?: string[];
+  /**
+   * Makes selection reproducible. Supplied by the session so a refresh
+   * restores the same sitting rather than dealing a fresh one; omit it and
+   * the jitter falls back to Math.random.
+   */
+  seed?: number;
 }
 
 /**
@@ -188,7 +194,9 @@ export interface SelectionOptions {
  *   - difficulty proximity to the learner's current target level
  *
  * Recently answered-correct questions are pushed down so a session is not a
- * victory lap. A small jitter keeps consecutive sessions from being identical.
+ * victory lap. A small jitter keeps consecutive sessions from being identical;
+ * seeded, so "not identical between sessions" does not become "not identical
+ * between renders of the same session".
  */
 export function selectQuestions(
   progress: UserProgress,
@@ -217,8 +225,11 @@ export function selectQuestions(
   const weak = new Set(weakDomains(progress, trackId).map((d) => d.domain));
   const target = DIFFICULTY_RANK[targetDifficulty(progress.attempts)];
 
+  // Seeded when the caller supplies one, so the same session can be rebuilt.
+  const jitter = seededJitter(options.seed);
+
   const scored = pool.map((question) => {
-    let score = Math.random() * 6;
+    let score = jitter(question.id) * 6;
 
     const previous = lastAttempt.get(question.id);
     if (!previous) score += 40;
@@ -237,6 +248,22 @@ export function selectQuestions(
     .sort((a, b) => b.score - a.score)
     .slice(0, options.count)
     .map((s) => s.question);
+}
+
+/**
+ * Per-question jitter. With a seed it is a pure function of the seed and the
+ * question id, so the same session scores the same way every time it is built.
+ */
+function seededJitter(seed?: number): (questionId: string) => number {
+  if (seed === undefined) return () => Math.random();
+  return (questionId) => {
+    let h = seed >>> 0;
+    for (let i = 0; i < questionId.length; i++) {
+      h ^= questionId.charCodeAt(i);
+      h = Math.imul(h, 16777619) >>> 0;
+    }
+    return (h >>> 8) / 0x1000000;
+  };
 }
 
 /** Shuffle helper re-exported for callers that want a plain random set. */

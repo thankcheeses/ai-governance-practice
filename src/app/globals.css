@@ -1,47 +1,46 @@
 @import "tailwindcss";
 
 /*
-  AI Governance Practice — Utilitarian design system.
+  AI Governance Practice design system.
 
-  Implemented from the supplied specification. Light is the default. Both
-  themes drive the same semantic token names so no component branches on
-  theme — they reference `bg-card`, `text-muted-foreground` and so on, and the
-  values swap underneath.
-
-  Theme is applied by a `data-theme` attribute on <html>, set before first
-  paint by an inline script in the root layout to avoid a flash.
+  Light is the default. Both themes drive the same semantic token names so no
+  component branches on theme — they reference `bg-card`, `text-muted-foreground`
+  and so on, and the values swap underneath. Theme is applied by a `data-theme`
+  attribute on <html>, set before first paint by an inline script in the root
+  layout to avoid a flash.
 
   ---------------------------------------------------------------------------
-  Palette — functional, not decorative
+  Direction
 
-    #FFFFFF  Pure White       light surface
-    #0A0A0A  Off-black        dark surface. The spec lists Pure Black as the
-                              dark background but its Don'ts forbid #000000
-                              outright; charcoal satisfies both.
-    #333333  Dark Grey        deep contrast surface
-    #666666  Medium Grey      secondary text, strong borders
-    #CCCCCC  Light Grey       borders, muted rules
-    #FFD700  Safety Yellow    warning
-    #CC0000  Signal Red       error, destructive
-    #003366  Industrial Blue  info
-
-  Colour is a signal here. Red means stop, yellow means caution, blue means
-  information. None of them is an accent, and none is used decoratively.
-
-  Yellow on white is 1.6:1 and red on charcoal is 2.6:1 — neither carries body
-  text. They appear as fills, rules and indicators, always paired with a
-  foreground token that clears AA.
+  A professional certification product: a soft neutral ground with white cards
+  lifted off it, teal as the brand accent, and type doing the hierarchy. An
+  earlier revision applied a strict monochrome, monospace-everywhere treatment;
+  it was precise but read as a technical document rather than something a
+  practitioner would pay to study with, so the palette and typography have been
+  reopened. What survives from it is the discipline: colour still means
+  something, motion is still limited to state changes, and nothing is decorated
+  for its own sake.
 
   ---------------------------------------------------------------------------
-  Deliberate omissions
+  Colour roles
 
-    radius     0 at every step. The spec's Shapes section and both component
-               rules say sharp edges; the rounded tokens in its front matter
-               are overridden.
-    shadow     capped at 0 2px 8px rgb(0 0 0 / 0.08), the spec's stated
-               ceiling. The card rule's 12px blur exceeds it.
-    gradients  none. Flat colour only.
-    motion     state changes only. No entry animations, no hover scaling.
+    --primary        #0F766E  brand teal, darkened for text-bearing surfaces.
+                              CTAs and the Key Takeaway block. 5.5:1 on white.
+    --accent         #14B8A6  the lighter teal. Indicators only: progress
+                              fills, selected rings, icons on tints.
+    --accent-strong  #0F766E  concept marks in body copy — see
+                              components/study/concept-highlight.tsx.
+    --link           #0369A1  sky, deliberately not the brand teal, so a link
+                              never reads as a call to action. The brief asked
+                              for a light blue; at 1.9:1 on this ground that
+                              fails AA for text, so light mode uses the deeper
+                              sky and dark mode uses #7DD3FC where it clears.
+    --destructive    #B91C1C  error and destructive actions.
+    --warning        #A16207  caution.
+    --success        #15803D  affirmative.
+
+  Signal colours are never the only signal: every band and state carries a text
+  label too, so meaning survives greyscale and colour blindness.
 */
 
 @theme {
@@ -74,20 +73,31 @@
   --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-accent-strong: var(--accent-strong);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
 
-  /* Sharp edges. Every step is 0 so no component can round by accident. */
-  --radius-xs: 0px;
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
-  --radius-2xl: 0px;
-  --radius-3xl: 0px;
-  --radius-4xl: 0px;
+  /*
+    A small, restrained radius. Enough to read as a considered surface rather
+    than a terminal window; not enough to become the loudest thing on screen.
+  */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 12px;
+  --radius-3xl: 14px;
+  --radius-4xl: 16px;
 
-  /* Monospace only. One family across display, body, UI and code. */
-  --font-sans: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo,
-    Consolas, monospace;
+  /*
+    Two families with distinct jobs. Inter carries everything a learner reads —
+    scenarios, options, rationales — because a proportional face is easier at
+    length and gives hierarchy something to work with. Plex Mono is reserved
+    for the genuinely technical: counts, ids, tags, metadata.
+  */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
 
@@ -96,108 +106,121 @@
     more. One value, at the spec's ceiling; `raised` and `accent` are aliases
     so no component carries a heavier shadow than the rule permits.
   */
-  --shadow-card: 0 1px 0 rgb(0 0 0 / 0.06);
-  --shadow-card-hover: 0 2px 8px rgb(0 0 0 / 0.08);
-  --shadow-raised: 0 2px 8px rgb(0 0 0 / 0.08);
-  --shadow-accent: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 1px 3px rgb(16 24 40 / 0.06);
+  --shadow-card-hover: 0 2px 4px rgb(16 24 40 / 0.05),
+    0 8px 20px rgb(16 24 40 / 0.08);
+  --shadow-raised: 0 2px 4px rgb(16 24 40 / 0.05),
+    0 10px 28px rgb(16 24 40 / 0.10);
+  --shadow-accent: 0 1px 2px rgb(15 118 110 / 0.16),
+    0 6px 16px rgb(15 118 110 / 0.14);
 }
 
 /* --------------------------------------------------------------- Light --- */
 :root,
 :root[data-theme="light"] {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  --background: #f7f8f8;
+  --foreground: #16191d;
 
   --card: #ffffff;
-  --card-foreground: #0a0a0a;
+  --card-foreground: #16191d;
   --popover: #ffffff;
-  --popover-foreground: #0a0a0a;
+  --popover-foreground: #16191d;
 
   /*
-    Primary is the inverted surface, not a hue. A stark fill is the signage
-    convention, and it leaves red free to mean destructive rather than
-    "the main action".
+    Primary is the brand teal, dark enough to carry white text at 5.5:1. It
+    marks the main action and nothing else, which leaves red free to mean
+    destructive rather than "the loudest button".
   */
-  --primary: #0a0a0a;
+  --primary: #0f766e;
   --primary-foreground: #ffffff;
-  --primary-strong: #333333;
+  --primary-strong: #115e59;
 
   /* Rules and indicators. Never behind text. */
-  --accent: #666666;
-  --accent-foreground: #0a0a0a;
-  --accent-subtle: #cccccc;
-  --accent-tint: #f2f2f2;
+  --accent: #14b8a6;
+  --accent-foreground: #115e59;
+  --accent-strong: #0f766e;
+  --accent-subtle: #ccfbf1;
+  --accent-tint: #f0fdfa;
 
-  --secondary: #f2f2f2;
-  --secondary-foreground: #0a0a0a;
-  --muted: #f2f2f2;
-  --muted-foreground: #595959;
+  /* Links. Sky rather than the brand teal, so a link never reads as a CTA. */
+  --link: #0369a1;
+  --link-hover: #075985;
 
-  --destructive: #cc0000;
+  --secondary: #eef0f2;
+  --secondary-foreground: #16191d;
+  --muted: #eef0f2;
+  --muted-foreground: #55606c;
+
+  --destructive: #b91c1c;
   --destructive-foreground: #ffffff;
-  --destructive-tint: #ffeded;
+  --destructive-tint: #fef2f2;
 
   /*
-    The palette carries no green. Information blue takes the affirmative role
-    so the coding stays inside the specified set: blue confirms, red alerts,
-    yellow warns.
+    Green confirms, red alerts, amber warns. Green sits far enough from the
+    brand teal in hue that "you were right" never reads as "this is the
+    primary action" — the two are distinguished by more than saturation.
   */
-  --success: #003366;
+  --success: #15803d;
   --success-foreground: #ffffff;
-  --success-tint: #eaf0f6;
+  --success-tint: #f0fdf4;
 
-  --warning: #8a6d00;
-  --warning-foreground: #0a0a0a;
+  --warning: #a16207;
+  --warning-foreground: #ffffff;
 
-  --border: #cccccc;
-  --border-strong: #666666;
-  --input: #666666;
-  --ring: #0a0a0a;
+  --border: #e2e6ea;
+  --border-strong: #c3cad2;
+  --input: #c3cad2;
+  --ring: #0f766e;
 
   color-scheme: light;
 }
 
 /* ---------------------------------------------------------------- Dark --- */
 :root[data-theme="dark"] {
-  --background: #0a0a0a;
-  --foreground: #ffffff;
+  --background: #0e1116;
+  --foreground: #f2f5f7;
 
-  --card: #141414;
-  --card-foreground: #ffffff;
-  --popover: #141414;
-  --popover-foreground: #ffffff;
+  --card: #161b22;
+  --card-foreground: #f2f5f7;
+  --popover: #161b22;
+  --popover-foreground: #f2f5f7;
 
-  --primary: #ffffff;
-  --primary-foreground: #0a0a0a;
-  --primary-strong: #cccccc;
+  --primary: #2dd4bf;
+  --primary-foreground: #06201d;
+  --primary-strong: #5eead4;
 
-  --accent: #666666;
-  --accent-foreground: #ffffff;
-  --accent-subtle: #333333;
-  --accent-tint: #1c1c1c;
+  --accent: #14b8a6;
+  --accent-foreground: #99f6e4;
+  --accent-strong: #5eead4;
+  --accent-subtle: #10403c;
+  --accent-tint: #0f2a28;
 
-  --secondary: #1c1c1c;
-  --secondary-foreground: #ffffff;
-  --muted: #1c1c1c;
-  --muted-foreground: #a6a6a6;
+  /* The light blue reads properly here; in light mode it would fail AA. */
+  --link: #7dd3fc;
+  --link-hover: #bae6fd;
+
+  --secondary: #1e242c;
+  --secondary-foreground: #f2f5f7;
+  --muted: #1e242c;
+  --muted-foreground: #9aa6b2;
 
   /* Signal red is too dark to read on charcoal; lifted to clear AA. */
-  --destructive: #ff5c5c;
-  --destructive-foreground: #0a0a0a;
-  --destructive-tint: #2a1010;
+  --destructive: #f87171;
+  --destructive-foreground: #2a0a0a;
+  --destructive-tint: #2a1416;
 
   /* Industrial blue likewise. */
-  --success: #6fa8dc;
-  --success-foreground: #0a0a0a;
-  --success-tint: #10202e;
+  --success: #4ade80;
+  --success-foreground: #052e16;
+  --success-tint: #10281a;
 
-  --warning: #ffd700;
-  --warning-foreground: #0a0a0a;
+  --warning: #fbbf24;
+  --warning-foreground: #291a04;
 
-  --border: #333333;
-  --border-strong: #666666;
-  --input: #666666;
-  --ring: #ffffff;
+  --border: #262d36;
+  --border-strong: #3a434f;
+  --input: #3a434f;
+  --ring: #2dd4bf;
 
   --shadow-card: 0 1px 0 rgb(255 255 255 / 0.08);
   --shadow-card-hover: 0 2px 8px rgb(0 0 0 / 0.6);
@@ -233,8 +256,8 @@
   }
 
   ::selection {
-    background-color: var(--color-foreground);
-    color: var(--color-background);
+    background-color: var(--color-accent-subtle);
+    color: var(--color-primary-strong);
   }
 
   /* 2px ring, offset 2px — the specified focus treatment. */
