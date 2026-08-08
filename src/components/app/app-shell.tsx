@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Home, Layers, RotateCcw, Settings } from "lucide-react";
+import { BarChart3, Home, Layers, RotateCcw, Settings, Timer } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandMark } from "@/components/app/brand-mark";
@@ -13,6 +13,7 @@ const NAV = [
   { href: "/home", label: "Home", icon: Home },
   { href: "/study", label: "Study", icon: Layers },
   { href: "/review", label: "Review", icon: RotateCcw },
+  { href: "/exam", label: "Exam", icon: Timer },
   { href: "/dashboard", label: "Progress", icon: BarChart3 },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
@@ -70,7 +71,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
 function MobileHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-md pt-safe lg:hidden">
+    <header className="sticky top-0 z-30 border-b border-border bg-background pt-safe lg:hidden">
       <div className="flex h-14 items-center gap-2.5 px-4">
         <Logo />
         <span className="text-[0.9375rem] font-semibold tracking-tight">
@@ -83,7 +84,7 @@ function MobileHeader() {
 
 function MobileTabBar({ pathname, due }: { pathname: string; due: number }) {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/90 backdrop-blur-md pb-safe lg:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background pb-safe lg:hidden">
       <div className="mx-auto grid max-w-lg grid-cols-5">
         {NAV.map((item) => {
           const active = isActive(pathname, item.href);
