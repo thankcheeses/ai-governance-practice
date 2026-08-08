@@ -79,7 +79,7 @@ export default function OnboardingPage() {
                       className="flex gap-3.5 border border-border bg-card p-4 shadow-[var(--shadow-card)]"
                     >
                       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
-                        <Icon className="h-[1.125rem] w-[1.125rem] text-primary" />
+                        <Icon className="h-[1.125rem] w-[1.125rem] text-accent-strong" />
                       </span>
                       <div>
                         <h2 className="font-semibold">{point.title}</h2>

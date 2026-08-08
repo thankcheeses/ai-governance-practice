@@ -107,7 +107,7 @@ function MobileTabBar({ pathname, due }: { pathname: string; due: number }) {
               </span>
               {item.label}
               {active ? (
-                <span className="absolute inset-x-4 top-0 h-0.5 bg-foreground" />
+                <span className="absolute inset-x-4 top-0 h-0.5 bg-accent" />
               ) : null}
             </Link>
           );

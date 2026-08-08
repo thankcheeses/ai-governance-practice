@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
+import { resumeActiveSession } from "@/lib/active-session";
 import { newSeed } from "@/lib/presentation";
+import { presentSitting, sittingFromSnapshot } from "@/lib/session";
 import { buildReviewQueue } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 
@@ -20,20 +22,31 @@ export default function ReviewSessionPage() {
 
 function ReviewSession() {
   const { progress } = useProgress();
-  const [seed] = useState(() => newSeed());
 
-  // Snapshot at mount: grading a card changes its due date, and we do not want
-  // the queue reordering underneath the learner mid-session.
-  const [questions] = useState(() =>
-    buildReviewQueue(progress)
+  /*
+    Resume before building. A review sitting carries no seed in the URL, so the
+    stored sitting is the only record of what was on screen — rebuilding would
+    re-run the queue against review cards that answering has already
+    rescheduled, and deal a different batch.
+
+    Resolved once, in a state initialiser, so this never re-runs on a render.
+  */
+  const [{ sitting, resumed }] = useState(() => {
+    const stored = resumeActiveSession({ mode: "review" });
+    const restored = stored ? sittingFromSnapshot(stored) : null;
+    if (stored && restored) return { sitting: restored, resumed: stored };
+
+    const seed = newSeed();
+    const questions = buildReviewQueue(progress)
       .slice(0, REVIEW_BATCH)
-      .map((item) => item.question),
-  );
+      .map((item) => item.question);
+    return { sitting: presentSitting(questions, seed), resumed: null };
+  });
 
   return (
     <StudySession
-      questions={questions}
-      seed={seed}
+      sitting={sitting}
+      resumed={resumed}
       mode="review"
       label="Review"
       withScheduling

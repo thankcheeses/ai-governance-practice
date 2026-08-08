@@ -1,39 +1,44 @@
-import type { Question, TrackId } from "@/content/types";
+import { getQuestion } from "@/content/registry";
+import type {
+  OptionKey,
+  PresentedOption,
+  Question,
+  TrackId,
+} from "@/content/types";
+import type { ActiveSession } from "./active-session";
 import { selectQuestions } from "./adaptive";
-import { presentQuestions } from "./presentation";
+import { presentOptions, presentQuestions } from "./presentation";
 import type { UserProgress } from "./types";
 
 /**
- * Building a sitting.
+ * Building a sitting, and putting one back.
  *
- * Two steps that must stay together, because testing them apart proves less
- * than it looks like it does:
+ * Two paths that must never be confused:
  *
- *   1. `selectQuestions` chooses *which* questions on pedagogical grounds —
- *      unseen first, weak domains pulled forward, difficulty near the
- *      learner's current level.
- *   2. `presentQuestions` chooses the order they are met in.
+ *   - **New sitting.** `selectQuestions` chooses which questions on
+ *     pedagogical grounds — unseen first, weak domains pulled forward — and
+ *     the seed fixes the order and every option shuffle.
+ *   - **Existing sitting.** `sittingFromSnapshot` reads the composition back
+ *     from what was stored. It does not select, and it does not shuffle.
  *
- * Both take the session seed. That is the whole contract: **the same seed and
- * the same progress always yield the same sitting**, so a reload rebuilds what
- * the learner was already looking at rather than dealing something new.
+ * That split is the whole design. A seed alone cannot restore a sitting:
+ * selection scores against the attempt history, and answering rewrites the
+ * history, so re-deriving mid-sitting yields a different set of questions.
+ * Restoration is therefore a lookup over stored ids, never a recomputation.
  *
- * ---------------------------------------------------------------------------
- * The part of that sentence that matters: *and the same progress*.
- *
- * Selection scores every candidate against the attempt history — unseen
- * questions get a large bonus, previously-correct ones a penalty. Answering
- * changes that history. So a reload after answering rebuilds from a different
- * history and can produce a different set: measured at 7 of 10 questions
- * retained, and none of the three already answered still present, across ten
- * seeds (see session.test.ts).
- *
- * The seed is therefore necessary but not sufficient for refresh recovery. The
- * missing half is persisting the chosen question ids for the session's
- * lifetime, so a rebuild is a lookup rather than a re-selection. That is a
- * deliberate gap here, not an oversight: practice mode tolerates it, exam mode
- * cannot, and exam mode is where session persistence is being designed in.
+ * `lib/active-session.ts` owns storage and validation; this module owns the
+ * shape a session actually runs on.
  */
+
+const OPTION_KEYS: OptionKey[] = ["A", "B", "C", "D", "E"];
+
+/** Everything a session needs to render, with nothing left to re-derive. */
+export interface Sitting {
+  seed: number;
+  questions: Question[];
+  /** Options in display order, one row per question, parallel to `questions`. */
+  options: PresentedOption[][];
+}
 
 export interface SessionSpec {
   /** Drives both which questions are chosen and the order they appear in. */
@@ -46,12 +51,11 @@ export interface SessionSpec {
   only?: string[];
 }
 
-/**
- * The questions for one sitting, in the order they will be met.
- *
- * Option order is dealt separately, per question, by `presentOptions` — from
- * the same seed, so the whole sitting reconstructs from a single number.
- */
+/* ------------------------------------------------------------------ */
+/* New sittings                                                        */
+/* ------------------------------------------------------------------ */
+
+/** The questions for one sitting, in the order they will be met. */
 export function buildSessionQuestions(
   progress: UserProgress,
   spec: SessionSpec,
@@ -64,4 +68,75 @@ export function buildSessionQuestions(
     seed: spec.seed,
   });
   return presentQuestions(selected, spec.seed);
+}
+
+/** Deal letters to a whole sitting's worth of questions. */
+export function presentSitting(
+  questions: readonly Question[],
+  seed: number,
+): Sitting {
+  return {
+    seed,
+    questions: [...questions],
+    options: questions.map((q) => presentOptions(q, seed)),
+  };
+}
+
+/** A fresh sitting: select, order, and deal. */
+export function buildSitting(
+  progress: UserProgress,
+  spec: SessionSpec,
+): Sitting {
+  return presentSitting(buildSessionQuestions(progress, spec), spec.seed);
+}
+
+/* ------------------------------------------------------------------ */
+/* Restored sittings                                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Rebuild a sitting from stored ids.
+ *
+ * The stored order wins over anything recomputable. If the shuffle algorithm
+ * changed between the two page loads, or selection would now choose different
+ * questions, the learner still gets back exactly the screen they left.
+ *
+ * Returns null if any id no longer resolves — the caller starts clean rather
+ * than showing a partial sitting. The snapshot is expected to have been
+ * validated already; this is the second line of defence, not the first.
+ */
+export function sittingFromSnapshot(session: ActiveSession): Sitting | null {
+  const questions: Question[] = [];
+  const options: PresentedOption[][] = [];
+
+  for (let i = 0; i < session.questionIds.length; i++) {
+    const question = getQuestion(session.questionIds[i]);
+    if (!question) return null;
+
+    const row = session.optionIds[i];
+    if (!row || row.length !== question.options.length) return null;
+
+    const dealt: PresentedOption[] = [];
+    for (let k = 0; k < row.length; k++) {
+      const option = question.options.find((o) => o.id === row[k]);
+      if (!option) return null;
+      dealt.push({ ...option, key: OPTION_KEYS[k] });
+    }
+
+    questions.push(question);
+    options.push(dealt);
+  }
+
+  return { seed: session.seed, questions, options };
+}
+
+/** The composition of a sitting, in the form the snapshot stores it. */
+export function sittingComposition(sitting: Sitting): {
+  questionIds: string[];
+  optionIds: string[][];
+} {
+  return {
+    questionIds: sitting.questions.map((q) => q.id),
+    optionIds: sitting.options.map((row) => row.map((o) => o.id)),
+  };
 }

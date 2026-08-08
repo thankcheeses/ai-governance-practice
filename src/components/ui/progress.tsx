@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
 
 /**
  * A fill in a recessed track. The track is inset-ringed rather than bordered
- * so it reads as a channel cut into the surface; the fill is the brand teal,
- * which is the one place the accent is allowed to be the loudest thing in a
- * card.
+ * so it reads as a channel cut into the surface. The fill is the ink, not the
+ * accent: a progress bar is a reading of state, not a highlight, and the
+ * accent is reserved for focus and active indicators.
  */
 const Progress = React.forwardRef<
   React.ComponentRef<typeof ProgressPrimitive.Root>,

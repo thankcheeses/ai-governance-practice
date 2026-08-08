@@ -344,52 +344,51 @@ test("no letter carries the answer more often than chance", () => {
 });
 
 /* ============================================================================
-   The boundary of the guarantee — a characterisation test, not an aspiration
+   The boundary of the two paths
    ========================================================================= */
 
-test("KNOWN GAP: answering changes the sitting a reload rebuilds", () => {
+test("rebuilding is progress-dependent by design — which is why restoring is not", () => {
   /*
-    Selection scores candidates against the attempt history: unseen questions
-    get +40, previously-correct ones -25, previously-wrong ones +20. Answering
-    rewrites those scores, so a reload mid-session re-selects from a history
-    that did not exist when the session started.
+    Selection scores candidates against the attempt history: unseen +40,
+    previously-correct -25, previously-wrong +20. That is the point of the
+    adaptive layer, and it means `buildSessionQuestions` is *supposed* to
+    return something different once the learner has answered.
 
-    The seed holds the *shuffle* steady; it cannot hold the *selection* steady,
-    because selection legitimately depends on progress. Closing this needs the
-    chosen ids persisted for the session's lifetime — exam mode's job.
+    It also means a seed can never be enough to recover a sitting. This test
+    pins the divergence so the reasoning behind active-session persistence
+    cannot quietly stop applying: if rebuilding ever became history-independent
+    the restore path would look redundant, and someone would delete it.
 
-    This test pins the current behaviour so the gap cannot quietly change size
-    or quietly disappear unnoticed. When session persistence lands, this test
-    should FAIL and be replaced by one asserting full recovery.
+    The corresponding proof that restoration is immune lives in
+    active-session.test.ts.
   */
   const seeds = [1, 42, 4242, 99999, 7, 31337, 2024, 555, 8888, 13];
-  let identical = 0;
+  let diverged = 0;
 
   for (const seed of seeds) {
     const fresh = emptyProgress(TRACK);
     const original = ids(buildSessionQuestions(fresh, spec(seed)));
 
-    // Three questions in, then a reload.
     const midSession: UserProgress = {
       ...fresh,
       attempts: original.slice(0, 3).map((id, i) => attemptFor(id, i !== 1)),
     };
-    const rebuilt = ids(buildSessionQuestions(midSession, spec(seed)));
-
-    if (rebuilt.join() === original.join()) identical += 1;
+    if (ids(buildSessionQuestions(midSession, spec(seed))).join() !== original.join()) {
+      diverged += 1;
+    }
   }
 
   assert.equal(
-    identical,
-    0,
-    "a mid-session reload now preserves the sitting — the gap is closed, so " +
-      "replace this characterisation test with a real recovery assertion",
+    diverged,
+    seeds.length,
+    "rebuilding no longer depends on progress; re-examine whether the " +
+      "active-session restore path is still doing necessary work",
   );
 });
 
-test("KNOWN GAP: the seed alone still holds option order steady", () => {
-  // The half of the invariant that does survive a mid-session reload. Worth
-  // pinning separately so a future fix to selection cannot regress shuffling.
+test("option order is history-independent even though selection is not", () => {
+  // The half that the seed alone does hold. Pinned separately so a change to
+  // selection cannot regress shuffling as a side effect.
   const fresh = emptyProgress(TRACK);
   const original = buildSessionQuestions(fresh, spec(4242));
   const midSession: UserProgress = {
@@ -399,12 +398,12 @@ test("KNOWN GAP: the seed alone still holds option order steady", () => {
   const rebuilt = buildSessionQuestions(midSession, spec(4242));
 
   const survivors = rebuilt.filter((q) => original.some((o) => o.id === q.id));
-  assert.ok(survivors.length > 0, "no question survived the reload");
+  assert.ok(survivors.length > 0, "no question survived the rebuild");
   for (const question of survivors) {
     assert.deepEqual(
       presentOptions(question, 4242).map((o) => `${o.key}:${o.id}`),
       presentOptions(question, 4242).map((o) => `${o.key}:${o.id}`),
-      `${question.id}: options moved after a mid-session reload`,
+      `${question.id}: options moved`,
     );
   }
 });

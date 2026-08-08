@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
  *
  *  - `flat`  (default) the mark on a bordered plate. Used in chrome: header,
  *            sidebar, anywhere the mark is an identifier.
- *  - `glass` the same mark at signage scale on the brand teal. Used for splash
+ *  - `glass` the same mark at signage scale on the ink fill. Used for splash
  *            and empty states.
  *
  * The name `glass` is kept so callers do not change; the treatment is a flat
@@ -30,7 +30,7 @@ export function BrandMark({
       )}
       aria-hidden
     >
-      <ShieldPath className="h-[1.125rem] w-[1.125rem] text-primary" />
+      <ShieldPath className="h-[1.125rem] w-[1.125rem] text-accent-strong" />
     </span>
   );
 }

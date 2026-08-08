@@ -77,7 +77,7 @@ function Settings() {
               className={cn(
                 "flex flex-col items-center gap-2 rounded-lg border bg-card p-3.5 text-sm transition-colors",
                 theme === option.value
-                  ? "border-primary bg-accent-tint font-medium text-primary ring-1 ring-inset ring-primary"
+                  ? "border-accent bg-accent-tint font-medium text-accent-foreground ring-1 ring-inset ring-accent"
                   : "border-border text-muted-foreground hover:bg-secondary",
               )}
             >
@@ -104,7 +104,7 @@ function Settings() {
                 className={cn(
                   "rounded-lg border bg-card py-2.5 font-mono text-sm tabular-nums transition-colors",
                   progress.dailyGoal === goal
-                    ? "border-primary bg-accent-tint font-semibold text-primary ring-1 ring-inset ring-primary"
+                    ? "border-accent bg-accent-tint font-semibold text-accent-foreground ring-1 ring-inset ring-accent"
                     : "border-border text-muted-foreground hover:bg-secondary",
                 )}
               >
@@ -353,7 +353,7 @@ function LinkRow({
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 border border-border p-3.5 text-sm transition-colors hover:bg-secondary"
+      className="flex items-center gap-3 rounded-sm border border-border p-3.5 text-sm transition-colors hover:bg-secondary"
     >
       <Icon className="h-4 w-4 text-muted-foreground" />
       {label}

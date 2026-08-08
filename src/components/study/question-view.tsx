@@ -91,12 +91,12 @@ export function QuestionView({
                   !isSelected &&
                   "border-border bg-card shadow-[var(--shadow-card)] hover:border-border-strong hover:bg-secondary",
 
-                // Selected: a teal ring drawn *inside* the border rather than a
+                // Selected: an accent ring drawn *inside* the border rather than a
                 // heavier border, so the box never changes size and the row
                 // does not shift under the cursor.
                 isSelected &&
                   !revealed &&
-                  "border-primary bg-accent-tint ring-1 ring-inset ring-primary",
+                  "border-accent bg-accent-tint ring-1 ring-inset ring-accent",
 
                 // Post-answer states stay informational, not celebratory.
                 showCorrect && "border-success bg-success-tint ring-1 ring-inset ring-success",
