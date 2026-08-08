@@ -12,12 +12,30 @@
       "The Credit Products group has asked the committee to approve an expansion of the model to small-business lending next quarter, arguing that the underlying creditworthiness signal is the same and that a second validation would duplicate work already done."
     ],
     "facts": [
-      { "label": "Lifecycle stage", "value": "In production nine months; expansion proposed" },
-      { "label": "Human oversight", "value": "Underwriter override available; followed 94% of the time" },
-      { "label": "Jurisdictions", "value": "United States; Ireland (subsidiary)" },
-      { "label": "Model ownership", "value": "Credit Products (business); Model Risk Management (validation, inventory)" },
-      { "label": "Monitoring signal", "value": "Regional approval rate down 14pp; cause not established" },
-      { "label": "Protected attributes", "value": "Removed from features before training" }
+      {
+        "label": "Lifecycle stage",
+        "value": "In production nine months; expansion proposed"
+      },
+      {
+        "label": "Human oversight",
+        "value": "Underwriter override available; followed 94% of the time"
+      },
+      {
+        "label": "Jurisdictions",
+        "value": "United States; Ireland (subsidiary)"
+      },
+      {
+        "label": "Model ownership",
+        "value": "Credit Products (business); Model Risk Management (validation, inventory)"
+      },
+      {
+        "label": "Monitoring signal",
+        "value": "Regional approval rate down 14pp; cause not established"
+      },
+      {
+        "label": "Protected attributes",
+        "value": "Removed from features before training"
+      }
     ]
   },
   {
@@ -33,13 +51,34 @@
       "Calderon's Chief People Officer wants to expand the tool to driver hiring, where a licence check and a regulated safety record already form part of the process."
     ],
     "facts": [
-      { "label": "Role", "value": "Calderon deploys; the vendor develops and trains" },
-      { "label": "Visibility", "value": "No access to weights, features or training data" },
-      { "label": "Human review", "value": "Only the top-ranked 20% reach a recruiter" },
-      { "label": "Jurisdictions", "value": "Multiple US states; Netherlands site" },
-      { "label": "Vendor evidence", "value": "Model card; annual bias audit covering race and sex only" },
-      { "label": "Observed signal", "value": "Employment-gap applicants rarely surfaced; not a configured rule" },
-      { "label": "Governance involvement", "value": "Not consulted before contract signature" }
+      {
+        "label": "Role",
+        "value": "Calderon deploys; the vendor develops and trains"
+      },
+      {
+        "label": "Visibility",
+        "value": "No access to weights, features or training data"
+      },
+      {
+        "label": "Human review",
+        "value": "Only the top-ranked 20% reach a recruiter"
+      },
+      {
+        "label": "Jurisdictions",
+        "value": "Multiple US states; Netherlands site"
+      },
+      {
+        "label": "Vendor evidence",
+        "value": "Model card; annual bias audit covering race and sex only"
+      },
+      {
+        "label": "Observed signal",
+        "value": "Employment-gap applicants rarely surfaced; not a configured rule"
+      },
+      {
+        "label": "Governance involvement",
+        "value": "Not consulted before contract signature"
+      }
     ]
   },
   {
@@ -55,12 +94,129 @@
       "The city council has asked for a public statement about how AI is used in the department before the assistant moves from pilot to full deployment."
     ],
     "facts": [
-      { "label": "Role", "value": "Department deploys; a general-purpose AI provider supplies the model" },
-      { "label": "Audience", "value": "Internal caseworkers only; no resident-facing output" },
-      { "label": "Decision role", "value": "No part in eligibility determination" },
-      { "label": "Pilot findings", "value": "6% unsupported citations; 2% superseded passages; all caught in review" },
-      { "label": "Retention", "value": "Logs roll off at 30 days; determination records must be kept six years" },
-      { "label": "Provider commitment", "value": "90 days' deprecation notice; no version stability guarantee" }
+      {
+        "label": "Role",
+        "value": "Department deploys; a general-purpose AI provider supplies the model"
+      },
+      {
+        "label": "Audience",
+        "value": "Internal caseworkers only; no resident-facing output"
+      },
+      {
+        "label": "Decision role",
+        "value": "No part in eligibility determination"
+      },
+      {
+        "label": "Pilot findings",
+        "value": "6% unsupported citations; 2% superseded passages; all caught in review"
+      },
+      {
+        "label": "Retention",
+        "value": "Logs roll off at 30 days; determination records must be kept six years"
+      },
+      {
+        "label": "Provider commitment",
+        "value": "90 days' deprecation notice; no version stability guarantee"
+      }
+    ]
+  },
+  {
+    "id": "sc-004",
+    "title": "Remote proctoring at a public university",
+    "sector": "education",
+    "body": [
+      "Northbridge University is licensing a remote proctoring tool for online examinations. The tool records the candidate's webcam and screen, and flags 'anomalies' — gaze direction away from the screen, a second face in frame, background noise above a threshold. Flagged sessions are queued for review by an academic integrity officer, who decides whether to open a misconduct case.",
+      "The vendor states that the tool 'does not make decisions about students' and that flag rates are comparable across demographic groups. It supplies no breakdown behind that claim. Northbridge asked for one during procurement and was told the analysis is commercially confidential.",
+      "The university's disability services team has noted that several conditions produce atypical gaze patterns, and that students with those conditions currently receive exam accommodations arranged case by case with the examinations office."
+    ],
+    "facts": [
+      {
+        "label": "Role",
+        "value": "University deploys; vendor develops"
+      },
+      {
+        "label": "Human review",
+        "value": "Every flag reviewed before any case opens"
+      },
+      {
+        "label": "Vendor evidence",
+        "value": "Parity claim asserted; underlying analysis withheld"
+      },
+      {
+        "label": "Known interaction",
+        "value": "Some disabilities produce atypical gaze patterns"
+      }
+    ]
+  },
+  {
+    "id": "sc-005",
+    "title": "Dynamic pricing at a cross-border retailer",
+    "sector": "retail / e-commerce",
+    "body": [
+      "Vantor operates an online marketplace serving customers in Canada, the United Kingdom and Germany. Its pricing team has deployed a model that adjusts listed prices for its own first-party goods several times a day, using inventory levels, competitor prices, historical demand curves and session-level signals including the customer's approximate location and device.",
+      "Prices are not personalised to an identified individual — every customer in the same location band and device class sees the same price at the same moment. Vantor's public pricing policy says prices 'vary with demand and availability' and does not mention the model.",
+      "Legal has raised that the session-level signals mean two customers in the same city can be shown different prices at the same moment, and that approximate location correlates with income in several of Vantor's markets. The pricing team's position is that the model optimises margin and was never given any protected attribute.",
+      "The model is retrained weekly on the previous eight weeks of transactions, including its own prior pricing decisions. No one has assessed whether the retraining loop reinforces its earlier choices."
+    ],
+    "facts": [
+      {
+        "label": "Markets",
+        "value": "Canada, United Kingdom, Germany"
+      },
+      {
+        "label": "Personalisation",
+        "value": "Segment-level, not individual"
+      },
+      {
+        "label": "Disclosure",
+        "value": "Public policy mentions demand and availability only"
+      },
+      {
+        "label": "Retraining",
+        "value": "Weekly, on data including its own prior decisions"
+      },
+      {
+        "label": "Signals",
+        "value": "Inventory, competitor prices, demand history, location band, device class"
+      }
+    ]
+  },
+  {
+    "id": "sc-006",
+    "title": "Predictive maintenance and automated dispatch at a utility",
+    "sector": "energy / critical infrastructure",
+    "body": [
+      "Ardal Power operates regional electricity distribution for about 2.1 million customers. It has run a predictive maintenance model for four years that ranks transformers by failure likelihood; field crews use the ranking to plan inspection routes. That system is well understood, validated annually, and has a documented override rate of about 18%.",
+      "Ardal is now piloting an extension: an automated dispatch agent that reads the same ranking, checks crew availability and parts inventory, and issues work orders directly to crew tablets without a planner in the loop. The stated goal is to cut the lag between a ranking update and a crew arriving. A planner can cancel a dispatched order, but orders are issued continuously and no planner reviews them before issue.",
+      "During the eight-week pilot, the agent issued 4,100 work orders. Planners cancelled 61. Of those, 44 were cancelled because the agent had dispatched a crew to a site where another crew was already working — the agent reads inventory and availability from a system that updates every 15 minutes, and the crew management system updates in real time.",
+      "Ardal's regulator requires it to demonstrate that maintenance decisions affecting supply reliability are traceable to an accountable person. Ardal's existing evidence for this is the planner's name on each work order. Under the pilot, work orders carry the agent's identifier.",
+      "The engineering lead argues the 61 cancellations out of 4,100 show the agent is performing well. The operations director notes that the 15-minute staleness has a known worst case that has not yet occurred: dispatching a crew to a transformer that another crew has already de-energised for work."
+    ],
+    "facts": [
+      {
+        "label": "Established system",
+        "value": "Ranking model, four years live, ~18% override rate"
+      },
+      {
+        "label": "Pilot",
+        "value": "Automated dispatch agent, no planner before issue"
+      },
+      {
+        "label": "Pilot volume",
+        "value": "4,100 orders; 61 cancelled; 44 were duplicate dispatches"
+      },
+      {
+        "label": "Data staleness",
+        "value": "Availability and inventory refresh every 15 minutes"
+      },
+      {
+        "label": "Regulatory duty",
+        "value": "Maintenance decisions traceable to an accountable person"
+      },
+      {
+        "label": "Current evidence",
+        "value": "Planner name on the order; agent identifier under the pilot"
+      }
     ]
   }
 ]
