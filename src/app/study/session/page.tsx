@@ -4,9 +4,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
-import { focusDomains, selectQuestions } from "@/lib/adaptive";
+import { focusDomains } from "@/lib/adaptive";
 import { weakAreaQuestionIds } from "@/lib/analytics";
-import { newSeed, parseSeed, presentQuestions } from "@/lib/presentation";
+import { newSeed, parseSeed } from "@/lib/presentation";
+import { buildSessionQuestions } from "@/lib/session";
 import { useProgress } from "@/lib/store/progress-provider";
 
 export default function StudySessionPage() {
@@ -64,17 +65,19 @@ function Session() {
   });
 
   // Fixed for the lifetime of the session so answering never reshuffles it.
+  // Held in state rather than derived, because `progress` changes on every
+  // answer and re-deriving would reshuffle the sitting underneath the learner.
   const [questions] = useState(() =>
-    presentQuestions(
-      selectQuestions(progress, {
-        count,
-        trackId: progress.trackId,
-        domain: drillIds.length ? undefined : selectedDomains,
-        ...(drillIds.length ? { only: drillIds } : {}),
-        seed,
-      }),
+    buildSessionQuestions(progress, {
       seed,
-    ),
+      count,
+      trackId: progress.trackId,
+      ...(drillIds.length
+        ? { only: drillIds }
+        : selectedDomains
+          ? { domain: selectedDomains }
+          : {}),
+    }),
   );
 
   const label = useMemo(() => {
