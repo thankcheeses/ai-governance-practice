@@ -9,7 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import type { ActiveSession } from "@/lib/active-session";
-import { clearActiveSession, writeActiveSession } from "@/lib/active-session";
+import {
+  ACTIVE_SESSION_VERSION,
+  clearActiveSession,
+  writeActiveSession,
+} from "@/lib/active-session";
 import { canSubmit, gradeAnswer, toggleSelection } from "@/lib/grading";
 import { correctKeys } from "@/lib/presentation";
 import { ResultActions } from "@/components/results/result-actions";
@@ -144,7 +148,7 @@ export function StudySession({
     if (finished || !question) return;
     const { questionIds, optionIds } = sittingComposition(sitting);
     writeActiveSession({
-      version: 1,
+      version: ACTIVE_SESSION_VERSION,
       seed,
       trackId: progress.trackId,
       mode,
@@ -202,7 +206,7 @@ export function StudySession({
       */
       const { questionIds, optionIds } = sittingComposition(sitting);
       const record = resultFromActiveSession({
-        version: 2,
+        version: ACTIVE_SESSION_VERSION,
         seed,
         trackId: progress.trackId,
         mode,

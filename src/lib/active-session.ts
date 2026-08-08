@@ -39,7 +39,10 @@ export const ACTIVE_SESSION_KEY = "nhid-clinical:active-session:v1";
  * not produce a result — the per-question choices were thrown away as the
  * learner advanced, so nothing survived to score, print or send.
  */
-const VERSION = 2;
+export const ACTIVE_SESSION_VERSION = 2;
+
+/** Local alias, kept so the validation below reads as it always has. */
+const VERSION = ACTIVE_SESSION_VERSION;
 
 const CONFIDENCES: Confidence[] = ["guessed", "unsure", "confident"];
 const MODES: StudyMode[] = ["practice", "domain", "review"];

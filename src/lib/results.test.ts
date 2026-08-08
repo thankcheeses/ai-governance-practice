@@ -3,8 +3,11 @@ import test from "node:test";
 import { getQuestion } from "@/content/registry";
 import { getTrackQuestions } from "@/content/registry";
 import {
+  ACTIVE_SESSION_VERSION,
   type ActiveSession,
+  resumeActiveSession,
   validateActiveSession,
+  writeActiveSession,
 } from "./active-session";
 import {
   createExamSession,
@@ -710,4 +713,86 @@ test("the emailed summary states what it is", () => {
   assert.ok(/practice simulation/i.test(body));
   assert.ok(/not.*certification exam/i.test(body));
   assert.ok(!/predicted/i.test(body));
+});
+
+/* ------------------------------------------------------------------ */
+/* The writer and the validator must agree                             */
+/* ------------------------------------------------------------------ */
+
+test("a snapshot stamped with the exported version validates", () => {
+  /*
+    This test exists because of a live regression. `ActiveSession` went to v2
+    to carry the answers a result is built from, but the study screen kept
+    writing `version: 1`. Every snapshot it wrote then failed validation on
+    restore, so refreshing mid-sitting silently dealt a brand-new sitting —
+    the exact invariant the snapshot exists to protect.
+
+    Every unit test passed throughout, because they all built snapshots by
+    hand with the right version and never exercised the writer's shape. So the
+    version is now exported and asserted here rather than repeated as a
+    literal at each call site.
+  */
+  const sitting = buildSitting(emptyProgress(), { seed: 4242, count: 5, trackId: TRACK });
+  const { questionIds, optionIds } = sittingComposition(sitting);
+  const written = {
+    version: ACTIVE_SESSION_VERSION,
+    seed: 4242,
+    trackId: TRACK,
+    mode: "practice" as const,
+    label: "Mixed practice",
+    withScheduling: false,
+    exitHref: "/study",
+    questionIds,
+    optionIds,
+    index: 0,
+    selected: [],
+    revealed: false,
+    confidence: null,
+    answers: {},
+    correctCount: 0,
+    queuedCount: 0,
+    startedAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  assert.ok(
+    validateActiveSession(written),
+    "the shape the study screen writes must survive its own validator",
+  );
+});
+
+test("a sitting written and read back resumes to the same place", () => {
+  // End to end through storage, at the version the writer actually stamps.
+  const storage = memoryStorage();
+  const seed = 5150;
+  const sitting = buildSitting(emptyProgress(), { seed, count: 6, trackId: TRACK });
+  const { questionIds, optionIds } = sittingComposition(sitting);
+  const question = getQuestion(questionIds[2])!;
+  const snapshot = {
+    version: ACTIVE_SESSION_VERSION,
+    seed,
+    trackId: TRACK,
+    mode: "practice" as const,
+    label: "Mixed practice",
+    withScheduling: false,
+    exitHref: "/study",
+    questionIds,
+    optionIds,
+    index: 2,
+    selected: [question.options[1].id],
+    revealed: false,
+    confidence: null,
+    answers: {},
+    correctCount: 1,
+    queuedCount: 0,
+    startedAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  writeActiveSession(snapshot, storage);
+
+  const resumed = resumeActiveSession({ mode: "practice", seed }, storage);
+  assert.ok(resumed, "the stored sitting was not resumable");
+  assert.equal(resumed.index, 2, "position was lost");
+  assert.deepEqual(resumed.questionIds, questionIds, "the paper changed");
+  assert.deepEqual(resumed.optionIds, optionIds, "the options were re-dealt");
+  assert.deepEqual(resumed.selected, [question.options[1].id], "the answer was lost");
 });
