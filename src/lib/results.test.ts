@@ -645,6 +645,7 @@ test("an invalid address is refused before any request is made", async () => {
   let called = false;
   const outcome = await sendResultByEmail(practiceResult(), "not-an-address", {
     endpoint: "https://example.invalid/send",
+    key: "k",
     fetch: (async () => {
       called = true;
       return new Response("", { status: 200 });
@@ -657,12 +658,14 @@ test("an invalid address is refused before any request is made", async () => {
 test("a failed delivery reports failure instead of throwing or claiming success", async () => {
   const rejected = await sendResultByEmail(practiceResult(), "a@b.co", {
     endpoint: "https://example.invalid/send",
+    key: "k",
     fetch: (async () => new Response("", { status: 500 })) as unknown as typeof fetch,
   });
   assert.equal(rejected.ok, false);
 
   const threw = await sendResultByEmail(practiceResult(), "a@b.co", {
     endpoint: "https://example.invalid/send",
+    key: "k",
     fetch: (async () => {
       throw new Error("network down");
     }) as unknown as typeof fetch,
@@ -679,6 +682,7 @@ test("a successful send posts the address once and reports success", async () =>
   const seen: { url: string; body: string }[] = [];
   const outcome = await sendResultByEmail(practiceResult(4, 91, 6), "me@example.com", {
     endpoint: "https://example.invalid/send",
+    key: "k",
     fetch: (async (url: string, init: RequestInit) => {
       seen.push({ url, body: String(init.body) });
       return new Response("", { status: 200 });
@@ -795,4 +799,80 @@ test("a sitting written and read back resumes to the same place", () => {
   assert.deepEqual(resumed.questionIds, questionIds, "the paper changed");
   assert.deepEqual(resumed.optionIds, optionIds, "the options were re-dealt");
   assert.deepEqual(resumed.selected, [question.options[1].id], "the answer was lost");
+});
+
+
+/* ------------------------------------------------------------------ */
+/* The endpoint's authorization contract                               */
+/* ------------------------------------------------------------------ */
+
+test("the request carries a bearer, because the gateway rejects it otherwise", async () => {
+  /*
+    The reported failure was `Sending failed (401)`. The cause was that this
+    request went out with only a content-type header: Supabase Edge Functions
+    deploy with `verify_jwt = true`, and the gateway rejects an unauthenticated
+    call before the function body runs — so the mail provider's key was never
+    read and the 401 had nothing to do with it.
+  */
+  let seen: Record<string, string> = {};
+  await sendResultByEmail(practiceResult(), "a@b.co", {
+    endpoint: "https://example.invalid/functions/v1/resend-email",
+    key: "test-publishable-key",
+    fetch: (async (_url: string, init: RequestInit) => {
+      seen = init.headers as Record<string, string>;
+      return new Response("", { status: 200 });
+    }) as unknown as typeof fetch,
+  });
+  assert.equal(
+    seen.authorization,
+    "Bearer test-publishable-key",
+    "no bearer means a 401 from the gateway",
+  );
+  assert.equal(seen.apikey, "test-publishable-key");
+  assert.equal(seen["content-type"], "application/json");
+});
+
+test("nothing is sent when the endpoint is configured but the key is not", async () => {
+  let called = false;
+  const outcome = await sendResultByEmail(practiceResult(), "a@b.co", {
+    endpoint: "https://example.invalid/functions/v1/resend-email",
+    key: null,
+    fetch: (async () => {
+      called = true;
+      return new Response("", { status: 200 });
+    }) as unknown as typeof fetch,
+  });
+  assert.equal(outcome.ok, false);
+  assert.equal(outcome.ok === false && outcome.reason, "unconfigured");
+  assert.equal(called, false, "a request with no credential would only 401");
+});
+
+test("a gateway rejection is not reported as a mail-provider failure", async () => {
+  // The message a user sees should point at the thing that actually refused.
+  for (const status of [401, 403]) {
+    const outcome = await sendResultByEmail(practiceResult(), "a@b.co", {
+      endpoint: "https://example.invalid/functions/v1/resend-email",
+      key: "k",
+      fetch: (async () => new Response("", { status })) as unknown as typeof fetch,
+    });
+    assert.equal(outcome.ok, false);
+    assert.ok(
+      outcome.ok === false && /before it reached the mail function/i.test(outcome.message),
+      `status ${status} should name the gateway, got: ${outcome.ok === false ? outcome.message : ""}`,
+    );
+  }
+});
+
+test("no request is made and no key is needed when the address is invalid", async () => {
+  let called = false;
+  const outcome = await sendResultByEmail(practiceResult(), "nope", {
+    endpoint: "https://example.invalid/functions/v1/resend-email",
+    key: "k",
+    fetch: (async () => {
+      called = true;
+      return new Response("", { status: 200 });
+    }) as unknown as typeof fetch,
+  });
+  assert.equal(outcome.ok === false && outcome.reason, "invalid-email");
+  assert.equal(called, false);
 });

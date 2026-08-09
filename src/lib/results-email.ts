@@ -7,6 +7,7 @@ import {
   weakestSubdomains,
 } from "./results";
 import { SUBDOMAINS } from "@/content/bok";
+import { SUPABASE_ANON_KEY } from "@/lib/supabase/config";
 
 /**
  * Sending a result to yourself.
@@ -43,8 +44,35 @@ export function emailEndpoint(): string | null {
   return url && url.trim() ? url.trim() : null;
 }
 
+/**
+ * The bearer the endpoint is called with.
+ *
+ * Supabase Edge Functions are deployed with `verify_jwt = true` by default, and
+ * the gateway rejects an unauthenticated call with 401 **before the function
+ * body runs** — so a missing header looks exactly like a broken function, and
+ * the function's own secrets are never even read.
+ *
+ * The publishable/anon key is the right credential to send. It is already
+ * public: it is inlined into this bundle at build time, and `.env.example`
+ * describes it as the key intended to reach browsers. Sending it discloses
+ * nothing that shipping the app does not already disclose, and it keeps the
+ * gateway check switched on — an email endpoint with `verify_jwt` disabled is a
+ * spam relay open to anyone who finds the URL.
+ *
+ * The provider's key stays where it belongs, in the function's own secrets, and
+ * never appears in client code or in any NEXT_PUBLIC_ variable.
+ */
+function endpointKey(): string | null {
+  return SUPABASE_ANON_KEY ? SUPABASE_ANON_KEY : null;
+}
+
+/**
+ * Both the endpoint URL and the key are needed. Reporting "configured" without
+ * the key would produce a button that always fails with a 401 the user cannot
+ * act on.
+ */
 export function isEmailConfigured(): boolean {
-  return emailEndpoint() !== null;
+  return emailEndpoint() !== null && endpointKey() !== null;
 }
 
 /**
@@ -151,6 +179,8 @@ export type SendOutcome =
 export interface SendDeps {
   fetch?: typeof fetch;
   endpoint?: string | null;
+  /** Injectable so the authorization contract can be asserted in a test. */
+  key?: string | null;
 }
 
 /**
@@ -166,7 +196,8 @@ export async function sendResultByEmail(
   deps: SendDeps = {},
 ): Promise<SendOutcome> {
   const endpoint = deps.endpoint === undefined ? emailEndpoint() : deps.endpoint;
-  if (!endpoint) {
+  const key = deps.key === undefined ? endpointKey() : deps.key;
+  if (!endpoint || !key) {
     return {
       ok: false,
       reason: "unconfigured",
@@ -191,7 +222,14 @@ export async function sendResultByEmail(
   try {
     const response = await doFetch(endpoint, {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        // The gateway accepts the legacy `eyJ…` JWT on Authorization and the
+        // newer `sb_publishable_…` format on apikey. Sending both works for
+        // either, and costs one header.
+        authorization: `Bearer ${key}`,
+        apikey: key,
+      },
       body: JSON.stringify({
         to: email.trim(),
         subject: `Your AIGP ${result.mode === "exam" ? "practice exam" : "practice session"} results`,
@@ -212,11 +250,17 @@ export async function sendResultByEmail(
       }),
     });
     if (!response.ok) {
-      return {
-        ok: false,
-        reason: "failed",
-        message: `Sending failed (${response.status}). Nothing was sent.`,
-      };
+      /*
+        A 401 here is the Supabase gateway refusing the call before the function
+        runs, not the mail provider refusing to send. Saying so saves the next
+        person from rotating a provider key that was never consulted.
+      */
+      const message =
+        response.status === 401 || response.status === 403
+          ? `The endpoint rejected the request (${response.status}) before it ` +
+            `reached the mail function. Nothing was sent.`
+          : `Sending failed (${response.status}). Nothing was sent.`;
+      return { ok: false, reason: "failed", message };
     }
     return { ok: true };
   } catch {
