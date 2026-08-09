@@ -5058,5 +5058,388 @@
       "feedback",
       "operations"
     ]
+  },
+  {
+    "id": 276,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation maps its AI controls to a voluntary framework and wants to know what the mapping is good for. Which statement is most accurate?",
+    "options": [
+      "A. It demonstrates to a regulator that the organisation complies with applicable AI law.",
+      "B. It organises the work and shows where coverage is thin, without attesting anything to anyone.",
+      "C. It substitutes for an impact assessment on each individual system in the portfolio.",
+      "D. It transfers responsibility for control failures to the body that publishes the framework."
+    ],
+    "correct": "B",
+    "rationale": "A framework mapping is an internal instrument. Its value is that it forces the organisation to say, control by control, what it actually does and where nothing is happening — which is how gaps become visible. It attests nothing, because nobody independent has looked at it. Compliance is judged by regulators against law, impact assessments are per-system work the mapping cannot replace, and publishing bodies carry no responsibility for how their framework is used.",
+    "tags": [
+      "frameworks",
+      "assurance",
+      "gap analysis"
+    ]
+  },
+  {
+    "id": 277,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Which pair of activities does the NIST AI RMF's Measure function cover, as distinct from Map?",
+    "options": [
+      "A. Identifying the context of use, and cataloguing the systems in the portfolio.",
+      "B. Evaluating system performance against chosen metrics, and tracking it after deployment.",
+      "C. Setting organisational policy, and allocating accountability for AI decisions.",
+      "D. Prioritising the risks that were identified, and closing them once they have been treated."
+    ],
+    "correct": "B",
+    "rationale": "Measure is where evaluation happens: choosing methods, applying them, and continuing to apply them once the system is live. Map is the earlier work of establishing context and what could go wrong; Govern sets policy and accountability around all of it; and prioritising and closing risks is Manage. The four are easy to blur precisely because a real programme runs them together.",
+    "tags": [
+      "NIST AI RMF",
+      "functions",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 278,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A vendor offers its ISO/IEC 42001 certificate as evidence. Which TWO details most determine what that certificate is worth to the buyer?",
+    "options": [
+      "A. The scope statement, which says which parts of the business the certificate covers.",
+      "B. Whether the product being bought falls inside that scope.",
+      "C. The number of auditors the certification body assigned to the engagement and for how long.",
+      "D. Whether the certificate was issued in the buyer's own jurisdiction.",
+      "E. How many other certificates the vendor holds across its business."
+    ],
+    "correct": "A,B",
+    "rationale": "A management system certificate covers a stated scope and nothing beyond it, so a vendor can hold a genuine certificate that excludes the very product on the table. Reading the scope, and then checking the product sits inside it, is the whole exercise. Audit staffing, the issuing jurisdiction and a collection of other certificates say nothing about whether this purchase is covered.",
+    "tags": [
+      "certification",
+      "ISO 42001",
+      "vendor evaluation"
+    ]
+  },
+  {
+    "id": 279,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An organisation adopts a voluntary AI framework mid-way through building a system. When is that most likely to be worth doing?",
+    "options": [
+      "A. Never — a framework adopted after design has begun cannot be applied honestly.",
+      "B. When the remaining lifecycle still contains decisions the framework would change.",
+      "C. Only once the system has shipped, so the assessment reflects the finished product.",
+      "D. Only where a customer or regulator has asked for the framework by name."
+    ],
+    "correct": "B",
+    "rationale": "Frameworks pay off where a decision is still open — evaluation design, release criteria, monitoring, the terms of deployment. Adopting one late is worth it exactly to the extent that such decisions remain, and worth little once everything is fixed. The absolute answers all substitute a rule for that judgement, and waiting for someone to demand a framework by name confuses evidence for a customer with usefulness to the team.",
+    "tags": [
+      "frameworks",
+      "lifecycle",
+      "adoption"
+    ]
+  },
+  {
+    "id": 280,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A governance lead is asked how a model card differs from an AI impact assessment, given that both are written about a system before it is deployed and both are circulated to people outside the building team. What is the essential distinction?",
+    "options": [
+      "A. A model card is produced by the engineering team, while an assessment is produced by lawyers and reviewed by them.",
+      "B. A model card describes the system's properties; an assessment reasons about its effects on people.",
+      "C. A model card is public, while an assessment must always remain confidential.",
+      "D. A model card is required by law, while an assessment is a voluntary practice."
+    ],
+    "correct": "B",
+    "rationale": "The two answer different questions. A card characterises the artefact — intended use, measured performance, known limitations — so someone else can decide whether to rely on it. An assessment reasons about consequences for the people a deployment touches, and reaches a judgement about whether to proceed and under what conditions. Authorship, publication and legal status all vary by organisation and jurisdiction, and none of them is the distinction.",
+    "tags": [
+      "documentation",
+      "impact assessment",
+      "transparency"
+    ]
+  },
+  {
+    "id": 281,
+    "domain": "Foundations of AI Governance",
+    "question": "A model's accuracy is reported as a single figure covering all users. What does that figure most obscure?",
+    "options": [
+      "A. How the model would perform if it were retrained on more recent data.",
+      "B. That the errors may fall almost entirely on one group of users.",
+      "C. How much computation each individual prediction required to produce.",
+      "D. Whether the training pipeline was documented to the team's own standard."
+    ],
+    "correct": "B",
+    "rationale": "An aggregate is a weighted average, and a group small enough in the data can be wrong nearly every time without moving it. That is why disaggregated reporting exists: the headline can look healthy while a particular population experiences a system that barely works. Retraining, compute and documentation are all real concerns, but none of them is something the aggregate figure is hiding.",
+    "tags": [
+      "fairness",
+      "metrics",
+      "foundations"
+    ]
+  },
+  {
+    "id": 282,
+    "domain": "Foundations of AI Governance",
+    "question": "Why does explainability matter more for some AI systems than others?",
+    "options": [
+      "A. Because complex model architectures are inherently harder to describe in plain language.",
+      "B. Because the people affected need grounds to understand and contest consequential decisions.",
+      "C. Because engineering teams debug systems faster when the model can be interpreted.",
+      "D. Because regulators tend to request explanations from larger organisations first."
+    ],
+    "correct": "B",
+    "rationale": "The demand for an explanation scales with what the decision does to someone. A recommendation nobody has to accept needs little; a refusal of credit, a job, or a benefit needs enough for the person to understand it and push back. Architecture affects how hard an explanation is to produce rather than how much is owed, debugging is an internal benefit, and regulatory attention does not track organisation size in any reliable way.",
+    "tags": [
+      "explainability",
+      "principles",
+      "foundations"
+    ]
+  },
+  {
+    "id": 283,
+    "domain": "Foundations of AI Governance",
+    "question": "A team says its model is 'unbiased' because it was trained without any protected attributes. Which TWO problems does that claim have?",
+    "options": [
+      "A. Correlated features can carry the excluded attribute into the model regardless.",
+      "B. Bias is a property of outcomes, so it is established by measurement rather than by design.",
+      "C. Excluding protected attributes measurably reduces the model's overall accuracy on the training set.",
+      "D. Protected attributes would have been required to compute the model's loss function.",
+      "E. Removing columns makes the training pipeline harder for the team to maintain."
+    ],
+    "correct": "A,B",
+    "rationale": "Both halves of the claim fail. Omitting a column does not omit the information, because postcode, purchase history and employment record can reconstruct it. And the claim is the wrong shape: whether a system is biased is settled by measuring how it behaves across groups, which the team has not done. Accuracy effects, loss functions and pipeline maintenance are unrelated to whether the assertion holds.",
+    "tags": [
+      "bias",
+      "proxy variables",
+      "foundations"
+    ]
+  },
+  {
+    "id": 284,
+    "domain": "Foundations of AI Governance",
+    "question": "What most distinguishes governing a system that recommends from governing one that decides?",
+    "options": [
+      "A. A recommender processes more data per request than a decision system does.",
+      "B. Where a person can still intervene, and whether that intervention is realistic.",
+      "C. A recommender is always lower risk, because its output is only advisory.",
+      "D. Decision systems require more computing resources to operate reliably."
+    ],
+    "correct": "B",
+    "rationale": "The distinction that governs the controls is where a human still stands in the path and whether they can genuinely act. A recommendation accepted by default, at volume, under time pressure, is a decision by another name — which is why 'advisory' is a claim to test rather than a category to rely on. Data volume and compute describe the engineering, not the exposure.",
+    "tags": [
+      "human oversight",
+      "autonomy",
+      "foundations"
+    ]
+  },
+  {
+    "id": 285,
+    "domain": "Foundations of AI Governance",
+    "question": "An AI governance committee has authority on paper but every escalation is settled by the business unit that raised it. What does this most indicate?",
+    "options": [
+      "A. The committee's terms of reference need to be redrafted more precisely.",
+      "B. Decision rights sit with the business units, whatever the documentation says.",
+      "C. The committee is meeting too infrequently to keep pace with the escalations.",
+      "D. Escalations are reaching the committee before they have been properly prepared."
+    ],
+    "correct": "B",
+    "rationale": "Authority is located by watching who actually settles things. If every escalation returns to the unit that raised it, the committee is a consultation step and the decision right never moved, which is a structural fact that no amount of redrafting changes. Cadence and preparation quality are worth attending to once the decision right is real; until then they improve the wrong thing.",
+    "tags": [
+      "governance body",
+      "decision rights",
+      "accountability"
+    ]
+  },
+  {
+    "id": 286,
+    "domain": "Foundations of AI Governance",
+    "question": "A company is writing role descriptions for AI governance. Which TWO responsibilities must be held by someone named, rather than shared across a function?",
+    "options": [
+      "A. Deciding whether a specific system may go into production.",
+      "B. Answering for a system's behaviour once it is operating.",
+      "C. Attending the periodic AI governance forum on the team's behalf.",
+      "D. Reviewing the annual training material for accuracy and tone.",
+      "E. Maintaining the shared library of assessment templates."
+    ],
+    "correct": "A,B",
+    "rationale": "Two things fail when they are everybody's: the decision to deploy and the answer for what happens next. Both need a name, because a diffused release decision is made by whoever is least cautious, and diffused ownership means nobody is looking when a system degrades. Forum attendance, training review and template upkeep are real work that a function can hold collectively without anything falling over.",
+    "tags": [
+      "roles",
+      "accountability",
+      "governance"
+    ]
+  },
+  {
+    "id": 287,
+    "domain": "Foundations of AI Governance",
+    "question": "Two years after publishing its AI policy, a company finds most teams cannot say what it requires of them. What is the most useful first response?",
+    "options": [
+      "A. Reissue the policy with a communications campaign to raise its profile internally.",
+      "B. Find out where teams look when they need an answer, and put the requirement there.",
+      "C. Add a mandatory annual attestation that each team has read the policy in full.",
+      "D. Shorten the policy so that it can be read in a single sitting by anyone."
+    ],
+    "correct": "B",
+    "rationale": "A policy is followed where it meets the work: the intake form, the design template, the release checklist, the pull request. Teams that cannot recite it are usually telling you it lives somewhere they never go, so the fix is to move the requirement into their path rather than to push harder from outside it. Campaigns and attestations measure exposure rather than practice, and a shorter document nobody consults is still not consulted.",
+    "tags": [
+      "policy",
+      "adoption",
+      "governance"
+    ]
+  },
+  {
+    "id": 288,
+    "domain": "Foundations of AI Governance",
+    "question": "A procurement team asks governance for a single question to put to every AI vendor. Which is most revealing?",
+    "options": [
+      "A. Which recognised frameworks and standards does your organisation align to?",
+      "B. Where does this system perform worst, and how did you establish that?",
+      "C. How many customers are running this system in production today?",
+      "D. What is your published roadmap for the coming twelve months?"
+    ],
+    "correct": "B",
+    "rationale": "Asking for known weaknesses tests two things at once: whether the vendor has evaluated its system seriously enough to have found the edges, and whether it will say so. A vendor that cannot answer has not looked; one that will not answer has told you how the relationship will go when something breaks. Framework alignment, customer counts and roadmaps are all answerable by a vendor that has never examined its own failure modes.",
+    "tags": [
+      "procurement",
+      "vendor evaluation",
+      "transparency"
+    ]
+  },
+  {
+    "id": 289,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company relies on legitimate interests to process personal data for model training. What does that basis additionally require?",
+    "options": [
+      "A. Written approval from the supervisory authority before training may begin.",
+      "B. A documented balancing of that interest against the rights of the people involved.",
+      "C. An opportunity for every affected individual to consent before their data is used.",
+      "D. That the resulting model is never used for any commercial purpose whatsoever."
+    ],
+    "correct": "B",
+    "rationale": "Legitimate interests is not a default that applies when consent is inconvenient — it is a basis that has to be worked for, by identifying the interest, showing the processing is necessary for it, and weighing it against what the individuals would reasonably expect. That assessment has to be recorded, because it is the thing an authority would ask to see. Prior approval is not required, consent is a different basis entirely, and commercial purposes are not excluded.",
+    "tags": [
+      "lawful basis",
+      "legitimate interests",
+      "training data"
+    ]
+  },
+  {
+    "id": 290,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An AI feature will process personal data already held by the company. Which factor most determines whether a fresh notice to individuals is needed?",
+    "options": [
+      "A. Whether the new processing is something those individuals would reasonably have expected.",
+      "B. Whether the volume of data involved exceeds the company's internal reporting threshold.",
+      "C. Whether the data was originally collected within the last twenty-four months.",
+      "D. Whether the AI feature was built in-house or licensed from an external supplier."
+    ],
+    "correct": "A",
+    "rationale": "Transparency is measured against expectation. Data used for something a person would have anticipated from the original relationship needs no fresh telling; data turned to a purpose they would find surprising does, and that is exactly where notice obligations bite. Volume thresholds are internal conventions, collection age does not change what was communicated, and build-versus-buy affects who processes rather than what people were told.",
+    "tags": [
+      "transparency",
+      "notice",
+      "further processing"
+    ]
+  },
+  {
+    "id": 291,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A generative feature lets staff paste customer records into a prompt. Which TWO privacy obligations does that most directly engage?",
+    "options": [
+      "A. Purpose limitation, because the records were collected to deliver a service.",
+      "B. Security of processing, because the content leaves the organisation's control.",
+      "C. Data portability, because customers may request a copy of their records.",
+      "D. Accuracy, because the generated text may contain factual errors.",
+      "E. Storage limitation, because prompts are retained by the internal audit log."
+    ],
+    "correct": "A,B",
+    "rationale": "Pasting a record into a third-party prompt does two things at once: it uses the data for something other than what it was collected for, and it sends it somewhere the organisation no longer controls, often to a provider that may retain it. Those are the two obligations engaged by the act itself. Portability, output accuracy and log retention are genuine concerns elsewhere but are not what pasting the record triggers.",
+    "tags": [
+      "generative AI",
+      "acceptable use",
+      "privacy"
+    ]
+  },
+  {
+    "id": 292,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A processor wants to use a customer's data to improve its own AI product. What does that intention most clearly change?",
+    "options": [
+      "A. Nothing, provided the improvement work is performed on the customer's own infrastructure.",
+      "B. It steps outside processing on instructions and needs the controller's agreement.",
+      "C. It requires the processor to appoint its own data protection officer immediately.",
+      "D. It obliges the processor to publish the resulting model under an open licence."
+    ],
+    "correct": "B",
+    "rationale": "A processor acts on the controller's instructions, and improving its own product is its own purpose rather than the controller's. Deciding to do that is a step outside the processing role, which is why it needs the controller's agreement and usually a contractual term saying so — and why doing it quietly is the recurring problem in vendor arrangements. Infrastructure location does not change whose purpose is being served, and neither officer appointments nor open licensing follow from it.",
+    "tags": [
+      "processor",
+      "roles",
+      "product improvement"
+    ]
+  },
+  {
+    "id": 293,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A retailer uses an AI tool to screen candidates for warehouse roles and rejects most applicants over fifty. Which legal exposure is most direct?",
+    "options": [
+      "A. Consumer protection, since the tool was marketed with unverified performance claims.",
+      "B. Employment discrimination, since the practice disadvantages a protected group.",
+      "C. Product liability, since the screening tool was supplied by an external vendor.",
+      "D. Contract law, since the vendor warranted the tool would be fair to all applicants."
+    ],
+    "correct": "B",
+    "rationale": "The exposure follows the effect on people in a protected category, and age is protected in employment across most jurisdictions. That the decision came from a tool changes nothing about who is answerable: the employer made the hiring decision. Consumer protection reaches the vendor's marketing rather than the employer's hiring, product liability addresses defective goods causing harm, and a warranty gives the employer a claim against the vendor without curing its own liability.",
+    "tags": [
+      "employment",
+      "discrimination",
+      "hiring"
+    ]
+  },
+  {
+    "id": 294,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company fine-tunes a model on documents it licensed for internal reference only. What is the primary intellectual property concern?",
+    "options": [
+      "A. That the fine-tuned model may be slower to run than the base model was.",
+      "B. That the licence may not permit using the documents to train a model at all.",
+      "C. That the fine-tuned model will need to be registered with a copyright office.",
+      "D. That the base model's own licence terms will automatically transfer to the output."
+    ],
+    "correct": "B",
+    "rationale": "Licences grant enumerated uses, and 'internal reference' does not obviously include extracting the material into model weights that persist and can reproduce it. Whether it does is the question to answer before training rather than after. Runtime performance is unrelated, registration is not a precondition for anything here, and licence terms do not propagate automatically from a base model to what a downstream user produces.",
+    "tags": [
+      "intellectual property",
+      "licensing",
+      "fine-tuning"
+    ]
+  },
+  {
+    "id": 295,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An AI chatbot gives a customer incorrect information about a company's refund terms. Which TWO exposures are most immediate?",
+    "options": [
+      "A. The company may be held to the terms its own interface stated.",
+      "B. Consumer protection exposure, if the statement is treated as misleading.",
+      "C. Copyright exposure, because the response reproduced published material.",
+      "D. Export control exposure, because the model is hosted in another country.",
+      "E. Competition exposure, because rivals publish clearer refund terms."
+    ],
+    "correct": "A,B",
+    "rationale": "A chatbot on a company's own channel speaks for the company, so a customer who relied on what it said can reasonably argue the company is bound by it, and a regulator can treat a wrong statement about terms as misleading regardless of what produced it. The convenient framing — that the model made a mistake — is not a defence available to the party that deployed it. Copyright, export control and competition are not engaged by getting refund terms wrong.",
+    "tags": [
+      "consumer protection",
+      "chatbots",
+      "liability"
+    ]
+  },
+  {
+    "id": 296,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A bank must give applicants specific reasons when it declines credit. Its new model is an ensemble that resists simple explanation. What follows?",
+    "options": [
+      "A. The requirement is satisfied by telling applicants that an automated model was used.",
+      "B. The bank must produce reasons for the individual outcome, or not use the model this way.",
+      "C. The requirement applies only where the decision was taken without any human review.",
+      "D. The bank may substitute the model's average feature importances for individual reasons."
+    ],
+    "correct": "B",
+    "rationale": "Adverse action requirements attach to the decision, not to the technique, so the choice of a model that cannot produce reasons is itself the thing that has to give. Either local explanation methods deliver reasons specific to this applicant, or the model is unsuitable for a use with this obligation. Disclosing that automation was involved is not a reason, a human in the loop does not remove the duty, and portfolio-wide importances describe the model rather than the applicant's outcome.",
+    "tags": [
+      "credit",
+      "adverse action",
+      "explainability"
+    ]
   }
 ]
