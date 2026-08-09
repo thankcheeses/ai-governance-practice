@@ -5,13 +5,18 @@ import { cn } from "@/lib/utils";
  *
  * Two sizes of the *same* geometry, so there is one brand shape:
  *
- *  - `flat`  (default) the mark on a bordered plate. Used in chrome: header,
- *            sidebar, anywhere the mark is an identifier.
+ *  - `flat`  (default) the bare mark, used in chrome: header, sidebar,
+ *            anywhere it is an identifier sitting beside the wordmark.
  *  - `glass` the same mark at signage scale on the ink fill. Used for splash
  *            and empty states.
  *
  * The name `glass` is kept so callers do not change; the treatment is a flat
  * fill. Gradients and sheens are out of the system entirely.
+ *
+ * The flat mark used to sit on a bordered, shadowed plate. That plate is the
+ * kind of chrome this system exists to refuse — "the tool is the interface" —
+ * and at sidebar width it pushed the wordmark onto a second line. The mark now
+ * draws directly on the surface.
  */
 export function BrandMark({
   variant = "flat",
@@ -24,13 +29,10 @@ export function BrandMark({
 
   return (
     <span
-      className={cn(
-        "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border-strong bg-card shadow-[var(--shadow-card)]",
-        className,
-      )}
+      className={cn("flex shrink-0 items-center justify-center", className)}
       aria-hidden
     >
-      <ShieldPath className="h-[1.125rem] w-[1.125rem] text-accent-strong" />
+      <ShieldPath className="h-[1.0625rem] w-[1.0625rem] text-accent-strong" />
     </span>
   );
 }

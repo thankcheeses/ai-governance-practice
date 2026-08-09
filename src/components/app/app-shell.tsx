@@ -30,15 +30,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh lg:flex">
       {/* Desktop sidebar */}
-      <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-border bg-card/40 px-3 py-5 lg:flex">
-        <Link href="/home" className="mb-7 flex items-center gap-2.5 px-2">
+      <aside className="sticky top-0 hidden h-dvh w-56 shrink-0 flex-col border-r border-border bg-card/40 px-2 py-4 lg:flex">
+        {/*
+          A wordmark, not a logo lockup. The source system is terminal-native
+          and rejects chrome, so the mark sits bare next to the name and the
+          name is allowed the width to stay on one line.
+        */}
+        <Link
+          href="/home"
+          className="mb-5 flex items-center gap-2 px-2 no-underline"
+        >
           <Logo />
-          <span className="text-[0.9375rem] font-semibold tracking-tight">
+          <span className="whitespace-nowrap font-mono text-[0.8125rem] font-semibold tracking-[0.01em]">
             {BRAND.name}
           </span>
         </Link>
 
-        <nav className="flex flex-col gap-1">
+        <nav className="flex flex-col gap-0.5">
           {NAV.map((item) => (
             <SidebarLink
               key={item.href}
@@ -142,13 +150,26 @@ function SidebarLink({
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex items-center gap-3 px-3 py-2 text-sm font-medium transition-colors",
+        /*
+          The spec is explicit: "Active item: accent color indicator. Font
+          weight 500 when active." This used to be a filled grey block, which
+          is the generic pattern the rest of the system avoids — and it
+          disagreed with the mobile tab bar, which already drew an indicator.
+        */
+        "relative flex items-center gap-2.5 py-1.5 pl-3.5 pr-2 font-mono text-[0.8125rem]",
+        "tracking-[0.01em] no-underline transition-colors",
         active
-          ? "bg-secondary text-foreground"
-          : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+          ? "font-medium text-foreground"
+          : "font-normal text-muted-foreground hover:text-foreground",
       )}
     >
-      <Icon className="h-4 w-4" />
+      {active ? (
+        <span
+          aria-hidden
+          className="absolute inset-y-1 left-0 w-0.5 bg-accent"
+        />
+      ) : null}
+      <Icon className={cn("h-4 w-4", active ? "text-accent" : "")} />
       {label}
       {badge > 0 ? (
         <span className="ml-auto flex h-5 min-w-5 items-center justify-center bg-destructive px-1.5 text-[0.6875rem] font-semibold text-destructive-foreground">
