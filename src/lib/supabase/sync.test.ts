@@ -139,3 +139,40 @@ test("a genuinely empty account still loads, and is not an error", async () => {
   assert.equal(progress.attempts.length, 0);
   assert.equal(progress.onboardingCompletedAt, null);
 });
+
+/* ------------------------------------------------------------------ */
+/* A failed sync must never present itself as a failed sign-in         */
+/* ------------------------------------------------------------------ */
+
+test("a missing table surfaces as a named error the caller can catch", async () => {
+  /*
+    The live failure this pins: a project whose migrations had never been
+    applied has no `public.profiles`, and PostgREST reports that as an error on
+    the query. loadProgress now throws — which is correct — but the SIGNED_IN
+    handler wrapped its call in try/finally with no catch, so the rejection
+    travelled back out of `signInWithPassword` and the login screen showed a
+    schema error as though the password were wrong.
+
+    The contract here is only that the throw is identifiable. The provider is
+    responsible for catching it; this asserts it is catchable and says why.
+  */
+  const missingTable = {
+    message: "Could not find the table 'public.profiles' in the schema cache",
+  };
+  await assert.rejects(
+    () =>
+      loadProgress(
+        stubClient({
+          profiles: { data: null, error: missingTable },
+          attempts: { data: [], error: null },
+          review_cards: { data: [], error: null },
+        }),
+        "user-1",
+      ),
+    (err: unknown) => {
+      assert.ok(err instanceof Error);
+      assert.match(err.message, /profiles/);
+      return true;
+    },
+  );
+});
