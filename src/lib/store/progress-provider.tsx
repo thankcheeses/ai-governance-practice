@@ -50,6 +50,12 @@ interface ProgressContextValue {
   user: User | null;
   authEnabled: boolean;
   syncing: boolean;
+  /**
+   * Why the last sync failed, or null. Signing in still succeeds when this is
+   * set — the account is authenticated and local progress is intact; only the
+   * server copy could not be read.
+   */
+  syncError: string | null;
   recordAnswer: (
     question: Question,
     selected: string[],
@@ -74,6 +80,12 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [syncing, setSyncing] = useState(false);
+  /**
+   * Set when the account's progress could not be read. Sign-in still succeeds
+   * and local progress is untouched; this exists so the app can say so rather
+   * than pretend the account is empty.
+   */
+  const [syncError, setSyncError] = useState<string | null>(null);
 
   const supabase = useMemo(() => getBrowserSupabase(), []);
   const authEnabled = Boolean(supabase);
@@ -131,9 +143,15 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
             setProgress(
               remote.attempts.length >= current.attempts.length ? remote : current,
             );
+            setSyncError(null);
           }
-        } catch {
+        } catch (err) {
           // A failed read is not an empty account. Keep local state as it is.
+          if (!cancelled) {
+            setSyncError(
+              err instanceof Error ? err.message : "Progress could not be synced.",
+            );
+          }
         } finally {
           if (!cancelled) setSyncing(false);
         }
@@ -168,6 +186,24 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
           } else {
             setProgress(remote);
           }
+          setSyncError(null);
+        } catch (err) {
+          /*
+            Signing in must succeed even when syncing cannot.
+
+            This handler runs inside supabase-js's auth callback, and a
+            rejection here propagates back out of `signInWithPassword` — so an
+            unreachable or unmigrated database presented itself to the user as
+            a failed *login*, on a screen where nothing they could type would
+            help. The two are separate concerns: authentication worked, and
+            fetching their history did not.
+
+            Local progress is kept and the failure is recorded for the UI to
+            mention quietly. It is never rethrown.
+          */
+          setSyncError(
+            err instanceof Error ? err.message : "Progress could not be synced.",
+          );
         } finally {
           setSyncing(false);
         }
@@ -389,6 +425,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       user,
       authEnabled,
       syncing,
+      syncError,
       recordAnswer,
       gradeReview,
       completeOnboarding,
@@ -404,6 +441,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       user,
       authEnabled,
       syncing,
+      syncError,
       recordAnswer,
       gradeReview,
       completeOnboarding,
