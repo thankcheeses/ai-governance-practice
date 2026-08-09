@@ -39,6 +39,22 @@ interface ReviewCardRow {
   lapses: number;
 }
 
+/**
+ * Read a signed-in user's progress from the database.
+ *
+ * **Throws if any of the three reads fails.** This is the whole contract, and
+ * it is load-bearing: supabase-js reports failure as `{ data: null, error }`
+ * rather than by throwing, so a denied policy, an expired token, a missing
+ * table or a dropped connection all arrive looking exactly like "this user has
+ * no attempts". Mapping that to an empty progress object hands the caller a
+ * confident, wrong answer — and the caller then persists it over the good copy
+ * in localStorage, which is how a refresh silently erased someone's history.
+ *
+ * A partial read is treated as a failed read for the same reason. There is no
+ * safe way to merge "the profile loaded but the attempts did not" into a
+ * progress object, because the result is indistinguishable from a real user
+ * who has completed onboarding and answered nothing.
+ */
 export async function loadProgress(
   supabase: SupabaseClient,
   userId: string,
@@ -53,6 +69,18 @@ export async function loadProgress(
       .limit(5000),
     supabase.from("review_cards").select("*").eq("user_id", userId),
   ]);
+
+  for (const [name, result] of [
+    ["profiles", profile],
+    ["attempts", attempts],
+    ["review_cards", cards],
+  ] as const) {
+    if (result.error) {
+      throw new Error(
+        `Failed to read ${name} for the signed-in user: ${result.error.message}`,
+      );
+    }
+  }
 
   const base = emptyProgress();
   const p = profile.data;

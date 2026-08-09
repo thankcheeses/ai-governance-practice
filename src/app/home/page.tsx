@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Flame, RotateCcw, Target } from "lucide-react";
+import { ArrowRight, Flame, RotateCcw, Target, Timer } from "lucide-react";
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
 import { Button } from "@/components/ui/button";
@@ -115,6 +115,29 @@ function Home() {
           </Link>
         </Button>
       </div>
+
+      {/*
+        Exam mode had a nav entry and nothing on this page, so the only route
+        to it was noticing a sixth item in the rail. It is one of the three
+        things someone comes here to do, and it belongs where the other two
+        are — full width beneath them, because it is the occasional one.
+      */}
+      <Button
+        asChild
+        size="lg"
+        variant="outline"
+        className="h-auto w-full justify-between py-4"
+      >
+        <Link href="/exam">
+          <span className="text-left">
+            <span className="block font-semibold">Take a practice exam</span>
+            <span className="block text-xs font-normal text-muted-foreground">
+              100 questions, 3 hours, no feedback until you submit
+            </span>
+          </span>
+          <Timer className="h-4 w-4 shrink-0" />
+        </Link>
+      </Button>
 
       {/* Stats */}
       <section>
