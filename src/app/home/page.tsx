@@ -82,7 +82,11 @@ function Home() {
 
       {/* Primary actions */}
       <div className="grid gap-3 sm:grid-cols-2">
-        <Button asChild size="lg" className="h-auto justify-between py-4">
+        <Button
+          asChild
+          size="lg"
+          className="h-auto justify-between whitespace-normal py-4"
+        >
           <Link href="/study">
             <span className="text-left">
               <span className="block font-semibold">Continue studying</span>
@@ -100,7 +104,7 @@ function Home() {
           asChild
           size="lg"
           variant="outline"
-          className="h-auto justify-between py-4"
+          className="h-auto justify-between whitespace-normal py-4"
         >
           <Link href="/review">
             <span className="text-left">
@@ -126,12 +130,14 @@ function Home() {
         asChild
         size="lg"
         variant="outline"
-        className="h-auto w-full justify-between py-4"
+        className="h-auto w-full justify-between whitespace-normal py-4"
       >
         <Link href="/exam">
-          <span className="text-left">
+          {/* min-w-0 so the label can shrink; without it the subtitle sets the
+              button's width and pushes the page into horizontal scroll at 375. */}
+          <span className="min-w-0 text-left">
             <span className="block font-semibold">Take a practice exam</span>
-            <span className="block text-xs font-normal text-muted-foreground">
+            <span className="block text-wrap text-xs font-normal leading-snug text-muted-foreground">
               100 questions, 3 hours, no feedback until you submit
             </span>
           </span>
