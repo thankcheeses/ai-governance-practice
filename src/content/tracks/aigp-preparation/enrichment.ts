@@ -3959,4 +3959,403 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (monitoring, measurement and improvement)",
     ],
   },
+  276: {
+    bokSubdomain: "II.D",
+    difficulty: "foundational",
+    keyTakeaway:
+      "A framework mapping is a coverage exercise for your own benefit. It shows you where nothing is happening; it proves nothing to anyone else.",
+    frameworkTags: ["NIST AI RMF", "AI Governance"],
+    distractorNotes: {
+      A:
+        "Self-assessment is not evidence of compliance, and regulators judge against law.",
+      C:
+        "Per-system assessment is separate work that a portfolio mapping cannot do.",
+      D:
+        "Publishing a framework creates no liability for those who apply it.",
+    },
+    sources: [
+      "NIST AI RMF 1.0 (voluntary, outcome-based application)",
+      "ISO/IEC 42001 (internal audit versus certification)",
+    ],
+  },
+  277: {
+    bokSubdomain: "II.D",
+    difficulty: "foundational",
+    keyTakeaway:
+      "Map frames the problem, Measure evaluates it, Manage acts on it, and Govern surrounds all three. Evaluation and monitoring both sit in Measure.",
+    frameworkTags: ["NIST AI RMF", "AI Risk Management"],
+    distractorNotes: {
+      A:
+        "Context and cataloguing are Map activities, done before anything is measured.",
+      C:
+        "Policy and accountability are Govern, which surrounds the other three.",
+      D:
+        "Prioritising and closing risks is Manage, which acts on what Measure found.",
+    },
+    sources: [
+      "NIST AI RMF 1.0 (Map, Measure, Manage and Govern functions)",
+      "ISO/IEC 42001 (performance evaluation)",
+    ],
+  },
+  278: {
+    bokSubdomain: "II.D",
+    difficulty: "applied",
+    keyTakeaway:
+      "A certificate is only as useful as its scope. Read the scope, then check the thing you are buying is inside it.",
+    frameworkTags: ["ISO 42001", "AI Governance"],
+    distractorNotes: {
+      C:
+        "Audit staffing is a delivery detail with no bearing on coverage.",
+      D:
+        "Certification bodies are internationally recognised; jurisdiction is not the test.",
+      E:
+        "A stack of certificates still does not cover an out-of-scope product.",
+    },
+    sources: [
+      "ISO/IEC 42001 (scope of the management system and its certification)",
+      "NIST AI RMF (Govern: third-party assurance)",
+    ],
+  },
+  279: {
+    bokSubdomain: "II.D",
+    difficulty: "applied",
+    keyTakeaway:
+      "A framework earns its keep against decisions not yet made. Judge late adoption by how much lifecycle is left, not by how much has passed.",
+    frameworkTags: ["NIST AI RMF", "AI Governance"],
+    distractorNotes: {
+      A:
+        "Later lifecycle stages still contain decisions worth informing.",
+      C:
+        "After shipping, the assessment can describe but no longer change anything.",
+      D:
+        "External demand is one reason among several, not the only one.",
+    },
+    sources: [
+      "NIST AI RMF 1.0 (applying the framework across the lifecycle)",
+      "ISO/IEC 42001 (planning and operational control)",
+    ],
+  },
+  280: {
+    bokSubdomain: "II.D",
+    difficulty: "applied",
+    keyTakeaway:
+      "A card describes the thing; an assessment reasons about what the thing does to people. One informs reliance, the other informs a decision.",
+    frameworkTags: ["Responsible AI", "AI Governance"],
+    distractorNotes: {
+      A:
+        "Both are cross-functional in practice and neither belongs to one profession.",
+      C:
+        "Cards are often internal, and assessments are sometimes published or shared.",
+      D:
+        "Legal status varies by jurisdiction and by the system's risk classification.",
+    },
+    sources: [
+      "NIST AI RMF (Map: documentation; Measure: reporting)",
+      "ISO/IEC 42001 (Annex A: AI system documentation and impact assessment)",
+    ],
+  },
+  281: {
+    bokSubdomain: "I.A",
+    difficulty: "foundational",
+    keyTakeaway:
+      "One number is a weighted average. Report accuracy by group, or you cannot see the group the system fails.",
+    frameworkTags: ["Responsible AI", "AI Risk Management"],
+    distractorNotes: {
+      A:
+        "Staleness is a separate question the aggregate does not conceal.",
+      C:
+        "Inference cost is an engineering concern, not something accuracy hides.",
+      D:
+        "Pipeline documentation is a control, unrelated to how the score is reported.",
+    },
+    sources: [
+      "NIST AI RMF (Measure: disaggregated evaluation)",
+      "OECD AI Principles (fairness)",
+    ],
+  },
+  282: {
+    bokSubdomain: "I.A",
+    difficulty: "foundational",
+    keyTakeaway:
+      "How much explanation is owed follows the consequence to the person, not the complexity of the model.",
+    frameworkTags: ["Responsible AI", "AI Governance"],
+    distractorNotes: {
+      A:
+        "Complexity changes the difficulty of explaining, not the obligation to.",
+      C:
+        "Debuggability is a benefit to the team, not the reason the duty exists.",
+      D:
+        "Enforcement attention does not reliably track organisation size.",
+    },
+    sources: [
+      "GDPR Art. 22 and Recital 71 (contesting automated decisions)",
+      "NIST AI RMF (Measure: explainability and interpretability)",
+    ],
+  },
+  283: {
+    bokSubdomain: "I.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Fairness is not established by what you left out of the model. It is established by measuring outcomes across groups.",
+    frameworkTags: ["Responsible AI", "AI Risk Management"],
+    distractorNotes: {
+      C:
+        "Any accuracy effect is beside the point and may not occur at all.",
+      D:
+        "Loss functions do not require protected attributes to be present.",
+      E:
+        "Maintenance burden has no bearing on whether the claim is true.",
+    },
+    sources: [
+      "NIST AI RMF (Measure: harmful bias and proxy attributes)",
+      "OECD AI Principles (fairness and non-discrimination)",
+    ],
+  },
+  284: {
+    bokSubdomain: "I.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Advisory is a claim, not a category. A recommendation that is always accepted is a decision, and should be governed as one.",
+    frameworkTags: ["Responsible AI", "EU AI Act"],
+    distractorNotes: {
+      A:
+        "Data volume per request says nothing about who is accountable.",
+      C:
+        "Advisory output accepted by default carries decision-level consequences.",
+      D:
+        "Compute requirements are an engineering property, not a governance one.",
+    },
+    sources: [
+      "EU AI Act (human oversight for high-risk systems)",
+      "NIST AI RMF (Manage: human-AI configuration)",
+    ],
+  },
+  285: {
+    bokSubdomain: "I.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Decision rights are wherever disagreements actually get settled. Documented authority that never binds anyone is a consultation step.",
+    frameworkTags: ["AI Governance", "ISO 42001"],
+    distractorNotes: {
+      A:
+        "Redrafting terms does not move a decision right that is held elsewhere.",
+      C:
+        "Cadence is worth fixing once the committee can actually decide.",
+      D:
+        "Preparation quality improves inputs to a decision nobody is making.",
+    },
+    sources: [
+      "ISO/IEC 42001 (roles, responsibilities and authorities)",
+      "NIST AI RMF (Govern: accountability structures)",
+    ],
+  },
+  286: {
+    bokSubdomain: "I.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Name an owner for the release decision and for the system in operation. Everything else can belong to a function.",
+    frameworkTags: ["AI Governance", "ISO 42001"],
+    distractorNotes: {
+      C:
+        "Attendance is delegable and rotates without consequence.",
+      D:
+        "Training review is ordinary shared work with no decision attached.",
+      E:
+        "Template maintenance is collective upkeep, not accountability.",
+    },
+    sources: [
+      "ISO/IEC 42001 (organisational roles, responsibilities and authorities)",
+      "NIST AI RMF (Govern: accountability for AI system outcomes)",
+    ],
+  },
+  287: {
+    bokSubdomain: "I.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Policy is followed where it meets the work. Put the requirement in the path teams already walk instead of asking them to come to it.",
+    frameworkTags: ["AI Governance", "ISO 42001"],
+    distractorNotes: {
+      A:
+        "A campaign raises awareness without changing where the requirement lives.",
+      C:
+        "Attestation records reading, which is not the same as applying.",
+      D:
+        "Length is not why an unconsulted document goes unconsulted.",
+    },
+    sources: [
+      "ISO/IEC 42001 (awareness, communication and operational planning)",
+      "NIST AI RMF (Govern: policies that are actually operationalised)",
+    ],
+  },
+  288: {
+    bokSubdomain: "I.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Ask a vendor where its system is weakest and how it knows. The answer reveals both the evaluation and the candour.",
+    frameworkTags: ["AI Governance", "ISO 42001"],
+    distractorNotes: {
+      A:
+        "Alignment claims are cheap and rarely scoped to the product being sold.",
+      C:
+        "Adoption counts measure popularity, not suitability or safety.",
+      D:
+        "A roadmap describes intentions, not the system on offer today.",
+    },
+    sources: [
+      "ISO/IEC 42001 (Annex A: supplier assessment)",
+      "NIST AI RMF (Govern: third-party transparency and disclosure)",
+    ],
+  },
+  289: {
+    bokSubdomain: "II.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Legitimate interests has to be earned and written down: the interest, the necessity, and the balance against what people would expect.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      A:
+        "No prior authorisation regime applies to ordinary processing.",
+      C:
+        "Requiring consent would make it a different basis altogether.",
+      D:
+        "Commercial purposes can qualify as legitimate interests.",
+    },
+    sources: [
+      "GDPR Art. 6(1)(f) and Recital 47 (legitimate interests and reasonable expectations)",
+      "NIST AI RMF (Map: data provenance and permitted use)",
+    ],
+  },
+  290: {
+    bokSubdomain: "II.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Notice is owed where the new use would surprise the person. Reasonable expectation is the test, not volume or age.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      B:
+        "Internal thresholds are conventions, not a legal test.",
+      C:
+        "How long ago data was collected does not change what was disclosed.",
+      D:
+        "Build or buy changes the processing arrangement, not the notice owed.",
+    },
+    sources: [
+      "GDPR Art. 13-14 and Art. 5(1)(a) (transparency and fairness)",
+      "OECD AI Principles (transparency)",
+    ],
+  },
+  291: {
+    bokSubdomain: "II.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Pasting a record into a prompt is both a new purpose and a disclosure outside your control. Both attach at the moment it is pasted.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      C:
+        "Portability concerns giving data to its subject, not sending it to a provider.",
+      D:
+        "Output accuracy is a quality problem, not the obligation the act engages.",
+      E:
+        "Log retention is a separate design choice about your own systems.",
+    },
+    sources: [
+      "GDPR Art. 5(1)(b) and Art. 32 (purpose limitation; security of processing)",
+      "ISO/IEC 42001 (Annex A: acceptable use of AI systems)",
+    ],
+  },
+  292: {
+    bokSubdomain: "II.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A processor improving its own product is pursuing its own purpose. That needs the controller's agreement, not just a clause nobody read.",
+    frameworkTags: ["AI Governance", "ISO 42001"],
+    distractorNotes: {
+      A:
+        "Where the work runs does not change whose purpose it serves.",
+      C:
+        "Officer appointment obligations are triggered by other criteria entirely.",
+      D:
+        "No obligation to publish arises from training on customer data.",
+    },
+    sources: [
+      "GDPR Art. 28 (processing on documented instructions)",
+      "ISO/IEC 42001 (Annex A: supplier relationships)",
+    ],
+  },
+  293: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "The employer owns the hiring decision whatever produced it. A vendor warranty may give you a claim; it does not move your liability.",
+    frameworkTags: ["Responsible AI", "AI Governance"],
+    distractorNotes: {
+      A:
+        "Marketing claims expose the vendor, not the employer's hiring practice.",
+      C:
+        "Product liability concerns defective goods causing harm, not screening outcomes.",
+      D:
+        "A warranty creates a claim against the vendor without curing the exposure.",
+    },
+    sources: [
+      "Age Discrimination in Employment Act and equivalent national law",
+      "NIST AI RMF (Measure: harmful bias in consequential decisions)",
+    ],
+  },
+  294: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "A licence to read is not a licence to train. Check the granted uses before the material becomes weights.",
+    frameworkTags: ["AI Governance", "ISO 42001"],
+    distractorNotes: {
+      A:
+        "Inference speed is an engineering matter with no IP dimension.",
+      C:
+        "No registration requirement attaches to a fine-tuned model.",
+      D:
+        "Base model terms do not automatically bind downstream outputs.",
+    },
+    sources: [
+      "Berne Convention and national copyright acts (scope of licensed use)",
+      "ISO/IEC 42001 (Annex A: intellectual property and data rights)",
+    ],
+  },
+  295: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "A chatbot on your channel speaks for you. \"The model said it\" is not a defence to a customer or a regulator.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      C:
+        "Stating refund terms wrongly does not reproduce protected expression.",
+      D:
+        "Hosting location does not engage export control for customer support.",
+      E:
+        "Competitor clarity is not a legal exposure of any kind.",
+    },
+    sources: [
+      "US Federal Trade Commission Act s.5 and equivalent consumer law",
+      "OECD AI Principles (accountability)",
+    ],
+  },
+  296: {
+    bokSubdomain: "II.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Where the law requires reasons for an individual outcome, a model that cannot give them is the wrong model for that decision.",
+    frameworkTags: ["Responsible AI", "AI Governance"],
+    distractorNotes: {
+      A:
+        "Disclosing automation is a transparency step, not a statement of reasons.",
+      C:
+        "Human review does not remove an obligation attached to the decision.",
+      D:
+        "Average importances describe the model, not this applicant's outcome.",
+    },
+    sources: [
+      "Equal Credit Opportunity Act and Regulation B (adverse action notices)",
+      "GDPR Art. 22 and Recital 71 (meaningful information about the logic)",
+    ],
+  },
 };
