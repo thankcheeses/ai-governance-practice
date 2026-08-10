@@ -61,6 +61,18 @@ function isCacheableAsset(url) {
     url.pathname.startsWith("/_next/static/") ||
     url.pathname.startsWith("/icons/") ||
     url.pathname.startsWith("/visual-aids/") ||
+    // Brand imagery: the splash mark. Without it an offline launch paints the
+    // one route guaranteed to be hit before anything has warmed the cache, with
+    // a missing image in it.
+    url.pathname.startsWith("/brand/") ||
+    /*
+      Images that went through the optimizer. On the web build `next/image`
+      rewrites every src to `/_next/image?url=…`, so the three asset prefixes
+      above only ever match on the static export, where the optimizer is off.
+      Without this line the diagram and brand rules are dead on the deployment
+      that actually runs a service worker.
+    */
+    url.pathname === "/_next/image" ||
     url.pathname.endsWith(".svg") ||
     url.pathname.endsWith(".webmanifest")
   );

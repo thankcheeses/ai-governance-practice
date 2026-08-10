@@ -1,3 +1,4 @@
+import { BrandMark3D } from "@/components/app/brand-mark-3d";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,14 +18,22 @@ import { cn } from "@/lib/utils";
  * kind of chrome this system exists to refuse — "the tool is the interface" —
  * and at sidebar width it pushed the wordmark onto a second line. The mark now
  * draws directly on the surface.
+ *
+ * A third variant, `3d`, opts into the rendered NHID mark. It is used on the
+ * splash route and nowhere else, and it falls back to `glass`. See
+ * `brand-mark-3d.tsx` for why it is a separate module and why the interface
+ * does not get one.
  */
 export function BrandMark({
   variant = "flat",
   className,
 }: {
-  variant?: "flat" | "glass";
+  variant?: "flat" | "glass" | "3d";
   className?: string;
 }) {
+  if (variant === "3d") {
+    return <BrandMark3D className={className} fallback={<GlassMark />} />;
+  }
   if (variant === "glass") return <GlassMark className={className} />;
 
   return (
