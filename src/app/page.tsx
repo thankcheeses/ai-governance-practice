@@ -22,7 +22,7 @@ export default function RootPage() {
 
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center gap-4 px-6 text-center">
-      <BrandMark variant="glass" />
+      <BrandMark variant="3d" />
       <div>
         <p className="text-lg font-semibold tracking-tight">{BRAND.name}</p>
         <p className="mt-1 text-sm text-muted-foreground">{BRAND.tagline}</p>
