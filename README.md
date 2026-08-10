@@ -195,43 +195,54 @@ matters on device — middleware only refreshes an auth cookie for server
 rendering, and bundled images need no optimizer. Keeping it behind a flag means
 neither target can silently regress the other.
 
-### 9. Theming and the Utilitarian palette
+### 9. Theming and the OpenCode Terminal Mono palette
 
 Semantic tokens are defined once per theme in `globals.css` and consumed through
 Tailwind v4's `@theme`. No component branches on theme. An inline script in the
 root layout sets `data-theme` on `<html>` before first paint, so there is no
 flash. **Light is the default**; Dark and System are available in Settings.
 
-The system is Utilitarian: industrial signage rather than product marketing.
-Colour is a signal, never an accent.
+The system is terminal-native: warm neutrals, one accent, no decoration. The
+stylesheet header is the authority for these values — if this table and
+`globals.css` ever disagree, the stylesheet is right.
 
 | Role | Light | Dark |
 | --- | --- | --- |
-| Background | `#FFFFFF` | `#0A0A0A` off-black |
-| Surface | `#FFFFFF` | `#141414` |
-| Primary text | `#0A0A0A` | `#FFFFFF` |
-| Primary fill | `#0A0A0A` on white | `#FFFFFF` on black |
-| Alert | `#CC0000` signal red | `#FF5C5C` |
-| Warning | `#8A6D00` | `#FFD700` safety yellow |
-| Info / affirmative | `#003366` industrial blue | `#6FA8DC` |
-| Rules | `#CCCCCC` / `#666666` | `#333333` / `#666666` |
+| Background | `#f7f5f5` warm off-white | `#201d1d` warm dark |
+| Surface (card) | `#fdfcfc` | `#282525` |
+| Primary text | `#201d1d` | `#fdfcfc` |
+| Primary fill | `#201d1d` | `#fdfcfc` (inverts with the ground) |
+| Secondary / muted fill | `#efecec` | `#302c2c` |
+| Muted text | `#6f6d6d` | `#9a9898` |
+| Accent (rings, indicators) | `#007aff` | `#0a84ff` |
+| Accent on text (links, marks) | `#0063d1` | `#5cb0ff` |
+| Destructive | `#c83026` | `#ff6961` |
+| Success | `#1c7a33` | `#30d158` |
+| Warning | `#985f05` | `#ff9f0a` |
+| Borders | `rgb(15 0 0 / 0.12)` | `rgb(253 252 252 / 0.12)` |
 
-Three notes on where the implementation reads the spec rather than transcribing
-it:
+Three notes on where the implementation reads the source rather than
+transcribing it:
 
-- **No pure black.** The spec lists `#000000` as the dark background and then
-  forbids it outright in its Don'ts. Charcoal `#0A0A0A` satisfies both.
-- **No green.** The palette has none, and functional coding assigns blue to
-  information. Industrial blue therefore carries the affirmative role — a
-  correct answer, a met goal — where a conventional system would use green.
-- **Signal colours are lifted in dark mode.** `#CC0000` on charcoal is 2.6:1 and
-  `#FFD700` on white is 1.6:1; neither can carry text. Both themes use adjusted
-  values behind text and reserve the pure signal hues for fills and rules. Every
-  text pair in both themes clears WCAG AA at 4.5:1, verified against the
-  computed tokens.
+- **No pure white and no pure black.** The ground is warm off-white `#f7f5f5`
+  and warm dark `#201d1d`; cards lift one step rather than switching hue.
+- **The accent never sits behind text.** `#007aff` is for rings, focus states
+  and active indicators. Where accent colour carries text — links, concept
+  marks — the darker `#0063d1` is used, which clears 5.5:1 on the light ground.
+- **Signal colours are never the only signal.** Every band and state carries a
+  text label as well, so meaning survives greyscale and colour blindness. Apple's
+  HIG hues are used as-is in dark mode and darkened in light mode, where the raw
+  values fail contrast behind text.
 
-Radius is `0` at every step, shadows are capped at `0 2px 8px rgb(0 0 0 / 0.08)`,
-and there are no gradients anywhere.
+Radius is `4px` from `sm` through `xl` (`2px` at `xs`, `8px` at `2xl`/`3xl`).
+Shadows top out at `0 2px 12px rgb(0 0 0 / 0.06)` for cards and
+`0 2px 8px rgb(0 0 0 / 0.08)` elsewhere; `--shadow-accent` is deliberately an
+alias for the plain black shadow so no component can reintroduce a coloured
+glow. There are no gradients, no glass and no glows anywhere in the app.
+
+The one place that suspends this is the OS boundary: `public/icon.svg` and the
+generated native splashes use a navy→teal→cyan gradient with a sheen, because a
+launcher icon is brand identity rather than interface. See §11.
 
 ### 10. Typography and motion
 
