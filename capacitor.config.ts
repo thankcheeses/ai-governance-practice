@@ -31,11 +31,11 @@ const config: CapacitorConfig = {
     contentInset: "always",
     // Pinch-zoom would break the fixed question layout.
     zoomEnabled: false,
-    backgroundColor: "#FAFAF9",
+    backgroundColor: "#f7f5f5",
   },
   android: {
     zoomEnabled: false,
-    backgroundColor: "#FAFAF9",
+    backgroundColor: "#f7f5f5",
   },
 };
 

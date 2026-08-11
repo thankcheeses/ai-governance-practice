@@ -31,8 +31,8 @@ const MARK = `
   <path d="m210 252 34 36 62-64" fill="none" stroke="#FFFFFF" stroke-width="28"
         stroke-linecap="round" stroke-linejoin="round"/>`;
 
-const LIGHT_BG = "#fafaf9"; // --background, light
-const DARK_BG = "#0b1220"; // --background, dark
+const LIGHT_BG = "#f7f5f5"; // --background, light
+const DARK_BG = "#201d1d"; // --background, dark
 
 /** Full-bleed square icon. Both stores apply their own corner mask. */
 const icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

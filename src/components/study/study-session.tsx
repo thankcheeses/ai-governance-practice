@@ -3,6 +3,7 @@
 import { ArrowRight, RotateCcw, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { BrandMark } from "@/components/app/brand-mark";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
 import { QuestionView } from "@/components/study/question-view";
 import { Badge } from "@/components/ui/badge";
@@ -277,8 +278,17 @@ export function StudySession({
 
   if (!question) {
     return (
-      <div className="py-16 text-center">
-        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Nothing to study here</h1>
+      /*
+        The mark, because this is an empty state and empty states carry it —
+        /dashboard and /review both do. This one is page-level rather than
+        inside a Card, so it keeps its own heading scale and gains only the
+        mark and the centring that positions it.
+      */
+      <div className="flex flex-col items-center py-16 text-center">
+        <BrandMark variant="glass" />
+        <h1 className="mt-5 text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+          Nothing to study here
+        </h1>
         <p className="mt-2 text-muted-foreground">
           Try a different domain or come back once more questions are due.
         </p>
