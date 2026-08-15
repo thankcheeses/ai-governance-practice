@@ -51,15 +51,20 @@ npm run mobile:sync   # build:mobile + npx cap sync
 
 ## What ships in this MVP
 
-**Active track: AIGP Preparation** — 50 original questions across four domains
-derived from the content itself:
+**Active track: AIGP Preparation** — 296 original questions across four domains
+derived from the content itself. 38 of them hang off 11 shared scenarios; the
+rest stand alone:
 
 | Domain | Questions |
 | --- | --- |
-| Foundations of AI Governance | 7 |
-| Laws, Standards, and Frameworks | 7 |
-| Governing AI Development | 11 |
-| Governing AI Deployment and Use | 25 |
+| Foundations of AI Governance | 62 |
+| Laws, Standards, and Frameworks | 86 |
+| Governing AI Development | 72 |
+| Governing AI Deployment and Use | 76 |
+
+These counts are derived from `questions.json`, not maintained by hand — the
+authoritative figures are `ALL_QUESTIONS.length` and `aigpDomains` in
+`src/content/registry.ts`. A table in a README goes stale; that export cannot.
 
 The complete learning loop is implemented:
 
@@ -75,6 +80,7 @@ Home → Select study → Question → Answer → Feedback → Rationale
 | Study | `/study` | Mixed adaptive sessions and per-domain practice |
 | Session | `/study/session` | One question per screen with full feedback |
 | Review | `/review` | Prioritised SM-2 queue |
+| Exam | `/exam` | Timed 100-question sitting, no feedback until it ends |
 | Progress | `/dashboard` | Accuracy, domain performance, mastery, review forecast |
 | Settings | `/settings` | Theme, daily goal, account, disclaimer, legal, reset |
 
@@ -425,8 +431,15 @@ utilities. Tap targets meet the 44px minimum, and `prefers-reduced-motion` is
 respected globally.
 
 PWA-ready: `public/manifest.webmanifest` with standalone display, theme colour,
-and a maskable icon carrying the brand mark. Adding a service worker for offline study is the natural next
-step and needs no architectural change.
+and a maskable icon carrying the brand mark.
+
+Offline study already works. `public/sw.js` is a hand-written network-first
+service worker — an online visitor always gets the newest deployment, and an
+offline one still gets the shell and any asset already seen. It is registered by
+`src/components/app/service-worker.tsx` on the web build only; the Capacitor
+build is offline by construction, so a second cache layer there would only risk
+serving stale assets after an app update. The one caveat is that the web cache
+has to be primed by a single online visit first.
 
 ---
 

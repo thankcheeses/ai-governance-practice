@@ -124,9 +124,10 @@ Worth doing, none stop a submission.
 1. **Supplied diagrams are AI-generated clipart.** The two wired VisualAids are
    the least premium surface in the app and clash with the enterprise aesthetic.
    Swapping them is a file replace, no code change.
-2. **Supplied diagrams reach only two scenarios.** Questions 19 and 45 are the
+2. **Supplied diagrams reach only two questions.** Questions 19 and 45 are the
    only ones carrying a VisualAid. Every user reaches them now that nothing is
-   gated, but two out of 82 is thin coverage for the format.
+   gated, but two out of 296 is thin coverage for the format. (The bank has
+   grown considerably since this was written; the two diagrams have not.)
 3. **Age rating and export compliance** need declaring at submission: 4+ /
    Everyone; HTTPS-only so the standard encryption exemption applies.
 4. **No analytics.** Correct for a privacy-clean data-safety declaration, but
@@ -158,7 +159,7 @@ select it in the Studio toolbar, and press Run. For a shareable build,
 **Build → Generate Signed Bundle / APK**.
 
 Verified already: the scaffold produces `applicationId org.nhidclinical.app`,
-app name "AI Governance Practice", and all 15 HTML routes plus both diagrams land in
+app name "AI Governance Practice", and all 16 HTML routes plus both diagrams land in
 `android/app/src/main/assets/public/`.
 
 ### iPhone
@@ -174,7 +175,7 @@ the iPhone, choose it as the run destination, press Run. The device must trust
 the developer certificate under **Settings → General → VPN & Device Management**.
 
 Verified already: `PRODUCT_BUNDLE_IDENTIFIER = org.nhidclinical.app`,
-`CFBundleDisplayName = AI Governance Practice`, 15 HTML routes in `ios/App/App/public/`.
+`CFBundleDisplayName = AI Governance Practice`, 16 HTML routes in `ios/App/App/public/`.
 
 **Note:** `android/` and `ios/` are gitignored. They are generated output —
 regenerate rather than commit them.

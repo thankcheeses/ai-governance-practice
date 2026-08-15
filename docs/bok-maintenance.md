@@ -170,3 +170,36 @@ That limitation no longer applies. The secondary sources turned out to be
 correct on every checkable point — version 2.1, effective 2 February 2026,
 superseding 2.0.1, four domains, thirteen sub-domains — but that was luck, not
 method, and the primary document is what the table now reflects.
+
+## Editorial review — `aigp-149` ↔ `aigp-289`
+
+`npm run check:originality` flags this pair at 56% stem overlap and therefore
+exits 1. It is a flag, not a verdict, so it needs a recorded human decision.
+
+**Decision: they are the same item rewritten, not one competency approached from
+two angles.** Both sit in *Laws, Standards, and Frameworks*, both ask what
+relying on legitimate interests under GDPR requires, and both answer B. The
+distractor sets map almost one to one:
+
+| Role in the item | `aigp-149` | `aigp-289` |
+| --- | --- | --- |
+| consent | A. explicit consent first | C. opportunity to consent |
+| **answer** | **B. balance and record it** | **B. documented balancing** |
+| regulator | D. register with the supervisory authority | A. written approval from the supervisory authority |
+| remaining | C. anonymise so the basis no longer applies | D. never used commercially |
+
+Only one distractor differs in substance. A learner who acquires either gets the
+other for nothing, and the pair inflates the apparent size of the Laws domain by
+one.
+
+**If one is retired or rewritten, retire `aigp-289`.** It is the weaker item
+independently of the duplication: option D ("never used for any commercial
+purpose whatsoever") is absolute-language a candidate can eliminate without
+knowing any GDPR, and option A is transparently wrong. `aigp-149` is tighter,
+and its "anonymise so the lawful basis no longer applies" distractor teaches
+something real about the relationship between anonymisation and lawful basis.
+
+**No content has been changed.** Both items remain in the bank and the check
+still exits 1 on this pair. Rewriting a question to silence an originality
+result is the failure mode the check exists to prevent, so the flag stays until
+there is an editorial reason to act on it rather than a green-build reason.
