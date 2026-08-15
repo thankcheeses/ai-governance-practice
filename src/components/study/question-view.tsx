@@ -2,6 +2,7 @@
 
 import type { PresentedOption, Question, Scenario } from "@/content/types";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
+import { ProtectedText } from "@/components/study/protected-text";
 import { VisualAid } from "@/components/study/visual-aid";
 import { isMultiSelect, requiredSelections } from "@/lib/grading";
 import { cn } from "@/lib/utils";
@@ -50,9 +51,12 @@ export function QuestionView({
         text on the screen and sits at reading measure, so the decision gets the
         space it needs to be read carefully rather than skimmed.
       */}
-      <h1 className="measure text-pretty font-serif text-[1.375rem] leading-snug sm:text-[1.625rem] sm:leading-snug">
+      <ProtectedText
+        as="h1"
+        className="measure text-pretty font-serif text-[1.375rem] leading-snug sm:text-[1.625rem] sm:leading-snug"
+      >
         <ConceptHighlight text={question.question} limit={3} />
-      </h1>
+      </ProtectedText>
 
       {question.visualAid ? <VisualAid aid={question.visualAid} /> : null}
 
@@ -145,9 +149,12 @@ export function QuestionView({
                   option.key
                 )}
               </span>
-              <span className="measure text-[0.9375rem] leading-relaxed sm:text-base">
+              <ProtectedText
+                as="span"
+                className="measure text-[0.9375rem] leading-relaxed sm:text-base"
+              >
                 {option.text}
-              </span>
+              </ProtectedText>
             </button>
           );
         })}
@@ -214,11 +221,14 @@ function ScenarioPanel({ scenario }: { scenario: Scenario }) {
       </header>
 
       {/* The brief's title is display type, so it takes the serif. */}
-      <p className="measure mb-4 font-serif text-[1.125rem] leading-snug text-foreground">
+      <ProtectedText
+        as="p"
+        className="measure mb-4 font-serif text-[1.125rem] leading-snug text-foreground"
+      >
         {scenario.title}
-      </p>
+      </ProtectedText>
 
-      <div className="space-y-3.5">
+      <ProtectedText className="space-y-3.5">
         {scenario.body.map((paragraph, i) => (
           <p
             key={i}
@@ -227,7 +237,7 @@ function ScenarioPanel({ scenario }: { scenario: Scenario }) {
             <ConceptHighlight text={paragraph} limit={2} />
           </p>
         ))}
-      </div>
+      </ProtectedText>
 
       {scenario.facts?.length ? (
         <dl className="mt-5 grid gap-x-5 gap-y-2 border-t border-border pt-4 text-[0.875rem] sm:grid-cols-[minmax(9rem,auto)_1fr]">
