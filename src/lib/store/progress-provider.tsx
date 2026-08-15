@@ -362,7 +362,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       setProgress((prev) => {
         const next = {
           ...prev,
-          dailyGoal: Math.max(1, Math.min(100, Math.round(goal))),
+          /*
+            No ceiling. There is no reason for the product to decide how much
+            someone is allowed to practise in a day, and the old cap of 100
+            silently rewrote a larger goal into a smaller one, which reads as
+            the setting not working. The floor of 1 stays only because a goal
+            of zero divides by zero in the Home progress ring.
+          */
+          dailyGoal: Math.max(1, Math.round(goal) || 1),
           updatedAt: new Date().toISOString(),
         };
         persistProfile(next);

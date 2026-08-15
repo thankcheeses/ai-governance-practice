@@ -57,12 +57,14 @@ function ExamStart() {
           Practice simulation
         </p>
         <h1 className="mt-1 text-[2rem] font-bold leading-[1.15] tracking-tight">
-          Exam mode
+          Practice exam
         </h1>
         <p className="measure mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
-          A timed sitting over independently authored questions. No feedback
-          until you submit. This is a study simulation and does not reproduce or
-          predict any certification exam.
+          A timed drill over independently authored scenarios, written from the
+          published body of knowledge to rehearse the concepts under time
+          pressure. No feedback until you submit. It is not a replica of any
+          certification exam, does not reproduce one, and does not predict a
+          result.
         </p>
       </header>
 

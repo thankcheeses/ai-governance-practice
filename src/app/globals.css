@@ -128,6 +128,15 @@
     SFMono-Regular, Menlo, Consolas, monospace;
 
   /*
+    Wordmark only. The product name is a signature rather than interface text,
+    and in the nav monospace it read as a filename. `font-serif` is reserved
+    for that one string in the sidebar and the mobile header — no other
+    surface may claim it, or the monospace system stops meaning anything.
+  */
+  --font-serif: var(--font-plex-serif), ui-serif, Georgia, "Times New Roman",
+    serif;
+
+  /*
     Restrained. The source caps shadows at 0 2px 8px rgba(0,0,0,0.08) and
     specifies 0 2px 12px rgba(0,0,0,0.06) for cards. Nothing here exceeds
     either, and there are no coloured glows — `accent` is an alias so no

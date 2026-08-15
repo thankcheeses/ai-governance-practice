@@ -251,16 +251,46 @@ export async function sendResultByEmail(
     });
     if (!response.ok) {
       /*
-        A 401 here is the Supabase gateway refusing the call before the function
-        runs, not the mail provider refusing to send. Saying so saves the next
-        person from rotating a provider key that was never consulted.
+        Two very different failures used to share one message here, and the
+        message named the wrong one.
+
+        A 401 is the Supabase gateway refusing the call before the function
+        runs. A 403, however, is almost always the *mail provider* refusing —
+        the function passes the provider's status through deliberately, so an
+        unverified sending domain arrives as 403 and used to be reported as a
+        gateway rejection. That sent the reader to check a credential that was
+        never consulted, which is the exact confusion the pass-through exists
+        to prevent.
+
+        The function also returns the provider's own words in `detail`. Surface
+        them: they name the real problem far better than anything guessed here.
       */
-      const message =
-        response.status === 401 || response.status === 403
-          ? `The endpoint rejected the request (${response.status}) before it ` +
-            `reached the mail function. Nothing was sent.`
-          : `Sending failed (${response.status}). Nothing was sent.`;
-      return { ok: false, reason: "failed", message };
+      const detail = await response
+        .json()
+        .then((b: unknown) =>
+          b && typeof b === "object" && "detail" in b
+            ? String((b as { detail: unknown }).detail).slice(0, 200)
+            : "",
+        )
+        .catch(() => "");
+
+      let message: string;
+      if (response.status === 401) {
+        message =
+          "The endpoint rejected the request (401) before it reached the mail " +
+          "function. Nothing was sent.";
+      } else if (response.status === 403) {
+        message =
+          "The mail provider refused the message (403). This is usually a " +
+          "sending domain that has not been verified yet. Nothing was sent.";
+      } else {
+        message = `Sending failed (${response.status}). Nothing was sent.`;
+      }
+      return {
+        ok: false,
+        reason: "failed",
+        message: detail ? `${message} Provider said: ${detail}` : message,
+      };
     }
     return { ok: true };
   } catch {

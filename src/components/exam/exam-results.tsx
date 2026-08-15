@@ -56,7 +56,7 @@ export function ExamResults({
           Practice simulation · not a certification exam
         </p>
         <h1 className="mt-1 text-[2rem] font-bold leading-[1.15] tracking-tight">
-          Exam complete
+          Practice exam complete
         </h1>
         <p className="measure mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
           {session.submittedReason === "expired"

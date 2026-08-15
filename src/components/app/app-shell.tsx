@@ -3,7 +3,6 @@
 import { BarChart3, Home, Layers, RotateCcw, Settings, Timer } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BrandMark } from "@/components/app/brand-mark";
 import { dueCount } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import { BRAND } from "@/lib/brand";
@@ -36,12 +35,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           and rejects chrome, so the mark sits bare next to the name and the
           name is allowed the width to stay on one line.
         */}
-        <Link
-          href="/home"
-          className="mb-5 flex items-center gap-2 px-2 no-underline"
-        >
-          <Logo />
-          <span className="whitespace-nowrap font-mono text-[0.8125rem] font-semibold tracking-[0.01em]">
+        <Link href="/home" className="mb-5 flex items-center px-2 no-underline">
+          <span className="whitespace-nowrap font-serif text-[0.9375rem] font-medium italic tracking-[-0.01em]">
             {BRAND.name}
           </span>
         </Link>
@@ -80,9 +75,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 function MobileHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background pt-safe lg:hidden">
-      <div className="flex h-14 items-center gap-2.5 px-4">
-        <Logo />
-        <span className="text-[0.9375rem] font-semibold tracking-tight">
+      <div className="flex h-14 items-center px-4">
+        <span className="font-serif text-[1.0625rem] font-medium italic tracking-[-0.01em]">
           {BRAND.name}
         </span>
       </div>
@@ -178,11 +172,6 @@ function SidebarLink({
       ) : null}
     </Link>
   );
-}
-
-/** Re-exported so existing call sites keep working. */
-export function Logo({ className }: { className?: string }) {
-  return <BrandMark className={className} />;
 }
 
 function isActive(pathname: string, href: string) {
