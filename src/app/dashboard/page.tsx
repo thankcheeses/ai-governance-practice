@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
 import { DimensionalMark } from "@/components/civic/dimensional-mark";
+import { OversightLevelComparison } from "@/components/civic/gpai";
 import { ReviewForecast } from "@/components/app/domain-bar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -98,6 +99,18 @@ function Dashboard() {
             </p>
           </CardContent>
         </Card>
+      </section>
+
+      {/*
+        A learning recommendation rather than another chart. Oversight level is
+        the judgement these analytics most often point at, and it is worth
+        having the three postures to hand while reading where you are weakest.
+      */}
+      <section>
+        <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
+          Worth reviewing
+        </h2>
+        <OversightLevelComparison />
       </section>
     </div>
   );

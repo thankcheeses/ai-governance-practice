@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
 import { DimensionalMark } from "@/components/civic/dimensional-mark";
+import { MonitoringThatActuallyWorks } from "@/components/civic/gpai";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -44,10 +45,13 @@ function Review() {
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">Review queue</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
+          Return to the decision
+        </h1>
+        <p className="measure mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
           Missed scenarios first, then low-confidence answers, then scheduled
-          reviews.
+          reviews. Coming back to a decision you got wrong is where most of the
+          learning actually happens.
         </p>
       </header>
 
@@ -97,6 +101,8 @@ function Review() {
               </Button>
             </CardContent>
           </Card>
+
+          <MonitoringThatActuallyWorks />
 
           <section>
             <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
