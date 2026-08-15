@@ -57,9 +57,17 @@ export function LegalDocument({
           {sections.map((section) => (
             <section key={section.heading}>
               <h2 className="text-sm font-semibold">{section.heading}</h2>
-              <p className="measure mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                {section.body}
-              </p>
+              {/* Clauses may run to several paragraphs; a blank line in the
+                  source separates them. Rendering the body as one node would
+                  collapse those breaks into a space. */}
+              {section.body.split("\n\n").map((para, i) => (
+                <p
+                  key={i}
+                  className="measure mt-1.5 text-sm leading-relaxed text-muted-foreground"
+                >
+                  {para}
+                </p>
+              ))}
             </section>
           ))}
 

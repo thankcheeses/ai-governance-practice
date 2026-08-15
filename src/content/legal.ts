@@ -21,8 +21,8 @@ export const TERMS_SUMMARY = `These terms govern your use of ${BRAND.name}, publ
 
 export const TERMS_SECTIONS: LegalSection[] = [
   {
-    heading: "The service",
-    body: `${BRAND.name} is published by ${COMPANY.name}, ${COMPANY.descriptor}. It is a scenario-based training product: you work through governance situations drawn from AI risk, privacy, security, and healthcare practice, and receive a rationale and a transferable takeaway on each. All scenarios, rationales, and takeaways are original material written for professional development.`,
+    heading: "Nature of the service",
+    body: `${BRAND.name} is an independent educational product that provides original scenario-based learning materials for professional development in AI governance. It is published by ${COMPANY.name}, ${COMPANY.descriptor}.\n\nThis product is not affiliated with, endorsed by, sponsored by, or connected to the International Association of Privacy Professionals (IAPP), CompTIA, Cloud Security Alliance, or any other certification body. It does not contain actual certification examination questions and does not guarantee any examination result or certification outcome.\n\nAll questions, scenarios, rationales, key takeaways, and related content are original educational material created solely for practice and learning purposes.`,
   },
   {
     heading: "Educational purpose — not professional advice",
@@ -33,32 +33,36 @@ export const TERMS_SECTIONS: LegalSection[] = [
     body: "Using this app does not make you, your employer, or any system you operate compliant with the EU AI Act, HIPAA, GDPR, ISO/IEC 42001, the NIST AI RMF, or any other law, framework, or standard. Frameworks are referenced to describe subject matter. Their names and texts belong to their respective owners, and this product is not affiliated with, endorsed by, or certified against any of them.",
   },
   {
-    heading: "No certification affiliation or outcome guarantee",
-    body: "This product is not affiliated with, endorsed by, sponsored by, or connected to the IAPP, CompTIA, the Cloud Security Alliance, or any certification body. It contains no actual certification exam questions and does not guarantee exam success or any other outcome.",
-  },
-  {
-    heading: "Accounts",
-    body: "An account is optional — the app works without one and keeps progress on your device. If you create one, you are responsible for the accuracy of the email you supply, for keeping your password confidential, and for activity under your account. You must be old enough to form a binding contract where you live. Tell us promptly at the address below if you believe your account has been accessed without your permission.",
+    heading: "Intellectual property and restrictions",
+    body: `All content available through the service — including questions, scenarios, rationales, explanations, text, software, and related materials — is the intellectual property of ${COMPANY.name} and is protected by applicable copyright and intellectual property laws.\n\nYou may use the content only for your personal, non-commercial educational purposes.\n\nYou may not: copy, reproduce, distribute, or publicly display the content in bulk; scrape, harvest, crawl, or systematically extract the question bank or related materials; use the content to train a machine learning model; sell, license, sublicense, or otherwise commercially exploit the content; create derivative works intended for commercial distribution or resale; or remove, obscure, or alter any copyright or proprietary notices.\n\nUnauthorised commercial use, redistribution, or bulk extraction of the content is strictly prohibited.`,
   },
   {
     heading: "Acceptable use",
-    body: "Do not scrape, bulk-export, resell, republish, or use the scenario content to train a machine learning model. Do not attempt to breach authentication, access another user's data, probe or disrupt the service, or submit unlawful content. Do not present this content as certification exam material or as the output of any certification body.",
+    body: "You agree to use the service only for lawful personal educational purposes. You may not use the service in any way that could damage, disable, overburden, or impair it, or interfere with any other person's use of the service. Automated bulk extraction or scraping is not permitted. Do not attempt to breach authentication, access another user's data, probe or disrupt the service, or submit unlawful content. Do not present this content as certification exam material or as the output of any certification body.",
+  },
+  {
+    heading: "Accounts and data",
+    body: "An account is optional — the app works without one and keeps progress on your device. If you create one, you are responsible for safeguarding your credentials and for activity under your account, and you must be old enough to form a binding contract where you live. Progress may be stored locally on your device and, if you sign in, synchronised to our systems. You may delete your account and associated data through the in-app account deletion function. Tell us promptly at the address below if you believe your account has been accessed without your permission.",
   },
   {
     heading: "Price",
     body: "The service is free. There are no paid plans, no subscriptions, and no locked features — every scenario, the review queue, and the progress analytics are available to everyone. No payment processing exists, no charge is taken, and no payment details are collected. If that ever changes, the terms will change with it and the change will be presented for acceptance before any charge.",
   },
   {
-    heading: "Beta status and changes",
-    body: "This is a public beta. Features may change or be withdrawn, availability is not guaranteed, and progress data may need to be migrated as the product develops. We may update these terms; the effective date above will change and material updates will be surfaced in the app.",
+    heading: "Disclaimer of warranties",
+    body: `The service and all content are provided "as is" and "as available", without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, accuracy, and non-infringement. We do not warrant that the service will be uninterrupted or error-free, or that the content will produce any particular examination or certification result.`,
+  },
+  {
+    heading: "Limitation of liability",
+    body: `To the maximum extent permitted by law, ${COMPANY.name} shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or data, arising out of or related to your use of the service. The service is free, so our total aggregate liability arising out of or relating to it is limited to fifty US dollars — a nominal sum stated so the limit has substance rather than resolving to nothing. Nothing here excludes liability that cannot lawfully be excluded.`,
   },
   {
     heading: "Termination",
     body: "You may stop using the service at any time and delete your account from Settings → Account, which permanently removes your account and associated progress. We may suspend or terminate access for breach of these terms, for unlawful use, or where required by law — in most cases with notice, and immediately where the conduct is serious or ongoing. Provisions on acceptable use, disclaimers, and liability survive termination.",
   },
   {
-    heading: "Limitation of liability",
-    body: `The service is provided "as is" and "as available", without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, accuracy, and non-infringement. To the maximum extent permitted by law, ${COMPANY.name} is not liable for indirect, incidental, special, consequential, or exemplary damages, nor for lost profits, lost data, or business interruption. Our total aggregate liability arising out of or relating to the service is limited to the greater of the amount you paid in the twelve months before the claim, or fifty US dollars. Nothing here excludes liability that cannot lawfully be excluded.`,
+    heading: "Changes",
+    body: "This is a public beta. Features may change or be withdrawn, availability is not guaranteed, and progress data may need to be migrated as the product develops. We may update these Terms from time to time; the effective date above will change, material updates will be surfaced in the app, and continued use after changes are posted constitutes acceptance of the revised Terms.",
   },
 ];
 

@@ -53,7 +53,7 @@ export const SUPPORT = {
  * copy-editing passes. Shown on both documents so a user can tell which version
  * they agreed to.
  */
-export const LEGAL_EFFECTIVE_DATE = "4 August 2026";
+export const LEGAL_EFFECTIVE_DATE = "15 August 2026";
 
 export const DISCLAIMER_TITLE = "Independent Educational Product";
 

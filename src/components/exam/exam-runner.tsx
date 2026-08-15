@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ProtectedText } from "@/components/study/protected-text";
 import { Button } from "@/components/ui/button";
 import type { PresentedOption, Question } from "@/content/types";
 import {
@@ -171,16 +172,19 @@ export function ExamRunner({
             <h2 className="mb-3 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
               Scenario · {question.scenario.sector}
             </h2>
-            <p className="measure mb-3 text-[0.9375rem] font-semibold leading-snug">
+            <ProtectedText
+              as="p"
+              className="measure mb-3 text-[0.9375rem] font-semibold leading-snug"
+            >
               {question.scenario.title}
-            </p>
-            <div className="space-y-3">
+            </ProtectedText>
+            <ProtectedText className="space-y-3">
               {question.scenario.body.map((p, i) => (
                 <p key={i} className="measure text-[0.875rem] leading-[1.7] text-foreground/90">
                   {p}
                 </p>
               ))}
-            </div>
+            </ProtectedText>
             {question.scenario.facts?.length ? (
               <dl className="mt-4 grid gap-x-4 gap-y-1.5 border-t border-border pt-3 text-[0.8125rem] sm:grid-cols-[minmax(9rem,auto)_1fr]">
                 {question.scenario.facts.map((f) => (
@@ -196,9 +200,12 @@ export function ExamRunner({
           </section>
         ) : null}
 
-        <h1 className="measure text-pretty text-xl font-semibold leading-snug sm:text-2xl sm:leading-snug">
+        <ProtectedText
+          as="h1"
+          className="measure text-pretty text-xl font-semibold leading-snug sm:text-2xl sm:leading-snug"
+        >
           {question.question}
-        </h1>
+        </ProtectedText>
 
         {multi ? (
           <p className="mt-5 inline-block rounded-md border border-accent-subtle bg-accent-tint px-2.5 py-1.5 text-xs font-medium text-accent-foreground">
@@ -247,9 +254,12 @@ export function ExamRunner({
                 >
                   {option.key}
                 </span>
-                <span className="measure text-[0.9375rem] leading-relaxed sm:text-base">
+                <ProtectedText
+                  as="span"
+                  className="measure text-[0.9375rem] leading-relaxed sm:text-base"
+                >
                   {option.text}
-                </span>
+                </ProtectedText>
               </button>
             );
           })}
