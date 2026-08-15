@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BrandMark } from "@/components/app/brand-mark";
+import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
 import { QuestionView } from "@/components/study/question-view";
 import { Badge } from "@/components/ui/badge";
@@ -284,8 +284,8 @@ export function StudySession({
         mark and the centring that positions it.
       */
       <div className="flex flex-col items-center py-16 text-center">
-        <BrandMark variant="glass" />
-        <h1 className="mt-5 text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+        <DimensionalMark name="brand" size="xl" />
+        <h1 className="mt-5 text-[2rem] leading-[1.15] sm:text-[2.25rem]">
           Nothing to study here
         </h1>
         <p className="mt-2 text-muted-foreground">
@@ -316,7 +316,7 @@ export function StudySession({
         <div className="min-w-0 flex-1">
           <div className="mb-1.5 flex items-baseline justify-between gap-3">
             <span className="truncate text-sm font-medium">{label}</span>
-            <span className="shrink-0 font-mono text-sm tabular-nums text-muted-foreground">
+            <span className="shrink-0 text-sm tabular-nums text-muted-foreground">
               {index + 1} / {total}
             </span>
           </div>
@@ -457,11 +457,11 @@ function SessionComplete({
     <div className="mx-auto max-w-3xl pb-16">
       <header className="mb-6 text-center">
         <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
-          <span className="font-mono text-2xl font-semibold tabular-nums text-primary">
+          <span className="text-2xl font-semibold tabular-nums text-primary">
             {score.percentage}%
           </span>
         </div>
-        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+        <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
           Session complete
         </h1>
         <p className="mt-2 text-muted-foreground">
@@ -470,7 +470,7 @@ function SessionComplete({
       </header>
 
       <section className="mb-6 rounded-lg border border-border bg-card p-5">
-        <dl className="flex flex-wrap gap-x-6 gap-y-1 font-mono text-sm">
+        <dl className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
           <SummaryStat label="Correct" value={score.correct} />
           <SummaryStat label="Incorrect" value={score.incorrect} />
           {score.unanswered > 0 ? (
@@ -496,7 +496,7 @@ function SessionComplete({
 
       {score.byDomain.length ? (
         <section className="mb-8">
-          <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
             Domain performance
           </h2>
           <ul className="space-y-3">
@@ -509,7 +509,7 @@ function SessionComplete({
 
       {score.bySubdomain.length ? (
         <section className="mb-8">
-          <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
             Sub-domain performance
           </h2>
           <ul className="space-y-3">
@@ -527,7 +527,7 @@ function SessionComplete({
 
       {weak.length ? (
         <section className="mb-8">
-          <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
             Where to study next
           </h2>
           <ul className="space-y-3">
@@ -535,7 +535,7 @@ function SessionComplete({
               const meta = SUBDOMAINS.find((x) => x.id === sub.key);
               return (
                 <li key={sub.key} className="rounded-lg border border-border bg-card p-4">
-                  <p className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+                  <p className="text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
                     {sub.key} · {sub.correct}/{sub.total} correct
                   </p>
                   <p className="measure mt-1 text-[0.9375rem] font-medium">
@@ -596,9 +596,9 @@ function SummaryRow({
     <li>
       <div className="mb-1.5 flex items-baseline justify-between gap-3">
         <span className="truncate text-sm">
-          <span className="font-mono text-muted-foreground">{prefix}</span> {label}
+          <span className="text-muted-foreground">{prefix}</span> {label}
         </span>
-        <span className="shrink-0 font-mono text-sm tabular-nums text-muted-foreground">
+        <span className="shrink-0 text-sm tabular-nums text-muted-foreground">
           {slice.correct}/{slice.total}
         </span>
       </div>

@@ -233,7 +233,7 @@ function ScenarioPanel({ scenario }: { scenario: Scenario }) {
         <dl className="mt-5 grid gap-x-5 gap-y-2 border-t border-border pt-4 text-[0.875rem] sm:grid-cols-[minmax(9rem,auto)_1fr]">
           {scenario.facts.map((fact) => (
             <div key={fact.label} className="contents">
-              <dt className="text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground sm:pt-1">
+              <dt className="text-[0.6875rem] uppercase tracking-[0.1em] text-muted-foreground sm:pt-1">
                 {fact.label}
               </dt>
               <dd className="measure mb-2 leading-relaxed sm:mb-0">{fact.value}</dd>

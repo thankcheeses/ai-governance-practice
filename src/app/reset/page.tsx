@@ -122,7 +122,7 @@ export default function ResetPage() {
             </div>
           ) : done ? (
             <>
-              <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+              <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
                 Password changed
               </h1>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -131,7 +131,7 @@ export default function ResetPage() {
             </>
           ) : !linkValid ? (
             <>
-              <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+              <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
                 This link has expired
               </h1>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -144,7 +144,7 @@ export default function ResetPage() {
             </>
           ) : (
             <>
-              <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+              <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
                 Choose a new password
               </h1>
               <p className="mt-1.5 text-sm text-muted-foreground">

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { AppGate } from "@/components/app/app-gate";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -50,7 +51,7 @@ function Study() {
   return (
     <div className="space-y-7">
       <header>
-        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Study</h1>
+        <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">Study</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {track.name} · {track.questionCount} scenarios, all free
         </p>
@@ -65,7 +66,7 @@ function Study() {
               distinct claim a reader can check independently.
             */}
             {track.contextReviewed ? (
-              <dl className="measure mt-2.5 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+              <dl className="measure mt-2.5 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
                 <dt>Authority</dt>
                 <dd>{track.contextAuthority ?? "—"}</dd>
                 <dt>Version</dt>
@@ -87,14 +88,13 @@ function Study() {
       {/* Focus session — only once weak-domain accuracy means something. */}
       {focus.length > 0 ? (
         <section>
-          <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
             Focus session
           </h2>
           <Card className="border-primary/30 shadow-[var(--shadow-accent)]">
             <CardContent className="p-5">
               <div className="flex items-start gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/25 bg-accent-tint">
-                </span>
+                <DimensionalMark name="progress" size="md" tone="accent" />
                 <div className="min-w-0">
                   <h3 className="font-semibold">
                     Drill your{" "}
@@ -136,14 +136,13 @@ function Study() {
 
       {/* Mixed practice */}
       <section>
-        <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+        <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
           Mixed practice
         </h2>
         <Card>
           <CardContent className="p-5">
             <div className="flex items-start gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
-              </span>
+              <DimensionalMark name="study" size="md" />
               <div>
                 <h3 className="font-semibold">Adaptive session</h3>
                 <p className="measure mt-1 text-sm leading-relaxed text-muted-foreground">
@@ -167,7 +166,7 @@ function Study() {
 
       {/* Domain practice */}
       <section>
-        <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+        <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
           Practise by domain
         </h2>
 

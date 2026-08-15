@@ -52,10 +52,10 @@ export function ExamResults({
   return (
     <div className="mx-auto max-w-3xl pb-16">
       <header className="mb-6">
-        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
+        <p className="text-[0.6875rem] uppercase tracking-[0.1em] text-muted-foreground">
           Practice simulation · not a certification exam
         </p>
-        <h1 className="mt-1 text-[2rem] font-bold leading-[1.15] tracking-tight">
+        <h1 className="mt-1 text-[1.875rem] leading-[1.15] sm:text-[2rem]">
           Practice exam complete
         </h1>
         <p className="measure mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
@@ -70,10 +70,10 @@ export function ExamResults({
 
       <section className="mb-6 rounded-lg border border-border bg-card p-5">
         <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
-          <span className="font-mono text-[3rem] font-bold leading-none tabular-nums">
+          <span className="text-[3rem] font-bold leading-none tabular-nums">
             {result.percentage}%
           </span>
-          <dl className="flex flex-wrap gap-x-6 gap-y-1 font-mono text-sm">
+          <dl className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
             <Stat label="Correct" value={result.correct} />
             <Stat label="Incorrect" value={result.incorrect} />
             <Stat label="Unanswered" value={result.unanswered} />
@@ -81,7 +81,7 @@ export function ExamResults({
           </dl>
         </div>
         {record ? (
-          <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-1 border-t border-border pt-4 font-mono text-sm">
+          <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-1 border-t border-border pt-4 text-sm">
             <Stat label="Time used" value={formatDuration(elapsedMs(record))} />
             <Stat
               label="Time remaining"
@@ -119,7 +119,7 @@ export function ExamResults({
               const meta = SUBDOMAINS.find((x) => x.id === s.key);
               return (
                 <li key={s.key} className="rounded-lg border border-border bg-card p-4">
-                  <p className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
+                  <p className="text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
                     {s.key} · {s.correct}/{s.total} correct
                   </p>
                   <p className="measure mt-1 text-[0.9375rem] font-medium">
@@ -154,7 +154,7 @@ export function ExamResults({
                     aria-expanded={open}
                     className="flex w-full items-start gap-3 p-4 text-left"
                   >
-                    <span className="mt-px font-mono text-xs tabular-nums text-muted-foreground">
+                    <span className="mt-px text-xs tabular-nums text-muted-foreground">
                       {i + 1}
                     </span>
                     <span className="measure flex-1 text-[0.9375rem] leading-relaxed">
@@ -162,7 +162,7 @@ export function ExamResults({
                     </span>
                     <span
                       className={cn(
-                        "shrink-0 rounded-md border px-2 py-0.5 font-mono text-[0.6875rem]",
+                        "shrink-0 rounded-md border px-2 py-0.5 text-[0.6875rem]",
                         chosen.length
                           ? "border-destructive/40 text-destructive"
                           : "border-border text-muted-foreground",
@@ -188,16 +188,16 @@ export function ExamResults({
                                 !isRight && !wasChosen && "border-border",
                               )}
                             >
-                              <span className="mr-2 font-mono text-xs text-muted-foreground">
+                              <span className="mr-2 text-xs text-muted-foreground">
                                 {o.key}
                               </span>
                               {o.text}
                               {isRight ? (
-                                <span className="ml-2 font-mono text-[0.6875rem] text-success">
+                                <span className="ml-2 text-[0.6875rem] text-success">
                                   correct
                                 </span>
                               ) : wasChosen ? (
-                                <span className="ml-2 font-mono text-[0.6875rem] text-destructive">
+                                <span className="ml-2 text-[0.6875rem] text-destructive">
                                   your answer
                                 </span>
                               ) : null}
@@ -223,7 +223,7 @@ export function ExamResults({
                       {question.sources?.length ? (
                         <div>
                           <Label>Check it against</Label>
-                          <ul className="measure space-y-1 font-mono text-[0.8125rem] text-muted-foreground">
+                          <ul className="measure space-y-1 text-[0.8125rem] text-muted-foreground">
                             {question.sources.map((s) => (
                               <li key={s}>· {s}</li>
                             ))}
@@ -272,7 +272,7 @@ function Label({ children, className }: { children: React.ReactNode; className?:
   return (
     <h3
       className={cn(
-        "mb-2 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground",
+        "mb-2 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground",
         className,
       )}
     >
@@ -284,7 +284,7 @@ function Label({ children, className }: { children: React.ReactNode; className?:
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mb-8">
-      <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+      <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
         {title}
       </h2>
       {children}
@@ -305,10 +305,10 @@ function SliceRow({
     <li>
       <div className="mb-1.5 flex items-baseline justify-between gap-3">
         <span className="truncate text-sm">
-          <span className="font-mono text-muted-foreground">{prefix}</span>{" "}
+          <span className="text-muted-foreground">{prefix}</span>{" "}
           {label ?? slice.label}
         </span>
-        <span className="shrink-0 font-mono text-sm tabular-nums text-muted-foreground">
+        <span className="shrink-0 text-sm tabular-nums text-muted-foreground">
           {slice.correct}/{slice.total}
         </span>
       </div>
