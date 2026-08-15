@@ -20,7 +20,7 @@
   {
     "id": 2,
     "domain": "Foundations of AI Governance",
-    "question": "Which of the following best illustrates the principle of human-centricity in the design of a clinical voice AI system?",
+    "question": "A clinical voice AI system is being designed. Which design choice best reflects the principle of human-centricity?",
     "options": [
       "A. A qualified clinician retains final authority over any recommendation the system surfaces.",
       "B. The system routes each interaction to the queue with the shortest current wait time.",
@@ -91,7 +91,7 @@
   {
     "id": 6,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "Which of the following existing legal frameworks is most directly relevant when a voice AI agent processes protected health information during a member interaction?",
+    "question": "A voice AI agent processes protected health information during a member interaction. Which existing legal framework applies most directly?",
     "options": [
       "A. The EU AI Act, which sets the transparency baseline for conversational systems handling health data.",
       "B. Sectoral consumer protection rules, which govern automated communications with plan members.",
@@ -270,7 +270,7 @@
   {
     "id": 16,
     "domain": "Governing AI Deployment and Use",
-    "question": "Which of the following is the most direct control for ensuring that patients or members understand they are interacting with an AI system rather than a human during a voice call?",
+    "question": "During a voice call, a patient needs to know they are speaking to an AI rather than a person. What is the most direct control for achieving that?",
     "options": [
       "A. Logging every conversation so that identity questions can be reviewed after the fact.",
       "B. Training the agent to answer truthfully whenever a caller asks whether it is a person.",
@@ -382,7 +382,7 @@
   {
     "id": 22,
     "domain": "Governing AI Deployment and Use",
-    "question": "Which of the following is the most appropriate auditability requirement for a healthcare voice AI system that handles member inquiries involving PHI?",
+    "question": "A healthcare voice AI system handles member inquiries involving PHI. What auditability requirement is most appropriate for it?",
     "options": [
       "A. Logs of authentication attempts and escalations, held by the vendor and available on request.",
       "B. Full call audio retained indefinitely so any interaction can be reconstructed on demand.",
@@ -456,7 +456,7 @@
   {
     "id": 26,
     "domain": "Foundations of AI Governance",
-    "question": "Which of the following best describes the concept of “model drift” in a production AI system?",
+    "question": "A production AI system is said to be experiencing model drift. What does that describe?",
     "options": [
       "A. The model is retrained on a schedule, causing its outputs to change between versions.",
       "B. The model is promoted across environments, so behaviour differs between staging and production.",
@@ -491,7 +491,7 @@
   {
     "id": 28,
     "domain": "Governing AI Development",
-    "question": "Which of the following is the primary purpose of an AI impact assessment?",
+    "question": "An organisation is about to run an AI impact assessment. What is its primary purpose?",
     "options": [
       "A. To document the system's design decisions so they can be reproduced by a later team.",
       "B. To anticipate and manage potential harms to individuals and groups across the lifecycle.",
@@ -561,7 +561,7 @@
   {
     "id": 32,
     "domain": "Foundations of AI Governance",
-    "question": "Which of the following is a core pillar of responsible AI that focuses on ensuring system inputs, outputs, and decision logic can be understood by relevant stakeholders?",
+    "question": "One pillar of responsible AI concerns whether a system's inputs, outputs and decision logic can be understood by the people relying on them. Which pillar is that?",
     "options": [
       "A. Accountability, which assigns named ownership for decisions made across the lifecycle.",
       "B. Transparency and explainability, which make inputs, outputs, and logic understandable.",
@@ -650,7 +650,7 @@
   {
     "id": 37,
     "domain": "Governing AI Deployment and Use",
-    "question": "Which of the following most strongly supports accountability for an AI system used in member-facing healthcare interactions?",
+    "question": "An AI system is used in member-facing healthcare interactions. What most strongly supports accountability for it?",
     "options": [
       "A. Clearly defined roles and responsibilities across design, deployment, and oversight.",
       "B. An independent audit performed annually against the organisation's AI policy set.",
@@ -739,7 +739,7 @@
   {
     "id": 42,
     "domain": "Governing AI Development",
-    "question": "Which of the following is a key reason to document data lineage for training data used in a clinical AI system?",
+    "question": "A team is deciding whether to document data lineage for a clinical AI system's training data. What is a key reason to do so?",
     "options": [
       "A. It demonstrates that the training data was lawfully licensed for the intended purpose.",
       "B. It allows the training set to be reconstructed exactly if the original store is lost.",
@@ -827,7 +827,7 @@
   {
     "id": 47,
     "domain": "Governing AI Development",
-    "question": "Which of the following is the most appropriate reason to perform a conformity assessment before placing a high-risk AI system on the EU market?",
+    "question": "A high-risk AI system is about to be placed on the EU market. What is the most appropriate reason to perform a conformity assessment first?",
     "options": [
       "A. To establish which post-market monitoring obligations will apply after the system launches.",
       "B. To register the system in the EU database before it becomes available to deployers.",
@@ -863,7 +863,7 @@
   {
     "id": 49,
     "domain": "Foundations of AI Governance",
-    "question": "Which of the following best describes the relationship between AI governance and existing privacy, security, and civil-rights obligations?",
+    "question": "How does AI governance relate to an organisation's existing privacy, security and civil-rights obligations?",
     "options": [
       "A. AI governance operates alongside and must be integrated with existing legal obligations.",
       "B. AI governance supersedes prior obligations where the two impose conflicting requirements.",
