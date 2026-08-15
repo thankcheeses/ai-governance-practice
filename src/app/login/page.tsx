@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -101,7 +100,6 @@ export default function LoginPage() {
       </Button>
 
       <div className="mb-7 flex items-center gap-2.5">
-        <DimensionalMark name="brand" size="md" />
         <span className="text-[0.9375rem] font-semibold tracking-tight">
           {BRAND.name}
         </span>

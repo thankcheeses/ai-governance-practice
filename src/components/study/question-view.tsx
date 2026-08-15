@@ -189,7 +189,7 @@ function MarkGlyph({ kind }: { kind: "correct" | "incorrect" }) {
  * The fact pattern, above the question it belongs to.
  *
  * Deliberately not collapsed by default and deliberately not truncated. The
- * skill being practised is reading a dense brief and working out which facts
+ * skill being practiced is reading a dense brief and working out which facts
  * bear on the decision — hiding two thirds of it behind a "show more" would
  * remove the exercise. It is set at reading measure and given its own surface
  * so the eye can tell scenario from question at a glance.

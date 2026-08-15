@@ -87,7 +87,7 @@ test("family sizes span a spectrum rather than clustering", () => {
 test("standalone questions remain the bulk of the bank", () => {
   /*
     Scenario families are the demanding minority, not the default. If most of
-    the bank sat behind a fact pattern, a learner could not practise quick
+    the bank sat behind a fact pattern, a learner could not practice quick
     application, and a short session would become unusable.
   */
   const withScenario = ALL.filter((q) => q.scenario).length;

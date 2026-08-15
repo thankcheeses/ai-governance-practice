@@ -43,9 +43,8 @@ export default function OnboardingPage() {
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-8 sm:py-12">
-      <header className="mb-9 flex items-center gap-3">
-        <DimensionalMark name="brand" size="md" />
-        <span className="font-serif text-[1.0625rem] italic">{BRAND.name}</span>
+      <header className="mb-9">
+        <span className="font-serif text-[1.125rem]">{BRAND.name}</span>
       </header>
 
       <div className="flex-1">

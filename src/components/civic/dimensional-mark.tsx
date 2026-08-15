@@ -41,11 +41,14 @@ export type MarkName =
 
 export type MarkSize = "sm" | "md" | "lg" | "xl";
 
-const SIZE: Record<MarkSize, { box: string; svg: string; radius: string }> = {
-  sm: { box: "h-6 w-6", svg: "h-3.5 w-3.5", radius: "rounded-[6px]" },
-  md: { box: "h-9 w-9", svg: "h-5 w-5", radius: "rounded-[10px]" },
-  lg: { box: "h-12 w-12", svg: "h-6 w-6", radius: "rounded-[13px]" },
-  xl: { box: "h-16 w-16", svg: "h-8 w-8", radius: "rounded-[18px]" },
+const SIZE: Record<
+  MarkSize,
+  { box: string; svg: string; radius: string; stroke: number }
+> = {
+  sm: { box: "h-7 w-7", svg: "h-4 w-4", radius: "rounded-[7px]", stroke: 2 },
+  md: { box: "h-9 w-9", svg: "h-5 w-5", radius: "rounded-[10px]", stroke: 1.9 },
+  lg: { box: "h-12 w-12", svg: "h-7 w-7", radius: "rounded-[14px]", stroke: 1.8 },
+  xl: { box: "h-16 w-16", svg: "h-9 w-9", radius: "rounded-[18px]", stroke: 1.7 },
 };
 
 /*
@@ -201,12 +204,35 @@ export interface DimensionalMarkProps {
   className?: string;
 }
 
+/*
+  Low relief, built in three layers.
+
+  A flat fill reads as a sticker; these have to read as small solid objects
+  sitting on the page. Each tone therefore carries:
+
+    1. a soft top-lit surface gradient, so the tile has a light source,
+    2. an inset highlight along the top edge and an inset shade along the
+       bottom, which is what actually produces the bevel, and
+    3. a two-part drop shadow — a tight contact shadow plus a wider soft one.
+
+  This is the one place gradients are permitted, and deliberately so: the
+  design system rules them out on *surfaces* — no gradient backgrounds, no
+  glass — while the dimensional objects are the thing it asks to have depth.
+  The gradients here are tonal shading within a single hue, never a colour
+  transition, so nothing reads as a gradient in the sense the system forbids.
+*/
+const RELIEF =
+  "shadow-[0_1px_2px_rgb(15_23_42/0.16),0_4px_10px_-2px_rgb(15_23_42/0.18),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.18)]";
+
+const RELIEF_LIGHT =
+  "shadow-[0_1px_2px_rgb(15_23_42/0.08),0_4px_10px_-2px_rgb(15_23_42/0.10),inset_0_1px_0_rgb(255_255_255/0.85),inset_0_-1px_0_rgb(15_23_42/0.07)]";
+
 const TONE: Record<NonNullable<DimensionalMarkProps["tone"]>, string> = {
-  ink: "bg-primary text-primary-foreground border-transparent shadow-raised",
-  accent: "bg-accent text-white border-transparent shadow-raised",
-  insight: "bg-insight-tint text-insight-foreground border-border shadow-raised",
-  support: "bg-success-tint text-success border-border shadow-raised",
-  danger: "bg-destructive-tint text-destructive border-border shadow-raised",
+  ink: `text-primary-foreground border-transparent bg-primary bg-[radial-gradient(120%_100%_at_50%_0%,rgb(255_255_255/0.16),transparent_60%)] ${RELIEF}`,
+  accent: `text-white border-transparent bg-accent bg-[radial-gradient(120%_100%_at_50%_0%,rgb(255_255_255/0.22),transparent_60%)] ${RELIEF}`,
+  insight: `text-insight-foreground border-border bg-insight-tint bg-[radial-gradient(120%_100%_at_50%_0%,rgb(255_255_255/0.7),transparent_65%)] ${RELIEF_LIGHT}`,
+  support: `text-success border-border bg-success-tint bg-[radial-gradient(120%_100%_at_50%_0%,rgb(255_255_255/0.7),transparent_65%)] ${RELIEF_LIGHT}`,
+  danger: `text-destructive border-border bg-destructive-tint bg-[radial-gradient(120%_100%_at_50%_0%,rgb(255_255_255/0.7),transparent_65%)] ${RELIEF_LIGHT}`,
   plain: "bg-transparent text-current border-transparent",
 };
 
@@ -238,7 +264,7 @@ export function DimensionalMark({
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth={1.75}
+        strokeWidth={dim.stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
         className={dim.svg}

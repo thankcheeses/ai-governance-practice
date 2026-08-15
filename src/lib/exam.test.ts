@@ -421,7 +421,7 @@ test("practice history does not reorder an active exam", () => {
   assert.deepEqual(resumeExamSession(storage)!.questionIds, s.questionIds);
 });
 
-test("an exam is composed identically whatever the candidate has practised", () => {
+test("an exam is composed identically whatever the candidate has practiced", () => {
   // Composition ignores progress entirely, so two candidates with the same
   // seed sit the same paper.
   const a = createExamSession({ seed: 55, count: 20, trackId: TRACK, now: T0 });

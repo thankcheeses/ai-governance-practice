@@ -59,7 +59,7 @@ export function GpaiFrame({
   return (
     <section
       className={cn(
-        "rounded-xl border border-border bg-card p-5 shadow-card sm:p-6",
+        "flex h-full flex-col rounded-xl border border-border bg-card p-5 shadow-card sm:p-6",
         className,
       )}
       aria-labelledby={`${panelId}-title`}
@@ -78,21 +78,30 @@ export function GpaiFrame({
 
       <div className="mt-5">{diagram}</div>
 
+      <div className="flex-1" />
+
+      {/*
+        The diagram labels every stage itself, so the compact mode does not
+        list them again underneath — that was the same five words twice, once
+        as a drawing and once as a row. Compact is still complete: the names
+        are real selectable text inside the diagram. Expanding adds the
+        explanation of each, which is the part that was genuinely hidden.
+      */}
       {locked ? (
-        <StageList stages={stages} expanded />
+        <StageList stages={stages} />
       ) : (
         <>
           <div id={panelId} hidden={!open}>
-            <StageList stages={stages} expanded />
+            <StageList stages={stages} />
           </div>
-          {!open ? <StageList stages={stages} expanded={false} /> : null}
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-controls={panelId}
             className={cn(
-              "mt-4 inline-flex min-h-11 items-center rounded-md px-3 text-[0.875rem] font-medium",
+              "mt-4 inline-flex min-h-11 shrink-0 items-center self-start rounded-md px-3",
+              "text-[0.875rem] font-medium",
               "text-accent-strong transition-colors duration-[120ms] hover:bg-secondary",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             )}
@@ -106,36 +115,11 @@ export function GpaiFrame({
 }
 
 /**
- * Compact lists the stage names inline; expanded gives each one its
- * explanation. Both are `<ol>` because the stages are ordered in every module —
- * that ordering is the teaching point, and a screen reader should hear it.
+ * Each stage with its explanation. An `<ol>` because the stages are ordered in
+ * every module — that ordering is the teaching point, and a screen reader
+ * should hear it as a sequence rather than a set.
  */
-function StageList({
-  stages,
-  expanded,
-}: {
-  stages: GpaiStage[];
-  expanded: boolean;
-}) {
-  if (!expanded) {
-    return (
-      <ol className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1.5">
-        {stages.map((s, i) => (
-          <li key={s.name} className="flex items-center gap-2">
-            <span className="text-[0.875rem] font-medium text-foreground">
-              {s.name}
-            </span>
-            {i < stages.length - 1 ? (
-              <span aria-hidden className="text-muted-foreground">
-                →
-              </span>
-            ) : null}
-          </li>
-        ))}
-      </ol>
-    );
-  }
-
+function StageList({ stages }: { stages: GpaiStage[] }) {
   return (
     <ol className="mt-4 space-y-3">
       {stages.map((s, i) => (
@@ -155,88 +139,5 @@ function StageList({
         </li>
       ))}
     </ol>
-  );
-}
-
-/* ---------------------------------------------------------- Geometry ------ */
-
-/**
- * A horizontal path of nodes joined by connectors — the shape shared by the
- * gate, the decision frame, and the monitoring loop.
- *
- * `aria-hidden` throughout: every label it draws is repeated as real text in
- * the stage list above, so announcing the drawing would duplicate it.
- */
-export function NodePath({
-  count,
-  tone = "accent",
-  loop = false,
-}: {
-  count: number;
-  tone?: "accent" | "insight" | "support";
-  loop?: boolean;
-}) {
-  const fill =
-    tone === "insight"
-      ? "bg-insight"
-      : tone === "support"
-        ? "bg-success"
-        : "bg-accent";
-
-  return (
-    <div aria-hidden className="flex items-center gap-1.5">
-      {Array.from({ length: count }, (_, i) => (
-        <div key={i} className="flex flex-1 items-center gap-1.5">
-          <span
-            className={cn(
-              "h-3 w-3 shrink-0 rounded-full border border-border-strong/40 shadow-raised",
-              fill,
-            )}
-          />
-          {i < count - 1 ? (
-            <span className="h-[2px] flex-1 rounded-full bg-border-strong/40" />
-          ) : null}
-        </div>
-      ))}
-      {loop ? (
-        <span className="ml-1 shrink-0 text-[0.875rem] text-muted-foreground">↺</span>
-      ) : null}
-    </div>
-  );
-}
-
-/**
- * Stacked planes at decreasing width — the shape for graded levels, where the
- * point is that each tier is narrower in scope than the one above it.
- */
-export function LayeredPlanes({ count }: { count: number }) {
-  return (
-    <div aria-hidden className="flex flex-col items-center gap-1.5">
-      {Array.from({ length: count }, (_, i) => (
-        <span
-          key={i}
-          className="h-2.5 rounded-full border border-border-strong/40 bg-accent shadow-raised"
-          style={{ width: `${100 - i * 22}%`, opacity: 1 - i * 0.18 }}
-        />
-      ))}
-    </div>
-  );
-}
-
-/**
- * A central node with paths radiating to satellites — the shape for role
- * allocation, where the teaching point is that responsibility is distributed
- * from one accountable centre rather than sequenced.
- */
-export function RadialNodes({ count }: { count: number }) {
-  return (
-    <div aria-hidden className="flex items-center justify-center gap-2 py-1">
-      {Array.from({ length: count }, (_, i) => (
-        <div key={i} className="flex flex-col items-center gap-1.5">
-          <span className="h-[18px] w-[2px] rounded-full bg-border-strong/40" />
-          <span className="h-3 w-3 rounded-full border border-border-strong/40 bg-accent shadow-raised" />
-        </div>
-      ))}
-    </div>
   );
 }

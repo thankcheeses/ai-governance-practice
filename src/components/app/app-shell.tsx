@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { DimensionalMark, type MarkName } from "@/components/civic/dimensional-mark";
 import { dueCount } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
@@ -20,7 +21,7 @@ import { cn } from "@/lib/utils";
 */
 const NAV: { href: string; label: string; mark: MarkName }[] = [
   { href: "/home", label: "Home", mark: "home" },
-  { href: "/study", label: "Study", mark: "study" },
+  { href: "/study", label: "Practice", mark: "study" },
   { href: "/review", label: "Review", mark: "review" },
   { href: "/exam", label: "Exam", mark: "exam" },
   { href: "/dashboard", label: "Progress", mark: "progress" },
@@ -40,15 +41,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh lg:flex">
       <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border bg-card px-3 py-5 lg:flex">
-        <Link
-          href="/home"
-          className="mb-7 flex items-center gap-3 px-2 no-underline"
-        >
-          <DimensionalMark name="brand" size="md" />
-          <span className="whitespace-nowrap font-serif text-[1.0625rem] italic text-foreground">
+        <Link href="/home" className="block px-2 no-underline">
+          <span className="font-serif text-[1.25rem] leading-tight text-foreground">
             {BRAND.name}
           </span>
         </Link>
+        <div className="mb-6 mt-4 border-t border-border pt-4">
+          <Greeting />
+        </div>
 
         <nav className="flex flex-col gap-1">
           {NAV.map((item) => (
@@ -82,9 +82,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 function MobileHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background pt-safe lg:hidden">
-      <div className="flex h-16 items-center gap-2.5 px-5">
-        <DimensionalMark name="brand" size="sm" />
-        <span className="font-serif text-[1.0625rem] italic text-foreground">
+      <div className="flex h-16 items-center px-5">
+        <span className="font-serif text-[1.0625rem] text-foreground">
           {BRAND.name}
         </span>
       </div>
@@ -165,7 +164,7 @@ function RailLink({
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "relative flex min-h-11 items-center gap-3 rounded-md py-2 pl-3 pr-2.5",
+        "relative flex min-h-11 items-center gap-3 rounded-md py-2 pl-2.5 pr-2.5",
         "text-[0.9375rem] no-underline transition-colors duration-[120ms]",
         active
           ? "bg-accent-tint font-medium text-foreground"
@@ -178,11 +177,7 @@ function RailLink({
           className="absolute inset-y-2 left-0 w-[3px] rounded-r-full bg-accent"
         />
       ) : null}
-      <DimensionalMark
-        name={mark}
-        size="sm"
-        tone={active ? "accent" : "plain"}
-      />
+      <DimensionalMark name={mark} size="md" tone={active ? "accent" : "ink"} />
       {label}
       {badge > 0 ? (
         <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 text-[0.6875rem] font-semibold text-destructive-foreground">
@@ -190,6 +185,32 @@ function RailLink({
         </span>
       ) : null}
     </Link>
+  );
+}
+
+/**
+ * The time-of-day greeting, resolved after mount.
+ *
+ * `new Date().getHours()` reads the *server's* clock during SSR and the
+ * viewer's on the client. Rendering it directly would mismatch for anyone
+ * whose timezone puts them in a different part of the day from the build
+ * machine — which is most people. Reserving the line's height and filling it
+ * on the client keeps the rail from reflowing when it arrives.
+ */
+function Greeting() {
+  const [greeting, setGreeting] = useState<string | null>(null);
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setGreeting(
+      hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening",
+    );
+  }, []);
+
+  return (
+    <p className="min-h-[1.375rem] px-2 text-[0.875rem] text-muted-foreground">
+      {greeting}
+    </p>
   );
 }
 
