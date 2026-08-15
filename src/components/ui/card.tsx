@@ -2,10 +2,10 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Surface primitive. A white card lifted off the neutral ground by a hairline
- * stroke and a low, two-part shadow — a tight contact shadow plus a wider,
- * softer one. The pair is what makes a surface read as sitting *on* the page
- * rather than being drawn on it.
+ * Surface primitive. A card lifted off the warm stone ground by a fine stroke
+ * and a soft layered shadow — a tight contact shadow plus a wider, softer one.
+ * The pair is what makes a surface read as sitting *on* the page rather than
+ * being drawn on it. 18px radius, per the Civic card rule.
  *
  * Interactive cards raise on hover rather than tinting. Movement is 1px and
  * the transition covers shadow and border only; nothing scales.
@@ -20,7 +20,7 @@ const Card = React.forwardRef<
       "rounded-xl border border-border bg-card text-card-foreground",
       "shadow-[var(--shadow-card)]",
       interactive &&
-        "transition-[box-shadow,border-color,transform] duration-150 hover:-translate-y-px hover:border-border-strong hover:shadow-[var(--shadow-card-hover)]",
+        "transition-[box-shadow,border-color,transform] duration-[120ms] hover:-translate-y-px hover:border-border-strong hover:shadow-[var(--shadow-card-hover)]",
       className,
     )}
     {...props}
