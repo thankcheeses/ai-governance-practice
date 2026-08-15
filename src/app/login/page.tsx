@@ -13,13 +13,13 @@ import { BRAND } from "@/lib/brand";
 import { useProgress } from "@/lib/store/progress-provider";
 import { getBrowserSupabase } from "@/lib/supabase/client";
 
-type Mode = "signin" | "signup";
+type Mode = "signin" | "signup" | "reset";
 
-/** Where the email confirmation link should return the user. */
-function authRedirectUrl(): string | undefined {
+/** Where an emailed auth link should return the user. */
+function authRedirectUrl(path: "/login" | "/reset"): string | undefined {
   const configured = process.env.NEXT_PUBLIC_SITE_URL;
-  if (configured) return `${configured.replace(/\/$/, "")}/login`;
-  if (typeof window !== "undefined") return `${window.location.origin}/login`;
+  if (configured) return `${configured.replace(/\/$/, "")}${path}`;
+  if (typeof window !== "undefined") return `${window.location.origin}${path}`;
   return undefined;
 }
 
@@ -44,6 +44,23 @@ export default function LoginPage() {
     setNotice(null);
 
     try {
+      if (mode === "reset") {
+        /*
+          The response is deliberately identical whether or not the address has
+          an account. Supabase does not distinguish them either, and it must
+          not: a reset form that says "no such user" is an account-enumeration
+          oracle anyone can query.
+        */
+        const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+          email,
+          { redirectTo: authRedirectUrl("/reset") },
+        );
+        if (resetError) throw resetError;
+        setNotice(
+          "If that address has an account, a reset link is on its way. The link expires in an hour.",
+        );
+        return;
+      }
       if (mode === "signup") {
         const { data, error: signUpError } = await supabase.auth.signUp({
           email,
@@ -52,7 +69,7 @@ export default function LoginPage() {
           // URL, which is wrong inside a native WebView. NEXT_PUBLIC_SITE_URL
           // is baked in at build time so the mobile bundle can point at a
           // reachable https origin rather than the app scheme.
-          options: { emailRedirectTo: authRedirectUrl() },
+          options: { emailRedirectTo: authRedirectUrl("/login") },
         });
         if (signUpError) throw signUpError;
         // With email confirmation on, there is no session until confirmed.
@@ -110,12 +127,18 @@ export default function LoginPage() {
         <Card>
           <CardContent className="p-5">
             <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
-              {mode === "signin" ? "Sign in" : "Create your account"}
+              {mode === "reset"
+                ? "Reset your password"
+                : mode === "signin"
+                  ? "Sign in"
+                  : "Create your account"}
             </h1>
             <p className="mt-1.5 text-sm text-muted-foreground">
-              {mode === "signin"
-                ? "Sync your progress across devices."
-                : "Progress from this browser carries over to your new account."}
+              {mode === "reset"
+                ? "We will email you a link to choose a new one."
+                : mode === "signin"
+                  ? "Sync your progress across devices."
+                  : "Progress from this browser carries over to your new account."}
             </p>
 
             <form onSubmit={handleSubmit} className="mt-5 space-y-4">
@@ -132,21 +155,39 @@ export default function LoginPage() {
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  autoComplete={
-                    mode === "signin" ? "current-password" : "new-password"
-                  }
-                  required
-                  minLength={8}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="At least 8 characters"
-                />
-              </div>
+              {/* No password on the reset form — the address is the whole ask. */}
+              {mode !== "reset" ? (
+                <div className="space-y-1.5">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <Label htmlFor="password">Password</Label>
+                    {mode === "signin" ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMode("reset");
+                          setError(null);
+                          setNotice(null);
+                        }}
+                        className="text-xs font-medium text-link underline decoration-link/40 underline-offset-4 transition-colors hover:text-link-hover hover:decoration-link-hover"
+                      >
+                        Forgot password?
+                      </button>
+                    ) : null}
+                  </div>
+                  <Input
+                    id="password"
+                    type="password"
+                    autoComplete={
+                      mode === "signin" ? "current-password" : "new-password"
+                    }
+                    required
+                    minLength={8}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="At least 8 characters"
+                  />
+                </div>
+              ) : null}
 
               {error ? (
                 <p
@@ -165,7 +206,11 @@ export default function LoginPage() {
 
               <Button type="submit" size="lg" className="w-full" disabled={pending}>
                 {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                {mode === "signin" ? "Sign in" : "Create account"}
+                {mode === "reset"
+                  ? "Send reset link"
+                  : mode === "signin"
+                    ? "Sign in"
+                    : "Create account"}
               </Button>
 
               {/* Shown on sign-up, where the agreement is actually formed. */}
@@ -201,7 +246,9 @@ export default function LoginPage() {
             >
               {mode === "signin"
                 ? "No account? Create one"
-                : "Already have an account? Sign in"}
+                : mode === "signup"
+                  ? "Already have an account? Sign in"
+                  : "Back to sign in"}
             </button>
           </CardContent>
         </Card>
