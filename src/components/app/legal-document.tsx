@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,7 +39,6 @@ export function LegalDocument({
         {backHref ? (
           <Button asChild variant="ghost" size="sm" className="-ml-2 mb-3">
             <Link href={backHref}>
-              <ArrowLeft className="h-4 w-4" />
               Settings
             </Link>
           </Button>

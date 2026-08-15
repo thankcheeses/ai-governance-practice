@@ -1,4 +1,4 @@
-import { Info } from "lucide-react";
+import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { DISCLAIMER_BODY, DISCLAIMER_TITLE } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +25,7 @@ export function Disclaimer({
         id="disclaimer-title"
         className="flex items-center gap-2 text-sm font-semibold"
       >
-        <Info className="h-4 w-4 shrink-0 text-muted-foreground" />
+        <DimensionalMark name="insight" size="sm" tone="insight" />
         {DISCLAIMER_TITLE}
       </h2>
       <div

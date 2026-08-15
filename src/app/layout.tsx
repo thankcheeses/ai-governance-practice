@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Serif } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Serif, Inter } from "next/font/google";
 import { ServiceWorker } from "@/components/app/service-worker";
 import { BRAND } from "@/lib/brand";
 import { ProgressProvider } from "@/lib/store/progress-provider";
@@ -7,37 +7,34 @@ import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/store/theme-provider";
 import "./globals.css";
 
 /*
-  One typeface, everywhere.
+  Civic Studio typography system.
 
-  OpenCode Terminal Mono is monospace-only by design — display, body, UI and
-  code share a face, and the hierarchy comes from weight, size and spacing
-  rather than from switching families. Berkeley Mono leads the stack in CSS;
-  it is commercially licensed and cannot be bundled, so IBM Plex Mono is
-  loaded to carry the design wherever Berkeley Mono is not installed. There is
-  deliberately no proportional fallback: a sans-serif here would read as a
-  different design system, not as a graceful degradation.
+  Editorial display hierarchy uses serif (IBM Plex Serif, italic, for
+  headings and key learning questions). All UI, labels, controls, body copy,
+  and data use humanist sans-serif (Inter). Monospace is retained only for
+  code/content blocks and as a fallback.
 */
+const plexSerif = IBM_Plex_Serif({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  // Upright carries the editorial headings; italic is kept for the wordmark,
+  // which is a signature rather than interface text.
+  style: ["normal", "italic"],
+  variable: "--font-plex-serif",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-plex-mono",
-  display: "swap",
-});
-
-/*
-  The one deliberate exception, and it is scoped to the wordmark.
-
-  A product name is a signature, not interface text, and set in the same
-  monospace as the nav it reads as a filename rather than a name. This is the
-  only place a second family is allowed: the italic serif carries the wordmark
-  in the sidebar and the mobile header, and nothing else in the app may use it.
-  Everything that operates stays monospace.
-*/
-const plexSerif = IBM_Plex_Serif({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["italic"],
-  variable: "--font-plex-serif",
   display: "swap",
 });
 
@@ -87,7 +84,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="light"
-      className={`${plexMono.variable} ${plexSerif.variable}`}
+      className={`${plexSerif.variable} ${inter.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <head>

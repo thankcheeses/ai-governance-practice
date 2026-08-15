@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Clock, ListChecks } from "lucide-react";
+import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
@@ -53,10 +53,10 @@ function ExamStart() {
   return (
     <div className="mx-auto max-w-2xl">
       <header className="mb-6">
-        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
+        <p className="text-[0.6875rem] uppercase tracking-[0.1em] text-muted-foreground">
           Practice simulation
         </p>
-        <h1 className="mt-1 text-[2rem] font-bold leading-[1.15] tracking-tight">
+        <h1 className="mt-1 text-[1.875rem] leading-[1.15] sm:text-[2rem]">
           Practice exam
         </h1>
         <p className="measure mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
@@ -86,7 +86,7 @@ function ExamStart() {
       <Card className="mb-6">
         <CardContent className="space-y-5 p-5">
           <div>
-            <p className="mb-2.5 font-mono text-[0.8125rem] uppercase tracking-[0.08em] text-muted-foreground">
+            <p className="mb-2.5 text-[0.8125rem] uppercase tracking-[0.1em] text-muted-foreground">
               Questions
             </p>
             <div className="grid grid-cols-3 gap-2">
@@ -98,7 +98,7 @@ function ExamStart() {
                   aria-pressed={count === n}
                   disabled={n > available}
                   className={
-                    "rounded-lg border bg-card py-2.5 font-mono text-sm tabular-nums transition-colors disabled:opacity-40 " +
+                    "rounded-lg border bg-card py-2.5 text-sm tabular-nums transition-colors disabled:opacity-40 " +
                     (count === n
                       ? "border-accent bg-accent-tint font-semibold text-accent-foreground ring-1 ring-inset ring-accent"
                       : "border-border text-muted-foreground hover:bg-secondary")
@@ -108,28 +108,28 @@ function ExamStart() {
                 </button>
               ))}
             </div>
-            <p className="mt-2 font-mono text-xs text-muted-foreground">
+            <p className="mt-2 text-xs text-muted-foreground">
               {available} questions in the bank
             </p>
           </div>
 
           <ul className="space-y-2 border-t border-border pt-4 text-[0.9375rem]">
             <li className="flex items-start gap-2.5">
-              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+              <DimensionalMark name="exam" size="sm" />
               <span>
                 {formatRemaining(DEFAULT_EXAM_DURATION_MS)} on the clock. It runs
                 on a wall-clock deadline — closing the tab does not pause it.
               </span>
             </li>
             <li className="flex items-start gap-2.5">
-              <ListChecks className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+              <DimensionalMark name="study" size="sm" />
               <span>
                 Move freely between questions, flag any to revisit, and submit
                 when ready.
               </span>
             </li>
             <li className="flex items-start gap-2.5">
-              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+              <DimensionalMark name="insight" size="sm" tone="insight" />
               <span>
                 No answers, rationales or scoring appear until you submit.
               </span>

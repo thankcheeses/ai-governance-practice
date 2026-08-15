@@ -1,6 +1,5 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -119,12 +118,11 @@ export default function ResetPage() {
             </>
           ) : !ready ? (
             <div className="flex items-center gap-2.5 py-4 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" />
               Checking your link…
             </div>
           ) : done ? (
             <>
-              <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+              <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
                 Password changed
               </h1>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -133,7 +131,7 @@ export default function ResetPage() {
             </>
           ) : !linkValid ? (
             <>
-              <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+              <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
                 This link has expired
               </h1>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -146,7 +144,7 @@ export default function ResetPage() {
             </>
           ) : (
             <>
-              <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+              <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
                 Choose a new password
               </h1>
               <p className="mt-1.5 text-sm text-muted-foreground">
@@ -197,7 +195,6 @@ export default function ResetPage() {
                   className="w-full"
                   disabled={pending}
                 >
-                  {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                   Save new password
                 </Button>
               </form>

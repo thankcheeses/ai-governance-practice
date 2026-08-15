@@ -1,6 +1,5 @@
 "use client";
 
-import { Check, X } from "lucide-react";
 import type { PresentedOption, Question, Scenario } from "@/content/types";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { VisualAid } from "@/components/study/visual-aid";
@@ -45,7 +44,13 @@ export function QuestionView({
     <div>
       {question.scenario ? <ScenarioPanel scenario={question.scenario} /> : null}
 
-      <h1 className="measure text-pretty text-xl font-semibold leading-snug tracking-[-0.01em] sm:text-2xl sm:leading-snug">
+      {/*
+        The question stem is a key learning question, which is exactly what the
+        design system reserves the editorial serif for. It is also the largest
+        text on the screen and sits at reading measure, so the decision gets the
+        space it needs to be read carefully rather than skimmed.
+      */}
+      <h1 className="measure text-pretty font-serif text-[1.375rem] leading-snug sm:text-[1.625rem] sm:leading-snug">
         <ConceptHighlight text={question.question} limit={3} />
       </h1>
 
@@ -54,7 +59,7 @@ export function QuestionView({
       {multi ? (
         /* One text node, spaces and all: the separators are decoration, and a
            screen reader must still hear "choose 2 of 5, no partial credit". */
-        <p className="mt-5 inline-block rounded-md border border-accent-subtle bg-accent-tint px-2.5 py-1.5 font-mono text-xs font-medium text-accent-foreground">
+        <p className="mt-5 inline-block rounded-md border border-accent-subtle bg-accent-tint px-3 py-1.5 text-[0.8125rem] font-medium text-accent-foreground">
           <span className="font-semibold">Multi-select</span>
           {` · choose ${required} of ${question.options.length} · no partial credit`}
         </p>
@@ -84,24 +89,26 @@ export function QuestionView({
               onClick={() => onSelect(option.id)}
               className={cn(
                 "flex w-full items-start gap-3.5 rounded-lg border p-4 text-left",
-                "transition-[background-color,border-color,box-shadow] duration-150",
+                "transition-all duration-[120ms] not-disabled:active:translate-y-px",
                 "disabled:cursor-default",
 
-                // Resting: a card of its own, lifted just off the page so the
-                // choices read as separate objects rather than as list rows.
+                // Resting: a premium selectable surface, lifted just off the
+                // page so the choices read as separate objects rather than as
+                // list rows.
                 !revealed &&
                   !isSelected &&
-                  "border-border bg-card shadow-[var(--shadow-card)] hover:border-border-strong hover:bg-secondary",
+                  "border-border bg-card shadow-[var(--shadow-raised)] hover:border-border-strong hover:bg-secondary/60",
 
-                // Selected: an accent ring drawn *inside* the border rather than a
-                // heavier border, so the box never changes size and the row
-                // does not shift under the cursor.
+                // Selected: a periwinkle ring drawn *inside* the border rather
+                // than a heavier border, so the box never changes size and the
+                // row does not shift under the cursor.
                 isSelected &&
                   !revealed &&
-                  "border-accent bg-accent-tint ring-1 ring-inset ring-accent",
+                  "border-accent bg-accent-tint shadow-[var(--shadow-card)] ring-1 ring-inset ring-accent",
 
                 // Post-answer states stay informational, not celebratory.
-                showCorrect && "border-success bg-success-tint ring-1 ring-inset ring-success",
+                showCorrect &&
+                  "border-success bg-success-tint ring-1 ring-inset ring-success",
                 showWrong && "border-destructive bg-destructive-tint",
                 revealed &&
                   !showCorrect &&
@@ -109,9 +116,15 @@ export function QuestionView({
                   "border-border bg-card opacity-60",
               )}
             >
+              {/*
+                The leading node carries the option letter, and after the reveal
+                it carries a drawn glyph instead. Correctness is never signalled
+                by colour alone: the glyph shape differs, and `FeedbackPanel`
+                states the outcome in words directly beneath.
+              */}
               <span
                 className={cn(
-                  "mt-px flex h-6 w-6 shrink-0 items-center justify-center border font-mono text-xs font-semibold transition-colors",
+                  "mt-px flex h-7 w-7 shrink-0 items-center justify-center border text-[0.8125rem] font-semibold transition-colors",
                   multi ? "rounded-md" : "rounded-full",
                   isSelected &&
                     !revealed &&
@@ -125,9 +138,9 @@ export function QuestionView({
                 )}
               >
                 {showCorrect ? (
-                  <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                  <MarkGlyph kind="correct" />
                 ) : showWrong ? (
-                  <X className="h-3.5 w-3.5" strokeWidth={3} />
+                  <MarkGlyph kind="incorrect" />
                 ) : (
                   option.key
                 )}
@@ -140,6 +153,35 @@ export function QuestionView({
         })}
       </div>
     </div>
+  );
+}
+
+/**
+ * The correctness glyphs, drawn inline rather than pulled from an icon set.
+ *
+ * They live inside a node that is already sized and coloured by the caller, so
+ * they are pure geometry at 14px: a confirmed path and a crossed path. Both are
+ * `aria-hidden` — the option's `aria-checked` state and the feedback panel's
+ * wording carry the meaning to a screen reader.
+ */
+function MarkGlyph({ kind }: { kind: "correct" | "incorrect" }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-3.5 w-3.5"
+      aria-hidden
+    >
+      {kind === "correct" ? (
+        <path d="M5 12.5 10 17.5 19 7" />
+      ) : (
+        <path d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5" />
+      )}
+    </svg>
   );
 }
 
@@ -160,37 +202,41 @@ function ScenarioPanel({ scenario }: { scenario: Scenario }) {
   return (
     <section
       aria-label="Scenario"
-      className="mb-6 rounded-lg border border-border bg-card p-5 shadow-[var(--shadow-card)]"
+      className="mb-7 rounded-xl border border-border bg-card p-6 shadow-card sm:p-7"
     >
-      <header className="mb-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-        <h2 className="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+      <header className="mb-4 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <h2 className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
           Scenario
         </h2>
-        <span className="font-mono text-[0.6875rem] text-muted-foreground">
+        <span className="text-[0.75rem] text-muted-foreground">
           {scenario.sector}
         </span>
       </header>
 
-      <p className="measure mb-3 text-[0.9375rem] font-semibold leading-snug">
+      {/* The brief's title is display type, so it takes the serif. */}
+      <p className="measure mb-4 font-serif text-[1.125rem] leading-snug text-foreground">
         {scenario.title}
       </p>
 
-      <div className="space-y-3">
+      <div className="space-y-3.5">
         {scenario.body.map((paragraph, i) => (
-          <p key={i} className="measure text-[0.875rem] leading-[1.7] text-foreground/90">
+          <p
+            key={i}
+            className="measure text-[0.9375rem] leading-[1.75] text-foreground/90"
+          >
             <ConceptHighlight text={paragraph} limit={2} />
           </p>
         ))}
       </div>
 
       {scenario.facts?.length ? (
-        <dl className="mt-4 grid gap-x-4 gap-y-1.5 border-t border-border pt-3 text-[0.8125rem] sm:grid-cols-[minmax(9rem,auto)_1fr]">
+        <dl className="mt-5 grid gap-x-5 gap-y-2 border-t border-border pt-4 text-[0.875rem] sm:grid-cols-[minmax(9rem,auto)_1fr]">
           {scenario.facts.map((fact) => (
             <div key={fact.label} className="contents">
-              <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground sm:pt-0.5">
+              <dt className="text-[0.6875rem] uppercase tracking-[0.1em] text-muted-foreground sm:pt-1">
                 {fact.label}
               </dt>
-              <dd className="measure mb-1.5 leading-relaxed sm:mb-0">{fact.value}</dd>
+              <dd className="measure mb-2 leading-relaxed sm:mb-0">{fact.value}</dd>
             </div>
           ))}
         </dl>

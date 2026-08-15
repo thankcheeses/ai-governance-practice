@@ -1,10 +1,9 @@
 "use client";
 
-import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { BrandMark } from "@/components/app/brand-mark";
+import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -97,13 +96,12 @@ export default function LoginPage() {
     <div className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5 py-10">
       <Button asChild variant="ghost" size="sm" className="-ml-2 mb-6 self-start">
         <Link href="/home">
-          <ArrowLeft className="h-4 w-4" />
           Back
         </Link>
       </Button>
 
       <div className="mb-7 flex items-center gap-2.5">
-        <BrandMark />
+        <DimensionalMark name="brand" size="md" />
         <span className="text-[0.9375rem] font-semibold tracking-tight">
           {BRAND.name}
         </span>
@@ -126,7 +124,7 @@ export default function LoginPage() {
       ) : (
         <Card>
           <CardContent className="p-5">
-            <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">
+            <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
               {mode === "reset"
                 ? "Reset your password"
                 : mode === "signin"
@@ -205,7 +203,6 @@ export default function LoginPage() {
               ) : null}
 
               <Button type="submit" size="lg" className="w-full" disabled={pending}>
-                {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                 {mode === "reset"
                   ? "Send reset link"
                   : mode === "signin"

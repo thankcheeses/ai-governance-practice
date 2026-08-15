@@ -1,18 +1,5 @@
 "use client";
 
-import {
-  ChevronRight,
-  FileText,
-  LifeBuoy,
-  Loader2,
-  LogOut,
-  Monitor,
-  Moon,
-  Shield,
-  Sun,
-  Trash2,
-  UserX,
-} from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
@@ -26,10 +13,10 @@ import { useProgress } from "@/lib/store/progress-provider";
 import { useTheme, type Theme } from "@/lib/store/theme-provider";
 import { cn } from "@/lib/utils";
 
-const THEMES: { value: Theme; label: string; icon: React.ElementType }[] = [
-  { value: "dark", label: "Dark", icon: Moon },
-  { value: "light", label: "Light", icon: Sun },
-  { value: "system", label: "System", icon: Monitor },
+const THEMES: { value: Theme; label: string }[] = [
+  { value: "dark", label: "Dark" },
+  { value: "light", label: "Light" },
+  { value: "system", label: "System" },
 ];
 
 const GOALS = [5, 10, 20, 30];
@@ -62,7 +49,7 @@ function Settings() {
   return (
     <div className="space-y-7">
       <header>
-        <h1 className="text-[2.25rem] font-bold leading-[1.15] tracking-tight">Settings</h1>
+        <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">Settings</h1>
       </header>
 
       {/* Appearance */}
@@ -75,13 +62,12 @@ function Settings() {
               onClick={() => setTheme(option.value)}
               aria-pressed={theme === option.value}
               className={cn(
-                "flex flex-col items-center gap-2 rounded-lg border bg-card p-3.5 text-sm transition-colors",
+                "flex min-h-11 flex-col items-center justify-center gap-2 rounded-md border bg-card p-3.5 text-sm transition-colors",
                 theme === option.value
                   ? "border-accent bg-accent-tint font-medium text-accent-foreground ring-1 ring-inset ring-accent"
                   : "border-border text-muted-foreground hover:bg-secondary",
               )}
             >
-              <option.icon className="h-4 w-4" />
               {option.label}
             </button>
           ))}
@@ -102,7 +88,7 @@ function Settings() {
                 onClick={() => setDailyGoal(goal)}
                 aria-pressed={progress.dailyGoal === goal}
                 className={cn(
-                  "rounded-lg border bg-card py-2.5 font-mono text-sm tabular-nums transition-colors",
+                  "min-h-11 rounded-md border bg-card py-2.5 text-sm tabular-nums transition-colors",
                   progress.dailyGoal === goal
                     ? "border-accent bg-accent-tint font-semibold text-accent-foreground ring-1 ring-inset ring-accent"
                     : "border-border text-muted-foreground hover:bg-secondary",
@@ -131,7 +117,7 @@ function Settings() {
                 if (Number.isFinite(next) && next >= 1) setDailyGoal(next);
               }}
               aria-label="Daily goal — scenarios per day"
-              className="w-24 rounded-lg border border-input bg-card px-3 py-2 font-mono text-sm tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="h-11 w-24 rounded-md border border-input bg-card px-3 text-sm tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />
           </label>
         </div>
@@ -158,7 +144,6 @@ function Settings() {
               className="mt-4 w-full sm:w-auto"
               onClick={() => void signOut()}
             >
-              <LogOut className="h-4 w-4" />
               Sign out
             </Button>
 
@@ -206,12 +191,9 @@ function Settings() {
                     }
                   }}
                 >
-                  {deleting ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <UserX className="h-4 w-4" />
-                  )}
-                  Yes, delete my account permanently
+                  {deleting
+                    ? "Deleting your account…"
+                    : "Yes, delete my account permanently"}
                 </Button>
                 <Button
                   variant="ghost"
@@ -230,7 +212,6 @@ function Settings() {
                 className="mt-4 w-full sm:w-auto"
                 onClick={() => setConfirmDelete(true)}
               >
-                <UserX className="h-4 w-4" />
                 Delete account
               </Button>
             )}
@@ -251,7 +232,6 @@ function Settings() {
       {/* Support */}
       <Section title="Support">
         <div className="flex items-start gap-3">
-          <LifeBuoy className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
           <div className="min-w-0">
             <p className="measure text-sm leading-relaxed text-muted-foreground">
               Questions about the app, your account, or the content.
@@ -270,8 +250,8 @@ function Settings() {
       <Section title="Legal">
         <Disclaimer />
         <div className="mt-3 space-y-2">
-          <LinkRow href="/settings/privacy" icon={Shield} label="Privacy Policy" />
-          <LinkRow href="/settings/terms" icon={FileText} label="Terms of Use" />
+          <LinkRow href="/settings/privacy" label="Privacy Policy" />
+          <LinkRow href="/settings/terms" label="Terms of Use" />
         </div>
       </Section>
 
@@ -315,7 +295,6 @@ function Settings() {
             className="mt-4 w-full sm:w-auto"
             onClick={() => setConfirmReset(true)}
           >
-            <Trash2 className="h-4 w-4" />
             Reset progress
           </Button>
         )}
@@ -333,7 +312,7 @@ function Section({
 }) {
   return (
     <section>
-      <h2 className="mb-3 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+      <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
         {title}
       </h2>
       <Card>
@@ -365,11 +344,9 @@ function Row({
 
 function LinkRow({
   href,
-  icon: Icon,
   label,
 }: {
   href: string;
-  icon: React.ElementType;
   label: string;
 }) {
   return (
@@ -377,9 +354,10 @@ function LinkRow({
       href={href}
       className="flex items-center gap-3 rounded-sm border border-border p-3.5 text-sm transition-colors hover:bg-secondary"
     >
-      <Icon className="h-4 w-4 text-muted-foreground" />
       {label}
-      <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground" />
+      {/* A drawn chevron, not an icon-library glyph. Purely an affordance:
+          the row is already a link and the label is its accessible name. */}
+      <span aria-hidden className="ml-auto text-muted-foreground">&rsaquo;</span>
     </Link>
   );
 }

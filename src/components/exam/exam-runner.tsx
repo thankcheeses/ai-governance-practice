@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Flag, LayoutGrid } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { PresentedOption, Question } from "@/content/types";
@@ -169,7 +168,7 @@ export function ExamRunner({
             aria-label="Scenario"
             className="mb-6 rounded-lg border border-border bg-card p-5"
           >
-            <h2 className="mb-3 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+            <h2 className="mb-3 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
               Scenario · {question.scenario.sector}
             </h2>
             <p className="measure mb-3 text-[0.9375rem] font-semibold leading-snug">
@@ -186,7 +185,7 @@ export function ExamRunner({
               <dl className="mt-4 grid gap-x-4 gap-y-1.5 border-t border-border pt-3 text-[0.8125rem] sm:grid-cols-[minmax(9rem,auto)_1fr]">
                 {question.scenario.facts.map((f) => (
                   <div key={f.label} className="contents">
-                    <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground sm:pt-0.5">
+                    <dt className="text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground sm:pt-0.5">
                       {f.label}
                     </dt>
                     <dd className="measure mb-1.5 leading-relaxed sm:mb-0">{f.value}</dd>
@@ -202,7 +201,7 @@ export function ExamRunner({
         </h1>
 
         {multi ? (
-          <p className="mt-5 inline-block rounded-md border border-accent-subtle bg-accent-tint px-2.5 py-1.5 font-mono text-xs font-medium text-accent-foreground">
+          <p className="mt-5 inline-block rounded-md border border-accent-subtle bg-accent-tint px-2.5 py-1.5 text-xs font-medium text-accent-foreground">
             <span className="font-semibold">Multi-select</span>
             {` · choose ${requiredSelections(question)} of ${question.options.length}`}
           </p>
@@ -239,7 +238,7 @@ export function ExamRunner({
               >
                 <span
                   className={cn(
-                    "mt-px flex h-6 w-6 shrink-0 items-center justify-center border font-mono text-xs font-semibold",
+                    "mt-px flex h-6 w-6 shrink-0 items-center justify-center border text-xs font-semibold",
                     multi ? "rounded-md" : "rounded-full",
                     chosen
                       ? "border-primary bg-primary text-primary-foreground"
@@ -266,7 +265,6 @@ export function ExamRunner({
             onClick={() => move(-1)}
             disabled={session.index === 0}
           >
-            <ChevronLeft className="h-4 w-4" />
             Previous
           </Button>
 
@@ -277,7 +275,6 @@ export function ExamRunner({
             disabled={!open}
             aria-pressed={session.flagged.includes(question.id)}
           >
-            <Flag className="h-4 w-4" />
             {session.flagged.includes(question.id) ? "Flagged" : "Flag"}
           </Button>
 
@@ -289,7 +286,6 @@ export function ExamRunner({
             className="ml-auto"
           >
             Next
-            <ChevronRight className="h-4 w-4" />
           </Button>
 
           <Button size="sm" onClick={() => setConfirming(true)} disabled={!open}>
@@ -335,7 +331,7 @@ function ExamHeader({
   return (
     <div className="mb-6 rounded-lg border border-border bg-card p-3 sm:p-4">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <span className="font-mono text-sm font-semibold tabular-nums">
+        <span className="text-sm font-semibold tabular-nums">
           {index + 1} <span className="text-muted-foreground">/ {total}</span>
         </span>
 
@@ -344,7 +340,7 @@ function ExamHeader({
           aria-live={warning ? "polite" : "off"}
           aria-label={`Time remaining ${formatRemaining(remaining)}`}
           className={cn(
-            "rounded-md border px-2.5 py-1 font-mono text-sm font-semibold tabular-nums",
+            "rounded-md border px-2.5 py-1 text-sm font-semibold tabular-nums",
             warning
               ? "border-warning bg-warning/10 text-warning"
               : "border-border text-foreground",
@@ -354,7 +350,7 @@ function ExamHeader({
           {warning ? <span className="sr-only"> — time is nearly up</span> : null}
         </span>
 
-        <span className="font-mono text-xs text-muted-foreground">
+        <span className="text-xs text-muted-foreground">
           {unanswered} unanswered
           {flagged > 0 ? ` · ${flagged} flagged` : ""}
         </span>
@@ -366,7 +362,6 @@ function ExamHeader({
           aria-expanded={navOpen}
           className="ml-auto"
         >
-          <LayoutGrid className="h-4 w-4" />
           {navOpen ? "Hide" : "All questions"}
         </Button>
       </div>
@@ -383,7 +378,7 @@ function QuestionNavigator({
 }) {
   return (
     <div className="mb-6 rounded-lg border border-border bg-card p-4">
-      <p className="mb-3 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
+      <p className="mb-3 text-[0.6875rem] uppercase tracking-[0.1em] text-muted-foreground">
         Answered · <span className="text-foreground">filled</span> ·
         flagged · <span className="text-warning">ringed</span>
       </p>
@@ -400,7 +395,7 @@ function QuestionNavigator({
               aria-current={current ? "true" : undefined}
               aria-label={`Question ${i + 1}${answered ? ", answered" : ", unanswered"}${flagged ? ", flagged" : ""}`}
               className={cn(
-                "flex h-9 items-center justify-center rounded-sm border font-mono text-xs tabular-nums transition-colors",
+                "flex h-9 items-center justify-center rounded-sm border text-xs tabular-nums transition-colors",
                 answered
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-background text-muted-foreground hover:border-border-strong",
