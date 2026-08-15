@@ -17,7 +17,8 @@
     "check:bok": "node scripts/check-bok-currency.mjs",
     "test": "tsx --test \"src/**/*.test.ts\"",
     "check": "npm run lint && npm run typecheck && npm run test && npm run check:questions && npm run check:bok && npm run check:originality",
-    "check:originality": "node scripts/check-originality.mjs"
+    "check:originality": "node scripts/check-originality.mjs",
+    "check:exclusion": "node scripts/check-exclusion.mjs"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.15",
