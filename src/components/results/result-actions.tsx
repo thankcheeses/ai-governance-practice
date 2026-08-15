@@ -1,6 +1,5 @@
 "use client";
 
-import { Download, Mail } from "lucide-react";
 import { useCallback, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -81,7 +80,6 @@ export function ResultActions({ result }: { result: CompletedResult }) {
 
       <div className="flex flex-wrap gap-2.5">
         <Button onClick={download} variant="outline">
-          <Download className="h-4 w-4" />
           Download results as PDF
         </Button>
         <Button
@@ -93,7 +91,6 @@ export function ResultActions({ result }: { result: CompletedResult }) {
           aria-expanded={open}
           aria-controls={`${fieldId}-panel`}
         >
-          <Mail className="h-4 w-4" />
           Send results to email
         </Button>
       </div>

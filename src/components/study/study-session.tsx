@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowRight, RotateCcw, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BrandMark } from "@/components/app/brand-mark";
@@ -312,7 +311,6 @@ export function StudySession({
         <Button asChild variant="ghost" size="icon" aria-label="Exit session">
           {/* Leaving on purpose abandons the sitting; only a refresh resumes. */}
           <Link href={exitHref} onClick={() => clearActiveSession()}>
-            <X className="h-4 w-4" />
           </Link>
         </Button>
         <div className="min-w-0 flex-1">
@@ -436,7 +434,6 @@ export function StudySession({
           ) : (
             <Button size="lg" className="w-full" onClick={advance}>
               Continue
-              <ArrowRight className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -562,7 +559,6 @@ function SessionComplete({
         {showQueue ? (
           <Button asChild size="lg">
             <Link href="/review">
-              <RotateCcw className="h-4 w-4" />
               Review them now
             </Link>
           </Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Clock, ListChecks } from "lucide-react";
+import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
@@ -115,21 +115,21 @@ function ExamStart() {
 
           <ul className="space-y-2 border-t border-border pt-4 text-[0.9375rem]">
             <li className="flex items-start gap-2.5">
-              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+              <DimensionalMark name="exam" size="sm" />
               <span>
                 {formatRemaining(DEFAULT_EXAM_DURATION_MS)} on the clock. It runs
                 on a wall-clock deadline — closing the tab does not pause it.
               </span>
             </li>
             <li className="flex items-start gap-2.5">
-              <ListChecks className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+              <DimensionalMark name="study" size="sm" />
               <span>
                 Move freely between questions, flag any to revisit, and submit
                 when ready.
               </span>
             </li>
             <li className="flex items-start gap-2.5">
-              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+              <DimensionalMark name="insight" size="sm" tone="insight" />
               <span>
                 No answers, rationales or scoring appear until you submit.
               </span>

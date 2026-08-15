@@ -1,6 +1,5 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -119,7 +118,6 @@ export default function ResetPage() {
             </>
           ) : !ready ? (
             <div className="flex items-center gap-2.5 py-4 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" />
               Checking your link…
             </div>
           ) : done ? (
@@ -197,7 +195,6 @@ export default function ResetPage() {
                   className="w-full"
                   disabled={pending}
                 >
-                  {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                   Save new password
                 </Button>
               </form>

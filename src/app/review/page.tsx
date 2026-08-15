@@ -1,6 +1,5 @@
 "use client";
 
-import { CalendarClock, HelpCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
 import { BrandMark } from "@/components/app/brand-mark";
@@ -12,11 +11,11 @@ import { useProgress } from "@/lib/store/progress-provider";
 
 const REASON_META: Record<
   ReviewReason,
-  { label: string; icon: React.ElementType; variant: "destructive" | "warning" | "secondary" }
+  { label: string; variant: "destructive" | "warning" | "secondary" }
 > = {
-  missed: { label: "Missed", icon: XCircle, variant: "destructive" },
-  "low-confidence": { label: "Low confidence", icon: HelpCircle, variant: "warning" },
-  due: { label: "Due", icon: CalendarClock, variant: "secondary" },
+  missed: { label: "Missed", variant: "destructive" },
+  "low-confidence": { label: "Low confidence", variant: "warning" },
+  due: { label: "Due", variant: "secondary" },
 };
 
 export default function ReviewPage() {
@@ -87,7 +86,6 @@ function Review() {
                     const meta = REASON_META[reason];
                     return (
                       <Badge key={reason} variant={meta.variant}>
-                        <meta.icon className="h-3 w-3" />
                         {counts[reason]} {meta.label.toLowerCase()}
                       </Badge>
                     );

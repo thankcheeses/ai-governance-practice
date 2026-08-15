@@ -1,7 +1,7 @@
 "use client";
 
-import { CheckCircle2, XCircle } from "lucide-react";
 import type { OptionKey, PresentedOption, Question } from "@/content/types";
+import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { formatAnswer, isMultiSelect } from "@/lib/grading";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { Badge } from "@/components/ui/badge";
@@ -36,7 +36,7 @@ interface FeedbackPanelProps {
  * rule carries the signal so the text beside it stays fully legible.
  */
 /**
- * The one heading style in this panel. Small, mono, letter-spaced — it names
+ * The one heading style in this panel. Small, letter-spaced, sans — it names
  * the block without competing with the block's own text for attention.
  */
 function SectionLabel({
@@ -49,7 +49,7 @@ function SectionLabel({
   return (
     <h2
       className={cn(
-        "mb-2.5 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground",
+        "mb-2.5 font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground",
         className,
       )}
     >
@@ -84,19 +84,25 @@ export function FeedbackPanel({
     });
   return (
     <div className="space-y-6">
+      {/*
+        The verdict. Loud but small — it is the least durable thing on this
+        screen, and the takeaway below is what should outlast it. The word
+        "Correct"/"Incorrect" is present as text, so the outcome never depends
+        on the tint or the mark.
+      */}
       <div
         className={cn(
-          "flex items-center gap-2.5 rounded-lg border border-l-4 px-4 py-3",
+          "flex items-center gap-3 rounded-lg border border-l-[3px] px-4 py-3.5",
           correct
             ? "border-success bg-success-tint text-success"
             : "border-destructive bg-destructive-tint text-destructive",
         )}
       >
-        {correct ? (
-          <CheckCircle2 className="h-[1.125rem] w-[1.125rem] shrink-0" />
-        ) : (
-          <XCircle className="h-[1.125rem] w-[1.125rem] shrink-0" />
-        )}
+        <DimensionalMark
+          name={correct ? "correct" : "incorrect"}
+          size="sm"
+          tone={correct ? "support" : "danger"}
+        />
         <div className="text-[0.9375rem] font-semibold">
           {correct ? "Correct" : "Incorrect"}
           {!correct ? (
@@ -116,13 +122,14 @@ export function FeedbackPanel({
       </section>
 
       {/*
-        The anchor of the screen. An accent tint rather than an inverted slab:
-        it still outweighs everything around it, but it reads as the product's
-        own voice rather than as a warning notice.
+        The anchor of the screen. Apricot rather than periwinkle: this is a
+        teaching block — the "why this matters" of the answer — which is
+        exactly what the insight colour is for. It outweighs everything around
+        it because it is the part worth carrying into the next scenario.
       */}
-      <section className="rounded-lg border border-accent/30 bg-accent-tint p-5 shadow-[var(--shadow-card)]">
-        <SectionLabel className="text-accent-strong">Key takeaway</SectionLabel>
-        <p className="measure text-base font-medium leading-[1.7] text-foreground">
+      <section className="rounded-xl border border-border bg-insight-tint p-5 shadow-card sm:p-6">
+        <SectionLabel className="text-insight-foreground">Key takeaway</SectionLabel>
+        <p className="measure text-[1.0625rem] leading-[1.7] text-foreground">
           <ConceptHighlight text={question.keyTakeaway} limit={2} />
         </p>
       </section>
@@ -141,7 +148,7 @@ export function FeedbackPanel({
                     : "border-border bg-card",
                 )}
               >
-                <span className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-border-strong font-mono text-[0.6875rem] font-semibold text-muted-foreground">
+                <span className="mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border-strong text-[0.6875rem] font-semibold text-muted-foreground">
                   {option.key}
                 </span>
                 <span className="text-foreground/90">
@@ -156,7 +163,7 @@ export function FeedbackPanel({
       {question.sources?.length ? (
         <section>
           <SectionLabel>Check it against</SectionLabel>
-          <ul className="measure space-y-1 font-mono text-[0.8125rem] leading-relaxed text-muted-foreground">
+          <ul className="measure space-y-1 text-[0.8125rem] leading-relaxed text-muted-foreground">
             {question.sources.map((source) => (
               <li key={source} className="flex gap-2">
                 <span aria-hidden className="select-none text-border-strong">

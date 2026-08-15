@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowRight, Shuffle, Target } from "lucide-react";
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
 import { Button } from "@/components/ui/button";
@@ -95,7 +94,6 @@ function Study() {
             <CardContent className="p-5">
               <div className="flex items-start gap-3">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/25 bg-accent-tint">
-                  <Target className="h-4 w-4 text-accent-strong" />
                 </span>
                 <div className="min-w-0">
                   <h3 className="font-semibold">
@@ -145,7 +143,6 @@ function Study() {
           <CardContent className="p-5">
             <div className="flex items-start gap-3">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
-                <Shuffle className="h-4 w-4 text-accent-strong" />
               </span>
               <div>
                 <h3 className="font-semibold">Adaptive session</h3>
@@ -195,7 +192,6 @@ function Study() {
                       : " · not started"}
                   </p>
                 </div>
-                <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
               </Link>
             );
           })}

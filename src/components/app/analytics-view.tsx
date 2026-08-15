@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -200,11 +199,25 @@ export function AnalyticsView({
                       label: `Domain ${domain.roman} — ${domain.label}`,
                     }}
                   />
-                  <span className="mt-2 flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted-foreground">
-                    <ChevronDown
-                      className={cn("h-3 w-3", isOpen && "rotate-180")}
+                  <span className="mt-2 flex items-center gap-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                    {/* A drawn caret. It rotates to show state, but the word
+                        beside it already says "Show"/"Hide", so the rotation is
+                        reinforcement rather than the signal. */}
+                    <svg
+                      viewBox="0 0 12 12"
+                      className={cn(
+                        "h-2.5 w-2.5 transition-transform duration-[120ms]",
+                        isOpen && "rotate-180",
+                      )}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       aria-hidden
-                    />
+                    >
+                      <path d="M2.5 4.5 6 8l3.5-3.5" />
+                    </svg>
                     {isOpen ? "Hide" : "Show"} {children.length} sub-domains
                   </span>
                 </button>

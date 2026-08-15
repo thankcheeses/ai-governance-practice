@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -97,7 +96,6 @@ export default function LoginPage() {
     <div className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5 py-10">
       <Button asChild variant="ghost" size="sm" className="-ml-2 mb-6 self-start">
         <Link href="/home">
-          <ArrowLeft className="h-4 w-4" />
           Back
         </Link>
       </Button>
@@ -205,7 +203,6 @@ export default function LoginPage() {
               ) : null}
 
               <Button type="submit" size="lg" className="w-full" disabled={pending}>
-                {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                 {mode === "reset"
                   ? "Send reset link"
                   : mode === "signin"

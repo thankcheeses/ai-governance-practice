@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Flag, LayoutGrid } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { PresentedOption, Question } from "@/content/types";
@@ -266,7 +265,6 @@ export function ExamRunner({
             onClick={() => move(-1)}
             disabled={session.index === 0}
           >
-            <ChevronLeft className="h-4 w-4" />
             Previous
           </Button>
 
@@ -277,7 +275,6 @@ export function ExamRunner({
             disabled={!open}
             aria-pressed={session.flagged.includes(question.id)}
           >
-            <Flag className="h-4 w-4" />
             {session.flagged.includes(question.id) ? "Flagged" : "Flag"}
           </Button>
 
@@ -289,7 +286,6 @@ export function ExamRunner({
             className="ml-auto"
           >
             Next
-            <ChevronRight className="h-4 w-4" />
           </Button>
 
           <Button size="sm" onClick={() => setConfirming(true)} disabled={!open}>
@@ -366,7 +362,6 @@ function ExamHeader({
           aria-expanded={navOpen}
           className="ml-auto"
         >
-          <LayoutGrid className="h-4 w-4" />
           {navOpen ? "Hide" : "All questions"}
         </Button>
       </div>
