@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Serif } from "next/font/google";
 import { ServiceWorker } from "@/components/app/service-worker";
 import { BRAND } from "@/lib/brand";
 import { ProgressProvider } from "@/lib/store/progress-provider";
@@ -21,6 +21,23 @@ const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-plex-mono",
+  display: "swap",
+});
+
+/*
+  The one deliberate exception, and it is scoped to the wordmark.
+
+  A product name is a signature, not interface text, and set in the same
+  monospace as the nav it reads as a filename rather than a name. This is the
+  only place a second family is allowed: the italic serif carries the wordmark
+  in the sidebar and the mobile header, and nothing else in the app may use it.
+  Everything that operates stays monospace.
+*/
+const plexSerif = IBM_Plex_Serif({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  style: ["italic"],
+  variable: "--font-plex-serif",
   display: "swap",
 });
 
@@ -70,7 +87,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="light"
-      className={plexMono.variable}
+      className={`${plexMono.variable} ${plexSerif.variable}`}
       suppressHydrationWarning
     >
       <head>

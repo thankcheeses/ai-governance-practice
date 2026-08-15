@@ -112,6 +112,28 @@ function Settings() {
               </button>
             ))}
           </div>
+
+          {/*
+            The presets are shortcuts, not the range. Anyone who wants to sit
+            down and do two hundred can; the product has no view on how much
+            practice is too much, and nothing here is rationed.
+          */}
+          <label className="mt-3 flex items-center gap-3">
+            <span className="text-sm text-muted-foreground">Or set your own</span>
+            <input
+              type="number"
+              inputMode="numeric"
+              min={1}
+              step={1}
+              value={progress.dailyGoal}
+              onChange={(e) => {
+                const next = Number(e.target.value);
+                if (Number.isFinite(next) && next >= 1) setDailyGoal(next);
+              }}
+              aria-label="Daily goal — scenarios per day"
+              className="w-24 rounded-lg border border-input bg-card px-3 py-2 font-mono text-sm tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            />
+          </label>
         </div>
 
         <Separator className="my-4" />
