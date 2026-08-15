@@ -2063,7 +2063,7 @@
     "id": 112,
     "scenarioId": "sc-001",
     "domain": "Governing AI Development",
-    "question": "Before any expansion to small-business lending is approved, which THREE conditions should the committee require?",
+    "question": "Before any expansion to small-business lending is approved, which three conditions should the committee require?",
     "options": [
       "A. Independent validation against the small-business applicant population.",
       "B. A documented rationale for why features validated on consumers transfer to businesses.",
@@ -2159,7 +2159,7 @@
     "id": 117,
     "scenarioId": "sc-002",
     "domain": "Governing AI Deployment and Use",
-    "question": "The Chief People Officer wants to extend the tool to driver hiring, where a licence check and a regulated safety record already apply. Which TWO considerations most directly bear on that decision?",
+    "question": "The Chief People Officer wants to extend the tool to driver hiring, where a licence check and a regulated safety record already apply. Which two considerations most directly bear on that decision?",
     "options": [
       "A. Whether ranking that is opaque to Calderon can be reconciled with a regulated safety determination.",
       "B. Whether the vendor's audit, which covers race and sex, speaks to the signals driver hiring depends on.",
@@ -2256,7 +2256,7 @@
     "id": 122,
     "scenarioId": "sc-003",
     "domain": "Foundations of AI Governance",
-    "question": "The council has asked for a public statement about the department's use of AI. Which THREE elements most belong in it?",
+    "question": "The council has asked for a public statement about the department's use of AI. Which three elements most belong in it?",
     "options": [
       "A. What the assistant is used for and what it is not used for.",
       "B. That a caseworker reviews and is accountable for every answer given to a resident.",
@@ -2474,7 +2474,7 @@
   {
     "id": 134,
     "domain": "Governing AI Development",
-    "question": "A pharmaceutical company's research team wants to use a third-party dataset whose provenance the supplier will not fully describe. Which TWO risks should most influence the decision?",
+    "question": "A pharmaceutical company's research team wants to use a third-party dataset whose provenance the supplier will not fully describe. Which two risks should most influence the decision?",
     "options": [
       "A. That the data may not be lawfully available for the intended purpose.",
       "B. That undisclosed collection methods may bias the population the data represents.",
@@ -2588,7 +2588,7 @@
     "id": 140,
     "scenarioId": "sc-005",
     "domain": "Laws, Standards, and Frameworks",
-    "question": "Vantor's public policy says prices 'vary with demand and availability'. Which TWO issues does that disclosure most directly raise?",
+    "question": "Vantor's public policy says prices 'vary with demand and availability'. Which two issues does that disclosure most directly raise?",
     "options": [
       "A. It omits that an automated system sets prices using session-level signals.",
       "B. It may not meet the standard of clarity expected in Vantor's stricter markets.",
@@ -2665,7 +2665,7 @@
     "id": 144,
     "scenarioId": "sc-006",
     "domain": "Governing AI Development",
-    "question": "Ardal wants to keep the dispatch agent but reduce its exposure. Which TWO changes address the underlying cause rather than its symptoms?",
+    "question": "Ardal wants to keep the dispatch agent but reduce its exposure. Which two changes address the underlying cause rather than its symptoms?",
     "options": [
       "A. Read crew availability from the real-time crew management system rather than the 15-minute feed.",
       "B. Hold any dispatch to a site with recent crew activity until availability is confirmed current.",
@@ -2828,7 +2828,7 @@
   {
     "id": 153,
     "domain": "Foundations of AI Governance",
-    "question": "Which TWO conditions most distinguish a governance committee that functions from one that exists on paper?",
+    "question": "Which two conditions most distinguish a governance committee that functions from one that exists on paper?",
     "options": [
       "A. It can stop or condition a deployment, and that authority has been used.",
       "B. Its membership spans the functions that would surface different risks.",
@@ -2951,7 +2951,7 @@
   {
     "id": 160,
     "domain": "Governing AI Development",
-    "question": "Which THREE elements make a pre-deployment impact assessment useful rather than ceremonial?",
+    "question": "Which three elements make a pre-deployment impact assessment useful rather than ceremonial?",
     "options": [
       "A. It identifies who could be adversely affected and how.",
       "B. It records decisions that were taken because of what it found.",
@@ -3039,7 +3039,7 @@
   {
     "id": 165,
     "domain": "Governing AI Deployment and Use",
-    "question": "Which TWO conditions most justify treating a human-in-the-loop control as an effective mitigation?",
+    "question": "Which two conditions most justify treating a human-in-the-loop control as an effective mitigation?",
     "options": [
       "A. The reviewer has the information and authority needed to reach a different conclusion.",
       "B. The review happens before the consequential action, not after it.",
@@ -3147,7 +3147,7 @@
   {
     "id": 171,
     "domain": "Governing AI Development",
-    "question": "Which TWO practices most support reproducibility of a model that may need to be defended years later?",
+    "question": "Which two practices most support reproducibility of a model that may need to be defended years later?",
     "options": [
       "A. Versioning the training data alongside the code and model artifacts.",
       "B. Recording the environment and random seeds used for the training run.",
@@ -3312,7 +3312,7 @@
     "id": 180,
     "scenarioId": "sc-008",
     "domain": "Laws, Standards, and Frameworks",
-    "question": "Halden embeds a commercial foundation model and ships the result to its own customers. Which TWO obligations most clearly attach to Halden rather than the model provider?",
+    "question": "Halden embeds a commercial foundation model and ships the result to its own customers. Which two obligations most clearly attach to Halden rather than the model provider?",
     "options": [
       "A. Telling its customers that their code is processed by a third party.",
       "B. Ensuring the assistant's use in its product stays inside the provider's permitted terms.",
@@ -3631,7 +3631,7 @@
   {
     "id": 198,
     "domain": "Governing AI Development",
-    "question": "An organisation publishes a model card describing intended use, performance and limitations. Which TWO practices most protect it from becoming misleading over time?",
+    "question": "An organisation publishes a model card describing intended use, performance and limitations. Which two practices most protect it from becoming misleading over time?",
     "options": [
       "A. Recording the date and model version the stated performance was measured on.",
       "B. Updating it when the model, its data or its intended use materially change.",
@@ -3739,7 +3739,7 @@
   {
     "id": 204,
     "domain": "Governing AI Deployment and Use",
-    "question": "An organisation discovers a deployed model has been producing a biased outcome for eleven months. Which TWO actions belong in the first hour of the response?",
+    "question": "An organisation discovers a deployed model has been producing a biased outcome for eleven months. Which two actions belong in the first hour of the response?",
     "options": [
       "A. Establish whether the bias is still occurring and can be stopped now.",
       "B. Determine the population affected over the eleven months.",
@@ -3812,7 +3812,7 @@
   {
     "id": 208,
     "domain": "Foundations of AI Governance",
-    "question": "A governance lead is explaining why AI harms are hard to contain once a system is live. Which TWO properties most directly explain that difficulty?",
+    "question": "A governance lead is explaining why AI harms are hard to contain once a system is live. Which two properties most directly explain that difficulty?",
     "options": [
       "A. A single flawed rule can be applied to millions of cases before anyone notices.",
       "B. Those affected often cannot tell that an automated system was involved.",
@@ -3903,7 +3903,7 @@
   {
     "id": 213,
     "domain": "Foundations of AI Governance",
-    "question": "A team claims its recommendation system carries no meaningful risk because it only suggests articles. Which TWO considerations most directly challenge that claim?",
+    "question": "A team claims its recommendation system carries no meaningful risk because it only suggests articles. Which two considerations most directly challenge that claim?",
     "options": [
       "A. What the system's suggestions do to the range of material people encounter over time.",
       "B. Whether the signals it optimises for align with what the organisation says it values.",
@@ -3994,7 +3994,7 @@
   {
     "id": 218,
     "domain": "Foundations of AI Governance",
-    "question": "A firm is defining AI training for its staff. Which TWO groups have needs that generic awareness training will not meet?",
+    "question": "A firm is defining AI training for its staff. Which two groups have needs that generic awareness training will not meet?",
     "options": [
       "A. Front-line staff who must decide whether to accept or override a system's recommendation.",
       "B. Procurement staff who evaluate vendor claims about model performance.",
@@ -4049,7 +4049,7 @@
   {
     "id": 221,
     "domain": "Foundations of AI Governance",
-    "question": "A large organisation is choosing between centralised AI governance and governance embedded in each business unit. Which TWO statements most accurately characterise the trade-off?",
+    "question": "A large organisation is choosing between centralised AI governance and governance embedded in each business unit. Which two statements most accurately characterise the trade-off?",
     "options": [
       "A. Central governance gives consistent decisions but is slower and further from context.",
       "B. Embedded governance is closer to the work but risks divergent standards between units.",
@@ -4105,7 +4105,7 @@
   {
     "id": 224,
     "domain": "Foundations of AI Governance",
-    "question": "A company is updating existing policies for AI. Which TWO existing policies most often need substantive change rather than a cross-reference?",
+    "question": "A company is updating existing policies for AI. Which two existing policies most often need substantive change rather than a cross-reference?",
     "options": [
       "A. Data management, because training and fine-tuning create new uses of data already held.",
       "B. Intellectual property, because both model inputs and generated outputs raise ownership questions.",
@@ -4178,7 +4178,7 @@
   {
     "id": 228,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A model has been trained on personal data and a data subject requests erasure. Which TWO points are most relevant to the response?",
+    "question": "A model has been trained on personal data and a data subject requests erasure. Which two points are most relevant to the response?",
     "options": [
       "A. Whether the underlying records can be deleted from the training corpus and downstream stores.",
       "B. Whether the model itself retains information that could identify the individual.",
@@ -4251,7 +4251,7 @@
   {
     "id": 232,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A model is trained in one country and serves users in another. Which TWO questions most directly determine the cross-border compliance position?",
+    "question": "A model is trained in one country and serves users in another. Which two questions most directly determine the cross-border compliance position?",
     "options": [
       "A. Where the personal data physically moves, and under what transfer mechanism.",
       "B. Which jurisdictions' laws attach because of where the individuals are and what is offered to them.",
@@ -4325,7 +4325,7 @@
   {
     "id": 236,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A lender's model declines applicants at markedly different rates by ethnicity, and the lender says the model is a legitimate business tool. Which TWO points are most relevant under nondiscrimination law?",
+    "question": "A lender's model declines applicants at markedly different rates by ethnicity, and the lender says the model is a legitimate business tool. Which two points are most relevant under nondiscrimination law?",
     "options": [
       "A. Whether the practice is justified by a substantial legitimate aim.",
       "B. Whether a less discriminatory alternative achieving the same aim was available.",
@@ -4398,7 +4398,7 @@
   {
     "id": 240,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A company wants to use a public web corpus for training. Which TWO questions most directly bear on whether it may?",
+    "question": "A company wants to use a public web corpus for training. Which two questions most directly bear on whether it may?",
     "options": [
       "A. Whether the terms of the sites and any licence attached to the material permit this use.",
       "B. Whether the corpus contains personal data and on what basis it could be processed.",
@@ -4490,7 +4490,7 @@
   {
     "id": 245,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A company deploys a high-risk AI system bought from a provider. Which TWO obligations fall on the deployer rather than the provider?",
+    "question": "A company deploys a high-risk AI system bought from a provider. Which two obligations fall on the deployer rather than the provider?",
     "options": [
       "A. Using the system in accordance with the provider's instructions for use.",
       "B. Assigning competent human oversight to the system in operation.",
@@ -4545,7 +4545,7 @@
   {
     "id": 248,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "Which TWO factors most influence whether an AI system is classified as high-risk under a risk-tiered regime?",
+    "question": "Which two factors most influence whether an AI system is classified as high-risk under a risk-tiered regime?",
     "options": [
       "A. The domain it operates in and the consequences of its decisions for individuals.",
       "B. Whether it is used as a safety component of a regulated product.",
@@ -4618,7 +4618,7 @@
   {
     "id": 252,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A customer asks a vendor to demonstrate mature AI governance. Which TWO pieces of evidence are most probative?",
+    "question": "A customer asks a vendor to demonstrate mature AI governance. Which two pieces of evidence are most probative?",
     "options": [
       "A. Certification against a management system standard, with the certificate's scope stated.",
       "B. Records showing risk assessments were performed and acted on for the specific system being sold.",
@@ -4691,7 +4691,7 @@
   {
     "id": 256,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A team is choosing between a framework and a standard as the backbone of its AI programme. Which TWO considerations should drive the choice?",
+    "question": "A team is choosing between a framework and a standard as the backbone of its AI programme. Which two considerations should drive the choice?",
     "options": [
       "A. Whether the organisation needs to demonstrate conformity to external parties.",
       "B. Whether the organisation needs flexibility to adapt practices to its own maturity and context.",
@@ -4746,7 +4746,7 @@
   {
     "id": 259,
     "domain": "Governing AI Development",
-    "question": "A team is defining success metrics for a customer-support model before development starts. Which TWO choices most reduce the risk of optimising the wrong thing?",
+    "question": "A team is defining success metrics for a customer-support model before development starts. Which two choices most reduce the risk of optimising the wrong thing?",
     "options": [
       "A. Pairing the primary metric with a guardrail metric that would degrade if the system gamed the primary.",
       "B. Defining, in advance, the outcome the system exists to improve rather than the proxy that is easy to measure.",
@@ -4801,7 +4801,7 @@
   {
     "id": 262,
     "domain": "Governing AI Development",
-    "question": "A validation set was created by randomly splitting a dataset in which the same customer appears many times. Which TWO problems does this create?",
+    "question": "A validation set was created by randomly splitting a dataset in which the same customer appears many times. Which two problems does this create?",
     "options": [
       "A. Records from the same customer appear in both training and validation, inflating measured performance.",
       "B. Measured performance will not predict behaviour on customers the model has never seen.",
@@ -4856,7 +4856,7 @@
   {
     "id": 265,
     "domain": "Governing AI Development",
-    "question": "A model is being retired and replaced. Which TWO governance actions are most important at retirement?",
+    "question": "A model is being retired and replaced. Which two governance actions are most important at retirement?",
     "options": [
       "A. Retaining the records needed to explain decisions the retired model made.",
       "B. Confirming that every downstream consumer has moved off it before it is switched off.",
@@ -4894,7 +4894,7 @@
   {
     "id": 267,
     "domain": "Governing AI Deployment and Use",
-    "question": "An organisation is choosing between retrieval-augmented generation and fine-tuning for a policy assistant. Which TWO considerations most favour retrieval?",
+    "question": "An organisation is choosing between retrieval-augmented generation and fine-tuning for a policy assistant. Which two considerations most favour retrieval?",
     "options": [
       "A. Source policies change frequently and answers must reflect the current version.",
       "B. Users need to see which document an answer came from.",
@@ -4968,7 +4968,7 @@
   {
     "id": 271,
     "domain": "Governing AI Deployment and Use",
-    "question": "An organisation is assessing the impact of a system it plans to deploy. Which TWO inputs make the assessment most useful?",
+    "question": "An organisation is assessing the impact of a system it plans to deploy. Which two inputs make the assessment most useful?",
     "options": [
       "A. What happens to a person when the system is wrong, and how they would find out.",
       "B. Which groups the system will treat differently, and whether that difference is justified.",
@@ -5005,7 +5005,7 @@
   {
     "id": 273,
     "domain": "Governing AI Deployment and Use",
-    "question": "A licence permits use of a model for 'internal business purposes'. The company wants to expose it in a customer-facing feature. Which TWO steps are indicated?",
+    "question": "A licence permits use of a model for 'internal business purposes'. The company wants to expose it in a customer-facing feature. Which two steps are indicated?",
     "options": [
       "A. Establishing whether customer-facing use falls inside the licensed scope.",
       "B. Checking what the licence requires or prohibits regarding output attribution and downstream use.",
@@ -5043,7 +5043,7 @@
   {
     "id": 275,
     "domain": "Governing AI Deployment and Use",
-    "question": "A deployed model's monitoring shows stable accuracy, but complaints about its decisions have tripled. Which TWO responses are most appropriate?",
+    "question": "A deployed model's monitoring shows stable accuracy, but complaints about its decisions have tripled. Which two responses are most appropriate?",
     "options": [
       "A. Examining whether accuracy is stable in aggregate while degrading for a particular segment.",
       "B. Treating the complaints as a monitoring signal the current metrics do not capture.",
@@ -5098,7 +5098,7 @@
   {
     "id": 278,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A vendor offers its ISO/IEC 42001 certificate as evidence. Which TWO details most determine what that certificate is worth to the buyer?",
+    "question": "A vendor offers its ISO/IEC 42001 certificate as evidence. Which two details most determine what that certificate is worth to the buyer?",
     "options": [
       "A. The scope statement, which says which parts of the business the certificate covers.",
       "B. Whether the product being bought falls inside that scope.",
@@ -5189,7 +5189,7 @@
   {
     "id": 283,
     "domain": "Foundations of AI Governance",
-    "question": "A team says its model is 'unbiased' because it was trained without any protected attributes. Which TWO problems does that claim have?",
+    "question": "A team says its model is 'unbiased' because it was trained without any protected attributes. Which two problems does that claim have?",
     "options": [
       "A. Correlated features can carry the excluded attribute into the model regardless.",
       "B. Bias is a property of outcomes, so it is established by measurement rather than by design.",
@@ -5244,7 +5244,7 @@
   {
     "id": 286,
     "domain": "Foundations of AI Governance",
-    "question": "A company is writing role descriptions for AI governance. Which TWO responsibilities must be held by someone named, rather than shared across a function?",
+    "question": "A company is writing role descriptions for AI governance. Which two responsibilities must be held by someone named, rather than shared across a function?",
     "options": [
       "A. Deciding whether a specific system may go into production.",
       "B. Answering for a system's behaviour once it is operating.",
@@ -5335,7 +5335,7 @@
   {
     "id": 291,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A generative feature lets staff paste customer records into a prompt. Which TWO privacy obligations does that most directly engage?",
+    "question": "A generative feature lets staff paste customer records into a prompt. Which two privacy obligations does that most directly engage?",
     "options": [
       "A. Purpose limitation, because the records were collected to deliver a service.",
       "B. Security of processing, because the content leaves the organisation's control.",
@@ -5408,7 +5408,7 @@
   {
     "id": 295,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "An AI chatbot gives a customer incorrect information about a company's refund terms. Which TWO exposures are most immediate?",
+    "question": "An AI chatbot gives a customer incorrect information about a company's refund terms. Which two exposures are most immediate?",
     "options": [
       "A. The company may be held to the terms its own interface stated.",
       "B. Consumer protection exposure, if the statement is treated as misleading.",
