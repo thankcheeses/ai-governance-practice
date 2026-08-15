@@ -107,18 +107,20 @@ export function ResultActions({ result }: { result: CompletedResult }) {
       {open ? (
         <div id={`${fieldId}-panel`} className="mt-5 border-t border-border pt-5">
           {!configured ? (
+            /*
+              This used to name an environment variable and tell the reader to
+              rebuild. Whoever reaches this screen finished a sitting and wants
+              their results; they do not deploy this app and cannot act on any
+              of that. Setup instructions live in `.env.example`, where the
+              person who needs them is already looking.
+            */
             <div>
               <p className="measure text-[0.9375rem] leading-relaxed">
-                Email delivery is not configured for this build, so nothing can
-                be sent.
+                Emailing results is not available yet.
               </p>
               <p className="measure mt-2 text-[0.875rem] leading-relaxed text-muted-foreground">
-                The PDF download above needs no server and works now. To turn
-                email on, set{" "}
-                <code className="font-mono text-[0.8125rem]">
-                  NEXT_PUBLIC_RESULTS_EMAIL_ENDPOINT
-                </code>{" "}
-                and rebuild — see <code className="font-mono text-[0.8125rem]">.env.example</code>.
+                The PDF download above has the same summary and works right
+                now — no account, no connection needed.
               </p>
             </div>
           ) : status.kind === "sent" ? (

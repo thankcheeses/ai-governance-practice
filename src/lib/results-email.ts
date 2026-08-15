@@ -265,32 +265,26 @@ export async function sendResultByEmail(
         The function also returns the provider's own words in `detail`. Surface
         them: they name the real problem far better than anything guessed here.
       */
-      const detail = await response
-        .json()
-        .then((b: unknown) =>
-          b && typeof b === "object" && "detail" in b
-            ? String((b as { detail: unknown }).detail).slice(0, 200)
-            : "",
-        )
-        .catch(() => "");
+      /*
+        Whatever went wrong here is a configuration problem between the app and
+        its mail provider. The person reading this message is a learner who
+        wanted their results; they cannot fix a DNS record and should not be
+        shown one. Earlier this surfaced the provider's raw JSON, which made a
+        working app look broken and told the reader nothing they could act on.
 
-      let message: string;
-      if (response.status === 401) {
-        message =
-          "The endpoint rejected the request (401) before it reached the mail " +
-          "function. Nothing was sent.";
-      } else if (response.status === 403) {
-        message =
-          "The mail provider refused the message (403). This is usually a " +
-          "sending domain that has not been verified yet. Nothing was sent.";
-      } else {
-        message = `Sending failed (${response.status}). Nothing was sent.`;
-      }
-      return {
-        ok: false,
-        reason: "failed",
-        message: detail ? `${message} Provider said: ${detail}` : message,
-      };
+        So: say plainly that email is unavailable and point at the download,
+        which always works — it is generated in the browser and depends on
+        none of this. The provider's own words stay in the function's logs,
+        which is where an operator looks and where no learner has to.
+      */
+      const message =
+        response.status === 401
+          ? "The endpoint rejected the request before it reached the mail " +
+            "function, so nothing was sent. Download the PDF instead — it has " +
+            "the same summary."
+          : "Emailing results is unavailable right now, so nothing was sent. " +
+            "Download the PDF instead — it has the same summary.";
+      return { ok: false, reason: "failed", message };
     }
     return { ok: true };
   } catch {

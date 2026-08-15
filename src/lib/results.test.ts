@@ -854,52 +854,57 @@ test("nothing is sent when the endpoint is configured but the key is not", async
   was told to go and look at a credential the provider never rejected. The two
   statuses mean different things and must read differently.
 */
-test("401 names the gateway; 403 names the mail provider", async () => {
-  const send = (status: number, body = "") =>
-    sendResultByEmail(practiceResult(), "a@b.co", {
-      endpoint: "https://example.invalid/functions/v1/resend-email",
-      key: "k",
-      fetch: (async () =>
-        new Response(body, { status })) as unknown as typeof fetch,
-    });
-
-  const gateway = await send(401);
-  assert.equal(gateway.ok, false);
-  assert.ok(
-    gateway.ok === false &&
-      /before it reached the mail function/i.test(gateway.message),
-    `401 should name the gateway, got: ${gateway.ok === false ? gateway.message : ""}`,
-  );
-
-  const provider = await send(403);
-  assert.equal(provider.ok, false);
-  assert.ok(
-    provider.ok === false &&
-      /mail provider/i.test(provider.message) &&
-      !/before it reached the mail function/i.test(provider.message),
-    `403 should name the provider, got: ${provider.ok === false ? provider.message : ""}`,
-  );
-});
-
-test("the provider's own explanation is surfaced, not swallowed", async () => {
-  // The function returns Resend's wording in `detail`; it names the real
-  // problem better than anything this layer could infer from a status code.
-  const outcome = await sendResultByEmail(practiceResult(), "a@b.co", {
+const sendWith = (status: number, body = "") =>
+  sendResultByEmail(practiceResult(), "a@b.co", {
     endpoint: "https://example.invalid/functions/v1/resend-email",
     key: "k",
     fetch: (async () =>
-      new Response(
-        JSON.stringify({
-          error: "The mail provider rejected the message",
-          detail: "The example.org domain is not verified.",
-        }),
-        { status: 403 },
-      )) as unknown as typeof fetch,
+      new Response(body, { status })) as unknown as typeof fetch,
   });
-  assert.ok(
-    outcome.ok === false && /domain is not verified/i.test(outcome.message),
-    `expected the provider's words, got: ${outcome.ok === false ? outcome.message : ""}`,
+
+test("a failed send always points at the download, which cannot fail", async () => {
+  // The PDF is produced in the browser and depends on no endpoint, so it is
+  // the one thing that is still true when the mail path is broken.
+  for (const status of [401, 403, 500, 502]) {
+    const outcome = await sendWith(status);
+    assert.equal(outcome.ok, false);
+    assert.ok(
+      outcome.ok === false && /download the pdf/i.test(outcome.message),
+      `status ${status} should offer the PDF, got: ${outcome.ok === false ? outcome.message : ""}`,
+    );
+  }
+});
+
+/*
+  This deliberately reverses an earlier decision. Surfacing the provider's raw
+  message was invaluable while configuring the endpoint — it is what identified
+  an unverified sending domain — but the audience in production is a learner who
+  wanted their results and cannot act on a DNS record. Provider text belongs in
+  the function's logs, not in front of them.
+*/
+test("provider internals never reach the reader", async () => {
+  const outcome = await sendWith(
+    403,
+    JSON.stringify({
+      error: "The mail provider rejected the message",
+      detail:
+        '{"statusCode":403,"message":"The example.org domain is not verified.","name":"validation_error"}',
+    }),
   );
+  assert.equal(outcome.ok, false);
+  const message = outcome.ok === false ? outcome.message : "";
+  for (const leak of [
+    "statusCode",
+    "validation_error",
+    "not verified",
+    "example.org",
+    "{",
+  ]) {
+    assert.ok(
+      !message.includes(leak),
+      `provider internals leaked ("${leak}") into: ${message}`,
+    );
+  }
 });
 
 test("no request is made and no key is needed when the address is invalid", async () => {
