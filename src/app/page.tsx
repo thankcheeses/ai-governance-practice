@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { ScenarioDecisionFrame } from "@/components/civic/gpai";
 import { SectionHeading } from "@/components/civic/surfaces";
 import { ContinueLink } from "@/components/landing/continue-link";
@@ -29,9 +28,8 @@ export default function RootPage() {
   return (
     <div className="min-h-dvh">
       <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-[1180px] items-center gap-3 px-5 py-4 sm:px-6 lg:px-10">
-          <DimensionalMark name="brand" size="md" />
-          <span className="font-serif text-[1.0625rem] italic">{BRAND.name}</span>
+        <div className="mx-auto flex max-w-[1180px] items-center px-5 py-4 sm:px-6 lg:px-10">
+          <span className="font-serif text-[1.125rem]">{BRAND.name}</span>
         </div>
       </header>
 

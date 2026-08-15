@@ -1,10 +1,14 @@
 "use client";
 
 import {
+  GateRail,
+  LevelLadder,
+  LoopRing,
+  NarrowingStack,
+  RoleGraph,
+} from "./diagrams";
+import {
   GpaiFrame,
-  LayeredPlanes,
-  NodePath,
-  RadialNodes,
   type GpaiModuleProps,
   type GpaiStage,
 } from "./module-frame";
@@ -66,7 +70,7 @@ export function PreLaunchGate({ variant, className }: GpaiModuleProps) {
       stages={PRE_LAUNCH_STAGES}
       variant={variant}
       className={className}
-      diagram={<NodePath count={5} />}
+      diagram={<GateRail labels={PRE_LAUNCH_STAGES.map((s) => s.name)} />}
     />
   );
 }
@@ -104,7 +108,7 @@ export function OversightLevelComparison({ variant, className }: GpaiModuleProps
       stages={OVERSIGHT_STAGES}
       variant={variant}
       className={className}
-      diagram={<LayeredPlanes count={3} />}
+      diagram={<LevelLadder labels={OVERSIGHT_STAGES.map((s) => s.name)} />}
     />
   );
 }
@@ -152,7 +156,12 @@ export function WhoIsAccountable({ variant, className }: GpaiModuleProps) {
       stages={ACCOUNTABILITY_STAGES}
       variant={variant}
       className={className}
-      diagram={<RadialNodes count={5} />}
+      diagram={
+        <RoleGraph
+          centre="Owner"
+          around={["Sponsor", "Risk", "Legal", "Operations"]}
+        />
+      }
     />
   );
 }
@@ -200,7 +209,7 @@ export function MonitoringThatActuallyWorks({ variant, className }: GpaiModulePr
       stages={MONITORING_STAGES}
       variant={variant}
       className={className}
-      diagram={<NodePath count={5} loop />}
+      diagram={<LoopRing labels={MONITORING_STAGES.map((s) => s.name)} />}
     />
   );
 }
@@ -243,7 +252,7 @@ export function ScenarioDecisionFrame({ variant, className }: GpaiModuleProps) {
       stages={DECISION_STAGES}
       variant={variant}
       className={className}
-      diagram={<NodePath count={4} tone="insight" />}
+      diagram={<NarrowingStack labels={DECISION_STAGES.map((s) => s.name)} />}
     />
   );
 }

@@ -29,7 +29,7 @@ export function ContinueLink() {
   if (!returning) {
     return (
       <Button asChild size="lg">
-        <Link href="/onboarding">Start practising — no account needed</Link>
+        <Link href="/onboarding">Start practicing — no account needed</Link>
       </Button>
     );
   }
