@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { Disclaimer } from "@/components/app/disclaimer";
+import { StarButton } from "@/components/civic/star-button";
+import { isStarConfigured } from "@/lib/github/stars";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -230,6 +232,21 @@ function Settings() {
       </Section>
 
       {/* Support */}
+      {/*
+        The whole section is gated, not just the button. Gating only the button
+        left a heading and a line of copy standing over nothing — an unstarrable
+        invitation to star, which reads as broken rather than as absent.
+      */}
+      {isStarConfigured() ? (
+        <Section title="Back this project">
+          <p className="measure mb-4 text-sm leading-relaxed text-muted-foreground">
+            The app is free and has no analytics, so a star is the only signal
+            that any of this is useful to anyone.
+          </p>
+          <StarButton />
+        </Section>
+      ) : null}
+
       <Section title="Support">
         <div className="flex items-start gap-3">
           <div className="min-w-0">
