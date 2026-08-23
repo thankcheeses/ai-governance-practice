@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import type { VisualAid as VisualAidData } from "@/content/types";
+import { withBasePath } from "@/lib/base-path";
 import { cn } from "@/lib/utils";
 
 /**
@@ -35,7 +36,15 @@ export function VisualAid({
         )}
       >
         <Image
-          src={aid.src}
+          /*
+            Prefixed by hand. `next/image` does not apply `basePath` to a plain
+            string src — the base path is read only by the server optimizer,
+            which a static export does not run. Left bare, every diagram 404s
+            on a project site, and this component's own fail-silent contract
+            would hide that: the question would simply render without its
+            figure and nothing would look broken.
+          */
+          src={withBasePath(aid.src)}
           alt={aid.alt}
           fill
           // Diagrams are line art on a light ground — contain preserves the

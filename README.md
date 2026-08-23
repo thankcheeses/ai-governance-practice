@@ -32,7 +32,8 @@ app runs fully with progress stored in the browser. Supabase is optional and
 adds accounts plus cross-device sync.
 
 ```bash
-npm run build         # server build (Vercel)
+npm run build         # server build (local preview only — nothing deploys from it)
+npm run build:pages   # static export into ./out for GitHub Pages
 npm run start         # serve the production build
 npm run typecheck     # tsc --noEmit
 npm run lint          # eslint
@@ -192,13 +193,27 @@ labs mapped to future `TrackId`s, so lab content reuses the existing track
 machinery rather than needing a parallel system. There are no lab routes, pages,
 or components, and nothing in the UI mentions them.
 
-### 8. Two build targets
+### 8. Three build targets
 
-`next.config.ts` branches on `MOBILE_BUILD`. The default is the unchanged
-server build for Vercel; `MOBILE_BUILD=1` produces a static export into `./out`
-for Capacitor, which disables middleware and the image optimizer. Neither
-matters on device — middleware only refreshes an auth cookie for server
-rendering, and bundled images need no optimizer. Keeping it behind a flag means
+`next.config.ts` branches on `MOBILE_BUILD` and `PAGES_BUILD`. The default is a
+plain server build kept for local preview; `MOBILE_BUILD=1` produces a static
+export into `./out` for Capacitor, and `PAGES_BUILD=1` produces the same export
+served under a repository sub-path for GitHub Pages. Both exports disable the
+image optimizer, which nothing needs — assets are served as files.
+
+The base path is the only thing separating the two export targets, and it must
+never reach the mobile bundle: Capacitor serves from the filesystem root, so a
+base path there points every asset at a directory that does not exist on the
+device. `next.config.ts` therefore derives it from `PAGES_BUILD` alone.
+
+Next prefixes `<Link href>` and everything under `_next/` by itself. It does
+**not** prefix values handed to browser APIs — `navigator.serviceWorker
+.register`, the `manifest` metadata field, a `next/image` string `src` when the
+optimizer is off, or any URL built from `window.location.origin`. Those go
+through `src/lib/base-path.ts`, which reads the same value Next was given.
+`public/sw.js` and `public/manifest.webmanifest` are copied verbatim and cannot
+read the config at all, so they resolve their own base — the worker from
+`self.location`, the manifest from relative paths. Keeping it behind a flag means
 neither target can silently regress the other.
 
 ### 9. Theming and the OpenCode Terminal Mono palette
@@ -443,18 +458,43 @@ has to be primed by a single online visit first.
 
 ---
 
-## Deploying to Vercel
+## Deploying to GitHub Pages
 
-1. Push to GitHub and import the repository at
-   [vercel.com/new](https://vercel.com/new).
-2. Framework preset is detected automatically. No build configuration needed.
-3. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` under
-   **Settings → Environment Variables** if you want accounts. Omit them and the
-   deployment runs in local-progress mode.
-4. Add `SUPABASE_SERVICE_ROLE_KEY` only if you intend to run the seed script
-   from CI.
-5. In Supabase, add your deployment URL to **Authentication → URL Configuration
-   → Redirect URLs**.
+The app is a set of static files. There is no server, no API route and no
+middleware, so Pages hosts the whole thing — Supabase is called directly from
+the browser and its Edge Functions are hosted by Supabase.
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+2. Push to `main`. `.github/workflows/deploy-pages.yml` runs the checks, builds
+   the export and publishes it. The base path comes from the repository name,
+   so a rename cannot silently break every asset URL.
+3. Optional, under **Settings → Secrets and variables → Actions → Variables**
+   (variables, *not* secrets — every `NEXT_PUBLIC_*` value is inlined into the
+   browser bundle and none of them can hold a secret):
+
+   | Variable | Enables |
+   | --- | --- |
+   | `NEXT_PUBLIC_SUPABASE_URL` | accounts and cross-device sync |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | as above |
+   | `NEXT_PUBLIC_SITE_URL` | correct return address on emailed auth links — the full public URL **including** the repository segment |
+   | `NEXT_PUBLIC_GITHUB_CLIENT_ID` | the "Star this project" control |
+   | `NEXT_PUBLIC_GITHUB_OAUTH_ENDPOINT` | as above |
+   | `PAGES_BASE_PATH` | only to override the repository name — set it empty for a `<user>.github.io` user site |
+
+   With none of them set the deployment runs in local-progress mode. Because
+   they are inlined at build time, changing one needs a new run: use
+   **Actions → Deploy to GitHub Pages → Run workflow**.
+
+4. In Supabase, add the Pages URL to **Authentication → URL Configuration →
+   Redirect URLs**.
+5. If the star control is enabled, the GitHub OAuth App's callback URL must be
+   `https://<user>.github.io/<repo>/github/callback`, and the `github-oauth`
+   function's `ALLOWED_ORIGINS` must contain `https://<user>.github.io` — a
+   CORS `Origin` carries no path, so the repository segment is not part of it.
+
+Note that a user site puts every project on one origin, so `localStorage`
+(progress) and `sessionStorage` (the GitHub token) are shared with your other
+Pages projects.
 
 ---
 

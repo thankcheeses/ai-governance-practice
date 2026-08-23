@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "seed": "tsx scripts/seed.ts",
     "build:mobile": "MOBILE_BUILD=1 next build",
+    "build:pages": "PAGES_BUILD=1 next build",
     "mobile:sync": "npm run build:mobile && npx cap sync",
     "mobile:android": "npm run mobile:sync && npx cap open android",
     "mobile:ios": "npm run mobile:sync && npx cap open ios",

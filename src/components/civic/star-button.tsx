@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { appUrl, currentAppPath } from "@/lib/base-path";
 import {
   beginAuthorize,
   checkStarred,
@@ -58,11 +59,14 @@ export function StarButton({ className }: { className?: string }) {
   }, [configured]);
 
   const connect = useCallback(() => {
-    const redirectUri = `${window.location.origin}/github/callback`;
-    const url = beginAuthorize(
-      window.location.pathname + window.location.search,
-      redirectUri,
-    );
+    // `origin` alone drops the repository segment on a project site, producing
+    // a redirect_uri GitHub has not been told about — which fails at the
+    // consent screen rather than here, where it would be obvious.
+    const redirectUri = appUrl("/github/callback");
+    if (!redirectUri) return;
+    // Router-relative: the callback hands this straight to `router.replace`,
+    // which applies the base path itself.
+    const url = beginAuthorize(currentAppPath(), redirectUri);
     if (url) window.location.assign(url);
   }, []);
 

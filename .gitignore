@@ -37,7 +37,7 @@ yarn-error.log*
 # force-added once — a `git rm --cached` would make it silently unaddable.
 !.env.example
 
-# vercel
+# vercel (legacy — no longer deployed there, kept so a stray CLI run stays untracked)
 .vercel
 
 # typescript

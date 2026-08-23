@@ -1,0 +1,91 @@
+# Build the static export and publish it to GitHub Pages.
+#
+# The base path is taken from the repository name rather than written down, so
+# a rename cannot silently break every asset URL. Override it by setting a
+# PAGES_BASE_PATH repository variable — needed only if this ever moves to a
+# user site (`<user>.github.io`), which is served from the root and wants an
+# empty value.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets you redeploy after changing a repository variable, which does not
+  # itself trigger a build. Every NEXT_PUBLIC_* value is inlined at build time,
+  # so a variable change only takes effect on the next run.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race. In-progress builds are allowed to finish so a
+# half-published set of assets is not left live.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # The same gate used locally: lint, types, unit tests, and the question
+      # bank checks. Publishing is not the place to discover a type error.
+      # `check:originality` is deliberately excluded — it exits non-zero on a
+      # known, accepted duplicate pair and would block every deploy.
+      - name: Verify
+        run: |
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run check:questions
+          npm run check:bok
+
+      - name: Build static export
+        env:
+          PAGES_BUILD: "1"
+          PAGES_BASE_PATH: ${{ vars.PAGES_BASE_PATH || github.event.repository.name }}
+          # Public by definition: every NEXT_PUBLIC_* value is inlined into the
+          # browser bundle, so none of them can hold a secret. They are
+          # repository *variables*, not secrets — masking a value that ships in
+          # plain text inside the JS bundle would only make the logs misleading.
+          # The app builds and runs with all four unset; it simply drops to
+          # local-only progress with no account sync and no star control.
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_GITHUB_CLIENT_ID: ${{ vars.NEXT_PUBLIC_GITHUB_CLIENT_ID }}
+          NEXT_PUBLIC_GITHUB_OAUTH_ENDPOINT: ${{ vars.NEXT_PUBLIC_GITHUB_OAUTH_ENDPOINT }}
+        run: npm run build:pages
+
+      # Without this, Pages runs the output through Jekyll, which drops every
+      # directory beginning with an underscore — taking all of _next/ with it
+      # and serving an unstyled, scriptless page. public/.nojekyll is committed
+      # and should already be here; this guarantees it even if the copy step
+      # ever stops including dotfiles.
+      - name: Ensure .nojekyll
+        run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
