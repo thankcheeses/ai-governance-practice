@@ -22,7 +22,7 @@ routes served. Nothing reached off-device.
 | Android app, all 82 scenarios, progress, review scheduling, analytics | £0 | Yes — this is the whole product |
 | Google Play Console | $25 one-time | Only to distribute *through Play*. Direct APK install is free |
 | Supabase | £0 on the free tier | No — optional, accounts only |
-| Vercel | £0 on the hobby tier | No — the web build is a convenience, not a dependency |
+| GitHub Pages | £0 | No — the web build is a convenience, not a dependency |
 
 Building the APK without Supabase credentials produces an app that never makes a
 network call at all. That is the recommended beta configuration.

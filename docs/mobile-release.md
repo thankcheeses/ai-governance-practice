@@ -43,12 +43,13 @@ Both losses are confined to the mobile target. The web build is untouched.
 `next.config.ts` reads `MOBILE_BUILD`:
 
 ```bash
-npm run build          # server build for Vercel — middleware + optimizer intact
+npm run build          # server build — local preview only
+npm run build:pages    # static export for GitHub Pages (base path applied)
 npm run build:mobile   # static export into ./out for Capacitor
 npm run mobile:sync    # build:mobile + npx cap sync
 ```
 
-Neither target can silently regress the other, and Vercel deployment is
+Neither target can silently regress the other, and web deployment is
 unchanged.
 
 ### Files affected by this pass
@@ -295,7 +296,7 @@ to the user in the same transaction.
 
 ```bash
 supabase functions deploy delete-account
-supabase secrets set ALLOWED_ORIGINS="https://ai-governance-practice.vercel.app,capacitor://localhost,https://localhost"
+supabase secrets set ALLOWED_ORIGINS="https://thankcheeses.github.io,capacitor://localhost,https://localhost"
 ```
 
 `ALLOWED_ORIGINS` is a comma-separated list with no spaces. It must contain
@@ -303,7 +304,7 @@ every origin the app is served from:
 
 | Origin | Needed for |
 | --- | --- |
-| `https://<your-vercel-domain>` | the web build |
+| `https://<user>.github.io` | the web build (origin only — no repository path) |
 | `capacitor://localhost` | the iOS WebView |
 | `https://localhost` | the Android WebView |
 | `http://localhost:3000` | local development, optional |

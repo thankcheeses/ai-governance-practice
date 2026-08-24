@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { withBasePath } from "@/lib/base-path";
 
 /**
  * Registers the offline service worker on the web deployment.
@@ -20,9 +21,21 @@ export function ServiceWorker() {
     }
 
     const register = () => {
-      navigator.serviceWorker.register("/sw.js").catch(() => {
-        // Unsupported, blocked by policy, or running without HTTPS.
-      });
+      /*
+        Both the script URL and the scope carry the base path. `register` is a
+        browser API, so Next rewrites neither — under a repository sub-path an
+        unprefixed "/sw.js" simply 404s and offline support disappears without
+        an error anyone would notice.
+
+        The explicit scope keeps the worker confined to this app's sub-path. A
+        GitHub Pages user site puts every project on one origin, so a worker
+        scoped to "/" would be claiming its neighbours' pages too.
+      */
+      navigator.serviceWorker
+        .register(withBasePath("/sw.js"), { scope: withBasePath("/") })
+        .catch(() => {
+          // Unsupported, blocked by policy, or running without HTTPS.
+        });
     };
 
     // Wait for load so registration never competes with first paint.

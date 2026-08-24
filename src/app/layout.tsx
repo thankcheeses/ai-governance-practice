@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Serif, Inter } from "next/font/google";
 import { ServiceWorker } from "@/components/app/service-worker";
+import { withBasePath } from "@/lib/base-path";
 import { BRAND } from "@/lib/brand";
 import { ProgressProvider } from "@/lib/store/progress-provider";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/store/theme-provider";
@@ -45,7 +46,10 @@ export const metadata: Metadata = {
   },
   description: `${BRAND.category} ${BRAND.positioning}`,
   applicationName: BRAND.name,
-  manifest: "/manifest.webmanifest",
+  // Next does not apply `basePath` to this field — it emits the string as
+  // given, so on a project site a bare "/manifest.webmanifest" 404s and the
+  // app silently stops being installable. Prefixed explicitly.
+  manifest: withBasePath("/manifest.webmanifest"),
   appleWebApp: {
     capable: true,
     title: BRAND.name,

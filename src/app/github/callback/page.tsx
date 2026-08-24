@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { appUrl } from "@/lib/base-path";
 import { consumeReturnTo, consumeState, exchangeCode, storeToken } from "@/lib/github/stars";
 
 /**
@@ -50,7 +51,10 @@ function Callback() {
       return;
     }
 
-    const redirectUri = `${window.location.origin}/github/callback`;
+    // Must match the redirect_uri sent to the authorize step exactly, base path
+    // included — GitHub compares the two and rejects a mismatch.
+    const redirectUri = appUrl("/github/callback");
+    if (!redirectUri) return;
     void exchangeCode(code, redirectUri).then((result) => {
       if (!result.ok) {
         setError(result.message);

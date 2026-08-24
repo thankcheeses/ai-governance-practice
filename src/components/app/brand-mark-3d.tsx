@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { withBasePath } from "@/lib/base-path";
 import { cn } from "@/lib/utils";
 
 /**
@@ -41,7 +42,9 @@ export function BrandMark3D({
       aria-hidden
     >
       <Image
-        src="/brand/logo-nhid-clinical-mark-3d.webp"
+        // Prefixed by hand for the same reason as the diagrams: `next/image`
+        // leaves a string src untouched when the optimizer is not running.
+        src={withBasePath("/brand/logo-nhid-clinical-mark-3d.webp")}
         alt=""
         fill
         // The source render is 1200x1195 with a real alpha channel, so it

@@ -7,18 +7,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { appUrl } from "@/lib/base-path";
 import { BRAND } from "@/lib/brand";
 import { useProgress } from "@/lib/store/progress-provider";
 import { getBrowserSupabase } from "@/lib/supabase/client";
 
 type Mode = "signin" | "signup" | "reset";
 
-/** Where an emailed auth link should return the user. */
+/**
+ * Where an emailed auth link should return the user.
+ *
+ * `NEXT_PUBLIC_SITE_URL` wins when set, and on a project site it is expected to
+ * already include the repository segment — it is the whole public address of
+ * the app, not just its origin. The fallback derives the same thing from the
+ * current location, where the base path has to be added explicitly because
+ * `window.location.origin` drops it.
+ */
 function authRedirectUrl(path: "/login" | "/reset"): string | undefined {
   const configured = process.env.NEXT_PUBLIC_SITE_URL;
   if (configured) return `${configured.replace(/\/$/, "")}${path}`;
-  if (typeof window !== "undefined") return `${window.location.origin}${path}`;
-  return undefined;
+  return appUrl(path);
 }
 
 export default function LoginPage() {

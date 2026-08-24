@@ -7,7 +7,7 @@ A visual, scenario-based study aid for people who want to get better at turning 
 
 <br />
 <div align="center">
-<a href="https://ai-governance-practice.vercel.app"><img src="docs/assets/badge-live-app.gif" alt="Animated badge: Try the live app" width="260" /></a>&nbsp;&nbsp;<img src="docs/assets/badge-original-scenarios.gif" alt="Animated badge: 296 original scenarios" width="260" />&nbsp;&nbsp;<img src="docs/assets/badge-four-pass.gif" alt="Animated badge: Facts, Obligations, Risks, Action" width="310" />
+<a href="https://thankcheeses.github.io/ai-governance-practice/"><img src="docs/assets/badge-live-app.gif" alt="Animated badge: Try the live app" width="260" /></a>&nbsp;&nbsp;<img src="docs/assets/badge-original-scenarios.gif" alt="Animated badge: 296 original scenarios" width="260" />&nbsp;&nbsp;<img src="docs/assets/badge-four-pass.gif" alt="Animated badge: Facts, Obligations, Risks, Action" width="310" />
 
 </div>
 <br />
@@ -117,11 +117,14 @@ npm run dev
 
 Then open localhost:3000. No environment variables are required for the core study experience.
 
+Deployment
+The app is a static export with no server, no API routes and no middleware, so GitHub Pages hosts all of it — Supabase is called straight from the browser and its Edge Functions are hosted by Supabase. Pushing to main runs .github/workflows/deploy-pages.yml, which builds and publishes. Set Settings → Pages → Source to GitHub Actions once; optional NEXT_PUBLIC_* values go in Settings → Secrets and variables → Actions → Variables (variables, not secrets — every NEXT_PUBLIC_* value is inlined into the browser bundle and none of them may hold a secret). Full notes, including the base-path rules a project site imposes, are in docs/mobile-release.md.
+
 Contributing
 Found a bug? Have an accessibility improvement? Want to suggest an original governance scenario? Open an issue and describe what you noticed. Please do not submit recalled, copied, confidential, or proprietary examination material.
 
 Project status
-The live product is available at ai-governance-practice.vercel.app. The repository is being actively shaped as a public portfolio project, with new content and visual refinements added as the learning experience evolves.
+The live product is available at thankcheeses.github.io/ai-governance-practice. The repository is being actively shaped as a public portfolio project, with new content and visual refinements added as the learning experience evolves.
 
 <div align="center">
 Built to make governance judgment feel practiceable.

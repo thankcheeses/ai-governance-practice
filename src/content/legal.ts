@@ -87,7 +87,7 @@ export const PRIVACY_SECTIONS: LegalSection[] = [
   },
   {
     heading: "Where your data is stored",
-    body: "Account data is stored in Supabase, our hosted database and authentication provider, which processes it on our behalf under contract. Every progress row is protected by row-level security keyed to your user id, so one account cannot read another's data. Traffic is encrypted in transit over HTTPS. The app is served by Vercel, which processes standard request logs as our hosting provider.",
+    body: "Account data is stored in Supabase, our hosted database and authentication provider, which processes it on our behalf under contract. Every progress row is protected by row-level security keyed to your user id, so one account cannot read another's data. Traffic is encrypted in transit over HTTPS. The app itself is a set of static files served by GitHub Pages, which processes standard request logs as our hosting provider.",
   },
   {
     heading: "Why we process it, and on what basis",
