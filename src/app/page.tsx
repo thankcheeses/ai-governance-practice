@@ -3,6 +3,12 @@ import { ScenarioDecisionFrame } from "@/components/civic/gpai";
 import { SectionHeading } from "@/components/civic/surfaces";
 import { ContinueLink } from "@/components/landing/continue-link";
 import { SampleDemo } from "@/components/landing/sample-demo";
+import {
+  BokCoverageMap,
+  LearningLoop,
+  RmfLoop,
+  StudyExamCompare,
+} from "@/components/visuals";
 import { getTrackQuestions } from "@/content/registry";
 import { BRAND } from "@/lib/brand";
 
@@ -75,6 +81,22 @@ export default function RootPage() {
             className="mb-5"
           />
           <ScenarioDecisionFrame variant="expanded" />
+        </section>
+
+        {/* --------------------------------------- Visual learning aids --- */}
+        <section className="mt-14 space-y-6">
+          <SectionHeading
+            level={2}
+            title="How the product teaches"
+            lede="Judgment is trained by a loop, not by memorising vocabulary. The diagrams below are the same instructional objects used inside feedback."
+            className="mb-2"
+          />
+          <LearningLoop />
+          <RmfLoop />
+          <div className="grid gap-6 lg:grid-cols-2">
+            <StudyExamCompare />
+            <BokCoverageMap />
+          </div>
         </section>
 
         <footer className="mt-16 border-t border-border pt-7">
