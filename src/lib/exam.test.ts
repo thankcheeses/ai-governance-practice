@@ -5,6 +5,7 @@ import { gradeAnswer, isMultiSelect } from "./grading";
 import {
   DEFAULT_EXAM_DURATION_MS,
   DEFAULT_EXAM_QUESTIONS,
+  examDurationMs,
   type ExamSession,
   answerQuestion,
   createExamSession,
@@ -585,4 +586,29 @@ test("answering the same question twice replaces rather than accumulates", () =>
   s = answerQuestion(s, q.id, [q.options[0].id], T0);
   s = answerQuestion(s, q.id, [q.options[1].id], T0);
   assert.deepEqual(s.answers[q.id], [q.options[1].id]);
+});
+
+/*
+  The clock used to be a constant three hours regardless of length, so a
+  25-question sitting ran at over seven minutes a question. Exam mode exists to
+  add time pressure to practice mode; at that pace it added none.
+*/
+test("the clock scales with the number of questions", () => {
+  assert.equal(examDurationMs(100), DEFAULT_EXAM_DURATION_MS);
+  assert.equal(examDurationMs(50), DEFAULT_EXAM_DURATION_MS / 2);
+  assert.equal(examDurationMs(25), DEFAULT_EXAM_DURATION_MS / 4);
+});
+
+test("every offered length runs at the same pace per question", () => {
+  const pace = (n: number) => examDurationMs(n) / n;
+  const full = pace(100);
+  for (const n of [25, 50, 100]) {
+    assert.equal(pace(n), full, `length ${n} runs at a different pace`);
+  }
+});
+
+test("a nonsensical length falls back to the full-length clock", () => {
+  assert.equal(examDurationMs(0), DEFAULT_EXAM_DURATION_MS);
+  assert.equal(examDurationMs(-5), DEFAULT_EXAM_DURATION_MS);
+  assert.equal(examDurationMs(Number.NaN), DEFAULT_EXAM_DURATION_MS);
 });

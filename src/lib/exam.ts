@@ -38,6 +38,24 @@ const OPTION_KEYS: OptionKey[] = ["A", "B", "C", "D", "E"];
 export const DEFAULT_EXAM_QUESTIONS = 100;
 export const DEFAULT_EXAM_DURATION_MS = 3 * 60 * 60 * 1000;
 
+/** The pace the full-length sitting runs at, in milliseconds per question. */
+export const EXAM_MS_PER_QUESTION =
+  DEFAULT_EXAM_DURATION_MS / DEFAULT_EXAM_QUESTIONS;
+
+/**
+ * How long a sitting of `count` questions gets.
+ *
+ * The clock used to be fixed at three hours whatever length was chosen, so a
+ * 25-question sitting ran at more than seven minutes a question — no time
+ * pressure at all, which is the one thing the exam mode exists to add over
+ * practice mode. Scaling by the same per-question pace keeps every length
+ * equally tight and leaves the full-length sitting exactly where it was.
+ */
+export function examDurationMs(count: number): number {
+  const n = Number.isFinite(count) && count > 0 ? count : DEFAULT_EXAM_QUESTIONS;
+  return Math.round(n * EXAM_MS_PER_QUESTION);
+}
+
 /** Warn when the clock drops below this. */
 export const EXAM_WARNING_MS = 15 * 60 * 1000;
 

@@ -101,7 +101,7 @@ prevent.
 
 ---
 
-## Coverage audit — completed 7 August 2026
+## Coverage audit — completed 7 August 2026, recomputed 24 August 2026
 
 Performed against the primary document (`AIGP Body of Knowledge v2.1`, approved
 9 September 2025, effective 2 February 2026, supersedes 2.0.1). Every question
@@ -110,40 +110,56 @@ was read against the published performance indicators and assigned a
 the content**, not asserted here — `npm run check:bok` rebuilds this table and
 fails if any sub-domain drops to zero.
 
-**Result: 13/13 sub-domains covered, 82/82 questions mapped.**
+**Result: 13/13 sub-domains covered, 296/296 questions mapped.**
 
-| Sub-domain | Competency | Exam | Bank | |
-| --- | --- | --- | --- | --- |
-| I.A | Understand what AI is and why it needs governance | 4–6 | 9 | over |
-| I.B | Establish and communicate organizational expectations | 5–7 | 5 | |
-| I.C | Establish policies and procedures across the life cycle | 6–8 | 3 | **under** |
-| II.A | How existing data privacy laws apply to AI | 4–6 | 4 | |
-| II.B | How other existing laws apply to AI | 4–6 | 3 | **under** |
-| II.C | Main elements of AI-specific laws | 6–8 | 5 | **under** |
-| II.D | Main industry standards and tools | 3–5 | 5 | |
-| III.A | Govern the designing and building of the AI system | 6–8 | 6 | |
-| III.B | Govern data collection and use in training and testing | 6–8 | 8 | |
-| III.C | Govern release, monitoring and maintenance | 8–10 | 6 | **under** |
-| IV.A | Evaluate factors and risks relevant to deploying | 6–8 | 4 | **under** |
-| IV.B | Perform key activities to assess the AI system | 5–7 | 6 | |
-| IV.C | Govern the deployment and use of the AI system | 9–11 | 18 | over |
+| Sub-domain | Competency | Blueprint share | Bank | Bank share | |
+| --- | --- | --- | --- | --- | --- |
+| I.A | Understand what AI is and why it needs governance | 5.9% | 19 | 6.4% |  |
+| I.B | Establish and communicate organizational expectations | 7.1% | 23 | 7.8% |  |
+| I.C | Establish policies and procedures across the life cycle | 8.2% | 21 | 7.1% | under |
+| II.A | How existing data privacy laws apply to AI | 5.9% | 22 | 7.4% | over |
+| II.B | How other existing laws apply to AI | 5.9% | 23 | 7.8% | over |
+| II.C | Main elements of AI-specific laws | 8.2% | 22 | 7.4% |  |
+| II.D | Main industry standards and tools | 4.7% | 20 | 6.8% | over |
+| III.A | Govern the designing and building of the AI system | 8.2% | 24 | 8.1% |  |
+| III.B | Govern data collection and use in training and testing | 8.2% | 21 | 7.1% | under |
+| III.C | Govern release, monitoring and maintenance | 10.6% | 28 | 9.5% | under |
+| IV.A | Evaluate factors and risks relevant to deploying | 8.2% | 23 | 7.8% |  |
+| IV.B | Perform key activities to assess the AI system | 7.1% | 20 | 6.8% |  |
+| IV.C | Govern the deployment and use of the AI system | 11.8% | 30 | 10.1% | under |
 
-"Exam" is the blueprint's min/max question count per competency. A practice bank
-is not obliged to mirror an exam, so these are proportional signals rather than
-failures — but the shape is worth acting on. The bank (82) and the exam (~85)
-are close enough in size that the comparison is meaningful.
+The bank is now four times the size of the exam it is compared against, so raw
+counts stopped being comparable. "Blueprint share" is each competency's
+midpoint question count as a proportion of the blueprint total; "Bank share" is
+the same proportion measured in the content. Comparing shares rather than
+counts is what keeps this table meaningful as the bank grows.
 
-**What the shape says.** IV.C carries 18 questions against a blueprint maximum
-of 11, largely because the track's voice-AI scenarios cluster in deployment
-governance. Five competencies sit below the blueprint minimum. Writing roughly
-a dozen scenarios — three each for I.C and III.C, two each for II.B, II.C and
-IV.A — would bring every competency into range without removing anything.
+**What the shape says.** Every competency now sits within 2.1 points of its
+expected share, against 3.1 before the August rebalance. The residual pattern is
+the same one, softened: the two heaviest competencies — IV.C (govern deployment
+and use) and III.C (release, monitoring and maintenance) — remain the furthest
+below, and II.D (industry standards and tools) the furthest above.
+
+The rebalance was done by rewriting twelve existing items rather than adding
+new ones, so the bank stayed at 296. Each rewrite was justified by a defect
+rather than by the percentage it moved: three were conceptual duplicates
+(aigp-007, aigp-010, aigp-289), four were part of a six-item cluster all asking
+why an agent should disclose that it is not human (aigp-019, aigp-021,
+aigp-046, aigp-050), and five asked a candidate to name a concept rather than
+make a decision (aigp-032, aigp-034, aigp-036, aigp-040, aigp-063). Closing the
+remaining gap would need roughly a dozen genuinely new items in IV.C and III.C,
+which is a content task rather than a mapping one.
+
+Converting definition-recall items to judgment items moved the difficulty mix:
+foundational fell from 41 to 34 of 296, advanced rose from 96 to 101. That is a
+deliberate consequence of the rewrites, not drift.
 
 Questions were mapped by **what they test**, not by which of the four track
-domains they are filed under. Several sit in one and test another: item 26
-(model drift) is filed under Foundations but tests III.C; items 36, 40 and 46
-are filed under Deployment but test the responsible-AI principles in I.A; item
-47 (conformity assessment) is filed under Development but tests II.C. That is
+domains they are filed under. Several sit in one and test another: aigp-026
+(model drift) is filed under Foundations but tests III.C; aigp-036, aigp-040
+and aigp-046 are filed under Deployment but test the responsible-AI principles
+in I.A; aigp-047 (conformity assessment) is filed under Development but tests
+II.C. That is
 not a defect — a scenario can teach one thing while living somewhere sensible
 for a learner — but it is why coverage is computed from `bokSubdomain` rather
 than inferred from the track's own domain field.

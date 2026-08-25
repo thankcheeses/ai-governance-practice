@@ -189,7 +189,11 @@ console.log("domains:");
 for (const [name, count] of Object.entries(domains).sort((a, b) => b[1] - a[1])) {
   const known = EXPECTED_DOMAINS.includes(name);
   console.log(
-    `  ${known ? " " : "?"} ${name.padEnd(34)} ${String(count).padStart(3)}  ${Math.round((count / n) * 100)}%`,
+    // Divided by the whole bank, not by `n`. `n` counts single-select items
+    // only, because the length and position statistics above exclude
+    // multi-select; domain counts include every question. Dividing one by the
+    // other inflated every share and made the four domains sum to 116%.
+    `  ${known ? " " : "?"} ${name.padEnd(34)} ${String(count).padStart(3)}  ${Math.round((count / questions.length) * 100)}%`,
   );
   if (!known) {
     failures.push(`BANK: unrecognised domain "${name}" — check for a typo`);

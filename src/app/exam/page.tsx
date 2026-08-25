@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getTrackQuestions } from "@/content/registry";
 import {
-  DEFAULT_EXAM_DURATION_MS,
+  examDurationMs,
   DEFAULT_EXAM_QUESTIONS,
   formatRemaining,
   isSubmitted,
@@ -64,7 +64,9 @@ function ExamStart() {
           published body of knowledge to rehearse the concepts under time
           pressure. No feedback until you submit. It is not a replica of any
           certification exam, does not reproduce one, and does not predict a
-          result.
+          result. Questions are sampled from the bank, so each sitting differs.
+          The clock is this project&rsquo;s own pacing choice, not an official
+          figure.
         </p>
       </header>
 
@@ -117,8 +119,9 @@ function ExamStart() {
             <li className="flex items-start gap-2.5">
               <DimensionalMark name="exam" size="sm" />
               <span>
-                {formatRemaining(DEFAULT_EXAM_DURATION_MS)} on the clock. It runs
-                on a wall-clock deadline — closing the tab does not pause it.
+                {formatRemaining(examDurationMs(count))} on the clock for{" "}
+                {count} questions. It runs on a wall-clock deadline — closing
+                the tab does not pause it.
               </span>
             </li>
             <li className="flex items-start gap-2.5">
