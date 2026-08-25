@@ -11,9 +11,10 @@ import { useProgress } from "@/lib/store/progress-provider";
  * Reading progress requires `useProgress()`, which the demo deliberately never
  * touches. Confining it here keeps that guarantee intact: this component reads
  * `onboardingCompletedAt` and `attempts.length` and calls no mutator — not
- * `recordAnswer`, not `completeOnboarding`, not `setDailyGoal`. It renders
- * nothing until hydration settles, so a returning learner never sees the
- * first-time wording flash and then swap.
+ * `recordAnswer`, not `completeOnboarding`, not `setDailyGoal`. It holds the
+ * CTA slot height until hydration settles, so a returning learner never sees
+ * the first-time wording flash and then swap, and the page does not jump when
+ * the real control arrives.
  *
  * The root route used to be a redirect, which meant removing it would strand
  * everyone who already had progress. This is the affordance that replaces it.
@@ -21,7 +22,19 @@ import { useProgress } from "@/lib/store/progress-provider";
 export function ContinueLink() {
   const { progress, ready } = useProgress();
 
-  if (!ready) return null;
+  /*
+    Reserve the primary CTA height while progress hydrates. Returning null
+    collapsed the slot and shifted the sample question when the button appeared.
+    An empty, non-interactive shell keeps layout stable without flashing copy.
+  */
+  if (!ready) {
+    return (
+      <div
+        className="min-h-11"
+        aria-hidden
+      />
+    );
+  }
 
   const returning = Boolean(progress.onboardingCompletedAt);
   const answered = progress.attempts.length;

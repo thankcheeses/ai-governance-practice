@@ -46,6 +46,9 @@ export default function RootPage() {
           </p>
           <div className="mt-7">
             <ContinueLink />
+            <p className="mt-3 text-[0.8125rem] leading-relaxed text-muted-foreground">
+              Independent educational product. Not affiliated with the IAPP.
+            </p>
           </div>
         </div>
 

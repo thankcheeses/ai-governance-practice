@@ -210,7 +210,7 @@ export function ExamRunner({
         {multi ? (
           <p className="mt-5 inline-block rounded-md border border-accent-subtle bg-accent-tint px-2.5 py-1.5 text-xs font-medium text-accent-foreground">
             <span className="font-semibold">Multi-select</span>
-            {` · choose ${requiredSelections(question)} of ${question.options.length}`}
+            {` · choose ${requiredSelections(question)} of ${question.options.length} · no partial credit`}
           </p>
         ) : null}
 
