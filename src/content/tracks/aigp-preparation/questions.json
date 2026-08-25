@@ -1159,9 +1159,9 @@
     "domain": "Governing AI Development",
     "question": "A product team begins building an AI tool from a vague request to improve customer service, without documenting the problem it solves or how success will be judged. What is the most significant governance risk?",
     "options": [
-      "A. The team may settle on a data science framework nobody else in the organisation knows well.",
-      "B. The team may be unable to recruit enough engineers to hit the delivery date it has committed to.",
-      "C. Marketing may be left out of the launch, weakening the reception the finished tool receives.",
+      "A. The team may select a model architecture more complex than the problem requires.",
+      "B. The tool may reach production without a named owner accountable for its behaviour.",
+      "C. The people who will operate the tool may first hear about it at launch.",
       "D. Undefined scope makes it hard to assess risk, guide design, and evaluate success afterwards."
     ],
     "correct": "D",
@@ -1197,10 +1197,10 @@
     "domain": "Governing AI Development",
     "question": "A team completes the design phase of a fraud-detection model but never records why it selected certain input features over others. Why is this a governance concern?",
     "options": [
-      "A. Because design documentation exists mainly to give marketing accurate material to work from.",
+      "A. Because the feature set cannot be reconstructed if the pipeline is rebuilt later.",
       "B. Because undocumented rationale weakens the ability to demonstrate compliance and manage risk later.",
-      "C. Because undocumented choices only become a problem if the model underperforms during testing.",
-      "D. Because well-commented source code cannot substitute for a formal architectural specification."
+      "C. Because undocumented choices only matter once the model underperforms in testing.",
+      "D. Because the team will repeat the same evaluation work when the model is next revised."
     ],
     "correct": "B",
     "rationale": "Documenting design decisions exists to establish compliance and manage risk: it lets an organisation explain and defend its choices to regulators, auditors, or affected individuals later, and it supports troubleshooting. The value is proactive rather than conditional on something going wrong, and code comments are a technical artefact, not a record of governance reasoning.",
@@ -1254,9 +1254,9 @@
     "domain": "Governing AI Development",
     "question": "During testing, engineers find a model performs very well on its training data but poorly on new, unseen data. What does this pattern most likely indicate, and what response follows?",
     "options": [
-      "A. A privacy incident affecting the training set, requiring notification to the regulator.",
-      "B. A breach of the data supplier's contract, requiring legal review of the licensing terms.",
-      "C. Insufficient server capacity during evaluation, requiring additional hardware before retesting.",
+      "A. Distribution shift between the training data and the evaluation set, requiring the evaluation set to be re-drawn.",
+      "B. A target leak among the training features, requiring the feature set to be re-derived.",
+      "C. Insufficient training volume, requiring more examples before the model is evaluated again.",
       "D. Overfitting to the training data, requiring investigation before deployment goes any further."
     ],
     "correct": "D",
@@ -1274,9 +1274,9 @@
     "question": "A team moving a model from testing into production wants to document its intended use, limitations, and performance characteristics in a standardised format for stakeholders. What artefact is it producing?",
     "options": [
       "A. A model card, the standard format for intended use, limitations, and performance.",
-      "B. A software licence agreement, setting out the terms on which the model may be used.",
-      "C. A vendor invoice, recording what was paid for the components used to build the model.",
-      "D. A marketing brochure, describing the model's strengths for prospective internal adopters."
+      "B. A datasheet, which documents the dataset's composition, collection and intended uses.",
+      "C. A system card, which describes the deployed system and its context rather than the model.",
+      "D. A validation report, which records measured performance against agreed acceptance thresholds."
     ],
     "correct": "A",
     "rationale": "A model card is the standard artefact for communicating a model's intended use, limitations, and performance characteristics before release, supporting both internal governance and external transparency. The other documents are real business artefacts, but none serves the documentation purpose described.",
@@ -1464,9 +1464,9 @@
     "question": "A chatbot deployed to answer basic product questions is being used informally by staff to draft internal HR communications, a use never assessed or approved. What risk does this illustrate?",
     "options": [
       "A. Secondary or unintended use, requiring assessment of risks outside the approved scope.",
-      "B. A licensing cost overrun, requiring the vendor agreement to be renegotiated at renewal.",
-      "C. A storage capacity problem, requiring additional infrastructure to handle the extra volume.",
-      "D. An adoption success signal, requiring the tool to be promoted more widely across the business."
+      "B. Shadow deployment, where an unapproved copy of a system runs alongside the approved one.",
+      "C. Vendor scope creep, where the supplier extends what the tool does without notifying customers.",
+      "D. Model drift, where the system's behaviour changes as the pattern of use shifts."
     ],
     "correct": "A",
     "rationale": "Anticipating and reducing the risk of secondary or unintended use is a governance responsibility for deployed systems, because informal uses carry risks that the original assessment never examined. Drafting HR communications raises fairness, confidentiality, and accuracy questions that answering product questions does not.",
@@ -1616,9 +1616,9 @@
     "question": "A manufacturer is introducing AI across several functions and asks which existing policies must be reviewed rather than left unchanged. Select the three that most directly require revision for AI.",
     "options": [
       "A. Data governance, because training and inference introduce new collection and retention questions.",
-      "B. The corporate travel and expenses policy, which governs employee reimbursement.",
+      "B. Business continuity, because an unavailable model interrupts service as any outage does.",
       "C. Procurement and third-party risk, because AI suppliers carry obligations ordinary vendors do not.",
-      "D. The physical site access policy governing badge issuance at manufacturing plants.",
+      "D. Physical and environmental security, which governs access to the plants and the equipment in them.",
       "E. Incident management, because AI failure modes do not resemble outages or breaches."
     ],
     "correct": "A,C,E",
@@ -1769,10 +1769,10 @@
     "question": "A company is preparing a high-risk AI system for the EU market. Select the three obligations that must be satisfied before the system is placed on the market.",
     "options": [
       "A. A conformity assessment appropriate to the system's classification.",
-      "B. Publication of the model's full training dataset for independent inspection.",
+      "B. A post-market monitoring report covering the system's first year in service.",
       "C. Technical documentation sufficient to demonstrate the system meets its requirements.",
       "D. A risk management process operating across the system's lifecycle.",
-      "E. Certification of the developing organisation against an information security standard."
+      "E. An impact assessment carried out by the deployer for its own context of use."
     ],
     "correct": "A,C,D",
     "rationale": "Conformity assessment, technical documentation and lifecycle risk management are core pre-market requirements for high-risk systems, alongside data governance and record keeping. Publishing the training dataset is not required and would often be unlawful, and no AI framework conditions market access on the developer holding an information security certification.",
