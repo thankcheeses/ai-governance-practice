@@ -1,4 +1,4 @@
-export { DiagramShell, StageChip, FlowArrow } from "./primitives";
+export { DiagramShell, StageChip, FlowArrow, RAISED } from "./primitives";
 export { RmfLoop } from "./rmf-loop";
 export { VendorChain } from "./vendor-chain";
 export { IncidentPath } from "./incident-path";
