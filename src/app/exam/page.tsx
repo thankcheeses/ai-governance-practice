@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getTrackQuestions } from "@/content/registry";
 import {
-  DEFAULT_EXAM_DURATION_MS,
+  examDurationMs,
   DEFAULT_EXAM_QUESTIONS,
   formatRemaining,
   isSubmitted,
@@ -117,8 +117,9 @@ function ExamStart() {
             <li className="flex items-start gap-2.5">
               <DimensionalMark name="exam" size="sm" />
               <span>
-                {formatRemaining(DEFAULT_EXAM_DURATION_MS)} on the clock. It runs
-                on a wall-clock deadline — closing the tab does not pause it.
+                {formatRemaining(examDurationMs(count))} on the clock for{" "}
+                {count} questions. It runs on a wall-clock deadline — closing
+                the tab does not pause it.
               </span>
             </li>
             <li className="flex items-start gap-2.5">

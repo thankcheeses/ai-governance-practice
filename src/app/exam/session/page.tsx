@@ -6,7 +6,7 @@ import { AppGate } from "@/components/app/app-gate";
 import { ExamResults } from "@/components/exam/exam-results";
 import { ExamRunner } from "@/components/exam/exam-runner";
 import {
-  DEFAULT_EXAM_DURATION_MS,
+  examDurationMs,
   DEFAULT_EXAM_QUESTIONS,
   type ExamSession,
   createExamSession,
@@ -70,7 +70,7 @@ function ExamSessionView() {
     const created = createExamSession({
       seed: newSeed(),
       count,
-      durationMs: DEFAULT_EXAM_DURATION_MS,
+      durationMs: examDurationMs(count),
       trackId: progress.trackId,
     });
     writeExamSession(created);
