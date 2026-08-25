@@ -132,22 +132,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   7: {
-    bokSubdomain: "II.D",
-    difficulty: "foundational",
+    bokSubdomain: "II.C",
+    difficulty: "advanced",
     keyTakeaway:
-      "ISO/IEC 42001 is the certifiable AI management system standard. Reach for it when you need externally verifiable assurance rather than internal methodology.",
-    frameworkTags: ["ISO 42001"],
+      "Certification is about the organisation. Conformity assessment is about the system. Holding one does not discharge the other, though good management evidence makes the second easier to produce.",
+    frameworkTags: ["ISO 42001", "EU AI Act"],
     distractorNotes: {
       A:
-        "ISO/IEC 27001 certifies an information security management system. Tailoring its Annex A adds AI-relevant controls but does not make it an AI management system.",
-      B:
-        "NIST SP 800-53 is a control catalogue for federal information systems, not a certifiable management-system standard.",
+        "This is the most tempting answer and the most costly mistake: a certificate covering the organisation's processes is not a determination about any individual system.",
       C:
-        "SOC 2 produces an attestation report against the Trust Services Criteria. It is neither AI-specific nor a certification.",
+        "Technical documentation is a system-level requirement with its own content. A certification audit examines the management system, not that dossier.",
+      D:
+        "The certificate is genuinely useful evidence — of governance, competence and documented process. Dismissing it entirely understates what it contributes.",
     },
     sources: [
-      "ISO/IEC 42001 (AI management system requirements)",
-      "ISO/IEC 42006 (requirements for bodies auditing AI management systems)",
+      "EU AI Act Art. 43 (conformity assessment procedures)",
+      "ISO/IEC 42001 (scope of an AI management system certification)",
     ],
   },
   8: {
@@ -189,22 +189,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   10: {
-    bokSubdomain: "III.C",
-    difficulty: "foundational",
+    bokSubdomain: "I.C",
+    difficulty: "applied",
     keyTakeaway:
-      "A model card exists so someone who did not build the system can decide whether to rely on it — intended use, performance, limitations, and ethical considerations in one standard place.",
-    frameworkTags: ["Responsible AI", "AI Governance"],
+      "Documentation written once and never revisited becomes a description of a system that no longer exists. The policy has to say what triggers a review, not only that documentation must exist.",
+    frameworkTags: ["AI Governance", "ISO 42001"],
     distractorNotes: {
       A:
-        "A data lineage report traces where training fields came from. It documents the data, not the model's intended use or limitations.",
-      B:
-        "An incident runbook defines what happens after the model misbehaves. It is an operational artefact, not a description of the model.",
+        "Rewriting from scratch each quarter is thorough and wasteful. Most of the content does not change, and the cost makes the policy the first thing skipped under pressure.",
       C:
-        "A validation report records measured performance against thresholds. It is an input to the model card rather than the standardised summary itself.",
+        "Preserving the original record has real value for audit, and versioning achieves it. Freezing the live document leaves current readers with a stale one.",
+      D:
+        "Risk classification can justify different depth of documentation. It does not justify letting the documentation that exists fall out of date.",
     },
     sources: [
-      "NIST AI RMF (Govern 4.2: documentation of model characteristics)",
-      "ISO/IEC 42001 (documented information for AI systems)",
+      "ISO/IEC 42001 (control of documented information)",
+      "NIST AI RMF (Govern 1.2: policies across the AI lifecycle)",
     ],
   },
   11: {
@@ -363,26 +363,19 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
-      "Disclose before information is collected, not after. Transparency that arrives once the member has already shared PHI cannot inform the decision it exists to support.",
-    frameworkTags: ["Responsible AI", "EU AI Act"],
-    visualAid: {
-      type: "workflow",
-      src: "/visual-aids/disclosure-before-phi-workflow.webp",
-      alt: "A member on a mobile device interacts with an AI voice agent. A missing-disclosure warning sits between the interaction and a protected health information record, which then flows to the payer server — showing PHI being collected before the member was told the agent was automated.",
-      caption:
-        "The sequence the control exists to prevent: information is collected before the member knows they are speaking to an automated system.",
-    },
+      "The timing of a disclosure is part of the control, not a detail of its delivery. Told late, it informs a choice the person has already made.",
+    frameworkTags: ["EU AI Act", "Responsible AI"],
     distractorNotes: {
       A:
-        "Shorter handling time is a plausible side effect and a poor reason. Efficiency does not explain why the member is entitled to know.",
-      B:
-        "Transparency obligations may well attach, but citing the regulation restates the requirement rather than explaining the harm it prevents.",
+        "Marginal benefit against retesting cost is a fair project argument, and it treats the question as a matter of effort rather than of what the member is entitled to know.",
+      C:
+        "Auditability genuinely suffers when a control fires at a variable point. That is a governance cost, and it is the organisation's problem rather than the member's harm.",
       D:
-        "An auditable record proves the notice was given. That serves the organisation's evidence needs, not the member's decision about what to disclose.",
+        "This is a real coverage gap and the closest competing answer. It identifies who misses the disclosure entirely; the stronger objection is that even those who receive it get it too late to act on.",
     },
     sources: [
-      "EU AI Act Art. 50 (disclosure that a person is interacting with an AI system)",
-      "Health Insurance Portability and Accountability Act — Privacy Rule, uses and disclosures (45 CFR 164.502)",
+      "EU AI Act Art. 50 (disclosure at the point of interaction)",
+      "NIST AI RMF (Measure 2.8 and Manage 2.3: transparency controls in operation)",
     ],
   },
   20: {
@@ -405,22 +398,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   21: {
-    bokSubdomain: "IV.B",
-    difficulty: "applied",
+    bokSubdomain: "IV.C",
+    difficulty: "advanced",
     keyTakeaway:
-      "In regulated settings, transparency and escalation control beat human-likeness. A more convincing agent that conceals its nature is a liability, not a feature.",
-    frameworkTags: ["Responsible AI", "AI Governance"],
+      "Protections have to travel with the data. An undisclosed subcontractor is not merely a contractual irregularity — it means nobody can say what binds the party currently holding patient information.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
-      B:
-        "Naturalness raises satisfaction and completion, and both matter commercially. Neither addresses the risk that a member does not know what they are speaking to.",
+      A:
+        "Contractual answerability gives the entity a claim after something goes wrong. It does not tell it where the data is now or what protects it.",
       C:
-        "A deployer-side script can add disclosure, but Vendor A offers no configurable escalation, so the deployer would be layering transparency onto a system it still cannot govern.",
+        "Termination may well follow, and choosing it before establishing the facts discards the option of remediation and does nothing about data the fourth party already holds.",
       D:
-        "Deferring disclosure until the deployment proves itself means the earliest members — the ones interacting with the least proven system — receive the least protection.",
+        "A direct agreement is one possible remedy, and the standard mechanism is flow-down through the vendor. Requiring it first skips establishing what actually happened.",
     },
     sources: [
-      "NIST AI RMF (Govern 6.1: third-party system capability requirements)",
-      "EU AI Act Art. 50 (transparency obligations)",
+      "Health Insurance Portability and Accountability Act — business associate contracts and subcontractors (45 CFR 164.504(e)(2))",
+      "NIST AI RMF (Govern 6.1: third-party and supply-chain risk)",
     ],
   },
   22: {
@@ -614,22 +607,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   32: {
-    bokSubdomain: "I.A",
-    difficulty: "foundational",
+    bokSubdomain: "IV.C",
+    difficulty: "advanced",
     keyTakeaway:
-      "Transparency and explainability are about whether the people who need to understand a system's inputs, outputs, and logic actually can.",
-    frameworkTags: ["Responsible AI"],
+      "An appeal route is only as real as the reviewer's ability to interrogate the decision. Authority to overturn without any basis for evaluating is a formality.",
+    frameworkTags: ["Responsible AI", "AI Governance"],
     distractorNotes: {
       A:
-        "Accountability names who answers for a decision. It is about ownership rather than about whether the reasoning can be followed.",
+        "Authority to overturn is necessary and not sufficient. Without a basis for judging the original output, the reviewer is deciding afresh rather than reviewing.",
       C:
-        "Contestability gives an affected person a route to challenge an outcome. Understanding usually precedes it, but the two are distinct.",
+        "Full model interpretability is a high bar that few deployed systems meet, and case-level reasons can often be produced without it. Requiring interpretability overstates what the right demands.",
       D:
-        "Traceability preserves the record of how an output was produced. A decision can be fully traceable and still not intelligible to the person relying on it.",
+        "Rights do attach to the decision, and satisfying them depends entirely on what the system can be made to explain about it.",
     },
     sources: [
-      "OECD AI Principles (transparency and explainability)",
-      "NIST AI RMF (Measure 2.8: explainability and interpretability)",
+      "GDPR Art. 22(3) (right to obtain human intervention and to contest the decision)",
+      "NIST AI RMF (Measure 2.8: explainability sufficient for the people relying on outputs)",
     ],
   },
   33: {
@@ -652,22 +645,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   34: {
-    bokSubdomain: "II.D",
+    bokSubdomain: "III.C",
     difficulty: "applied",
     keyTakeaway:
-      "NIST ARIA is the evaluation-and-testing programme for assessing AI risks and impacts in practice, distinct from the risk framework itself.",
-    frameworkTags: ["NIST AI RMF"],
+      "A release gate certifies a moment. Governing a deployed system means watching the interval between gates, which is where all of its actual decisions are made.",
+    frameworkTags: ["AI Risk Management", "ISO 42001"],
     distractorNotes: {
       A:
-        "The Cybersecurity Framework addresses security risk, and profiles can be written for AI contexts, but its subject is security rather than AI risk and impact.",
-      B:
-        "The Privacy Framework addresses privacy risk arising from data processing. It is adjacent to AI evaluation, not aimed at it.",
+        "Load-related failure is a real limitation of pre-release testing and would be caught by operational monitoring — which is the thing missing, making this a symptom of the same gap.",
+      C:
+        "Quarterly releases are unremarkable. The problem is what is not happening between them, not how often they occur.",
       D:
-        "SP 800-53 is a security and privacy control catalogue. It is not an evaluation programme.",
+        "Independent evaluation strengthens the gate and is good practice. It would not observe anything in the months when no evaluation runs at all.",
     },
     sources: [
-      "NIST ARIA (Assessing Risks and Impacts of AI) programme documentation",
-      "NIST AI RMF (Measure function: test, evaluation, verification and validation)",
+      "NIST AI RMF (Manage 4.1: continuous monitoring after deployment)",
+      "EU AI Act Art. 72 (post-market monitoring)",
     ],
   },
   35: {
@@ -690,22 +683,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   36: {
-    bokSubdomain: "I.A",
-    difficulty: "foundational",
+    bokSubdomain: "III.C",
+    difficulty: "applied",
     keyTakeaway:
-      "How confident the output sounds tells you nothing about whether it is right. A hallucination reads exactly like a correct answer, so detection has to come from grounding and review rather than from tone.",
-    frameworkTags: ["Responsible AI"],
+      "A metric that never moves is a claim about the measurement as much as about the system. Ask what the evaluation set contains before concluding that stable means healthy.",
+    frameworkTags: ["AI Risk Management", "ISO 42001"],
     distractorNotes: {
       A:
-        "Overfitting is a training-time failure that shows as poor generalisation. It does not describe fluent invention of facts that were never in the data.",
+        "Sample size limits sensitivity and is worth checking. It would produce noisy results rather than the steady, confident stability described.",
       C:
-        "Prompt injection is content overriding instructions, usually adversarially. The stem describes confident error, not hijacked behaviour.",
+        "Fluency was never the problem: the assistant is fluent and wrong. Swapping the metric for fluency would hide the failure more thoroughly.",
       D:
-        "Miscalibration is a mismatch between stated confidence and accuracy. It is a real and related problem, but here the content itself is fabricated.",
+        "Staff reports are a monitoring signal in their own right, and here they are the only one detecting the fault. Discounting them waits for a measurement designed not to see it.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.9: validity and reliability of generative outputs)",
-      "ISO/IEC 22989 (AI terminology)",
+      "NIST AI RMF (Measure 2.4 and 3.1: monitoring adequacy and feedback from operators)",
+      "ISO/IEC 42001 (monitoring, measurement, analysis and evaluation)",
     ],
   },
   37: {
@@ -766,22 +759,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   40: {
-    bokSubdomain: "I.A",
-    difficulty: "foundational",
+    bokSubdomain: "IV.C",
+    difficulty: "advanced",
     keyTakeaway:
-      "Ask what the human can actually change. A reviewer who cannot overrule the output is oversight on paper — human-in-the-loop means meaningful review and decision authority.",
-    frameworkTags: ["Responsible AI"],
+      "Human oversight is a claim about what the reviewer can actually do, not about whether a human is present. Volume and defaults decide whether disagreement is a real option.",
+    frameworkTags: ["EU AI Act", "Responsible AI"],
     distractorNotes: {
       A:
-        "Human curation and labelling shape what the model learned. That is human involvement in training, not in the operating loop.",
+        "Reviewers rarely need to assess a model's internals, and expecting it would make oversight impossible in most settings. What they need is the ability to judge the case in front of them.",
       C:
-        "Sampled review of completed interactions is human-on-the-loop: oversight after the fact, over a subset.",
+        "Review after generation is the normal shape of human-in-the-loop oversight. What matters is that it precedes the consequential action, which here it does.",
       D:
-        "Standby contact on low confidence is a useful escalation design, but it leaves the confident errors — the ones that matter most — unreviewed.",
+        "Missing audit records are a genuine traceability gap and would obstruct any later review. They do not explain why the oversight is ineffective as it happens.",
     },
     sources: [
-      "EU AI Act Art. 14 (human oversight)",
-      "NIST AI RMF (Manage 2.3: mechanisms to supersede or override AI decisions)",
+      "EU AI Act Art. 14 (human oversight, including automation bias)",
+      "NIST AI RMF (Manage 2.3: oversight mechanisms that can actually be exercised)",
     ],
   },
   41: {
@@ -887,22 +880,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   46: {
-    bokSubdomain: "I.A",
-    difficulty: "foundational",
+    bokSubdomain: "IV.C",
+    difficulty: "applied",
     keyTakeaway:
-      "To make a principle auditable, write it as a specific required action. A rule to be transparent cannot be checked; a rule that every call opens by disclosing the system is automated can.",
-    frameworkTags: ["Responsible AI"],
+      "An AI vendor touching patient data on a hospital's behalf is a business associate. The agreement is not paperwork around the deal — it is the control that defines what the vendor may do with the data.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
-        "A record of what the member was told supports accountability, and it is a by-product here. The requirement itself is about the member knowing, not about the evidence.",
-      B:
-        "Identical treatment across channels is a fairness aim. Disclosure does not make the treatment identical; it makes the nature of the channel known.",
+        "An SLA governs service quality, and it matters commercially. A vendor can meet every uptime target while using patient data in ways nobody authorised.",
+      C:
+        "An NDA restricts disclosure. It does not establish permitted uses, required safeguards, subcontractor obligations or a breach-notification duty.",
       D:
-        "Prompting a member to ask for a person supports oversight. That is a consequence disclosure enables rather than the principle it implements.",
+        "A general processing addendum covers much of the same ground in structure, and health data attracts a specific regime with specific required terms that a generic addendum will not contain.",
     },
     sources: [
-      "EU AI Act Art. 50 (transparency obligations for certain AI systems)",
-      "OECD AI Principles (transparency and responsible disclosure)",
+      "Health Insurance Portability and Accountability Act — business associate contracts (45 CFR 164.504(e))",
+      "Health Insurance Portability and Accountability Act — Security Rule (45 CFR Part 164, Subpart C)",
     ],
   },
   47: {
@@ -966,19 +959,19 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
-      "Mature practice combines proactive disclosure, clear operational boundaries, human escalation for higher-risk situations, and auditability. Any one alone leaves a gap.",
-    frameworkTags: ["Responsible AI", "AI Governance"],
+      "De-identified data is not automatically free data. Who may de-identify, by which standard, and what they may do with the output are contract terms — agreed before the work, not after.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
-        "Disclosure only on request leaves the member to suspect first, and post-call sampling reviews a fraction after the fact.",
-      B:
-        "A natural voice with broad coverage optimises the interaction quality. Escalating only when asked leaves the boundary to the member to police.",
+        "Properly de-identified data does fall outside much of the regime, and the act of de-identifying the plan's data is itself a use the agreement governs.",
+      C:
+        "Nothing bars a business associate from commercial use of properly de-identified data where the agreement permits it. An absolute prohibition is stronger than the rule.",
       D:
-        "Automating clinical requests puts the agent inside the scope that escalation exists to protect, and later audit does not undo a clinical answer already given.",
+        "Performing the de-identification does not confer ownership of the underlying data or the rights to its derivatives. Those follow the agreement.",
     },
     sources: [
-      "EU AI Act Art. 50 (transparency) and Art. 14 (human oversight)",
-      "ISO/IEC 42001 (operational controls, logging and traceability)",
+      "Health Insurance Portability and Accountability Act — de-identification standard (45 CFR 164.514)",
+      "Health Insurance Portability and Accountability Act — business associate contracts (45 CFR 164.504(e))",
     ],
   },
   51: {
@@ -1210,22 +1203,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   63: {
-    bokSubdomain: "II.D",
-    difficulty: "foundational",
+    bokSubdomain: "III.C",
+    difficulty: "advanced",
     keyTakeaway:
-      "Govern, map, measure, manage identifies the NIST AI RMF — a voluntary framework, not binding law and not a certifiable standard.",
-    frameworkTags: ["NIST AI RMF"],
+      "Sustained green is a claim that deserves testing. Ask when the thresholds were last revisited before treating an unbroken record as reassurance.",
+    frameworkTags: ["AI Risk Management", "ISO 42001"],
     distractorNotes: {
       A:
-        "ISO/IEC 42001 follows the management-system clause structure — context, leadership, planning, support, operation — not govern, map, measure and manage.",
-      B:
-        "The OECD AI Principles are values-based commitments. They are not organised as risk-management functions.",
+        "A broken pipeline producing stale or default values is a real failure mode and the closest competing answer. It is worth ruling out, and it is a fault in the plumbing rather than in the judgement the thresholds encode.",
+      C:
+        "An unread dashboard is a genuine governance problem. It explains why nobody would notice a breach, not why no breach has been recorded.",
       D:
-        "The EU AI Act is organised by risk tier and obligation, and is binding law rather than a voluntary framework.",
+        "Eight months is ample. Length of record is not what makes this one hard to interpret.",
     },
     sources: [
-      "NIST AI RMF 1.0 (core functions: Govern, Map, Measure, Manage)",
-      "NIST AI RMF Playbook",
+      "NIST AI RMF (Measure 2.4 and Manage 4.2: thresholds reviewed as conditions change)",
+      "ISO/IEC 42001 (evaluation of monitoring effectiveness)",
     ],
   },
   64: {
@@ -2812,7 +2805,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Selecting metrics is a measurement activity, which depends on the context mapping establishes.",
       B:
-        "Running an evaluation is measurement.",
+        "Running an evaluation against a held-out set is real and necessary work, and it belongs to measuring rather than to establishing the context that decides what to measure.",
       D:
         "Deciding to accept, transfer or mitigate is management.",
     },
@@ -3341,7 +3334,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Inventory size measures how much exists, not whether any of it was reviewed.",
       B:
-        "Training completion measures attendance.",
+        "Completion counts are easy to gather and show the programme reached people. They record attendance rather than whether any system was governed better as a result.",
       D:
         "Policy count measures writing, and can rise while nothing changes.",
     },
@@ -4212,7 +4205,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "ISO 42001"],
     distractorNotes: {
       C:
-        "An inventory is required under either model.",
+        "An inventory is genuinely necessary, and it is required whichever model the organisation adopts, so it does not distinguish between the two options being weighed.",
       D:
         "Embedded governance still needs a written standard to be embedded against.",
       E:
@@ -4273,7 +4266,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       D:
         "Physical security assumptions are unchanged by what the stored artefact is.",
       E:
-        "Site visits are ordinary business travel.",
+        "Visiting a supplier can build a useful picture of how it operates. It is ordinary commercial diligence rather than evidence about how this system behaves.",
     },
     sources: [
       "ISO/IEC 42001 (Annex A: data for AI systems)",
@@ -4862,7 +4855,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "They are principles, not technical control sets.",
       B:
-        "They establish no certification regime.",
+        "The principles carry real influence over how national frameworks were drafted. They establish no certification regime, so nothing can be assessed or certified against them directly.",
     },
     sources: [
       "OECD AI Principles (definition of an AI system; values-based principles)",
@@ -4877,9 +4870,9 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["ISO 42001", "NIST AI RMF"],
     distractorNotes: {
       C:
-        "Press coverage is not evidence of fit.",
+        "Frequency of citation indicates which instrument the market is talking about, which has some signalling value. It says nothing about which one suits this organisation.",
       D:
-        "Recency does not indicate suitability.",
+        "A recent publication is more likely to address current technology, which is a fair consideration. Recency alone does not establish that an instrument fits this purpose.",
       E:
         "Document length is not a selection criterion.",
     },
@@ -4955,7 +4948,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Feasibility is an engineering question the interviews were not for.",
       B:
-        "Method is secondary to who was consulted.",
+        "Interview versus survey is a real methodological choice with real trade-offs. It is secondary here, because the gap is whose perspective was sought rather than how.",
       D:
         "Documentation form does not address the missing perspective.",
     },
@@ -5162,11 +5155,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "Responsible AI"],
     distractorNotes: {
       C:
-        "Team size is a delivery fact, not an impact.",
+        "Team size and duration describe how the system was built and are worth recording elsewhere. Neither tells the assessment anything about who the system affects.",
       D:
         "Hosting region bears on transfers, not on impact to individuals.",
       E:
-        "Licensing cost belongs to the business case.",
+        "Projected licensing cost is essential to the investment decision and belongs in the business case. An impact assessment is asking a different question about different people.",
     },
     sources: [
       "ISO/IEC 42001 (Annex A: AI system impact assessment)",
@@ -5497,22 +5490,22 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     ],
   },
   289: {
-    bokSubdomain: "II.A",
+    bokSubdomain: "II.C",
     difficulty: "applied",
     keyTakeaway:
-      "Legitimate interests has to be earned and written down: the interest, the necessity, and the balance against what people would expect.",
-    frameworkTags: ["AI Governance", "Responsible AI"],
+      "A lawful basis is permission to process data. It is not permission to place a system on the market, and the two obligations are assessed separately.",
+    frameworkTags: ["EU AI Act", "AI Governance"],
     distractorNotes: {
       A:
-        "No prior authorisation regime applies to ordinary processing.",
-      B:
-        "Requiring consent would make it a different basis altogether.",
+        "A lawful basis answers whether the data may be used. It does not address whether the system built from it meets its own requirements.",
+      C:
+        "Nothing about AI-specific regulation displaces general privacy law. The two apply together, and where they overlap the stricter requirement governs.",
       D:
-        "Commercial purposes can qualify as legitimate interests.",
+        "Conformity assessment is a step towards market placement. It suspends nothing, and privacy obligations continue throughout.",
     },
     sources: [
-      "GDPR Art. 6(1)(f) and Recital 47 (legitimate interests and reasonable expectations)",
-      "NIST AI RMF (Map: data provenance and permitted use)",
+      "EU AI Act Art. 9, 10 and 11 (risk management, data governance, technical documentation)",
+      "GDPR Art. 6 (lawfulness of processing)",
     ],
   },
   290: {

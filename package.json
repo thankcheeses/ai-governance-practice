@@ -19,7 +19,9 @@
     "test": "tsx --test \"src/**/*.test.ts\"",
     "check": "npm run lint && npm run typecheck && npm run test && npm run check:questions && npm run check:bok && npm run check:originality",
     "check:originality": "node scripts/check-originality.mjs",
-    "check:exclusion": "node scripts/check-exclusion.mjs"
+    "check:exclusion": "node scripts/check-exclusion.mjs",
+    "check:content": "tsx scripts/check-content.ts && npm run check:questions && npm run check:bok && npm run check:originality",
+    "release:gate": "npm run lint && npm run typecheck && npm test && npm run check:content && npm run build:pages && npm run build:mobile"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.15",

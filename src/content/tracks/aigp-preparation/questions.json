@@ -110,18 +110,19 @@
   {
     "id": 7,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "An organization wants a management-system standard that can be certified and that specifically addresses AI. Which standard is designed for this purpose?",
+    "question": "A hospital network holds an ISO/IEC 42001 certificate and is preparing to place a high-risk AI system on the EU market. Counsel asks what the certificate does for the system's conformity obligations. What is the accurate answer?",
     "options": [
-      "A. ISO/IEC 27001, extended with AI-specific controls through its Annex A tailoring process.",
-      "B. NIST SP 800-53, whose control families are mapped to AI risk in the accompanying overlays.",
-      "C. SOC 2, whose Trust Services Criteria are attested annually by an independent auditor.",
-      "D. ISO/IEC 42001, which specifies requirements for a certifiable AI management system."
+      "A. It satisfies them, since the certificate demonstrates a functioning AI management system.",
+      "B. It is evidence of organisational maturity, while conformity assessment remains a separate obligation about the system itself.",
+      "C. It removes the technical documentation requirement, which the certification audit has already examined.",
+      "D. It has no bearing at all, since management-system certification and regulatory compliance are unrelated."
     ],
-    "correct": "D",
-    "rationale": "ISO/IEC 42001 establishes requirements for an Artificial Intelligence Management System (AIMS) and is the primary certifiable standard focused on AI governance.",
+    "correct": "B",
+    "rationale": "Certification and conformity assessment attest to different things. A management system certificate says the organisation operates defined processes within a stated scope. Conformity assessment says a particular system meets the requirements the law sets for it. A well-run organisation can still place a non-conforming system on the market, which is why the second obligation exists.",
     "tags": [
-      "ISO 42001",
-      "AIMS"
+      "certification",
+      "conformity assessment",
+      "regulatory scope"
     ]
   },
   {
@@ -164,18 +165,19 @@
   {
     "id": 10,
     "domain": "Governing AI Development",
-    "question": "A team is documenting a new clinical decision-support model. Which artifact is specifically intended to summarize the model’s intended use, performance characteristics, limitations, and ethical considerations in a standardized format?",
+    "question": "A health system writes documentation for each clinical model at release and never revisits it. The models are retrained quarterly. What should its lifecycle policy require instead?",
     "options": [
-      "A. A data lineage report, which traces each training field back to its system of record.",
-      "B. An incident response runbook, which defines escalation once the model misbehaves in production.",
-      "C. A validation report, which records measured performance against the acceptance thresholds.",
-      "D. A model card, which states intended use, performance, limitations, and ethical considerations."
+      "A. That documentation be rewritten from scratch at each retraining cycle.",
+      "B. That documentation be reviewed whenever a change alters what it describes, and updated where it does.",
+      "C. That documentation be frozen at release, so the record of the original system is preserved intact.",
+      "D. That documentation be maintained only for the models classified as high-risk."
     ],
-    "correct": "D",
-    "rationale": "Model cards are the widely adopted standardized documentation format used to communicate a model’s key characteristics, limitations, and intended use to stakeholders.",
+    "correct": "B",
+    "rationale": "Documentation is only useful while it is true. A quarterly retrain can change performance, limitations and appropriate use, and documentation that still describes the launch model misleads precisely the reader who most needs it — the clinician or reviewer relying on it two years later. A lifecycle policy has to name the trigger for review, not just the obligation to write.",
     "tags": [
-      "model card",
-      "documentation"
+      "lifecycle policy",
+      "documentation",
+      "change management"
     ]
   },
   {
@@ -324,19 +326,19 @@
   {
     "id": 19,
     "domain": "Governing AI Deployment and Use",
-    "question": "A payer is designing a voice AI agent that will handle member authentication and then retrieve claims data. From a governance perspective, what is the strongest reason to require explicit non-human identity disclosure before any protected health information is discussed?",
+    "question": "A payer's voice agent discloses that it is not human at the start of every call. A product manager proposes moving that disclosure to the moment a member first asks for claims detail, so the opening feels quicker. What is the strongest governance objection?",
     "options": [
-      "A. It shortens handling time by setting caller expectations before authentication begins.",
-      "B. It satisfies the transparency obligations that attach to high-risk systems under the EU AI Act.",
-      "C. It prevents a false belief that the caller is speaking to a human before PHI is disclosed.",
-      "D. It creates an auditable record that the required notice was delivered on every call."
+      "A. The opening is already brief, so the time saved would not justify changing a tested script.",
+      "B. By that point the member has already decided what to say to something they believed was a person.",
+      "C. A disclosure delivered at a variable moment is harder to evidence in an audit than a fixed opening line.",
+      "D. Members who end the call before asking for claims detail would receive no disclosure at all."
     ],
-    "correct": "C",
-    "rationale": "Proactive identity disclosure addresses the risk of impersonation, supports transparency obligations, and helps ensure that members can make informed decisions about how much information to share.",
+    "correct": "B",
+    "rationale": "Disclosure exists so a person can decide how to conduct the conversation — what to volunteer, what to ask, whether to continue. Delivered after they have already spoken, it informs a decision they have finished making. The other objections are real and secondary: they describe cost, evidence and coverage rather than the harm the control exists to prevent.",
     "tags": [
       "identity disclosure",
-      "transparency",
-      "PHI"
+      "timing of controls",
+      "transparency"
     ]
   },
   {
@@ -360,19 +362,19 @@
   {
     "id": 21,
     "domain": "Governing AI Deployment and Use",
-    "question": "A health system evaluates two voice AI vendors. Vendor A’s agent can sound highly human-like and does not disclose its nature unless asked. Vendor B’s agent discloses its AI identity at the start of every call and supports configurable escalation rules. From a responsible AI and patient-trust perspective, which approach is preferable?",
+    "question": "A covered entity discovers that its AI vendor has subcontracted call transcription to a fourth party that is not named anywhere in the business associate agreement. What is the most appropriate governance response?",
     "options": [
-      "A. Vendor B, because disclosure and escalation support reduce deception risk and aid accountability.",
-      "B. Vendor A, because a more natural interaction raises member satisfaction and completion rates.",
-      "C. Either, provided the deploying organisation configures its own disclosure script on top.",
-      "D. Vendor A, because disclosure can be added later once the deployment has proven itself."
+      "A. Accept it, since the vendor remains contractually answerable for whatever its subcontractors do.",
+      "B. Treat it as a compliance failure: establish what the subcontractor received and whether it is bound by equivalent terms.",
+      "C. Terminate the agreement immediately, since undisclosed subcontracting of patient data cannot be remediated.",
+      "D. Require the subcontractor to contract directly with the covered entity before any further processing occurs."
     ],
-    "correct": "A",
-    "rationale": "In regulated healthcare contexts, transparency about the non-human nature of the agent and clear escalation paths are higher-priority controls than maximizing human-likeness.",
+    "correct": "B",
+    "rationale": "Subcontractor flow-down is a required term precisely so that protections travel with the data. An undisclosed fourth party means the covered entity does not know where its patients' information is or what binds the party holding it. The first task is to establish both, because every subsequent decision — remediate, renegotiate or terminate — depends on the answer.",
     "tags": [
-      "vendor selection",
-      "transparency",
-      "healthcare"
+      "business associate agreement",
+      "subcontractors",
+      "third-party risk"
     ]
   },
   {
@@ -553,20 +555,20 @@
   },
   {
     "id": 32,
-    "domain": "Foundations of AI Governance",
-    "question": "One pillar of responsible AI concerns whether a system's inputs, outputs and decision logic can be understood by the people relying on them. Which pillar is that?",
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organisation deploys a third-party model whose individual outputs its own staff cannot explain. Affected people may appeal to a human reviewer, who is equally unable to explain any particular output. What is the practical status of that appeal right?",
     "options": [
-      "A. Accountability, which assigns named ownership for decisions made across the lifecycle.",
-      "B. Transparency and explainability, which make inputs, outputs, and logic understandable.",
-      "C. Contestability, which gives affected people a route to challenge an automated outcome.",
-      "D. Traceability, which preserves the record of how a given output came to be produced."
+      "A. Satisfied, because a human considers the decision and has authority to overturn it.",
+      "B. Nominal, because a reviewer who cannot explain the output has no basis on which to evaluate a challenge.",
+      "C. Unsatisfied, because a meaningful appeal requires the model itself to be interpretable.",
+      "D. Unaffected, because appeal rights attach to the decision rather than to the system that produced it."
     ],
     "correct": "B",
-    "rationale": "Transparency and explainability address the need for humans to understand how and why an AI system produces particular outputs.",
+    "rationale": "An appeal is meant to test the decision. A reviewer who cannot say why the output was produced can confirm the process ran and can substitute their own judgement, but cannot examine the reasoning the appellant is disputing. The right exists on paper and delivers nothing the appellant came for, which is a governance failure rather than a technical one.",
     "tags": [
-      "transparency",
+      "contestability",
       "explainability",
-      "pillars"
+      "human review"
     ]
   },
   {
@@ -589,20 +591,20 @@
   },
   {
     "id": 34,
-    "domain": "Laws, Standards, and Frameworks",
-    "question": "Which NIST program is specifically focused on assessing the risks and impacts of AI systems through evaluation and testing activities?",
+    "domain": "Governing AI Deployment and Use",
+    "question": "A team runs its full evaluation suite before every release and performs no evaluation between releases. Releases happen quarterly. What is the gap this leaves?",
     "options": [
-      "A. The NIST Cybersecurity Framework, extended with profiles covering AI system risk.",
-      "B. The NIST Privacy Framework, which addresses data-processing risk in AI contexts.",
-      "C. NIST ARIA, which assesses AI risks and impacts through testing and evaluation.",
-      "D. NIST SP 800-53, whose control catalogue includes an AI-specific control family."
+      "A. Pre-release evaluation cannot surface problems that appear only under production load.",
+      "B. Nothing observes the system during the three months in which it is actually making decisions.",
+      "C. A quarterly release cadence is too infrequent for a system of this kind.",
+      "D. The evaluation suite should be executed by a team independent of the one that built the model."
     ],
-    "correct": "C",
-    "rationale": "NIST ARIA is the program oriented toward practical assessment of AI risks and impacts through testing and evaluation methods.",
+    "correct": "B",
+    "rationale": "Release-gate evaluation establishes that a system was fit at a moment. Everything that changes afterwards — the data, the population, the way people use it — happens in the interval nothing is watching. The gap is not the quality of the evaluation but the assumption that a system verified in January is still the system running in March.",
     "tags": [
-      "NIST",
-      "ARIA",
-      "assessment"
+      "continuous monitoring",
+      "release gates",
+      "post-deployment"
     ]
   },
   {
@@ -626,18 +628,19 @@
   {
     "id": 36,
     "domain": "Governing AI Deployment and Use",
-    "question": "A voice AI system begins generating confident but factually incorrect statements about a health plan’s benefits. This behavior is best described as:",
+    "question": "A generative assistant's monitoring reports stable accuracy against its evaluation set, but support staff report that it has begun stating benefit details that are wrong. What does this most likely indicate about the monitoring?",
     "options": [
-      "A. Overfitting, where the model reproduces training examples rather than generalising.",
-      "B. Hallucination, where the model produces fluent but fabricated or incorrect content.",
-      "C. Prompt injection, where retrieved content overrides the agent's original instructions.",
-      "D. Miscalibration, where the model's stated confidence does not match its actual accuracy."
+      "A. The evaluation set is too small for a change of this magnitude to reach significance.",
+      "B. The evaluation set no longer resembles what the assistant is actually being asked.",
+      "C. Accuracy is the wrong measure and should be replaced by an assessment of fluency.",
+      "D. Staff impressions are unreliable and should be discounted until a measured signal appears."
     ],
     "correct": "B",
-    "rationale": "Hallucination refers to a generative model producing fluent but incorrect or fabricated information.",
+    "rationale": "A fixed evaluation set measures the questions it contains. When live usage moves — new products, new phrasing, new edge cases — the set keeps reporting on a distribution that no longer exists, and does so with perfect stability. Monitoring that cannot go down is not evidence that nothing is wrong.",
     "tags": [
-      "hallucination",
-      "voice AI"
+      "monitoring",
+      "evaluation drift",
+      "production signals"
     ]
   },
   {
@@ -696,19 +699,19 @@
   {
     "id": 40,
     "domain": "Governing AI Deployment and Use",
-    "question": "In the context of a healthcare voice AI agent, “human-in-the-loop” most accurately means:",
+    "question": "A clinical AI system routes each recommendation to a reviewing nurse who handles roughly two hundred cases a shift and sees the model's suggestion already selected on the screen. What most undermines the claim that human oversight is operating?",
     "options": [
-      "A. Humans curated the training corpus and labelled the examples the model learned from.",
-      "B. A qualified human reviews and can approve, modify, or override outputs before they act.",
-      "C. Human reviewers audit a sample of completed interactions on a defined cadence.",
-      "D. A human is available on standby and is contacted whenever the system reports low confidence."
+      "A. The nurse is not qualified to evaluate the model's technical performance.",
+      "B. The volume and the pre-selected default together make agreement effortless and disagreement expensive.",
+      "C. The review takes place after the recommendation is generated rather than before.",
+      "D. The nurse's decisions are not recorded in a form that could be audited afterwards."
     ],
     "correct": "B",
-    "rationale": "Human-in-the-loop refers to operational designs in which humans retain meaningful review and decision authority over AI outputs.",
+    "rationale": "Oversight is only real where the reviewer can realistically reach a different conclusion. Two hundred cases a shift leaves seconds per case, and a pre-selected default means accepting requires no action while dissenting requires justification. The design produces high agreement rates that look like validation and are in fact a measure of friction.",
     "tags": [
-      "HITL",
       "human oversight",
-      "healthcare"
+      "automation bias",
+      "review design"
     ]
   },
   {
@@ -802,18 +805,19 @@
   {
     "id": 46,
     "domain": "Governing AI Deployment and Use",
-    "question": "A health system’s policy requires that every voice AI interaction begin with a clear statement that the caller is speaking with an automated system. This requirement most directly supports which responsible AI principle?",
+    "question": "A hospital contracts an AI vendor whose voice agent will access patient records to answer scheduling questions. Which instrument most directly governs the vendor's handling of that data, and what does it establish?",
     "options": [
-      "A. Accountability, by creating a record of what the member was told at the start of the call.",
-      "B. Fairness, by ensuring every member receives identical treatment regardless of channel.",
-      "C. Transparency, by making the nature of the system apparent to the person interacting with it.",
-      "D. Human oversight, by prompting the member to request a person if they would prefer one."
+      "A. A service level agreement, which commits the vendor to defined availability and response times.",
+      "B. A business associate agreement, which binds the vendor to permitted uses, safeguards, subcontractor terms and breach reporting.",
+      "C. A mutual non-disclosure agreement, which prevents the vendor disclosing patient information to any third party.",
+      "D. A general data processing addendum, which is sufficient because it already covers processing on the customer's instructions."
     ],
-    "correct": "C",
-    "rationale": "Mandatory identity disclosure is a concrete transparency control that enables users to understand the nature of the system they are interacting with.",
+    "correct": "B",
+    "rationale": "A vendor performing a function on a covered entity's behalf using protected health information is a business associate, and the relationship has a named contractual form. The agreement is where permitted uses, required safeguards, subcontractor flow-down and breach notification are established. Without it the arrangement is non-compliant regardless of how well the vendor happens to behave.",
     "tags": [
-      "transparency",
-      "identity disclosure"
+      "business associate agreement",
+      "vendor governance",
+      "PHI"
     ]
   },
   {
@@ -872,20 +876,19 @@
   {
     "id": 50,
     "domain": "Governing AI Deployment and Use",
-    "question": "A health plan is preparing to launch a voice AI agent. Which set of controls most completely reflects a mature, practitioner-oriented approach to non-human identity and safe interaction?",
+    "question": "A health plan's AI vendor, operating under a business associate agreement, asks to use de-identified transcripts of member calls to improve its own commercial model. How should the plan treat the request?",
     "options": [
-      "A. Identity disclosure on request, defined scope limits, and post-call quality sampling.",
-      "B. A highly natural voice, broad topic coverage, and escalation whenever a member asks.",
-      "C. Identity disclosure up front, scope limits, safe escalation, and auditable event logging.",
-      "D. Full automation of routine and clinical requests, with logging retained for later audit."
+      "A. As already permitted, since de-identified data falls outside the agreement's scope entirely.",
+      "B. As a use the agreement must expressly authorise, with the de-identification method and the resulting rights settled before it begins.",
+      "C. As prohibited outright, since a business associate may never derive commercial benefit from a covered entity's data.",
+      "D. As the vendor's decision, since it performed the de-identification and therefore holds the resulting dataset."
     ],
-    "correct": "C",
-    "rationale": "A mature approach combines proactive transparency (identity disclosure), clear operational boundaries, human escalation for higher-risk situations, and auditability — the core elements of responsible healthcare voice AI design.",
+    "correct": "B",
+    "rationale": "De-identification is a permitted activity, not a licence that arrives automatically. Whether the vendor may de-identify at all, by what method, and what it may then do with the result are terms the agreement has to address. Settling them afterwards means arguing about a dataset that already exists and a model that may already have been trained.",
     "tags": [
-      "identity disclosure",
-      "safe escalation",
-      "healthcare",
-      "maturity"
+      "business associate agreement",
+      "de-identification",
+      "secondary use"
     ]
   },
   {
@@ -1118,21 +1121,20 @@
   },
   {
     "id": 63,
-    "domain": "Laws, Standards, and Frameworks",
-    "question": "A governance team organises its risk activities around functions commonly described as govern, map, measure, and manage. Which framework does this describe?",
+    "domain": "Governing AI Deployment and Use",
+    "question": "A monitoring dashboard for a deployed model has shown every metric comfortably inside tolerance for eight consecutive months. What should a reviewer be most sceptical about?",
     "options": [
-      "A. ISO/IEC 42001, whose structure follows the certification audit cycle for management systems.",
-      "B. The OECD AI Principles, whose structure follows agreement among participating member countries.",
-      "C. The NIST AI Risk Management Framework, a voluntary framework built around core functions.",
-      "D. The EU AI Act, whose structure follows the risk tiers and the penalties attaching to each."
+      "A. Whether the data feeding the dashboard is still being collected and computed correctly.",
+      "B. Whether the thresholds still describe what would count as a problem today.",
+      "C. Whether anyone is reading the dashboard on a regular basis.",
+      "D. Whether eight months is a long enough period to support any conclusion."
     ],
-    "correct": "C",
-    "rationale": "The NIST AI Risk Management Framework is organised around core functions — govern, map, measure, and manage — each with categories and subcategories beneath it, and it is voluntary rather than binding. ISO/IEC 42001 is a certifiable management system standard, and the EU AI Act is binding law structured around risk tiers.",
+    "correct": "B",
+    "rationale": "Thresholds are set once, from the understanding available at launch, and then rarely revisited. Eight months of comfortable readings is at least as likely to mean the limits were drawn generously, or that what matters has since changed, as it is to mean nothing has gone wrong. A monitor that cannot fire is indistinguishable from a healthy system.",
     "tags": [
-      "laws",
-      "NIST AI RMF",
-      "frameworks",
-      "voluntary"
+      "monitoring",
+      "thresholds",
+      "review"
     ]
   },
   {
@@ -5290,19 +5292,19 @@
   {
     "id": 289,
     "domain": "Laws, Standards, and Frameworks",
-    "question": "A company relies on legitimate interests to process personal data for model training. What does that basis additionally require?",
+    "question": "A company already processes its customers' personal data lawfully. It now wants to use that same data in a high-risk AI system it will place on the EU market. What does the AI-specific regime add to the privacy obligations it already meets?",
     "options": [
-      "A. Written approval from the supervisory authority before training may begin.",
-      "B. An opportunity for every affected individual to consent before their data is used.",
-      "C. A documented balancing of that interest against the rights of the people involved.",
-      "D. That the resulting model is never used for any commercial purpose whatsoever."
+      "A. Nothing, since a lawful basis for the processing already covers every use of that data.",
+      "B. Requirements attaching to the system itself — risk management, data governance and documentation — that run alongside the privacy obligations.",
+      "C. A replacement regime, since AI-specific law supersedes general privacy law wherever processing is automated.",
+      "D. A temporary exemption from the privacy obligations while the system is undergoing conformity assessment."
     ],
-    "correct": "C",
-    "rationale": "Legitimate interests is not a default that applies when consent is inconvenient — it is a basis that has to be worked for, by identifying the interest, showing the processing is necessary for it, and weighing it against what the individuals would reasonably expect. That assessment has to be recorded, because it is the thing an authority would ask to see. Prior approval is not required, consent is a different basis entirely, and commercial purposes are not excluded.",
+    "correct": "B",
+    "rationale": "The two regimes govern different objects. Privacy law asks whether personal data may be processed and on what basis. AI-specific law asks whether the system is safe, documented, governed and fit to be placed on the market. Satisfying one says nothing about the other, and a company can hold an impeccable lawful basis while failing every requirement that attaches to the system built on it.",
     "tags": [
-      "lawful basis",
-      "legitimate interests",
-      "training data"
+      "regulatory overlap",
+      "high-risk systems",
+      "data protection"
     ]
   },
   {

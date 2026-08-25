@@ -114,19 +114,19 @@ fails if any sub-domain drops to zero.
 
 | Sub-domain | Competency | Blueprint share | Bank | Bank share | |
 | --- | --- | --- | --- | --- | --- |
-| I.A | Understand what AI is and why it needs governance | 5.9% | 23 | 7.8% | over |
-| I.B | Establish and communicate organizational expectations | 7.1% | 23 | 7.8% | |
-| I.C | Establish policies and procedures across the life cycle | 8.2% | 20 | 6.8% | **under** |
-| II.A | How existing data privacy laws apply to AI | 5.9% | 23 | 7.8% | over |
+| I.A | Understand what AI is and why it needs governance | 5.9% | 19 | 6.4% |  |
+| I.B | Establish and communicate organizational expectations | 7.1% | 23 | 7.8% |  |
+| I.C | Establish policies and procedures across the life cycle | 8.2% | 21 | 7.1% | under |
+| II.A | How existing data privacy laws apply to AI | 5.9% | 22 | 7.4% | over |
 | II.B | How other existing laws apply to AI | 5.9% | 23 | 7.8% | over |
-| II.C | Main elements of AI-specific laws | 8.2% | 20 | 6.8% | **under** |
-| II.D | Main industry standards and tools | 4.7% | 23 | 7.8% | over |
-| III.A | Govern the designing and building of the AI system | 8.2% | 24 | 8.1% | |
-| III.B | Govern data collection and use in training and testing | 8.2% | 21 | 7.1% | **under** |
-| III.C | Govern release, monitoring and maintenance | 10.6% | 26 | 8.8% | **under** |
-| IV.A | Evaluate factors and risks relevant to deploying | 8.2% | 23 | 7.8% | |
-| IV.B | Perform key activities to assess the AI system | 7.1% | 21 | 7.1% | |
-| IV.C | Govern the deployment and use of the AI system | 11.8% | 26 | 8.8% | **under** |
+| II.C | Main elements of AI-specific laws | 8.2% | 22 | 7.4% |  |
+| II.D | Main industry standards and tools | 4.7% | 20 | 6.8% | over |
+| III.A | Govern the designing and building of the AI system | 8.2% | 24 | 8.1% |  |
+| III.B | Govern data collection and use in training and testing | 8.2% | 21 | 7.1% | under |
+| III.C | Govern release, monitoring and maintenance | 10.6% | 28 | 9.5% | under |
+| IV.A | Evaluate factors and risks relevant to deploying | 8.2% | 23 | 7.8% |  |
+| IV.B | Perform key activities to assess the AI system | 7.1% | 20 | 6.8% |  |
+| IV.C | Govern the deployment and use of the AI system | 11.8% | 30 | 10.1% | under |
 
 The bank is now four times the size of the exam it is compared against, so raw
 counts stopped being comparable. "Blueprint share" is each competency's
@@ -134,15 +134,25 @@ midpoint question count as a proportion of the blueprint total; "Bank share" is
 the same proportion measured in the content. Comparing shares rather than
 counts is what keeps this table meaningful as the bank grows.
 
-**What the shape says.** The bank is flatter than the blueprint. Every
-competency now sits within about three points of its expected share — a marked
-improvement on the 82-question audit, where IV.C carried 18 questions against a
-blueprint maximum of 11 — but the flatness is itself the finding: the two
-heaviest competencies, IV.C (govern deployment and use) and III.C (release,
-monitoring and maintenance), are the two furthest below their share, while the
-lightest, II.D (industry standards and tools), is the furthest above. Roughly
-fifteen further items — six for IV.C, five for III.C, two each for I.C and
-II.C — would bring the shape into line without removing anything.
+**What the shape says.** Every competency now sits within 2.1 points of its
+expected share, against 3.1 before the August rebalance. The residual pattern is
+the same one, softened: the two heaviest competencies — IV.C (govern deployment
+and use) and III.C (release, monitoring and maintenance) — remain the furthest
+below, and II.D (industry standards and tools) the furthest above.
+
+The rebalance was done by rewriting twelve existing items rather than adding
+new ones, so the bank stayed at 296. Each rewrite was justified by a defect
+rather than by the percentage it moved: three were conceptual duplicates
+(aigp-007, aigp-010, aigp-289), four were part of a six-item cluster all asking
+why an agent should disclose that it is not human (aigp-019, aigp-021,
+aigp-046, aigp-050), and five asked a candidate to name a concept rather than
+make a decision (aigp-032, aigp-034, aigp-036, aigp-040, aigp-063). Closing the
+remaining gap would need roughly a dozen genuinely new items in IV.C and III.C,
+which is a content task rather than a mapping one.
+
+Converting definition-recall items to judgment items moved the difficulty mix:
+foundational fell from 41 to 34 of 296, advanced rose from 96 to 101. That is a
+deliberate consequence of the rewrites, not drift.
 
 Questions were mapped by **what they test**, not by which of the four track
 domains they are filed under. Several sit in one and test another: aigp-026

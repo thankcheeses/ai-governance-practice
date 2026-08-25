@@ -64,7 +64,9 @@ function ExamStart() {
           published body of knowledge to rehearse the concepts under time
           pressure. No feedback until you submit. It is not a replica of any
           certification exam, does not reproduce one, and does not predict a
-          result.
+          result. Questions are sampled from the bank, so each sitting differs.
+          The clock is this project&rsquo;s own pacing choice, not an official
+          figure.
         </p>
       </header>
 

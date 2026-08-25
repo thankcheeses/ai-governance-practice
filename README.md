@@ -128,6 +128,37 @@ npm test               # unit tests
 
 ---
 
+## Practice exam mode
+
+Exam mode is an **independent timed simulation** over the same original
+questions. It **samples** from the bank, so no two sittings are identical — it
+is not a fixed form.
+
+- Multi-select grades **all-or-nothing**; unanswered questions count as incorrect.
+- Options are dealt fresh letters each sitting, and correctness is stored against
+  option identity, so no answer can be memorised as a letter.
+- The clock scales with length at a constant pace: 25 questions in 45 minutes,
+  50 in 90, 100 in 180.
+
+> [!NOTE]
+> **That pace is this project's own choice.** It has not been verified against
+> any official published figure and is not presented as one. Exam mode does not
+> reproduce any certification exam and does not predict a result.
+
+## Content quality
+
+Question changes are governed by
+[`docs/CONTENT-QUALITY-CONTRACT.md`](docs/CONTENT-QUALITY-CONTRACT.md) and
+enforced by `npm run check:content`, which fails on missing metadata, broken
+answer keys, degenerate multi-select, unlocatable sources, missing or stub
+distractor notes, skewed answer positions, length bias, similarity, and stale
+coverage documentation.
+
+```bash
+npm run check:content   # content invariants
+npm run release:gate    # the above + lint, types, tests, both builds
+```
+
 ## Deployment
 
 The app is a static export — no server, no API routes, no middleware — so
