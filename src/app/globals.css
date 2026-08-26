@@ -1,6 +1,283 @@
 @import "tailwindcss";
 
 /*
-  AI Governance Practice — Civic Studio design system
-  Restored full token file. Motion keyframes live in motion.css.
+  AI Governance Practice — Civic Studio design system.
+
+  A premium governance workspace using humanist typography and dimensional
+  low-relief visual language.
+
+  Both themes drive the same semantic token names, so no component branches on
+  theme: they reference `bg-card`, `text-muted-foreground` and so on, and the
+  values swap underneath. Theme is applied by a `data-theme` attribute on
+  <html>, set before first paint by an inline script in the root layout.
+
+  ---------------------------------------------------------------------------
+  Civic Studio palette
+
+  Ground:  Pale warm stone with tonal separation for cards, rails, inputs
+  Ink:     Midnight navy for primary text, controls, high-emphasis surfaces
+  Accent:  Periwinkle for interactive focus, active states, progress
+  Insight: Apricot for context, caution, and teaching blocks
+  Support: Muted sage for steady/healthy/supportive state cues
+
+  Typography: Editorial serif (IBM Plex Serif) for display headings and
+  key learning questions. Humanist sans-serif (Inter) for UI, labels,
+  controls, data, and body copy. Monospace reserved for code blocks.
+
+  Cards: 16–18px radius, fine borders, soft layered shadows, ample whitespace.
+  No glass effects or gradients. Functional-only motion, respects reduced-motion.
+
+  Visual objects: Dimensional low-relief HTML/CSS/SVG tiles, dials, nodes,
+  paths with adjacent text labels. No flat icons from icon libraries.
+
+  Accessibility: 44px targets, visible keyboard focus, semantic controls,
+  non-colour-only state cues, responsive layout mandatory.
 */
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-strong: var(--primary-strong);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-tint: var(--accent-tint);
+  --color-accent-strong: var(--accent-strong);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-tint: var(--destructive-tint);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-tint: var(--success-tint);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-insight: var(--insight);
+  --color-insight-tint: var(--insight-tint);
+  --color-insight-foreground: var(--insight-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 18px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-4xl: 28px;
+
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-plex-serif), ui-serif, Georgia, "Times New Roman",
+    serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+
+  --shadow-card: 0 1px 3px rgb(15 23 42 / 0.04), 0 4px 12px rgb(15 23 42 / 0.06);
+  --shadow-card-hover: 0 2px 6px rgb(15 23 42 / 0.06),
+    0 8px 20px rgb(15 23 42 / 0.08);
+  --shadow-raised: 0 1px 2px rgb(15 23 42 / 0.06),
+    0 2px 8px rgb(15 23 42 / 0.08);
+  --shadow-inset: inset 0 1px 2px rgb(15 23 42 / 0.06);
+  --shadow-accent: 0 1px 3px rgb(15 23 42 / 0.04),
+    0 4px 12px rgb(15 23 42 / 0.06);
+}
+
+:root,
+:root[data-theme="light"] {
+  --background: #f5f3f0;
+  --foreground: #1a2332;
+  --card: #fbfaf8;
+  --card-foreground: #1a2332;
+  --popover: #fbfaf8;
+  --popover-foreground: #1a2332;
+  --primary: #1a2332;
+  --primary-foreground: #fbfaf8;
+  --primary-strong: #0f1620;
+  --accent: #6b7fd7;
+  --accent-foreground: #4a5bb5;
+  --accent-strong: #4a5bb5;
+  --accent-subtle: #d5daf5;
+  --accent-tint: #eef0fb;
+  --link: #4a5bb5;
+  --link-hover: #374490;
+  --secondary: #ebe8e4;
+  --secondary-foreground: #1a2332;
+  --muted: #ebe8e4;
+  --muted-foreground: #5c6470;
+  --destructive: #c4453a;
+  --destructive-foreground: #fbfaf8;
+  --destructive-tint: #fdeeed;
+  --success: #4a7c59;
+  --success-foreground: #fbfaf8;
+  --success-tint: #eaf2ec;
+  --warning: #a86232;
+  --warning-foreground: #fbfaf8;
+  --insight: #e8a87c;
+  --insight-tint: #fdf2e9;
+  --insight-foreground: #a86232;
+  --border: rgb(26 35 50 / 0.1);
+  --border-strong: rgb(26 35 50 / 0.2);
+  --input: rgb(26 35 50 / 0.2);
+  --ring: #6b7fd7;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --background: #141a24;
+  --foreground: #f0eeea;
+  --card: #1c2431;
+  --card-foreground: #f0eeea;
+  --popover: #1c2431;
+  --popover-foreground: #f0eeea;
+  --primary: #f0eeea;
+  --primary-foreground: #141a24;
+  --primary-strong: #dbd8d3;
+  --accent: #8b9ce8;
+  --accent-foreground: #b3c0f2;
+  --accent-strong: #a3b2ee;
+  --accent-subtle: #2d3654;
+  --accent-tint: #212a3d;
+  --link: #a3b2ee;
+  --link-hover: #c2ccf5;
+  --secondary: #253040;
+  --secondary-foreground: #f0eeea;
+  --muted: #253040;
+  --muted-foreground: #9aa3b2;
+  --destructive: #e8776b;
+  --destructive-foreground: #141a24;
+  --destructive-tint: #2e2222;
+  --success: #7fb08c;
+  --success-foreground: #141a24;
+  --success-tint: #1d2a23;
+  --warning: #e8a87c;
+  --warning-foreground: #141a24;
+  --insight: #e8a87c;
+  --insight-tint: #2c2620;
+  --insight-foreground: #f0c3a1;
+  --border: rgb(240 238 234 / 0.1);
+  --border-strong: rgb(240 238 234 / 0.2);
+  --input: rgb(240 238 234 / 0.2);
+  --ring: #8b9ce8;
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.3), 0 4px 12px rgb(0 0 0 / 0.35);
+  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.35),
+    0 8px 20px rgb(0 0 0 / 0.45);
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.35), 0 2px 8px rgb(0 0 0 / 0.4);
+  --shadow-inset: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  --shadow-accent: 0 1px 3px rgb(0 0 0 / 0.3), 0 4px 12px rgb(0 0 0 / 0.35);
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+  h3 {
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1.35;
+  }
+  ::selection {
+    background-color: var(--color-accent-subtle);
+    color: var(--color-foreground);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@layer utilities {
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-secondary);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--color-muted-foreground) 50%,
+      transparent 100%
+    );
+    opacity: 0.25;
+    animation: shimmer 1.2s linear infinite;
+  }
+  .measure {
+    max-width: 72ch;
+  }
+  .rule-y > * + * {
+    border-top: 1px solid var(--color-border);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .pb-safe-nav {
+    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+}
