@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ScenarioDecisionFrame } from "@/components/civic/gpai";
-import { SectionHeading } from "@/components/civic/surfaces";
 import { ContinueLink } from "@/components/landing/continue-link";
 import { SampleDemo } from "@/components/landing/sample-demo";
 import {
@@ -14,19 +13,8 @@ import { BRAND } from "@/lib/brand";
 
 /**
  * The public entry.
- *
- * This route used to redirect: first-time visitors went to onboarding,
- * returning ones to Home, and nobody saw the product before committing to it.
- * It now leads with one real question, because the thing worth showing is the
- * decision itself — not a description of it, and not an illustration.
- *
- * It is deliberately outside `AppGate` and `AppShell`, which are applied per
- * page rather than in a layout. `/terms` and `/privacy` set that precedent.
- *
- * Nothing on this page writes. `SampleDemo` never holds the progress handle at
- * all, and `ContinueLink` reads it without calling a mutator — so a visitor
- * can work the sample, get it wrong, and leave, with no attempt recorded, no
- * review card enqueued, no onboarding flag set, and no request to Supabase.
+ * Editorial narrative of how judgment is trained — not a stack of component cards.
+ * Nothing on this page writes.
  */
 export default function RootPage() {
   const available = getTrackQuestions().length;
@@ -58,44 +46,104 @@ export default function RootPage() {
           </div>
         </div>
 
-        {/* ------------------------------------------------ The sample --- */}
-        <section className="mt-14">
-          <SectionHeading
-            level={2}
-            eyebrow="Try one now"
-            title="A question from the bank"
-            lede="This is a real item, not a simplified demonstration. Nothing you do here is recorded — it will not appear in your progress, your review queue, or anywhere else."
-            className="mb-7"
-          />
-          <div className="rounded-xl border border-border bg-card p-6 shadow-card sm:p-8">
+        <section className="mt-16">
+          <p className="mb-2 text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+            Try one now
+          </p>
+          <h2 className="font-serif text-[1.5rem] leading-snug tracking-[-0.01em] text-foreground sm:text-[1.75rem]">
+            A question from the bank
+          </h2>
+          <p className="measure mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
+            This is a real item, not a simplified demonstration. Nothing you do
+            here is recorded — it will not appear in your progress, your review
+            queue, or anywhere else.
+          </p>
+          <div className="mt-7 rounded-2xl border border-border bg-card p-6 shadow-[0_1px_2px_rgb(15_23_42/0.04),0_8px_24px_-8px_rgb(15_23_42/0.08)] sm:p-8">
             <SampleDemo />
           </div>
         </section>
 
-        {/* ------------------------------------------- The method used --- */}
-        <section className="mt-12">
-          <SectionHeading
-            level={2}
-            title="How to read a scenario"
-            lede="The same four passes work on every question in the app, and on real decisions outside it."
-            className="mb-5"
-          />
-          <ScenarioDecisionFrame variant="expanded" />
+        <section className="mt-20">
+          <h2 className="font-serif text-[1.5rem] leading-snug tracking-[-0.01em] text-foreground sm:text-[1.75rem]">
+            How to read a scenario
+          </h2>
+          <p className="measure mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
+            The same four passes work on every question in the app, and on real
+            decisions outside it.
+          </p>
+          <div className="mt-7">
+            <ScenarioDecisionFrame variant="expanded" />
+          </div>
         </section>
 
-        {/* --------------------------------------- Visual learning aids --- */}
-        <section className="mt-14 space-y-6">
-          <SectionHeading
-            level={2}
-            title="How the product teaches"
-            lede="Judgment is trained by a loop, not by memorising vocabulary. The diagrams below are the same instructional objects used inside feedback."
-            className="mb-2"
-          />
-          <LearningLoop />
+        <section className="mt-24">
+          <div className="measure">
+            <h2 className="font-serif text-[1.75rem] leading-snug tracking-[-0.015em] text-foreground sm:text-[2rem]">
+              Practice judgment, not vocabulary
+            </h2>
+            <p className="mt-3 text-[1.0625rem] leading-relaxed text-muted-foreground">
+              Knowing the terms is the starting point. Knowing what to notice,
+              who is responsible, what could go wrong, and what to do next is
+              the work. Every scenario in this product is built to train that
+              loop.
+            </p>
+          </div>
+          <div className="mt-10 max-w-xl">
+            <LearningLoop />
+          </div>
+        </section>
+
+        <section className="mt-24">
+          <div className="measure mb-8">
+            <h2 className="font-serif text-[1.5rem] leading-snug tracking-[-0.01em] text-foreground sm:text-[1.75rem]">
+              A framework you can operate
+            </h2>
+            <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
+              The NIST AI Risk Management Framework is one of the instruments
+              the scenarios reference. Govern frames the work; Map, Measure, and
+              Manage keep it moving.
+            </p>
+          </div>
           <RmfLoop />
-          <div className="grid gap-6 lg:grid-cols-2">
-            <StudyExamCompare />
-            <BokCoverageMap />
+        </section>
+
+        <section className="mt-24">
+          <div className="measure mb-8">
+            <h2 className="font-serif text-[1.5rem] leading-snug tracking-[-0.01em] text-foreground sm:text-[1.75rem]">
+              Same bank. Different pressure.
+            </h2>
+            <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
+              Study mode teaches the reasoning. Exam mode tests whether it holds
+              when feedback is withheld and the clock is running.
+            </p>
+          </div>
+          <StudyExamCompare />
+        </section>
+
+        <section className="mt-24">
+          <div className="measure mb-8">
+            <h2 className="font-serif text-[1.5rem] leading-snug tracking-[-0.01em] text-foreground sm:text-[1.75rem]">
+              Structured against the published outline
+            </h2>
+            <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
+              Scenarios map to the thirteen competencies across four domains so
+              weak areas can be identified. Structural coverage only — not an
+              endorsement or a prediction of any exam result.
+            </p>
+          </div>
+          <BokCoverageMap />
+        </section>
+
+        <section className="mt-24 rounded-2xl border border-border bg-card px-6 py-10 text-center shadow-[0_1px_2px_rgb(15_23_42/0.04),0_8px_24px_-8px_rgb(15_23_42/0.08)] sm:px-10">
+          <h2 className="font-serif text-[1.5rem] leading-snug tracking-[-0.01em] text-foreground sm:text-[1.75rem]">
+            Start with a scenario
+          </h2>
+          <p className="mx-auto mt-2 max-w-md text-[0.9375rem] leading-relaxed text-muted-foreground">
+            No account required. Progress stays on this device until you choose
+            to sync.
+          </p>
+          <div className="mt-6 flex justify-center">
+            <ContinueLink />
           </div>
         </section>
 
