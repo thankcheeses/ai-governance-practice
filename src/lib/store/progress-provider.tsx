@@ -35,26 +35,15 @@ const STORAGE_KEY = "nhid-clinical:progress:v1";
 export interface AnswerResult {
   correct: boolean;
   correctOptionIds: string[];
-  /**
-   * True when this answer put the question into the review queue for the first
-   * time. Reported back so a session can tell the learner what it scheduled
-   * instead of leaving the queue to be discovered.
-   */
   queuedForReview: boolean;
 }
 
 interface ProgressContextValue {
   progress: UserProgress;
-  /** False until local/remote hydration completes — gates first paint. */
   ready: boolean;
   user: User | null;
   authEnabled: boolean;
   syncing: boolean;
-  /**
-   * Why the last sync failed, or null. Signing in still succeeds when this is
-   * set — the account is authenticated and local progress is intact; only the
-   * server copy could not be read.
-   */
   syncError: string | null;
   recordAnswer: (
     question: Question,
@@ -69,7 +58,6 @@ interface ProgressContextValue {
   setDailyGoal: (goal: number) => void;
   resetProgress: () => void;
   signOut: () => Promise<void>;
-  /** Permanently deletes the account and all server-side progress. */
   deleteAccount: () => Promise<void>;
 }
 
@@ -80,25 +68,15 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [syncing, setSyncing] = useState(false);
-  /**
-   * Set when the account's progress could not be read. Sign-in still succeeds
-   * and local progress is untouched; this exists so the app can say so rather
-   * than pretend the account is empty.
-   */
   const [syncError, setSyncError] = useState<string | null>(null);
 
   const supabase = useMemo(() => getBrowserSupabase(), []);
   const authEnabled = Boolean(supabase);
 
-  // Refs so async writers always read current state without resubscribing.
   const progressRef = useRef(progress);
   progressRef.current = progress;
   const userRef = useRef<User | null>(null);
   userRef.current = user;
-
-  /* ---------------------------------------------------------------- */
-  /* Hydration                                                         */
-  /* ---------------------------------------------------------------- */
 
   useEffect(() => {
     let cancelled = false;
@@ -122,22 +100,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         setSyncing(true);
         try {
           const remote = await loadProgress(supabase, currentUser.id);
-          /*
-            Reconcile, never replace.
-
-            The remote copy is not automatically the better one. A device that
-            has been used offline is ahead of it; a fresh account is behind it;
-            a read that succeeded but returned nothing looks exactly like both.
-            Taking remote unconditionally meant a signed-in user could refresh
-            and watch their history disappear — and the persistence effect
-            below then wrote that emptiness to localStorage, so the loss was
-            permanent rather than a bad render.
-
-            Whichever side holds more attempts wins, and the local side wins
-            ties so an equal-but-stale remote cannot roll anything back. This
-            is the same judgement the SIGNED_IN handler already made; it
-            belongs on every load, not only on sign-in.
-          */
           if (!cancelled) {
             const current = progressRef.current;
             setProgress(
@@ -146,7 +108,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
             setSyncError(null);
           }
         } catch (err) {
-          // A failed read is not an empty account. Keep local state as it is.
           if (!cancelled) {
             setSyncError(
               err instanceof Error ? err.message : "Progress could not be synced.",
@@ -179,28 +140,14 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         try {
           const remote = await loadProgress(supabase, nextUser.id);
           const local = progressRef.current;
-          // A new account adopts whatever the signed-out session built up.
-          if (remote.attempts.length === 0 && local.attempts.length > 0) {
-            setProgress(local);
+          const winner =
+            remote.attempts.length > local.attempts.length ? remote : local;
+          setProgress(winner);
+          if (winner === local && local.attempts.length > 0) {
             await pushProfile(supabase, nextUser.id, local, nextUser.email);
-          } else {
-            setProgress(remote);
           }
           setSyncError(null);
         } catch (err) {
-          /*
-            Signing in must succeed even when syncing cannot.
-
-            This handler runs inside supabase-js's auth callback, and a
-            rejection here propagates back out of `signInWithPassword` — so an
-            unreachable or unmigrated database presented itself to the user as
-            a failed *login*, on a screen where nothing they could type would
-            help. The two are separate concerns: authentication worked, and
-            fetching their history did not.
-
-            Local progress is kept and the failure is recorded for the UI to
-            mention quietly. It is never rethrown.
-          */
           setSyncError(
             err instanceof Error ? err.message : "Progress could not be synced.",
           );
@@ -210,9 +157,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (event === "SIGNED_OUT") {
-        const fresh = emptyProgress();
-        setProgress(fresh);
-        writeLocal(fresh);
+        // Keep local progress. Explicit wipe is resetProgress / deleteAccount only.
       }
     });
 
@@ -223,10 +168,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     if (!ready) return;
     writeLocal(progress);
   }, [progress, ready]);
-
-  /* ---------------------------------------------------------------- */
-  /* Helpers                                                           */
-  /* ---------------------------------------------------------------- */
 
   const persistProfile = useCallback(
     (next: UserProgress) => {
@@ -239,10 +180,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     },
     [supabase],
   );
-
-  /* ---------------------------------------------------------------- */
-  /* Mutations                                                         */
-  /* ---------------------------------------------------------------- */
 
   const recordAnswer = useCallback<ProgressContextValue["recordAnswer"]>(
     (question, selected, responseTimeMs, mode, confidence = null) => {
@@ -265,8 +202,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         mode,
       };
 
-      // A missed question enters the review queue immediately, so it survives
-      // between sessions even if the learner never opens /review.
       const reviewCards = { ...prev.reviewCards };
       const queuedForReview = !correct && !reviewCards[question.id];
       if (queuedForReview) {
@@ -362,13 +297,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       setProgress((prev) => {
         const next = {
           ...prev,
-          /*
-            No ceiling. There is no reason for the product to decide how much
-            someone is allowed to practice in a day, and the old cap of 100
-            silently rewrote a larger goal into a smaller one, which reads as
-            the setting not working. The floor of 1 stays only because a goal
-            of zero divides by zero in the Home progress ring.
-          */
           dailyGoal: Math.max(1, Math.round(goal) || 1),
           updatedAt: new Date().toISOString(),
         };
@@ -381,7 +309,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
 
   const resetProgress = useCallback(() => {
     const prev = progressRef.current;
-    // Preserve the things that are settings rather than progress.
     const fresh: UserProgress = {
       ...emptyProgress(prev.trackId),
       dailyGoal: prev.dailyGoal,
@@ -398,14 +325,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut();
   }, [supabase]);
 
-  /**
-   * Permanent account deletion, required by App Store guideline 5.1.1(v).
-   *
-   * Deleting an auth user needs the service role key, so the work happens in
-   * the `delete-account` edge function; the client only invokes it with its own
-   * session. On success the local session and cached progress are cleared too,
-   * so nothing survives on the device.
-   */
   const deleteAccount = useCallback(async () => {
     if (!supabase) throw new Error("Accounts are not configured.");
     const currentUser = userRef.current;
@@ -416,9 +335,6 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     });
     if (error) throw new Error(error.message || "Could not delete account.");
 
-    // Drop the local session and wipe cached progress. SIGNED_OUT would reset
-    // state anyway, but clearing here means a failed sign-out cannot leave the
-    // deleted account's data readable on the device.
     await supabase.auth.signOut();
     const fresh = emptyProgress();
     setProgress(fresh);
@@ -471,10 +387,6 @@ export function useProgress() {
   return ctx;
 }
 
-/* ------------------------------------------------------------------ */
-/* Streak                                                              */
-/* ------------------------------------------------------------------ */
-
 function nextStreak(progress: UserProgress, today: string) {
   const { lastStudyDate } = progress;
   if (!lastStudyDate) {
@@ -502,21 +414,11 @@ function nextStreak(progress: UserProgress, today: string) {
   };
 }
 
-/** A streak lapses silently; report the true value rather than a stale one. */
 export function effectiveStreak(progress: UserProgress, now = todayISO()) {
   if (!progress.lastStudyDate) return 0;
   return daysBetween(progress.lastStudyDate, now) <= 1 ? progress.streak : 0;
 }
 
-/* ------------------------------------------------------------------ */
-/* localStorage                                                        */
-/* ------------------------------------------------------------------ */
-
-/**
- * The key the app used under its original name. Read once so a
- * beta tester who already has progress under the old key does not silently
- * lose it. Safe to delete once no pre-rename installs remain.
- */
 const LEGACY_STORAGE_KEY = "judgment-labs:progress:v1";
 
 function readLocal(): UserProgress | null {
@@ -526,29 +428,17 @@ function readLocal(): UserProgress | null {
     if (!raw) {
       const legacy = window.localStorage.getItem(LEGACY_STORAGE_KEY);
       if (!legacy) return null;
-      // Migrate forward, then drop the old key so this runs exactly once.
       window.localStorage.setItem(STORAGE_KEY, legacy);
       window.localStorage.removeItem(LEGACY_STORAGE_KEY);
       raw = legacy;
     }
     const parsed = JSON.parse(raw) as Partial<UserProgress>;
-    // Spread over a fresh object so older stored shapes remain loadable.
     return migrateProgress({ ...emptyProgress(), ...parsed });
   } catch {
     return null;
   }
 }
 
-/**
- * Forward-migrate a stored progress object.
- *
- * `Attempt.selected` was a single OptionKey before multi-select landed and is
- * an array after it. Anyone with progress saved by an earlier build has the
- * old shape in localStorage, and every write path now calls `.join()` on it —
- * so without this, the first sync after upgrading would throw and the learner
- * would silently stop syncing. Cheap to run, and it costs nothing once the
- * stored data has been rewritten in the new shape.
- */
 function migrateProgress(progress: UserProgress): UserProgress {
   let changed = false;
   const attempts = progress.attempts.map((attempt) => {
