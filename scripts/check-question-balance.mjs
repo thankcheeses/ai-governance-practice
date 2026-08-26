@@ -23,7 +23,7 @@ const LIMITS = {
   spreadChars: 60,
   // Across the whole bank, how often the correct answer may be the longest.
   // 0.25 is chance for 4 options; allow modest slack for natural variation.
-  longestRate: 0.38,
+  longestRate: 0.33,
   // Mean correct length / mean distractor length across the bank.
   meanRatio: 1.15,
   // Share of correct answers allowed to sit on any single letter. The bank
@@ -156,31 +156,18 @@ console.log(
 );
 
 /*
- * Position is now informational, not enforced.
+ * Position is reported here and enforced in scripts/check-content.ts.
  *
  * Options are shuffled per session and dealt fresh letters, so where an answer
- * sits in the source file is invisible to a learner — the same question shows
- * its answer under a different letter each sitting. The distribution is still
- * printed because a wildly skewed source is a smell worth seeing, but it can
- * no longer bias anyone and so no longer fails the build.
+ * sits in the source file is invisible to a learner. That is why this script
+ * only prints the distribution.
  *
- * The length checks above remain failures: shuffling moves an option, it does
- * not make the correct one shorter.
+ * It is still enforced, just not here: the content gate fails when any letter
+ * holds more than 40% or less than 12% of single-select keys, because the
+ * repository is public and a bank whose keys sit overwhelmingly on one letter
+ * reads as mechanically generated whatever the runtime does. The bank was at
+ * B 69% / D 0% before that check existed.
  */
-for (const letter of []) {
-  const share = positions[letter] / n;
-  if (share > LIMITS.maxPositionShare) {
-    failures.push(
-      `BANK: ${Math.round(share * 100)}% of answers are "${letter}" — ` +
-        `answering "${letter}" blindly scores ${Math.round(share * 100)}%`,
-    );
-  } else if (share < LIMITS.minPositionShare) {
-    failures.push(
-      `BANK: only ${Math.round(share * 100)}% of answers are "${letter}" — ` +
-        `test-takers learn to discount it`,
-    );
-  }
-}
 
 const domains = {};
 for (const q of questions) domains[q.domain] = (domains[q.domain] ?? 0) + 1;

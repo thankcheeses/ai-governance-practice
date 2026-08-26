@@ -91,11 +91,32 @@ export default function RootLayout({
       className={`${plexSerif.variable} ${inter.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
-      <head>
-        {/* Set the theme before first paint so there is no flash. */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-      </head>
       <body className="min-h-dvh antialiased">
+        {/*
+          Sets the theme before first paint so there is no flash of the wrong
+          one. Two things about where it sits are load-bearing.
+
+          It is the first child of <body>, not a child of <head>, which is
+          where it used to be. React 19 treats <head> as a set of hoistable
+          resources and reconciles that set during hydration; a script rendered
+          into it takes part in the reconciliation. On a warm reload the
+          browser's head no longer matches the one React expects — font
+          preloads it has already consumed are gone — and the mismatch surfaced
+          as React error #418. Measured on the Pages build, reloading a
+          worker-controlled page: 4/10 on /terms/, 5/10 on /home/, 3/10 on
+          /study/ before the move; 0/12 on each of five routes after it. The
+          error was recoverable, so nothing rendered wrong, but it was an
+          unexplained console error on a public site.
+
+          It is a plain inline <script>, not `next/script`. `beforeInteractive`
+          looks like the right tool and is not: in the App Router it emits a
+          `self.__next_s.push(...)` record that the Next runtime executes once
+          the framework bundle has loaded, which is after first paint. That was
+          measured too — with it, a stored dark theme still painted light on
+          the first frame. An inline script runs synchronously as the parser
+          reaches it, before any paintable element below it exists.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <ServiceWorker />
         <ThemeProvider>
           <ProgressProvider>{children}</ProgressProvider>

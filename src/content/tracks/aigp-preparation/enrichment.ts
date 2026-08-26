@@ -494,21 +494,21 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
   },
   26: {
     bokSubdomain: "III.C",
-    difficulty: "foundational",
+    difficulty: "applied",
     keyTakeaway:
-      "Drift is the real world moving away from what the model learned. The model did not change; the conditions it was validated against did.",
-    frameworkTags: ["AI Risk Management"],
+      "Naming which drift you have decides the remedy. Data drift usually responds to retraining on recent data; concept drift means the labels themselves mean something different, and retraining on stale targets will not fix it.",
+    frameworkTags: ["AI Risk Management", "ISO 42001"],
     distractorNotes: {
       A:
-        "Scheduled retraining changes outputs between versions by design. That is release behaviour, not degradation.",
-      B:
-        "Behaviour differing between staging and production points to an environment or configuration difference, not to the world having moved.",
+        "Concept drift is the other half of this distinction and would be the right call if the input-to-outcome relationship had moved. The investigation found it had not, which is what separates the two cases.",
+      C:
+        "Overfitting is a training-time failure visible before release as a gap between training and held-out performance. It does not develop months into production while the population shifts.",
       D:
-        "Miscalibrated confidence with unchanged accuracy is a real and separate problem: the model is still right as often, but its stated certainty can no longer be trusted.",
+        "A feature-computation fault is worth ruling out and would produce a fall in accuracy. It would not explain a documented change in the mix of customers arriving.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.4: performance monitoring in deployment)",
-      "ISO/IEC 22989 (AI system life cycle concepts)",
+      "NIST AI RMF (Measure 2.4: monitoring for degradation and its causes)",
+      "ISO/IEC 22989 (AI system life cycle and drift concepts)",
     ],
   },
   27: {
