@@ -134,9 +134,31 @@ self.addEventListener("fetch", (event) => {
         const cached = await caches.match(request);
         if (cached) return cached;
 
-        // An uncached route while offline still gets the shell rather than the
-        // browser's error page; the client router takes it from there.
-        if (isNavigation) {
+        /*
+          An uncached route while offline gets the shell rather than the
+          browser's error page; the client router takes it from there.
+
+          Gated on being genuinely offline, which it did not used to be. Every
+          route here is prerendered to its own HTML, so returning the landing
+          page's document for /settings/ is a whole-document mismatch. Serving
+          that while the network is working is simply wrong, whatever it costs:
+          a transient fetch failure during worker activation is not the same
+          thing as a flight-mode laptop, and the old code could not tell them
+          apart.
+
+          This gate was first written as a fix for an intermittent React
+          hydration error, on the theory that the worker was serving one
+          route's document for another. It was not that: capturing both
+          documents on a failing load showed them byte-identical, and the
+          error survived the gate. The cause was an inline <script> in <head>
+          taking part in React's head reconciliation, and it is fixed in
+          src/app/layout.tsx. The gate is kept because it is correct on its
+          own terms — see docs/known-issues.md for the measurements.
+
+          Offline the trade is still worth making: a mismatched shell that
+          client-renders into the right route beats the browser's error page.
+        */
+        if (isNavigation && self.navigator && self.navigator.onLine === false) {
           const shell =
             (await caches.match(at("home/"))) ?? (await caches.match(at("")));
           if (shell) return shell;

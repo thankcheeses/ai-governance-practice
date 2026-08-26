@@ -188,8 +188,8 @@ for (const q of single) {
 }
 const longestPct = (longest / single.length) * 100;
 const meanRatio = ratioSum / single.length;
-if (longestPct > 38) fail(`correct option is longest in ${longestPct.toFixed(0)}% of items (limit 38%)`);
-if (meanRatio > 1.15) fail(`correct options average ${meanRatio.toFixed(2)}x the length of distractors (limit 1.15x)`);
+if (longestPct > 33) fail(`correct option is longest in ${longestPct.toFixed(0)}% of items (limit 33%)`);
+if (meanRatio > 1.10) fail(`correct options average ${meanRatio.toFixed(2)}x the length of distractors (limit 1.10x)`);
 notes.push(`length bias: longest ${longestPct.toFixed(0)}% (chance 25%), mean ratio ${meanRatio.toFixed(2)}x`);
 
 /* ----------------------------------------------------------- coverage -- */

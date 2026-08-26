@@ -64,7 +64,7 @@
       "D. Prohibited, because it applies automated scoring to patients without their explicit consent."
     ],
     "correct": "B",
-    "rationale": "AI systems that affect access to essential private or public services, including healthcare prioritization, fall into the high-risk category under the EU AI Act and trigger conformity assessment and transparency obligations.",
+    "rationale": "Annex III places systems determining access to essential private and public services in the high-risk tier, and prioritising patients for care sits there. A separate route runs through Annex I where the AI is a safety component of a regulated medical device. Either way the classification follows the consequence for the patient. A clinician confirming the output is a mitigation applied to a high-risk system, not a reason it stops being one.",
     "tags": [
       "EU AI Act",
       "high-risk",
@@ -115,7 +115,7 @@
       "A. It satisfies them, since the certificate demonstrates a functioning AI management system.",
       "B. It is evidence of organisational maturity, while conformity assessment remains a separate obligation about the system itself.",
       "C. It removes the technical documentation requirement, which the certification audit has already examined.",
-      "D. It has no bearing at all, since management-system certification and regulatory compliance are unrelated."
+      "D. It has no bearing at all, since management-system certification and regulatory conformity assessment are entirely unrelated exercises."
     ],
     "correct": "B",
     "rationale": "Certification and conformity assessment attest to different things. A management system certificate says the organisation operates defined processes within a stated scope. Conformity assessment says a particular system meets the requirements the law sets for it. A well-run organisation can still place a non-conforming system on the market, which is why the second obligation exists.",
@@ -451,18 +451,19 @@
   {
     "id": 26,
     "domain": "Foundations of AI Governance",
-    "question": "A production AI system is said to be experiencing model drift. What does that describe?",
+    "question": "A deployed model's accuracy has fallen. Investigation shows the mix of customers making requests has changed substantially, while the relationship between a customer's attributes and the outcome being predicted has not. What does this indicate, and what follows from it?",
     "options": [
-      "A. The model is retrained on a schedule, causing its outputs to change between versions.",
-      "B. The model is promoted across environments, so behaviour differs between staging and production.",
-      "C. Performance degrades over time because the relationship between inputs and outcomes has changed.",
-      "D. The model's confidence scores become poorly calibrated even though accuracy is unchanged."
+      "A. Concept drift, so the outcome definition has moved and the training labels need to be reviewed before anything else.",
+      "B. Data drift: the inputs have moved while the underlying relationship holds, so retraining on recent data should recover performance.",
+      "C. Overfitting, so the model needs stronger regularisation and re-evaluation against the original held-out split.",
+      "D. A pipeline fault, so feature computation should be verified before any conclusion is drawn about the model."
     ],
-    "correct": "C",
-    "rationale": "Model (or concept) drift occurs when the real-world relationship that the model learned during training no longer holds, causing performance to decline.",
+    "correct": "B",
+    "rationale": "The two kinds of drift are often used interchangeably and imply different remedies. Data drift means the inputs have moved while what they predict still holds — retraining on recent data usually recovers it. Concept drift means the relationship itself has changed, so the old labels describe something that is no longer true and retraining against them will not help. The investigation here has already separated the two: the population moved, the relationship did not.",
     "tags": [
-      "drift",
-      "monitoring"
+      "data drift",
+      "concept drift",
+      "retraining"
     ]
   },
   {
@@ -704,7 +705,7 @@
       "A. The nurse is not qualified to evaluate the model's technical performance.",
       "B. The volume and the pre-selected default together make agreement effortless and disagreement expensive.",
       "C. The review takes place after the recommendation is generated rather than before.",
-      "D. The nurse's decisions are not recorded in a form that could be audited afterwards."
+      "D. The nurse's decisions are not recorded in a form that could be audited or reviewed by anyone afterwards."
     ],
     "correct": "B",
     "rationale": "Oversight is only real where the reviewer can realistically reach a different conclusion. Two hundred cases a shift leaves seconds per case, and a pre-selected default means accepting requires no action while dissenting requires justification. The design produces high agreement rates that look like validation and are in fact a measure of friction.",
@@ -880,7 +881,7 @@
     "options": [
       "A. As already permitted, since de-identified data falls outside the agreement's scope entirely.",
       "B. As a use the agreement must expressly authorise, with the de-identification method and the resulting rights settled before it begins.",
-      "C. As prohibited outright, since a business associate may never derive commercial benefit from a covered entity's data.",
+      "C. As prohibited outright, since a business associate may never derive any commercial benefit of its own from data belonging to a covered entity.",
       "D. As the vendor's decision, since it performed the de-identification and therefore holds the resulting dataset."
     ],
     "correct": "B",
@@ -1202,7 +1203,7 @@
       "A. Because the feature set cannot be reconstructed if the pipeline is rebuilt later.",
       "B. Because undocumented rationale weakens the ability to demonstrate compliance and manage risk later.",
       "C. Because undocumented choices only matter once the model underperforms in testing.",
-      "D. Because the team will repeat the same evaluation work when the model is next revised."
+      "D. Because the team will repeat the same feature-selection and evaluation work when the model is next revised."
     ],
     "correct": "B",
     "rationale": "Documenting design decisions exists to establish compliance and manage risk: it lets an organisation explain and defend its choices to regulators, auditors, or affected individuals later, and it supports troubleshooting. The value is proactive rather than conditional on something going wrong, and code comments are a technical artefact, not a record of governance reasoning.",
@@ -2893,7 +2894,7 @@
     "domain": "Governing AI Development",
     "question": "A financial services firm wants a single artifact that lets a reviewer two years from now assess whether a model is still fit for use. Which is most appropriate?",
     "options": [
-      "A. The training notebook, with cell outputs and intermediate results preserved.",
+      "A. The training notebook, with its cell outputs and intermediate results preserved exactly as they ran.",
       "B. The change log of every code commit made during development.",
       "C. A performance dashboard showing current metrics against thresholds.",
       "D. Documentation of intended use, tested conditions, known limitations and monitoring assumptions."
@@ -3253,7 +3254,7 @@
       "A. Monitoring watches the measures chosen at launch; validation asks whether they are still the right ones.",
       "B. Two years exceeds the maximum interval permitted for model validation.",
       "C. Monitoring cannot detect changes in the underlying claims population.",
-      "D. Validation is required whenever a model has been in production for a full year."
+      "D. Validation is required whenever a model has been in production for a full year, whatever the monitoring happens to show."
     ],
     "correct": "A",
     "rationale": "The three monitored measures were selected when the model was built, and all three stayed green while a geographic disparity developed underneath them. That is exactly the blind spot revalidation exists to find: monitoring answers whether the model still does what you measured, and validation asks whether you are measuring the right things. No general rule fixes an interval at one or two years, and monitoring can detect population change — it simply was not looking for this.",
@@ -3291,7 +3292,7 @@
       "A. That the assistant should be made opt-in for enterprise customers.",
       "B. That Halden should renegotiate its agreement with the model provider.",
       "C. That Halden's customer contracts were written for a product that did not send code to a third party.",
-      "D. That Halden needs a data protection impact assessment before the sale closes."
+      "D. That Halden needs a data protection impact assessment covering the assistant before the sale is allowed to close."
     ],
     "correct": "C",
     "rationale": "All three questions have the same root: the contracts describe processing code solely to provide the service, written when nothing left Halden. The product now routes customer code to a third party, and the paperwork has not caught up. Renegotiation, an opt-in and an assessment may all follow, but each of them presupposes knowing what Halden has actually committed to — which is the gap the questions reveal.",
@@ -3347,7 +3348,7 @@
     "question": "The district wants to expand to end-of-course exams, where scores affect placement. What changes most about the governance required?",
     "options": [
       "A. The consequence to students rises, so the assurance the district needs before relying on it rises with it.",
-      "B. Nothing material, since the same model and the same override mechanism apply.",
+      "B. Nothing material, since the same model and the same teacher override mechanism apply to both kinds of assessment.",
       "C. The vendor becomes responsible for outcomes once scores affect placement.",
       "D. Teacher overrides must be removed to keep scoring consistent across schools."
     ],
@@ -3576,7 +3577,7 @@
       "A. The training run will take longer than the project timeline allows.",
       "B. The model's behaviour will reflect that source's population and collection method disproportionately.",
       "C. The organisation will owe higher licensing fees as the dataset grows.",
-      "D. The model will overfit because the dataset contains too many examples."
+      "D. The model will overfit, because a dataset drawn mostly from one source contains too many near-identical examples."
     ],
     "correct": "B",
     "rationale": "Whoever is over-represented in the data is over-represented in the model. A source that dominates by volume imposes its own population and its own collection quirks on everything the model learns, and the effect is largest exactly where the other sources were meant to provide balance. Runtime, licensing cost and overfitting are real project concerns that say nothing about whose behaviour the model ends up encoding.",
@@ -3665,7 +3666,7 @@
     "options": [
       "A. The model is fair, since accuracy is equal across the groups tested.",
       "B. Different fairness measures disagree, and which one matters depends on what a false positive costs.",
-      "C. The evaluation is flawed, since accuracy and false-positive parity cannot diverge.",
+      "C. The evaluation is flawed, since accuracy and false-positive parity cannot diverge in a correctly built model.",
       "D. The model is unfair, since any metric showing disparity establishes unfairness."
     ],
     "correct": "B",
@@ -4946,7 +4947,7 @@
     "question": "A vendor declines to disclose training data sources, citing confidentiality. What is the most constructive response?",
     "options": [
       "A. Abandon the procurement, since a model whose training data is undisclosed cannot be assessed at all.",
-      "B. Seek warranties and evidence about the properties that matter — rights to use the data, known limitations, evaluation results — rather than the sources themselves.",
+      "B. Seek warranties and evidence about what matters: rights to use the data, known limitations and evaluation results.",
       "C. Accept the position, since the composition of a training corpus is standard trade secret material.",
       "D. Require the vendor to disclose its training sources to an independent third party under a non-disclosure agreement before the contract is signed."
     ],
@@ -5296,7 +5297,7 @@
     "options": [
       "A. Nothing, since a lawful basis for the processing already covers every use of that data.",
       "B. Requirements attaching to the system itself — risk management, data governance and documentation — that run alongside the privacy obligations.",
-      "C. A replacement regime, since AI-specific law supersedes general privacy law wherever processing is automated.",
+      "C. A replacement regime, since AI-specific law supersedes general privacy law wherever the processing in question is carried out by an automated system.",
       "D. A temporary exemption from the privacy obligations while the system is undergoing conformity assessment."
     ],
     "correct": "B",
