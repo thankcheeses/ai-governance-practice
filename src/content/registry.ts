@@ -71,32 +71,59 @@ export const ALL_QUESTIONS: Question[] = ACTIVE_TRACKS.flatMap((t) =>
   getTrackQuestions(t.id),
 );
 
+const BY_ID = new Map(ALL_QUESTIONS.map((q) => [q.id, q]));
+
 export function getQuestion(id: string): Question | undefined {
-  return ALL_QUESTIONS.find((q) => q.id === id);
+  return BY_ID.get(id);
 }
 
-export function getQuestionsByIds(ids: readonly string[]): Question[] {
-  const byId = new Map(ALL_QUESTIONS.map((q) => [q.id, q]));
-  return ids.map((id) => byId.get(id)).filter((q): q is Question => Boolean(q));
+export function getQuestions(ids: readonly string[]): Question[] {
+  return ids
+    .map((id) => BY_ID.get(id))
+    .filter((q): q is Question => Boolean(q));
 }
 
-export function getQuestionsByDomain(
+export function questionsByDomain(
   domain: string,
   trackId: TrackId = DEFAULT_TRACK_ID,
 ): Question[] {
   return getTrackQuestions(trackId).filter((q) => q.domain === domain);
 }
 
-export function getQuestionsByDifficulty(
+export function questionsByDifficulty(
   difficulty: Difficulty,
   trackId: TrackId = DEFAULT_TRACK_ID,
 ): Question[] {
   return getTrackQuestions(trackId).filter((q) => q.difficulty === difficulty);
 }
 
-export function getQuestionsByFramework(
+export function questionsByFrameworkTag(
   tag: FrameworkTag,
   trackId: TrackId = DEFAULT_TRACK_ID,
 ): Question[] {
   return getTrackQuestions(trackId).filter((q) => q.frameworkTags.includes(tag));
+}
+
+/** Domain counts for the study picker, derived from content. */
+export function domainBreakdown(
+  trackId: TrackId = DEFAULT_TRACK_ID,
+): { domain: string; count: number }[] {
+  const questions = getTrackQuestions(trackId);
+  const counts = new Map<string, number>();
+  for (const q of questions) {
+    counts.set(q.domain, (counts.get(q.domain) ?? 0) + 1);
+  }
+  return Array.from(counts.entries()).map(([domain, count]) => ({
+    domain,
+    count,
+  }));
+}
+
+/** Framework tags actually present in a track's content. */
+export function frameworkTagsInTrack(
+  trackId: TrackId = DEFAULT_TRACK_ID,
+): FrameworkTag[] {
+  return Array.from(
+    new Set(getTrackQuestions(trackId).flatMap((q) => q.frameworkTags)),
+  );
 }
