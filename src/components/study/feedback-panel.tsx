@@ -4,6 +4,7 @@ import type { OptionKey, PresentedOption, Question } from "@/content/types";
 import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { formatAnswer, isMultiSelect } from "@/lib/grading";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
+import { ConceptVisual } from "@/components/visuals";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -133,6 +134,13 @@ export function FeedbackPanel({
           <ConceptHighlight text={question.keyTakeaway} limit={2} />
         </p>
       </section>
+
+      {/*
+        Only when the question's concept clearly benefits from a diagram.
+        Placed after the takeaway so it reinforces the portable rule, never
+        before the learner has answered.
+      */}
+      <ConceptVisual question={question} />
 
       {distractors.length ? (
         <section>
