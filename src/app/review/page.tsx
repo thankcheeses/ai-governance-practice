@@ -45,6 +45,9 @@ function Review() {
   return (
     <div className="space-y-6">
       <header>
+        <p className="mb-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-accent-strong">
+          Spaced practice
+        </p>
         <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
           Return to the decision
         </h1>
@@ -56,9 +59,9 @@ function Review() {
       </header>
 
       {queue.length === 0 ? (
-        <Card>
+        <Card className="border-accent/20 bg-gradient-to-br from-accent-tint/40 via-card to-card shadow-card">
           <CardContent className="flex flex-col items-center p-8 text-center">
-            <DimensionalMark name="brand" size="xl" />
+            <DimensionalMark name="brand" size="xl" tone="accent" />
             <h2 className="mt-5 font-semibold">Nothing due right now</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
               {upcomingTotal > 0
@@ -72,10 +75,10 @@ function Review() {
         </Card>
       ) : (
         <>
-          <Card>
+          <Card className="border-accent/25 bg-gradient-to-br from-accent-tint/35 via-card to-card shadow-card">
             <CardContent className="p-5">
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-semibold tabular-nums">
+                <span className="font-serif text-3xl tabular-nums tracking-tight text-foreground">
                   {queue.length}
                 </span>
                 <span className="text-sm text-muted-foreground">
@@ -114,7 +117,7 @@ function Review() {
                 return (
                   <li
                     key={item.question.id}
-                    className="border border-border bg-card p-4 shadow-[var(--shadow-card)]"
+                    className="rounded-xl border border-border bg-card p-4 shadow-card"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <p className="line-clamp-2 text-sm leading-relaxed">
@@ -124,19 +127,13 @@ function Review() {
                         {meta.label}
                       </Badge>
                     </div>
-                    <p className="mt-2 text-xs text-muted-foreground">
-                      {item.question.domain}
-                      {item.card && item.card.repetitions > 0
-                        ? ` · seen ${item.card.repetitions}×`
-                        : ""}
-                    </p>
                   </li>
                 );
               })}
             </ul>
             {queue.length > 20 ? (
-              <p className="mt-3 text-center text-xs text-muted-foreground">
-                and {queue.length - 20} more
+              <p className="mt-3 text-sm text-muted-foreground">
+                and {queue.length - 20} more in the full session
               </p>
             ) : null}
           </section>
