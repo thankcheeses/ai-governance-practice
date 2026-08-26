@@ -6,6 +6,7 @@ import { BRAND } from "@/lib/brand";
 import { ProgressProvider } from "@/lib/store/progress-provider";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/store/theme-provider";
 import "./globals.css";
+import "./motion.css";
 
 /*
   Civic Studio typography system.

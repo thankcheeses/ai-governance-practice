@@ -39,7 +39,7 @@ const TRACKS: Track[] = [
       "The four domains below follow the IAPP's AIGP Body of Knowledge, version 2.1 (effective 2 February 2026). Every one of its thirteen sub-domains has at least one scenario here, though the number per sub-domain does not mirror the exam's own weighting — the IAPP's published Body of Knowledge remains the authority on what the exam tests. Every scenario is original material written for this track. AIGP is a certification mark of the IAPP; this product is independent of the IAPP and is not affiliated with, endorsed by, or approved by it.",
     contextAuthority: "IAPP AIGP Body of Knowledge",
     contextVersion: "v2.1",
-    contextReviewed: "2026-08-07",
+    contextReviewed: "2026-08-25",
     contextCoverage: "13/13 sub-domains",
     status: "active",
     domains: aigpDomains,

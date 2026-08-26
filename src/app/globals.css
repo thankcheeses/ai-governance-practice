@@ -71,11 +71,6 @@
   --color-link: var(--link);
   --color-link-hover: var(--link-hover);
 
-  /*
-    Civic Studio radii. Cards use 16–18px for a premium, generous feel.
-    Smaller elements (inputs, buttons) use proportionally smaller radii.
-    `rounded-full` is untouched, so genuinely circular controls stay circular.
-  */
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -85,12 +80,6 @@
   --radius-3xl: 24px;
   --radius-4xl: 28px;
 
-  /*
-    Civic Studio typography. Humanist sans-serif (Inter) carries all UI,
-    labels, controls, data, and body copy. Editorial serif is reserved for
-    display headings and key learning questions. Monospace stays available
-    for code and content blocks that need it.
-  */
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-serif: var(--font-plex-serif), ui-serif, Georgia, "Times New Roman",
@@ -98,10 +87,6 @@
   --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
 
-  /*
-    Soft layered shadows for dimensional depth. Civic Studio uses low-relief
-    surfaces — visible but restrained, never harsh. No coloured glows.
-  */
   --shadow-card: 0 1px 3px rgb(15 23 42 / 0.04), 0 4px 12px rgb(15 23 42 / 0.06);
   --shadow-card-hover: 0 2px 6px rgb(15 23 42 / 0.06),
     0 8px 20px rgb(15 23 42 / 0.08);
@@ -112,128 +97,88 @@
     0 4px 12px rgb(15 23 42 / 0.06);
 }
 
-/* --------------------------------------------------------------- Light --- */
-/* Civic Studio light: pale warm stone ground, midnight navy ink,
-   periwinkle accent, apricot insight, muted sage support. */
 :root,
 :root[data-theme="light"] {
-  /* Pale warm stone ground with tonal separation for surfaces. */
-  --background: #f5f3f0; /* warm stone */
-  --foreground: #1a2332; /* midnight navy — 13.82:1 on ground */
-
-  --card: #fbfaf8; /* lifted stone, one step above ground */
-  --card-foreground: #1a2332; /* 14.61:1 */
+  --background: #f5f3f0;
+  --foreground: #1a2332;
+  --card: #fbfaf8;
+  --card-foreground: #1a2332;
   --popover: #fbfaf8;
   --popover-foreground: #1a2332;
-
-  /* Primary: midnight navy fill, warm light text. */
   --primary: #1a2332;
-  --primary-foreground: #fbfaf8; /* 14.61:1 */
-  --primary-strong: #0f1620; /* deeper navy for hover */
-
-  /* Periwinkle: the interactive accent for focus, active states, progress. */
-  --accent: #6b7fd7; /* periwinkle */
-  --accent-foreground: #4a5bb5; /* readable on tint — 5.12:1 */
-  --accent-strong: #4a5bb5; /* concept marks: 5.44:1 on card */
+  --primary-foreground: #fbfaf8;
+  --primary-strong: #0f1620;
+  --accent: #6b7fd7;
+  --accent-foreground: #4a5bb5;
+  --accent-strong: #4a5bb5;
   --accent-subtle: #d5daf5;
   --accent-tint: #eef0fb;
-
-  /* Links underlined by default, periwinkle-derived. */
-  --link: #4a5bb5; /* 5.44:1 on card */
-  --link-hover: #374490; /* 8.02:1 on card */
-
-  --secondary: #ebe8e4; /* warm stone, one step down */
+  --link: #4a5bb5;
+  --link-hover: #374490;
+  --secondary: #ebe8e4;
   --secondary-foreground: #1a2332;
   --muted: #ebe8e4;
-  --muted-foreground: #5c6470; /* muted navy — 5.31:1 on card */
-
-  /* Destructive: warm red, text-safe on light. */
-  --destructive: #c4453a; /* 5.18:1 on card */
+  --muted-foreground: #5c6470;
+  --destructive: #c4453a;
   --destructive-foreground: #fbfaf8;
   --destructive-tint: #fdeeed;
-
-  /* Support: muted sage for steady/healthy states. */
-  --success: #4a7c59; /* muted sage — 5.02:1 on card */
+  --success: #4a7c59;
   --success-foreground: #fbfaf8;
   --success-tint: #eaf2ec;
-
-  /* Insight: apricot for context, caution, teaching blocks. */
-  --warning: #a86232; /* apricot, darkened for text — 5.07:1 on card */
+  --warning: #a86232;
   --warning-foreground: #fbfaf8;
-  --insight: #e8a87c; /* apricot at full value for fills */
-  --insight-tint: #fdf2e9; /* apricot teaching-block background */
-  --insight-foreground: #a86232; /* 5.07:1 on insight-tint */
-
-  /* Fine borders in warm navy transparency. */
+  --insight: #e8a87c;
+  --insight-tint: #fdf2e9;
+  --insight-foreground: #a86232;
   --border: rgb(26 35 50 / 0.1);
   --border-strong: rgb(26 35 50 / 0.2);
   --input: rgb(26 35 50 / 0.2);
-  --ring: #6b7fd7; /* periwinkle focus ring */
-
+  --ring: #6b7fd7;
   color-scheme: light;
 }
 
-/* ---------------------------------------------------------------- Dark --- */
-/* Civic Studio dark: deep midnight navy ground, warm stone ink. The palette
-   inverts its ground/ink relationship; hues lift to clear AA on the dark. */
 :root[data-theme="dark"] {
-  --background: #141a24; /* deep midnight navy */
-  --foreground: #f0eeea; /* warm stone — 14.92:1 on ground */
-
-  --card: #1c2431; /* navy lifted one step */
-  --card-foreground: #f0eeea; /* 13.44:1 */
+  --background: #141a24;
+  --foreground: #f0eeea;
+  --card: #1c2431;
+  --card-foreground: #f0eeea;
   --popover: #1c2431;
   --popover-foreground: #f0eeea;
-
-  /* Primary inverts: warm stone fill, navy text. */
   --primary: #f0eeea;
   --primary-foreground: #141a24;
   --primary-strong: #dbd8d3;
-
-  /* Periwinkle lifts on the dark ground to clear AA. */
-  --accent: #8b9ce8; /* periwinkle, lifted */
+  --accent: #8b9ce8;
   --accent-foreground: #b3c0f2;
-  --accent-strong: #a3b2ee; /* concept marks: 7.81:1 on card */
+  --accent-strong: #a3b2ee;
   --accent-subtle: #2d3654;
   --accent-tint: #212a3d;
-
-  --link: #a3b2ee; /* 7.81:1 on card */
-  --link-hover: #c2ccf5; /* 10.64:1 */
-
+  --link: #a3b2ee;
+  --link-hover: #c2ccf5;
   --secondary: #253040;
   --secondary-foreground: #f0eeea;
   --muted: #253040;
-  --muted-foreground: #9aa3b2; /* 6.12:1 on card */
-
-  --destructive: #e8776b; /* 6.44:1 on card */
+  --muted-foreground: #9aa3b2;
+  --destructive: #e8776b;
   --destructive-foreground: #141a24;
   --destructive-tint: #2e2222;
-
-  /* Support: muted sage, lifted for the dark ground. */
-  --success: #7fb08c; /* 8.02:1 on card */
+  --success: #7fb08c;
   --success-foreground: #141a24;
   --success-tint: #1d2a23;
-
-  /* Insight: apricot, readable on dark. */
-  --warning: #e8a87c; /* 8.71:1 on card */
+  --warning: #e8a87c;
   --warning-foreground: #141a24;
   --insight: #e8a87c;
   --insight-tint: #2c2620;
-  --insight-foreground: #f0c3a1; /* 10.12:1 on insight-tint */
-
-  /* Borders invert: warm stone transparency over the navy ground. */
+  --insight-foreground: #f0c3a1;
   --border: rgb(240 238 234 / 0.1);
   --border-strong: rgb(240 238 234 / 0.2);
   --input: rgb(240 238 234 / 0.2);
   --ring: #8b9ce8;
-
   --shadow-card: 0 1px 3px rgb(0 0 0 / 0.3), 0 4px 12px rgb(0 0 0 / 0.35);
   --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.35),
     0 8px 20px rgb(0 0 0 / 0.45);
   --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.35), 0 2px 8px rgb(0 0 0 / 0.4);
   --shadow-inset: inset 0 1px 2px rgb(0 0 0 / 0.35);
   --shadow-accent: 0 1px 3px rgb(0 0 0 / 0.3), 0 4px 12px rgb(0 0 0 / 0.35);
-
   color-scheme: dark;
 }
 
@@ -241,12 +186,10 @@
   * {
     border-color: var(--color-border);
   }
-
   html {
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
   }
-
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -255,21 +198,6 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-
-  /*
-    Editorial serif carries the display hierarchy — and only that.
-
-    `h1` and `h2` are page and section titles: display type, so they take the
-    serif upright. `h3` is deliberately left in the humanist sans, because in
-    this app it is overwhelmingly a card title or a control-group label — UI
-    text, not display text — and setting it in serif would blur the one
-    distinction the type system is built on. A genuine display `h3` opts in
-    with `font-serif`.
-
-    Italic is reserved for the wordmark. It is a signature, not interface text,
-    and setting every heading in italic reads as mannered rather than
-    editorial.
-  */
   h1,
   h2 {
     font-family: var(--font-serif);
@@ -277,24 +205,19 @@
     letter-spacing: -0.01em;
     line-height: 1.25;
   }
-
   h3 {
     font-weight: 600;
     letter-spacing: -0.005em;
     line-height: 1.35;
   }
-
   ::selection {
     background-color: var(--color-accent-subtle);
     color: var(--color-foreground);
   }
-
-  /* 2px accent ring, offset 2px — the specified focus treatment. */
   :focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
   }
-
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -317,17 +240,11 @@
 }
 
 @layer utilities {
-  /*
-    Loading state. A shimmer pass across a block the size of the content it
-    stands in for — the source rules out circular spinners, and a rectangle at
-    the right dimensions tells the reader what is arriving.
-  */
   .skeleton {
     position: relative;
     overflow: hidden;
     background-color: var(--color-secondary);
   }
-
   .skeleton::after {
     content: "";
     position: absolute;
@@ -341,26 +258,12 @@
     opacity: 0.25;
     animation: shimmer 1.2s linear infinite;
   }
-
-  /*
-    Body copy is capped at 72 characters, per the source. The container is wide
-    (1280px) so tables and metadata can use the full width; running text must
-    not. Applied to the text element itself — `ch` resolves against the
-    element's own font-size, so putting this on a wrapper gives smaller
-    children *more* characters, not fewer.
-  */
   .measure {
     max-width: 72ch;
   }
-
-  /*
-    A hairline rule between rows, in the warm border colour. Alignment does the
-    work that whitespace would in a softer system.
-  */
   .rule-y > * + * {
     border-top: 1px solid var(--color-border);
   }
-
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -368,8 +271,6 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-
-  /* Bottom tab bar clearance plus iOS safe area. */
   .pb-safe-nav {
     padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
   }
