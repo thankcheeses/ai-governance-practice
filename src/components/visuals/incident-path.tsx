@@ -2,14 +2,10 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { DiagramShell, StageChip, FlowArrow, RAISED } from "./primitives";
+import { DiagramFrame, FlowArrow } from "./primitives";
 
 /**
- * AI incident response path.
- *
- * Linear sequence because the teaching point is ordered action under pressure.
- * Each step has a narrow purpose; skipping one is the common failure mode the
- * scenarios test.
+ * AI incident response as an ordered operational pathway.
  */
 
 const STEPS = [
@@ -70,54 +66,62 @@ export function IncidentPath({ className }: { className?: string }) {
   const activeIndex = STEPS.findIndex((s) => s.id === active);
 
   return (
-    <DiagramShell
+    <DiagramFrame
       title="AI incident response path"
-      description="Ordered action under pressure. Select a step to see its purpose, the concrete action, and the common failure mode the scenarios test."
+      lede="Ordered action under pressure. Select a step to see its purpose, the concrete action, and the common failure mode."
       className={className}
+      wide
     >
       <div
         role="toolbar"
         aria-label="Incident response steps"
-        className="flex flex-wrap items-center justify-center gap-1"
+        className="flex flex-wrap items-center justify-center gap-1.5"
       >
         {STEPS.map((s, i) => (
-          <span key={s.id} className="inline-flex items-center gap-1">
-            {i > 0 ? <FlowArrow className="hidden sm:inline-flex" /> : null}
-            <StageChip
-              label={s.label}
-              index={i}
-              active={active === s.id}
-              done={i < activeIndex}
+          <span key={s.id} className="inline-flex items-center gap-1.5">
+            {i > 0 ? (
+              <FlowArrow className="hidden text-border-strong/50 sm:inline-flex" />
+            ) : null}
+            <button
+              type="button"
               onClick={() => setActive(s.id)}
-            />
+              aria-current={active === s.id ? "step" : undefined}
+              className={cn(
+                "min-h-9 rounded-full border px-3 py-1.5 text-[0.75rem] font-medium tracking-wide transition-colors duration-[120ms]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                active === s.id
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : i < activeIndex
+                    ? "border-border-strong/40 bg-secondary text-foreground"
+                    : "border-border bg-background text-muted-foreground hover:border-border-strong hover:text-foreground",
+              )}
+            >
+              {s.label}
+            </button>
           </span>
         ))}
       </div>
 
-      <div
-        className={cn(
-          "mt-4 rounded-lg border border-border bg-background/70 p-4",
-          RAISED,
-        )}
-      >
-        <p className="text-[0.8125rem] font-semibold text-foreground">
-          {step.label}
-        </p>
-        <dl className="mt-3 space-y-2 text-[0.75rem] leading-snug">
-          <div>
-            <dt className="font-medium text-foreground">Purpose</dt>
-            <dd className="mt-0.5 text-muted-foreground">{step.purpose}</dd>
-          </div>
-          <div>
-            <dt className="font-medium text-foreground">Concrete action</dt>
-            <dd className="mt-0.5 text-muted-foreground">{step.action}</dd>
-          </div>
-          <div>
-            <dt className="font-medium text-foreground">Common failure</dt>
-            <dd className="mt-0.5 text-muted-foreground">{step.fail}</dd>
-          </div>
-        </dl>
+      <div className="mt-5 grid gap-5 border-t border-border/70 pt-5 sm:grid-cols-3">
+        <div>
+          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+            Purpose
+          </p>
+          <p className="mt-1.5 text-[0.875rem] leading-relaxed text-foreground">{step.purpose}</p>
+        </div>
+        <div>
+          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+            Concrete action
+          </p>
+          <p className="mt-1.5 text-[0.875rem] leading-relaxed text-foreground/90">{step.action}</p>
+        </div>
+        <div>
+          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+            Common failure
+          </p>
+          <p className="mt-1.5 text-[0.875rem] leading-relaxed text-foreground/90">{step.fail}</p>
+        </div>
       </div>
-    </DiagramShell>
+    </DiagramFrame>
   );
 }

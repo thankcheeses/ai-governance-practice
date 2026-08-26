@@ -1,70 +1,70 @@
-import { DiagramShell } from "./primitives";
+import { cn } from "@/lib/utils";
+import { DiagramFrame } from "./primitives";
 
-/**
- * Explicit distinction between Study mode and Exam mode.
- *
- * Learners often treat practice as a soft exam. Making the difference visible
- * reduces confusion about feedback timing, scoring, and what the product is
- * actually training.
- */
+const STUDY = [
+  "Immediate feedback after every answer",
+  "Rationale and near-miss explanation",
+  "Key takeaway to carry forward",
+  "Wrong items enter the review queue",
+  "Self-paced; pause and resume",
+] as const;
 
-const ROWS = [
-  {
-    aspect: "Purpose",
-    study: "Build judgment through immediate explanation",
-    exam: "Simulate timed, no-feedback decision pressure",
-  },
-  {
-    aspect: "Feedback",
-    study: "After every answer — rationale, near-misses, takeaway",
-    exam: "Only after you submit the full set",
-  },
-  {
-    aspect: "Scoring",
-    study: "Running accuracy; used for adaptive focus",
-    exam: "Final score only; no mid-session adjustment",
-  },
-  {
-    aspect: "Time",
-    study: "Self-paced; can pause and resume",
-    exam: "Clock runs; designed to feel like the real sitting",
-  },
-  {
-    aspect: "Review queue",
-    study: "Wrong and near-miss items are scheduled for spaced return",
-    exam: "Does not write to the review queue",
-  },
+const EXAM = [
+  "No feedback until you submit",
+  "Timed sitting under constraint",
+  "Final score only",
+  "Does not write to the review queue",
+  "Designed to feel like the real sitting",
 ] as const;
 
 export function StudyExamCompare({ className }: { className?: string }) {
   return (
-    <DiagramShell
-      title="Study mode vs Exam mode"
-      description="Same question bank, different job. Study trains the reasoning loop. Exam tests whether the reasoning holds under constraint."
+    <DiagramFrame
+      title="Two modes, one bank"
+      lede="Study trains the reasoning loop. Exam tests whether the reasoning holds under constraint."
       className={className}
+      wide
     >
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[28rem] text-left text-[0.75rem] leading-snug">
-          <thead>
-            <tr className="border-b border-border text-muted-foreground">
-              <th className="py-2 pr-3 font-medium">Aspect</th>
-              <th className="py-2 pr-3 font-medium">Study</th>
-              <th className="py-2 font-medium">Exam</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ROWS.map((r) => (
-              <tr key={r.aspect} className="border-b border-border/60 last:border-0">
-                <td className="py-2.5 pr-3 font-medium text-foreground">
-                  {r.aspect}
-                </td>
-                <td className="py-2.5 pr-3 text-muted-foreground">{r.study}</td>
-                <td className="py-2.5 text-muted-foreground">{r.exam}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+        <ModeColumn label="Study" intent="Learn the reasoning" items={STUDY} tone="study" />
+        <ModeColumn label="Exam" intent="Test the reasoning" items={EXAM} tone="exam" />
       </div>
-    </DiagramShell>
+    </DiagramFrame>
+  );
+}
+
+function ModeColumn({
+  label,
+  intent,
+  items,
+  tone,
+}: {
+  label: string;
+  intent: string;
+  items: readonly string[];
+  tone: "study" | "exam";
+}) {
+  return (
+    <div
+      className={cn(
+        "rounded-xl border px-5 py-5",
+        tone === "study"
+          ? "border-border bg-background/70"
+          : "border-border-strong/30 bg-secondary/40",
+      )}
+    >
+      <p className="font-serif text-[1.125rem] text-foreground">{label}</p>
+      <p className="mt-1 text-[0.8125rem] font-medium tracking-wide text-muted-foreground">
+        {intent}
+      </p>
+      <ul className="mt-4 space-y-2.5">
+        {items.map((item) => (
+          <li key={item} className="flex gap-2.5 text-[0.8125rem] leading-snug text-foreground/90">
+            <span aria-hidden className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-border-strong" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

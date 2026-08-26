@@ -1,74 +1,75 @@
-import { cn } from "@/lib/utils";
-import { DiagramShell, RAISED } from "./primitives";
+import { DiagramFrame } from "./primitives";
 
 /**
- * Model drift vs concept drift.
- *
- * Side-by-side cards because the teaching point is the distinction itself.
- * Many scenarios test whether the learner notices which kind of drift is
- * present and therefore which control is appropriate.
+ * Model drift vs concept drift as parallel paths.
+ * The structural difference is readable before the prose.
  */
 
 const CARDS = [
   {
     id: "model",
     title: "Model drift",
-    also: "Also called: performance drift, model decay",
-    what: "The model's predictions get worse on data that still looks like the training distribution.",
-    signal: "Accuracy, calibration, or fairness metrics degrade while input features appear stable.",
-    response:
-      "Retrain or recalibrate on recent labelled data; check whether the training pipeline itself changed.",
+    also: "Performance drift · model decay",
+    path: [
+      "Input distribution still looks familiar",
+      "Predictions degrade anyway",
+      "Retrain or recalibrate on recent labels",
+    ],
+    what: "The model's predictions degrade on data that still resembles the training distribution.",
+    signal: "Accuracy, calibration, or fairness metrics fall while input features appear stable.",
   },
   {
     id: "concept",
     title: "Concept drift",
-    also: "Also called: target drift, label shift",
-    what: "The relationship between inputs and the target has changed — the world moved.",
-    signal: "Feature distributions may still look familiar, but the correct label or optimal action is different.",
-    response:
-      "Re-examine the problem definition and labels; do not simply retrain on the old target definition.",
+    also: "Target drift · label shift",
+    path: [
+      "The world moved — labels changed meaning",
+      "What the model learned is no longer valid",
+      "Re-examine the problem definition first",
+    ],
+    what: "The relationship between inputs and the target has changed.",
+    signal: "Features may look familiar, but the correct label or optimal action is different.",
   },
 ] as const;
 
 export function DriftCompare({ className }: { className?: string }) {
   return (
-    <DiagramShell
+    <DiagramFrame
       title="Model drift vs concept drift"
-      description="Same symptom (worse outcomes), different cause, different control. The scenarios test whether you can tell which one you are looking at."
+      lede="Same symptom — worse outcomes. Different cause. Different first response."
       className={className}
+      wide
     >
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
         {CARDS.map((c) => (
           <div
             key={c.id}
-            className={cn(
-              "rounded-lg border border-border bg-background/70 p-3.5",
-              RAISED,
-            )}
+            className="rounded-xl border border-border bg-background/70 px-5 py-5"
           >
-            <p className="text-[0.8125rem] font-semibold text-foreground">
-              {c.title}
-            </p>
-            <p className="mt-0.5 text-[0.6875rem] text-muted-foreground">
+            <p className="font-serif text-[1.125rem] text-foreground">{c.title}</p>
+            <p className="mt-0.5 text-[0.6875rem] tracking-wide text-muted-foreground">
               {c.also}
             </p>
-            <dl className="mt-3 space-y-2 text-[0.75rem] leading-snug">
-              <div>
-                <dt className="font-medium text-foreground">What changed</dt>
-                <dd className="mt-0.5 text-muted-foreground">{c.what}</dd>
-              </div>
-              <div>
-                <dt className="font-medium text-foreground">Typical signal</dt>
-                <dd className="mt-0.5 text-muted-foreground">{c.signal}</dd>
-              </div>
-              <div>
-                <dt className="font-medium text-foreground">First response</dt>
-                <dd className="mt-0.5 text-muted-foreground">{c.response}</dd>
-              </div>
-            </dl>
+            <ol className="mt-4 space-y-0">
+              {c.path.map((step, i) => (
+                <li key={step} className="flex flex-col">
+                  {i > 0 ? (
+                    <span aria-hidden className="ml-3 h-3 w-px bg-border-strong/40" />
+                  ) : null}
+                  <span className="flex gap-2.5 text-[0.8125rem] leading-snug text-foreground/90">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-border-strong" />
+                    {step}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-4 border-t border-border/60 pt-3 text-[0.75rem] leading-relaxed text-muted-foreground">
+              {c.what}{" "}
+              <span className="text-foreground/80">Signal: {c.signal}</span>
+            </p>
           </div>
         ))}
       </div>
-    </DiagramShell>
+    </DiagramFrame>
   );
 }
