@@ -39,7 +39,7 @@ const TRACKS: Track[] = [
       "The four domains below follow the IAPP's AIGP Body of Knowledge, version 2.1 (effective 2 February 2026). Every one of its thirteen sub-domains has at least one scenario here, though the number per sub-domain does not mirror the exam's own weighting — the IAPP's published Body of Knowledge remains the authority on what the exam tests. Every scenario is original material written for this track. AIGP is a certification mark of the IAPP; this product is independent of the IAPP and is not affiliated with, endorsed by, or approved by it.",
     contextAuthority: "IAPP AIGP Body of Knowledge",
     contextVersion: "v2.1",
-    contextReviewed: "2026-08-07",
+    contextReviewed: "2026-08-25",
     contextCoverage: "13/13 sub-domains",
     status: "active",
     domains: aigpDomains,
@@ -71,59 +71,32 @@ export const ALL_QUESTIONS: Question[] = ACTIVE_TRACKS.flatMap((t) =>
   getTrackQuestions(t.id),
 );
 
-const BY_ID = new Map(ALL_QUESTIONS.map((q) => [q.id, q]));
-
 export function getQuestion(id: string): Question | undefined {
-  return BY_ID.get(id);
+  return ALL_QUESTIONS.find((q) => q.id === id);
 }
 
-export function getQuestions(ids: readonly string[]): Question[] {
-  return ids
-    .map((id) => BY_ID.get(id))
-    .filter((q): q is Question => Boolean(q));
+export function getQuestionsByIds(ids: readonly string[]): Question[] {
+  const byId = new Map(ALL_QUESTIONS.map((q) => [q.id, q]));
+  return ids.map((id) => byId.get(id)).filter((q): q is Question => Boolean(q));
 }
 
-export function questionsByDomain(
+export function getQuestionsByDomain(
   domain: string,
   trackId: TrackId = DEFAULT_TRACK_ID,
 ): Question[] {
   return getTrackQuestions(trackId).filter((q) => q.domain === domain);
 }
 
-export function questionsByDifficulty(
+export function getQuestionsByDifficulty(
   difficulty: Difficulty,
   trackId: TrackId = DEFAULT_TRACK_ID,
 ): Question[] {
   return getTrackQuestions(trackId).filter((q) => q.difficulty === difficulty);
 }
 
-export function questionsByFrameworkTag(
+export function getQuestionsByFramework(
   tag: FrameworkTag,
   trackId: TrackId = DEFAULT_TRACK_ID,
 ): Question[] {
   return getTrackQuestions(trackId).filter((q) => q.frameworkTags.includes(tag));
-}
-
-/** Domain counts for the study picker, derived from content. */
-export function domainBreakdown(
-  trackId: TrackId = DEFAULT_TRACK_ID,
-): { domain: string; count: number }[] {
-  const questions = getTrackQuestions(trackId);
-  const counts = new Map<string, number>();
-  for (const q of questions) {
-    counts.set(q.domain, (counts.get(q.domain) ?? 0) + 1);
-  }
-  return Array.from(counts.entries()).map(([domain, count]) => ({
-    domain,
-    count,
-  }));
-}
-
-/** Framework tags actually present in a track's content. */
-export function frameworkTagsInTrack(
-  trackId: TrackId = DEFAULT_TRACK_ID,
-): FrameworkTag[] {
-  return Array.from(
-    new Set(getTrackQuestions(trackId).flatMap((q) => q.frameworkTags)),
-  );
 }
