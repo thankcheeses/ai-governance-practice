@@ -3,7 +3,9 @@ import { DiagramFrame, FlowRule } from "./primitives";
 
 /**
  * Practice loop as a vertical cycle.
- * Shape: scenario → decide → feedback → carry forward → next scenario.
+ * Shape carries the argument: scenario → decide → feedback → carry forward → next.
+ * Progressive entrance (CSS only) helps learners see sequence; disabled under
+ * prefers-reduced-motion.
  */
 
 const STEPS = [
@@ -22,7 +24,18 @@ export function LearningLoop({ className }: { className?: string }) {
     >
       <ol className="mx-auto flex max-w-md flex-col items-stretch">
         {STEPS.map((s, i) => (
-          <li key={s.name} className="flex flex-col items-center">
+          <li
+            key={s.name}
+            className={cn(
+              "flex flex-col items-center",
+              "motion-safe:animate-[loop-step-in_420ms_ease-out_both]",
+            )}
+            style={
+              {
+                animationDelay: `${i * 90}ms`,
+              } as React.CSSProperties
+            }
+          >
             {i > 0 ? <FlowRule /> : null}
             <div
               className={cn(
@@ -44,7 +57,11 @@ export function LearningLoop({ className }: { className?: string }) {
             </div>
           </li>
         ))}
-        <li className="mt-1 flex flex-col items-center" aria-hidden>
+        <li
+          className="mt-1 flex flex-col items-center motion-safe:animate-[loop-step-in_420ms_ease-out_both]"
+          style={{ animationDelay: `${STEPS.length * 90}ms` } as React.CSSProperties}
+          aria-hidden
+        >
           <FlowRule className="h-4" />
           <div className="flex items-center gap-2 text-[0.75rem] font-medium tracking-wide text-muted-foreground">
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
