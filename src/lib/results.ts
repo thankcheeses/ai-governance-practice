@@ -134,9 +134,6 @@ export function scoreSitting(sitting: ScorableSitting): SittingScore {
     if (isRight) subSlice.correct += 1;
     bySub.set(sub, subSlice);
 
-    // A sub-domain outside the published four-domain structure has no domain
-    // to roll up into. It still counts in the sub-domain breakdown and in the
-    // total; it is left out of the domain view rather than inventing a bucket.
     const roman = domainOf(sub);
     if (!roman) continue;
 
@@ -179,6 +176,69 @@ export function scoreSitting(sitting: ScorableSitting): SittingScore {
 
 export function scoreResult(result: CompletedResult): SittingScore {
   return scoreSitting(result);
+}
+
+/* ------------------------------------------------------------------ */
+/* Practice grade — this sitting only, never an exam prediction        */
+/* ------------------------------------------------------------------ */
+
+export type PracticeLetter = "A" | "B" | "C" | "D" | "F";
+export type PracticeKind = "ready" | "study" | "none" | "fail" | "mid" | "math";
+
+export interface PracticeVerdict {
+  letter: PracticeLetter;
+  kind: PracticeKind;
+  honesty: string;
+  attempted: number;
+  sittingCoverage: number;
+}
+
+export function practiceGrade(percentage: number): PracticeLetter {
+  if (percentage >= 90) return "A";
+  if (percentage >= 80) return "B";
+  if (percentage >= 70) return "C";
+  if (percentage >= 60) return "D";
+  return "F";
+}
+
+/**
+ * Map a sitting to a school-report band and a short honesty line.
+ *
+ * Copy is constrained: it must not claim readiness for a certification
+ * sitting, predict a pass, or talk about a "real exam".
+ */
+export function practiceVerdict(score: SittingScore): PracticeVerdict {
+  const attempted = Math.max(0, score.total - score.unanswered);
+  const sittingCoverage = score.total ? Math.round((attempted / score.total) * 100) : 0;
+  const letter = practiceGrade(score.percentage);
+  const thin = attempted < 15 || sittingCoverage < 80;
+
+  let kind: PracticeKind;
+  if (attempted === 0 || sittingCoverage < 8) kind = "none";
+  else if (letter === "A" && !thin) kind = "ready";
+  else if (
+    sittingCoverage >= 35 &&
+    sittingCoverage < 70 &&
+    score.percentage >= 50 &&
+    score.percentage < 85
+  )
+    kind = "mid";
+  else if (attempted >= 12 && score.percentage >= 40 && score.percentage < 65 && sittingCoverage >= 75)
+    kind = "math";
+  else if (letter === "D" || letter === "F") kind = "fail";
+  else kind = "study";
+
+  const honesty: Record<PracticeKind, string> = {
+    ready:
+      "You are in good shape for a practice sitting. This score describes this sitting only and predicts no certification result.",
+    study: "Not exam-ready yet. Keep practicing the weak domains.",
+    none: "There is nothing to grade yet. Open a session and actually answer questions.",
+    fail: "On this sitting you would not have been ready. That is useful data. Study the misses.",
+    mid: "Halfway through the work. Coverage is not the same thing as readiness.",
+    math: "You put the work in and the paper is still rough. That is a study map, not a verdict on you.",
+  };
+
+  return { letter, kind, honesty: honesty[kind], attempted, sittingCoverage };
 }
 
 /* ------------------------------------------------------------------ */
