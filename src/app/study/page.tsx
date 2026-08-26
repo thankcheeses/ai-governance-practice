@@ -12,7 +12,7 @@ import { useProgress } from "@/lib/store/progress-provider";
 const SESSION_LENGTHS = [5, 10, 20];
 
 /**
- * ISO date to "7 August 2026". Parsed and formatted in UTC so the displayed
+ * ISO date to "25 August 2026". Parsed and formatted in UTC so the displayed
  * date is the date that was recorded, not the reader's local shift of it —
  * an audit assertion that changes by timezone is not an audit assertion.
  */
@@ -98,84 +98,50 @@ function Study() {
                 <div className="min-w-0">
                   <h3 className="font-semibold">
                     Drill your{" "}
-                    {focus.length === 1 ? "weakest domain" : "weakest domains"}
+                    {focus.length === 1 ? "weak domain" : "weak domains"}
                   </h3>
-                  <p className="measure mt-1 text-sm leading-relaxed text-muted-foreground">
-                    Scenarios drawn only from where your accuracy is lowest.
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {focus.join(", ")}
                   </p>
-                  <ul className="mt-3 space-y-1.5">
-                    {focus.map((d) => (
-                      <li
-                        key={d.domain}
-                        className="flex items-baseline justify-between gap-3 text-sm"
+                  <div className="mt-4">
+                    <Button asChild size="sm">
+                      <Link
+                        href={`/study/session?focus=1&count=10`}
                       >
-                        <span className="truncate text-muted-foreground">
-                          {d.domain}
-                        </span>
-                        <span className="shrink-0 tabular-nums text-warning">
-                          {d.accuracy}%
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                        Start focus session
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                {SESSION_LENGTHS.map((count) => (
-                  <Button key={count} asChild className="px-2">
-                    <Link href={`/study/session?focus=weak&count=${count}`}>
-                      {count} scenarios
-                    </Link>
-                  </Button>
-                ))}
               </div>
             </CardContent>
           </Card>
         </section>
       ) : null}
 
-      {/* Mixed practice */}
       <section>
         <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
-          Mixed practice
+          Session length
         </h2>
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-start gap-3">
-              <DimensionalMark name="study" size="md" />
-              <div>
-                <h3 className="font-semibold">Adaptive session</h3>
-                <p className="measure mt-1 text-sm leading-relaxed text-muted-foreground">
-                  Scenarios across every domain, ordered by what you have not
-                  seen and where your accuracy is weakest.
-                </p>
-              </div>
-            </div>
-            <div className="mt-4 grid gap-2 sm:grid-cols-3">
-              {SESSION_LENGTHS.map((count) => (
-                <Button key={count} asChild variant="secondary" className="px-2">
-                  <Link href={`/study/session?count=${count}`}>
-                    {count} scenarios
-                  </Link>
-                </Button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <div className="flex flex-wrap gap-2">
+          {SESSION_LENGTHS.map((n) => (
+            <Button key={n} asChild variant="outline" size="sm">
+              <Link href={`/study/session?count=${n}`}>{n} questions</Link>
+            </Button>
+          ))}
+          <Button asChild variant="outline" size="sm">
+            <Link href="/study/session">Continue</Link>
+          </Button>
+        </div>
       </section>
 
-      {/* Domain practice */}
       <section>
         <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
-          Practise by domain
+          By domain
         </h2>
-
-        {/* Ruled rows rather than spaced cards — alignment does the work. */}
-        <div className="rule-y border border-border">
-          {track.domains.map((domain) => {
+        <div className="overflow-hidden rounded-xl border border-border divide-y divide-border">
+          {[...countByDomain.entries()].map(([domain, count]) => {
             const stat = stats.find((s) => s.domain === domain);
-            const count = countByDomain.get(domain) ?? 0;
-
             return (
               <Link
                 key={domain}
