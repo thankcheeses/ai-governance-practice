@@ -40,7 +40,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-dvh lg:flex">
-      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border bg-card px-3 py-5 lg:flex">
+      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border bg-gradient-to-b from-card to-background px-3 py-5 lg:flex">
         <Link href="/home" className="block px-2 no-underline">
           <span className="font-serif text-[1.25rem] leading-tight text-foreground">
             {BRAND.name}
@@ -94,9 +94,6 @@ function MobileHeader() {
 function MobileTabBar({ pathname, due }: { pathname: string; due: number }) {
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card pb-safe lg:hidden">
-      {/* One column per entry, derived from the array. A hardcoded count
-          silently wraps to a second row when a route is added, doubling the
-          bar's height and burying whatever sits above it. */}
       <div
         className="mx-auto grid max-w-lg"
         style={{ gridTemplateColumns: `repeat(${NAV.length}, minmax(0, 1fr))` }}
@@ -115,9 +112,6 @@ function MobileTabBar({ pathname, due }: { pathname: string; due: number }) {
                 active ? "text-foreground" : "text-muted-foreground",
               )}
             >
-              {/* The periwinkle edge marks the current route. It is paired with
-                  a filled mark and a weight change, so the state survives
-                  greyscale. */}
               {active ? (
                 <span
                   aria-hidden
@@ -167,7 +161,7 @@ function RailLink({
         "relative flex min-h-11 items-center gap-3 rounded-md py-2 pl-2.5 pr-2.5",
         "text-[0.9375rem] no-underline transition-colors duration-[120ms]",
         active
-          ? "bg-accent-tint font-medium text-foreground"
+          ? "bg-accent-tint font-medium text-foreground ring-1 ring-inset ring-accent/25"
           : "font-normal text-muted-foreground hover:bg-secondary hover:text-foreground",
       )}
     >
@@ -188,15 +182,6 @@ function RailLink({
   );
 }
 
-/**
- * The time-of-day greeting, resolved after mount.
- *
- * `new Date().getHours()` reads the *server's* clock during SSR and the
- * viewer's on the client. Rendering it directly would mismatch for anyone
- * whose timezone puts them in a different part of the day from the build
- * machine — which is most people. Reserving the line's height and filling it
- * on the client keeps the rail from reflowing when it arrives.
- */
 function Greeting() {
   const [greeting, setGreeting] = useState<string | null>(null);
 

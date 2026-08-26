@@ -26,9 +26,11 @@ export function DiagramFrame({
   return (
     <figure
       className={cn(
-        "rounded-2xl border border-border/80 bg-card",
+        "relative overflow-hidden rounded-2xl border border-border/80 bg-card",
         "px-5 py-6 sm:px-7 sm:py-8",
         "shadow-[0_1px_2px_rgb(15_23_42/0.04),0_8px_24px_-8px_rgb(15_23_42/0.08)]",
+        "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[3px]",
+        "before:bg-gradient-to-r before:from-accent/70 before:via-insight/50 before:to-success/40",
         className,
       )}
     >

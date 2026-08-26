@@ -51,6 +51,9 @@ function Settings() {
   return (
     <div className="space-y-7">
       <header>
+        <p className="mb-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-accent-strong">
+          Preferences
+        </p>
         <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">Settings</h1>
       </header>
 
@@ -101,11 +104,6 @@ function Settings() {
             ))}
           </div>
 
-          {/*
-            The presets are shortcuts, not the range. Anyone who wants to sit
-            down and do two hundred can; the product has no view on how much
-            practice is too much, and nothing here is rationed.
-          */}
           <label className="mt-3 flex items-center gap-3">
             <span className="text-sm text-muted-foreground">Or set your own</span>
             <input
@@ -151,10 +149,6 @@ function Settings() {
 
             <Separator className="my-5" />
 
-            {/*
-              Required by App Store guideline 5.1.1(v): any app offering
-              account creation must offer in-app account deletion.
-            */}
             <h3 className="text-sm font-medium">Delete account</h3>
             <p className="measure mt-1.5 text-sm leading-relaxed text-muted-foreground">
               Permanently deletes your account and everything stored with it —
@@ -231,12 +225,6 @@ function Settings() {
         )}
       </Section>
 
-      {/* Support */}
-      {/*
-        The whole section is gated, not just the button. Gating only the button
-        left a heading and a line of copy standing over nothing — an unstarrable
-        invitation to star, which reads as broken rather than as absent.
-      */}
       {isStarConfigured() ? (
         <Section title="Back this project">
           <p className="measure mb-4 text-sm leading-relaxed text-muted-foreground">
@@ -263,7 +251,6 @@ function Settings() {
         </div>
       </Section>
 
-      {/* Legal */}
       <Section title="Legal">
         <Disclaimer />
         <div className="mt-3 space-y-2">
@@ -272,7 +259,6 @@ function Settings() {
         </div>
       </Section>
 
-      {/* About */}
       <Section title={`About ${BRAND.name}`}>
         <p className="measure text-sm leading-relaxed text-muted-foreground">
           {BRAND.category} {BRAND.positioning}
@@ -285,7 +271,6 @@ function Settings() {
         </div>
       </Section>
 
-      {/* Danger zone */}
       <Section title="Data">
         <p className="measure text-sm leading-relaxed text-muted-foreground">
           Clears every answer and review schedule. Your settings and plan are
@@ -372,8 +357,6 @@ function LinkRow({
       className="flex items-center gap-3 rounded-sm border border-border p-3.5 text-sm transition-colors hover:bg-secondary"
     >
       {label}
-      {/* A drawn chevron, not an icon-library glyph. Purely an affordance:
-          the row is already a link and the label is its accessible name. */}
       <span aria-hidden className="ml-auto text-muted-foreground">&rsaquo;</span>
     </Link>
   );

@@ -53,10 +53,10 @@ function ExamStart() {
   return (
     <div className="mx-auto max-w-2xl">
       <header className="mb-6">
-        <p className="text-[0.6875rem] uppercase tracking-[0.1em] text-muted-foreground">
-          Practice simulation
+        <p className="mb-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-accent-strong">
+          Timed measurement
         </p>
-        <h1 className="mt-1 text-[1.875rem] leading-[1.15] sm:text-[2rem]">
+        <h1 className="text-[1.875rem] leading-[1.15] sm:text-[2rem]">
           Practice exam
         </h1>
         <p className="measure mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
@@ -85,10 +85,10 @@ function ExamStart() {
         </Card>
       ) : null}
 
-      <Card className="mb-6">
+      <Card className="mb-6 border-border shadow-card">
         <CardContent className="space-y-5 p-5">
           <div>
-            <p className="mb-2.5 text-[0.8125rem] uppercase tracking-[0.1em] text-muted-foreground">
+            <p className="mb-2.5 text-[0.8125rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
               Questions
             </p>
             <div className="grid grid-cols-3 gap-2">
@@ -138,17 +138,16 @@ function ExamStart() {
               </span>
             </li>
           </ul>
+
+          <Button
+            className="w-full"
+            size="lg"
+            onClick={() => router.push(`/exam/session?count=${count}`)}
+          >
+            Start exam — {count} questions
+          </Button>
         </CardContent>
       </Card>
-
-      <Button
-        size="lg"
-        className="w-full"
-        onClick={() => router.push(`/exam/session?count=${count}`)}
-        disabled={Boolean(inProgress)}
-      >
-        {inProgress ? "Finish your exam in progress first" : `Start ${count}-question exam`}
-      </Button>
     </div>
   );
 }

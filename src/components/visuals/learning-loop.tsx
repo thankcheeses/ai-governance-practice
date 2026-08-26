@@ -39,12 +39,13 @@ export function LearningLoop({ className }: { className?: string }) {
             {i > 0 ? <FlowRule /> : null}
             <div
               className={cn(
-                "w-full rounded-xl border border-border bg-background/80 px-5 py-4",
-                "shadow-[0_1px_2px_rgb(15_23_42/0.04)]",
+                "w-full rounded-xl border border-border bg-card px-5 py-4",
+                "shadow-[0_1px_2px_rgb(15_23_42/0.05),0_4px_12px_-4px_rgb(15_23_42/0.08)]",
+                "border-l-[3px] border-l-accent/60",
               )}
             >
               <p className="flex items-baseline gap-2.5">
-                <span className="font-serif text-[1.125rem] tabular-nums text-muted-foreground/70">
+                <span className="font-serif text-[1.125rem] tabular-nums text-accent-strong/80">
                   {i + 1}
                 </span>
                 <span className="text-[0.9375rem] font-semibold tracking-tight text-foreground">
