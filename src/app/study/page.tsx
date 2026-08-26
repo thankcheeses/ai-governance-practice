@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getTrack, getTrackQuestions } from "@/content/registry";
 import { domainStats, focusDomains } from "@/lib/adaptive";
+import { domainVisual } from "@/lib/domain-visual";
 import { useProgress } from "@/lib/store/progress-provider";
+import { cn } from "@/lib/utils";
 
 const SESSION_LENGTHS = [5, 10, 20];
 
@@ -51,6 +53,9 @@ function Study() {
   return (
     <div className="space-y-7">
       <header>
+        <p className="mb-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-accent-strong">
+          Practice
+        </p>
         <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">Study</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {track.name} · {track.questionCount} scenarios, all free
@@ -139,22 +144,57 @@ function Study() {
         <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
           By domain
         </h2>
-        <div className="overflow-hidden rounded-xl border border-border divide-y divide-border">
+        <div className="grid gap-3 sm:grid-cols-2">
           {[...countByDomain.entries()].map(([domain, count]) => {
             const stat = stats.find((s) => s.domain === domain);
+            const visual = domainVisual(domain);
+            const answered = stat?.answered ?? 0;
+            const accuracy = stat?.accuracy;
             return (
               <Link
                 key={domain}
                 href={`/study/session?domain=${encodeURIComponent(domain)}`}
-                className="flex items-center gap-4 bg-card p-4 transition-colors duration-150 hover:bg-secondary"
+                className={cn(
+                  "group relative flex flex-col gap-3 overflow-hidden rounded-xl border border-border bg-card p-4",
+                  "shadow-card transition-colors duration-150 hover:border-border-strong",
+                  "no-underline",
+                )}
               >
-                <div className="min-w-0 flex-1">
-                  <h3 className="truncate font-medium">{domain}</h3>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {count} scenarios
-                    {stat && stat.answered > 0
-                      ? ` · ${stat.accuracy}% accuracy · ${stat.mastered} mastered`
-                      : " · not started"}
+                <span
+                  aria-hidden
+                  className={cn("absolute inset-y-0 left-0 w-[3px]", visual.accentClass)}
+                />
+                <div className="flex items-start justify-between gap-3 pl-2">
+                  <div className="min-w-0">
+                    <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+                      Domain {visual.roman}
+                    </p>
+                    <h3 className="mt-1 text-[0.9375rem] font-semibold leading-snug text-foreground">
+                      {domain}
+                    </h3>
+                  </div>
+                  <span
+                    className={cn(
+                      "shrink-0 rounded-md border px-2 py-0.5 text-[0.6875rem] font-medium tabular-nums",
+                      visual.chipClass,
+                    )}
+                  >
+                    {count}
+                  </span>
+                </div>
+                <div className="pl-2">
+                  <div className="h-1.5 overflow-hidden rounded-full bg-secondary ring-1 ring-inset ring-border">
+                    <div
+                      className={cn("h-full rounded-full transition-all", visual.accentClass)}
+                      style={{
+                        width: `${Math.min(100, Math.round((answered / Math.max(count, 1)) * 100))}%`,
+                      }}
+                    />
+                  </div>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {answered > 0
+                      ? `${answered} answered · ${accuracy}% accuracy · ${stat?.mastered ?? 0} mastered`
+                      : `${count} scenarios · not started`}
                   </p>
                 </div>
               </Link>
