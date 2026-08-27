@@ -1,0 +1,61 @@
+# Run the release gate on every pull request.
+#
+# This exists because the gate was only ever enforced on the way out. The
+# deploy workflow verifies on `push` to main, which is one step too late to
+# stop anything: by the time it goes red the change has already merged, and
+# `docs/CONTENT-QUALITY-CONTRACT.md` calls that gate binding. A contract
+# nothing checks before a merge is a note, not a gate.
+#
+# It runs `release:gate` rather than a hand-picked subset, so there is one
+# definition of "green" and it is the same command a contributor runs locally.
+# That is deliberately stricter than the deploy workflow's Verify step, which
+# omits `check:originality` — it exits non-zero on a near-duplicate pair, and
+# blocking a deploy on a content judgement was the wrong trade. Blocking a pull
+# request on one is the right trade: that is exactly when a duplicate should be
+# looked at rather than waved through.
+name: Verify
+
+on:
+  pull_request:
+    branches: [main]
+  # Lets the gate be re-run without pushing a commit.
+  workflow_dispatch:
+
+# Read-only. This job never needs to write to the repository, and a workflow
+# that cannot write cannot be turned into one that does by a change to a file
+# it builds.
+permissions:
+  contents: read
+
+# Superseded runs are cancelled: a second push to the same pull request makes
+# the first run's answer irrelevant.
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # lint, typecheck, tests, the content gate (schema, answer keys, sourcing,
+      # distractor notes, answer-position balance, length bias, BoK coverage,
+      # originality), then both build targets.
+      #
+      # Nothing is passed in from repository variables on purpose. Every
+      # NEXT_PUBLIC_* value is optional — the app builds and runs without them,
+      # dropping to local-only progress — so leaving them unset keeps this
+      # honest for a fork, which has none of them, and proves the build does not
+      # quietly depend on configuration that only exists on this repository.
+      - name: Release gate
+        env:
+          PAGES_BASE_PATH: ${{ vars.PAGES_BASE_PATH || github.event.repository.name }}
+        run: npm run release:gate
