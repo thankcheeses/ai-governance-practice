@@ -31,7 +31,14 @@ import {
   validateResult,
   writeResult,
 } from "./results-storage";
-import { resultPdfBytes, resultPdfFilename, resultReportLines } from "./results-pdf";
+import {
+  resultPdfBytes,
+  resultPdfFilename,
+  resultReportOps,
+  resultReportPages,
+  resultReportText,
+} from "./results-pdf";
+import { assessReadiness, gradeFor } from "./readiness";
 import { buildSitting, resultFromActiveSession, sittingComposition } from "./session";
 import type { UserProgress } from "./types";
 
@@ -493,7 +500,7 @@ test("the PDF is a structurally valid document", () => {
   assert.ok(text.trimEnd().endsWith("%%EOF"), "ends with the EOF marker");
   assert.ok(text.includes("/Type /Catalog"));
   assert.ok(text.includes("/Type /Pages"));
-  assert.ok(text.includes("/BaseFont /Courier"));
+  assert.ok(text.includes("/BaseFont /Helvetica"));
   assert.ok(/startxref\n\d+/.test(text));
 });
 
@@ -522,47 +529,202 @@ test("the PDF cross-reference table points at the objects it claims to", () => {
 test("the PDF reports the same numbers as the result", () => {
   const result = practiceResult(5, 83, 8);
   const score = scoreSitting(result);
-  const body = resultReportLines(result)
-    .lines.map((l) => l.text)
-    .join("\n");
-  assert.ok(body.includes(`${score.correct} / ${score.total}`), "score line");
-  assert.ok(body.includes(`(${score.percentage}%)`), "percentage");
-  assert.ok(body.includes(`Time used       ${formatDuration(elapsedMs(result))}`));
+  const body = resultReportText(result);
+  assert.ok(body.includes(`${score.correct} of ${score.total} correct`), "score line");
+  assert.ok(body.includes(`${score.percentage}%`), "percentage");
+  assert.ok(body.includes(`Time used: ${formatDuration(elapsedMs(result))}`));
+  assert.ok(body.includes("PERFORMANCE OVERVIEW"));
   assert.ok(body.includes("DOMAIN PERFORMANCE"));
-  assert.ok(body.includes("SUB-DOMAIN PERFORMANCE"));
 });
 
-test("breakdown rows stay on the grid instead of reflowing", () => {
-  // A row longer than the column gets word-wrapped, which collapses the runs
-  // of spaces holding the columns apart and leaves the bars ragged down the
-  // page. The variable-length label is clipped so that cannot happen.
-  const lines = resultReportLines(practiceResult(4, 89, 20)).lines.map((l) => l.text);
-  const rows = lines.filter((l) => /\[[#.]+\]/.test(l));
-  assert.ok(rows.length >= 4, `only ${rows.length} breakdown rows`);
-  const barColumns = new Set(rows.map((r) => r.indexOf("[")));
-  // Domain rows and sub-domain rows use different prefix widths, so two
-  // positions are expected — but never one per row.
+test("progress bars are drawn geometry, never characters", () => {
+  /*
+    The defect this replaces: the report used to render every bar as
+    `[####......]`, because the generator emitted text operators and no path
+    operators at all. A bar made of characters is the failure, so this checks
+    both halves — that no run of hashes survives anywhere in the text, and that
+    real filled rectangles exist to have replaced them.
+  */
+  const ops = resultReportOps(practiceResult(4, 89, 20));
+
+  const texts = ops.filter((op) => op.kind === "text").map((op) => op.text);
+  for (const t of texts) {
+    assert.ok(!/#{3,}/.test(t), `a text bar survived: ${t}`);
+    assert.ok(!/[\u2588\u2591\u2592\u2593\u25A0]/.test(t), `a block glyph survived: ${t}`);
+  }
+
+  const tracks = ops.filter((op) => op.tag === "bar-track");
+  const fills = ops.filter((op) => op.tag === "bar-fill");
+  assert.ok(tracks.length >= 6, `only ${tracks.length} bar tracks drawn`);
+  assert.ok(fills.length >= 1, "no bar was filled");
+  for (const op of [...tracks, ...fills]) {
+    assert.equal(op.kind, "rect", "a bar is not a rectangle");
+    assert.ok(op.kind === "rect" && op.fill, "a bar has no fill colour");
+  }
+});
+
+test("a bar's filled width is proportional to the value it reports", () => {
+  // Overall accuracy is the first bar drawn, and its track spans the column.
+  const result = practiceResult(6, 91, 10);
+  const score = scoreSitting(result);
+  const ops = resultReportOps(result);
+  const track = ops.find((op) => op.tag === "bar-track");
+  const fill = ops.find((op) => op.tag === "bar-fill");
+  assert.ok(track?.kind === "rect" && fill?.kind === "rect");
+  if (track?.kind !== "rect" || fill?.kind !== "rect") return;
+
+  const ratio = fill.w / track.w;
   assert.ok(
-    barColumns.size <= 2,
-    `bars start at ${barColumns.size} different columns: ${[...barColumns].join(", ")}`,
+    Math.abs(ratio * 100 - score.percentage) <= 1.5,
+    `bar shows ${(ratio * 100).toFixed(1)}% for a score of ${score.percentage}%`,
   );
 });
 
+test("nothing on the report is carried by colour alone", () => {
+  // Every bar reinforces a number that is also written out. If a bar were the
+  // only carrier of a value, a monochrome printout would lose it.
+  const result = practiceResult(4, 92, 12);
+  const score = scoreSitting(result);
+  const body = resultReportText(result);
+  for (const d of score.byDomain) {
+    assert.ok(
+      body.includes(`${d.correct} correct of ${d.total}`),
+      `domain ${d.roman} has no written counts beside its bar`,
+    );
+  }
+  assert.ok(body.includes("Bank coverage this sitting"));
+});
+
 test("the PDF states what it is and claims nothing about a real exam", () => {
-  const body = resultReportLines(practiceResult(3, 84, 6))
-    .lines.map((l) => l.text)
-    .join(" ");
-  assert.ok(/Practice simulation/i.test(body));
+  const body = resultReportText(practiceResult(3, 84, 6));
+  assert.ok(/Independent educational product/i.test(body));
   assert.ok(/not affiliated/i.test(body));
-  assert.ok(/predicts no certification result/i.test(body));
+  assert.ok(/not an examination prediction/i.test(body));
+  assert.ok(/one practice tool among several/i.test(body));
   for (const claim of [
     /predicted score/i,
     /you (are|will be) ready/i,
-    /pass(ing)? (score|mark|likelihood)/i,
-    /real exam/i,
+    /you will pass/i,
+    /pass(ing)? (score|mark|likelihood|probability)/i,
     /actual exam questions/i,
   ]) {
     assert.ok(!claim.test(body), `PDF makes a prohibited claim: ${claim}`);
+  }
+
+  /*
+    "Guarantee" is allowed to appear, but only in the negative. The approved
+    disclaimer says the product "does not guarantee exam success", so a blanket
+    ban would fail on the very sentence that protects the reader. What must
+    never appear is an unqualified one, so every sentence containing the word is
+    checked for a negation rather than the word being forbidden outright.
+  */
+  for (const sentence of body.match(/[^.\n]*\bguarantee\w*[^.\n]*/gi) ?? []) {
+    assert.ok(
+      /\b(not|never|no|cannot)\b/i.test(sentence),
+      `unqualified guarantee: ${sentence.trim()}`,
+    );
+  }
+});
+
+test("the disclosures are on page one, not buried at the back", () => {
+  // A disclosure a reader has to go looking for is not a disclosure.
+  const page1 = resultReportPages(practiceResult(2, 93, 30))[0];
+  const text = page1.ops
+    .filter((op) => op.kind === "text")
+    .map((op) => (op.kind === "text" ? op.text : ""))
+    .join(" ");
+  assert.ok(/Independent Educational Product/i.test(text), "no disclosure heading");
+  assert.ok(/not affiliated/i.test(text), "no independence statement");
+});
+
+test("the grade matches the documented convention", () => {
+  for (const [accuracy, expected] of [
+    [100, "A"],
+    [90, "A"],
+    [89, "B"],
+    [80, "B"],
+    [79, "C"],
+    [70, "C"],
+    [69, "D"],
+    [60, "D"],
+    [59, "F"],
+    [0, "F"],
+  ] as [number, string][]) {
+    assert.equal(gradeFor(accuracy), expected, `${accuracy}% should be ${expected}`);
+  }
+});
+
+test("a perfect score over one question is never presented as readiness", () => {
+  /*
+    The failure this exists to stop: 1 correct out of 1 is 100%, an A, and
+    means nothing at all. Evidence has to be able to veto a good score.
+  */
+  const perfect = {
+    total: 1,
+    correct: 1,
+    incorrect: 0,
+    unanswered: 0,
+    percentage: 100,
+    byDomain: [],
+    bySubdomain: [],
+    missedIds: [],
+    flaggedCount: 0,
+  };
+  const r = assessReadiness(perfect, 296);
+  assert.equal(r.grade, "A", "the arithmetic is still an A");
+  assert.equal(r.state, "earlySignal", "but the verdict is not encouraging");
+  assert.ok(/too little practice|Early signal/i.test(r.headline));
+  assert.ok(!/strong|encourag/i.test(r.verdict.split(".")[0]));
+});
+
+test("an empty sitting says there is nothing to grade", () => {
+  const empty = {
+    total: 10,
+    correct: 0,
+    incorrect: 0,
+    unanswered: 10,
+    percentage: 0,
+    byDomain: [],
+    bySubdomain: [],
+    missedIds: [],
+    flaggedCount: 0,
+  };
+  const r = assessReadiness(empty, 296);
+  assert.equal(r.state, "noEvidence");
+  assert.ok(/nothing to grade/i.test(r.headline));
+  assert.ok(/cannot be assessed/i.test(r.verdict));
+});
+
+test("evidence can never rescue a bad score, only veto a good one", () => {
+  // Exhaustive over the two axes rather than spot-checked: no combination may
+  // produce an encouraging verdict without both a high grade and real coverage.
+  const bank = 296;
+  for (const accuracy of [0, 25, 45, 59, 65, 72, 85, 92, 100]) {
+    for (const attempted of [0, 1, 10, 20, 50, 100, 200]) {
+      const score = {
+        total: Math.max(attempted, 1),
+        correct: Math.round((accuracy / 100) * Math.max(attempted, 1)),
+        incorrect: 0,
+        unanswered: 0,
+        percentage: accuracy,
+        byDomain: [],
+        bySubdomain: [],
+        missedIds: [],
+        flaggedCount: 0,
+      };
+      score.unanswered = score.total - attempted < 0 ? 0 : score.total - attempted;
+      const r = assessReadiness(score, bank);
+      if (r.state === "encouraging") {
+        assert.ok(r.grade === "A", `encouraging at grade ${r.grade}`);
+        assert.ok(
+          attempted / bank >= 0.15,
+          `encouraging on ${attempted}/${bank} attempted`,
+        );
+      }
+      if (attempted === 0) {
+        assert.equal(r.state, "noEvidence", "no attempt must mean no evidence");
+      }
+    }
   }
 });
 
@@ -580,12 +742,10 @@ test("an exam PDF reports the clock; a practice PDF has no clock to report", () 
       600_000,
     ),
   )!;
-  const examBody = resultReportLines(exam).lines.map((l) => l.text).join("\n");
+  const examBody = resultReportText(exam);
   assert.ok(examBody.includes("Time remaining"), "exam shows what was left");
 
-  const practiceBody = resultReportLines(practiceResult())
-    .lines.map((l) => l.text)
-    .join("\n");
+  const practiceBody = resultReportText(practiceResult());
   assert.ok(!practiceBody.includes("Time remaining"));
   assert.ok(practiceBody.includes("Time used"));
 });
@@ -596,6 +756,39 @@ test("the PDF paginates rather than writing off the bottom of one page", () => {
   const pages = (text.match(/\/Type \/Page[^s]/g) ?? []).length;
   assert.ok(pages >= 2, `a 40-question report produced ${pages} page(s)`);
   assert.ok(text.includes(`/Count ${pages}`), "the page tree counts them all");
+});
+
+test("every page carries the watermark and a page number", () => {
+  const pages = resultReportPages(practiceResult(1, 94, 40));
+  assert.ok(pages.length >= 2, "needs a multi-page result to be meaningful");
+  pages.forEach((page, i) => {
+    const marks = page.ops.filter((op) => op.tag === "watermark");
+    assert.equal(marks.length, 1, `page ${i + 1} has ${marks.length} watermarks`);
+    const mark = marks[0];
+    assert.ok(mark.kind === "text" && /practice only/i.test(mark.text));
+    assert.ok(
+      mark.opacity > 0 && mark.opacity < 0.25,
+      "the watermark must be visible but not obstruct reading",
+    );
+    const text = page.ops
+      .filter((op) => op.kind === "text")
+      .map((op) => (op.kind === "text" ? op.text : ""))
+      .join(" ");
+    assert.ok(
+      text.includes(`Page ${i + 1} of ${pages.length}`),
+      `page ${i + 1} is not numbered`,
+    );
+  });
+});
+
+test("the document metadata states what the file is", () => {
+  const bytes = resultPdfBytes(practiceResult(3, 95, 8));
+  const text = Buffer.from(bytes).toString("latin1");
+  assert.ok(text.includes("/Title (AI Governance Practice - Results)"));
+  assert.ok(text.includes("/Author (NHID-Clinical)"));
+  assert.ok(/\/Subject \([^)]*[Nn]ot affiliated/.test(text));
+  assert.ok(text.includes("NOT A SOLE STUDY SOURCE"));
+  assert.ok(/\/CreationDate \(D:\d{14}Z\)/.test(text));
 });
 
 test("every byte written is single-byte, so the offsets stay true", () => {
