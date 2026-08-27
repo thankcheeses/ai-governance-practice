@@ -60,3 +60,6 @@ next-env.d.ts
 *AIGP_Exam*
 *braindump*
 /exclusion-corpus/
+
+# Sample reports from `npm run render:reports` — regenerated on demand.
+tmp-reports/

@@ -134,6 +134,9 @@ export function scoreSitting(sitting: ScorableSitting): SittingScore {
     if (isRight) subSlice.correct += 1;
     bySub.set(sub, subSlice);
 
+    // A sub-domain outside the published four-domain structure has no domain
+    // to roll up into. It still counts in the sub-domain breakdown and in the
+    // total; it is left out of the domain view rather than inventing a bucket.
     const roman = domainOf(sub);
     if (!roman) continue;
 
@@ -178,6 +181,11 @@ export function scoreResult(result: CompletedResult): SittingScore {
   return scoreSitting(result);
 }
 
+/* ------------------------------------------------------------------ */
+/* Time                                                                */
+/* ------------------------------------------------------------------ */
+
+/** How long the sitting actually took, floored at zero. */
 export function elapsedMs(result: CompletedResult): number {
   const start = new Date(result.startedAt).getTime();
   const end = new Date(result.completedAt).getTime();
@@ -185,11 +193,16 @@ export function elapsedMs(result: CompletedResult): number {
   return Math.max(0, end - start);
 }
 
+/**
+ * Time left on the clock when an exam was submitted. Null for practice, which
+ * has no allowance, and floored at zero for an exam that ran out.
+ */
 export function timeRemainingAtFinish(result: CompletedResult): number | null {
   if (result.durationMs === null) return null;
   return Math.max(0, result.durationMs - elapsedMs(result));
 }
 
+/** `1h 04m 09s`, dropping leading units that are zero. */
 export function formatDuration(ms: number): string {
   const total = Math.floor(ms / 1000);
   const h = Math.floor(total / 3600);
@@ -201,6 +214,11 @@ export function formatDuration(ms: number): string {
   return `${s}s`;
 }
 
+/* ------------------------------------------------------------------ */
+/* Study guidance                                                      */
+/* ------------------------------------------------------------------ */
+
+/** The weakest sub-domains with enough questions to say anything about. */
 export function weakestSubdomains(
   score: SittingScore,
   limit = 3,
@@ -210,91 +228,4 @@ export function weakestSubdomains(
     .filter((s) => s.total >= minimum)
     .sort((a, b) => a.accuracy - b.accuracy)
     .slice(0, limit);
-}
-
-export type PracticeLetter = "A" | "B" | "C" | "D" | "F";
-export type PracticeBand = "ready" | "study" | "mid" | "fail" | "none" | "math";
-export type FlorkKind =
-  | "slay"
-  | "study"
-  | "shrug"
-  | "hips"
-  | "ok"
-  | "math"
-  | "guns"
-  | "thumbs"
-  | "point";
-
-export interface PracticeVerdict {
-  letter: PracticeLetter;
-  band: PracticeBand;
-  flork: FlorkKind;
-  line: string;
-}
-
-const FLORK_POOLS: Record<PracticeBand, FlorkKind[]> = {
-  ready: ["slay", "guns", "thumbs"],
-  study: ["study", "point"],
-  mid: ["ok", "point"],
-  fail: ["hips", "math"],
-  none: ["shrug"],
-  math: ["math"],
-};
-
-function seedHash(input: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-
-function pickFlork(band: PracticeBand, seed: string): FlorkKind {
-  const pool = FLORK_POOLS[band];
-  return pool[seedHash(seed) % pool.length];
-}
-
-export function practiceGrade(percentage: number): PracticeLetter {
-  if (percentage >= 90) return "A";
-  if (percentage >= 80) return "B";
-  if (percentage >= 70) return "C";
-  if (percentage >= 60) return "D";
-  return "F";
-}
-
-export function practiceVerdict(
-  score: SittingScore,
-  seed = "sitting",
-): PracticeVerdict {
-  const letter = practiceGrade(score.percentage);
-  let band: PracticeBand;
-  let line: string;
-
-  if (score.total === 0 || score.unanswered === score.total) {
-    band = "none";
-    line = "No answers recorded on this sitting.";
-  } else if (score.percentage >= 90) {
-    band = "ready";
-    line = "Strong practice sitting. Good shape for continued review.";
-  } else if (score.percentage >= 70) {
-    band = "study";
-    line = "Not exam-ready yet. Keep practicing the weak domains.";
-  } else if (score.percentage >= 50) {
-    band = "mid";
-    line = "Mixed sitting. Review the missed items before another pass.";
-  } else if (score.percentage >= 40) {
-    band = "math";
-    line = "Low practice score. Review the material before another sitting.";
-  } else {
-    band = "fail";
-    line = "Low practice score. Review the material before another sitting.";
-  }
-
-  return {
-    letter,
-    band,
-    flork: pickFlork(band, seed),
-    line,
-  };
 }
