@@ -10,6 +10,7 @@ import {
 } from "@/components/visuals";
 import { getTrackQuestions } from "@/content/registry";
 import { BRAND } from "@/lib/brand";
+import { withBasePath } from "@/lib/base-path";
 
 /**
  * The public entry.
@@ -21,14 +22,31 @@ export default function RootPage() {
 
   return (
     <div className="min-h-dvh">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-[1180px] items-center px-5 py-4 sm:px-6 lg:px-10">
+      <header className="border-b border-border bg-card/80 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-[1180px] items-center gap-3 px-5 py-4 sm:px-6 lg:px-10">
+          <img
+            src={withBasePath("/brand/agp-mark.svg")}
+            alt=""
+            width={32}
+            height={32}
+            className="h-8 w-8 rounded-lg"
+          />
           <span className="font-serif text-[1.125rem]">{BRAND.name}</span>
         </div>
       </header>
 
       <main className="mx-auto w-full max-w-[1180px] px-5 py-10 sm:px-6 lg:px-10 lg:py-16">
-        <div className="measure">
+        <figure className="-mx-1 overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
+          <img
+            src={withBasePath("/brand/agp-hero-banner.svg")}
+            alt="AI Governance Practice. Scenario training for practitioners. Judgment, not vocabulary. 296 original scenarios. Four passes: Facts, Obligations, Risks, Action."
+            className="block h-auto w-full"
+            width={1600}
+            height={840}
+          />
+        </figure>
+
+        <div className="measure mt-10">
           <h1 className="text-[2.125rem] leading-[1.15] sm:text-[2.75rem]">
             {BRAND.tagline}
           </h1>
@@ -58,7 +76,7 @@ export default function RootPage() {
             here is recorded — it will not appear in your progress, your review
             queue, or anywhere else.
           </p>
-          <div className="mt-7 rounded-2xl border border-border bg-card p-6 shadow-[0_1px_2px_rgb(15_23_42/0.04),0_8px_24px_-8px_rgb(15_23_42/0.08)] sm:p-8">
+          <div className="mt-7 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
             <SampleDemo />
           </div>
         </section>
@@ -71,7 +89,16 @@ export default function RootPage() {
             The same four passes work on every question in the app, and on real
             decisions outside it.
           </p>
-          <div className="mt-7">
+          <figure className="mt-7 overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
+            <img
+              src={withBasePath("/brand/agp-four-pass.svg")}
+              alt="Four passes: Facts, Obligations, Risks, then Action. Work in this order. Naming a framework before the facts is the common failure."
+              className="block h-auto w-full"
+              width={1200}
+              height={560}
+            />
+          </figure>
+          <div className="mt-8">
             <ScenarioDecisionFrame variant="expanded" />
           </div>
         </section>
@@ -117,6 +144,15 @@ export default function RootPage() {
               when feedback is withheld and the clock is running.
             </p>
           </div>
+          <figure className="mb-8 overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
+            <img
+              src={withBasePath("/brand/agp-study-exam.svg")}
+              alt="Study teaches the loop with immediate feedback. Exam tests whether it holds when feedback is withheld."
+              className="block h-auto w-full"
+              width={1200}
+              height={480}
+            />
+          </figure>
           <StudyExamCompare />
         </section>
 
@@ -134,7 +170,7 @@ export default function RootPage() {
           <BokCoverageMap />
         </section>
 
-        <section className="mt-24 rounded-2xl border border-border bg-card px-6 py-10 text-center shadow-[0_1px_2px_rgb(15_23_42/0.04),0_8px_24px_-8px_rgb(15_23_42/0.08)] sm:px-10">
+        <section className="mt-24 rounded-2xl border border-border bg-card px-6 py-10 text-center shadow-[var(--shadow-card)] sm:px-10">
           <h2 className="font-serif text-[1.5rem] leading-snug tracking-[-0.01em] text-foreground sm:text-[1.75rem]">
             Start with a scenario
           </h2>
