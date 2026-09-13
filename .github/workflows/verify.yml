@@ -16,8 +16,14 @@
 name: Verify
 
 on:
+  # Every pull request, whatever it targets — not just those based on `main`.
+  #
+  # A base-branch filter here left a silent hole: a pull request stacked on
+  # another feature branch matched no trigger, so it got no checks at all and
+  # reported neither red nor green. Work that reaches `main` through a stack
+  # would have been verified only at the final merge, which is the same "one
+  # step too late" this workflow exists to fix.
   pull_request:
-    branches: [main]
   # Lets the gate be re-run without pushing a commit.
   workflow_dispatch:
 
