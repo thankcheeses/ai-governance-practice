@@ -5,7 +5,8 @@ import { Suspense, useEffect, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
 import { resumeActiveSession } from "@/lib/active-session";
-import { focusDomains } from "@/lib/adaptive";
+import { focusDomains, selectQuestions } from "@/lib/adaptive";
+import { planDrill, shortfallNote } from "@/lib/blueprint-drill";
 import {
   detectPattern,
   questionIdsForFamily,
@@ -123,10 +124,38 @@ function Session() {
       return found ? questionIdsForFamily(found.family, progress.trackId) : [];
     })();
 
+    /*
+     * A blueprint drill apportions the sitting across the four Body of
+     * Knowledge domains in the proportions the published exam blueprint
+     * describes, then fills each share through the ordinary selector so that
+     * unseen-first and difficulty targeting still apply within a domain.
+     *
+     * Selection happens per domain rather than over one pooled list because
+     * the shape is the point: a single pooled call would rank by its own
+     * signals and hand back whatever mix those produced.
+     */
+    const weightedPlan =
+      focusParam === "weighted" ? planDrill(count, progress.trackId) : null;
+
+    const weightedIds = weightedPlan
+      ? weightedPlan.allocations.flatMap((a) =>
+          a.allocated > 0
+            ? selectQuestions(progress, {
+                count: a.allocated,
+                trackId: progress.trackId,
+                only: weightedPlan.idsByDomain[a.roman],
+                seed,
+              }).map((q) => q.id)
+            : [],
+        )
+      : [];
+
     const drillIds =
       focusParam === "subdomain"
         ? weakAreaQuestionIds(progress, progress.trackId, count)
-        : patternIds;
+        : focusParam === "weighted"
+          ? weightedIds
+          : patternIds;
 
     // A focus session keeps drilling the domains it started on, even as
     // answering moves the accuracy that picked them.
@@ -149,7 +178,17 @@ function Session() {
           : {}),
     });
 
-    const label = patternIds.length
+    /*
+     * The blueprint label states a shortfall when there is one. The header
+     * truncates, so the note is terse by design: a learner who asked for 25 and
+     * received 22 is told which domains the bank ran out in, rather than being
+     * handed a quietly shorter drill or the same questions twice.
+     */
+    const label = weightedIds.length
+      ? weightedPlan && shortfallNote(weightedPlan)
+        ? `Blueprint · ${shortfallNote(weightedPlan)}`
+        : "Blueprint · sampled to the published domain ranges"
+      : patternIds.length
       ? "Focus · a pattern in your misses"
       : drillIds.length
       ? "Focus · your weakest areas"

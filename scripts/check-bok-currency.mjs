@@ -70,6 +70,81 @@ if (!reviewed) {
   );
 }
 
+/* -- blueprint numbers must carry their source --------------------------- */
+
+/*
+ * The blueprint is a stronger claim than the outline. The outline says which
+ * subject areas exist, which is descriptive; the blueprint says how many
+ * questions each domain contributes to someone else's exam, which is a factual
+ * assertion about a published document. So it may not exist here without that
+ * document being named, versioned, dated and located.
+ *
+ * Read from source rather than imported: this script deliberately parses the TS
+ * instead of loading it, so a broken module cannot make the check pass by
+ * failing to import.
+ */
+const bok = readFileSync(join(root, "src/content/bok.ts"), "utf8");
+const hasBlueprint = /export const DOMAIN_BLUEPRINT\b/.test(bok);
+
+if (hasBlueprint) {
+  const sourceBlock = /export const BLUEPRINT_SOURCE\s*=\s*\{([\s\S]*?)\}\s*as const;/.exec(bok);
+  if (!sourceBlock) {
+    errors.push(
+      "DOMAIN_BLUEPRINT exists but BLUEPRINT_SOURCE does not. Blueprint numbers are a claim about a published document and may not be recorded without naming it.",
+    );
+  } else {
+    const body = sourceBlock[1];
+    const required = ["document", "title", "version", "effectiveDate", "retrievedOn", "pages"];
+    for (const key of required) {
+      if (!new RegExp(`\\b${key}\\s*:\\s*"[^"]+"`).test(body)) {
+        errors.push(
+          `BLUEPRINT_SOURCE is missing \`${key}\`. Without it the numbers cannot be traced back to what was read.`,
+        );
+      }
+    }
+
+    const bpVersion = /\bversion\s*:\s*"([^"]+)"/.exec(body)?.[1] ?? null;
+    if (bpVersion && version && !version.includes(bpVersion)) {
+      errors.push(
+        `BLUEPRINT_SOURCE.version "${bpVersion}" disagrees with contextVersion "${version}". The blueprint and the outline must describe the same edition.`,
+      );
+    }
+
+    const retrieved = /\bretrievedOn\s*:\s*"([^"]+)"/.exec(body)?.[1] ?? null;
+    if (retrieved && !/^\d{4}-\d{2}-\d{2}$/.test(retrieved)) {
+      errors.push(`BLUEPRINT_SOURCE.retrievedOn must be ISO 8601; got "${retrieved}".`);
+    } else if (retrieved && new Date(`${retrieved}T00:00:00Z`) > new Date()) {
+      errors.push(`BLUEPRINT_SOURCE.retrievedOn "${retrieved}" is in the future.`);
+    }
+
+    /*
+     * Ranges, not points. A single number per domain would mean someone
+     * collapsed a published span into a figure the authority never printed.
+     */
+    const entries = [...bok.matchAll(/(I{1,3}V?|IV):\s*\{\s*min:\s*(\d+),\s*max:\s*(\d+)\s*\}/g)];
+    if (entries.length !== 4) {
+      errors.push(
+        `DOMAIN_BLUEPRINT should describe four domains as {min, max}; parsed ${entries.length}.`,
+      );
+    }
+    for (const [, roman, min, max] of entries) {
+      if (Number(min) > Number(max)) {
+        errors.push(`DOMAIN_BLUEPRINT.${roman} has min ${min} above max ${max}.`);
+      }
+    }
+    if (entries.length === 4) {
+      const lo = entries.reduce((n, e) => n + Number(e[2]), 0);
+      const hi = entries.reduce((n, e) => n + Number(e[3]), 0);
+      notes.push(`blueprint: four domains, ${lo}-${hi} questions per exam form (counts, not percentages)`);
+      if (lo === 100 || hi === 100) {
+        errors.push(
+          "DOMAIN_BLUEPRINT sums to 100, which suggests percentages. The published figures are question counts.",
+        );
+      }
+    }
+  }
+}
+
 /* -- the date is real, and is not a promise about the future ------------ */
 
 let ageDays = null;
