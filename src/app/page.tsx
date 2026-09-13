@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { ScenarioDecisionFrame } from "@/components/civic/gpai";
 import { ContinueLink } from "@/components/landing/continue-link";
+import {
+  FirstVisitTour,
+  HowToOperateButton,
+} from "@/components/landing/first-visit-tour";
 import { SampleDemo } from "@/components/landing/sample-demo";
 import {
   BokCoverageMap,
@@ -12,16 +16,12 @@ import { getTrackQuestions } from "@/content/registry";
 import { BRAND } from "@/lib/brand";
 import { withBasePath } from "@/lib/base-path";
 
-/**
- * The public entry.
- * Editorial narrative of how judgment is trained — not a stack of component cards.
- * Nothing on this page writes.
- */
 export default function RootPage() {
   const available = getTrackQuestions().length;
 
   return (
     <div className="min-h-dvh">
+      <FirstVisitTour />
       <header className="border-b border-border bg-card/80 backdrop-blur-sm">
         <div className="mx-auto flex max-w-[1180px] items-center gap-3 px-5 py-4 sm:px-6 lg:px-10">
           <img
@@ -32,6 +32,10 @@ export default function RootPage() {
             className="h-8 w-8 rounded-lg"
           />
           <span className="font-serif text-[1.125rem]">{BRAND.name}</span>
+          <nav className="ml-auto flex items-center gap-4 text-[0.875rem]">
+            <HowToOperateButton />
+            <Link href="/help">Help</Link>
+          </nav>
         </div>
       </header>
 
@@ -190,6 +194,7 @@ export default function RootPage() {
             certification exam questions and does not predict a result.
           </p>
           <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[0.875rem]">
+            <Link href="/help">Help</Link>
             <Link href="/terms">Terms of Service</Link>
             <Link href="/privacy">Privacy Policy</Link>
           </p>
