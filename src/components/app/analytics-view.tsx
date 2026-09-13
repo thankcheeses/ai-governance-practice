@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { domainOf, type DomainRoman } from "@/content/bok";
 import type { Band, FocusArea, Slice } from "@/lib/analytics";
+import type { ReasoningPattern } from "@/lib/reasoning-patterns";
 import { cn } from "@/lib/utils";
 
 /**
@@ -93,6 +94,36 @@ function Headline({ label, value }: { label: string; value: string }) {
   );
 }
 
+/**
+ * The reasoning pattern, when the evidence supports naming one.
+ *
+ * `null` is the ordinary case and renders nothing — no placeholder, no meter
+ * toward an insight. A learner who has not answered enough of the questions this
+ * is tracked on should see the page they saw before the feature existed, rather
+ * than a promise that more answering will unlock something.
+ */
+function ReasoningPatternNote({ pattern }: { pattern: ReasoningPattern }) {
+  return (
+    <div className="border border-border bg-card p-5">
+      <p className="measure text-sm leading-relaxed text-muted-foreground">
+        On the questions where the reasoning behind each option is tracked, your
+        wrong answers lean toward{" "}
+        <span className="font-medium text-foreground">{pattern.label}</span>. It
+        came up in {pattern.occurrences} of the {pattern.observed} you have
+        missed there, so treat it as a lead to check rather than a verdict.
+      </p>
+      <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
+        Worth practising: {pattern.practice}.
+      </p>
+      <Button asChild variant="secondary" className="mt-4 w-full sm:w-auto">
+        <Link href="/study/session?focus=pattern&count=10">
+          Practise this
+        </Link>
+      </Button>
+    </div>
+  );
+}
+
 export function AnalyticsView({
   overall,
   domains,
@@ -100,6 +131,7 @@ export function AnalyticsView({
   focus,
   strongest,
   weakest,
+  pattern,
 }: {
   overall: { answered: number; correct: number; accuracy: number; seen: number; available: number };
   domains: (Slice & { roman: DomainRoman })[];
@@ -107,6 +139,8 @@ export function AnalyticsView({
   focus: FocusArea[];
   strongest?: Slice;
   weakest?: Slice;
+  /** Omitted or null whenever the evidence does not support a claim. */
+  pattern?: ReasoningPattern | null;
 }) {
   const [open, setOpen] = useState<DomainRoman | null>(null);
 
@@ -170,6 +204,20 @@ export function AnalyticsView({
               Study my weak areas
             </Link>
           </Button>
+        </section>
+      ) : null}
+
+      {/*
+        The pattern sits on its own rather than inside Focus areas: the two have
+        different evidence thresholds, and a learner can qualify for one without
+        the other.
+      */}
+      {pattern ? (
+        <section>
+          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
+            A pattern in your misses
+          </h2>
+          <ReasoningPatternNote pattern={pattern} />
         </section>
       ) : null}
 
