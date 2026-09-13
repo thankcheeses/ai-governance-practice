@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
  * Surface primitive. A card lifted off the warm stone ground by a fine stroke
  * and a soft layered shadow — a tight contact shadow plus a wider, softer one.
  * The pair is what makes a surface read as sitting *on* the page rather than
- * being drawn on it. 18px radius, per the Civic card rule.
+ * being drawn on it. 24px radius, per the Warm Civic card rule.
  *
  * Interactive cards raise on hover rather than tinting. Movement is 1px and
  * the transition covers shadow and border only; nothing scales.
@@ -17,7 +17,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-xl border border-border bg-card text-card-foreground",
+      "rounded-2xl border border-border bg-card text-card-foreground",
       "shadow-[var(--shadow-card)]",
       interactive &&
         "transition-[box-shadow,border-color,transform] duration-[120ms] hover:-translate-y-px hover:border-border-strong hover:shadow-[var(--shadow-card-hover)]",
