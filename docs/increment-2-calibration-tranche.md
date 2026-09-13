@@ -339,13 +339,16 @@ Primary `proportionality`.
 
 ---
 
-## Open questions — these need your decision
+## Resolved decisions — applied
 
-### 1. `aigp-066` option D contradicts an approved decision
+These six were open when the tranche was proposed. Each is now settled and
+reflected in `enrichment.ts`. The reasoning is kept rather than deleted, because
+a label that was argued over is worth revisiting when learner data arrives.
+
+### 1. `aigp-066` option D — recorded approval overridden
 
 The handoff records **Q66 option D → `premature_remediation`** as explicitly
-approved. Reading the actual option, I do not think that label is right, and I
-have not applied it.
+approved. That label is wrong, and `risk_underestimation` is applied instead.
 
 > **D.** A decision deferred until six months of production data shows how often
 > misrouting truly occurs.
@@ -354,88 +357,108 @@ have not applied it.
 > default while the evidence accumulates from real misroutings.
 
 The option defers action; `premature_remediation` describes acting too early.
-The two are opposites. `risk_underestimation` matches what the option and its
-note actually say.
+The two are opposites, and the option's own note says the learner who picks it
+has accepted a risk rather than moved too fast.
 
-Two possible explanations, and I cannot distinguish them: either the approved
-decision attached to a different option letter in the lost tranche, or the
-reviewer read the option differently than I do. **Your call.** I have used
-`risk_underestimation` and flagged it rather than silently overriding a
-recorded approval or silently applying a label I think is wrong.
+Either the approval attached to a different option letter in the lost tranche,
+or the reviewer read the option differently — the two cannot be distinguished
+from what survived, and the lost labels were never in git to check against. The
+override is recorded here rather than silently taken, so anyone reading the
+history sees an approval was set aside and why.
 
-### 2. `aigp-164` — `risk_prioritization` or `sequencing`?
+### 2. `aigp-164` — `risk_prioritization`, with `sequencing` secondary
 
-The stem asks which risk to address **FIRST**, which reads as sequencing. The
-takeaway is "order by reversibility", which is a prioritisation rule. I chose
-`risk_prioritization` primary with `sequencing` secondary, on the grounds that
-the item tests *how to rank*, and the ordering is the output rather than the
-skill. Reasonable people would swap them.
+The stem asks which risk to address **FIRST**, which reads as sequencing; the
+takeaway is "order by reversibility", which is a prioritisation rule. Applied as
+`risk_prioritization` primary: the item tests *how to rank*, and the ordering is
+the output rather than the skill.
 
-The same tension exists more mildly in `aigp-109` and `aigp-174`, where I went
-the other way — both are labelled `sequencing`, because there the wrong answers
-fail by acting out of order rather than by mis-ranking severity.
+The same tension resolves the other way in `aigp-109` and `aigp-174`, both
+labelled `sequencing`, because there the wrong answers fail by acting out of
+order rather than by mis-ranking severity. This is a judgement, not a rule —
+if pattern data later shows learners miss 164 the way they miss 109, swap it.
 
-### 3. `aigp-182` option D has no good label
+### 3. `aigp-182` option D — left unlabelled
 
 > **D.** Teacher overrides must be removed to keep scoring consistent across
 > schools.
 
-It is a remediation that attacks the wrong thing and destroys the control that
-surfaced the problem. `premature_remediation` implies acting before diagnosis,
-which is not quite it; `risk_overreaction` implies excessive caution, which is
-the reverse. Left unlabelled rather than forced. If this pattern recurs across
-the bank it may argue for a taxonomy addition, which is a bigger decision than
-this tranche.
+A remediation that attacks the wrong thing and destroys the control that
+surfaced the problem. `premature_remediation` implies acting before diagnosis;
+`risk_overreaction` implies excessive caution, which is the reverse. Neither
+fits, so the option carries no label.
 
-### 4. `aigp-007` — is it `legal_vs_ethical`?
+Forcing it would have taught the engine a pattern that is not there. If this
+shape recurs across the bank it argues for a taxonomy addition — a bigger
+decision than this tranche, and one that should be driven by several examples
+rather than this one.
 
-The item distinguishes a voluntary certificate from a legal conformity
-obligation. That is a "requirement versus commitment" distinction, which is why
-I put it in `legal_vs_ethical` alongside 193 and 276. It could equally be
-`governing_obligation`, since the error is about which instrument discharges
-which duty. The three certificate items (007, 193, 276) are labelled
-consistently, so if you move one, move all three.
+### 4. `aigp-007` — `legal_vs_ethical`, with the other two certificate items
 
-### 5. `lifecycle_stage` covers two different things
+Applied as `legal_vs_ethical` alongside 193 and 276. The item distinguishes a
+voluntary certificate from a legal conformity obligation, which is a
+requirement-versus-commitment distinction. `governing_obligation` was arguable,
+since the error concerns which instrument discharges which duty. The three
+certificate items move together or not at all.
 
-`aigp-030`, `034`, `166` and `265` are about the *product* lifecycle — design,
-release, operation, retirement. `aigp-277` is about the NIST AI RMF's
-*functions* — Map, Measure, Manage, Govern. Both are "which phase does this
-belong to" reasoning and both use `lifecycle_confusion` distractors, so I
-treated them as one dimension. If you would rather the RMF-structure items sat
-under `governing_obligation`, 277 is the only one affected here.
+### 5. `lifecycle_stage` — kept as one dimension
 
-### 6. The approved decisions I could not place
+`aigp-030`, `034`, `166` and `265` concern the *product* lifecycle; `aigp-277`
+concerns the NIST AI RMF's *functions* — Map, Measure, Manage, Govern. Both are
+"which phase does this belong to" reasoning and both use `lifecycle_confusion`
+distractors, so they stay one dimension.
 
-Three of the seven approved distractor decisions concern questions not in this
-tranche: **Q5 option B**, **Q49 option B** and **Q98 option D**. I did not add
-those questions merely to house the approvals — the tranche was selected on
-instructional quality, and reverse-engineering it to fit surviving fragments of
-a lost review is how you get a set that measures neither. They remain available
-for a second tranche.
+Splitting them on a hunch would double a dimension before any evidence that
+learners miss the two kinds differently. Revisit only if that evidence appears;
+`aigp-277` is the only item here that would move.
 
-Of the four that are here: **Q6 B**, **Q54 D** and **Q8 D** are adopted as
-approved and independently check out against the option text. **Q66 D** is the
-one above.
+### 6. Q5, Q49 and Q98 — deferred to a second tranche
+
+Three of the seven approved distractor decisions concern questions outside this
+tranche: **Q5 option B**, **Q49 option B**, **Q98 option D**. They are not
+adopted here. The tranche was selected on instructional quality, and
+reverse-engineering it to house surviving fragments of a lost review produces a
+set that measures neither the learner nor the taxonomy.
+
+Of the four approvals that are here, **Q6 B**, **Q54 D** and **Q8 D** are
+adopted as approved and independently check out against the option text.
+**Q66 D** is the override above.
 
 ---
 
-## What has deliberately not been done
+## What is applied, and what is still not
 
-- **No change to `enrichment.ts`.** This is a proposal.
+Applied: `reasoning` blocks on 52 of the 296 enrichment entries — 52 primary
+dimensions, 15 secondary, 92 distractor labels across 10 of the 11 distractor
+types. Insertions only; no existing line was changed.
+
+Still deliberately absent:
+
 - **No Increment 3.** No pattern detection, no targeted practice, no
-  question-level reasoning observation in feedback.
+  question-level reasoning observation in feedback. The labels are inert data
+  until that is built.
 - **No UI, scoring, progress, readiness, adaptive, review or persistence
   change**, and no PDF change of any kind.
 - **No user-facing exposure of the taxonomy.** `material_facts` and
-  `governing_obligation` are engine vocabulary. Nothing here implies a learner
-  should ever read those strings.
+  `governing_obligation` are engine vocabulary. Nothing implies a learner should
+  ever read those strings.
+- **No widening of the tranche.** The remaining 244 questions carry no
+  `reasoning` block, and `src/content/reasoning-labels.test.ts` fails if that
+  count moves, so widening cannot happen by accident.
 
-## After review
+## What protects the labels
 
-The apply step converts the corrected table into `reasoning` blocks on the 52
-enrichment entries, keyed by source letter, and runs `npm run release:gate`.
-`reasoning` is optional on both the enrichment entry and the question, so the
-244 unlabelled questions keep working exactly as they do now — which is also
-what makes it safe to apply this in one pass and correct individual labels
-later.
+`src/content/reasoning-labels.test.ts` runs against the real bank rather than a
+fixture, because the thing being protected is the content. It fails when:
+
+- the tranche size moves off 52, or the bank off 296
+- a label names an option letter the question does not have — the letter-to-id
+  conversion is silent on failure, so such a label would simply vanish
+- a distractor type sits on a **correct** option, which would teach the engine
+  that choosing the right answer is a reasoning error
+- a labelled question has a dimension but no per-option labels
+- a value falls outside the taxonomy, or a secondary repeats the primary
+- the tranche stops being 6–7 questions per dimension
+
+The first two failure modes were mutation-tested: both assertions were confirmed
+to fail on a deliberately broken label before being relied on.

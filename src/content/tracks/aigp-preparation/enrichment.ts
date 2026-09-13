@@ -130,6 +130,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "Health Insurance Portability and Accountability Act — Privacy Rule (45 CFR Part 164)",
       "NIST AI RMF (Map 1: legal and regulatory context)",
     ],
+    reasoning: {
+      primaryDimension: "governing_obligation",
+      distractorTypes: {
+        A: "wrong_governing_obligation",
+        B: "wrong_governing_obligation",
+      },
+    },
   },
   7: {
     bokSubdomain: "II.C",
@@ -149,6 +156,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act Art. 43 (conformity assessment procedures)",
       "ISO/IEC 42001 (scope of an AI management system certification)",
     ],
+    reasoning: {
+      primaryDimension: "legal_vs_ethical",
+      secondaryDimensions: ["governing_obligation"],
+      distractorTypes: {
+        A: "wrong_governing_obligation",
+        D: "plausible_but_incomplete",
+      },
+    },
   },
   8: {
     bokSubdomain: "III.A",
@@ -168,6 +183,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42005 (AI system impact assessment)",
       "NIST AI RMF (Map 5: impacts on individuals, groups and society)",
     ],
+    reasoning: {
+      primaryDimension: "sequencing",
+      secondaryDimensions: ["lifecycle_stage"],
+      distractorTypes: {
+        B: "plausible_but_incomplete",
+        D: "secondary_risk_prioritized",
+      },
+    },
   },
   9: {
     bokSubdomain: "III.B",
@@ -377,6 +400,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act Art. 50 (disclosure at the point of interaction)",
       "NIST AI RMF (Measure 2.8 and Manage 2.3: transparency controls in operation)",
     ],
+    reasoning: {
+      primaryDimension: "sequencing",
+      distractorTypes: {
+        C: "secondary_risk_prioritized",
+        D: "plausible_but_incomplete",
+      },
+    },
   },
   20: {
     bokSubdomain: "IV.C",
@@ -396,6 +426,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Manage: controls applied in the operating flow)",
       "ISO/IEC 42001 (operational planning and control)",
     ],
+    reasoning: {
+      primaryDimension: "sequencing",
+      distractorTypes: {
+        A: "plausible_but_incomplete",
+        B: "secondary_risk_prioritized",
+      },
+    },
   },
   21: {
     bokSubdomain: "IV.C",
@@ -586,6 +623,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Map 1: context is established at the outset)",
       "ISO/IEC 42001 (planning and design of AI systems)",
     ],
+    reasoning: {
+      primaryDimension: "lifecycle_stage",
+      distractorTypes: {
+        B: "lifecycle_confusion",
+      },
+    },
   },
   31: {
     bokSubdomain: "IV.A",
@@ -662,6 +705,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Manage 4.1: continuous monitoring after deployment)",
       "EU AI Act Art. 72 (post-market monitoring)",
     ],
+    reasoning: {
+      primaryDimension: "lifecycle_stage",
+      distractorTypes: {
+        A: "plausible_but_incomplete",
+      },
+    },
   },
   35: {
     bokSubdomain: "III.B",
@@ -878,6 +927,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act Art. 53 (obligations of providers of general-purpose AI models)",
       "EU AI Act Art. 26 (obligations of deployers)",
     ],
+    reasoning: {
+      primaryDimension: "accountability",
+      distractorTypes: {
+        B: "wrong_accountable_party",
+        C: "wrong_accountable_party",
+      },
+    },
   },
   46: {
     bokSubdomain: "IV.C",
@@ -897,6 +953,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "Health Insurance Portability and Accountability Act — business associate contracts (45 CFR 164.504(e))",
       "Health Insurance Portability and Accountability Act — Security Rule (45 CFR Part 164, Subpart C)",
     ],
+    reasoning: {
+      primaryDimension: "governing_obligation",
+      secondaryDimensions: ["accountability"],
+      distractorTypes: {
+        C: "wrong_governing_obligation",
+        D: "plausible_but_incomplete",
+      },
+    },
   },
   47: {
     bokSubdomain: "II.C",
@@ -1049,6 +1113,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act Art. 26 (obligations of deployers)",
       "NIST AI RMF (Govern 6: roles across the AI value chain)",
     ],
+    reasoning: {
+      primaryDimension: "accountability",
+      distractorTypes: {
+        B: "wrong_accountable_party",
+        D: "wrong_governing_obligation",
+      },
+    },
   },
   55: {
     bokSubdomain: "I.C",
@@ -1106,6 +1177,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "GDPR Art. 5(1)(b) (purpose limitation)",
       "GDPR Art. 6(4) (compatibility of further processing)",
     ],
+    reasoning: {
+      primaryDimension: "governing_obligation",
+      distractorTypes: {
+        C: "wrong_governing_obligation",
+      },
+    },
   },
   58: {
     bokSubdomain: "II.A",
@@ -1277,6 +1354,15 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Manage 1: risks are prioritised and treatment selected)",
       "ISO/IEC 42001 (actions to address risks and opportunities)",
     ],
+    reasoning: {
+      primaryDimension: "risk_prioritization",
+      secondaryDimensions: ["proportionality"],
+      distractorTypes: {
+        B: "plausible_but_incomplete",
+        C: "risk_overreaction",
+        D: "risk_underestimation",
+      },
+    },
   },
   67: {
     bokSubdomain: "III.A",
@@ -1486,6 +1572,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42005 (impact assessment, including for acquired systems)",
       "NIST AI RMF (Govern 6.1: third-party systems are assessed before use)",
     ],
+    reasoning: {
+      primaryDimension: "sequencing",
+      distractorTypes: {
+        A: "secondary_risk_prioritized",
+      },
+    },
   },
   78: {
     bokSubdomain: "IV.B",
@@ -1619,6 +1711,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Govern 1: governance proportionate to context and risk)",
       "ISO/IEC 42001 (context of the organisation)",
     ],
+    reasoning: {
+      primaryDimension: "proportionality",
+      distractorTypes: {
+        A: "plausible_but_incomplete",
+      },
+    },
   },
   85: {
     bokSubdomain: "I.C",
@@ -1731,6 +1829,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "GDPR Art. 9 (processing of special categories of personal data)",
       "EU AI Act Art. 5 (restrictions on biometric identification practices)",
     ],
+    reasoning: {
+      primaryDimension: "material_facts",
+      secondaryDimensions: ["governing_obligation"],
+      distractorTypes: {
+        A: "missed_material_fact",
+        C: "wrong_accountable_party",
+      },
+    },
   },
   91: {
     bokSubdomain: "II.A",
@@ -1788,6 +1894,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU Product Liability Directive (as revised to cover software and AI)",
       "NIST AI RMF (Measure 2.6: safety of AI systems in physical contexts)",
     ],
+    reasoning: {
+      primaryDimension: "governing_obligation",
+      distractorTypes: {
+        A: "wrong_governing_obligation",
+        D: "wrong_accountable_party",
+      },
+    },
   },
   94: {
     bokSubdomain: "II.B",
@@ -2088,6 +2201,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Manage function: response to identified risks)",
       "ISO/IEC 42001 (performance evaluation and monitoring)",
     ],
+    reasoning: {
+      primaryDimension: "sequencing",
+      distractorTypes: {
+        B: "premature_remediation",
+        C: "premature_remediation",
+        D: "premature_remediation",
+      },
+    },
   },
   110: {
     bokSubdomain: "III.A",
@@ -2107,6 +2228,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Measure: fairness and bias assessment)",
       "EU AI Act Art. 10 (data governance, examination for bias)",
     ],
+    reasoning: {
+      primaryDimension: "material_facts",
+      distractorTypes: {
+        C: "plausible_but_incomplete",
+      },
+    },
   },
   111: {
     bokSubdomain: "I.C",
@@ -2126,6 +2253,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (roles, responsibilities and authorities)",
       "NIST AI RMF (Govern: accountability structures)",
     ],
+    reasoning: {
+      primaryDimension: "accountability",
+      distractorTypes: {
+        A: "wrong_accountable_party",
+        B: "wrong_accountable_party",
+      },
+    },
   },
   112: {
     bokSubdomain: "III.C",
@@ -2277,6 +2411,15 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Measure: evaluate effectiveness of controls)",
       "ISO/IEC 42001 (operational control and verification)",
     ],
+    reasoning: {
+      primaryDimension: "risk_prioritization",
+      secondaryDimensions: ["material_facts"],
+      distractorTypes: {
+        B: "secondary_risk_prioritized",
+        C: "risk_underestimation",
+        D: "risk_overreaction",
+      },
+    },
   },
   120: {
     bokSubdomain: "IV.C",
@@ -2372,6 +2515,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Map: assumptions about data and context)",
       "EU AI Act Art. 10 (relevance and representativeness of data)",
     ],
+    reasoning: {
+      primaryDimension: "material_facts",
+      secondaryDimensions: ["lifecycle_stage"],
+      distractorTypes: {
+        C: "missed_material_fact",
+      },
+    },
   },
   125: {
     bokSubdomain: "III.C",
@@ -2410,6 +2560,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Measure: validity and reliability)",
       "ISO/IEC 42001 (AI system verification)",
     ],
+    reasoning: {
+      primaryDimension: "material_facts",
+      distractorTypes: {
+        A: "plausible_but_incomplete",
+        D: "missed_material_fact",
+      },
+    },
   },
   127: {
     bokSubdomain: "III.B",
@@ -2486,6 +2643,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Measure: TEVV, red-teaming)",
       "ISO/IEC 42001 (operational planning and control)",
     ],
+    reasoning: {
+      primaryDimension: "risk_prioritization",
+      distractorTypes: {
+        A: "secondary_risk_prioritized",
+      },
+    },
   },
   131: {
     bokSubdomain: "III.C",
@@ -2505,6 +2668,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (AI system inventory; risk assessment)",
       "NIST AI RMF (Map: risk prioritisation)",
     ],
+    reasoning: {
+      primaryDimension: "risk_prioritization",
+      distractorTypes: {
+        B: "plausible_but_incomplete",
+        D: "secondary_risk_prioritized",
+      },
+    },
   },
   132: {
     bokSubdomain: "III.A",
@@ -2582,6 +2752,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "OECD AI Principles (human-centred values and fairness)",
       "NIST AI RMF (Govern: organisational risk tolerance and values)",
     ],
+    reasoning: {
+      primaryDimension: "legal_vs_ethical",
+      distractorTypes: {
+        C: "legal_ethical_conflation",
+        D: "plausible_but_incomplete",
+      },
+    },
   },
   136: {
     bokSubdomain: "IV.A",
@@ -2601,6 +2778,15 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (supplier controls; verification of claims)",
       "NIST AI RMF (Govern: third-party assurance)",
     ],
+    reasoning: {
+      primaryDimension: "proportionality",
+      secondaryDimensions: ["accountability"],
+      distractorTypes: {
+        A: "wrong_accountable_party",
+        B: "risk_underestimation",
+        D: "risk_overreaction",
+      },
+    },
   },
   137: {
     bokSubdomain: "IV.A",
@@ -2697,6 +2883,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (roles, responsibilities and authorities)",
       "NIST AI RMF (Govern: accountability)",
     ],
+    reasoning: {
+      primaryDimension: "accountability",
+      distractorTypes: {
+        A: "wrong_accountable_party",
+        B: "plausible_but_incomplete",
+        D: "risk_overreaction",
+      },
+    },
   },
   142: {
     bokSubdomain: "III.C",
@@ -2716,6 +2910,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Measure: evaluation validity)",
       "ISO/IEC 42001 (monitoring, measurement, analysis and evaluation)",
     ],
+    reasoning: {
+      primaryDimension: "material_facts",
+      distractorTypes: {
+        A: "plausible_but_incomplete",
+        C: "missed_material_fact",
+      },
+    },
   },
   143: {
     bokSubdomain: "IV.B",
@@ -2907,6 +3108,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "OECD AI Principles (fairness)",
       "NIST AI RMF (Govern: policies and principles)",
     ],
+    reasoning: {
+      primaryDimension: "legal_vs_ethical",
+      distractorTypes: {
+        B: "plausible_but_incomplete",
+      },
+    },
   },
   153: {
     bokSubdomain: "I.C",
@@ -2983,6 +3190,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Measure: appropriate metrics)",
       "ISO/IEC 42001 (performance evaluation)",
     ],
+    reasoning: {
+      primaryDimension: "risk_prioritization",
+      distractorTypes: {
+        A: "risk_underestimation",
+        B: "plausible_but_incomplete",
+      },
+    },
   },
   157: {
     bokSubdomain: "III.B",
@@ -3133,6 +3347,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Govern: shadow AI and unapproved use)",
       "ISO/IEC 42001 (operational control)",
     ],
+    reasoning: {
+      primaryDimension: "risk_prioritization",
+      secondaryDimensions: ["sequencing"],
+      distractorTypes: {
+        A: "secondary_risk_prioritized",
+      },
+    },
   },
   165: {
     bokSubdomain: "IV.A",
@@ -3171,6 +3392,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (retirement and documented information)",
       "GDPR Art. 22 (contesting automated decisions)",
     ],
+    reasoning: {
+      primaryDimension: "lifecycle_stage",
+      secondaryDimensions: ["governing_obligation"],
+      distractorTypes: {
+        A: "plausible_but_incomplete",
+      },
+    },
   },
   167: {
     bokSubdomain: "IV.A",
@@ -3247,6 +3475,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "GDPR Art. 5(1)(b) (purpose limitation)",
       "GDPR Art. 6(4) (compatibility assessment)",
     ],
+    reasoning: {
+      primaryDimension: "sequencing",
+      secondaryDimensions: ["governing_obligation"],
+      distractorTypes: {
+        A: "plausible_but_incomplete",
+      },
+    },
   },
   171: {
     bokSubdomain: "III.B",
@@ -3304,6 +3539,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act Art. 6 (classification rules)",
       "ISO/IEC 42001 (change management)",
     ],
+    reasoning: {
+      primaryDimension: "lifecycle_stage",
+      secondaryDimensions: ["risk_prioritization"],
+      distractorTypes: {
+        B: "risk_overreaction",
+        C: "plausible_but_incomplete",
+      },
+    },
   },
   174: {
     bokSubdomain: "IV.B",
@@ -3323,6 +3566,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Manage: incident response and recovery)",
       "ISO/IEC 42001 (corrective action)",
     ],
+    reasoning: {
+      primaryDimension: "sequencing",
+      distractorTypes: {
+        A: "premature_remediation",
+        C: "premature_remediation",
+        D: "secondary_risk_prioritized",
+      },
+    },
   },
   175: {
     bokSubdomain: "I.C",
@@ -3399,6 +3650,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Govern: risk tolerance and trade-offs)",
       "ISO/IEC 42001 (risk criteria; management review)",
     ],
+    reasoning: {
+      primaryDimension: "legal_vs_ethical",
+      distractorTypes: {
+        A: "missed_material_fact",
+        C: "legal_ethical_conflation",
+      },
+    },
   },
   179: {
     bokSubdomain: "IV.A",
@@ -3456,6 +3714,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF (Map: data representativeness; Measure: disaggregated evaluation)",
       "ISO/IEC 42001 (data quality for AI systems)",
     ],
+    reasoning: {
+      primaryDimension: "material_facts",
+      distractorTypes: {
+        C: "missed_material_fact",
+      },
+    },
   },
   182: {
     bokSubdomain: "II.C",
@@ -3475,6 +3739,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act (education as a high-risk use context)",
       "NIST AI RMF (Map: context of use and potential impacts)",
     ],
+    reasoning: {
+      primaryDimension: "proportionality",
+      distractorTypes: {
+        B: "risk_underestimation",
+        C: "wrong_accountable_party",
+      },
+    },
   },
   183: {
     bokSubdomain: "III.C",
@@ -3665,6 +3936,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act Art. 6 (classification)",
       "NIST AI RMF (Map: impact assessment)",
     ],
+    reasoning: {
+      primaryDimension: "proportionality",
+      secondaryDimensions: ["risk_prioritization"],
+      distractorTypes: {
+        A: "risk_overreaction",
+        B: "risk_overreaction",
+      },
+    },
   },
   193: {
     bokSubdomain: "II.D",
@@ -3684,6 +3963,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (scope; management system requirements)",
       "NIST AI RMF (Govern: compliance)",
     ],
+    reasoning: {
+      primaryDimension: "legal_vs_ethical",
+      distractorTypes: {
+        A: "wrong_accountable_party",
+        B: "wrong_governing_obligation",
+      },
+    },
   },
   194: {
     bokSubdomain: "II.D",
@@ -3835,6 +4121,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act Art. 14 (human oversight, proportionate to risk)",
       "NIST AI RMF (Govern: human-AI configuration)",
     ],
+    reasoning: {
+      primaryDimension: "proportionality",
+      distractorTypes: {
+        B: "risk_underestimation",
+      },
+    },
   },
   202: {
     bokSubdomain: "IV.A",
@@ -4177,6 +4469,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act (provider, deployer and substantial modification)",
       "NIST AI RMF (Govern: value chain roles)",
     ],
+    reasoning: {
+      primaryDimension: "accountability",
+      distractorTypes: {
+        B: "wrong_accountable_party",
+        D: "wrong_accountable_party",
+      },
+    },
   },
   220: {
     bokSubdomain: "I.B",
@@ -4329,6 +4628,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "GDPR Art. 5(1)(b) and Art. 6(4) (purpose limitation and compatibility)",
       "NIST AI RMF (Map: data provenance and permitted use)",
     ],
+    reasoning: {
+      primaryDimension: "governing_obligation",
+      distractorTypes: {
+        B: "wrong_governing_obligation",
+      },
+    },
   },
   228: {
     bokSubdomain: "II.A",
@@ -4405,6 +4710,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "GDPR Recital 26 (means reasonably likely to be used to identify)",
       "NIST AI RMF (Map: data characteristics and privacy risk)",
     ],
+    reasoning: {
+      primaryDimension: "material_facts",
+      secondaryDimensions: ["governing_obligation"],
+      distractorTypes: {
+        A: "risk_overreaction",
+        D: "wrong_governing_obligation",
+      },
+    },
   },
   232: {
     bokSubdomain: "II.A",
@@ -4595,6 +4908,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "OECD AI Principles (accountability)",
       "NIST AI RMF (Govern: legal and regulatory alignment)",
     ],
+    reasoning: {
+      primaryDimension: "governing_obligation",
+      secondaryDimensions: ["legal_vs_ethical"],
+      distractorTypes: {
+        C: "wrong_accountable_party",
+        D: "wrong_governing_obligation",
+      },
+    },
   },
   242: {
     bokSubdomain: "II.B",
@@ -4671,6 +4992,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "EU AI Act (obligations of providers and deployers of high-risk systems)",
       "ISO/IEC 42001 (Annex A: use of third-party AI systems)",
     ],
+    reasoning: {
+      primaryDimension: "accountability",
+      distractorTypes: {
+        C: "wrong_accountable_party",
+        E: "wrong_accountable_party",
+      },
+    },
   },
   246: {
     bokSubdomain: "II.C",
@@ -4747,6 +5075,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (management system covering multiple obligations)",
       "OECD AI Principles (international interoperability)",
     ],
+    reasoning: {
+      primaryDimension: "proportionality",
+      distractorTypes: {
+        A: "risk_underestimation",
+        D: "risk_overreaction",
+      },
+    },
   },
   250: {
     bokSubdomain: "II.D",
@@ -5051,6 +5386,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (Annex A: AI system lifecycle including retirement)",
       "NIST AI RMF (Manage: decommissioning)",
     ],
+    reasoning: {
+      primaryDimension: "lifecycle_stage",
+      distractorTypes: {
+        D: "wrong_governing_obligation",
+      },
+    },
   },
   266: {
     bokSubdomain: "IV.A",
@@ -5260,6 +5601,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF 1.0 (voluntary, outcome-based application)",
       "ISO/IEC 42001 (internal audit versus certification)",
     ],
+    reasoning: {
+      primaryDimension: "legal_vs_ethical",
+      distractorTypes: {
+        B: "wrong_governing_obligation",
+        D: "wrong_accountable_party",
+      },
+    },
   },
   277: {
     bokSubdomain: "II.D",
@@ -5279,6 +5627,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "NIST AI RMF 1.0 (Map, Measure, Manage and Govern functions)",
       "ISO/IEC 42001 (performance evaluation)",
     ],
+    reasoning: {
+      primaryDimension: "lifecycle_stage",
+      distractorTypes: {
+        A: "lifecycle_confusion",
+        D: "lifecycle_confusion",
+      },
+    },
   },
   278: {
     bokSubdomain: "II.D",
@@ -5450,6 +5805,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "ISO/IEC 42001 (organisational roles, responsibilities and authorities)",
       "NIST AI RMF (Govern: accountability for AI system outcomes)",
     ],
+    reasoning: {
+      primaryDimension: "accountability",
+      distractorTypes: {
+        C: "plausible_but_incomplete",
+      },
+    },
   },
   287: {
     bokSubdomain: "I.B",
@@ -5602,6 +5963,12 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "Berne Convention and national copyright acts (scope of licensed use)",
       "ISO/IEC 42001 (Annex A: intellectual property and data rights)",
     ],
+    reasoning: {
+      primaryDimension: "governing_obligation",
+      distractorTypes: {
+        D: "wrong_governing_obligation",
+      },
+    },
   },
   295: {
     bokSubdomain: "II.B",

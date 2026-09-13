@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { domainOf, type DomainRoman } from "@/content/bok";
 import type { Band, FocusArea, Slice } from "@/lib/analytics";
+import type { ReasoningPattern } from "@/lib/reasoning-patterns";
 import { cn } from "@/lib/utils";
 
 /**
@@ -93,6 +94,74 @@ function Headline({ label, value }: { label: string; value: string }) {
   );
 }
 
+/** The section label, which differs by how much evidence stands behind it. */
+const PATTERN_HEADING: Record<ReasoningPattern["strength"], string> = {
+  confirmed: "A pattern in your misses",
+  emerging: "An early signal",
+};
+
+/**
+ * The reasoning pattern, in whichever of its two states the evidence supports.
+ *
+ * A third state — no pattern — renders nothing at all: no placeholder, no meter
+ * toward an insight. A learner who has not answered enough of the questions this
+ * is tracked on sees the page as it was before the feature existed, rather than
+ * a promise that more answering will unlock something.
+ */
+function ReasoningPatternNote({ pattern }: { pattern: ReasoningPattern }) {
+  /*
+   * The two states are worded apart rather than graded by tone. An emerging
+   * signal leads with how little it rests on and says plainly that it may not
+   * hold; the confirmed one still offers itself as a lead to check rather than
+   * a verdict, because even at five observations it is one.
+   *
+   * Neither is ever called "high confidence". On simulated learners with no
+   * pattern at all the confirmed tier still fires about nine times in a
+   * hundred, and copy that claimed certainty would be overselling it.
+   */
+  if (pattern.strength === "emerging") {
+    return (
+      <div className="border border-border bg-card p-5">
+        <p className="measure text-sm leading-relaxed text-muted-foreground">
+          Only {pattern.observed} of your misses so far are on questions where we
+          track the reasoning behind each option — and {pattern.occurrences} of
+          them point the same way:{" "}
+          <span className="font-medium text-foreground">{pattern.label}</span>.
+        </p>
+        <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
+          That is too little to call a pattern, and it may not hold up.
+          Practising a few of these is the quickest way to find out.
+        </p>
+        <Button asChild variant="secondary" className="mt-4 w-full sm:w-auto">
+          <Link href="/study/session?focus=pattern&count=10">
+            Try a few of these
+          </Link>
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="border border-border bg-card p-5">
+      <p className="measure text-sm leading-relaxed text-muted-foreground">
+        On the questions where the reasoning behind each option is tracked, your
+        wrong answers lean toward{" "}
+        <span className="font-medium text-foreground">{pattern.label}</span>. It
+        came up in {pattern.occurrences} of the {pattern.observed} you have
+        missed there, so treat it as a lead to check rather than a verdict.
+      </p>
+      <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
+        Worth practising: {pattern.practice}.
+      </p>
+      <Button asChild variant="secondary" className="mt-4 w-full sm:w-auto">
+        <Link href="/study/session?focus=pattern&count=10">
+          Practise this
+        </Link>
+      </Button>
+    </div>
+  );
+}
+
 export function AnalyticsView({
   overall,
   domains,
@@ -100,6 +169,7 @@ export function AnalyticsView({
   focus,
   strongest,
   weakest,
+  pattern,
 }: {
   overall: { answered: number; correct: number; accuracy: number; seen: number; available: number };
   domains: (Slice & { roman: DomainRoman })[];
@@ -107,6 +177,8 @@ export function AnalyticsView({
   focus: FocusArea[];
   strongest?: Slice;
   weakest?: Slice;
+  /** Omitted or null whenever the evidence does not support a claim. */
+  pattern?: ReasoningPattern | null;
 }) {
   const [open, setOpen] = useState<DomainRoman | null>(null);
 
@@ -170,6 +242,20 @@ export function AnalyticsView({
               Study my weak areas
             </Link>
           </Button>
+        </section>
+      ) : null}
+
+      {/*
+        The pattern sits on its own rather than inside Focus areas: the two have
+        different evidence thresholds, and a learner can qualify for one without
+        the other.
+      */}
+      {pattern ? (
+        <section>
+          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
+            {PATTERN_HEADING[pattern.strength]}
+          </h2>
+          <ReasoningPatternNote pattern={pattern} />
         </section>
       ) : null}
 
