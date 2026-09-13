@@ -9,16 +9,6 @@ import { useProgress } from "@/lib/store/progress-provider";
 import { BRAND } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
-/*
-  One nav definition drives the desktop rail and the mobile tab bar, so the two
-  can never disagree about what routes exist or what they are called.
-
-  Each entry carries a dimensional mark rather than a flat icon. The mark is
-  always accompanied by its text label — on both surfaces — because the design
-  system forbids meaning that lives in a visual object alone. That is also why
-  the marks are `aria-hidden`: the label beside them is the accessible name, and
-  announcing both would read every nav item twice.
-*/
 const NAV: { href: string; label: string; mark: MarkName }[] = [
   { href: "/home", label: "Home", mark: "home" },
   { href: "/study", label: "Practice", mark: "study" },
@@ -28,11 +18,6 @@ const NAV: { href: string; label: string; mark: MarkName }[] = [
   { href: "/settings", label: "Settings", mark: "settings" },
 ];
 
-/**
- * The Civic Studio shell: a dimensional left rail from `lg` up, a labelled
- * bottom tab bar below it. The information architecture is unchanged — this is
- * a presentation layer over the same six routes and the same due count.
- */
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { progress } = useProgress();
@@ -61,10 +46,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           ))}
         </nav>
 
-        <p className="mt-auto px-2 text-[0.75rem] leading-relaxed text-muted-foreground">
-          Independent educational product. Not affiliated with any certification
-          body.
-        </p>
+        <div className="mt-auto px-2">
+          <Link href="/help" className="text-[0.8125rem]">
+            Help · how this works
+          </Link>
+          <p className="mt-3 text-[0.75rem] leading-relaxed text-muted-foreground">
+            Independent educational product. Not affiliated with any certification
+            body.
+          </p>
+        </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -82,10 +72,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 function MobileHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background pt-safe lg:hidden">
-      <div className="flex h-16 items-center px-5">
+      <div className="flex h-16 items-center justify-between px-5">
         <span className="font-serif text-[1.0625rem] text-foreground">
           {BRAND.name}
         </span>
+        <Link href="/help" className="text-[0.8125rem]">
+          Help
+        </Link>
       </div>
     </header>
   );
@@ -199,6 +192,6 @@ function Greeting() {
   );
 }
 
-function isActive(pathname: string, href: string) {
+function isActive(pathname: string; href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
