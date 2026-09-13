@@ -6,6 +6,10 @@ import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
 import { resumeActiveSession } from "@/lib/active-session";
 import { focusDomains } from "@/lib/adaptive";
+import {
+  detectPattern,
+  questionIdsForFamily,
+} from "@/lib/reasoning-patterns";
 import { weakAreaQuestionIds } from "@/lib/analytics";
 import { newSeed, parseSeed } from "@/lib/presentation";
 import type { CompletedResult } from "@/lib/results";
@@ -106,10 +110,23 @@ function Session() {
     // A sub-domain drill resolves to an explicit question list. Empty means
     // nothing qualified, and we fall through to ordinary selection rather
     // than opening a drill over everything.
+    /*
+     * A reasoning drill resolves to the labelled questions that exercise the
+     * error family the learner keeps hitting. detectPattern returns null far
+     * more often than not, and an empty list falls through to ordinary
+     * selection below — the same way a sub-domain drill does when nothing
+     * qualifies — so a stale link never opens an empty sitting.
+     */
+    const patternIds = (() => {
+      if (focusParam !== "pattern") return [];
+      const found = detectPattern(progress, progress.trackId);
+      return found ? questionIdsForFamily(found.family, progress.trackId) : [];
+    })();
+
     const drillIds =
       focusParam === "subdomain"
         ? weakAreaQuestionIds(progress, progress.trackId, count)
-        : [];
+        : patternIds;
 
     // A focus session keeps drilling the domains it started on, even as
     // answering moves the accuracy that picked them.
@@ -132,7 +149,9 @@ function Session() {
           : {}),
     });
 
-    const label = drillIds.length
+    const label = patternIds.length
+      ? "Focus · a pattern in your misses"
+      : drillIds.length
       ? "Focus · your weakest areas"
       : !selectedDomains
         ? "Mixed practice"

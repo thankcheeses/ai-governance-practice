@@ -17,6 +17,7 @@ import {
   weakestArea,
 } from "@/lib/analytics";
 import { AnalyticsView } from "@/components/app/analytics-view";
+import { detectPattern } from "@/lib/reasoning-patterns";
 import { dueCount, upcomingReviews } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 
@@ -42,6 +43,7 @@ function Dashboard() {
   const focus = focusAreas(progress, progress.trackId);
   const strongest = strongestArea(progress, progress.trackId);
   const weakest = weakestArea(progress, progress.trackId);
+  const pattern = detectPattern(progress, progress.trackId);
 
   if (attempts.length === 0) {
     return (
@@ -86,6 +88,7 @@ function Dashboard() {
         focus={focus}
         strongest={strongest}
         weakest={weakest}
+        pattern={pattern}
       />
 
       <section>
