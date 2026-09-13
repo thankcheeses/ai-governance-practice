@@ -35,17 +35,7 @@ export default function RootPage() {
       </header>
 
       <main className="mx-auto w-full max-w-[1180px] px-5 py-10 sm:px-6 lg:px-10 lg:py-16">
-        <figure className="-mx-1 overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
-          <img
-            src={withBasePath("/brand/agp-hero-banner.svg")}
-            alt="AI Governance Practice. Scenario training for practitioners."
-            className="block h-auto w-full"
-            width={1600}
-            height={840}
-          />
-        </figure>
-
-        <div className="measure mt-10">
+        <div className="measure">
           <h1 className="text-[2.125rem] leading-[1.15] sm:text-[2.75rem]">
             {BRAND.tagline}
           </h1>
