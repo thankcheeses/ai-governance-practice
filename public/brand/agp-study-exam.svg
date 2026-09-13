@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="1200" height="480" role="img" aria-labelledby="t d">
+  <title id="t">Same bank. Different pressure.</title>
+  <desc id="d">Study mode teaches the reasoning. Exam mode tests whether it holds when feedback is withheld.</desc>
+  <rect width="1200" height="480" fill="#F4EDE4"/>
+  <text x="64" y="64" font-family="Georgia, serif" font-size="16" letter-spacing="3" fill="#8C3F1F">MODES</text>
+  <text x="64" y="110" font-family="Georgia, serif" font-size="36" fill="#1A2332">Same bank. Different pressure.</text>
+  <g transform="translate(64,156)">
+    <rect width="520" height="260" rx="24" fill="#FFFBF6" stroke="#1A233216"/>
+    <rect width="8" height="260" rx="4" fill="#4A7C59"/>
+    <text x="36" y="48" font-family="Georgia, serif" font-size="28" fill="#1A2332">Study</text>
+    <text x="36" y="88" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#5C534B">Immediate feedback. Self-paced.</text>
+    <text x="36" y="140" font-family="Inter, system-ui, sans-serif" font-size="17" fill="#1A2332">Read the facts. Decide. See why.</text>
+    <text x="36" y="168" font-family="Inter, system-ui, sans-serif" font-size="17" fill="#1A2332">Carry the takeaway into the next item.</text>
+    <rect x="36" y="200" width="168" height="32" rx="16" fill="#EAF2EC"/>
+    <text x="120" y="221" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#4A7C59">TEACHES THE LOOP</text>
+  </g>
+  <g transform="translate(616,156)">
+    <rect width="520" height="260" rx="24" fill="#1A2332"/>
+    <rect width="8" height="260" rx="4" fill="#B85A32"/>
+    <text x="36" y="48" font-family="Georgia, serif" font-size="28" fill="#FFFBF6">Exam</text>
+    <text x="36" y="88" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#D9CFC4">Timed. No feedback until submit.</text>
+    <text x="36" y="140" font-family="Inter, system-ui, sans-serif" font-size="17" fill="#FFFBF6">Same items. Clock running.</text>
+    <text x="36" y="168" font-family="Inter, system-ui, sans-serif" font-size="17" fill="#FFFBF6">Tests whether the loop holds.</text>
+    <rect x="36" y="200" width="168" height="32" rx="16" fill="#2A211B"/>
+    <text x="120" y="221" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#E8A87C">TESTS THE HOLD</text>
+  </g>
+</svg>

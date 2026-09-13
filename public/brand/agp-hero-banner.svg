@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 840" width="1600" height="840" role="img" aria-labelledby="t d">
+  <title id="t">AI Governance Practice</title>
+  <desc id="d">Scenario training for AI governance practitioners. 296 original scenarios.</desc>
+  <rect width="1600" height="840" fill="#F4EDE4"/>
+  <defs>
+    <radialGradient id="h1" cx="18%" cy="8%" r="62%">
+      <stop offset="0%" stop-color="#E8A87C" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#F4EDE4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="h2" cx="88%" cy="86%" r="50%">
+      <stop offset="0%" stop-color="#C5D0C4" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#F4EDE4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="840" fill="url(#h1)"/>
+  <rect width="1600" height="840" fill="url(#h2)"/>
+  <text x="96" y="120" font-family="Georgia, serif" font-size="22" letter-spacing="4" fill="#8C3F1F">INDEPENDENT PRACTICE TOOL</text>
+  <text x="96" y="220" font-family="Georgia, serif" font-size="72" fill="#1A2332">AI Governance</text>
+  <text x="96" y="300" font-family="Georgia, serif" font-size="72" fill="#1A2332">Practice</text>
+  <text x="96" y="370" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#5C534B">Scenario training for practitioners. Judgment, not vocabulary.</text>
+  <rect x="96" y="420" width="280" height="44" rx="22" fill="#FFFBF6" stroke="#1A233218"/>
+  <text x="236" y="448" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" letter-spacing="2.4" fill="#8C3F1F">296 ORIGINAL SCENARIOS</text>
+  <rect x="96" y="492" width="280" height="56" rx="28" fill="#1A2332"/>
+  <text x="236" y="526" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="600" fill="#FFFBF6">Start practicing</text>
+  <g transform="translate(920,180)">
+    <rect x="40" y="40" width="460" height="88" rx="20" fill="#FFFBF6" stroke="#1A233214"/>
+    <text x="68" y="74" font-family="Georgia, serif" font-size="22" fill="#1A2332">01  Facts</text>
+    <text x="68" y="102" font-family="Inter, sans-serif" font-size="15" fill="#5C534B">What is actually happening</text>
+    <rect x="20" y="148" width="500" height="88" rx="20" fill="#FFFBF6" stroke="#1A233214"/>
+    <text x="48" y="182" font-family="Georgia, serif" font-size="22" fill="#1A2332">02  Obligations</text>
+    <text x="48" y="210" font-family="Inter, sans-serif" font-size="15" fill="#5C534B">What is required, and by whom</text>
+    <rect x="40" y="256" width="460" height="88" rx="20" fill="#FFFBF6" stroke="#1A233214"/>
+    <text x="68" y="290" font-family="Georgia, serif" font-size="22" fill="#1A2332">03  Risks</text>
+    <text x="68" y="318" font-family="Inter, sans-serif" font-size="15" fill="#5C534B">What could harm people</text>
+    <rect x="8" y="364" width="524" height="96" rx="20" fill="#1A2332"/>
+    <text x="48" y="408" font-family="Georgia, serif" font-size="24" fill="#FFFBF6">04  Action</text>
+    <text x="48" y="438" font-family="Inter, sans-serif" font-size="15" fill="#E8A87C">The narrowest defensible next step</text>
+  </g>
+</svg>

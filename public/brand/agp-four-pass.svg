@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" role="img" aria-labelledby="t d">
+  <title id="t">How to read a governance scenario</title>
+  <desc id="d">Four sequential passes over the same text: Facts, Obligations, Risks, Action.</desc>
+  <rect width="1200" height="560" fill="#F4EDE4"/>
+  <defs>
+    <radialGradient id="wash" cx="18%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#E8A87C" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#F4EDE4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="560" fill="url(#wash)"/>
+  <text x="64" y="72" font-family="Georgia, 'Times New Roman', serif" font-size="18" letter-spacing="3.2" fill="#8C3F1F">FOUR PASSES</text>
+  <text x="64" y="122" font-family="Georgia, 'Times New Roman', serif" font-size="42" fill="#1A2332">How to read a scenario</text>
+  <text x="64" y="162" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#5C534B">Work in this order. Naming a framework before the facts is the common failure.</text>
+  <line x1="164" y1="300" x2="1036" y2="300" stroke="#D9CFC4" stroke-width="3"/>
+  <g transform="translate(64,220)">
+    <rect width="248" height="252" rx="24" fill="#FFFBF6" stroke="#1A233216"/>
+    <circle cx="36" cy="40" r="16" fill="#1A2332"/>
+    <text x="36" y="45" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#FFFBF6">01</text>
+    <text x="64" y="48" font-family="Georgia, serif" font-size="26" fill="#1A2332">Facts</text>
+    <text x="24" y="92" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#5C534B">What is actually</text>
+    <text x="24" y="116" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#5C534B">described — system,</text>
+    <text x="24" y="140" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#5C534B">who it affects, stage.</text>
+    <text x="24" y="180" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8C3F1F">Separate this from</text>
+    <text x="24" y="202" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8C3F1F">what you assume.</text>
+  </g>
+  <g transform="translate(336,220)">
+    <rect width="248" height="252" rx="24" fill="#FFFBF6" stroke="#1A233216"/>
+    <circle cx="36" cy="40" r="16" fill="#1A2332"/>
+    <text x="36" y="45" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#FFFBF6">02</text>
+    <text x="64" y="48" font-family="Georgia, serif" font-size="26" fill="#1A2332">Obligations</text>
+    <text x="24" y="92" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#5C534B">What is required</text>
+    <text x="24" y="116" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#5C534B">here, and by whom.</text>
+    <text x="24" y="180" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8C3F1F">Attach duties to</text>
+    <text x="24" y="202" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8C3F1F">roles and context.</text>
+  </g>
+  <g transform="translate(608,220)">
+    <rect width="248" height="252" rx="24" fill="#FFFBF6" stroke="#1A233216"/>
+    <circle cx="36" cy="40" r="16" fill="#1A2332"/>
+    <text x="36" y="45" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#FFFBF6">03</text>
+    <text x="64" y="48" font-family="Georgia, serif" font-size="26" fill="#1A2332">Risks</text>
+    <text x="24" y="92" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#5C534B">What could harm</text>
+    <text x="24" y="116" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#5C534B">people or the</text>
+    <text x="24" y="140" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#5C534B">organization.</text>
+    <text x="24" y="180" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8C3F1F">Name the harm</text>
+    <text x="24" y="202" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#8C3F1F">before the control.</text>
+  </g>
+  <g transform="translate(880,220)">
+    <rect width="256" height="252" rx="24" fill="#1A2332"/>
+    <circle cx="36" cy="40" r="16" fill="#B85A32"/>
+    <text x="36" y="45" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#FFFBF6">04</text>
+    <text x="64" y="48" font-family="Georgia, serif" font-size="26" fill="#FFFBF6">Action</text>
+    <text x="24" y="92" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#D9CFC4">The narrowest</text>
+    <text x="24" y="116" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#D9CFC4">defensible next</text>
+    <text x="24" y="140" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#D9CFC4">step.</text>
+    <text x="24" y="180" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#E8A87C">Do not skip 01–03</text>
+    <text x="24" y="202" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#E8A87C">to reach a rule.</text>
+  </g>
+</svg>
