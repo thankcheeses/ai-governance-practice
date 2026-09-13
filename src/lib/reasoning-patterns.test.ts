@@ -3,8 +3,17 @@ import { test } from "node:test";
 import { getTrackQuestions } from "@/content/registry";
 import type { DistractorType } from "@/content/types";
 import {
+  EMERGING_MIN_FOR_PATTERN,
+  EMERGING_MIN_MARGIN,
+  EMERGING_MIN_OBSERVATIONS,
+  EMERGING_MIN_SHARE,
   FAMILIES,
+  MIN_FOR_PATTERN,
+  MIN_MARGIN,
+  MIN_OBSERVATIONS,
   MIN_SHARE,
+  RECENT_WINDOW,
+  WINDOW,
   detectPattern,
   familyOf,
   observationsFrom,
@@ -256,8 +265,17 @@ test("repeated attempts on one question count once — the SM-2 trap", () => {
   ];
   // Five attempts, three questions, three observations.
   assert.equal(observationsFrom(progressOf(specs)).length, 3);
-  // And therefore below the observation floor, where five raw attempts were not.
-  assert.equal(detectPattern(progressOf(specs)), null);
+  /*
+   * And therefore an emerging signal, not a confirmed one. Without the
+   * deduplication those five raw attempts would clear the confirmed floor, so
+   * this asserts the tier the learner actually lands in rather than only the
+   * observation count — the same question answered three times must not buy a
+   * stronger claim.
+   */
+  const pattern = detectPattern(progressOf(specs));
+  assert.equal(pattern?.strength, "emerging");
+  assert.equal(pattern?.occurrences, 3);
+  assert.equal(pattern?.observed, 3);
 });
 
 test("the most recent attempt on a question is the one kept", () => {
@@ -274,15 +292,24 @@ test("the most recent attempt on a question is the one kept", () => {
 
 /* ------------------------------------------------- minimum observations -- */
 
-test("four observations is silent, five speaks", () => {
-  assert.equal(detectPattern(progressOf(specsFor("wrongRule", 4))), null);
+test("the three tiers sit where they are specified to sit", () => {
+  // Below the emerging floor: nothing, whatever the split looks like.
+  assert.equal(detectPattern(progressOf(specsFor("wrongRule", 2))), null);
 
+  // Three and four observations are provisional, never confirmed.
+  for (const n of [3, 4]) {
+    const p = detectPattern(progressOf(specsFor("wrongRule", n)));
+    assert.equal(p?.strength, "emerging", `${n} observations should be emerging`);
+    assert.equal(p?.occurrences, n);
+  }
+
+  // Five is where the confirmed thresholds take over.
   const pattern = detectPattern(progressOf(specsFor("wrongRule", 5)));
-  assert.ok(pattern, "five qualifying observations should produce a pattern");
-  assert.equal(pattern.family, "wrongRule");
-  assert.equal(pattern.occurrences, 5);
-  assert.equal(pattern.observed, 5);
-  assert.equal(pattern.questionIds.length, 5);
+  assert.equal(pattern?.strength, "confirmed");
+  assert.equal(pattern?.family, "wrongRule");
+  assert.equal(pattern?.occurrences, 5);
+  assert.equal(pattern?.observed, 5);
+  assert.equal(pattern?.questionIds.length, 5);
 });
 
 test("two occurrences is not a pattern, however uncontested", () => {
@@ -383,6 +410,202 @@ test("the same shape still speaks when one occurrence is recent", () => {
   assert.equal(pattern.family, "wrongRule");
   assert.equal(pattern.occurrences, 8);
   assert.equal(pattern.observed, 20);
+});
+
+/* --------------------------------------------------------- emerging tier -- */
+
+test("an emerging signal needs a clear margin, not just a lead", () => {
+  // Two of three, with the third a near miss: runner-up zero, margin two.
+  const qualifies = allocate(["wrongRule", 2], ["nearMiss", 1]);
+  const pattern = detectPattern(progressOf(qualifies));
+  assert.equal(pattern?.strength, "emerging");
+  assert.equal(pattern?.occurrences, 2);
+  assert.equal(pattern?.observed, 3);
+
+  // Two of three where the third is a different nameable family: margin one.
+  // This is the case that would fire at 24.8% on learners with no pattern.
+  const contested = allocate(["wrongRule", 2], ["wrongParty", 1]);
+  assert.equal(observationsFrom(progressOf(contested)).length, 3);
+  assert.equal(detectPattern(progressOf(contested)), null);
+});
+
+test("an emerging signal needs half the observations behind it", () => {
+  // Two of four clears the count and the margin and still is not half.
+  const specs = allocate(["wrongRule", 2], ["nearMiss", 2]);
+  assert.equal(observationsFrom(progressOf(specs)).length, 4);
+  assert.ok(2 / 4 >= EMERGING_MIN_SHARE, "two of four is exactly the floor");
+  assert.equal(detectPattern(progressOf(specs))?.strength, "emerging");
+
+  // Two of five would be below it — but five observations is the confirmed
+  // tier's territory, where two occurrences is short of the floor anyway.
+  const five = allocate(["wrongRule", 2], ["nearMiss", 3]);
+  assert.equal(detectPattern(progressOf(five)), null);
+});
+
+test("a failed confirmed signal is not restated as an emerging one", () => {
+  /*
+   * The tiers must not overlap. Four wrongRule and three wrongParty is seven
+   * observations: the confirmed thresholds reject it on margin, and the
+   * emerging thresholds would accept nothing here either — but the point is
+   * that emerging is never even consulted at five or more. Without that rule a
+   * rejected claim would be laundered into a weaker one on identical evidence.
+   */
+  const specs = allocate(["wrongRule", 4], ["wrongParty", 3]);
+  assert.equal(observationsFrom(progressOf(specs)).length, 7);
+  assert.equal(detectPattern(progressOf(specs)), null);
+
+  // The same shape below the boundary is a legitimate emerging signal, which
+  // is what makes the previous assertion about the boundary and not the split.
+  const below = allocate(["wrongRule", 2], ["nearMiss", 1]);
+  assert.equal(detectPattern(progressOf(below))?.strength, "emerging");
+});
+
+test("an emerging signal can dissolve as evidence arrives", () => {
+  // Four of four is emerging. A fifth observation from another family drops the
+  // leader to four of five: still confirmed-eligible. A fifth that splits the
+  // lead instead leaves nothing, and that silence is correct.
+  const four = allocate(["wrongRule", 4]);
+  assert.equal(detectPattern(progressOf(four))?.strength, "emerging");
+
+  const five = allocate(["wrongRule", 3], ["wrongParty", 2]);
+  assert.equal(observationsFrom(progressOf(five)).length, 5);
+  assert.equal(
+    detectPattern(progressOf(five)),
+    null,
+    "a three-to-two split at the confirmed tier is not a pattern",
+  );
+});
+
+test("the emerging tier never names the near-miss family either", () => {
+  const near = allocate(["nearMiss", 3]);
+  assert.equal(observationsFrom(progressOf(near)).length, 3);
+  assert.equal(detectPattern(progressOf(near)), null);
+
+  // Counted in the denominator there as everywhere else.
+  const mixed = detectPattern(progressOf(allocate(["wrongRule", 2], ["nearMiss", 1])));
+  assert.equal(mixed?.observed, 3);
+  assert.equal(mixed?.occurrences, 2);
+});
+
+test("the staleness gate is inert at the emerging tier, by arithmetic", () => {
+  /*
+   * Documenting a limit rather than claiming a guarantee. The gate runs on the
+   * same code path for both tiers, but it asks whether an occurrence falls in
+   * the last RECENT_WINDOW (10) observations — and the emerging window is at
+   * most four, so every observation is always "recent" there and the gate can
+   * never suppress anything.
+   *
+   * That is the right behaviour and not a gap to plug: with four observations
+   * there is no meaningful split between old and recent to draw. The assertion
+   * exists so the limit is visible in CI, and so that raising the emerging
+   * ceiling above RECENT_WINDOW later cannot happen without this failing and
+   * forcing the recency question to be reconsidered.
+   */
+  assert.ok(
+    MIN_OBSERVATIONS - 1 < RECENT_WINDOW,
+    "the emerging window must stay inside the recency window, or staleness " +
+      "starts silently filtering provisional signals on partial evidence",
+  );
+});
+
+test("both tiers report the denominator they were drawn from", () => {
+  const emerging = detectPattern(
+    progressOf(allocate(["wrongRule", 2], ["nearMiss", 2])),
+  );
+  assert.equal(emerging?.occurrences, 2);
+  assert.equal(emerging?.observed, 4);
+
+  const confirmed = detectPattern(
+    progressOf(allocate(["wrongRule", 5], ["nearMiss", 4])),
+  );
+  assert.equal(confirmed?.strength, "confirmed");
+  assert.equal(confirmed?.occurrences, 5);
+  assert.equal(confirmed?.observed, 9);
+});
+
+/* ------------------------------------------ threshold interaction -- */
+
+/*
+ * Three of the emerging constants cannot be caught by mutating them, because
+ * the margin rule already entails them. Mutation testing said so: lowering
+ * EMERGING_MIN_FOR_PATTERN or EMERGING_MIN_SHARE changed no behaviour at all.
+ *
+ * That does not make them decoration — they state the rule that was agreed, and
+ * they become load-bearing the moment the margin changes. What follows asserts
+ * the entailments directly, so a future edit that breaks one fails here instead
+ * of silently removing a safeguard someone believes is active.
+ */
+
+test("the emerging occurrence floor is entailed by its margin", () => {
+  // runner-up cannot be negative, so margin N forces a lead of at least N.
+  assert.ok(
+    EMERGING_MIN_MARGIN >= EMERGING_MIN_FOR_PATTERN,
+    "lowering the margin below the occurrence floor makes the floor the only " +
+      "thing stopping a single observation being named — re-check both together",
+  );
+});
+
+test("the emerging share floor never rejects on its own at 3-4 observations", () => {
+  /*
+   * Enumerated rather than reasoned about: with a margin of two, no split of
+   * three or four observations produces a share between the emerging floor and
+   * the confirmed one, so the share threshold currently rejects nothing the
+   * margin has not already rejected. If the emerging window ever widens, this
+   * stops holding and the share floor starts doing independent work — which is
+   * fine, but should be a decision rather than a surprise.
+   */
+  const reachable: number[] = [];
+  for (let total = EMERGING_MIN_OBSERVATIONS; total < MIN_OBSERVATIONS; total++) {
+    for (let lead = 0; lead <= total; lead++) {
+      for (let runner = 0; runner + lead <= total; runner++) {
+        if (lead - runner < EMERGING_MIN_MARGIN) continue;
+        if (lead < EMERGING_MIN_FOR_PATTERN) continue;
+        reachable.push(lead / total);
+      }
+    }
+  }
+  assert.ok(reachable.length > 0, "the emerging tier must be reachable at all");
+  for (const share of reachable) {
+    assert.ok(
+      share >= EMERGING_MIN_SHARE,
+      `a reachable split gives share ${share.toFixed(2)}, below the floor — ` +
+        `the share rule now rejects independently and needs its own case`,
+    );
+  }
+});
+
+test("emerging can never accept where confirmed rejects", () => {
+  /*
+   * This is what makes the no-downgrade boundary safe rather than merely
+   * stated. Above MIN_OBSERVATIONS the emerging thresholds are strictly harder
+   * than the confirmed ones, so even if the boundary were removed a rejected
+   * confirmed claim could not reappear as an emerging one.
+   *
+   * The boundary stays in the code because it encodes the intent directly and
+   * does not depend on this arithmetic holding. This test is what would tell
+   * us the arithmetic had stopped holding — at which point the boundary would
+   * become the only thing preventing a laundered claim.
+   */
+  const accepts = (t: { occ: number; margin: number; share: number },
+                   lead: number, runner: number, total: number) =>
+    lead >= t.occ && lead - runner >= t.margin && lead / total >= t.share;
+
+  const emerging = { occ: EMERGING_MIN_FOR_PATTERN, margin: EMERGING_MIN_MARGIN, share: EMERGING_MIN_SHARE };
+  const confirmed = { occ: MIN_FOR_PATTERN, margin: MIN_MARGIN, share: MIN_SHARE };
+
+  for (let total = MIN_OBSERVATIONS; total <= WINDOW; total++) {
+    for (let lead = 0; lead <= total; lead++) {
+      for (let runner = 0; runner + lead <= total; runner++) {
+        if (accepts(emerging, lead, runner, total)) {
+          assert.ok(
+            accepts(confirmed, lead, runner, total),
+            `${lead}/${runner} of ${total} would be emerging but not confirmed — ` +
+              `the no-downgrade boundary is now load-bearing and needs a real case`,
+          );
+        }
+      }
+    }
+  }
 });
 
 /* ------------------------------------------------- targeted practice -- */

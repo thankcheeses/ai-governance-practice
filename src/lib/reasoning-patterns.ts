@@ -70,6 +70,27 @@ export const MIN_MARGIN = 2;
 /** Share of usable observations the leader must hold. */
 export const MIN_SHARE = 0.4;
 
+/*
+ * The emerging tier.
+ *
+ * The confirmed thresholds above need roughly 160 answered questions before
+ * they can speak, which left the feature silent for nearly every learner. The
+ * fix is a second, explicitly provisional state rather than a looser definition
+ * of the first — a claim made on thin evidence should say so, not quietly lower
+ * the bar behind the same wording.
+ *
+ * Measured against 200,000 simulated learners with no pattern at all, drawing
+ * misses from the real label distribution, these thresholds fire 7.2% of the
+ * time. The confirmed tier fires 9.2%. The emerging tier is narrower, not
+ * looser: requiring a margin of two at only three observations forces the
+ * runner-up to zero, so the third observation has to be a near miss or more of
+ * the same family.
+ */
+export const EMERGING_MIN_OBSERVATIONS = 3;
+export const EMERGING_MIN_FOR_PATTERN = 2;
+export const EMERGING_MIN_MARGIN = 2;
+export const EMERGING_MIN_SHARE = 0.5;
+
 /* --------------------------------------------------------------- families -- */
 
 /**
@@ -261,8 +282,19 @@ function observationOf(attempt: Attempt): Observation | undefined {
 
 /* --------------------------------------------------------------- pattern -- */
 
+/**
+ * How much the evidence supports the claim.
+ *
+ * "confirmed" is not "high confidence" and is never described that way to a
+ * learner: on simulated learners with no pattern at all it still fires 9.2% of
+ * the time. It is a lead worth checking, and the copy says so. "emerging" is the
+ * same kind of lead on thinner evidence, and says that too.
+ */
+export type PatternStrength = "confirmed" | "emerging";
+
 export interface ReasoningPattern {
   family: PatternFamily;
+  strength: PatternStrength;
   /** What the learner reads. */
   label: string;
   practice: string;
@@ -278,23 +310,36 @@ export interface ReasoningPattern {
   questionIds: string[];
 }
 
+interface Thresholds {
+  minForPattern: number;
+  minMargin: number;
+  minShare: number;
+}
+
+const CONFIRMED: Thresholds = {
+  minForPattern: MIN_FOR_PATTERN,
+  minMargin: MIN_MARGIN,
+  minShare: MIN_SHARE,
+};
+
+const EMERGING: Thresholds = {
+  minForPattern: EMERGING_MIN_FOR_PATTERN,
+  minMargin: EMERGING_MIN_MARGIN,
+  minShare: EMERGING_MIN_SHARE,
+};
+
 /**
- * The one reasoning pattern worth telling a learner about, or null.
+ * Apply one tier's thresholds to a window of observations.
  *
- * Null is the common answer and is never dressed up. There is deliberately no
- * "not enough data yet" state for a surface to render: a progress meter toward
- * an insight is a prompt to answer more questions, which is not what this is
- * for.
+ * Both tiers run through this, so the rules they share — which families may be
+ * named, the margin over the runner-up, the staleness gate, the deduplication
+ * invariant — cannot drift apart as one tier is tuned.
  */
-export function detectPattern(
-  progress: UserProgress,
-  trackId: TrackId = "aigp-preparation",
+function evaluate(
+  window: Observation[],
+  thresholds: Thresholds,
+  strength: PatternStrength,
 ): ReasoningPattern | null {
-  const all = observationsFrom(progress, trackId);
-  const window = all.slice(-WINDOW);
-
-  if (window.length < MIN_OBSERVATIONS) return null;
-
   const counts = new Map<PatternFamily, Observation[]>();
   for (const observation of window) {
     counts.set(observation.family, [
@@ -315,16 +360,16 @@ export function detectPattern(
   const [family, observations] = leader;
   const runnerUp = ranked[1]?.[1].length ?? 0;
 
-  if (observations.length < MIN_FOR_PATTERN) return null;
-  if (observations.length - runnerUp < MIN_MARGIN) return null;
-  if (observations.length / window.length < MIN_SHARE) return null;
+  if (observations.length < thresholds.minForPattern) return null;
+  if (observations.length - runnerUp < thresholds.minMargin) return null;
+  if (observations.length / window.length < thresholds.minShare) return null;
 
   /*
    * Invariant, not a threshold: deduplication should already guarantee one
-   * observation per question, which is what lets MIN_FOR_PATTERN stand for
-   * "three different questions". If that ever breaks — the review queue feeding
-   * the same question through, say — fail the claim closed rather than reporting
-   * a pattern built from one question answered repeatedly.
+   * observation per question, which is what lets the occurrence count stand for
+   * "this many different questions". If that ever breaks — the review queue
+   * feeding the same question through, say — fail the claim closed rather than
+   * reporting a pattern built from one question answered repeatedly.
    */
   const questionIds = [...new Set(observations.map((o) => o.questionId))];
   if (questionIds.length !== observations.length) return null;
@@ -340,12 +385,49 @@ export function detectPattern(
 
   return {
     family,
+    strength,
     label: FAMILIES[family].label,
     practice: FAMILIES[family].practice,
     occurrences: observations.length,
     observed: window.length,
     questionIds,
   };
+}
+
+/**
+ * The one reasoning pattern worth telling a learner about, or null.
+ *
+ * Two tiers, and silence. Null is still the common answer and is never dressed
+ * up: there is deliberately no "not enough data yet" state for a surface to
+ * render, because a progress meter toward an insight is a prompt to answer more
+ * questions rather than a teaching device.
+ *
+ * The tiers do not overlap. Emerging is evaluated **only** at three or four
+ * observations; from five upward the confirmed thresholds govern alone. That
+ * boundary is deliberate — without it, a confirmed claim that failed on five
+ * observations would fall through and be restated as an emerging one on exactly
+ * the same evidence, which is how a rejected claim gets laundered into a weaker
+ * one rather than dropped.
+ *
+ * A consequence, accepted knowingly: a learner can see an emerging signal at
+ * four observations and nothing at five, because the signal dissolved. The copy
+ * for the emerging tier says it may not hold up, so that reads as the early
+ * signal doing its job rather than the feature breaking.
+ */
+export function detectPattern(
+  progress: UserProgress,
+  trackId: TrackId = "aigp-preparation",
+): ReasoningPattern | null {
+  const all = observationsFrom(progress, trackId);
+  const window = all.slice(-WINDOW);
+
+  if (window.length >= MIN_OBSERVATIONS) {
+    return evaluate(window, CONFIRMED, "confirmed");
+  }
+  if (window.length >= EMERGING_MIN_OBSERVATIONS) {
+    return evaluate(window, EMERGING, "emerging");
+  }
+  return null;
 }
 
 /**

@@ -94,15 +94,53 @@ function Headline({ label, value }: { label: string; value: string }) {
   );
 }
 
+/** The section label, which differs by how much evidence stands behind it. */
+const PATTERN_HEADING: Record<ReasoningPattern["strength"], string> = {
+  confirmed: "A pattern in your misses",
+  emerging: "An early signal",
+};
+
 /**
- * The reasoning pattern, when the evidence supports naming one.
+ * The reasoning pattern, in whichever of its two states the evidence supports.
  *
- * `null` is the ordinary case and renders nothing — no placeholder, no meter
+ * A third state — no pattern — renders nothing at all: no placeholder, no meter
  * toward an insight. A learner who has not answered enough of the questions this
- * is tracked on should see the page they saw before the feature existed, rather
- * than a promise that more answering will unlock something.
+ * is tracked on sees the page as it was before the feature existed, rather than
+ * a promise that more answering will unlock something.
  */
 function ReasoningPatternNote({ pattern }: { pattern: ReasoningPattern }) {
+  /*
+   * The two states are worded apart rather than graded by tone. An emerging
+   * signal leads with how little it rests on and says plainly that it may not
+   * hold; the confirmed one still offers itself as a lead to check rather than
+   * a verdict, because even at five observations it is one.
+   *
+   * Neither is ever called "high confidence". On simulated learners with no
+   * pattern at all the confirmed tier still fires about nine times in a
+   * hundred, and copy that claimed certainty would be overselling it.
+   */
+  if (pattern.strength === "emerging") {
+    return (
+      <div className="border border-border bg-card p-5">
+        <p className="measure text-sm leading-relaxed text-muted-foreground">
+          Only {pattern.observed} of your misses so far are on questions where we
+          track the reasoning behind each option — and {pattern.occurrences} of
+          them point the same way:{" "}
+          <span className="font-medium text-foreground">{pattern.label}</span>.
+        </p>
+        <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
+          That is too little to call a pattern, and it may not hold up.
+          Practising a few of these is the quickest way to find out.
+        </p>
+        <Button asChild variant="secondary" className="mt-4 w-full sm:w-auto">
+          <Link href="/study/session?focus=pattern&count=10">
+            Try a few of these
+          </Link>
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="border border-border bg-card p-5">
       <p className="measure text-sm leading-relaxed text-muted-foreground">
@@ -215,7 +253,7 @@ export function AnalyticsView({
       {pattern ? (
         <section>
           <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
-            A pattern in your misses
+            {PATTERN_HEADING[pattern.strength]}
           </h2>
           <ReasoningPatternNote pattern={pattern} />
         </section>
