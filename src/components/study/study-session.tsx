@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
+import { FirstAnswerNote } from "@/components/study/first-answer-note";
 import { QuestionView } from "@/components/study/question-view";
+import { ReadCoach } from "@/components/study/read-coach";
+import { SessionComplete } from "@/components/study/session-complete";
+import { useStudyHotkeys } from "@/components/study/use-study-hotkeys";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -16,16 +20,7 @@ import {
 } from "@/lib/active-session";
 import { canSubmit, gradeAnswer, toggleSelection } from "@/lib/grading";
 import { correctKeys } from "@/lib/presentation";
-import { ResultActions } from "@/components/results/result-actions";
-import { SUBDOMAINS } from "@/content/bok";
-import {
-  type CompletedResult,
-  type ResultSlice,
-  elapsedMs,
-  formatDuration,
-  scoreSitting,
-  weakestSubdomains,
-} from "@/lib/results";
+import { type CompletedResult } from "@/lib/results";
 import { writeResult } from "@/lib/results-storage";
 import {
   resultFromActiveSession,
@@ -38,19 +33,12 @@ import type { Confidence, ReviewGrade, StudyMode } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface StudySessionProps {
-  /** Questions and their dealt options — already built, or already restored. */
   sitting: Sitting;
   mode: StudyMode;
   label: string;
-  /** Show Again/Hard/Good/Easy scheduling after each answer (review mode). */
   withScheduling?: boolean;
   exitHref?: string;
-  /** Where the learner was, when this sitting is being resumed. */
   resumed?: ActiveSession | null;
-  /**
-   * A finished result for this sitting, when the learner is returning to the
-   * summary rather than to the sitting. Mutually exclusive with `resumed`.
-   */
   completedResult?: CompletedResult | null;
 }
 
@@ -60,11 +48,6 @@ const CONFIDENCE_OPTIONS: { value: Confidence; label: string }[] = [
   { value: "confident", label: "Confident" },
 ];
 
-/**
- * The learning loop: question → answer → feedback → rationale → key takeaway →
- * next → progress update. Used by both /study and /review; review mode adds
- * SM-2 scheduling buttons in place of the plain Continue action.
- */
 export function StudySession({
   sitting,
   mode,
@@ -78,72 +61,32 @@ export function StudySession({
   const { seed, questions } = sitting;
 
   const [index, setIndex] = useState(() => resumed?.index ?? 0);
-  // Option ids, never letters — letters are a per-session presentation.
-  const [selected, setSelected] = useState<string[]>(
-    () => resumed?.selected ?? [],
-  );
-  const [confidence, setConfidence] = useState<Confidence | null>(
-    () => resumed?.confidence ?? null,
-  );
+  const [selected, setSelected] = useState<string[]>(() => resumed?.selected ?? []);
+  const [confidence, setConfidence] = useState<Confidence | null>(() => resumed?.confidence ?? null);
   const [revealed, setRevealed] = useState(() => resumed?.revealed ?? false);
-  /*
-    Resuming a revealed question re-derives the verdict from the stored option
-    ids rather than re-answering. Calling recordAnswer here would write a
-    second attempt for one answer, inflating accuracy and the review queue
-    every time someone refreshed.
-  */
   const [wasCorrect, setWasCorrect] = useState(() => {
     if (!resumed?.revealed) return false;
     const q = sitting.questions[resumed.index];
     return q ? gradeAnswer(q, resumed.selected) : false;
   });
-  /*
-    Every answer given so far, keyed by question id. This is what makes a
-    finished sitting reportable: without it the choices vanish as the learner
-    advances, and the summary screen can only exist for as long as the tab is
-    not reloaded.
-  */
-  const [answers, setAnswers] = useState<Record<string, string[]>>(
-    () => resumed?.answers ?? {},
-  );
-  const [startedAt] = useState(
-    () => resumed?.startedAt ?? new Date().toISOString(),
-  );
-  const [correctCount, setCorrectCount] = useState(
-    () => resumed?.correctCount ?? 0,
-  );
-  const [queuedCount, setQueuedCount] = useState(
-    () => resumed?.queuedCount ?? 0,
-  );
+  const [answers, setAnswers] = useState<Record<string, string[]>>(() => resumed?.answers ?? {});
+  const [startedAt] = useState(() => resumed?.startedAt ?? new Date().toISOString());
+  const [correctCount, setCorrectCount] = useState(() => resumed?.correctCount ?? 0);
+  const [queuedCount, setQueuedCount] = useState(() => resumed?.queuedCount ?? 0);
   const [finished, setFinished] = useState(() => completedResult !== null);
-  /*
-    The result of this sitting, once it has one. Held here as well as in
-    storage so the summary renders from the same object that was persisted,
-    rather than from a second derivation that could disagree with it.
-  */
-  const [completed, setCompleted] = useState<CompletedResult | null>(
-    () => completedResult ?? null,
-  );
+  const [completed, setCompleted] = useState<CompletedResult | null>(() => completedResult ?? null);
 
   const questionStart = useRef(Date.now());
   const feedbackAnchor = useRef<HTMLDivElement>(null);
 
   const question = questions[index];
   const total = questions.length;
-
-  // Dealt once when the sitting was built or restored — never re-shuffled
-  // here, so a re-render cannot move the choices under the learner.
   const options = useMemo(() => sitting.options[index] ?? [], [sitting, index]);
   const answerKeys = useMemo(
     () => (question ? correctKeys(options, question) : []),
     [options, question],
   );
 
-  /*
-    Persist after every change that alters where the learner is. Writing on a
-    state change rather than on an interval means the stored sitting is never
-    more than one render behind the screen.
-  */
   useEffect(() => {
     if (finished || !question) return;
     const { questionIds, optionIds } = sittingComposition(sitting);
@@ -188,22 +131,12 @@ export function StudySession({
     if (result.correct) setCorrectCount((c) => c + 1);
     if (result.queuedForReview) setQueuedCount((c) => c + 1);
     requestAnimationFrame(() =>
-      feedbackAnchor.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      }),
+      feedbackAnchor.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
     );
   }, [selected, revealed, question, recordAnswer, mode, confidence]);
 
   const advance = useCallback(() => {
     if (index + 1 >= total) {
-      /*
-        The sitting is over. Turn it into a result before clearing it: the
-        summary used to live only in React state, so refreshing this screen
-        destroyed it and dealt a brand-new sitting. The result is written to
-        its own durable store first, and the in-flight sitting is cleared
-        second, so the screen can be rebuilt from storage on the way back in.
-      */
       const { questionIds, optionIds } = sittingComposition(sitting);
       const record = resultFromActiveSession({
         version: ACTIVE_SESSION_VERSION,
@@ -255,21 +188,21 @@ export function StudySession({
   const scheduling = useMemo(() => {
     if (!question || !withScheduling) return [];
     const card =
-      progress.reviewCards[question.id] ??
-      newReviewCard(question.id, question.trackId);
+      progress.reviewCards[question.id] ?? newReviewCard(question.id, question.trackId);
     return gradePreview(card);
   }, [question, withScheduling, progress.reviewCards]);
 
-  // Enter submits, then continues.
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key !== "Enter" || finished) return;
-      if (!revealed && question && canSubmit(question, selected)) handleSubmit();
-      else if (revealed && !withScheduling) advance();
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [revealed, selected, question, finished, withScheduling, handleSubmit, advance]);
+  useStudyHotkeys({
+    question,
+    options,
+    selected,
+    revealed,
+    finished,
+    withScheduling,
+    onSelect: (ids) => setSelected(ids),
+    onSubmit: handleSubmit,
+    onAdvance: advance,
+  });
 
   if (finished && completed) {
     return <SessionComplete result={completed} queued={queuedCount} />;
@@ -277,20 +210,10 @@ export function StudySession({
 
   if (!question) {
     return (
-      /*
-        The mark, because this is an empty state and empty states carry it —
-        /dashboard and /review both do. This one is page-level rather than
-        inside a Card, so it keeps its own heading scale and gains only the
-        mark and the centring that positions it.
-      */
       <div className="flex flex-col items-center py-16 text-center">
         <DimensionalMark name="brand" size="xl" />
-        <h1 className="mt-5 text-[2rem] leading-[1.15] sm:text-[2.25rem]">
-          Nothing to study here
-        </h1>
-        <p className="mt-2 text-muted-foreground">
-          Try a different domain or come back once more questions are due.
-        </p>
+        <h1 className="mt-5 text-[2rem] leading-[1.15] sm:text-[2.25rem]">Nothing to study here</h1>
+        <p className="mt-2 text-muted-foreground">Try a different domain or come back once more questions are due.</p>
         <Button asChild className="mt-6">
           <Link href="/study">Choose a session</Link>
         </Button>
@@ -299,19 +222,10 @@ export function StudySession({
   }
 
   return (
-    /*
-      The session runs in a single reading column, the same width as the action
-      bar below it. The app container is 1280px so tables and dashboards can use
-      it; a question stem must not, or a scenario becomes a 150-character line
-      and the eye loses its place on the return sweep.
-    */
     <div className="mx-auto max-w-3xl pb-32">
-      {/* Session header */}
       <div className="mb-6 flex items-center gap-3">
         <Button asChild variant="ghost" size="icon" aria-label="Exit session">
-          {/* Leaving on purpose abandons the sitting; only a refresh resumes. */}
-          <Link href={exitHref} onClick={() => clearActiveSession()}>
-          </Link>
+          <Link href={exitHref} onClick={() => clearActiveSession()} />
         </Button>
         <div className="min-w-0 flex-1">
           <div className="mb-1.5 flex items-baseline justify-between gap-3">
@@ -325,38 +239,30 @@ export function StudySession({
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
-        {/* Domain is the accent-tinted pill; difficulty stays neutral so the
-            two read as different kinds of metadata. */}
         <Badge>{question.domain}</Badge>
-        <Badge variant="outline" className="capitalize">
-          {question.difficulty}
-        </Badge>
+        <Badge variant="outline" className="capitalize">{question.difficulty}</Badge>
+        <span className="text-[0.75rem] text-muted-foreground">Keys A–D · Enter · N</span>
       </div>
+
+      <ReadCoach questionId={question.id} />
 
       <QuestionView
         question={question}
         options={options}
         selected={selected}
         revealed={revealed}
-        onSelect={(key) =>
-          setSelected((cur) => toggleSelection(question, cur, key))
-        }
+        onSelect={(key) => setSelected((cur) => toggleSelection(question, cur, key))}
       />
 
-      {/* Optional confidence capture — feeds review queue prioritisation. */}
       {!revealed && selected.length > 0 ? (
         <div className="mt-6">
-          <p className="mb-2 text-xs font-medium text-muted-foreground">
-            How confident are you? (optional)
-          </p>
+          <p className="mb-2 text-xs font-medium text-muted-foreground">How confident are you? (optional)</p>
           <div className="flex gap-2">
             {CONFIDENCE_OPTIONS.map((option) => (
               <button
                 key={option.value}
                 type="button"
-                onClick={() =>
-                  setConfidence((c) => (c === option.value ? null : option.value))
-                }
+                onClick={() => setConfidence((c) => (c === option.value ? null : option.value))}
                 className={cn(
                   "flex-1 rounded-lg border px-3 py-2 text-sm transition-colors",
                   confidence === option.value
@@ -375,6 +281,7 @@ export function StudySession({
 
       {revealed ? (
         <div className="mt-7">
+          <FirstAnswerNote attemptCount={progress.attempts.length} revealed={revealed} />
           <FeedbackPanel
             question={question}
             correct={wasCorrect}
@@ -382,12 +289,9 @@ export function StudySession({
             options={options}
             selected={selected}
           />
-
           {withScheduling ? (
             <div className="mt-6">
-              <p className="mb-2.5 text-xs font-medium text-muted-foreground">
-                When should this come back?
-              </p>
+              <p className="mb-2.5 text-xs font-medium text-muted-foreground">When should this come back?</p>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {scheduling.map(({ grade, label: interval }) => (
                   <button
@@ -396,17 +300,14 @@ export function StudySession({
                     onClick={() => handleGrade(grade)}
                     className={cn(
                       "rounded-lg border border-l-4 bg-card p-3 text-center shadow-[var(--shadow-card)] transition-colors active:translate-y-px",
-                      grade === "again" &&
-                        "border-destructive hover:bg-destructive-tint",
+                      grade === "again" && "border-destructive hover:bg-destructive-tint",
                       grade === "hard" && "border-warning hover:bg-warning/15",
                       grade === "good" && "border-border-strong hover:bg-secondary",
                       grade === "easy" && "border-success hover:bg-success-tint",
                     )}
                   >
                     <div className="text-sm font-medium capitalize">{grade}</div>
-                    <div className="mt-0.5 text-xs text-muted-foreground">
-                      {interval}
-                    </div>
+                    <div className="mt-0.5 text-xs text-muted-foreground">{interval}</div>
                   </button>
                 ))}
               </div>
@@ -415,206 +316,19 @@ export function StudySession({
         </div>
       ) : null}
 
-      {/* Action bar */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background px-4 py-3 pb-safe-nav sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0">
         <div className="mx-auto max-w-3xl">
           {!revealed ? (
-            <Button
-              size="lg"
-              className="w-full"
-              disabled={!canSubmit(question, selected)}
-              onClick={handleSubmit}
-            >
+            <Button size="lg" className="w-full" disabled={!canSubmit(question, selected)} onClick={handleSubmit}>
               Submit answer
             </Button>
           ) : withScheduling ? (
-            <p className="text-center text-sm text-muted-foreground">
-              Choose an interval above to continue
-            </p>
+            <p className="text-center text-sm text-muted-foreground">Choose an interval above to continue</p>
           ) : (
-            <Button size="lg" className="w-full" onClick={advance}>
-              Continue
-            </Button>
+            <Button size="lg" className="w-full" onClick={advance}>Continue</Button>
           )}
         </div>
       </div>
     </div>
-  );
-}
-
-function SessionComplete({
-  result,
-  queued,
-}: {
-  result: CompletedResult;
-  /** Scenarios this session added to the review queue. */
-  queued: number;
-}) {
-  const score = scoreSitting(result);
-  const showQueue = queued > 0;
-  const weak = weakestSubdomains(score);
-  return (
-    <div className="mx-auto max-w-3xl pb-16">
-      <header className="mb-6 text-center">
-        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
-          <span className="text-2xl font-semibold tabular-nums text-primary">
-            {score.percentage}%
-          </span>
-        </div>
-        <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
-          Session complete
-        </h1>
-        <p className="mt-2 text-muted-foreground">
-          {score.correct} of {score.total} correct in {result.label.toLowerCase()}.
-        </p>
-      </header>
-
-      <section className="mb-6 rounded-lg border border-border bg-card p-5">
-        <dl className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
-          <SummaryStat label="Correct" value={score.correct} />
-          <SummaryStat label="Incorrect" value={score.incorrect} />
-          {score.unanswered > 0 ? (
-            <SummaryStat label="Unanswered" value={score.unanswered} />
-          ) : null}
-          <SummaryStat label="Time used" value={formatDuration(elapsedMs(result))} />
-        </dl>
-      </section>
-
-      {/* The queue fills itself on every miss. Saying so here is the only
-          place a learner finds out without going looking. */}
-      {showQueue ? (
-        <div className="mb-6 rounded-lg border border-l-4 border-primary bg-accent-tint p-4">
-          <p className="text-sm font-medium">
-            {queued} {queued === 1 ? "scenario is" : "scenarios are"} now in your
-            review queue
-          </p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Missed scenarios come back on a spaced schedule so they stick.
-          </p>
-        </div>
-      ) : null}
-
-      {score.byDomain.length ? (
-        <section className="mb-8">
-          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
-            Domain performance
-          </h2>
-          <ul className="space-y-3">
-            {score.byDomain.map((d) => (
-              <SummaryRow key={d.key} prefix={d.roman} label={d.label} slice={d} />
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {score.bySubdomain.length ? (
-        <section className="mb-8">
-          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
-            Sub-domain performance
-          </h2>
-          <ul className="space-y-3">
-            {score.bySubdomain.map((sub) => (
-              <SummaryRow
-                key={sub.key}
-                prefix={sub.key}
-                label={SUBDOMAINS.find((x) => x.id === sub.key)?.competency ?? sub.key}
-                slice={sub}
-              />
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {weak.length ? (
-        <section className="mb-8">
-          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
-            Where to study next
-          </h2>
-          <ul className="space-y-3">
-            {weak.map((sub) => {
-              const meta = SUBDOMAINS.find((x) => x.id === sub.key);
-              return (
-                <li key={sub.key} className="rounded-lg border border-border bg-card p-4">
-                  <p className="text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
-                    {sub.key} · {sub.correct}/{sub.total} correct
-                  </p>
-                  <p className="measure mt-1 text-[0.9375rem] font-medium">
-                    {meta?.competency ?? sub.key}
-                  </p>
-                  {meta?.recommendation ? (
-                    <p className="measure mt-1.5 text-[0.875rem] leading-relaxed text-muted-foreground">
-                      {meta.recommendation}
-                    </p>
-                  ) : null}
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      ) : null}
-
-      <ResultActions result={result} />
-
-      <div className="mt-8 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
-        {showQueue ? (
-          <Button asChild size="lg">
-            <Link href="/review">
-              Review them now
-            </Link>
-          </Button>
-        ) : null}
-        <Button asChild size="lg" variant={showQueue ? "outline" : "default"}>
-          <Link href="/home">Back to home</Link>
-        </Button>
-        <Button asChild variant="outline" size="lg">
-          <Link href="/study">Start another session</Link>
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-function SummaryStat({ label, value }: { label: string; value: number | string }) {
-  return (
-    <div className="flex items-baseline gap-1.5">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd className="font-semibold tabular-nums">{value}</dd>
-    </div>
-  );
-}
-
-function SummaryRow({
-  prefix,
-  label,
-  slice,
-}: {
-  prefix: string;
-  label: string;
-  slice: ResultSlice;
-}) {
-  return (
-    <li>
-      <div className="mb-1.5 flex items-baseline justify-between gap-3">
-        <span className="truncate text-sm">
-          <span className="text-muted-foreground">{prefix}</span> {label}
-        </span>
-        <span className="shrink-0 text-sm tabular-nums text-muted-foreground">
-          {slice.correct}/{slice.total}
-        </span>
-      </div>
-      <div className="h-2 overflow-hidden rounded-full bg-secondary ring-1 ring-inset ring-border">
-        <div
-          style={{ width: `${slice.accuracy}%` }}
-          className={cn(
-            "h-full rounded-full",
-            slice.accuracy >= 80
-              ? "bg-success"
-              : slice.accuracy >= 60
-                ? "bg-primary"
-                : "bg-warning",
-          )}
-        />
-      </div>
-    </li>
   );
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
+import { ResumeChip } from "@/components/app/resume-chip";
 import { GateRail } from "@/components/civic/gpai/diagrams";
 import {
   MonitoringThatActuallyWorks,
@@ -36,19 +37,6 @@ export default function HomePage() {
   );
 }
 
-/**
- * The Civic home surface.
- *
- * Three columns from `xl` up, matching the approved reference: the decision
- * you should make next in the centre, the reading of where you stand and why
- * it matters down the right, navigation in the rail. Below `xl` the right
- * column falls under the centre rather than beside it, so the dominant action
- * stays first on a phone.
- *
- * Every number here comes from the existing helpers (`todaySummary`,
- * `overallAccuracy`, `dueCount`, `focusDomains`, `effectiveStreak`). This
- * route computes nothing; it arranges.
- */
 function Home() {
   const { progress } = useProgress();
   const track = getTrack(progress.trackId);
@@ -67,14 +55,11 @@ function Home() {
 
   return (
     <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-10">
-      {/* =============================================== centre column === */}
       <div className="min-w-0 space-y-8">
         <header>
           <p className="mb-3 text-[0.8125rem] text-muted-foreground">
             <Link href="/home">Home</Link>
-            <span aria-hidden className="mx-2 text-border-strong">
-              /
-            </span>
+            <span aria-hidden className="mx-2 text-border-strong">/</span>
             <span>Today</span>
           </p>
           <h1 className="text-balance text-[2.125rem] leading-[1.1] sm:text-[2.625rem]">
@@ -83,9 +68,11 @@ function Home() {
           <p className="mt-3 text-[1.0625rem] text-muted-foreground">
             Focus on the decision that matters most next.
           </p>
+          <div className="mt-4">
+            <ResumeChip />
+          </div>
         </header>
 
-        {/* ---------------------------------------------- current focus --- */}
         <FocusCard emphasis="focus">
           <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
             <div className="min-w-0">
@@ -110,20 +97,14 @@ function Home() {
                       }`
                     : "No domain is trailing. Practice is drawing from the full body of knowledge."}
               </p>
-
               <p className="mt-4 text-[0.875rem] text-muted-foreground">
                 {track.name}
-                <span aria-hidden className="mx-2 text-border-strong">
-                  ·
-                </span>
+                <span aria-hidden className="mx-2 text-border-strong">·</span>
                 {isNew ? "About 12 minutes" : `${today.goal} questions today`}
               </p>
-
               <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
                 <Button asChild size="lg">
-                  <Link
-                    href={weakest ? "/study/session?focus=weak&count=10" : "/study"}
-                  >
+                  <Link href={weakest ? "/study/session?focus=weak&count=10" : "/study"}>
                     Continue practicing
                   </Link>
                 </Button>
@@ -132,24 +113,13 @@ function Home() {
                 </Link>
               </div>
             </div>
-
-            {/*
-              The gate sits inside the focus card rather than in the toolkit
-              below, because on this screen it is not reference material — it
-              is the shape of the thing the learner is about to practice.
-            */}
             <div className="rounded-lg border border-border bg-background/60 p-5">
-              <p className="mb-4 text-center font-serif text-[1.0625rem]">
-                Pre-launch gate
-              </p>
-              <GateRail
-                labels={["Purpose", "Risk", "Accountability", "Controls", "Go-live"]}
-              />
+              <p className="mb-4 text-center font-serif text-[1.0625rem]">Pre-launch gate</p>
+              <GateRail labels={["Purpose", "Risk", "Accountability", "Controls", "Go-live"]} />
             </div>
           </div>
         </FocusCard>
 
-        {/* ------------------------------------------ governance toolkit --- */}
         <section>
           <SectionHeading level={2} title="Governance toolkit" className="mb-4" />
           <div className="grid gap-4 sm:grid-cols-2">
@@ -160,11 +130,7 @@ function Home() {
           </div>
         </section>
 
-        {/* --------------------------------------------- practice exam --- */}
-        <FocusCard
-          emphasis="quiet"
-          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
-        >
+        <FocusCard emphasis="quiet" className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
             <h3 className="text-[1rem]">Take a practice exam</h3>
             <p className="mt-0.5 text-[0.875rem] leading-relaxed text-muted-foreground">
@@ -177,21 +143,13 @@ function Home() {
         </FocusCard>
       </div>
 
-      {/* ================================================ right column === */}
       <aside className="min-w-0 space-y-5">
-        {/*
-          The dial reads confidence, not a score — the caption says so, because
-          a bare percentage on a home screen invites being read as a pass mark.
-          With no attempts there is nothing to read, so it is replaced rather
-          than shown as a confident-looking zero.
-        */}
         <FocusCard className="flex justify-center">
           {isNew ? (
             <div className="py-2 text-center">
               <p className="font-serif text-[1.125rem]">No reading yet</p>
               <p className="mx-auto mt-2 max-w-[15rem] text-[0.875rem] leading-relaxed text-muted-foreground">
-                Your confidence appears here once you have answered a few
-                questions.
+                Your confidence appears here once you have answered a few questions.
               </p>
             </div>
           ) : (
@@ -204,53 +162,28 @@ function Home() {
         </FocusCard>
 
         <InsightPanel title="Why this matters">
-          Good governance starts before launch. Clear ownership and controls are
-          what make later monitoring mean anything.
+          Good governance starts before launch. Clear ownership and controls are what make later monitoring mean anything.
         </InsightPanel>
 
         <FocusCard>
           <h2 className="mb-4 font-serif text-[1.25rem]">Session focus</h2>
           <div className="space-y-3">
-            <ProgressPath
-              completed={today.answered}
-              total={today.goal}
-              label="Today's goal"
-            />
-            <ProgressPath
-              completed={answeredUnique}
-              total={available}
-              label="Bank covered"
-            />
+            <ProgressPath completed={today.answered} total={today.goal} label="Today's goal" />
+            <ProgressPath completed={answeredUnique} total={available} label="Bank covered" />
             <div className="flex items-baseline justify-between gap-3 pt-1">
-              {/*
-                A plain count. No flame, no badge, no celebration: the design
-                system rules out streak gamification, and a number is the
-                honest version of this signal anyway.
-              */}
               <span className="text-[0.875rem] font-medium">Consecutive days</span>
               <span className="text-[1.25rem] font-semibold tabular-nums">
                 {streak > 0 ? streak : "—"}
               </span>
             </div>
           </div>
-
           {mastered > 0 || due > 0 ? (
             <div className="mt-4 space-y-2 border-t border-border pt-4">
               {due > 0 ? (
-                <StatusSurface
-                  tone="accent"
-                  mark="review"
-                  label={`${due} due for review`}
-                  detail="Returning to a missed decision is where the learning is."
-                />
+                <StatusSurface tone="accent" mark="review" label={`${due} due for review`} detail="Returning to a missed decision is where the learning is." />
               ) : null}
               {mastered > 0 ? (
-                <StatusSurface
-                  tone="support"
-                  mark="progress"
-                  label={`${mastered} answered correctly`}
-                  detail="On the most recent attempt."
-                />
+                <StatusSurface tone="support" mark="progress" label={`${mastered} answered correctly`} detail="On the most recent attempt." />
               ) : null}
             </div>
           ) : null}
