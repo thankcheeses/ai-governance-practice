@@ -21,6 +21,56 @@ export const DOMAIN_TITLES = {
 
 export type DomainRoman = keyof typeof DOMAIN_TITLES;
 
+/**
+ * The published exam blueprint.
+ *
+ * These are **counts of questions, not percentages**. The source states it
+ * plainly: the blueprint numbers "show the minimum and maximum number of
+ * questions from each domain that will be found on the exam". They sum to
+ * 77–93, not to 100, and writing them as percentages would invent precision the
+ * authority did not publish.
+ *
+ * Ranges, not points. The authority publishes a span per domain because the
+ * count varies between exam forms, so any single figure here would be ours
+ * rather than theirs. Where a single number is unavoidable — apportioning a
+ * drill of a given length — the midpoint is derived at the point of use and
+ * labelled as a midpoint, never presented as a published weight.
+ */
+export interface DomainBlueprint {
+  /** Fewest questions from this domain on an exam form. */
+  min: number;
+  /** Most questions from this domain on an exam form. */
+  max: number;
+}
+
+/**
+ * Source, recorded so the claim is checkable rather than asserted.
+ *
+ * `npm run check:bok` fails if DOMAIN_BLUEPRINT exists without this block, or
+ * if the version here disagrees with the version the track claims in
+ * content/registry.ts.
+ */
+export const BLUEPRINT_SOURCE = {
+  document: "AIGP_Cert_BOK_13March2026_FINAL.PDF",
+  title: "The AIGP Body of Knowledge",
+  version: "2.1",
+  effectiveDate: "2026-02-02",
+  approvedBy: "AIGP EDB",
+  approvedOn: "2025-09-09",
+  supersedes: "2.0.1",
+  /** Where in that document the numbers appear. */
+  pages: "4-9",
+  /** When these numbers were read out of the document and entered here. */
+  retrievedOn: "2026-09-13",
+} as const;
+
+export const DOMAIN_BLUEPRINT: Record<DomainRoman, DomainBlueprint> = {
+  I: { min: 16, max: 20 },
+  II: { min: 19, max: 23 },
+  III: { min: 21, max: 25 },
+  IV: { min: 21, max: 25 },
+};
+
 export interface SubdomainEntry {
   id: string;
   domain: DomainRoman;
