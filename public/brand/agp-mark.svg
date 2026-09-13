@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-labelledby="t d">
+  <title id="t">AI Governance Practice mark</title>
+  <desc id="d">Shield with four-pass nodes: Facts, Obligations, Risks, Action.</desc>
+  <rect width="96" height="96" rx="20" fill="#1A2332"/>
+  <path d="M48 18 L72 26 V46 C72 62 62 72 48 78 C34 72 24 62 24 46 V26 Z" fill="#FFFBF6"/>
+  <circle cx="48" cy="46" r="10" fill="#F4EDE4"/>
+  <circle cx="48" cy="46" r="4.5" fill="#B85A32"/>
+  <circle cx="36" cy="34" r="3.2" fill="#4A7C59"/>
+  <circle cx="60" cy="34" r="3.2" fill="#A86232"/>
+  <circle cx="36" cy="56" r="3.2" fill="#E8A87C"/>
+  <circle cx="60" cy="56" r="3.2" fill="#1A2332"/>
+</svg>
