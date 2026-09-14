@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FlorkArt } from "@/components/app/flork-art";
 import { ResultActions } from "@/components/results/result-actions";
 import { Button } from "@/components/ui/button";
 import { SUBDOMAINS } from "@/content/bok";
@@ -12,7 +13,9 @@ import {
   scoreSitting,
   weakestSubdomains,
 } from "@/lib/results";
+import { florkForScore } from "@/lib/flork";
 import { cn } from "@/lib/utils";
+
 
 export function SessionComplete({
   result,
@@ -27,10 +30,13 @@ export function SessionComplete({
   return (
     <div className="mx-auto max-w-3xl pb-16">
       <header className="mb-6 text-center">
-        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
-          <span className="text-2xl font-semibold tabular-nums text-primary">
-            {score.percentage}%
-          </span>
+        <div className="mb-5 flex items-center justify-center gap-4">
+          <FlorkArt name={florkForScore(score.percentage)} size="lg" />
+          <div className="flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
+            <span className="text-2xl font-semibold tabular-nums text-primary">
+              {score.percentage}%
+            </span>
+          </div>
         </div>
         <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">Session complete</h1>
         <p className="mt-2 text-muted-foreground">

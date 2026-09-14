@@ -16,15 +16,16 @@ of `docs/second-tranche-candidate.md`.
 
 `enrichment.ts` is unchanged.
 
-## FLORK artwork — authorized in principle, files not in this workspace
+## FLORK artwork — authorized, and now implemented
 
 The owner authorized use of the exact uploaded FLORK image files in the
 project. They are third-party meme artwork. The existing IAPP disclaimer is
 unchanged. This is not an IAPP affiliation claim.
 
-**Blocker:** those source files are not present in this conversation or in
-`/home/workdir/attachments`. They are not in `public/` on `main`. Wiring them
-requires the original files dropped into chat or into the repo. No generated
-or substitute artwork will be used.
+**Blocker — resolved 14 September 2026.** The files were not in
+`/home/workdir/attachments`; they were in the originating session's own upload
+directory. All twelve were located, verified, and committed to `public/flork/`
+byte-for-byte, each with a recorded sha256 and a test that fails if any file is
+re-encoded. No generated or substitute artwork was produced at any point.
 
 See `docs/notes/flork-licensing.md`.

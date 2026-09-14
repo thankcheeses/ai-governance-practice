@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { DimensionalMark } from "@/components/civic/dimensional-mark";
+import { FlorkArt } from "@/components/app/flork-art";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
 import { FirstAnswerNote } from "@/components/study/first-answer-note";
 import { QuestionView } from "@/components/study/question-view";
@@ -210,10 +210,25 @@ export function StudySession({
 
   if (!question) {
     return (
+      /*
+        The illustration, because this is an empty state and empty states carry
+        one — /dashboard and /review both do, and all three now carry the same
+        kind. It used to be the brand mark. The mark identifies the product and
+        already sits in the chrome on every screen, so repeating it here spent
+        the most expressive slot on the page saying something the header had
+        already said; an empty state's job is to be warm and to get the learner
+        moving. This one is page-level rather than inside a Card, so it keeps
+        its own heading scale and gains only the illustration and the centring
+        that positions it.
+      */
       <div className="flex flex-col items-center py-16 text-center">
-        <DimensionalMark name="brand" size="xl" />
-        <h1 className="mt-5 text-[2rem] leading-[1.15] sm:text-[2.25rem]">Nothing to study here</h1>
-        <p className="mt-2 text-muted-foreground">Try a different domain or come back once more questions are due.</p>
+        <FlorkArt name="confused" size="xl" />
+        <h1 className="mt-5 text-[2rem] leading-[1.15] sm:text-[2.25rem]">
+          Nothing to study here
+        </h1>
+        <p className="mt-2 text-muted-foreground">
+          Try a different domain or come back once more questions are due.
+        </p>
         <Button asChild className="mt-6">
           <Link href="/study">Choose a session</Link>
         </Button>
