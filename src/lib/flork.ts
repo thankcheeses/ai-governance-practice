@@ -8,7 +8,7 @@
  * byte-identical to what was supplied.
  *
  * Provenance, licensing and the no-affiliation statement live in
- * `public/flork/README.md` and `docs/flork-licensing.md`.
+ * `public/flork/README.md` and `docs/notes/flork-licensing.md`.
  */
 
 export type FlorkName =

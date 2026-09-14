@@ -58,7 +58,7 @@ unrelated to this folder and is untouched by it.
 ## Licensing
 
 The licensing position is the project owner's determination and is recorded in
-`docs/flork-licensing.md` as a note, not as a claim made by this repository.
+`docs/notes/flork-licensing.md` as a note, not as a claim made by this repository.
 
 ## Format: JPEG, unchanged
 

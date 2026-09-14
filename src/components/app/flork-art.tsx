@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  * These are **third-party FLORK meme artwork**, supplied by the project owner
  * and committed exactly as supplied — not redrawn, regenerated, restyled or
  * substituted, and no generated approximation was produced at any stage. See
- * `public/flork/README.md` for per-file provenance and `docs/flork-licensing.md`
+ * `public/flork/README.md` for per-file provenance and `docs/notes/flork-licensing.md`
  * for the licensing position, which is the owner's to determine.
  *
  * Nothing here implies any relationship with the IAPP. The artwork is not an
