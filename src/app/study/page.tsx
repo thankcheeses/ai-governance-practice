@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { AppGate } from "@/components/app/app-gate";
+import { FlorkArt } from "@/components/app/flork-art";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getTrack, getTrackQuestions } from "@/content/registry";
@@ -52,42 +53,55 @@ function Study() {
 
   return (
     <div className="space-y-7">
-      <header>
-        <p className="mb-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-accent-strong">
-          Practice
-        </p>
-        <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">Study</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {track.name} · {track.questionCount} scenarios, all free
-        </p>
-        {track.context ? (
-          <div className="mt-3 border-l-2 border-border-strong pl-3">
-            <p className="measure text-xs leading-relaxed text-muted-foreground">
-              {track.context}
-            </p>
-            {/*
-              Three assertions, three lines. Crammed onto one they ran to 192
-              characters and stopped being scannable; separated, each is a
-              distinct claim a reader can check independently.
-            */}
-            {track.contextReviewed ? (
-              <dl className="measure mt-2.5 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
-                <dt>Authority</dt>
-                <dd>{track.contextAuthority ?? "—"}</dd>
-                <dt>Version</dt>
-                <dd>{track.contextVersion ?? "—"}</dd>
-                <dt>Checked</dt>
-                <dd>{formatReviewDate(track.contextReviewed)}</dd>
-                {track.contextCoverage ? (
-                  <>
-                    <dt>Coverage</dt>
-                    <dd>{track.contextCoverage}</dd>
-                  </>
-                ) : null}
-              </dl>
-            ) : null}
-          </div>
-        ) : null}
+      <header className="flex items-start gap-6">
+        <div className="min-w-0 flex-1">
+          <p className="mb-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-accent-strong">
+            Practice
+          </p>
+          <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">Study</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {track.name} · {track.questionCount} scenarios, all free
+          </p>
+          {track.context ? (
+            <div className="mt-3 border-l-2 border-border-strong pl-3">
+              <p className="measure text-xs leading-relaxed text-muted-foreground">
+                {track.context}
+              </p>
+              {/*
+                Three assertions, three lines. Crammed onto one they ran to 192
+                characters and stopped being scannable; separated, each is a
+                distinct claim a reader can check independently.
+              */}
+              {track.contextReviewed ? (
+                <dl className="measure mt-2.5 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
+                  <dt>Authority</dt>
+                  <dd>{track.contextAuthority ?? "—"}</dd>
+                  <dt>Version</dt>
+                  <dd>{track.contextVersion ?? "—"}</dd>
+                  <dt>Checked</dt>
+                  <dd>{formatReviewDate(track.contextReviewed)}</dd>
+                  {track.contextCoverage ? (
+                    <>
+                      <dt>Coverage</dt>
+                      <dd>{track.contextCoverage}</dd>
+                    </>
+                  ) : null}
+                </dl>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+        {/*
+          Hidden below `sm`. The asset is tall portrait (736×1308), so on a
+          phone it would either dominate the fold or shrink to an illegible
+          sliver — and the heading it sits beside is the thing a learner came
+          here to act on.
+        */}
+        <FlorkArt
+          name="goStudy"
+          size="lg"
+          className="hidden sm:inline-flex"
+        />
       </header>
 
       {/* Focus session — only once weak-domain accuracy means something. */}

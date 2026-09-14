@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { DimensionalMark } from "@/components/civic/dimensional-mark";
+import { FlorkArt } from "@/components/app/flork-art";
+import type { FlorkName } from "@/lib/flork";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
 import { QuestionView } from "@/components/study/question-view";
 import { Badge } from "@/components/ui/badge";
@@ -278,13 +279,18 @@ export function StudySession({
   if (!question) {
     return (
       /*
-        The mark, because this is an empty state and empty states carry it —
-        /dashboard and /review both do. This one is page-level rather than
-        inside a Card, so it keeps its own heading scale and gains only the
-        mark and the centring that positions it.
+        The illustration, because this is an empty state and empty states carry
+        one — /dashboard and /review both do, and all three now carry the same
+        kind. It used to be the brand mark. The mark identifies the product and
+        already sits in the chrome on every screen, so repeating it here spent
+        the most expressive slot on the page saying something the header had
+        already said; an empty state's job is to be warm and to get the learner
+        moving. This one is page-level rather than inside a Card, so it keeps
+        its own heading scale and gains only the illustration and the centring
+        that positions it.
       */
       <div className="flex flex-col items-center py-16 text-center">
-        <DimensionalMark name="brand" size="xl" />
+        <FlorkArt name="confused" size="xl" />
         <h1 className="mt-5 text-[2rem] leading-[1.15] sm:text-[2.25rem]">
           Nothing to study here
         </h1>
@@ -442,6 +448,25 @@ export function StudySession({
   );
 }
 
+/**
+ * Which illustration greets a finished sitting.
+ *
+ * Reads the score that was already computed; it does not compute, adjust or
+ * interpret one. The bands exist only to pick a picture, and nothing downstream
+ * reads them.
+ *
+ * The low band is the one worth being deliberate about: it shows the character
+ * reading a book, not the confused or unimpressed one. A learner who just
+ * scored badly is the last person who should be met with a joke at their
+ * expense, and "back to the material" is the honest read of a low score anyway.
+ */
+function florkForScore(percentage: number): FlorkName {
+  if (percentage >= 85) return "slay";
+  if (percentage >= 70) return "thumbsUp";
+  if (percentage >= 50) return "okSign";
+  return "reading";
+}
+
 function SessionComplete({
   result,
   queued,
@@ -456,10 +481,13 @@ function SessionComplete({
   return (
     <div className="mx-auto max-w-3xl pb-16">
       <header className="mb-6 text-center">
-        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
-          <span className="text-2xl font-semibold tabular-nums text-primary">
-            {score.percentage}%
-          </span>
+        <div className="mb-5 flex items-center justify-center gap-4">
+          <FlorkArt name={florkForScore(score.percentage)} size="lg" />
+          <div className="flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
+            <span className="text-2xl font-semibold tabular-nums text-primary">
+              {score.percentage}%
+            </span>
+          </div>
         </div>
         <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
           Session complete
