@@ -13,27 +13,9 @@ import {
   scoreSitting,
   weakestSubdomains,
 } from "@/lib/results";
-import type { FlorkName } from "@/lib/flork";
+import { florkForScore } from "@/lib/flork";
 import { cn } from "@/lib/utils";
 
-/**
- * Which illustration greets a finished sitting.
- *
- * Reads the score that was already computed; it does not compute, adjust or
- * interpret one. The bands exist only to pick a picture, and nothing downstream
- * reads them.
- *
- * The low band is the one worth being deliberate about: it shows the character
- * reading a book, not the confused or unimpressed one. A learner who just scored
- * badly is the last person who should be met with a joke at their expense, and
- * "back to the material" is the honest read of a low score anyway.
- */
-function florkForScore(percentage: number): FlorkName {
-  if (percentage >= 85) return "slay";
-  if (percentage >= 70) return "thumbsUp";
-  if (percentage >= 50) return "okSign";
-  return "reading";
-}
 
 export function SessionComplete({
   result,

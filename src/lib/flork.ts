@@ -121,3 +121,23 @@ export const FLORK: Record<FlorkName, FlorkAsset> = {
     alt: "A blobby cartoon character giving a double thumbs up.",
   },
 };
+
+/**
+ * Which illustration greets a finished sitting.
+ *
+ * Reads a score that was already computed; it does not compute, adjust or
+ * interpret one, and nothing downstream reads the band back. It lives here
+ * rather than beside the component so the bands can be tested directly — only
+ * the lowest one is reachable by playing a session in a browser.
+ *
+ * The low band is the one worth being deliberate about: it shows the character
+ * reading a book, not the confused or unimpressed one. A learner who just
+ * scored badly is the last person who should be met with a joke at their
+ * expense, and "back to the material" is the honest read of a low score anyway.
+ */
+export function florkForScore(percentage: number): FlorkName {
+  if (percentage >= 85) return "slay";
+  if (percentage >= 70) return "thumbsUp";
+  if (percentage >= 50) return "okSign";
+  return "reading";
+}

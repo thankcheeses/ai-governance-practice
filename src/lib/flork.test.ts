@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
-import { FLORK, type FlorkName } from "./flork";
+import { FLORK, florkForScore, type FlorkName } from "./flork";
 
 /**
  * The FLORK assets are third-party artwork that the project owner supplied and
@@ -142,3 +142,30 @@ function jpegSize(buf: Buffer): { width: number; height: number } {
   }
   throw new Error("no start-of-frame marker found");
 }
+
+test("the score band picks a different illustration at each tier", () => {
+  // Only the lowest band is reachable by playing a session in a browser, so the
+  // boundaries are pinned here instead.
+  assert.equal(florkForScore(100), "slay");
+  assert.equal(florkForScore(85), "slay");
+  assert.equal(florkForScore(84), "thumbsUp");
+  assert.equal(florkForScore(70), "thumbsUp");
+  assert.equal(florkForScore(69), "okSign");
+  assert.equal(florkForScore(50), "okSign");
+  assert.equal(florkForScore(49), "reading");
+  assert.equal(florkForScore(0), "reading");
+});
+
+test("a bad score is never met with a mocking illustration", () => {
+  // The point of the low band. `confused` and `unimpressed` are fine on an
+  // empty state; on a result they would be a joke at the learner's expense.
+  for (let pct = 0; pct < 50; pct++) {
+    assert.equal(florkForScore(pct), "reading", `${pct}% should stay encouraging`);
+  }
+});
+
+test("every band names a catalogued illustration", () => {
+  for (let pct = 0; pct <= 100; pct++) {
+    assert.ok(FLORK[florkForScore(pct)], `${pct}% maps outside the catalogue`);
+  }
+});
