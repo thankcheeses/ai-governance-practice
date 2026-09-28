@@ -143,6 +143,14 @@ export default function RootLayout({
           reaches it, before any paintable element below it exists.
         */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/*
+          After the theme script, deliberately. Placed above it this failed
+          theme-init-placement.test.ts: anything rendered before that script is
+          a paintable element, and a stored dark preference would show light
+          for a frame. Telemetry is the last thing that should cost a visible
+          flash, so it sits here beside the other non-visual mount.
+        */}
+        <TelemetryBoot />
         <ServiceWorker />
         <ThemeProvider>
           <ProgressProvider>{children}</ProgressProvider>

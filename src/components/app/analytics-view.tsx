@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { domainOf, type DomainRoman } from "@/content/bok";
 import type { Band, FocusArea, Slice } from "@/lib/analytics";
 import type { ReasoningPattern } from "@/lib/reasoning-patterns";
+import type { Calibration, MissBreakdown } from "@/lib/calibration";
 import { cn } from "@/lib/utils";
 
 /**
@@ -170,6 +171,8 @@ export function AnalyticsView({
   strongest,
   weakest,
   pattern,
+  calibration,
+  misses,
 }: {
   overall: { answered: number; correct: number; accuracy: number; seen: number; available: number };
   domains: (Slice & { roman: DomainRoman })[];
@@ -179,6 +182,14 @@ export function AnalyticsView({
   weakest?: Slice;
   /** Omitted or null whenever the evidence does not support a claim. */
   pattern?: ReasoningPattern | null;
+  /**
+   * Calibration and miss-type notes. Both are plain sentences or null; the
+   * null case renders nothing rather than a placeholder, for the same reason
+   * the pattern note does — a greyed-out card promising an insight later is a
+   * volume prompt wearing pedagogy's clothes.
+   */
+  calibration?: Calibration | null;
+  misses?: MissBreakdown | null;
 }) {
   const [open, setOpen] = useState<DomainRoman | null>(null);
 
@@ -256,6 +267,34 @@ export function AnalyticsView({
             {PATTERN_HEADING[pattern.strength]}
           </h2>
           <ReasoningPatternNote pattern={pattern} />
+        </section>
+      ) : null}
+
+      {/*
+        Calibration and rushing.
+
+        Placed after the pattern note and before the domain breakdown, because
+        both answer a question the breakdown cannot: not "which area is weak"
+        but "is the way you are reading these the problem". They render only
+        when the underlying analysis reached its own evidence floor.
+      */}
+      {calibration?.headline || misses?.headline ? (
+        <section>
+          <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
+            How you are answering
+          </h2>
+          <div className="space-y-3">
+            {calibration?.headline ? (
+              <p className="measure rounded-lg border border-border bg-card p-4 text-sm leading-relaxed">
+                {calibration.headline}
+              </p>
+            ) : null}
+            {misses?.headline ? (
+              <p className="measure rounded-lg border border-border bg-card p-4 text-sm leading-relaxed">
+                {misses.headline}
+              </p>
+            ) : null}
+          </div>
         </section>
       ) : null}
 

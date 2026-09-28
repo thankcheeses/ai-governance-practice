@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FlorkArt } from "@/components/app/flork-art";
+import { domainOf } from "@/content/bok";
+import { track } from "@/lib/telemetry";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
 import { FirstAnswerNote } from "@/components/study/first-answer-note";
 import { QuestionView } from "@/components/study/question-view";
@@ -127,6 +129,18 @@ export function StudySession({
     );
     setRevealed(true);
     setWasCorrect(result.correct);
+    /*
+      Counted, not identified. The domain and sub-domain are what make
+      "accuracy by area across everyone" answerable; the question id and the
+      chosen option are deliberately not sent, because they are not needed to
+      answer it and they are what would make a row about a person.
+    */
+    track("question_answered", {
+      mode,
+      domain: domainOf(question.bokSubdomain),
+      subdomain: question.bokSubdomain,
+      correct: result.correct,
+    });
     setAnswers((a) => ({ ...a, [question.id]: selected }));
     if (result.correct) setCorrectCount((c) => c + 1);
     if (result.queuedForReview) setQueuedCount((c) => c + 1);
@@ -159,6 +173,7 @@ export function StudySession({
         updatedAt: new Date().toISOString(),
       });
       writeResult(record);
+      track(mode === "review" ? "review_completed" : "study_completed", { mode });
       setCompleted(record);
       clearActiveSession();
       setFinished(true);
@@ -334,8 +349,29 @@ export function StudySession({
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background px-4 py-3 pb-safe-nav sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0">
         <div className="mx-auto max-w-3xl">
           {!revealed ? (
-            <Button size="lg" className="w-full" disabled={!canSubmit(question, selected)} onClick={handleSubmit}>
-              Submit answer
+            /*
+              Confidence is required rather than optional, and this is the only
+              behavioural change in the sitting.
+
+              It was previously a skippable control labelled "(optional)", so
+              almost every attempt stored `confidence: null` — which left the
+              calibration signal, the one thing the app can tell a learner that
+              they cannot work out for themselves, with almost no data behind
+              it. One tap before submitting is what buys it.
+
+              `canSubmit` is untouched: that is grading's view of whether an
+              *answer* is complete, and confidence is not part of an answer.
+              The gate lives here, in the interface, where it belongs.
+            */
+            <Button
+              size="lg"
+              className="w-full"
+              disabled={!canSubmit(question, selected) || confidence === null}
+              onClick={handleSubmit}
+            >
+              {canSubmit(question, selected) && confidence === null
+                ? "Rate your confidence to submit"
+                : "Submit answer"}
             </Button>
           ) : withScheduling ? (
             <p className="text-center text-sm text-muted-foreground">Choose an interval above to continue</p>

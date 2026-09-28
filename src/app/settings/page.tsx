@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { Disclaimer } from "@/components/app/disclaimer";
 import { StarButton } from "@/components/civic/star-button";
@@ -13,6 +13,7 @@ import { getTrack } from "@/content/registry";
 import { BRAND, COMPANY, SUPPORT } from "@/lib/brand";
 import { useProgress } from "@/lib/store/progress-provider";
 import { useTheme, type Theme } from "@/lib/store/theme-provider";
+import { hasOptedOut, setOptedOut } from "@/lib/telemetry";
 import { cn } from "@/lib/utils";
 
 const THEMES: { value: Theme; label: string }[] = [
@@ -251,6 +252,28 @@ function Settings() {
         </div>
       </Section>
 
+      {/*
+        Privacy sits above Legal and is a control, not a link.
+
+        An opt-out a learner has to go and find in a policy document is an
+        opt-out in name only. This is the switch itself, in the settings screen,
+        with the scope of what is collected stated next to it rather than a page
+        away — so the choice can be made where it is offered.
+      */}
+      <Section title="Privacy">
+        <TelemetryToggle />
+        <p className="measure mt-3 text-xs leading-relaxed text-muted-foreground">
+          Anonymous counts only: which kind of session you started, the Body of
+          Knowledge domain of a question and whether it was right, plus country
+          and device type. Never your account, never which question or answer,
+          never your IP address. Off means nothing is sent at all.{" "}
+          <Link href="/settings/privacy" className="underline underline-offset-2">
+            Full policy
+          </Link>
+          .
+        </p>
+      </Section>
+
       <Section title="Legal">
         <Disclaimer />
         <div className="mt-3 space-y-2">
@@ -321,6 +344,67 @@ function Section({
         <CardContent className="p-5">{children}</CardContent>
       </Card>
     </section>
+  );
+}
+
+/**
+ * The usage-measurement opt-out.
+ *
+ * Reads and writes localStorage directly rather than going through the
+ * progress store: this is a device preference, not learning progress, and it
+ * must keep working for a signed-out visitor whose progress never syncs.
+ *
+ * Mounted state is tracked because the stored value is unavailable during
+ * server render and the first client paint — rendering "on" before reading the
+ * flag would flash the wrong state at someone who had opted out, which is the
+ * one person for whom that flash is not acceptable.
+ */
+function TelemetryToggle() {
+  const [optedOut, setOptedOutState] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setOptedOutState(hasOptedOut());
+  }, []);
+
+  const on = optedOut === false;
+
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <div className="min-w-0">
+        <p className="text-sm font-medium">Help count usage</p>
+        <p className="text-xs text-muted-foreground">
+          {optedOut === null
+            ? "\u00a0"
+            : on
+              ? "On — anonymous, and never linked to you"
+              : "Off — nothing is sent"}
+        </p>
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={on}
+        aria-label="Help count usage"
+        disabled={optedOut === null}
+        onClick={() => {
+          const next = !on;
+          setOptedOut(!next);
+          setOptedOutState(!next);
+        }}
+        className={cn(
+          "relative h-6 w-11 shrink-0 rounded-full border transition-colors disabled:opacity-40",
+          on ? "border-accent bg-accent" : "border-border bg-secondary",
+        )}
+      >
+        <span
+          aria-hidden
+          className={cn(
+            "absolute top-0.5 h-4 w-4 rounded-full bg-card shadow-sm transition-transform",
+            on ? "translate-x-[1.4rem]" : "translate-x-0.5",
+          )}
+        />
+      </button>
+    </div>
   );
 }
 

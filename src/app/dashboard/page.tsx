@@ -18,6 +18,7 @@ import {
 } from "@/lib/analytics";
 import { AnalyticsView } from "@/components/app/analytics-view";
 import { detectPattern } from "@/lib/reasoning-patterns";
+import { assessCalibration, missBreakdown } from "@/lib/calibration";
 import { dueCount, upcomingReviews } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 
@@ -34,6 +35,8 @@ function Dashboard() {
   const track = getTrack(progress.trackId);
 
   const attempts = progress.attempts;
+  const calibration = assessCalibration(attempts);
+  const misses = missBreakdown(attempts);
   const due = dueCount(progress);
   const forecast = upcomingReviews(progress, 7);
 
@@ -89,6 +92,8 @@ function Dashboard() {
         strongest={strongest}
         weakest={weakest}
         pattern={pattern}
+        calibration={calibration}
+        misses={misses}
       />
 
       <section>
