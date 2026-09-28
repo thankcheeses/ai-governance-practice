@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FlorkArt } from "@/components/app/flork-art";
+import { domainOf } from "@/content/bok";
+import { track } from "@/lib/telemetry";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
 import { FirstAnswerNote } from "@/components/study/first-answer-note";
 import { QuestionView } from "@/components/study/question-view";
@@ -127,6 +129,18 @@ export function StudySession({
     );
     setRevealed(true);
     setWasCorrect(result.correct);
+    /*
+      Counted, not identified. The domain and sub-domain are what make
+      "accuracy by area across everyone" answerable; the question id and the
+      chosen option are deliberately not sent, because they are not needed to
+      answer it and they are what would make a row about a person.
+    */
+    track("question_answered", {
+      mode,
+      domain: domainOf(question.bokSubdomain),
+      subdomain: question.bokSubdomain,
+      correct: result.correct,
+    });
     setAnswers((a) => ({ ...a, [question.id]: selected }));
     if (result.correct) setCorrectCount((c) => c + 1);
     if (result.queuedForReview) setQueuedCount((c) => c + 1);
@@ -159,6 +173,7 @@ export function StudySession({
         updatedAt: new Date().toISOString(),
       });
       writeResult(record);
+      track(mode === "review" ? "review_completed" : "study_completed", { mode });
       setCompleted(record);
       clearActiveSession();
       setFinished(true);

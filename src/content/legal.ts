@@ -75,7 +75,7 @@ export const PRIVACY_SECTIONS: LegalSection[] = [
   },
   {
     heading: "Using the app without an account",
-    body: "No account is required. Used signed out, the app collects no personal data at all: your answers, review schedule, streak, daily goal, and theme stay in your browser's local storage on your device and are never transmitted to us.",
+    body: "No account is required. Used signed out, none of your learning data leaves your device: your answers, review schedule, streak, daily goal, and theme stay in your browser's local storage and are never transmitted to us. The one thing that is sent is anonymous usage measurement, described below — it carries no account, no name, and nothing about which answer you gave, and you can switch it off in Settings.",
   },
   {
     heading: "What we collect if you create an account",
@@ -83,7 +83,19 @@ export const PRIVACY_SECTIONS: LegalSection[] = [
   },
   {
     heading: "What we never collect",
-    body: "No analytics or telemetry SDK is present in the app. No advertising identifiers, no third-party trackers, no cross-site tracking, no device fingerprinting, no location data, and no payment details — there is no checkout. We do not sell or share personal data, and we do not use your data to train machine learning models.",
+    body: "No third-party analytics or advertising SDK is present in the app. No advertising identifiers, no third-party trackers, no cross-site tracking, no device fingerprinting, no precise or GPS location, no IP addresses in storage, and no payment details — there is no checkout. We do not sell or share personal data, and we do not use your data to train machine learning models. The usage measurement described in the next section is our own, is not linked to any account, and is never combined with your learning data.",
+  },
+  {
+    heading: "Anonymous usage measurement",
+    body: "We count how the app is used so we know whether it is worth maintaining. Each visit is given a random identifier that is stored on your device and replaced every 90 days; it is not an account, not linked to one, and cannot be used to identify you. We record which kind of session you started, which Body of Knowledge domain a question belonged to and whether it was answered correctly, and coarse technical context: a country and — in the United States only — a state, whether the device is a phone, tablet or desktop, and your browser and operating system family. Your IP address is used momentarily to work out the country and is then discarded; it is never written to our database, and there is no field in which it could be stored.",
+  },
+  {
+    heading: "What usage measurement never includes",
+    body: "It never includes your email address or user id, even when you are signed in — a signed-in and a signed-out visit produce identical records. It never includes which question you saw, which option you chose, your score, your streak, or any free text. It is stored separately from learning data, with no link between the two, so the two cannot be combined. Individual records are never inspected: only aggregated daily totals are read, and the raw records are deleted after 90 days.",
+  },
+  {
+    heading: "Turning usage measurement off",
+    body: "Settings → Privacy has a switch that disables it. With it off, nothing is sent at all — the request is not made, rather than made and discarded. The app works identically either way, and studying never depends on this being available: if the measurement service is unreachable, blocked by your browser, or switched off, the app behaves exactly the same.",
   },
   {
     heading: "Where your data is stored",
