@@ -7,6 +7,7 @@ const oid = (letter: string) =>
 import {
   canSubmit,
   formatAnswer,
+  verdictAnnouncement,
   gradeAnswer,
   isMultiSelect,
   requiredSelections,
@@ -138,4 +139,29 @@ test("multi-select submits only on the stated number of choices", () => {
 test("answers display in canonical order regardless of selection order", () => {
   assert.equal(formatAnswer(["D", "A", "C"]), "A, C, D");
   assert.equal(formatAnswer(["B"]), "B");
+});
+
+test("the spoken verdict says the same thing the panel shows", () => {
+  assert.equal(verdictAnnouncement(true, ["B"]), "Correct.");
+  assert.equal(verdictAnnouncement(false, ["B"]), "Incorrect. The answer is B.");
+  // Multi-select takes the plural, and the letters come out in display order.
+  assert.equal(
+    verdictAnnouncement(false, ["D", "A"]),
+    "Incorrect. The answers are A, D.",
+  );
+});
+
+test("a correct verdict never leaks the answer key", () => {
+  // Announcing the key on a correct answer would read it out to someone who
+  // already had it right, and on review would hand it over before they retry.
+  for (const keys of [["A"], ["C"], ["A", "B", "D"]]) {
+    assert.equal(verdictAnnouncement(true, keys), "Correct.");
+  }
+});
+
+test("the announcement always terminates, so it does not run into the next utterance", () => {
+  for (const keys of [["A"], ["B", "C"]]) {
+    assert.match(verdictAnnouncement(false, keys), /\.$/);
+    assert.match(verdictAnnouncement(true, keys), /\.$/);
+  }
 });
