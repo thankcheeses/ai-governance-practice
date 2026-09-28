@@ -60,7 +60,7 @@ function Study() {
           </p>
           <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">Study</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {track.name} · {track.questionCount} scenarios, all free
+            {track.name} · {track.questionCount} questions, all free
           </p>
           {track.context ? (
             <div className="mt-3 border-l-2 border-border-strong pl-3">
@@ -208,7 +208,7 @@ function Study() {
                   <p className="mt-2 text-xs text-muted-foreground">
                     {answered > 0
                       ? `${answered} answered · ${accuracy}% accuracy · ${stat?.mastered ?? 0} mastered`
-                      : `${count} scenarios · not started`}
+                      : `${count} questions · not started`}
                   </p>
                 </div>
               </Link>

@@ -62,3 +62,23 @@ export function currentAppPath(): string {
       : pathname;
   return `${stripped || "/"}${search}`;
 }
+
+/**
+ * The site's public origin *including* any repository segment.
+ *
+ * `BASE_PATH` says where in a host the app sits; this says which host. Both are
+ * needed to build an absolute URL, and only this one can produce the canonical
+ * and Open Graph URLs that scrapers and search engines require — a relative
+ * `og:url` is discarded by most of them.
+ *
+ * Falls back to the published address rather than to an empty string: an empty
+ * `metadataBase` throws at build time, and a fork that has not set the variable
+ * should still get a working build with URLs that are merely wrong rather than
+ * a build that fails.
+ *
+ * No trailing slash, so callers can append a path without doubling the slash.
+ */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://thankcheeses.github.io/ai-governance-practice"
+).replace(/\/+$/, "");
