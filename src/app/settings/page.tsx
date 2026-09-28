@@ -288,7 +288,7 @@ function Settings() {
         </p>
         <div className="mt-4 space-y-1">
           <Row label="Tagline" value={BRAND.tagline} />
-          <Row label="Track" value={`${track.name} · ${track.questionCount} scenarios`} />
+          <Row label="Track" value={`${track.name} · ${track.questionCount} questions`} />
           <Row label="Version" value="1.0.0-beta" />
           <Row label="Published by" value={COMPANY.name} />
         </div>

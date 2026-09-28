@@ -67,7 +67,7 @@ export default function OnboardingPage() {
                   {track.summary}
                 </p>
                 <p className="mt-3 text-[0.875rem] text-muted-foreground">
-                  {track.questionCount} scenarios across {track.domains.length}{" "}
+                  {track.questionCount} questions across {track.domains.length}{" "}
                   domains.
                 </p>
               </div>

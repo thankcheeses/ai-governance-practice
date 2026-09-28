@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Serif, Inter } from "next/font/google";
 import { ServiceWorker } from "@/components/app/service-worker";
-import { TelemetryBoot } from "@/components/app/telemetry-boot";
-import { withBasePath } from "@/lib/base-path";
+import { SITE_URL, withBasePath } from "@/lib/base-path";
 import { BRAND } from "@/lib/brand";
 import { ProgressProvider } from "@/lib/store/progress-provider";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/store/theme-provider";
@@ -66,11 +65,36 @@ export const metadata: Metadata = {
     "responsible AI",
     "professional development",
   ],
+  /*
+    Absolute-URL base for og:url, canonicals and the sitemap.
+
+    Without it Next emits relative OG URLs, which most scrapers refuse to
+    resolve — so a shared link rendered with no image and no canonical. It has
+    to come from NEXT_PUBLIC_SITE_URL rather than the base path: a project site
+    lives at https://<user>.github.io/<repo>/, and only that variable carries
+    the origin. Falls back to the published address so a fork that never sets
+    it still produces absolute URLs rather than broken ones.
+  */
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   openGraph: {
     title: BRAND.name,
     description: `${BRAND.category} ${BRAND.positioning}`,
     type: "website",
+    siteName: BRAND.name,
+    url: "/",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: BRAND.name,
+    description: `${BRAND.category} ${BRAND.positioning}`,
+  },
+  /*
+    The app surfaces are deliberately not indexed — see src/app/robots.ts for
+    why. This is the default for everything; the four public content routes
+    override it themselves.
+  */
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {

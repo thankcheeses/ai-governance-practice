@@ -40,7 +40,7 @@ export default function RootPage() {
             {BRAND.tagline}
           </h1>
           <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted-foreground">
-            {available} original scenarios that put you in a governance decision
+            {available} original questions that put you in a governance decision
             and ask what you would do. Progress is saved on your device.
           </p>
           <div className="mt-7">
