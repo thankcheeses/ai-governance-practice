@@ -1,5 +1,6 @@
 import type {
   DistractorType,
+  MaintenanceMeta,
   OptionKey,
   Question,
   QuestionOption,
@@ -8,7 +9,9 @@ import type {
   ReasoningDimension,
   ReasoningMeta,
   Scenario,
+  SourceRef,
 } from "@/content/types";
+import { DEFAULT_MAINTENANCE } from "@/content/types";
 import raw from "./questions.json";
 import rawScenarios from "./scenarios.json";
 import { AIGP_ENRICHMENT } from "./enrichment";
@@ -168,14 +171,49 @@ function normalize(item: RawQuestion): Question {
     ...(enrichment.visualAid ? { visualAid: enrichment.visualAid } : {}),
     ...(scenario ? { scenario } : {}),
     ...(distractorNotes ? { distractorNotes } : {}),
-    ...(enrichment.sources ? { sources: enrichment.sources } : {}),
+    ...(normalizeSources(enrichment.sources)
+      ? { sources: normalizeSources(enrichment.sources)! }
+      : {}),
     frameworkTags: enrichment.frameworkTags,
     bokSubdomain: enrichment.bokSubdomain,
     tags: item.tags ?? [],
     ...(reasoning ? { reasoning } : {}),
+    maintenance: normalizeMaintenance(enrichment.maintenance),
     createdDate: CREATED_DATE,
     updatedDate: UPDATED_DATE,
   };
+}
+
+/**
+ * Widen a source to its structured form.
+ *
+ * Enrichment entries may write a bare citation string — 296 of them do — or a
+ * SourceRef with a URL and an instrument date. Normalising here means every
+ * consumer sees one shape, so nothing downstream has to branch on which form
+ * the author happened to use.
+ */
+function normalizeSources(
+  sources: (string | SourceRef)[] | undefined,
+): SourceRef[] | undefined {
+  if (!sources?.length) return undefined;
+  return sources.map((s) => (typeof s === "string" ? { cite: s } : s));
+}
+
+/**
+ * Fill in the maintenance block an entry did not write.
+ *
+ * Absence means nobody has reviewed the item, which is a real and currently
+ * near-universal state. It is represented explicitly rather than left
+ * undefined so the app can count it: "unreviewed" is a value, not a gap.
+ *
+ * A partial block is merged over the defaults, so an entry can record the one
+ * thing that was actually established — a jurisdiction, say — without having
+ * to assert a review that did not happen.
+ */
+function normalizeMaintenance(
+  maintenance: Partial<MaintenanceMeta> | undefined,
+): MaintenanceMeta {
+  return { ...DEFAULT_MAINTENANCE, ...(maintenance ?? {}) };
 }
 
 export const aigpQuestions: Question[] = (raw as RawQuestion[]).map(normalize);

@@ -218,6 +218,110 @@ export interface RawScenario {
   facts?: { label: string; value: string }[];
 }
 
+/**
+ * A citation, and where to go and check it.
+ *
+ * `sources` began as plain strings and 296 questions are authored that way, so
+ * a string stays valid everywhere an enrichment entry is written. This is the
+ * richer form: the same citation, plus the two things a reader needs to verify
+ * it themselves and the maintainer needs to know whether it has moved.
+ *
+ * Normalised to this shape on load, so nothing downstream has to handle both.
+ */
+export interface SourceRef {
+  /** The instrument and section, e.g. "EU AI Act Art. 26". */
+  cite: string;
+  /** Public URL for the instrument or clause, when a stable one exists. */
+  url?: string;
+  /**
+   * The date of the *instrument* — the version this citation refers to — not
+   * the date we read it. ISO 8601. Absent for standards with no public date.
+   */
+  sourceDate?: string;
+}
+
+/**
+ * Jurisdictions whose obligations an item actually turns on.
+ *
+ * Most of the bank is deliberately jurisdiction-neutral: the prose describes a
+ * governance situation and the citations sit in `sources`. `"neutral"` records
+ * that as a positive fact rather than leaving the field empty and ambiguous,
+ * so "we have not classified this" and "this genuinely spans jurisdictions"
+ * stay distinguishable.
+ */
+export const JURISDICTIONS = [
+  "neutral",
+  "eu",
+  "us-federal",
+  "us-state",
+  "uk",
+  "canada",
+  "china",
+  "international",
+] as const;
+export type Jurisdiction = (typeof JURISDICTIONS)[number];
+
+/** Whether a human has read this item against its sources, and what they found. */
+export const REVIEW_STATUSES = ["unreviewed", "current", "needs-review"] as const;
+export type ReviewStatus = (typeof REVIEW_STATUSES)[number];
+
+/** Whether the rationale actually justifies the key, judged on review. */
+export const RATIONALE_STATUSES = ["unreviewed", "sufficient", "thin"] as const;
+export type RationaleStatus = (typeof RATIONALE_STATUSES)[number];
+
+/**
+ * How much regulatory movement the cited material is exposed to.
+ *
+ *  - `stable`  soft law and settled principle; unlikely to move under us.
+ *  - `watch`   an instrument with phased or pending obligations.
+ *  - `stale`   known to have been overtaken. The item needs rewriting.
+ */
+export const FRESHNESS_STATUSES = ["unreviewed", "stable", "watch", "stale"] as const;
+export type FreshnessStatus = (typeof FRESHNESS_STATUSES)[number];
+
+/**
+ * The maintenance assertion for a single question.
+ *
+ * This exists because the bank had no freshness signal at all. `createdDate`
+ * and `updatedDate` are two module-level constants applied identically to all
+ * 296 items — a coarse statement of when the content was authored, which is
+ * what they were meant to be, and no use whatever for answering "when did
+ * someone last check this item against the law it cites?"
+ *
+ * Every field defaults to the "we have not looked" value, and the defaults are
+ * applied at load rather than written into 296 enrichment entries. That is
+ * deliberate: a backfill that stamped today's date across the bank would
+ * replace a visible placeholder with an invisible false claim, which is
+ * strictly worse. The count of genuinely reviewed items starts at zero and is
+ * meant to be watched going up.
+ *
+ * `npm run check:content` enforces the integrity rules — most importantly that
+ * nothing may claim `current` without carrying the date it was reviewed on.
+ */
+export interface MaintenanceMeta {
+  /**
+   * ISO 8601 date a human last read this item against its sources.
+   * `null` means never — not "unknown", and not "recently".
+   */
+  lastReviewed: string | null;
+  reviewStatus: ReviewStatus;
+  rationaleStatus: RationaleStatus;
+  freshness: FreshnessStatus;
+  /** Jurisdictions the item's obligations belong to. */
+  jurisdictions: Jurisdiction[];
+  /** Free-form note for whoever reviews it next. */
+  note?: string;
+}
+
+/** What an unreviewed item asserts: nothing. */
+export const DEFAULT_MAINTENANCE: MaintenanceMeta = {
+  lastReviewed: null,
+  reviewStatus: "unreviewed",
+  rationaleStatus: "unreviewed",
+  freshness: "unreviewed",
+  jurisdictions: [],
+};
+
 export interface QuestionOption {
   /**
    * Stable identity, derived from the option's position in the source file
@@ -275,8 +379,11 @@ export interface Question {
    * Public sources supporting the rationale — a framework clause, a published
    * standard, a statute article. Present so a learner can check the claim
    * rather than trust it.
+   *
+   * Always `SourceRef` here even when the enrichment entry wrote a bare
+   * string: normalisation widens it, so no consumer handles two shapes.
    */
-  sources?: string[];
+  sources?: SourceRef[];
   frameworkTags: FrameworkTag[];
   /**
    * The Body of Knowledge sub-domain this item tests, e.g. "III.B".
@@ -295,6 +402,21 @@ export interface Question {
    * distractorTypes are keyed by option id (normalized from source letters).
    */
   reasoning?: ReasoningMeta;
+  /**
+   * Freshness and review state. Always present after normalisation; an item
+   * that was never reviewed carries DEFAULT_MAINTENANCE rather than nothing,
+   * so "unreviewed" is a value the app can read and count.
+   */
+  maintenance: MaintenanceMeta;
+  /**
+   * When the source content was authored and last integrated.
+   *
+   * Two module-level constants applied identically to every question — a
+   * statement about the bank's vintage, not a per-item claim, and not a review
+   * date. `maintenance.lastReviewed` is the per-item claim. These are kept
+   * because they are what `scripts/seed.ts` writes to `questions.created_date`
+   * / `updated_date`.
+   */
   createdDate: string;
   updatedDate: string;
 }
@@ -343,8 +465,13 @@ export interface QuestionEnrichment {
    * the shuffle can never misattribute a note.
    */
   distractorNotes?: Partial<Record<OptionKey, string>>;
-  /** Public framework, standard or statute supporting the rationale. */
-  sources?: string[];
+  /**
+   * Public framework, standard or statute supporting the rationale.
+   *
+   * A bare string is the original form and stays valid. Use `SourceRef` when
+   * there is a URL worth linking or an instrument date worth recording.
+   */
+  sources?: (string | SourceRef)[];
   /**
    * Optional reasoning metadata. When present, distractorTypes are keyed by
    * source letter (same convention as distractorNotes) and converted to
@@ -355,4 +482,11 @@ export interface QuestionEnrichment {
     secondaryDimensions?: ReasoningDimension[];
     distractorTypes?: Partial<Record<OptionKey, DistractorType>>;
   };
+  /**
+   * Freshness and review state. Omit it entirely until someone has genuinely
+   * reviewed the item — absence normalises to DEFAULT_MAINTENANCE, which
+   * asserts nothing, and that is the honest default for content nobody has
+   * re-read yet.
+   */
+  maintenance?: Partial<MaintenanceMeta>;
 }

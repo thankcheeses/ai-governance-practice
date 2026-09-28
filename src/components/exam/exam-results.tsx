@@ -225,7 +225,21 @@ export function ExamResults({
                           <Label>Check it against</Label>
                           <ul className="measure space-y-1 text-[0.8125rem] text-muted-foreground">
                             {question.sources.map((s) => (
-                              <li key={s}>· {s}</li>
+                              <li key={s.cite}>
+                                ·{" "}
+                                {s.url ? (
+                                  <a
+                                    href={s.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline decoration-border-strong underline-offset-2 hover:decoration-current"
+                                  >
+                                    {s.cite}
+                                  </a>
+                                ) : (
+                                  s.cite
+                                )}
+                              </li>
                             ))}
                           </ul>
                         </div>

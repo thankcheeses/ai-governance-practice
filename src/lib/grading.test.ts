@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import type { Question } from "@/content/types";
+import { DEFAULT_MAINTENANCE, type Question } from "@/content/types";
 const oid = (letter: string) =>
   `test-001-o${["A", "B", "C", "D", "E"].indexOf(letter) + 1}`;
 
@@ -33,6 +33,7 @@ function q(correctLetters: string[], optionCount = 4): Question {
     frameworkTags: [],
     bokSubdomain: "I.A",
     tags: [],
+    maintenance: DEFAULT_MAINTENANCE,
     createdDate: "",
     updatedDate: "",
   };

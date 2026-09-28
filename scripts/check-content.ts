@@ -13,6 +13,7 @@
 */
 
 import { ALL_QUESTIONS } from "../src/content/registry";
+import { JURISDICTIONS } from "../src/content/types";
 import { SUBDOMAINS } from "../src/content/bok";
 import { readFileSync } from "node:fs";
 
@@ -83,6 +84,13 @@ for (const q of QS) {
 }
 
 /* ------------------------------------------------------------ sources -- */
+// Shared by the source-date and maintenance-date checks below. Declared here
+// because the source loop is the first thing that reads them — a later
+// declaration typechecks as a temporal-dead-zone error and only avoided
+// throwing at runtime because no source carries a date yet.
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const TODAY = new Date().toISOString().slice(0, 10);
+
 // A source is only worth carrying if a learner can go and read the named
 // thing. "FTC guidance" names nothing findable; "Lanham Act, Section 43(a)"
 // does. This is the check that caught nine of the author's own sources.
@@ -96,12 +104,72 @@ const VAGUE = [
   /^various sources/i,
 ];
 for (const q of QS) {
-  for (const s of q.sources ?? []) {
+  for (const ref of q.sources ?? []) {
+    const s = ref.cite;
     if (!NAMED.test(s)) fail(`${q.id}: source names nothing locatable — "${s}"`);
     if (VAGUE.some((r) => r.test(s.trim()))) {
       fail(`${q.id}: source too vague to locate — "${s}". Name the instrument and section.`);
     }
     if (s.trim().length < 12) fail(`${q.id}: source is too short to identify anything — "${s}"`);
+    // A URL is an invitation to go and read the thing. A relative or
+    // http:// one either goes nowhere or downgrades the connection, and
+    // either way it looks like a citation that was checked when it was not.
+    if (ref.url !== undefined && !/^https:\/\/\S+$/.test(ref.url)) {
+      fail(`${q.id}: source url must be absolute https — "${ref.url}"`);
+    }
+    // The instrument's own date, not the date we read it. A future one is
+    // always a mistake.
+    if (ref.sourceDate !== undefined) {
+      if (!ISO_DATE.test(ref.sourceDate)) {
+        fail(`${q.id}: source date must be ISO yyyy-mm-dd — "${ref.sourceDate}"`);
+      } else if (ref.sourceDate > TODAY) {
+        fail(`${q.id}: source date is in the future — "${ref.sourceDate}"`);
+      }
+    }
+  }
+}
+
+/* ------------------------------------------------------- maintenance -- */
+// The bank had no freshness signal at all: createdDate and updatedDate are two
+// constants applied identically to every item. `maintenance` is the per-item
+// claim, and these are the rules that stop it becoming decorative.
+//
+// The central one is that nothing may claim to be current without saying when
+// it was checked. A status without a date is exactly the kind of unfalsifiable
+// assertion this project exists not to make.
+
+for (const q of QS) {
+  const m = q.maintenance;
+  const { lastReviewed, reviewStatus, freshness } = m;
+
+  if (lastReviewed !== null) {
+    if (!ISO_DATE.test(lastReviewed)) {
+      fail(`${q.id}: lastReviewed must be ISO yyyy-mm-dd — "${lastReviewed}"`);
+    } else if (lastReviewed > TODAY) {
+      fail(`${q.id}: lastReviewed is in the future — "${lastReviewed}"`);
+    }
+  }
+
+  // Claiming a review happened requires saying when.
+  if (reviewStatus !== "unreviewed" && lastReviewed === null) {
+    fail(`${q.id}: reviewStatus "${reviewStatus}" without a lastReviewed date`);
+  }
+  // And the converse: a date with no finding is a half-recorded review.
+  if (lastReviewed !== null && reviewStatus === "unreviewed") {
+    fail(`${q.id}: lastReviewed is set but reviewStatus is still "unreviewed"`);
+  }
+  // Freshness is a judgement made during a review; it cannot precede one.
+  if (freshness !== "unreviewed" && lastReviewed === null) {
+    fail(`${q.id}: freshness "${freshness}" asserted without a review`);
+  }
+  // "stale" means known to be overtaken. It must not sit quietly as current.
+  if (freshness === "stale" && reviewStatus !== "needs-review") {
+    fail(`${q.id}: freshness "stale" must carry reviewStatus "needs-review"`);
+  }
+  for (const j of m.jurisdictions) {
+    if (!(JURISDICTIONS as readonly string[]).includes(j)) {
+      fail(`${q.id}: unknown jurisdiction "${j}"`);
+    }
   }
 }
 
@@ -254,6 +322,14 @@ for (const q of QS) {
 console.log(`content gate — ${QS.length} questions, ${single.length} single-select, ${QS.length - single.length} multi-select`);
 notes.forEach((n) => console.log(`  ${n}`));
 console.log(`  BoK competencies covered: ${Object.keys(cov).length}/${(SUBDOMAINS as unknown[]).length}`);
+const reviewed = QS.filter((q) => q.maintenance.lastReviewed !== null);
+const needsReview = QS.filter((q) => q.maintenance.reviewStatus === "needs-review");
+const withUrl = QS.filter((q) => (q.sources ?? []).some((s) => s.url));
+console.log(
+  `  reviewed: ${reviewed.length}/${QS.length}` +
+    `  needs-review: ${needsReview.length}` +
+    `  citing a URL: ${withUrl.length}`,
+);
 console.log(
   `  domains: ${Object.entries(domains)
     .map(([d, n]) => `${d.split(" ").pop()} ${((n / QS.length) * 100).toFixed(0)}%`)
