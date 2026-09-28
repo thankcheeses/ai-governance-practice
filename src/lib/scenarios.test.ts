@@ -276,7 +276,11 @@ test("items carrying sources name something checkable", () => {
   const named = /NIST|EU AI Act|ISO\/IEC|OECD|GDPR|Annex|Art\.|Title [IVX]+|Act\b|Convention|Directive/;
   for (const q of withSources) {
     for (const s of q.sources!) {
-      assert.ok(named.test(s), `${q.id}: unusable source reference "${s}"`);
+      assert.ok(named.test(s.cite), `${q.id}: unusable source reference "${s.cite}"`);
+      // A recorded URL has to be a real absolute one. A relative or malformed
+      // href in "Check it against" sends the learner nowhere and looks like a
+      // citation that was verified when it was not.
+      if (s.url) assert.match(s.url, /^https:\/\/\S+$/, `${q.id}: bad source url`);
     }
   }
 });

@@ -173,11 +173,32 @@ export function FeedbackPanel({
           <SectionLabel>Check it against</SectionLabel>
           <ul className="measure space-y-1 text-[0.8125rem] leading-relaxed text-muted-foreground">
             {question.sources.map((source) => (
-              <li key={source} className="flex gap-2">
+              <li key={source.cite} className="flex gap-2">
                 <span aria-hidden className="select-none text-border-strong">
                   &middot;
                 </span>
-                {source}
+                {/*
+                  Linked only when the citation carries a URL. "Check it
+                  against" is an invitation to go and read the thing, and a
+                  citation the learner has to search for themselves is a
+                  weaker invitation than one they can follow — but a fabricated
+                  link would be worse than none, so this renders plain text
+                  wherever no URL was recorded.
+                */}
+                <span>
+                  {source.url ? (
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline decoration-border-strong underline-offset-2 hover:decoration-current"
+                    >
+                      {source.cite}
+                    </a>
+                  ) : (
+                    source.cite
+                  )}
+                </span>
               </li>
             ))}
           </ul>
