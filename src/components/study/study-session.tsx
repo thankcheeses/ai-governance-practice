@@ -334,8 +334,29 @@ export function StudySession({
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background px-4 py-3 pb-safe-nav sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0">
         <div className="mx-auto max-w-3xl">
           {!revealed ? (
-            <Button size="lg" className="w-full" disabled={!canSubmit(question, selected)} onClick={handleSubmit}>
-              Submit answer
+            /*
+              Confidence is required rather than optional, and this is the only
+              behavioural change in the sitting.
+
+              It was previously a skippable control labelled "(optional)", so
+              almost every attempt stored `confidence: null` — which left the
+              calibration signal, the one thing the app can tell a learner that
+              they cannot work out for themselves, with almost no data behind
+              it. One tap before submitting is what buys it.
+
+              `canSubmit` is untouched: that is grading's view of whether an
+              *answer* is complete, and confidence is not part of an answer.
+              The gate lives here, in the interface, where it belongs.
+            */
+            <Button
+              size="lg"
+              className="w-full"
+              disabled={!canSubmit(question, selected) || confidence === null}
+              onClick={handleSubmit}
+            >
+              {canSubmit(question, selected) && confidence === null
+                ? "Rate your confidence to submit"
+                : "Submit answer"}
             </Button>
           ) : withScheduling ? (
             <p className="text-center text-sm text-muted-foreground">Choose an interval above to continue</p>
