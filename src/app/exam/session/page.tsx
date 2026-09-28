@@ -15,6 +15,7 @@ import {
   sittingFromExam,
   submitIfExpired,
 } from "@/lib/exam";
+import { track } from "@/lib/telemetry";
 import { writeResult } from "@/lib/results-storage";
 import {
   clearExamSession,
@@ -67,6 +68,7 @@ function ExamSessionView() {
         ? requested
         : DEFAULT_EXAM_QUESTIONS;
 
+    track("exam_started", { mode: "exam" });
     const created = createExamSession({
       seed: newSeed(),
       count,

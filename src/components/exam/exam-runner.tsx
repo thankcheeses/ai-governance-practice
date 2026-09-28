@@ -19,6 +19,7 @@ import {
   unansweredIds,
 } from "@/lib/exam";
 import { writeExamSession } from "@/lib/exam-storage";
+import { track } from "@/lib/telemetry";
 import { isMultiSelect, requiredSelections, toggleSelection } from "@/lib/grading";
 import { cn } from "@/lib/utils";
 
@@ -119,6 +120,10 @@ export function ExamRunner({
     if (submittedRef.current) return;
     submittedRef.current = true;
     const done = submitExam(session, "manual");
+    // Counted as a completion regardless of score. The metric being answered
+    // is "do people finish a sitting", not "how did they do" — the score is
+    // never sent.
+    track("exam_completed", { mode: "exam" });
     writeExamSession(done);
     onSubmitted(done);
   }, [session, onSubmitted]);
