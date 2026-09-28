@@ -20,7 +20,7 @@ import {
   clearActiveSession,
   writeActiveSession,
 } from "@/lib/active-session";
-import { canSubmit, gradeAnswer, toggleSelection } from "@/lib/grading";
+import { canSubmit, gradeAnswer, toggleSelection, verdictAnnouncement } from "@/lib/grading";
 import { correctKeys } from "@/lib/presentation";
 import { type CompletedResult } from "@/lib/results";
 import { writeResult } from "@/lib/results-storage";
@@ -308,6 +308,30 @@ export function StudySession({
       ) : null}
 
       <div ref={feedbackAnchor} className="scroll-mt-6" />
+
+      {/*
+        The verdict, announced.
+
+        The feedback panel states "Correct"/"Incorrect" in text, so a screen
+        reader user can find the outcome — but only by going looking for it,
+        and nothing told them it had arrived. Submitting an answer is the one
+        moment in the loop where the page changes without the user moving, so
+        it is the one that has to be spoken.
+
+        This region is always mounted and starts empty, which is what makes it
+        reliable: a live region inserted into the DOM at the same moment as its
+        content is inconsistently announced across screen readers, while one
+        that already exists and then changes is announced dependably. It is
+        `polite` rather than `assertive` because the learner has just acted
+        deliberately and is not being interrupted.
+
+        The text is assembled here rather than read out of the panel so the two
+        cannot drift apart silently; `formatAnswer` is the same helper the
+        visible verdict uses.
+      */}
+      <p role="status" aria-live="polite" className="sr-only">
+        {revealed ? verdictAnnouncement(wasCorrect, answerKeys) : ""}
+      </p>
 
       {revealed ? (
         <div className="mt-7">

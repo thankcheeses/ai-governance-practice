@@ -75,6 +75,31 @@ export function formatAnswer(keys: readonly string[]): string {
 }
 
 /**
+ * What a screen reader is told the moment an answer is revealed.
+ *
+ * The visible panel states the verdict in text, but nothing announced it: a
+ * screen reader user could find the outcome only by going to look for it.
+ * Submitting is the one point in the loop where the page changes without the
+ * user moving, so it is the one that has to be spoken.
+ *
+ * It lives here, beside `formatAnswer`, rather than inline in the component
+ * for two reasons. It is the same sentence a sighted learner reads, so it must
+ * be built from the same helper or the two drift apart silently. And a string
+ * assembled in JSX cannot be tested — the runner only picks up `.ts`.
+ *
+ * Ends in a full stop so screen readers pause rather than running the verdict
+ * into whatever is read next.
+ */
+export function verdictAnnouncement(
+  correct: boolean,
+  answerKeys: readonly string[],
+): string {
+  if (correct) return "Correct.";
+  const plural = answerKeys.length > 1 ? "answers are" : "answer is";
+  return `Incorrect. The ${plural} ${formatAnswer(answerKeys)}.`;
+}
+
+/**
  * Whether an answer is complete enough to submit.
  *
  * Multi-select requires exactly the stated number of choices. Letting someone
