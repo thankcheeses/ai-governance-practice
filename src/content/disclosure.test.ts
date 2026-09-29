@@ -73,3 +73,40 @@ test("the disclosure says where the switch is", () => {
   // A stated opt-out that does not say where to find it is not an opt-out.
   assert.match(ALL, /settings/i);
 });
+
+test("the policy discloses the problem-report form", () => {
+  // The form collects free text and an optional email address — the two things
+  // the telemetry sections explicitly promise NOT to collect. A reader who took
+  // those sections as the whole picture would be misled, so reports need their
+  // own disclosure rather than an assumption that "usage measurement" covers
+  // them.
+  assert.ok(
+    HEADINGS.some((h) => /report a problem/i.test(h)),
+    "no section describes the problem-report form",
+  );
+});
+
+test("the report disclosure states what it does and does not carry", () => {
+  for (const [claim, pattern] of [
+    ["the email address is optional", /email address is optional|optional: give one/i],
+    ["no account is required", /no account is needed to send/i],
+    ["it is not linked to the account", /carries no user id|nothing is attached to your account/i],
+    ["the query string is dropped", /never the query string|path only/i],
+    ["only the operator can read it", /readable only by the operator/i],
+  ] as const) {
+    assert.match(ALL, pattern, `report disclosure does not state: ${claim}`);
+  }
+});
+
+test("the policy does not promise reports are deleted on a schedule", () => {
+  // 0008 has no delete policy and no retention job, on purpose — a report is
+  // closed, not erased. Claiming a deletion schedule that no code implements
+  // would be exactly the kind of untrue sentence the tests above exist to stop.
+  const section = PRIVACY_SECTIONS.find((s) => /report a problem/i.test(s.heading));
+  assert.ok(section, "the report section vanished");
+  assert.match(
+    section.body,
+    /not deleted on a schedule/i,
+    "the report section no longer says reports are kept rather than expired",
+  );
+});
