@@ -43,7 +43,6 @@ const EVENTS = new Set([
   "api_error",
 ]);
 
-const DEVICES = new Set(["mobile", "tablet", "desktop"]);
 const REFERRERS = new Set(["direct", "search", "github", "linkedin", "x", "other"]);
 const MODES = new Set(["practice", "domain", "review", "exam"]);
 
