@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Serif, Inter } from "next/font/google";
 import { ServiceWorker } from "@/components/app/service-worker";
+import { TelemetryBoot } from "@/components/app/telemetry-boot";
 import { SITE_URL, withBasePath } from "@/lib/base-path";
 import { BRAND } from "@/lib/brand";
 import { ProgressProvider } from "@/lib/store/progress-provider";
