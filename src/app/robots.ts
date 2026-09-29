@@ -51,6 +51,15 @@ export const DISALLOWED_PATHS = [
   "/login",
   "/reset",
   "/github",
+  /*
+    The operator dashboard. Its access control is RLS — a visitor who is not in
+    `telemetry.admins` gets an empty result set from `telemetry.daily`, not the
+    numbers — so this line is not what protects it, and must never be mistaken
+    for protection. It is here because an indexed URL invites attempts at a
+    page that exists only for one person, and because listing it would put an
+    empty operator screen in front of people searching for study material.
+  */
+  "/admin",
 ] as const;
 
 /** The rules for a given base path. Pure, so it can be checked at any prefix. */

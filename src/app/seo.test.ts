@@ -93,3 +93,14 @@ test("the sitemap points at the pages that actually say something", () => {
 test("robots.txt advertises the sitemap at an absolute URL", () => {
   assert.equal(robots().sitemap, `${SITE_URL}/sitemap.xml`);
 });
+
+test("the operator dashboard is never indexed", () => {
+  // Its own test rather than a line in the signed-in group, because the reason
+  // differs. Those routes are excluded for being empty to a crawler; /admin is
+  // excluded because it exists for one person. What actually keeps it private
+  // is RLS — a non-member of `telemetry.admins` reads an empty set from
+  // `telemetry.daily` — so this assertion guards discoverability, not access,
+  // and passing it is not evidence that the dashboard is protected.
+  const [rule] = robots().rules as { disallow: string[] }[];
+  assert.ok(rule.disallow.includes(`${BASE_PATH}/admin`), "/admin is crawlable");
+});
