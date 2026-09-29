@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { AccountCounts, ReportsInbox } from "@/components/app/admin-panels";
 import { getBrowserSupabase } from "@/lib/supabase/client";
 
 /**
@@ -189,6 +190,16 @@ function accuracyRows(rows: Row[], kind: "domain" | "subdomain"): [string, strin
     ]);
 }
 
+/*
+  The two panels below live in the Shell rather than beside the usage tables,
+  so they render in every state this page can be in.
+
+  That placement is the point. The usage view short-circuits to "denied" when
+  `telemetry.daily` has no rows, which is also what it looks like before the
+  telemetry migration is deployed at all — and reported problems must not be
+  invisible until analytics happens to be working. Reports are read from
+  `public.reports`, which is a different table with its own policy.
+*/
 function Shell({ children }: { children: React.ReactNode }) {
   return (
     <main className="mx-auto max-w-3xl px-5 py-10 pb-16">
@@ -198,6 +209,8 @@ function Shell({ children }: { children: React.ReactNode }) {
         </p>
         <h1 className="text-[1.875rem] leading-[1.15]">Usage</h1>
       </header>
+      <ReportsInbox />
+      <AccountCounts />
       {children}
     </main>
   );

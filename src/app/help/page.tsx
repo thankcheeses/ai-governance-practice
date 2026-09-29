@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ReportForm } from "@/components/app/report-form";
 import { HowToOperateButton } from "@/components/landing/first-visit-tour";
 import { BRAND } from "@/lib/brand";
 import { withBasePath } from "@/lib/base-path";
@@ -57,6 +58,17 @@ export default function HelpPage() {
           <p className="mt-3 text-[0.9375rem] text-muted-foreground">
             A–D or 1–4 to choose. Enter to submit or continue. N for next after feedback.
           </p>
+        </section>
+        <section className="mt-14 border-t border-border pt-10">
+          <h2 className="font-serif text-[1.5rem]">Report a problem</h2>
+          <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted-foreground">
+            A wrong explanation is worse than a missing one, so a report about
+            the content is the most useful thing you can send. No account
+            needed, and an email address is optional.
+          </p>
+          <div className="mt-6">
+            <ReportForm />
+          </div>
         </section>
         <p className="mt-12">
           <Link href="/">Back to the start</Link>
