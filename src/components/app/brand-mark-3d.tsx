@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
  * warm-neutral, and README §11 rules out decorative art inside the interface.
  * The splash is the one surface whose job is to present the product rather than
  * operate it — the same reasoning that already allows a navy/teal gradient in
- * `public/icon.svg` at the OS boundary while banning one in-app.
+ * `src/app/icon.svg` at the OS boundary while banning one in-app.
  *
  * On error this degrades to the flat-filled mark rather than to nothing. That
  * differs from `VisualAid`, which renders nothing when a diagram is missing: a

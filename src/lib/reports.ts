@@ -29,6 +29,23 @@ export const MAX_CONTACT = 320;
 export const MIN_CONTACT = 3;
 export const MAX_PAGE = 200;
 
+/**
+ * The two things that can go wrong on the way out, as copy rather than as a
+ * database string.
+ *
+ * Exported so they are testable and so there is one place to read them. A
+ * learner who presses Send is owed a sentence they can act on; a PostgREST
+ * message like "Could not find the table 'public.reports' in the schema cache"
+ * is not that, and it publishes internal schema names to anyone who triggers
+ * it. The raw error goes to `console.error` instead, where whoever is
+ * diagnosing it will look.
+ */
+export const REPORTING_UNAVAILABLE_MESSAGE =
+  "Reporting is not available in this build. Please raise it on GitHub instead.";
+
+export const SUBMIT_FAILED_MESSAGE =
+  "That did not send — something on our side is not working. Nothing you typed was wrong. Please try again later, or raise it on GitHub if it keeps happening.";
+
 export interface ReportDraft {
   kind: string;
   body: string;
