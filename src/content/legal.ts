@@ -75,7 +75,7 @@ export const PRIVACY_SECTIONS: LegalSection[] = [
   },
   {
     heading: "Using the app without an account",
-    body: "No account is required. Used signed out, none of your learning data leaves your device: your answers, review schedule, streak, daily goal, and theme stay in your browser's local storage and are never transmitted to us. The one thing that is sent is anonymous usage measurement, described below — it carries no account, no name, and nothing about which answer you gave, and you can switch it off in Settings.",
+    body: "No account is required. Used signed out, none of your learning data leaves your device: your answers, review schedule, streak, daily goal, and theme stay in your browser's local storage and are never transmitted to us. The one thing that is sent is pseudonymous usage measurement, described below — it carries no account, no name, and nothing about which answer you gave, but it does carry a rotating device identifier, and you can switch it off in Settings.",
   },
   {
     heading: "What we collect if you create an account",
@@ -86,8 +86,8 @@ export const PRIVACY_SECTIONS: LegalSection[] = [
     body: "No third-party analytics or advertising SDK is present in the app. No advertising identifiers, no third-party trackers, no cross-site tracking, no device fingerprinting, no precise or GPS location, no IP addresses in storage, and no payment details — there is no checkout. We do not sell or share personal data, and we do not use your data to train machine learning models. The usage measurement described in the next section is our own, is not linked to any account, and is never combined with your learning data.",
   },
   {
-    heading: "Anonymous usage measurement",
-    body: "We count how the app is used so we know whether it is worth maintaining. Each visit is given a random identifier that is stored on your device and replaced every 90 days; it is not an account, not linked to one, and cannot be used to identify you. We record which kind of session you started, which Body of Knowledge domain a question belonged to and whether it was answered correctly, and coarse technical context: a country and — in the United States only — a state, whether the device is a phone, tablet or desktop, and your browser and operating system family. Your IP address is used momentarily to work out the country and is then discarded; it is never written to our database, and there is no field in which it could be stored.",
+    heading: "Pseudonymous usage measurement",
+    body: "We count how the app is used so we know whether it is worth maintaining. This data is pseudonymous rather than anonymous, and the difference matters: a random identifier is stored on your device, replaced every 90 days, and sent with each record, so records from one device can be grouped together within that window. It is not an account and is not joined to one — signed in and signed out produce the same record — but we do not claim it makes you unidentifiable, and you should not read it that way. We record which kind of session you started, which Body of Knowledge domain and sub-domain a question belonged to and whether it was answered correctly. Coarse technical context is inferred from the connection rather than reported by the app: a country and — in the United States only — a state, whether the device is a phone, tablet or desktop, and your browser and operating system family. Your IP address is used momentarily to work out the country and is then discarded; it is never written to our database, and there is no field in which it could be stored.",
   },
   {
     heading: "If you report a problem",
