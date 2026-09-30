@@ -110,3 +110,73 @@ test("the policy does not promise reports are deleted on a schedule", () => {
     "the report section no longer says reports are kept rather than expired",
   );
 });
+
+/* ------------------------------------ the claim must not outrun the pipeline -- */
+
+/**
+ * The telemetry payload carries a device identifier by design:
+ *
+ *   VISITOR_KEY  = "agp:telemetry:visitor"
+ *   VISITOR_TTL_MS = 90 days
+ *   body: JSON.stringify({ event, visitorId: visitorId(), sessionId, ... })
+ *
+ * That identifier exists in order to link records from one device across
+ * sessions — it is what makes "returning visitor" measurable. So the data is
+ * pseudonymous, and calling it anonymous is a stronger claim than the code
+ * supports. Earlier copy made exactly that claim, in three places.
+ *
+ * These tests exist because a claim boundary nobody enforces is a claim
+ * boundary that drifts back.
+ */
+
+const USAGE = PRIVACY_SECTIONS.find((s) => /usage measurement/i.test(s.heading));
+
+test("the usage section does not call pseudonymous data anonymous", () => {
+  assert.ok(USAGE, "the usage-measurement section vanished");
+  // Naming the distinction is allowed and wanted; asserting anonymity is not.
+  assert.match(
+    USAGE.heading + " " + USAGE.body,
+    /pseudonymous/i,
+    "the usage disclosure no longer says the data is pseudonymous",
+  );
+  assert.doesNotMatch(
+    USAGE.heading,
+    /\banonymous\b/i,
+    "the usage-measurement heading claims anonymity again",
+  );
+});
+
+test("the policy never claims the identifier cannot identify you", () => {
+  // The precise sentence that was removed, plus the nearby phrasings that mean
+  // the same thing. Matched by shape rather than by memory of the original.
+  for (const overclaim of [
+    /cannot be used to identify you/i,
+    /can(not|'t) identify you/i,
+    /never linked to you\b/i,
+    /completely anonymous/i,
+    /fully anonymous/i,
+  ]) {
+    assert.doesNotMatch(ALL, overclaim, `the policy over-claims again: ${overclaim}`);
+  }
+});
+
+test("the rotating device identifier is disclosed, not glossed", () => {
+  // If the identifier is the reason the data is only pseudonymous, then the
+  // identifier has to appear in the disclosure. Otherwise the honest label is
+  // unexplained and reads as hedging.
+  assert.match(ALL, /replaced every 90 days|rotating device identifier/i);
+  assert.match(
+    ALL,
+    /grouped together|across sessions/i,
+    "the policy no longer says what the identifier makes possible",
+  );
+});
+
+test("reports may still be called anonymous, because they carry no identifier", () => {
+  // Worth asserting the contrast rather than banning the word outright:
+  // public.reports has no user_id, no device id and no IP, so for reports the
+  // word is accurate. Telemetry is the one that had to be corrected.
+  const reports = PRIVACY_SECTIONS.find((s) => /report a problem/i.test(s.heading));
+  assert.ok(reports, "the report section vanished");
+  assert.match(reports.body, /anonymous/i);
+});

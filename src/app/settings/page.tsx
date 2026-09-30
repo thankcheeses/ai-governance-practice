@@ -262,16 +262,53 @@ function Settings() {
       */}
       <Section title="Privacy">
         <TelemetryToggle />
-        <p className="measure mt-3 text-xs leading-relaxed text-muted-foreground">
-          Anonymous counts only: which kind of session you started, the Body of
-          Knowledge domain of a question and whether it was right, plus country
-          and device type. Never your account, never which question or answer,
-          never your IP address. Off means nothing is sent at all.{" "}
-          <Link href="/settings/privacy" className="underline underline-offset-2">
-            Full policy
-          </Link>
-          .
-        </p>
+        <div className="measure mt-4 space-y-3 text-xs leading-relaxed text-muted-foreground">
+          <div>
+            <p className="font-medium text-foreground">Collected</p>
+            <ul className="mt-1 list-disc space-y-0.5 pl-4">
+              <li>Which kind of session you started</li>
+              <li>The Body of Knowledge domain and sub-domain of a question</li>
+              <li>Whether the answer was correct</li>
+              <li>A random device id that is replaced every 90 days</li>
+              <li>
+                Inferred from the connection rather than sent by the app: country
+                (and, in the US, state), and device, browser and operating system
+                family
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-medium text-foreground">Not collected</p>
+            <ul className="mt-1 list-disc space-y-0.5 pl-4">
+              <li>Your account, your identity, or your email address</li>
+              <li>Which question you saw, or which option you chose</li>
+              <li>
+                Your IP address — used for a moment to derive the country, then
+                discarded, with no field in the database to store it
+              </li>
+            </ul>
+          </div>
+          {/*
+            The honest word, stated where the choice is made.
+
+            Earlier copy here said "anonymous" and "never linked to you". Both
+            over-claimed: a rotating device id is sent with every event, and its
+            whole purpose is to link events from one device across sessions. The
+            claim that survives contact with the code is the narrower one — not
+            joined to an account — so that is the one made.
+          */}
+          <p>
+            Because that device id is included, this is{" "}
+            <strong className="font-medium text-foreground">pseudonymous rather than anonymous</strong>:
+            events from one device can be grouped together for up to 90 days.
+            They are not joined to your account, and signed in or signed out
+            produces the same record. Off means nothing is sent at all.{" "}
+            <Link href="/settings/privacy" className="underline underline-offset-2">
+              Full policy
+            </Link>
+            .
+          </p>
+        </div>
       </Section>
 
       <Section title="Legal">
@@ -371,12 +408,12 @@ function TelemetryToggle() {
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="min-w-0">
-        <p className="text-sm font-medium">Help count usage</p>
+        <p className="text-sm font-medium">Usage analytics</p>
         <p className="text-xs text-muted-foreground">
           {optedOut === null
             ? "\u00a0"
             : on
-              ? "On — anonymous, and never linked to you"
+              ? "On — not linked to your account"
               : "Off — nothing is sent"}
         </p>
       </div>
@@ -384,7 +421,7 @@ function TelemetryToggle() {
         type="button"
         role="switch"
         aria-checked={on}
-        aria-label="Help count usage"
+        aria-label="Usage analytics"
         disabled={optedOut === null}
         onClick={() => {
           const next = !on;
