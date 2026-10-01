@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AccountCounts, ReportsInbox } from "@/components/app/admin-panels";
+import { dailySeries, sparklinePoints, trendSummary } from "@/lib/sparkline";
 import { getBrowserSupabase } from "@/lib/supabase/client";
 
 /**
@@ -128,10 +129,36 @@ export default function AdminPage() {
 
   return (
     <Shell>
+      {/*
+        Three tiles carry a sparkline; the fourth deliberately does not.
+
+        Exam completion is a ratio, and its denominator is a handful of exams a
+        day. A daily ratio over tiny denominators swings between 0% and 100% on
+        one person finishing, so a line through it would read as volatility in
+        the product rather than in the arithmetic. The 30-day ratio is the
+        honest figure and it has no shape worth drawing.
+      */}
       <section className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="Visitors" value={sum("dau")} hint={`${WINDOW_DAYS}-day total`} />
-        <Stat label="Sessions" value={sum("sessions")} hint={`${WINDOW_DAYS}-day total`} />
-        <Stat label="Questions answered" value={eventCount("question_answered")} />
+        <Stat
+          label="Visitors"
+          value={sum("dau")}
+          hint={`${WINDOW_DAYS}-day total`}
+          series={dailySeries(rows, "dau", null, WINDOW_DAYS)}
+          unit="visitors per day"
+        />
+        <Stat
+          label="Sessions"
+          value={sum("sessions")}
+          hint={`${WINDOW_DAYS}-day total`}
+          series={dailySeries(rows, "sessions", null, WINDOW_DAYS)}
+          unit="sessions per day"
+        />
+        <Stat
+          label="Questions answered"
+          value={eventCount("question_answered")}
+          series={dailySeries(rows, "events", "question_answered", WINDOW_DAYS)}
+          unit="questions per day"
+        />
         <Stat
           label="Exam completion"
           value={examStarted ? Math.round((examCompleted / examStarted) * 100) : 0}
@@ -224,16 +251,31 @@ function Note({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * A stat tile: the number, and — when there is enough coverage — the shape.
+ *
+ * `series` arrives null both when the metric has no rows and when fewer than a
+ * week of days are covered, and either way no line is drawn. A tile without a
+ * sparkline is the normal early state, not a broken one.
+ *
+ * The figure keeps the serif face it already had. The house typography uses
+ * serif for editorial display throughout, and a stat tile is not the dashboard
+ * hero, so there is nothing here worth changing for a chart.
+ */
 function Stat({
   label,
   value,
   suffix = "",
   hint,
+  series,
+  unit,
 }: {
   label: string;
   value: number;
   suffix?: string;
   hint?: string;
+  series?: number[] | null;
+  unit?: string;
 }) {
   return (
     <div className="rounded-lg border border-border bg-card p-4">
@@ -244,6 +286,35 @@ function Stat({
         {value.toLocaleString()}
         {suffix}
       </p>
+      {series ? (
+        /*
+          One series, so no legend: the tile's own label names it. `role="img"`
+          with the summary as its name, because the line carries information a
+          screen-reader user would otherwise not get — and the summary states
+          first, last, lowest and highest rather than calling a direction.
+
+          `currentColor` at reduced opacity, so it follows the theme's ink in
+          both light and dark instead of pinning a hex that only works in one.
+          Recessive on purpose: the number is the subject, the line is context.
+        */
+        <svg
+          viewBox="0 0 90 24"
+          preserveAspectRatio="none"
+          role="img"
+          aria-label={`${label}. ${trendSummary(series, unit)}`}
+          className="mt-2 h-6 w-full text-accent-strong opacity-70"
+        >
+          <polyline
+            points={sparklinePoints(series, 90, 24)}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+      ) : null}
       {hint ? <p className="mt-0.5 text-xs text-muted-foreground">{hint}</p> : null}
     </div>
   );
