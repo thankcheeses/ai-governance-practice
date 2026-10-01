@@ -275,6 +275,23 @@
   .pt-safe {
     padding-top: env(safe-area-inset-top);
   }
+  /*
+    A hint that only exists where the hardware does.
+
+    `any-pointer: fine` asks whether any attached input device can point
+    precisely — a mouse, a trackpad, a stylus — which is the closest thing CSS
+    offers to "this machine probably has keys". Viewport width is the wrong
+    question: a laptop with a narrow window has a keyboard, and a large tablet
+    does not.
+  */
+  .keys-hint {
+    display: none;
+  }
+  @media (any-pointer: fine) {
+    .keys-hint {
+      display: inline;
+    }
+  }
   .card-well {
     border-radius: var(--radius-lg);
     border: 1px solid var(--color-border);

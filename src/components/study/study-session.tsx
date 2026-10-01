@@ -271,7 +271,23 @@ export function StudySession({
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <Badge>{question.domain}</Badge>
         <Badge variant="outline" className="capitalize">{question.difficulty}</Badge>
-        <span className="text-[0.75rem] text-muted-foreground">Keys A–D · Enter · N</span>
+        {/*
+          Shown only where there is something to press.
+
+          On a phone this line advertised three keyboard shortcuts to a device
+          with no keyboard — instructions the reader cannot act on, occupying
+          the row that otherwise carries the domain and difficulty.
+
+          `.keys-hint` gates on `any-pointer: fine` rather than on viewport
+          width, because the question is whether a physical input device is
+          attached, not how wide the screen is — a narrow browser window on a
+          laptop still has the keys. It is CSS-only, so it cannot produce a
+          hydration mismatch the way a `navigator`-sniffing effect would. A
+          stylus tablet with no keyboard will still see it; the line is
+          additive, so over-showing it costs nothing the way under-showing a
+          control would.
+        */}
+        <span className="keys-hint text-[0.75rem] text-muted-foreground">Keys A–D · Enter · N</span>
       </div>
 
       <ReadCoach questionId={question.id} />
@@ -286,7 +302,16 @@ export function StudySession({
 
       {!revealed && selected.length > 0 ? (
         <div className="mt-6">
-          <p className="mb-2 text-xs font-medium text-muted-foreground">How confident are you? (optional)</p>
+          {/*
+            Not "(optional)".
+
+            PR #62 made confidence a precondition for submitting, and this
+            label was left behind — so the screen told the learner the control
+            was skippable while the button beneath it refused to submit until
+            they used it. Two instructions, directly contradicting each other,
+            on the one screen the whole product is built around.
+          */}
+          <p className="mb-2 text-xs font-medium text-muted-foreground">How confident are you?</p>
           <div className="flex gap-2">
             {CONFIDENCE_OPTIONS.map((option) => (
               <button
@@ -370,8 +395,28 @@ export function StudySession({
         </div>
       ) : null}
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background px-4 py-3 pb-safe-nav sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0">
-        <div className="mx-auto max-w-3xl">
+      {/*
+        The action bar, now reading as a layer rather than an edge.
+
+        It was `bg-background` — the same colour as the page — separated from
+        the content by a single hairline. So a sentence scrolling past it did
+        not look like a sentence passing *behind* something; it looked like a
+        sentence that had been cut off, which is exactly how it was reported.
+        Nothing was in fact clipped: the scroll container reserves 204px for
+        the bar's 141px, measured at 390×844, and the page still reaches its
+        own end. The defect was that the overlay was invisible as an overlay.
+
+        A distinct surface, a blur and a soft upward shadow give it somewhere
+        to be, so text visibly slides under a thing instead of vanishing. All
+        three are reset at `lg`, where the bar stops being fixed at all.
+
+        The button is full-bleed only on a phone, where that is the right
+        shape for a primary action. From `sm` up it stops growing with the
+        container: at a 767px viewport it was a 767px-wide slab, which is not
+        a button, it is a horizon.
+      */}
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 px-4 py-3 pb-safe-nav shadow-[0_-10px_28px_-18px_rgb(0_0_0_/_0.35)] backdrop-blur-sm sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:shadow-none lg:backdrop-blur-none">
+        <div className="mx-auto flex max-w-3xl flex-col items-stretch sm:items-center">
           {!revealed ? (
             /*
               Confidence is required rather than optional, and this is the only
@@ -389,7 +434,7 @@ export function StudySession({
             */
             <Button
               size="lg"
-              className="w-full"
+              className="w-full sm:w-auto sm:min-w-[20rem]"
               disabled={!canSubmit(question, selected) || confidence === null}
               onClick={handleSubmit}
             >
@@ -400,7 +445,9 @@ export function StudySession({
           ) : withScheduling ? (
             <p className="text-center text-sm text-muted-foreground">Choose an interval above to continue</p>
           ) : (
-            <Button size="lg" className="w-full" onClick={advance}>Continue</Button>
+            <Button size="lg" className="w-full sm:w-auto sm:min-w-[20rem]" onClick={advance}>
+              Continue
+            </Button>
           )}
         </div>
       </div>

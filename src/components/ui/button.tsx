@@ -14,6 +14,25 @@ import { cn } from "@/lib/utils";
  * including `sm`, which exists to look lighter rather than to be smaller than
  * a finger. The old 36/40px heights failed that rule on every surface they
  * appeared on.
+ *
+ * ## Disabled is a surface, not an opacity
+ *
+ * The blanket `disabled:opacity-50` still applies to every variant, but the
+ * filled ones opt out of it, because fading a filled control is the one case
+ * where it goes wrong twice over.
+ *
+ * Measured: `--primary` is `#1a2332` and `--primary-foreground` is `#fffbf6`.
+ * At 50% over the `#f4ede4` page, the surface lands on a dead mid-grey and the
+ * label on it falls to roughly 1.9:1 — far under the 4.5:1 floor. On the study
+ * screen that label is "Rate your confidence to submit", so the single
+ * instruction telling the learner how to proceed was the least readable text
+ * on the page, printed on the largest object on it.
+ *
+ * Filled variants therefore drop to the `secondary` surface with
+ * `muted-foreground` text at full opacity. Measured in the browser on the
+ * study screen: 6.09:1 in light, 6.46:1 in dark — both clear of AA, up from
+ * roughly 1.9:1. The ring is `ring-inset` rather than a border so the control
+ * does not change size when it becomes enabled.
  */
 const buttonVariants = cva(
   [
@@ -28,14 +47,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-[var(--shadow-raised)] hover:bg-primary-strong",
+          "bg-primary text-primary-foreground shadow-[var(--shadow-raised)] hover:bg-primary-strong " +
+          "disabled:bg-secondary disabled:text-muted-foreground disabled:opacity-100 disabled:shadow-none disabled:ring-1 disabled:ring-inset disabled:ring-border",
         secondary:
           "border border-border bg-secondary text-secondary-foreground hover:border-border-strong hover:bg-muted",
         outline:
           "border border-border-strong bg-card text-foreground shadow-[var(--shadow-raised)] hover:bg-secondary",
         ghost: "hover:bg-secondary hover:text-foreground",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-[var(--shadow-raised)] hover:opacity-90",
+          "bg-destructive text-destructive-foreground shadow-[var(--shadow-raised)] hover:opacity-90 " +
+          "disabled:bg-secondary disabled:text-muted-foreground disabled:opacity-100 disabled:shadow-none disabled:ring-1 disabled:ring-inset disabled:ring-border",
         link: "text-link underline decoration-link/40 underline-offset-4 hover:text-link-hover hover:decoration-link-hover",
       },
       size: {
