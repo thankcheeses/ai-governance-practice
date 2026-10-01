@@ -6,6 +6,8 @@ import {
   MAX_CONTACT,
   MIN_BODY,
   REPORT_KINDS,
+  REPORTING_UNAVAILABLE_MESSAGE,
+  SUBMIT_FAILED_MESSAGE,
   REPORT_STATUSES,
   safePage,
   tally,
@@ -229,4 +231,47 @@ test("the tally counts each status separately", () => {
 
 test("an empty inbox tallies to zeroes rather than throwing", () => {
   assert.deepEqual(tally([]), { new: 0, acknowledged: 0, closed: 0 });
+});
+
+/* ------------------------------------------ the form does not leak DB text -- */
+
+const FORM = readFileSync(
+  new URL("../components/app/report-form.tsx", import.meta.url),
+  "utf8",
+);
+// Comments stripped, for the same reason as CODE above: the comment explaining
+// why `error.message` is not interpolated contains the string `error.message`.
+const FORM_CODE = FORM.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+
+test("a database error is never shown to the person in its own words", () => {
+  // Before 0008 is deployed this is the live path, and PostgREST answers with
+  // "Could not find the table 'public.reports' in the schema cache" — which
+  // tells a learner nothing and publishes internal schema names to anyone who
+  // presses Send.
+  assert.ok(
+    !/error\.message/.test(FORM_CODE),
+    "report-form.tsx interpolates the raw database error into the UI again",
+  );
+  assert.match(FORM_CODE, /SUBMIT_FAILED_MESSAGE/, "the written failure copy is not used");
+});
+
+test("the raw error still reaches the console for diagnosis", () => {
+  // Not shown is not the same as not recorded. Without this, a broken insert
+  // would be invisible to whoever has to work out why.
+  assert.match(FORM_CODE, /console\.error\(/, "the raw error is now swallowed entirely");
+});
+
+test("the failure copy is plain prose with nothing interpolated", () => {
+  for (const copy of [SUBMIT_FAILED_MESSAGE, REPORTING_UNAVAILABLE_MESSAGE]) {
+    assert.ok(copy.length > 20, "failure copy is too short to be useful");
+    assert.ok(!/\$\{|undefined|\bnull\b/.test(copy), `copy carries a placeholder: ${copy}`);
+  }
+});
+
+test("the form owns its own validation rather than deferring to the browser", () => {
+  // `noValidate`: with type="email" the browser blocked submission on a
+  // malformed address and showed its own bubble, so `submit` never ran and the
+  // message telling people they may leave it blank never appeared. Verified in
+  // a browser before and after.
+  assert.match(FORM_CODE, /noValidate/, "native validation shadows the announced messages again");
 });

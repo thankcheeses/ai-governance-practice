@@ -9,6 +9,8 @@ import {
   KIND_LABELS,
   REPORT_KINDS,
   MAX_BODY,
+  REPORTING_UNAVAILABLE_MESSAGE,
+  SUBMIT_FAILED_MESSAGE,
   validateReport,
   type ReportKind,
 } from "@/lib/reports";
@@ -71,11 +73,7 @@ export function ReportForm() {
 
     const supabase = getBrowserSupabase();
     if (!supabase) {
-      return setState({
-        status: "error",
-        message:
-          "Reporting is not available in this build. Please raise it on GitHub instead.",
-      });
+      return setState({ status: "error", message: REPORTING_UNAVAILABLE_MESSAGE });
     }
 
     setState({ status: "sending" });
@@ -87,20 +85,45 @@ export function ReportForm() {
     });
 
     if (error) {
-      // Says what happened rather than swallowing it. A report that silently
-      // fails is worse than no form, because the person believes they told us.
-      return setState({
-        status: "error",
-        message: `That did not send: ${error.message}`,
-      });
+      /*
+        Surfaced, but not in the database's own words.
+
+        Before `0008` is deployed this path is the live one, and interpolating
+        `error.message` put "Could not find the table 'public.reports' in the
+        schema cache" in front of a learner — unactionable, and it publishes
+        internal schema names to anyone who presses Send. The raw error goes to
+        the console, where whoever is diagnosing it will actually look.
+
+        Still shown rather than swallowed: a report that fails silently is
+        worse than no form at all, because the person leaves believing they
+        told us.
+      */
+      console.error("[report] insert failed", error);
+      return setState({ status: "error", message: SUBMIT_FAILED_MESSAGE });
     }
     setState({ status: "sent" });
   }
 
   const remaining = MAX_BODY - body.trim().length;
 
+  /*
+   * `noValidate` deliberately. Verified in a browser: with the address field
+   * as `type="email"`, a malformed address made the browser block submission
+   * and show its own bubble, so `submit` never ran and the message below
+   * never appeared — the one that says the field can be left blank.
+   *
+   * Two reasons to own the whole path instead. The native bubble is transient
+   * and tied to the field, where the message below lives in a `role="alert"`
+   * region that assistive technology announces and that stays put. And a
+   * single path means `validateReport` describes what someone actually sees,
+   * so its tests are about the product rather than about a function nothing
+   * reaches.
+   *
+   * `type="email"` stays for the mobile keyboard, and `required` stays for
+   * the `aria-required` it implies; neither now gates submission.
+   */
   return (
-    <form onSubmit={submit} className="space-y-4">
+    <form onSubmit={submit} noValidate className="space-y-4">
       <fieldset>
         <legend className="text-[0.8125rem] font-medium">What kind of problem?</legend>
         <div className="mt-2 space-y-1.5">
