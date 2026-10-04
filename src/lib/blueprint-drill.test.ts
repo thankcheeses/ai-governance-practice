@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { BLUEPRINT_SOURCE, DOMAIN_BLUEPRINT } from "@/content/bok";
+import { getTrackQuestions } from "@/content/registry";
 import {
   midpointOf,
   planDrill,
@@ -108,5 +109,7 @@ test("every question maps into exactly one blueprint domain", () => {
   const byDomain = questionsByDomain();
   const all = Object.values(byDomain).flat();
   assert.equal(new Set(all).size, all.length, "a question was counted twice");
-  assert.equal(all.length, 296, "every question should belong to a domain");
+  // Derived, not pinned: the claim is that every question lands in exactly
+  // one domain, which is about the mapping and not about the bank's size.
+  assert.equal(all.length, getTrackQuestions().length, "every question should belong to a domain");
 });

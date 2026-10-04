@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { SUBDOMAINS, domainOf } from "@/content/bok";
 import { getTrackQuestions } from "@/content/registry";
-import type { Question } from "@/content/types";
+import { namesLocatableInstrument, type Question } from "@/content/types";
 import { gradeAnswer, isMultiSelect, requiredSelections } from "./grading";
 import { groupScenarioFamilies, presentOptions, presentQuestions } from "./presentation";
 import { emptyProgress } from "./types";
@@ -273,10 +273,11 @@ test("items carrying sources name something checkable", () => {
   assert.ok(withSources.length >= 27, `only ${withSources.length} items cite a source`);
   // A source is usable when a learner can go and read the named thing: a
   // framework, a standard, a regulation, or a titled statute. Free prose is not.
-  const named = /NIST|EU AI Act|ISO\/IEC|OECD|GDPR|Annex|Art\.|Title [IVX]+|Act\b|Convention|Directive/;
+  // The pattern is imported rather than restated — this copy had already
+  // drifted from the content gate's, accepting citations the gate rejected.
   for (const q of withSources) {
     for (const s of q.sources!) {
-      assert.ok(named.test(s.cite), `${q.id}: unusable source reference "${s.cite}"`);
+      assert.ok(namesLocatableInstrument(s.cite), `${q.id}: unusable source reference "${s.cite}"`);
       // A recorded URL has to be a real absolute one. A relative or malformed
       // href in "Check it against" sends the learner nowhere and looks like a
       // citation that was verified when it was not.
@@ -291,8 +292,27 @@ test("the bank is large enough to sustain repeated sittings", () => {
   // A 100-question exam drawn from a bank barely larger than itself deals
   // nearly the same paper every time.
   assert.ok(ALL.length >= 250, `the bank holds only ${ALL.length} questions`);
+
+  // The ceiling was 320, with a note that growth past it needs a coverage
+  // argument rather than momentum. Here is the argument for 350.
+  //
+  // The 54 items added to reach it were not more of the same. Measured before
+  // they were written, the bank drew 89% of its 593 citations from four free
+  // framework documents — NIST, ISO/IEC, the EU AI Act and the OECD — with
+  // zero citations to US state or local law and two to a federal agency,
+  // against a body of knowledge whose II.B competency explicitly names
+  // nondiscrimination in employment, credit, housing and insurance, consumer
+  // protection, product liability and intellectual property.
+  //
+  // The new items cite that law, and they brought four scenario families with
+  // them — insurance underwriting, a clinical voice agent, an agentic
+  // purchasing assistant and tenant screening — none of which the existing
+  // eleven covered. Scenario-linked questions went from 38 to 62.
+  //
+  // The next increase needs its own argument, and "we added more questions"
+  // will not be one.
   assert.ok(
-    ALL.length <= 320,
+    ALL.length <= 350,
     `${ALL.length} questions — growth past this needs a coverage argument, not momentum`,
   );
 });

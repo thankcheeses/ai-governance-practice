@@ -387,5 +387,157 @@
         "value": "A broadcaster wants the labelling process in writing"
       }
     ]
+  },
+  {
+    "id": "sc-012",
+    "title": "AI-assisted underwriting at a mid-sized insurer",
+    "sector": "insurance",
+    "body": [
+      "A property and casualty insurer writing personal auto in eleven US states has deployed a model that recommends premium adjustments within a band set by the filed rating plan. An underwriter sees the recommendation, the three factors that moved it most, and a free-text field in which to record a reason for departing from it. The model does not set rates on its own; it moves a quote within limits an actuary already filed with each state regulator.",
+      "The model was built in-house on ten years of the insurer's own policy and claims history. Protected characteristics were excluded from the feature set at the outset. The feature list includes vehicle telematics where the policyholder has opted in, prior claims, credit-based insurance score where state law permits its use, and garaging location at census-tract granularity.",
+      "Six months after launch, an analyst comparing accepted quotes to the filed plan finds that underwriters override the recommendation downward for 9% of applicants overall, but for 3% of applicants in tracts where median household income sits in the lowest quintile. Override rates upward are flat across tracts. Nobody instructed underwriters to treat tracts differently, and the free-text reasons in the low-override tracts are mostly blank or read \"as quoted\".",
+      "The rating plan on file with each state describes the factors the insurer uses and the actuarial justification for each. It does not describe the model, because the model recommends within the plan rather than altering it. The filing has not been amended since the model went live.",
+      "The insurer's model risk policy requires annual validation of material models. This model was classified as non-material at intake on the basis that it operates inside an approved band, so it has not been validated since the pre-launch review conducted by the team that built it."
+    ],
+    "facts": [
+      {
+        "label": "Role",
+        "value": "The insurer builds and deploys the model; no third-party vendor is involved"
+      },
+      {
+        "label": "Decision",
+        "value": "Recommends a premium adjustment within a filed rating band; an underwriter decides"
+      },
+      {
+        "label": "Signal",
+        "value": "Downward overrides 9% overall, 3% in lowest-income-quintile tracts; upward overrides flat"
+      },
+      {
+        "label": "Reasons recorded",
+        "value": "Free-text departure reasons mostly blank or \"as quoted\" in low-override tracts"
+      },
+      {
+        "label": "Regulatory posture",
+        "value": "Filed rating plan describes factors, not the model; filing unamended since launch"
+      },
+      {
+        "label": "Validation",
+        "value": "Classified non-material at intake; only the builders' own pre-launch review exists"
+      }
+    ]
+  },
+  {
+    "id": "sc-013",
+    "title": "AI voice agent handling patient intake for a specialty clinic group",
+    "sector": "healthcare",
+    "body": [
+      "A group of fourteen specialty clinics uses an AI voice agent to answer inbound calls, confirm appointments, capture the reason for a visit in the patient's own words, and route anything it cannot handle to a human scheduler. The agent speaks first and identifies itself as an automated assistant. It is supplied by a vendor and runs on the vendor's infrastructure; the vendor also supplies the underlying speech and language models from a third party.",
+      "The agent is not permitted to give clinical advice. Its instructions tell it to route to a nurse line if a caller describes symptoms. In practice, callers describe symptoms constantly, because that is how people explain why they want an appointment, and those descriptions are transcribed and stored with the call record.",
+      "During a routine review the clinic group finds three things. First, when a caller interrupts the opening greeting — which happens on roughly one call in five — the identity disclosure is cut off and the caller may not learn they are speaking to a machine. Second, the agent's summary of the reason for visit is written into the scheduling system and is visible to clinicians, who have begun relying on it. Third, the vendor's contract permits it to use \"de-identified service data\" to improve its models, and the vendor confirms that call transcripts fall within that definition.",
+      "The clinic group's notice of privacy practices describes appointment scheduling as a routine operation. It does not mention automated processing, voice capture, or any use of call content beyond the clinic's own operations.",
+      "No patient has complained. The clinic group's compliance officer learned about the model-improvement clause from this review rather than from the contract negotiation, which was handled as an IT procurement."
+    ],
+    "facts": [
+      {
+        "label": "Role",
+        "value": "Clinic group deploys; vendor supplies the agent and hosts it; models come from a further third party"
+      },
+      {
+        "label": "Disclosure",
+        "value": "Agent identifies itself first, but roughly 1 call in 5 interrupts the greeting"
+      },
+      {
+        "label": "Clinical boundary",
+        "value": "No advice permitted; symptom descriptions are nonetheless captured and stored"
+      },
+      {
+        "label": "Downstream use",
+        "value": "Reason-for-visit summary written to scheduling and relied on by clinicians"
+      },
+      {
+        "label": "Vendor terms",
+        "value": "Vendor may use \"de-identified service data\", which it confirms includes transcripts, to improve its models"
+      },
+      {
+        "label": "Patient notice",
+        "value": "Privacy notice describes scheduling as routine; silent on automation and voice capture"
+      }
+    ]
+  },
+  {
+    "id": "sc-014",
+    "title": "Agentic procurement assistant with spending authority",
+    "sector": "corporate operations",
+    "body": [
+      "A manufacturer has piloted an assistant that handles low-value indirect purchasing end to end. Given a request, it searches approved catalogues, compares quotes, selects a supplier, raises the purchase order and books the receipt. It acts without a human approval step for orders under $5,000 from suppliers already on the approved list. Above that, or for any supplier not on the list, it prepares the order and stops for a buyer to approve.",
+      "The assistant is built on a commercial model accessed through an API, with tools wired to the ERP and the supplier master. The supplier master is maintained by the procurement operations team. The approved-list check reads a flag on the supplier record.",
+      "Over the pilot the assistant placed 1,840 orders. An internal audit sample of 200 finds every order within the authority limit and matched to a receipt. It also finds eleven orders placed with a supplier whose approved flag had been set by a request from a mailbox that procurement operations could not later attribute to a named requester. The orders themselves were ordinary office consumables at market prices and no money was lost.",
+      "The assistant keeps a full trace of its reasoning for each order for thirty days, after which traces are deleted to control storage cost. The ERP retains the order and receipt records under the normal seven-year schedule. For the eleven orders in question the traces are gone.",
+      "The business wants to raise the no-approval threshold to $25,000 and extend the assistant to direct materials, where supplier changes affect production. The pilot's sponsor regards the audit as clean, on the basis that nothing was lost."
+    ],
+    "facts": [
+      {
+        "label": "Autonomy",
+        "value": "Acts without human approval under $5,000 for approved suppliers; prepares and stops above that"
+      },
+      {
+        "label": "Scale",
+        "value": "1,840 orders placed in the pilot; 200 sampled by internal audit"
+      },
+      {
+        "label": "Finding",
+        "value": "Eleven orders to a supplier whose approved flag came from an unattributable request"
+      },
+      {
+        "label": "Loss",
+        "value": "None — goods were ordinary consumables at market prices"
+      },
+      {
+        "label": "Trace retention",
+        "value": "Reasoning traces deleted after 30 days; ERP order records kept 7 years; the eleven traces are gone"
+      },
+      {
+        "label": "Proposed change",
+        "value": "Raise the threshold to $25,000 and extend to direct materials"
+      }
+    ]
+  },
+  {
+    "id": "sc-015",
+    "title": "Tenant screening model at a residential property manager",
+    "sector": "housing",
+    "body": [
+      "A company managing 38,000 rental units across six metropolitan areas licenses a tenant screening product. The product returns a single recommendation — accept, accept with conditions, or decline — derived from credit data, eviction and criminal record searches, and income verification. Leasing agents are instructed to follow the recommendation and have no override authority; exceptions route to a regional manager.",
+      "The vendor treats the weighting as proprietary and will not disclose it. It supplies a one-page description of the input categories and an annual summary stating that the model was reviewed for disparate impact and that no action was required. The summary names no methodology, no population and no result.",
+      "An applicant declined on the recommendation asks why. The leasing agent reads out the four input categories from the vendor's one-pager. The applicant says their eviction record belongs to a different person with a similar name, and asks the property manager to correct it. The agent explains that the data comes from the vendor and the applicant should contact the vendor.",
+      "The property manager's contract with the vendor places responsibility for data accuracy on the vendor and contains an indemnity. It is silent on who responds to applicant disputes, on what the property manager is entitled to see about an individual decision, and on what happens to the model if the vendor changes it.",
+      "The company's AI inventory lists the product as a vendor service and records its owner as the procurement category manager. No one in the legal or compliance function was involved at intake, because the product was renewed from an existing contract rather than bought new."
+    ],
+    "facts": [
+      {
+        "label": "Role",
+        "value": "Property manager deploys a licensed vendor product; vendor builds and maintains the model"
+      },
+      {
+        "label": "Decision",
+        "value": "Accept / accept with conditions / decline; agents cannot override, exceptions go to a regional manager"
+      },
+      {
+        "label": "Transparency",
+        "value": "Weighting proprietary; annual disparate-impact summary names no methodology, population or result"
+      },
+      {
+        "label": "Dispute",
+        "value": "Applicant asserts a mismatched eviction record; agent refers them to the vendor"
+      },
+      {
+        "label": "Contract",
+        "value": "Accuracy and indemnity on the vendor; silent on disputes, decision visibility and model change"
+      },
+      {
+        "label": "Intake",
+        "value": "Renewed from an existing contract; no legal or compliance review; owner is a procurement category manager"
+      }
+    ]
   }
 ]

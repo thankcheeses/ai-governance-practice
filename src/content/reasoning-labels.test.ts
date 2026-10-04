@@ -45,7 +45,9 @@ const DISTRACTOR_TYPES = new Set([
 ]);
 
 test("the calibration tranche is applied and no wider", () => {
-  assert.equal(ALL.length, 296, "bank size changed");
+  // Bank size is deliberately not pinned here. The invariant this test
+  // protects is the tranche width, and pinning the total as well meant every
+  // question added to the bank failed a test about reasoning labels.
   assert.equal(
     LABELLED.length,
     52,
@@ -54,9 +56,11 @@ test("the calibration tranche is applied and no wider", () => {
 });
 
 test("unlabelled questions carry no reasoning metadata at all", () => {
-  // `reasoning` is optional precisely so the other 244 keep working untouched.
+  // `reasoning` is optional precisely so every unlabelled item keeps working
+  // untouched. Derived from the bank rather than pinned, for the same reason
+  // as above — but the relationship still has to hold exactly.
   const bare = ALL.filter((q) => !q.reasoning);
-  assert.equal(bare.length, 244);
+  assert.equal(bare.length, ALL.length - LABELLED.length);
   for (const q of bare) {
     assert.equal(q.reasoning, undefined, `${q.id} has a partial reasoning block`);
   }

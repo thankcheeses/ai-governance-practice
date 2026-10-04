@@ -228,6 +228,32 @@ export interface RawScenario {
  *
  * Normalised to this shape on load, so nothing downstream has to handle both.
  */
+/**
+ * Citation forms that name something a learner can actually go and read.
+ *
+ * This lived in two copies — `scripts/check-content.ts` and
+ * `src/lib/scenarios.test.ts` — and they had already drifted apart: the test's
+ * copy never gained `ISO `, `CFR` or `Regulation (EU)`, so a source the content
+ * gate accepted could still fail the suite. It is exported from here, beside
+ * the other controlled vocabularies, so there is one definition to change.
+ *
+ * `CITATION_FORMS_US` covers instruments that carry no "Act" in their name and
+ * are cited the way American law cites things: a code section, a municipal law
+ * and its rules, a banking supervisory release identified by number. They were
+ * added when the bank first reached outside the four framework documents that
+ * had supplied 89% of its citations.
+ */
+export const CITATION_FORMS =
+  /NIST|EU AI Act|ISO\/IEC|ISO |OECD|GDPR|Annex|Art\.|Title [IVX]+|Act\b|Convention|Directive|CFR|Regulation \(EU\)/;
+
+export const CITATION_FORMS_US =
+  /U\.S\.C\.|Local Law \d|RCNY|SR 11-7|OCC Bulletin|Executive Order \d|Fed\. Reg\./;
+
+/** Whether a citation names a locatable instrument under either convention. */
+export function namesLocatableInstrument(cite: string): boolean {
+  return CITATION_FORMS.test(cite) || CITATION_FORMS_US.test(cite);
+}
+
 export interface SourceRef {
   /** The instrument and section, e.g. "EU AI Act Art. 26". */
   cite: string;
