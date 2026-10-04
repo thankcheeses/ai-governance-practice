@@ -626,9 +626,14 @@ function drawWhatToReview(
   const weak = weakestSubdomains(score);
   if (!weak.length || readiness.state === "noEvidence") {
     report.paragraph(
-      "There is not enough data in this sitting to single out a weakest " +
-        "competency. Answer more questions across more domains and this " +
-        "section will name specific areas rather than staying silent.",
+      readiness.flawless
+        ? "Nothing in this sitting needs review - every question was answered " +
+            "correctly, so no competency is listed here. The way to make this " +
+            "section informative again is to widen the material, not to " +
+            "revisit it."
+        : "There is not enough data in this sitting to single out a weakest " +
+            "competency. Answer more questions across more domains and this " +
+            "section will name specific areas rather than staying silent.",
       { color: MUTED },
     );
     return;
@@ -795,19 +800,29 @@ function drawMissed(report: Report, result: CompletedResult, score: SittingScore
       }
       report.c.text(line, x, report.y, { font: "sans", size: 8.5, color: INK });
     });
-    report.need(11);
-    report.y += 11;
-    report.c.text(
-      truncate(
-        toAscii(`${question.bokSubdomain} - ${question.keyTakeaway}`),
-        "sansItalic",
-        7.5,
-        w,
-      ),
-      x,
-      report.y,
-      { font: "sansItalic", size: 7.5, color: MUTED },
-    );
+    /*
+      Wrapped, not truncated.
+
+      The stem directly above has always wrapped; the takeaway was cut to a
+      single line of the same width, so nearly every row in the report ended
+      mid-word — "You cannot assess risk against a use case nobody has
+      writt...". That is the one part of the report a learner reads away from
+      the screen, and it was the only part that could not be finished.
+
+      Nothing about the column forced it: the stem proves the width holds more
+      than one line. The cost is a slightly longer report on a bad sitting,
+      which is the right trade for advice that ends in a full stop.
+    */
+    wrapText(
+      toAscii(`${question.bokSubdomain} - ${question.keyTakeaway}`),
+      "sansItalic",
+      7.5,
+      w,
+    ).forEach((line, j) => {
+      report.need(11);
+      report.y += j === 0 ? 11 : 10;
+      report.c.text(line, x, report.y, { font: "sansItalic", size: 7.5, color: MUTED });
+    });
   }
 }
 

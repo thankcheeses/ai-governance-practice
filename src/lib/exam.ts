@@ -142,8 +142,30 @@ export function createExamSession(
     updatedAt: new Date(now).toISOString(),
   };
 
+  /*
+    `ignoreDifficulty` is not an optimisation; without it the blank history
+    above silently makes every exam the easiest 50 or 100 questions in the
+    bank.
+
+    `targetDifficulty` reads fewer than five attempts as "foundational", and a
+    blank history has none — so the history that was emptied for fairness also
+    pinned the target to the floor. Measured before this flag, over five seeds:
+    a 50-question exam dealt 33 foundational, 17 applied and 0 advanced every
+    time, and a 100-question exam dealt 33 / 67 / 0. All 142 advanced
+    questions, 41% of the bank, were unreachable through an exam at any length.
+
+    An exam should sample the bank rather than aim at a level, so it opts out
+    of difficulty weighting altogether. With a blank history every question is
+    unseen and in no weak domain, which leaves the jitter as the only term —
+    an unbiased draw.
+  */
   const questions = presentQuestions(
-    selectQuestions(blank, { count, trackId: spec.trackId, seed: spec.seed }),
+    selectQuestions(blank, {
+      count,
+      trackId: spec.trackId,
+      seed: spec.seed,
+      ignoreDifficulty: true,
+    }),
     spec.seed,
   );
 
