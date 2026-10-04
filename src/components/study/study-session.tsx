@@ -20,7 +20,14 @@ import {
   clearActiveSession,
   writeActiveSession,
 } from "@/lib/active-session";
-import { canSubmit, gradeAnswer, toggleSelection, verdictAnnouncement } from "@/lib/grading";
+import {
+  canSubmit,
+  gradeAnswer,
+  isMultiSelect,
+  requiredSelections,
+  toggleSelection,
+  verdictAnnouncement,
+} from "@/lib/grading";
 import { correctKeys } from "@/lib/presentation";
 import { type CompletedResult } from "@/lib/results";
 import { writeResult } from "@/lib/results-storage";
@@ -31,7 +38,7 @@ import {
 } from "@/lib/session";
 import { gradePreview, newReviewCard } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
-import type { Confidence, ReviewGrade, StudyMode } from "@/lib/types";
+import type { ReviewGrade, StudyMode } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface StudySessionProps {
@@ -43,12 +50,6 @@ interface StudySessionProps {
   resumed?: ActiveSession | null;
   completedResult?: CompletedResult | null;
 }
-
-const CONFIDENCE_OPTIONS: { value: Confidence; label: string }[] = [
-  { value: "guessed", label: "Guessed" },
-  { value: "unsure", label: "Unsure" },
-  { value: "confident", label: "Confident" },
-];
 
 export function StudySession({
   sitting,
@@ -64,7 +65,6 @@ export function StudySession({
 
   const [index, setIndex] = useState(() => resumed?.index ?? 0);
   const [selected, setSelected] = useState<string[]>(() => resumed?.selected ?? []);
-  const [confidence, setConfidence] = useState<Confidence | null>(() => resumed?.confidence ?? null);
   const [revealed, setRevealed] = useState(() => resumed?.revealed ?? false);
   const [wasCorrect, setWasCorrect] = useState(() => {
     if (!resumed?.revealed) return false;
@@ -105,7 +105,7 @@ export function StudySession({
       index,
       selected,
       revealed,
-      confidence,
+      confidence: null,
       answers,
       correctCount,
       queuedCount,
@@ -114,18 +114,36 @@ export function StudySession({
     });
   }, [
     sitting, seed, progress.trackId, mode, label, withScheduling, exitHref,
-    index, selected, revealed, confidence, answers, correctCount, queuedCount,
+    index, selected, revealed, answers, correctCount, queuedCount,
     startedAt, finished, question,
   ]);
 
-  const handleSubmit = useCallback(() => {
-    if (revealed || !question || !canSubmit(question, selected)) return;
+  /*
+    Submission takes the selection as an argument rather than reading it from
+    state, and that is load-bearing rather than stylistic.
+
+    Answers now commit on the choosing tap, so the submit happens in the same
+    handler that sets the selection — at which point `selected` still holds the
+    previous render's value. Reading state here would record the answer the
+    learner had *before* the tap: on a single-select question, nothing. Passing
+    the ids through is the only version that is correct under batching.
+  */
+  const submitAnswer = useCallback(
+    (ids: string[]) => {
+    if (revealed || !question || !canSubmit(question, ids)) return;
     const result = recordAnswer(
       question,
-      selected,
+      ids,
       Date.now() - questionStart.current,
       mode,
-      confidence,
+      /*
+        No confidence rating is collected any more, so every attempt from here
+        on stores null. `calibration.ts` already distinguishes rated from
+        unrated attempts and stays silent below its floor, so the calibration
+        read degrades to saying nothing rather than to saying something wrong —
+        and attempts recorded before this change keep their ratings.
+      */
+      null,
     );
     setRevealed(true);
     setWasCorrect(result.correct);
@@ -141,13 +159,41 @@ export function StudySession({
       subdomain: question.bokSubdomain,
       correct: result.correct,
     });
-    setAnswers((a) => ({ ...a, [question.id]: selected }));
+    setAnswers((a) => ({ ...a, [question.id]: ids }));
     if (result.correct) setCorrectCount((c) => c + 1);
     if (result.queuedForReview) setQueuedCount((c) => c + 1);
     requestAnimationFrame(() =>
       feedbackAnchor.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
     );
-  }, [selected, revealed, question, recordAnswer, mode, confidence]);
+    },
+    [revealed, question, recordAnswer, mode],
+  );
+
+  /*
+    One tap answers the question. There is no second step.
+
+    A learner picks an option and the answer is graded on that tap: no submit
+    button, no window in which to reconsider. The intent is that the choice has
+    to be made before the finger moves, which is how the item behaves under
+    exam conditions and is not how it behaved when a selection could be nudged
+    around while the options were re-read.
+
+    The rule is uniform, so multi-select follows it too: selections below the
+    required count can still be toggled freely, and the tap that completes the
+    set commits it. The commitment point is therefore the same sentence in both
+    cases — the answer is final once it is complete — rather than one rule for
+    single-select and an exception for the other 41 questions.
+
+    `canSubmit` decides when an answer is complete; it is unchanged. What
+    changed is only who calls it.
+  */
+  const chooseOption = useCallback(
+    (ids: string[]) => {
+      setSelected(ids);
+      if (question && canSubmit(question, ids)) submitAnswer(ids);
+    },
+    [question, submitAnswer],
+  );
 
   const advance = useCallback(() => {
     if (index + 1 >= total) {
@@ -165,7 +211,7 @@ export function StudySession({
         index,
         selected,
         revealed,
-        confidence,
+        confidence: null,
         answers,
         correctCount,
         queuedCount,
@@ -181,13 +227,12 @@ export function StudySession({
     }
     setIndex((i) => i + 1);
     setSelected([]);
-    setConfidence(null);
     setRevealed(false);
     questionStart.current = Date.now();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [
     index, total, sitting, seed, progress.trackId, mode, label, withScheduling,
-    exitHref, selected, revealed, confidence, answers, correctCount,
+    exitHref, selected, revealed, answers, correctCount,
     queuedCount, startedAt,
   ]);
 
@@ -214,8 +259,7 @@ export function StudySession({
     revealed,
     finished,
     withScheduling,
-    onSelect: (ids) => setSelected(ids),
-    onSubmit: handleSubmit,
+    onSelect: chooseOption,
     onAdvance: advance,
   });
 
@@ -297,40 +341,8 @@ export function StudySession({
         options={options}
         selected={selected}
         revealed={revealed}
-        onSelect={(key) => setSelected((cur) => toggleSelection(question, cur, key))}
+        onSelect={(key) => chooseOption(toggleSelection(question, selected, key))}
       />
-
-      {!revealed && selected.length > 0 ? (
-        <div className="mt-6">
-          {/*
-            Not "(optional)".
-
-            PR #62 made confidence a precondition for submitting, and this
-            label was left behind — so the screen told the learner the control
-            was skippable while the button beneath it refused to submit until
-            they used it. Two instructions, directly contradicting each other,
-            on the one screen the whole product is built around.
-          */}
-          <p className="mb-2 text-xs font-medium text-muted-foreground">How confident are you?</p>
-          <div className="flex gap-2">
-            {CONFIDENCE_OPTIONS.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => setConfidence((c) => (c === option.value ? null : option.value))}
-                className={cn(
-                  "flex-1 rounded-lg border px-3 py-2 text-sm transition-colors",
-                  confidence === option.value
-                    ? "border-accent bg-accent-tint font-medium text-accent-foreground ring-1 ring-inset ring-accent"
-                    : "border-border bg-card text-muted-foreground hover:bg-secondary",
-                )}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
 
       <div ref={feedbackAnchor} className="scroll-mt-6" />
 
@@ -402,46 +414,45 @@ export function StudySession({
         the content by a single hairline. So a sentence scrolling past it did
         not look like a sentence passing *behind* something; it looked like a
         sentence that had been cut off, which is exactly how it was reported.
-        Nothing was in fact clipped: the scroll container reserves 204px for
-        the bar's 141px, measured at 390×844, and the page still reaches its
-        own end. The defect was that the overlay was invisible as an overlay.
+        Nothing was in fact clipped: the scroll container reserves 204px, and
+        the bar measures 141px after an answer and 109px before one at
+        390×844, so the page still reaches its own end in both states. The
+        defect was that the overlay was invisible as an overlay.
 
         A distinct surface, a blur and a soft upward shadow give it somewhere
         to be, so text visibly slides under a thing instead of vanishing. All
         three are reset at `lg`, where the bar stops being fixed at all.
 
-        The button is full-bleed only on a phone, where that is the right
-        shape for a primary action. From `sm` up it stops growing with the
-        container: at a 767px viewport it was a 767px-wide slab, which is not
-        a button, it is a horizon.
+        The Continue button is full-bleed only on a phone, where that is the
+        right shape for a primary action. From `sm` up it stops growing with
+        the container: at a 767px viewport it was a 767px-wide slab, which is
+        not a button, it is a horizon. Before an answer there is no button at
+        all, which is why the bar is shorter in that state.
       */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 px-4 py-3 pb-safe-nav shadow-[0_-10px_28px_-18px_rgb(0_0_0_/_0.35)] backdrop-blur-sm sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:shadow-none lg:backdrop-blur-none">
         <div className="mx-auto flex max-w-3xl flex-col items-stretch sm:items-center">
           {!revealed ? (
             /*
-              Confidence is required rather than optional, and this is the only
-              behavioural change in the sitting.
+              No pre-answer control, because there is no longer a pre-answer
+              step: the choosing tap is the submission.
 
-              It was previously a skippable control labelled "(optional)", so
-              almost every attempt stored `confidence: null` — which left the
-              calibration signal, the one thing the app can tell a learner that
-              they cannot work out for themselves, with almost no data behind
-              it. One tap before submitting is what buys it.
+              What stands here instead is the warning, and it is not optional
+              decoration. A one-tap commit that the learner discovers by
+              losing a mark is a trap; the same mechanic, announced before the
+              first tap, is a rule. The sentence is what makes "know the
+              answer before you touch it" a thing the learner was told rather
+              than a thing that happened to them.
 
-              `canSubmit` is untouched: that is grading's view of whether an
-              *answer* is complete, and confidence is not part of an answer.
-              The gate lives here, in the interface, where it belongs.
+              It sits in the action bar rather than beside the options because
+              the bar is where this screen has always said what the next move
+              is, and because a fixed bar with nothing in it reads as a
+              rendering fault.
             */
-            <Button
-              size="lg"
-              className="w-full sm:w-auto sm:min-w-[20rem]"
-              disabled={!canSubmit(question, selected) || confidence === null}
-              onClick={handleSubmit}
-            >
-              {canSubmit(question, selected) && confidence === null
-                ? "Rate your confidence to submit"
-                : "Submit answer"}
-            </Button>
+            <p className="text-center text-sm text-muted-foreground">
+              {isMultiSelect(question)
+                ? `Completing your ${requiredSelections(question)} choices submits the answer — there is no undo`
+                : "Choosing an answer submits it — there is no undo"}
+            </p>
           ) : withScheduling ? (
             <p className="text-center text-sm text-muted-foreground">Choose an interval above to continue</p>
           ) : (

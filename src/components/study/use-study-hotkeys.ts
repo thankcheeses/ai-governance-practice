@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import type { PresentedOption, Question } from "@/content/types";
-import { canSubmit, toggleSelection } from "@/lib/grading";
+import { toggleSelection } from "@/lib/grading";
 
 export function useStudyHotkeys({
   question,
@@ -12,7 +12,6 @@ export function useStudyHotkeys({
   finished,
   withScheduling,
   onSelect,
-  onSubmit,
   onAdvance,
 }: {
   question: Question | undefined;
@@ -21,8 +20,12 @@ export function useStudyHotkeys({
   revealed: boolean;
   finished: boolean;
   withScheduling: boolean;
+  /**
+   * Called with the full selection after a letter key. The caller decides what
+   * that means — since answers commit on choosing, this both selects and, when
+   * the selection is complete, submits.
+   */
   onSelect: (ids: string[]) => void;
-  onSubmit: () => void;
   onAdvance: () => void;
 }) {
   useEffect(() => {
@@ -42,9 +45,13 @@ export function useStudyHotkeys({
         }
         return;
       }
+      /*
+        Enter advances and nothing else. It used to submit a pending answer;
+        there is no such state any more, because a complete selection has
+        already been graded by the time any other key could be pressed.
+      */
       if (e.key === "Enter") {
-        if (!revealed && canSubmit(question, selected)) onSubmit();
-        else if (revealed && !withScheduling) onAdvance();
+        if (revealed && !withScheduling) onAdvance();
         return;
       }
       if ((letter === "n" || e.key === "ArrowRight") && revealed && !withScheduling) {
@@ -56,6 +63,6 @@ export function useStudyHotkeys({
     return () => window.removeEventListener("keydown", onKey);
   }, [
     question, options, selected, revealed, finished, withScheduling,
-    onSelect, onSubmit, onAdvance,
+    onSelect, onAdvance,
   ]);
 }
