@@ -213,6 +213,33 @@
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
   }
+  /*
+    A control that can be pressed says so under the cursor.
+
+    Measured on the study screen before this rule: every `<button>` computed
+    `cursor: default` while every link computed `pointer` — 5 buttons and 14
+    links. That is the browser's own default for `<button>`, not anything this
+    project set, and neither Tailwind's preflight nor the `Button` component
+    overrode it. So the answer options, the diagram controls, the toggles and
+    the primary actions all sat under an arrow, and the one piece of feedback a
+    pointer device gives before you commit was missing from the entire app.
+
+    It is written here rather than as a class on `Button` because the controls
+    that most needed it are not `Button`s: the answer options, the framework
+    diagram's function pills and the settings switches are all hand-rolled
+    `<button>` elements, and a per-component fix would have missed exactly the
+    ones that were reported.
+
+    `:disabled` and `aria-disabled` keep the arrow, because there a pointer
+    cursor would promise something that will not happen.
+  */
+  button:not(:disabled):not([aria-disabled="true"]),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="switch"]:not(:disabled),
+  label:has(> input:is([type="checkbox"], [type="radio"]):not(:disabled)) {
+    cursor: pointer;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
