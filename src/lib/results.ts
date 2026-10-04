@@ -215,6 +215,37 @@ export function formatDuration(ms: number): string {
 }
 
 /* ------------------------------------------------------------------ */
+/* Flawless sittings                                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Every question answered, every one right.
+ *
+ * Deliberately a statement about what happened, not about readiness. The
+ * readiness model in `readiness.ts` weighs accuracy against how much of the
+ * bank a sitting covered, and refuses to call thin evidence encouraging — that
+ * discipline is the point of it and nothing here touches it. But "you got all
+ * ten right" is a fact, and a tool that cannot say so because ten is a small
+ * number is withholding the one thing the learner already knows.
+ *
+ * So this is true at any length. A perfect five is flawless and still carries
+ * the same "early signal only" verdict underneath it; the two sentences are
+ * about different things and both are true.
+ *
+ * Counts rather than `percentage`, which rounds: 199 of 200 is 100% to the
+ * nearest point and is not a clean sweep. Unanswered questions disqualify a
+ * sitting outright — a submitted-blank exam scores 0 incorrect.
+ */
+export function isFlawless(score: SittingScore): boolean {
+  return score.total > 0 && score.incorrect === 0 && score.unanswered === 0;
+}
+
+/** `50 of 50` — the count a flawless banner states rather than a percentage. */
+export function flawlessTally(score: SittingScore): string {
+  return `${score.correct} of ${score.total}`;
+}
+
+/* ------------------------------------------------------------------ */
 /* Study guidance                                                      */
 /* ------------------------------------------------------------------ */
 

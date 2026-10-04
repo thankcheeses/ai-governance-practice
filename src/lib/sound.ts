@@ -1,0 +1,100 @@
+"use client";
+
+import { BASE_PATH } from "./base-path";
+
+/**
+ * Sound cues.
+ *
+ * The product has been silent since it shipped, and that is the right default
+ * for something people use at a desk at work or on a commute — so this stays
+ * off until the learner turns it on, and the preference is the first thing
+ * every play consults.
+ *
+ * ## The files
+ *
+ * `CUES` maps each cue to one file under `public/sounds/`. Both current files
+ * were supplied by the owner and are committed exactly as supplied; nothing
+ * here was synthesised, and a cue with no file resolves to silence rather than
+ * to a console error, so adding a name before its audio is safe.
+ *
+ * ## Playback rules
+ *
+ * Browsers refuse audio that no gesture preceded. Every cue here fires after a
+ * deliberate action — submitting an exam, finishing a session — so the gesture
+ * exists, but a rejected `play()` is still caught and ignored: a blocked sound
+ * must never surface as an error on a results screen.
+ *
+ * Elements are cached per cue so a second play does not re-fetch, and each is
+ * rewound before playing so a repeat actually sounds.
+ */
+
+/** Cue names, mapped to the file each one expects under `public/sounds/`. */
+export const CUES = {
+  /** A fresh sitting opens — practice, review or exam. Not on a resume. */
+  begin: "begin.mp3",
+  /** Every question right, at any sitting length. */
+  flawless: "flawless-victory.mp3",
+} as const;
+
+export type CueName = keyof typeof CUES;
+
+const STORAGE_KEY = "aigp.sound.enabled";
+
+/**
+ * Off unless the learner has explicitly turned it on.
+ *
+ * Reads as `false` whenever storage is unavailable — a private window, cleared
+ * site data, a server render. Silence is the safe failure for a sound.
+ */
+export function soundEnabled(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function setSoundEnabled(on: boolean): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, on ? "1" : "0");
+  } catch {
+    // A learner who cannot persist the preference still gets the session's
+    // behaviour; there is nothing useful to report here.
+  }
+}
+
+const cache = new Map<CueName, HTMLAudioElement>();
+
+function element(cue: CueName): HTMLAudioElement | null {
+  const existing = cache.get(cue);
+  if (existing) return existing;
+  try {
+    const audio = new Audio(`${BASE_PATH}/sounds/${CUES[cue]}`);
+    audio.preload = "none";
+    cache.set(cue, audio);
+    return audio;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Play a cue, or do nothing.
+ *
+ * Every reason to stay silent is handled the same way — preference off, no
+ * file, autoplay refused, no `Audio` at all — because from the learner's side
+ * they are the same outcome and none of them is worth an error.
+ */
+export function play(cue: CueName): void {
+  if (!soundEnabled()) return;
+  const audio = element(cue);
+  if (!audio) return;
+  try {
+    audio.currentTime = 0;
+    void audio.play().catch(() => {});
+  } catch {
+    // Ignored on purpose: see above.
+  }
+}

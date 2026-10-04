@@ -39,6 +39,7 @@ import {
 import { gradePreview, newReviewCard } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { ReviewGrade, StudyMode } from "@/lib/types";
+import { useCueOnce } from "@/lib/use-cue";
 import { cn } from "@/lib/utils";
 
 interface StudySessionProps {
@@ -83,6 +84,13 @@ export function StudySession({
 
   const question = questions[index];
   const total = questions.length;
+  /*
+    The opening cue, once, on a sitting that was dealt rather than restored.
+    `resumed` is the stored sitting a refresh or a return brings back, so a
+    null one is a genuine start. Nothing plays unless sound is on in Settings.
+  */
+  useCueOnce("begin", resumed === null && !finished && Boolean(question));
+
   const options = useMemo(() => sitting.options[index] ?? [], [sitting, index]);
   const answerKeys = useMemo(
     () => (question ? correctKeys(options, question) : []),

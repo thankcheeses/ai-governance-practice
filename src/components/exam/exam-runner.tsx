@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCueOnce } from "@/lib/use-cue";
 import { ProtectedText } from "@/components/study/protected-text";
 import { Button } from "@/components/ui/button";
 import type { PresentedOption, Question } from "@/content/types";
@@ -52,6 +53,22 @@ export function ExamRunner({
   onChange,
   onSubmitted,
 }: ExamRunnerProps) {
+  /*
+    The opening cue, on a sitting that has not been worked yet.
+
+    "Fresh" is nothing answered and sitting on the first question. A resume
+    that matches that description is, from the learner's side, a start — they
+    have done none of it — so letting the cue play there is the right reading
+    rather than a leak. What it does rule out is the common case: reopening an
+    exam half-finished, where an opening fanfare would be absurd.
+
+    Silent unless the learner turned sound on; see `lib/sound.ts`.
+  */
+  useCueOnce(
+    "begin",
+    session.index === 0 && Object.keys(session.answers).length === 0,
+  );
+
   const [now, setNow] = useState(() => Date.now());
   const [navOpen, setNavOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
