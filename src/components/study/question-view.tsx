@@ -28,8 +28,14 @@ interface QuestionViewProps {
  * renders checkboxes and states how many choices are required *before* the
  * learner answers, because the grading is all-or-nothing and discovering the
  * requirement afterwards would be an interface failure rather than a knowledge
- * one. Either way selection locks the moment the answer is revealed, so a
- * second tap can never change a recorded answer.
+ * one.
+ *
+ * `onSelect` is a commitment, not a preference. The caller grades the answer
+ * the moment the selection is complete, so on a single-select question the
+ * first tap is the answer and on a multi-select the tap that completes the set
+ * is. This component is unchanged by that — it reports the tap and renders
+ * whatever state comes back — but anyone reading it should know that the
+ * handler it calls is not reversible.
  */
 export function QuestionView({
   question,

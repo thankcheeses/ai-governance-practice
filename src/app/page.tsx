@@ -202,8 +202,8 @@ export default function RootPage() {
                 p: "Not just the correct one. Each option you could have picked has a written note on why it looked right and where it fails — because the near-miss is the one worth understanding.",
               },
               {
-                h: "It knows when you were sure and wrong",
-                p: "Rate your confidence as you answer. The app compares what you claimed against what happened, and tells you if the questions you were certain about are the ones costing you.",
+                h: "One tap, and the answer is final",
+                p: "There is no submit button to hover over and no selection to nudge while you re-read the options. Choosing commits the answer, which is the condition you sit the exam under — and it stops practice rewarding the habit of narrowing to two and fishing.",
               },
               {
                 h: "Missed items come back on a schedule",

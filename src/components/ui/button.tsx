@@ -23,10 +23,12 @@ import { cn } from "@/lib/utils";
  *
  * Measured: `--primary` is `#1a2332` and `--primary-foreground` is `#fffbf6`.
  * At 50% over the `#f4ede4` page, the surface lands on a dead mid-grey and the
- * label on it falls to roughly 1.9:1 — far under the 4.5:1 floor. On the study
- * screen that label is "Rate your confidence to submit", so the single
- * instruction telling the learner how to proceed was the least readable text
- * on the page, printed on the largest object on it.
+ * label on it falls to roughly 1.9:1 — far under the 4.5:1 floor. The case
+ * that found it was the study screen's submit button, whose disabled label was
+ * the one instruction telling the learner how to proceed and the least
+ * readable text on the page. That button is gone — answers now commit on the
+ * choosing tap — but the contrast rule is not about one label, and every
+ * filled control that can be disabled still depends on it.
  *
  * Filled variants therefore drop to the `secondary` surface with
  * `muted-foreground` text at full opacity. Measured in the browser on the

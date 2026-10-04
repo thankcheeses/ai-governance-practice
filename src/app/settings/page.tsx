@@ -13,6 +13,7 @@ import { getTrack } from "@/content/registry";
 import { BRAND, COMPANY, SUPPORT } from "@/lib/brand";
 import { useProgress } from "@/lib/store/progress-provider";
 import { useTheme, type Theme } from "@/lib/store/theme-provider";
+import { setSoundEnabled, soundEnabled } from "@/lib/sound";
 import { hasOptedOut, setOptedOut } from "@/lib/telemetry";
 import { cn } from "@/lib/utils";
 
@@ -252,6 +253,14 @@ function Settings() {
         </div>
       </Section>
 
+      <Section title="Sound">
+        <SoundToggle />
+        <p className="measure mt-3 text-xs leading-relaxed text-muted-foreground">
+          Off by default, and off until you turn it on here. The only cue is a
+          short one when you finish a sitting with every question right.
+        </p>
+      </Section>
+
       {/*
         Privacy sits above Legal and is a control, not a link.
 
@@ -396,6 +405,55 @@ function Section({
  * flag would flash the wrong state at someone who had opted out, which is the
  * one person for whom that flash is not acceptable.
  */
+/**
+ * Mirrors `TelemetryToggle` deliberately — same shape, same mounted-state
+ * guard. The preference is read in an effect rather than during render because
+ * it lives in localStorage, which does not exist on the server; reading it
+ * inline would mismatch the static export's markup on hydration.
+ */
+function SoundToggle() {
+  const [on, setOn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setOn(soundEnabled());
+  }, []);
+
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <div className="min-w-0">
+        <p className="text-sm font-medium">Sound cues</p>
+        <p className="text-xs text-muted-foreground">
+          {on === null ? "\u00a0" : on ? "On" : "Off — nothing plays"}
+        </p>
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={on === true}
+        aria-label="Sound cues"
+        disabled={on === null}
+        onClick={() => {
+          const next = !on;
+          setSoundEnabled(next);
+          setOn(next);
+        }}
+        className={cn(
+          "relative h-6 w-11 shrink-0 rounded-full border transition-colors disabled:opacity-40",
+          on ? "border-accent bg-accent" : "border-border bg-secondary",
+        )}
+      >
+        <span
+          aria-hidden
+          className={cn(
+            "absolute top-0.5 h-4 w-4 rounded-full bg-card shadow-sm transition-transform",
+            on ? "translate-x-[1.4rem]" : "translate-x-0.5",
+          )}
+        />
+      </button>
+    </div>
+  );
+}
+
 function TelemetryToggle() {
   const [optedOut, setOptedOutState] = useState<boolean | null>(null);
 

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { getQuestion } from "@/content/registry";
 import { SUBDOMAINS } from "@/content/bok";
+import { FlawlessBanner } from "@/components/results/flawless-banner";
 import { ResultActions } from "@/components/results/result-actions";
 import {
   type ExamSession,
@@ -67,6 +68,8 @@ export function ExamResults({
           any certification result.
         </p>
       </header>
+
+      <FlawlessBanner score={result} />
 
       <section className="mb-6 rounded-lg border border-border bg-card p-5">
         <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">

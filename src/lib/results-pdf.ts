@@ -22,7 +22,7 @@ import {
   scoreResult,
   timeRemainingAtFinish,
   weakestSubdomains,
-} from "./results";
+  isFlawless,} from "./results";
 
 /**
  * The results report.
@@ -392,7 +392,13 @@ function drawGradeBlock(
   seed: string,
 ): void {
   const top = report.y + 10;
-  const H = 118;
+  /*
+    Grown rather than squeezed when a sitting is flawless: the mark is an extra
+    line under the readiness headline, and overlapping it into the "PRACTICE
+    GRADE" label beneath would be worse than a taller card.
+  */
+  const flawlessSitting = isFlawless(score);
+  const H = flawlessSitting ? 132 : 118;
   report.c.rect(MARGIN, top, CONTENT_W, H, {
     radius: 12,
     fill: CARD,
@@ -444,6 +450,25 @@ function drawGradeBlock(
     report.c.text(line, midX, y, { font: "sansBold", size: 9.5, color: INK });
     y += 13;
   }
+  /*
+    Stated beneath the readiness headline, never instead of it.
+
+    A flawless five still carries "early signal only - too little practice to
+    draw a conclusion" directly above this line, and that is the intended
+    reading: the headline answers how much the sitting proves, this answers
+    what happened in it. Nothing here claims readiness, so the report's refusal
+    to predict an examination outcome is untouched.
+  */
+  if (flawlessSitting && graded) {
+    report.c.text(
+      toAscii(`Flawless sitting - ${score.correct} of ${score.total}, nothing left blank.`),
+      midX,
+      y,
+      { font: "sansBold", size: 8.5, color: SUCCESS },
+    );
+    y += 13;
+  }
+
   report.c.text(
     toAscii(
       graded

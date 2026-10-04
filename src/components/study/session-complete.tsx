@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FlorkArt } from "@/components/app/flork-art";
+import { FlawlessBanner } from "@/components/results/flawless-banner";
 import { ResultActions } from "@/components/results/result-actions";
 import { Button } from "@/components/ui/button";
 import { SUBDOMAINS } from "@/content/bok";
@@ -43,6 +44,8 @@ export function SessionComplete({
           {score.correct} of {score.total} correct in {result.label.toLowerCase()}.
         </p>
       </header>
+      <FlawlessBanner score={score} />
+
       <section className="mb-6 rounded-lg border border-border bg-card p-5">
         <dl className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
           <SummaryStat label="Correct" value={score.correct} />
