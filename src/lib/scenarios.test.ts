@@ -292,8 +292,27 @@ test("the bank is large enough to sustain repeated sittings", () => {
   // A 100-question exam drawn from a bank barely larger than itself deals
   // nearly the same paper every time.
   assert.ok(ALL.length >= 250, `the bank holds only ${ALL.length} questions`);
+
+  // The ceiling was 320, with a note that growth past it needs a coverage
+  // argument rather than momentum. Here is the argument for 350.
+  //
+  // The 54 items added to reach it were not more of the same. Measured before
+  // they were written, the bank drew 89% of its 593 citations from four free
+  // framework documents — NIST, ISO/IEC, the EU AI Act and the OECD — with
+  // zero citations to US state or local law and two to a federal agency,
+  // against a body of knowledge whose II.B competency explicitly names
+  // nondiscrimination in employment, credit, housing and insurance, consumer
+  // protection, product liability and intellectual property.
+  //
+  // The new items cite that law, and they brought four scenario families with
+  // them — insurance underwriting, a clinical voice agent, an agentic
+  // purchasing assistant and tenant screening — none of which the existing
+  // eleven covered. Scenario-linked questions went from 38 to 62.
+  //
+  // The next increase needs its own argument, and "we added more questions"
+  // will not be one.
   assert.ok(
-    ALL.length <= 320,
+    ALL.length <= 350,
     `${ALL.length} questions — growth past this needs a coverage argument, not momentum`,
   );
 });

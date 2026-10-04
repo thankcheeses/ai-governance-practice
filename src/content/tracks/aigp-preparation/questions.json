@@ -2231,7 +2231,7 @@
     "id": 121,
     "scenarioId": "sc-003",
     "domain": "Laws, Standards, and Frameworks",
-    "question": "The department is assessing how tightly this deployment should be governed. Which fact most reduces the risk classification the assistant warrants?",
+    "question": "The housing department is deciding how tightly to govern its caseworker assistant. Which fact most reduces the risk classification the assistant warrants?",
     "options": [
       "A. Caseworkers, not residents, are the only users of the assistant.",
       "B. The assistant produces no output that determines or informs eligibility.",
@@ -5484,7 +5484,7 @@
       "D. Offering this applicant human review of the decision before it becomes final."
     ],
     "correct": "A",
-    "rationale": "Credit-denial law attaches to the individual decision, not to the quality of the programme behind it. Equal Credit Opportunity Act rules require a statement of the specific principal reasons for adverse action, and that duty is owed to this applicant about this denial — a model-level fairness test, however rigorous, does not produce it. B and C are genuine obligations and genuinely part of a defensible programme, and D is required in some jurisdictions and is good practice everywhere; but each is a programme-level or jurisdiction-specific control. The reason statement is what this applicant is owed, and the difficulty of extracting it from a complex model is a constraint on model choice, not an excuse from the requirement.",
+    "rationale": "Credit-denial law attaches to the individual decision, not to the quality of the programme behind it. Equal Credit Opportunity Act rules require a statement of the specific principal reasons for adverse action, and that duty is owed to this applicant about this denial — a model-level fairness test, however rigorous, does not produce it. Pre-deployment disparate-impact testing and retention of the model version and inputs are genuine obligations and genuinely part of a defensible programme; human review is required in some jurisdictions and is good practice everywhere. Each is a programme-level or jurisdiction-specific control. The reason statement is what this applicant is owed, and the difficulty of extracting it from a complex model is a constraint on model choice, not an excuse from the requirement.",
     "tags": [
       "US federal law",
       "credit",
@@ -5503,7 +5503,7 @@
       "D. Adopt the model, and route any applicant who disputes the outcome to a manual re-underwrite by a human."
     ],
     "correct": "B",
-    "rationale": "The obligation is to give the applicant the actual principal reasons, so the governance question is evidentiary: can this explanation method be shown to track the model's real drivers closely enough to be relied on? That converts an abstract worry into a testable acceptance criterion, which is what a control is. A documents the problem without resolving it. C sets a standard — exactness — that no deployed scorecard meets either, and would rule out methods that are demonstrably faithful. D is a sensible safety net and many lenders run one, but it addresses disputes after the fact rather than the notice owed on every denial.",
+    "rationale": "The obligation is to give the applicant the actual principal reasons, so the governance question is evidentiary: can this explanation method be shown to track the model's real drivers closely enough to be relied on? That converts an abstract worry into a testable acceptance criterion, which is what a control is. Recording that the explanations are approximations documents the problem without resolving it. Demanding exactness sets a standard no deployed scorecard meets either, and would rule out methods that are demonstrably faithful. A manual re-underwrite on dispute is a sensible safety net that many lenders run, but it addresses the applicants who complain rather than the notice owed on every denial.",
     "tags": [
       "US federal law",
       "credit",
@@ -5522,7 +5522,7 @@
       "D. Protected: the vendor selected the features and the model, so responsibility for the disparity sits with it."
     ],
     "correct": "A",
-    "rationale": "Federal employment discrimination law has recognised disparate impact for decades: a facially neutral selection practice that disproportionately excludes a protected group must be shown to be job-related and consistent with business necessity, and even then can fail if a less discriminatory alternative exists. Intent is the standard for a different theory, not this one — which is exactly why an intent-based state statute does not displace this exposure. C asks for a causal account that the doctrine does not require of the complainant. D describes a commercial allocation of risk between employer and vendor, which does not move the employer's own statutory duty to the people it screens.",
+    "rationale": "Federal employment discrimination law has recognised disparate impact for decades: a facially neutral selection practice that disproportionately excludes a protected group must be shown to be job-related and consistent with business necessity, and even then can fail if a less discriminatory alternative exists. Intent is the standard for a different theory, not this one — which is exactly why an intent-based state statute does not displace this exposure. Requiring the complainant to identify the offending feature asks for a causal account the doctrine does not demand of them. Pointing at the vendor describes a commercial allocation of risk between employer and supplier, which does not move the employer's own statutory duty to the people it screens.",
     "tags": [
       "US federal law",
       "employment",
@@ -5540,7 +5540,7 @@
       "D. Registration of the system with the state privacy regulator, with a description of its purpose, before first use."
     ],
     "correct": "A",
-    "rationale": "California's automated decision-making rules are built on a pre-use notice: before using the technology for a significant decision, the business tells the person plainly that it is doing so and how to exercise the associated rights, including opting out and requesting access. B is a transparency measure some regimes impose and many organisations adopt, but it is not what this obligation is. C overstates the mechanism — the design is notice and opt-out, not prior consent, and treating it as consent would misdescribe what the business must build. D imports a registration step this framework does not create.",
+    "rationale": "California's automated decision-making rules are built on a pre-use notice: before using the technology for a significant decision, the business tells the person plainly that it is doing so and how to exercise the associated rights, including opting out and requesting access. Publishing accuracy and error rates by group is a transparency measure some regimes impose and many organisations adopt, but it is not what this obligation is. Requiring written consent overstates the mechanism: the design is notice and opt-out, and building a consent gate would misdescribe the right the person actually has. Registration with the regulator imports a step this framework does not create.",
     "tags": [
       "US state law",
       "privacy",
@@ -5559,7 +5559,7 @@
       "D. Run a separate programme for each state, so that no obligation is diluted by being averaged with another's."
     ],
     "correct": "B",
-    "rationale": "Impact assessment, inventory, notice, human review and monitoring recur across these statutes; trigger definitions, liability standards and penalties do not. Building the durable controls once and tracking the volatile obligations in a reviewed register is what survives a repeal-and-replace — which has already happened once here. A is a common and defensible strategy, and it does reduce complexity, but it silently adopts requirements that may not apply and still misses obligations the strictest state happens not to have. C waits on something that may not come. D is the most rigorous reading and the least sustainable: duplicated programmes drift apart, and the drift is invisible until an audit.",
+    "rationale": "Impact assessment, inventory, notice, human review and monitoring recur across these statutes; trigger definitions, liability standards and penalties do not. Building the durable controls once and tracking the volatile obligations in a reviewed register is what survives a repeal-and-replace — which has already happened once here. Building to the strictest state is a common and defensible strategy that genuinely reduces complexity, but it silently adopts requirements that may not apply and still misses any obligation that state happens not to impose. Waiting for federal pre-emption depends on something that may not come, on a timetable nobody controls. Running a programme per state is the most rigorous reading and the least sustainable: duplicated programmes drift apart, and the drift is invisible until an audit.",
     "tags": [
       "US state law",
       "programme design",
@@ -5577,7 +5577,7 @@
       "D. Professional-licensure exposure, for supplying clinical judgement without a licence to practise medicine."
     ],
     "correct": "A",
-    "rationale": "A performance claim that holds only under conditions the buyer will never reproduce is a deceptive-practices problem, and it attaches now — on publication of the claim, with no patient harm and no customer complaint required. B and C are real and may be larger in damages, but both are contingent on an event that has not happened. D misreads the arrangement: supplying a tool to clinicians is not itself unlicensed practice. The governance move is to qualify the claim to the conditions the evidence actually covers, which is cheaper before a regulator asks than after.",
+    "rationale": "A performance claim that holds only under conditions the buyer will never reproduce is a deceptive-practices problem, and it attaches now — on publication of the claim, with no patient harm and no customer complaint required. Product liability and contractual exposure are real and may be larger in damages, but both are contingent on an event that has not happened — a harm, or a customer who measures and complains. The licensure framing misreads the arrangement: supplying a decision-support tool to licensed clinicians is not itself unlicensed practice. The governance move is to qualify the claim to the conditions the evidence actually covers, which is cheaper before a regulator asks than after.",
     "tags": [
       "US federal law",
       "consumer protection",
@@ -5596,7 +5596,7 @@
       "D. The validation dataset was selected by the developers themselves rather than by an independent party."
     ],
     "correct": "A",
-    "rationale": "Effective challenge is the core of model validation: critical analysis by people with the standing and incentive to disagree, aimed at the assumptions and limitations the builders are least likely to question themselves. A review that checks completeness and reproduces the team's reasoning has verified the work without challenging it. D is close and is a real weakness that often produces the failure in A — but dataset provenance is one assumption among several, and independent selection alone does not make a review challenging. B and C are genuine expectations of a mature programme; neither is what makes this particular review deficient.",
+    "rationale": "Effective challenge is the core of model validation: critical analysis by people with the standing and incentive to disagree, aimed at the assumptions and limitations the builders are least likely to question themselves. A review that checks completeness and reproduces the team's reasoning has verified the work without challenging it. Developer-selected validation data is close, and is a real weakness that often produces exactly this failure — but dataset provenance is one assumption among several, and independent selection alone does not convert a confirmatory review into a challenging one. Inventory registration and challenger benchmarking are genuine expectations of a mature programme; neither is what makes this particular review deficient.",
     "tags": [
       "US federal law",
       "model risk management",
@@ -5615,7 +5615,7 @@
       "D. The disclosure requires individual authorisation from every patient whose clinical notes would be included."
     ],
     "correct": "B",
-    "rationale": "A business associate agreement permits a vendor to use protected health information to perform functions for the covered entity. Improving the vendor's own product is the vendor's purpose, not the hospital's, and that is a different transaction needing its own analysis — of the de-identification standard actually met, what the agreement permits, and what patients were told. A is half right in a way that is easy to act on and wrong: properly de-identified data is outside the rule, but whether this data meets the standard is the question, not the assumption. C names a sensible contractual control that does not by itself establish the basis. D would be correct for identifiable data used for a purpose requiring authorisation, which is a different set of facts.",
+    "rationale": "A business associate agreement permits a vendor to use protected health information to perform functions for the covered entity. Improving the vendor's own product is the vendor's purpose, not the hospital's, and that is a different transaction needing its own analysis — of the de-identification standard actually met, what the agreement permits, and what patients were told. Treating the data as outside the rule is half right in a way that is easy to act on and wrong: properly de-identified data is outside it, but whether clinical notes meet the standard is the question rather than the assumption. A no-re-identification covenant is a sensible contractual control that does not by itself establish the basis. Individual authorisation would be correct for identifiable data used for a purpose requiring it, which is a different set of facts.",
     "tags": [
       "US federal law",
       "healthcare",
@@ -5634,7 +5634,7 @@
       "D. Obligations are divided between the two parties in proportion to each one's contribution to the result."
     ],
     "correct": "A",
-    "rationale": "Role under the EU regime follows what each party actually does. Putting a system on the market under your own name makes you its provider, with the documentation, risk management and conformity duties that attach to that system. It does not transfer to you the obligations the upstream general-purpose model provider holds for the model itself, which is why the information that provider must supply downstream matters so much. B understates the effect of placing a system on the market under your own name. C and D describe allocations the framework does not make: obligations attach to roles, and are not inherited wholesale or apportioned by contribution.",
+    "rationale": "Role under the EU regime follows what each party actually does. Putting a system on the market under your own name makes you its provider, with the documentation, risk management and conformity duties that attach to that system. It does not transfer to you the obligations the upstream general-purpose model provider holds for the model itself, which is why the information that provider must supply downstream matters so much. Remaining a deployer understates the effect of placing a system on the market under your own name. Inheriting the upstream obligations in full, and dividing them by contribution, describe allocations the framework does not make: obligations attach to roles, and are neither inherited wholesale nor apportioned by contribution.",
     "tags": [
       "EU AI Act",
       "value chain",
@@ -5653,7 +5653,7 @@
       "D. That no infringement claim has been brought against the model, which establishes the data was lawful."
     ],
     "correct": "A",
-    "rationale": "The EU framework obliges general-purpose model providers to publish a sufficiently detailed summary of training content and to have a copyright policy, which gives a downstream organisation something specific to ask for, review and keep. That is a position built on an artefact. B reads a warranty into a licence grant that usually disclaims exactly that. C is the most commonly held of the wrong answers and is defensible as a division of labour, but it describes who bears the duty rather than what this organisation can state, which is what was asked. D mistakes the absence of a claim so far for evidence about the data.",
+    "rationale": "The EU framework obliges general-purpose model providers to publish a sufficiently detailed summary of training content and to have a copyright policy, which gives a downstream organisation something specific to ask for, review and keep. That is a position built on an artefact. B reads a warranty into a licence grant that usually disclaims exactly that. Treating training-data lawfulness as the provider's problem is the most commonly held of the wrong answers and is defensible as a division of labour, but it describes who bears the duty rather than what this organisation can state, which is what was asked. Relying on the absence of claims so far mistakes enforcement timing for evidence about the data.",
     "tags": [
       "EU AI Act",
       "general-purpose AI",
@@ -5672,7 +5672,7 @@
       "D. Require each team to attest annually that it has declared every AI system it builds, buys or operates."
     ],
     "correct": "A",
-    "rationale": "All three escapees entered by routes a survey does not watch: a tool built rather than bought, a feature toggled inside something already owned, and a prototype that changed status without changing hands. Tying registration to the events that actually create systems — a purchase, a contract change, a production release — catches them when they arrive instead of asking people to remember later. B is necessary and should be done; a scope note alone changes nothing about who notices. C shortens the gap without closing the route, and D relies on the same recall the current process already depends on, with the added weakness that the prototype team may not consider itself an operator of an AI system.",
+    "rationale": "All three escapees entered by routes a survey does not watch: a tool built rather than bought, a feature toggled inside something already owned, and a prototype that changed status without changing hands. Tying registration to the events that actually create systems — a purchase, a contract change, a production release — catches them when they arrive instead of asking people to remember later. Widening the scope note is necessary and should be done; a definition alone changes nothing about who notices when a system arrives. C shortens the gap without closing the route, and D relies on the same recall the current process already depends on, with the added weakness that the prototype team may not consider itself an operator of an AI system.",
     "tags": [
       "inventory",
       "shadow AI",
@@ -5691,12 +5691,794 @@
       "D. Whether the acquisition agreement gives the parent authority to impose group-level policies on the subsidiary."
     ],
     "correct": "A",
-    "rationale": "A group policy that states required outcomes — risks identified, accountability assigned, decisions documented, systems monitored — can be satisfied by different procedures in different regulatory settings, which is what lets one policy govern a heterogeneous group without either forcing a bad fit or creating an exemption. C is a genuinely strong answer and is the right test for how much scrutiny the systems need; it determines intensity rather than whether the policy applies. B identifies a real constraint, which an outcome-based policy is precisely designed to absorb. D is a precondition — the authority has to exist — but authority to impose a policy says nothing about whether imposing this one is the right call.",
+    "rationale": "A group policy that states required outcomes — risks identified, accountability assigned, decisions documented, systems monitored — can be satisfied by different procedures in different regulatory settings, which is what lets one policy govern a heterogeneous group without either forcing a bad fit or creating an exemption. Matching risk kind and severity is a genuinely strong answer and the right test for how much scrutiny these systems need; it sets the intensity of oversight rather than whether the policy reaches them. A conflicting sectoral requirement is a real constraint, and an outcome-based policy is precisely what absorbs it. Authority under the acquisition agreement is a precondition — it has to exist — but having the power to impose a policy says nothing about whether imposing this one is the right call.",
     "tags": [
       "programme design",
       "policy",
       "governance operations",
       "mergers"
+    ]
+  },
+  {
+    "id": 311,
+    "scenarioId": "sc-012",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The analyst brings the override pattern to the governance committee. Several members argue the model is clean because protected characteristics were excluded and upward overrides are flat. What does the override pattern most likely indicate?",
+    "options": [
+      "A. The model is performing as intended and the difference lies in underwriter behaviour rather than in the model.",
+      "B. Underwriters are discounting less often in low-income tracts, so the final premium can diverge by tract even if the model does not.",
+      "C. The model is producing higher recommendations in low-income tracts, which underwriters are accepting without comment.",
+      "D. The telematics opt-in rate differs by tract, so the model works from thinner evidence there and sits nearer the filed midpoint."
+    ],
+    "correct": "B",
+    "rationale": "What the data shows is a difference in the human step, not the model step: downward overrides are three times less frequent in the lowest-income tracts while upward overrides are flat. Whatever the model recommends, the price a person actually pays is the recommendation plus or minus the underwriter, and that combined output is what reaches the policyholder and what a regulator will examine. Excluding protected characteristics from the feature set says nothing about this, because the disparity is arising after the model's output. Locating the difference in underwriter behaviour is half the insight and stops before the consequence. Higher recommendations in low-income tracts, and uneven telematics opt-in, are hypotheses the stated facts do not support — nothing here reports the recommendations themselves differing by tract, and nothing measured opt-in rates.",
+    "tags": [
+      "insurance",
+      "disparate impact",
+      "human oversight",
+      "monitoring"
+    ]
+  },
+  {
+    "id": 312,
+    "scenarioId": "sc-012",
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Counsel reviews the insurer's regulatory position. The rating plan on file describes the factors and their actuarial justification, and the model recommends only within the filed band. Which concern should counsel raise first?",
+    "options": [
+      "A. The filing is silent on a system that materially influences where in the band a given applicant lands.",
+      "B. The filing should be amended in every state because census-tract garaging location is not an approved factor.",
+      "C. The model's training on ten years of the insurer's own history makes the filed actuarial justification stale.",
+      "D. Each state will require its own model documentation, so eleven separate filings must now be prepared."
+    ],
+    "correct": "A",
+    "rationale": "The insurer's position rests on the model operating inside something already approved. That holds for the band's outer limits and not for the question a regulator asks, which is how this applicant's premium was arrived at. A system that decides placement within the band is part of how the rate is produced, and the filing describes it nowhere. Calling garaging location unapproved asserts a defect in a factor the scenario places inside the filed plan. Staleness of the actuarial support is a real maintenance question, on a slower clock than the disclosure gap. Preparing eleven filings jumps to a remedy before the issue has been characterised, which tends to produce filings describing the wrong thing.",
+    "tags": [
+      "insurance",
+      "US state law",
+      "regulatory filing",
+      "transparency"
+    ]
+  },
+  {
+    "id": 313,
+    "scenarioId": "sc-012",
+    "domain": "Governing AI Development",
+    "question": "The model was classified non-material at intake because it operates inside an approved band, and on that basis has never been independently validated. What is the strongest objection to the classification?",
+    "options": [
+      "A. Materiality was assessed against the model's authority rather than against its influence on individual outcomes.",
+      "B. Any model touching pricing is material by definition, and the policy should say so rather than leave it to an intake judgement.",
+      "C. The classification was made at intake and the policy requires it to be revisited annually in any case.",
+      "D. The pre-launch review was conducted by the building team, which is not independent of the model."
+    ],
+    "correct": "A",
+    "rationale": "Operating inside an approved band limits how far wrong the model can go on any single quote. It says nothing about how many quotes it touches or how much it moves them, which is what makes a model consequential. Classifying on authority alone produced the result that the only review this model has ever had was by the people who built it. Review by the building team is true and is a real defect — it is the consequence of the misclassification rather than the reason the classification was wrong. A bright-line rule for anything touching pricing would reach the right answer here while removing the judgement the policy exists to exercise. Periodic re-classification describes a process that would correct the error later without explaining why the original judgement failed.",
+    "tags": [
+      "insurance",
+      "model risk management",
+      "validation",
+      "governance operations"
+    ]
+  },
+  {
+    "id": 314,
+    "scenarioId": "sc-012",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The committee asks what evidence the insurer should be retaining so that a future enquiry about a specific policyholder's premium can be answered. What matters most?",
+    "options": [
+      "A. The model version, the inputs used, the recommendation, the underwriter's decision and any recorded reason.",
+      "B. The aggregate override rates by tract, retained monthly, so patterns can be reconstructed over time.",
+      "C. The filed rating plan in force on the date of the quote, together with the actuarial memorandum supporting it.",
+      "D. The model's training data and feature list, so the basis of any recommendation can be re-derived later."
+    ],
+    "correct": "A",
+    "rationale": "An enquiry about one policyholder asks how that premium came about, and answering it needs the decision chain for that quote: what the model saw, what it recommended, what the human did, and why. The scenario shows the weakest link is the last one, where departure reasons are blank or read \"as quoted\". Aggregate override rates by tract are valuable and are how the pattern was found, but an aggregate cannot explain an individual's premium. The filed rating plan is necessary backdrop rather than the record of this decision. Training data and the feature list would let someone re-derive a recommendation in principle while saying nothing about what actually happened on this quote.",
+    "tags": [
+      "insurance",
+      "record keeping",
+      "auditability",
+      "accountability"
+    ]
+  },
+  {
+    "id": 315,
+    "scenarioId": "sc-012",
+    "domain": "Governing AI Development",
+    "question": "A data scientist proposes removing census-tract garaging location from the feature set to address the disparity. What is the strongest governance response to that proposal?",
+    "options": [
+      "A. Accept it, since geography at tract granularity is the most likely proxy for protected characteristics in the set.",
+      "B. Test it, because removing a correlated feature can shift the same signal onto other features rather than removing it.",
+      "C. Reject it, since garaging location is an actuarially justified factor and removing it would weaken the filed plan.",
+      "D. Defer it until the override pattern is explained, since the disparity observed arises after the model's output."
+    ],
+    "correct": "D",
+    "rationale": "The measured disparity is in underwriter overrides, not in the recommendations. Changing the model first would alter the part of the system no evidence has yet implicated, and would make the override pattern harder to interpret afterwards because the baseline would have moved. The point about a removed feature redistributing its signal is genuinely important and would be the right caution if the model were the thing to change — it is a caution about how, not about whether now. Tract-level geography names a real proxy risk worth investigating on its own schedule. Defending the factor because it is actuarially justified rests on ground the scenario supports, but treats the filing as settling a fairness question it does not reach.",
+    "tags": [
+      "insurance",
+      "proxy variables",
+      "bias testing",
+      "sequencing"
+    ]
+  },
+  {
+    "id": 316,
+    "scenarioId": "sc-012",
+    "domain": "Foundations of AI Governance",
+    "question": "The committee wants a single accountable owner for the override disparity. Which assignment is most defensible?",
+    "options": [
+      "A. The chief actuary, because the rating plan and its justification are the actuarial function's responsibility.",
+      "B. The underwriting leader, because the disparity arises in decisions underwriters make and in how they record them.",
+      "C. The model risk function, because the issue surfaced through model monitoring and concerns a model's effects.",
+      "D. The data science team that built the model, because they control the features and the retraining cadence that could produce it."
+    ],
+    "correct": "B",
+    "rationale": "Accountability should sit where the behaviour can actually be changed. Overrides are made by underwriters, under underwriting policy, recorded in a field underwriting controls, and the fix — guidance, training, a required reason, review of blank entries — is within that function's gift. The actuary, model risk and compliance all have a legitimate interest and each will be needed — on the filing, on validation, and with the regulator respectively. None of them can alter how an underwriter prices the next quote. The data science team could change the model, which is not where the evidence points.",
+    "tags": [
+      "insurance",
+      "accountability",
+      "ownership",
+      "governance operations"
+    ]
+  },
+  {
+    "id": 317,
+    "scenarioId": "sc-013",
+    "domain": "Governing AI Deployment and Use",
+    "question": "Roughly one caller in five interrupts the greeting and may never hear that they are speaking to an automated agent. The vendor proposes repeating the disclosure at the end of the call. What should the clinic group do?",
+    "options": [
+      "A. Accept the proposal, since every caller then receives the disclosure at some point during the call.",
+      "B. Require the disclosure to complete before the agent accepts input, so interruption cannot skip it.",
+      "C. Require the agent to detect interruption and repeat the disclosure immediately rather than at the end.",
+      "D. Accept the proposal and add the disclosure to the appointment confirmation message sent afterwards."
+    ],
+    "correct": "B",
+    "rationale": "The point of telling someone they are speaking to a machine is to let them decide what to say and how much to trust the answer. A disclosure delivered after the conversation gives the information once it can no longer inform anything, which is why repeating it at the end of the call — or in the confirmation message afterwards — does not cure the defect however widely the notice is distributed. Detecting the interruption and repeating immediately is a real improvement and better than either, but still leaves a window in which the caller has spoken under a misapprehension. Completing the disclosure before the agent accepts input removes the failure mode rather than narrowing it.",
+    "tags": [
+      "healthcare",
+      "transparency",
+      "disclosure",
+      "design controls"
+    ]
+  },
+  {
+    "id": 318,
+    "scenarioId": "sc-013",
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "The vendor's contract permits it to use \"de-identified service data\" to improve its models, and it confirms call transcripts fall within that term. What should the compliance officer establish first?",
+    "options": [
+      "A. Whether the transcripts in fact meet a recognised de-identification standard before any such use occurs.",
+      "B. Whether the business associate agreement authorises the vendor to use the data for its own product development.",
+      "C. Whether patients would reasonably expect their recorded calls to train a commercial vendor's models.",
+      "D. Whether the vendor own model supplier also receives the transcripts, and on what terms it may retain or learn from them."
+    ],
+    "correct": "B",
+    "rationale": "The contract term and the legal basis are two different things, and the vendor's confirmation tells you what it intends to do rather than what it may do. A business associate agreement authorises a vendor to use protected health information to perform services for the covered entity; improving the vendor's own product is the vendor's purpose. Establishing what the agreement actually permits determines whether the de-identification standard is even reached — that is the right next question and not the first one, because if the agreement does not permit the use, the standard never arises. Patient expectation is a legitimate and important test that does not settle the legal position. Whether the downstream model supplier also receives the transcripts extends the scope of the problem rather than establishing whether there is one.",
+    "tags": [
+      "healthcare",
+      "privacy",
+      "vendor management",
+      "secondary use"
+    ]
+  },
+  {
+    "id": 319,
+    "scenarioId": "sc-013",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The agent's reason-for-visit summary is written into the scheduling system and clinicians have begun relying on it. The agent was approved on the basis that it performs scheduling and gives no clinical advice. How should governance characterise this?",
+    "options": [
+      "A. A change in the system's purpose, which should trigger reassessment against the use it is now being put to.",
+      "B. A documentation issue, resolved by labelling the summary in the scheduling record as automated and clinically unverified.",
+      "C. A training issue, resolved by instructing clinicians not to rely on the summary for clinical purposes.",
+      "D. An accuracy issue, resolved by measuring how often the summary misrepresents what the caller said."
+    ],
+    "correct": "A",
+    "rationale": "The system was assessed as a scheduling tool and is now feeding clinical judgement. That is a different risk profile — the consequence of an error has changed — and nothing about the original approval speaks to it. Reassessment is what establishes which other responses are needed and in what combination, which is why it comes first. Labelling the summary, instructing clinicians not to rely on it, and measuring how often it misrepresents the caller are all sensible controls, and at least two will probably form part of the answer; each addresses a symptom of the drift rather than the drift itself.",
+    "tags": [
+      "healthcare",
+      "scope creep",
+      "change management",
+      "impact assessment"
+    ]
+  },
+  {
+    "id": 320,
+    "scenarioId": "sc-013",
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "The clinic group's notice of privacy practices describes appointment scheduling as a routine operation and says nothing about automation or voice capture. Which gap matters most?",
+    "options": [
+      "A. Patients are not told that their voice and words are recorded and retained as part of a routine operation.",
+      "B. The notice does not disclose that an automated system rather than a person handles the call.",
+      "C. The notice does not name the vendor processing the calls, nor the further supplier whose models that vendor runs on.",
+      "D. The notice does not describe the retention period applied to call recordings and transcripts."
+    ],
+    "correct": "A",
+    "rationale": "A notice is meant to let someone understand what happens to information about them. Describing scheduling as routine while capturing and keeping the patient's own account of why they need care understates what is collected, and symptom descriptions are the most sensitive thing a scheduling call produces. Disclosing that an automated system handles the call is a real transparency obligation, and the agent does attempt it in the call itself, imperfectly — whereas the gap on recording and retention is not cured anywhere. Naming individual vendors is generally not required at that level of specificity. A stated retention period is a genuine improvement to a notice that would still be describing the wrong activity.",
+    "tags": [
+      "healthcare",
+      "privacy",
+      "notice",
+      "transparency"
+    ]
+  },
+  {
+    "id": 321,
+    "scenarioId": "sc-013",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The agent is instructed to route to a nurse line when a caller describes symptoms, but callers describe symptoms constantly because that is how they explain why they want an appointment. What does this most reveal?",
+    "options": [
+      "A. The routing rule is too sensitive and should be narrowed to descriptions suggesting urgency.",
+      "B. The control was written against an idealised call rather than against how patients actually speak.",
+      "C. The agent's language model is over-triggering and should be tuned on real call transcripts.",
+      "D. Nurse-line capacity was never sized for the call volume this routing rule would actually generate in practice."
+    ],
+    "correct": "B",
+    "rationale": "A rule that fires on almost every call is not a safety control; it is a rule written for a conversation that does not happen. Naming that is what lets the clinic group redesign around the real interaction — distinguishing a description offered as context from one that signals urgency, and deciding what the agent does with each. Narrowing the rule to descriptions suggesting urgency is a plausible redesign and a candidate output of that work rather than the insight itself. Tuning the model on real transcripts treats a specification problem as a performance problem. Nurse-line capacity is a genuine operational consequence that follows from the same root cause rather than naming it.",
+    "tags": [
+      "healthcare",
+      "control design",
+      "human oversight",
+      "escalation"
+    ]
+  },
+  {
+    "id": 322,
+    "scenarioId": "sc-013",
+    "domain": "Foundations of AI Governance",
+    "question": "Three organisations are involved: the clinic group, the vendor that supplies and hosts the agent, and the third party whose models the vendor uses. A patient is harmed by a mishandled call. Where does accountability to that patient sit?",
+    "options": [
+      "A. With the vendor, which built and operates the system that mishandled the call.",
+      "B. With the clinic group, which chose to place an automated agent between patients and care.",
+      "C. Shared across all three in proportion to each one's contribution to the failure.",
+      "D. With whichever party component is shown on investigation to have caused the call to be mishandled."
+    ],
+    "correct": "B",
+    "rationale": "The patient has a relationship with the clinic group and with nobody else in the chain. The clinic group decided to answer its patients this way, and the duty of care that attaches to that decision does not move because the work was contracted out. Pointing at the vendor, or at whichever component is shown to have failed, allocates responsibility by technical causation — which is how the clinic group will later seek recovery from its suppliers, and a different question from what the patient is owed. Proportional sharing describes how liability may eventually be apportioned between the organisations, and leaves the patient with nobody answerable in the meantime.",
+    "tags": [
+      "healthcare",
+      "accountability",
+      "supply chain",
+      "roles"
+    ]
+  },
+  {
+    "id": 323,
+    "scenarioId": "sc-014",
+    "domain": "Governing AI Deployment and Use",
+    "question": "Internal audit's sample found eleven orders placed with a supplier whose approved flag came from an unattributable request. The pilot sponsor notes that the goods were ordinary consumables at market prices and no money was lost. What is the finding that actually matters?",
+    "options": [
+      "A. Eleven unattributable approvals in a 200-order sample implies roughly a hundred across the full pilot population.",
+      "B. The supplier master is maintained by procurement operations without segregation from the buyers who use it.",
+      "C. The control the assistant relies on to decide it may act alone can be changed by someone nobody can identify.",
+      "D. The assistant placed orders without confirming the approved flag had been set through the documented process."
+    ],
+    "correct": "C",
+    "rationale": "The assistant's whole claim to act without a human is that the supplier is already approved. That claim is only as good as the approved flag, and the flag turns out to be settable by an unidentifiable requester — so the boundary on the assistant's autonomy is not actually controlled. No loss occurred this time because the goods were consumables, which is a fact about these eleven orders rather than about the control. Extrapolating eleven in two hundred across the full population is a fair move that sizes the problem, which matters once the defect is named rather than instead of naming it. The absence of segregation in the supplier master is a real weakness and one route to this same failure. Asking the assistant to check how a flag was set puts the control somewhere it cannot operate: the assistant has no way to see the provenance of a field it reads.",
+    "tags": [
+      "agentic AI",
+      "autonomy",
+      "access control",
+      "audit"
+    ]
+  },
+  {
+    "id": 324,
+    "scenarioId": "sc-014",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The assistant deletes its reasoning traces after thirty days to control storage cost, while the ERP keeps orders and receipts for seven years. For the eleven orders in question the traces are gone. What should the retention rule be driven by?",
+    "options": [
+      "A. The period over which the organisation may need to explain why an autonomous action was taken, not storage cost.",
+      "B. The seven-year schedule already applied to the order records, so that every artefact of a purchase ages together.",
+      "C. The statutory limitation period for disputes with suppliers, which bounds when an explanation could be demanded.",
+      "D. The time an internal audit cycle takes to reach a given population, so traces survive long enough to be sampled."
+    ],
+    "correct": "A",
+    "rationale": "A trace is the only record of why the assistant did what it did; the ERP records what was done. Once the trace is gone the organisation can show an order existed and cannot show the reasoning that produced it, which is exactly what an enquiry into an autonomous action asks for. Framing the rule around that need is what makes any period defensible. Matching the seven-year order schedule reaches a workable answer by analogy and would probably over-retain, but it never asks what the trace is for. The limitation period for supplier disputes is a real bound that covers one class of enquiry while missing regulatory, discrimination and internal-conduct questions. Sizing retention to the audit cycle derives the floor from one consumer of the data rather than from the obligation.",
+    "tags": [
+      "agentic AI",
+      "record keeping",
+      "auditability",
+      "retention"
+    ]
+  },
+  {
+    "id": 325,
+    "scenarioId": "sc-014",
+    "domain": "Foundations of AI Governance",
+    "question": "The business wants to raise the no-approval threshold from $5,000 to $25,000. What should governance require before that change is made?",
+    "options": [
+      "A. A full audit of all 1,840 pilot orders rather than the 200-order sample, so the true extent is known first.",
+      "B. A revised delegation of authority recording who is accountable for orders the assistant places alone.",
+      "C. Monitoring that alerts a buyer whenever the assistant places an order above the current threshold.",
+      "D. Evidence that the approved-supplier control the assistant depends on is itself reliable and attributable."
+    ],
+    "correct": "D",
+    "rationale": "Raising the threshold multiplies the consequence of the one defect the pilot actually found. The assistant acts alone when a supplier is approved; if the approval flag can be set by someone unidentifiable, a higher limit means larger payments flowing through a gate nobody controls. Fixing that is the precondition. Recording who is accountable for the assistant's unsupervised orders is genuinely necessary and should accompany any autonomy change — it matters more at twenty-five thousand than at five — but a clear line of accountability does not make the decisions themselves safer. Auditing all 1,840 orders would size the known problem without fixing it. Alerting a buyer to orders above the threshold addresses the population that already stops for a human.",
+    "tags": [
+      "agentic AI",
+      "autonomy",
+      "change management",
+      "delegation"
+    ]
+  },
+  {
+    "id": 326,
+    "scenarioId": "sc-014",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The pilot sponsor treats the audit as clean on the basis that nothing was lost. What is the flaw in that reasoning?",
+    "options": [
+      "A. It relies on a 200-order sample, which cannot support a conclusion about all 1,840 orders placed.",
+      "B. It measures the control by the outcome it happened to produce rather than by the exposure it permits.",
+      "C. It ignores that the eleven orders breached the approved-supplier policy regardless of what was bought.",
+      "D. It assumes the losses would have been detected, when the deleted traces mean some may not have been."
+    ],
+    "correct": "B",
+    "rationale": "A gate that anyone can open without attribution is equally open whether what came through was staplers or something worth stealing. Judging it by this month's purchases confuses a result with a control, and it is the reasoning that will approve the threshold increase. The sampling objection is statistically fair and would matter if the question were how widespread the issue is. Pointing out that the eleven orders breached policy regardless of what was bought is true, and is the compliance framing of the same facts — it still leaves the sponsor able to say no harm resulted. The suggestion that losses might have gone undetected overstates the gap: the ERP retains orders and receipts, so a loss would have been visible even with the traces deleted.",
+    "tags": [
+      "agentic AI",
+      "risk assessment",
+      "control design",
+      "assurance"
+    ]
+  },
+  {
+    "id": 327,
+    "scenarioId": "sc-014",
+    "domain": "Governing AI Development",
+    "question": "The assistant reads a flag on the supplier record to decide whether it may act alone. Where should the governance control over the assistant's autonomy primarily sit?",
+    "options": [
+      "A. On the process that sets the flag, since that is what determines when the assistant may act unsupervised.",
+      "B. In the assistant's instructions, which can be written to require a second signal before acting alone.",
+      "C. In the ERP's authorisation limits, which already constrain what any requester may commit the company to.",
+      "D. In periodic review of the orders the assistant places, so that misuse is detected within a bounded window."
+    ],
+    "correct": "A",
+    "rationale": "The assistant behaves exactly as designed; the design delegates a decision to a data field, so the governance question is who may change that field and how it is evidenced. Controlling the flag-setting process puts the control at the point where autonomy is actually granted. Requiring a second signal in the assistant's instructions is reasonable defence in depth and would reduce reliance on one input, but it layers checks over a signal that remains uncontrolled. The ERP's authorisation limits are a genuine and important constraint that governs value rather than supplier legitimacy. Periodic review of placed orders is detective rather than preventive, and the deleted traces have already shown how little detection can recover after the fact.",
+    "tags": [
+      "agentic AI",
+      "control design",
+      "access control",
+      "autonomy"
+    ]
+  },
+  {
+    "id": 328,
+    "scenarioId": "sc-014",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The business also wants to extend the assistant from indirect purchasing to direct materials, where a supplier change affects production. What most changes about the risk?",
+    "options": [
+      "A. Direct materials involve larger sums, so the financial consequence of an incorrect order rises sharply.",
+      "B. Direct materials suppliers are fewer, so an approved-list error affects a larger share of total spend.",
+      "C. A wrong supplier choice stops being a procurement error and becomes an operational and quality event.",
+      "D. Production schedules are time-critical, so errors must be detected and corrected far more quickly."
+    ],
+    "correct": "C",
+    "rationale": "In indirect purchasing a bad order produces the wrong consumables and a credit note. In direct materials it can put unqualified input into a product, which reaches customers, engages quality and safety obligations, and may not be reversible by returning anything. That is a change in the kind of harm, not its size, which is why the existing controls do not simply scale. Larger sums, a more concentrated supplier base and time-critical schedules are all true and all describe the same risk becoming bigger or faster. Each would justify tightening what already exists; only the change in the nature of the harm requires the assistant's suitability to be reassessed rather than tuned.",
+    "tags": [
+      "agentic AI",
+      "risk assessment",
+      "scope change",
+      "operations"
+    ]
+  },
+  {
+    "id": 329,
+    "scenarioId": "sc-015",
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An applicant declined on the model's recommendation says the eviction record belongs to someone else and asks the property manager to correct it. The agent refers them to the vendor. What has the property manager most likely failed to do?",
+    "options": [
+      "A. Verify the eviction record against a second source before relying on it to decline the application.",
+      "B. Give the applicant the notice owed when a decision is based on a third-party screening report, including how to dispute it.",
+      "C. Escalate the application to the regional manager, who holds the authority to make an exception to the recommendation.",
+      "D. Obtain the applicant's consent before obtaining a screening report that includes court records."
+    ],
+    "correct": "B",
+    "rationale": "Where a decision rests on a report about the person supplied by a third party, the organisation acting on it owes the applicant notice that it did so, identification of the source, and the fact that they may dispute the information's accuracy with that source. The leasing agent got half of this right from memory — accuracy disputes are indeed resolved with the source — and the property manager still owes the notice that tells the applicant so. Independently verifying the eviction record describes a duty that generally sits with the reporting agency rather than with the user of the report. Escalating to the regional manager is a sensible internal route that does not touch the applicant's statutory entitlement. Consent concerns obtaining the report, a separate step likely handled in the application itself.",
+    "tags": [
+      "housing",
+      "US federal law",
+      "adverse action",
+      "consumer reports"
+    ]
+  },
+  {
+    "id": 330,
+    "scenarioId": "sc-015",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The vendor supplies an annual summary stating the model was reviewed for disparate impact and that no action was required, naming no methodology, population or result. What should the property manager conclude?",
+    "options": [
+      "A. The summary is inadequate and should be supplemented by the property manager's own testing of outcomes.",
+      "B. The summary is acceptable where the contract makes the vendor responsible for discrimination exposure and indemnifies it.",
+      "C. The summary is adequate for a licensed product, since the vendor holds the model and the data to test it.",
+      "D. The summary is an assertion rather than evidence, and cannot support reliance on the model in a housing decision."
+    ],
+    "correct": "D",
+    "rationale": "A statement that a review happened and found nothing, with no method, no population and no numbers, cannot be checked, compared across years, or relied on if challenged — it transfers the vendor's confidence without transferring anything a third party could examine. Naming that is what determines the response. Supplementing it with the property manager's own outcome testing is the right eventual remedy and is what a serious deployer will end up doing, but it treats the summary as a starting point rather than as a gap. Making the vendor contractually responsible allocates liability without curing the absence of evidence, and does not move the duty owed to applicants. Treating it as adequate because the vendor holds the model and the data defers precisely where the vendor has the strongest incentive and the least scrutiny.",
+    "tags": [
+      "housing",
+      "vendor management",
+      "bias testing",
+      "assurance"
+    ]
+  },
+  {
+    "id": 331,
+    "scenarioId": "sc-015",
+    "domain": "Governing AI Deployment and Use",
+    "question": "Leasing agents are instructed to follow the recommendation and have no override authority; exceptions route to a regional manager. What is the governance significance of that design?",
+    "options": [
+      "A. The recommendation is effectively the decision, so the model's output must be governed as a decision rather than as advice.",
+      "B. Agents cannot exercise judgement, so the organisation loses the ability to catch obvious data errors at the point of contact.",
+      "C. Escalation to a regional manager concentrates discretion in a role that may lack the information to exercise it.",
+      "D. Removing agent discretion reduces inconsistency between agents, which strengthens the organisation's fairness position."
+    ],
+    "correct": "A",
+    "rationale": "A recommendation that the person in front of the applicant must follow is not a recommendation. Characterising it correctly is what pulls in the obligations attaching to automated decisions — notice, the ability to contest, a record of the basis — none of which follow if the output is treated as decision support. The loss of judgement at the point of contact is a real cost of the design and is exactly what the mismatched eviction record illustrates. Concentrating discretion in a regional manager who may lack the information to use it is a genuine weakness in the escalation route. Reduced inconsistency between agents is the honest argument for the design, and it is not wrong — consistency is a legitimate aim. All three describe consequences of a design whose first problem is that it is misclassified.",
+    "tags": [
+      "housing",
+      "human oversight",
+      "automated decision-making",
+      "accountability"
+    ]
+  },
+  {
+    "id": 332,
+    "scenarioId": "sc-015",
+    "domain": "Governing AI Deployment and Use",
+    "question": "The contract places accuracy on the vendor with an indemnity, and is silent on applicant disputes, on what the property manager may see about an individual decision, and on what happens if the vendor changes the model. Which silence is most urgent?",
+    "options": [
+      "A. What happens when the vendor changes the model, since the product could begin behaving differently without any notice.",
+      "B. Who responds to applicant disputes, since applicants are currently being sent to a party with no relationship to them.",
+      "C. What the property manager is entitled to see about an individual decision, since it cannot otherwise answer an applicant.",
+      "D. How the indemnity operates in practice, since it is the only protection the property manager currently holds."
+    ],
+    "correct": "C",
+    "rationale": "Every other obligation here depends on being able to say why a particular applicant was declined. Without a contractual right to the basis of an individual decision the property manager cannot give meaningful notice, cannot evaluate a dispute, and cannot tell whether a model change affected a person. The dispute-routing gap is close behind and is the more visible failure, since applicants are being sent to a party with no relationship to them — but a dispute route is worthless if the party receiving it has nothing to examine. Silent treatment of model change is a real and under-appreciated exposure on a slower clock. The indemnity matters once something has already gone wrong, which is the latest possible moment to discover what it covers.",
+    "tags": [
+      "housing",
+      "vendor management",
+      "contracts",
+      "transparency"
+    ]
+  },
+  {
+    "id": 333,
+    "scenarioId": "sc-015",
+    "domain": "Foundations of AI Governance",
+    "question": "The product entered the inventory as a vendor service owned by a procurement category manager, with no legal or compliance review, because it was renewed from an existing contract rather than bought new. What does this most expose?",
+    "options": [
+      "A. Procurement category managers lack the expertise to own systems that make decisions about individuals.",
+      "B. Renewal is treated as continuation, so a system can carry a decision-making role it was never reviewed for.",
+      "C. The inventory records ownership without recording what the system decides, whom it affects, or how consequential that is.",
+      "D. Legal and compliance are not represented in procurement, so their review depends on being invited."
+    ],
+    "correct": "B",
+    "rationale": "The intake gate fires on new purchases, so a contract that has been in place for years never meets it — regardless of what the product now does or how its capability has changed since it was first bought. That is a structural blind spot, and it is how a system that declines housing applications came to be owned by a category manager with no compliance involvement. Saying category managers lack the expertise states an organisational fact that follows from the gap rather than causing it; a category manager can own a system well once the right review has happened. An inventory that records ownership without recording what the system decides is a real weakness worth fixing on its own merits. Legal and compliance depending on an invitation describes the same symptom from the other side — the invitation is precisely what the renewal path skips.",
+    "tags": [
+      "housing",
+      "inventory",
+      "procurement",
+      "governance operations"
+    ]
+  },
+  {
+    "id": 334,
+    "scenarioId": "sc-015",
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "Counsel assesses the property manager's discrimination exposure. The model uses credit data, eviction and criminal record searches, and income verification, and no protected characteristic is an input. What should counsel advise?",
+    "options": [
+      "A. Exposure is limited, because the inputs are objective records rather than characteristics or subjective judgements.",
+      "B. Exposure sits with the vendor, which selected the inputs and built the weighting the property manager cannot see.",
+      "C. Exposure arises only if an applicant can show the property manager intended the exclusionary outcome the model produced.",
+      "D. Exposure remains, because a neutral screening practice that excludes protected groups disproportionately must be justified."
+    ],
+    "correct": "D",
+    "rationale": "Criminal and eviction records correlate strongly with characteristics protected in housing, so a practice built on them can exclude disproportionately without naming anything protected, and the organisation applying it has to be able to justify it. That is why the vendor's unexaminable disparate-impact summary is a live problem rather than a paperwork one. Treating the inputs as neutral because they are objective records is the usual route into this exposure. Allocating the risk to the vendor follows the contract and does not move the duty the property manager owes applicants. Requiring proof of intent applies a standard drawn from a different theory of liability altogether.",
+    "tags": [
+      "housing",
+      "disparate impact",
+      "US federal law",
+      "vendor management"
+    ]
+  },
+  {
+    "id": 335,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organisation's incident process was written for software outages and security breaches. A deployed model begins producing systematically worse recommendations for one customer segment, with no outage and no breach. What most needs to change in the process?",
+    "options": [
+      "A. The severity scale, so that degraded output quality can be rated alongside availability and confidentiality.",
+      "B. The on-call rota, so that someone able to interpret model behaviour is reachable when such a signal appears.",
+      "C. The detection tooling, so that segment-level output quality is monitored as closely as uptime and error rates.",
+      "D. The definition of an incident, so that a system working as built but producing harmful outcomes is in scope."
+    ],
+    "correct": "D",
+    "rationale": "Nothing has failed in the sense the existing process recognises: the service is up, the data is intact, and the model is doing exactly what it was trained to do. Unless an incident is defined to include a system operating correctly and producing harm, the other improvements have no trigger to attach to — a severity scale is only reached once something is classified as an incident at all. Rating degraded output quality, having someone on call who can read model behaviour, and monitoring segment-level quality are all genuinely needed and will each form part of a mature response. Each presupposes that the organisation has agreed this kind of event counts.",
+    "tags": [
+      "incident response",
+      "monitoring",
+      "programme design"
+    ]
+  },
+  {
+    "id": 336,
+    "domain": "Governing AI Development",
+    "question": "An assistant with tool access summarises inbound supplier emails and can create payment records. A supplier email contains text instructing the assistant to treat the sender's new bank details as verified. Which control most directly addresses this class of risk?",
+    "options": [
+      "A. Filtering inbound content for instruction-like language before it reaches the model's context window.",
+      "B. Requiring the model to cite the source passage for any claim it makes about a supplier bank details.",
+      "C. Treating all retrieved content as data the model may describe but never as instructions it may follow.",
+      "D. Logging every tool call the assistant makes so that an unauthorised payment change can be traced."
+    ],
+    "correct": "C",
+    "rationale": "The failure is a category error in the system's design: content fetched from the world is being given the same standing as instructions from the operator. Enforcing that boundary at the architecture level — retrieved content can be summarised, quoted and reasoned about, but never obeyed — removes the whole class rather than the instance. Filtering for instruction-like language is a useful additional layer and loses to paraphrase, encoding and languages the filter was not tuned for. Requiring source citation improves auditability of what the model asserts without constraining what it does. Logging tool calls is essential and is how the damage gets found afterwards, which is a different objective from preventing it.",
+    "tags": [
+      "cybersecurity",
+      "prompt injection",
+      "agentic AI",
+      "control design"
+    ]
+  },
+  {
+    "id": 337,
+    "domain": "Governing AI Deployment and Use",
+    "question": "Monitoring shows a deployed model's accuracy has fallen three percentage points over four months, with input distributions also shifting. The team proposes immediate retraining on recent data. What should governance require first?",
+    "options": [
+      "A. Confirmation that the recent data reflects the outcomes the organisation wants rather than the ones it has been producing.",
+      "B. A root-cause analysis distinguishing a change in the world from a change in how the data is captured.",
+      "C. A rollback plan so the current model can be restored if the retrained version performs worse in production.",
+      "D. Agreement on the accuracy threshold that would have triggered action, since none was defined at deployment."
+    ],
+    "correct": "B",
+    "rationale": "Drift and a broken pipeline look identical in a monitoring dashboard, and they call for opposite responses: retraining on data corrupted by an upstream change teaches the model the corruption. Establishing which one is happening is what makes every subsequent decision meaningful. Checking whether recent outcomes are the ones the organisation wants is a genuinely important guard against feedback loops, and is the right question once the cause is understood. A rollback plan is basic release discipline and should exist regardless. Defining the threshold that should have triggered action is a real gap in the original deployment, worth closing, and does not help decide what to do about the signal already in hand.",
+    "tags": [
+      "monitoring",
+      "model drift",
+      "lifecycle",
+      "retraining"
+    ]
+  },
+  {
+    "id": 338,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A European employer uses a model to rank internal candidates for promotion. A manager reviews the ranking, can depart from it, and in practice follows it in almost every case. Which analysis best fits the EU position on automated decisions?",
+    "options": [
+      "A. The decision is not solely automated, since a manager reviews it and holds authority to depart from the ranking.",
+      "B. The decision is solely automated unless the manager's review is meaningful, which near-total deference suggests it is not.",
+      "C. The decision falls outside the automated-decision rules because promotion is not a legal effect of the required kind.",
+      "D. The decision is solely automated, because the model produces the ranking on which the promotion outcome actually turns."
+    ],
+    "correct": "B",
+    "rationale": "The test is substantive rather than formal: a human in the loop takes a decision out of the solely-automated category only if that person actually exercises judgement, with the authority and the information to reach a different result. A reviewer who almost never departs is evidence that the review is nominal, which is the situation guidance on this provision was written to catch. Pointing to the manager's formal authority applies the test as a box-tick. Saying the model's ranking decides it reaches the right concern while collapsing the enquiry into the ranking's influence alone. Treating promotion as outside the scope understates effects on employment, which sit squarely within the kinds of consequence the rules contemplate.",
+    "tags": [
+      "GDPR",
+      "automated decision-making",
+      "human oversight",
+      "employment"
+    ]
+  },
+  {
+    "id": 339,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A team has completed a data protection impact assessment for a new AI system and asks whether a separate AI impact assessment adds anything. What is the most accurate answer?",
+    "options": [
+      "A. The two overlap on personal data but ask different questions, so the second covers risks the first is not designed to surface.",
+      "B. The second is required wherever the first is, because any processing of personal data by AI triggers both assessments.",
+      "C. The second is redundant wherever the system only material risks arise from its processing of personal data.",
+      "D. The two can be merged into a single document, provided it addresses the required elements of each assessment."
+    ],
+    "correct": "A",
+    "rationale": "A data protection assessment asks what happens to personal data and to the people it describes. An AI assessment asks whether the system works, for whom it works less well, what happens when it is wrong, who oversees it, and what the organisation would do on failure — questions that persist even where no personal data is processed at all. Saying both are always triggered together overstates a relationship that depends on the system and the jurisdiction. The redundancy argument is coherent in the narrow case it describes and tends to be applied far beyond it. Merging the documents is a practical and common approach, and it is an answer about format rather than about what the second assessment contributes.",
+    "tags": [
+      "impact assessment",
+      "GDPR",
+      "risk assessment",
+      "documentation"
+    ]
+  },
+  {
+    "id": 340,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company proposes deploying a system in its EU offices that infers employee emotional state from webcam video during meetings, to measure engagement. What should governance advise?",
+    "options": [
+      "A. Proceed only with a lawful basis, a completed impact assessment and a transparent notice to staff.",
+      "B. Proceed only if participation is genuinely voluntary and declining carries no consequence at all for the employee.",
+      "C. Do not proceed, because inferring emotions in the workplace falls within the EU's prohibited practices.",
+      "D. Do not proceed until the system has been classified as high-risk and conformity assessment is complete."
+    ],
+    "correct": "C",
+    "rationale": "The EU framework does not treat every serious risk as something to be managed with controls. A short list of practices is prohibited outright, and inferring emotions in the workplace is on it, subject to narrow exceptions for medical or safety purposes that engagement measurement does not meet. Where a practice is prohibited, no lawful basis, notice or consent rescues it, which is why the first two answers reach for the right instincts and the wrong register — and voluntariness is especially illusory in an employment relationship. Working through classification and conformity assessment is the correct path for a high-risk system and presupposes the system is permitted at all.",
+    "tags": [
+      "EU AI Act",
+      "prohibited practices",
+      "employment",
+      "biometrics"
+    ]
+  },
+  {
+    "id": 341,
+    "domain": "Governing AI Development",
+    "question": "A team fine-tunes an open-weight model and serves it internally. Legal asks what documentation the organisation should hold about the base model's capabilities and limitations. What is the most defensible basis for that documentation?",
+    "options": [
+      "A. The base model provider's published model card and any evaluation results it has released.",
+      "B. The fine-tuning dataset's documentation, which records what the model was adapted to do.",
+      "C. Benchmark results for the base model published by independent third-party evaluators on standard task suites.",
+      "D. The organisation's own evaluation of the fine-tuned model against the tasks it will actually perform."
+    ],
+    "correct": "D",
+    "rationale": "What the organisation deploys is the fine-tuned model on its own tasks, and that is the only artefact whose behaviour it can actually attest to. Upstream documentation describes a different model, and published benchmarks describe different tasks; both are useful inputs and neither is evidence about the system in use. The provider's model card is genuinely valuable and should be retained — it is the right starting point for understanding inherited limitations. Independent benchmarks add an outside view that providers' own numbers lack. Fine-tuning data documentation records what was intended rather than what resulted, which is precisely the gap evaluation exists to close.",
+    "tags": [
+      "documentation",
+      "evaluation",
+      "open weights",
+      "lifecycle"
+    ]
+  },
+  {
+    "id": 342,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A marketing team wants to use a generative tool's output as a product logo. Counsel is asked what the main intellectual property concern is. What should counsel identify?",
+    "options": [
+      "A. That the output may closely resemble protected material the model was trained on, creating infringement exposure.",
+      "B. That the tool's terms may reserve rights in the output to the provider rather than granting them to the user.",
+      "C. That protection for the logo may be unavailable or limited, which affects the ability to stop others copying it.",
+      "D. That the provider may be unable to indemnify the company against claims brought by third-party rightsholders."
+    ],
+    "correct": "C",
+    "rationale": "A logo is an asset whose value lies in exclusivity. If the material attracts weak protection or none in the relevant jurisdictions, the company can use it and may be unable to stop anyone else using something indistinguishable, which defeats the purpose of commissioning it. That is a defect in the asset rather than a risk attached to using it. Resemblance to training material is a real infringement exposure and is the risk most often raised first. Terms reserving rights in output are worth checking and are usually resolved by reading the licence. Indemnity scope matters once a claim arrives. Each of those is about liability for using the output; only the protection question goes to whether the output is worth having.",
+    "tags": [
+      "intellectual property",
+      "generative AI",
+      "procurement"
+    ]
+  },
+  {
+    "id": 343,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A manufacturer embeds a supplier's vision model in a machine that misclassifies a hazard and injures an operator. The manufacturer points to the supplier's model as the cause. How should governance characterise the manufacturer's position?",
+    "options": [
+      "A. Protected, provided it integrated the component according to the supplier's documented instructions.",
+      "B. Exposed, because it placed the finished product on the market and is answerable for its safety as sold.",
+      "C. Exposed only to the extent it failed to test the integrated system under foreseeable operating conditions.",
+      "D. Shared with the supplier, in proportion to each party's contribution to the defect that caused the injury."
+    ],
+    "correct": "B",
+    "rationale": "Product safety regimes attach to whoever puts the finished product on the market under their name. The buyer of the machine dealt with the manufacturer, and a component supplied by someone else is a matter between the manufacturer and its supplier rather than a defence against the injured operator. Following the supplier's integration instructions is relevant evidence of care and does not transfer the duty. Inadequate testing under foreseeable conditions is likely to be exactly how the defect is established, which makes it the mechanism of exposure rather than its limit. Apportionment between manufacturer and supplier is how the cost is eventually distributed, after the manufacturer has answered.",
+    "tags": [
+      "product liability",
+      "supply chain",
+      "safety",
+      "roles"
+    ]
+  },
+  {
+    "id": 344,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A retailer's model sets individual prices using browsing behaviour and device signals. Analysis shows customers on older devices are shown systematically higher prices for identical goods. The practice is disclosed in the privacy policy. What is the strongest governance objection?",
+    "options": [
+      "A. The disclosure sits in a privacy policy, where customers are unlikely to encounter it before they transact.",
+      "B. The pricing model was not assessed for disparate outcomes before deployment, so the effect went unnoticed.",
+      "C. Identical goods at different prices risks breaching consumer protection rules on unfair commercial practices.",
+      "D. Device age operates as a proxy for financial circumstance, so the practice charges more to those less able to pay."
+    ],
+    "correct": "D",
+    "rationale": "The decisive feature is what the signal is standing in for. Device age correlates with income, so the system has learned to charge more to customers with less money, and the fact that no protected characteristic appears in the feature set does nothing to change that. Everything else follows from it: the disclosure is inadequate partly because of what is being disclosed, the pre-deployment assessment matters because this is what it would have found, and the consumer protection analysis turns on the same substance. Personalised pricing is not inherently unlawful, so framing the objection as price differentiation alone picks the weakest version of the argument.",
+    "tags": [
+      "consumer protection",
+      "proxy variables",
+      "pricing",
+      "fairness"
+    ]
+  },
+  {
+    "id": 345,
+    "domain": "Governing AI Development",
+    "question": "A team is writing system documentation for a model that will be supplied to enterprise customers who will deploy it in their own contexts. What most determines what the documentation must contain?",
+    "options": [
+      "A. The decisions the receiving organisation has to make about whether and how to deploy the system safely.",
+      "B. The technical detail needed for the customer's engineers to integrate the model into their own stack.",
+      "C. The information required by the regulatory regimes that apply to the customer's likely sectors of use.",
+      "D. The limitations the supplier is willing to warrant, since documentation becomes a contractual representation."
+    ],
+    "correct": "A",
+    "rationale": "Documentation supplied down a value chain exists so the next party can discharge its own obligations: deciding whether the system suits its context, what oversight it needs, where it will perform worse, and what to monitor. Starting from the deployer's decisions is what keeps the document useful rather than merely complete. Integration detail is necessary and addresses a different audience with a different problem. Mapping the customer's regulatory regimes is good practice and cannot be done exhaustively by a supplier who does not control the context of use. Warranty scope genuinely shapes what gets written down, and treating it as the determinant produces documentation optimised to limit liability rather than to inform.",
+    "tags": [
+      "documentation",
+      "transparency",
+      "supply chain",
+      "deployment"
+    ]
+  },
+  {
+    "id": 346,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A clinical decision support tool flags patients for follow-up. Clinicians say they cannot tell why any individual patient was flagged. The vendor offers either global feature importances or per-patient attributions. Which should governance prefer, and why?",
+    "options": [
+      "A. Global importances, because they let the organisation validate that the model relies on clinically sensible factors.",
+      "B. Per-patient attributions, because the clinician's decision concerns this patient and needs reasons specific to them.",
+      "C. Both, because global importances support validation and per-patient attributions support the individual decision.",
+      "D. Per-patient attributions, because only they can be disclosed to a patient who asks why they were flagged."
+    ],
+    "correct": "C",
+    "rationale": "The two answer different questions and the organisation has both. Governance needs to know the model as a whole keys on factors that make clinical sense, which is a validation question answered in aggregate; the clinician at the bedside needs to know what drove this flag, which only a per-case explanation provides. Choosing between them means giving up one of those. The case for global importances alone is a real validation argument that leaves the clinician no better off. Either of the per-patient answers solves the problem actually reported — the second by reaching for a patient-facing duty that is genuine but secondary to the clinician's immediate need.",
+    "tags": [
+      "explainability",
+      "healthcare",
+      "human oversight",
+      "validation"
+    ]
+  },
+  {
+    "id": 347,
+    "domain": "Governing AI Development",
+    "question": "Before releasing a customer-facing generative feature, a team runs a structured adversarial testing exercise and fixes everything it finds. What should governance conclude about release readiness?",
+    "options": [
+      "A. The exercise supports release, since the identified failure modes have been addressed before any customer exposure.",
+      "B. The exercise evidences diligence but not safety, since it bounds what was looked for rather than what exists.",
+      "C. The exercise is insufficient without an independent party repeating it against the fixed version of the system.",
+      "D. The exercise should be repeated at intervals after release, since model behaviour changes as usage patterns change."
+    ],
+    "correct": "B",
+    "rationale": "Adversarial testing produces evidence about the attacks the testers thought to try, which is a statement about the exercise's coverage rather than about the system's behaviour in the world. Understanding that is what leads an organisation to pair it with monitoring, reporting routes and the ability to intervene after release, instead of treating a clean result as a clearance. Treating fixed findings as sufficient makes exactly the inference the method cannot support. Independent repetition raises confidence and is worth doing for consequential systems, without changing the fundamental limit. Repeating at intervals is correct and is a consequence of the same insight rather than the insight itself.",
+    "tags": [
+      "red teaming",
+      "evaluation",
+      "release",
+      "generative AI"
+    ]
+  },
+  {
+    "id": 348,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A deployed system has been producing incorrect eligibility outcomes for eight weeks. The organisation must notify its regulator and is also weighing whether to contact the affected individuals. What should most drive the decision to contact individuals?",
+    "options": [
+      "A. Whether the individuals can take any action to protect or restore their position once informed.",
+      "B. Whether the regulator directs the organisation to notify individuals as part of its response.",
+      "C. Whether the organisation can correct the outcomes without the individuals needing to do anything.",
+      "D. Whether notifying is likely to cause disproportionate distress relative to the harm actually suffered."
+    ],
+    "correct": "A",
+    "rationale": "Notification is for the benefit of the person notified, so the question is what it enables them to do: appeal, reapply, correct a record, seek a remedy, or stop relying on a decision that was wrong. Starting there also disposes of the case where the organisation can fix everything silently, because the test still asks whether anything remains that only the individual can do. Waiting for the regulator to direct it subordinates a duty owed to individuals to a process concerned with the organisation's compliance. Avoiding distress is a real consideration in how to communicate and becomes a reason to withhold information people need only in rare cases.",
+    "tags": [
+      "incident response",
+      "notification",
+      "transparency",
+      "remediation"
+    ]
+  },
+  {
+    "id": 349,
+    "domain": "Governing AI Development",
+    "question": "A team assembling a training set argues that more data reliably improves model performance, so all available customer records should be included. What is the strongest governance response?",
+    "options": [
+      "A. Including all records increases the consequences of a breach without a corresponding gain in performance.",
+      "B. Customer records can only be used for training where the original collection purpose permits it.",
+      "C. Larger training sets amplify whatever historical bias the records contain, making outcomes harder to correct.",
+      "D. The relevant question is which data the model needs to perform its task, not how much is available to it."
+    ],
+    "correct": "D",
+    "rationale": "Minimisation is a design discipline, not a restriction imposed from outside: identifying what the model actually needs to do its job produces a smaller set, a clearer rationale for each field, and a defensible answer when asked why any of it is there. The legal constraint on purpose is correct and is the obligation that makes this non-negotiable, but it is a limit arriving from outside rather than a way of thinking about the dataset. Breach consequence is a real and often decisive argument, and it concerns what happens if things go wrong rather than what the model requires. Bias amplification is a genuine effect that depends on which data is added, not on volume as such.",
+    "tags": [
+      "data governance",
+      "data minimisation",
+      "privacy",
+      "training data"
+    ]
+  },
+  {
+    "id": 350,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A model used in lending decisions for six years is being decommissioned. The replacement is live and the team proposes archiving the old model's artefacts and deleting its decision logs to reduce storage. What should governance require?",
+    "options": [
+      "A. That the logs be retained, since decisions the retired model made remain live for the people affected by them.",
+      "B. That the logs be retained for the period the replacement model's monitoring needs them as a comparison baseline.",
+      "C. That the logs be deleted on the organisation's standard schedule, which the storage proposal should follow.",
+      "D. That the model artefacts be retained with the logs, so any past decision can be reproduced if challenged."
+    ],
+    "correct": "A",
+    "rationale": "Retiring a model does not retire its consequences: someone refused credit on its output may ask why, dispute it, or bring a claim, and the obligation to answer runs from the decision rather than from the model's operational life. Starting from the affected person's position is what sets the period, and it is also the reason retention is not a storage question. Keeping the artefacts alongside the logs is a strong answer — reproducing a decision is more than reading what it was — and it is a refinement of the same principle rather than the principle. Using the replacement's monitoring needs gives a shorter period derived from an internal consumer. Applying the standard schedule assumes the schedule contemplated this.",
+    "tags": [
+      "lifecycle",
+      "decommissioning",
+      "record keeping",
+      "credit"
     ]
   }
 ]
