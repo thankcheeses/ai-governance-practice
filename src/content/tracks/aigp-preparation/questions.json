@@ -5435,5 +5435,268 @@
       "adverse action",
       "explainability"
     ]
+  },
+  {
+    "id": 297,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A logistics employer runs the same résumé-screening model for roles in Texas and in Colorado. Counsel asks what the governance team must be able to show in each state if the model is later challenged. What is the most consequential difference between the two?",
+    "options": [
+      "A. Colorado asks whether the outcome was discriminatory; Texas asks whether the employer meant it to be.",
+      "B. Colorado requires an evaluation by an independent third party; Texas lets an employer rely on its own internal testing.",
+      "C. Colorado's duties fall on the vendor that developed the model; Texas's fall on the employer that put it to use.",
+      "D. Colorado reaches private hiring decisions; Texas reaches only AI deployed by government entities."
+    ],
+    "correct": "A",
+    "rationale": "The two states chose different liability standards, and that drives different evidence. Colorado's framework is built around reasonable care against algorithmic discrimination in consequential decisions, so the record that matters is the impact assessment and what the employer did about what it found. Texas prohibits developing or deploying a system with the intent to discriminate and states expressly that disparate impact alone does not establish intent — so the record that matters there is intent-adjacent: what was specified, requested and known. An employer can satisfy one standard and still fail the other, which is why a single national testing protocol is not a compliance answer by itself.",
+    "tags": [
+      "US state law",
+      "employment",
+      "algorithmic discrimination"
+    ]
+  },
+  {
+    "id": 298,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A New York City employer's AEDT vendor offers to supply the annual bias audit at no cost, performed by the vendor's in-house data science team using the employer's own applicant data. The governance lead is asked whether this satisfies the city's requirement. What is the strongest reason it does not?",
+    "options": [
+      "A. The audit has to cover the tool as this employer configured it, and a vendor audit covers the product as shipped.",
+      "B. The auditor has to be independent of whoever builds or supplies the tool, and the vendor's own team is not.",
+      "C. The results have to be published, and a vendor is unlikely to consent to publishing its own audit findings.",
+      "D. The audit needs this employer's applicant data, which the vendor has no independent basis to process."
+    ],
+    "correct": "B",
+    "rationale": "Local Law 144 requires the bias audit be conducted by an independent auditor, and independence is assessed against the people performing it — a team inside the vendor that supplies the tool is not independent of that tool. The other options describe real considerations: configuration does matter, the summary of results must be published, and the data-processing basis is a genuine question. But none of them is what fails here. Independence is the threshold the arrangement cannot cross, and no amount of methodological rigour by the vendor's own staff cures it.",
+    "tags": [
+      "US state law",
+      "employment",
+      "audit",
+      "AEDT"
+    ]
+  },
+  {
+    "id": 299,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A lender declines an applicant on the strength of a machine-learning underwriting model. The AI governance programme has an impact assessment, documented testing and a monitoring plan. Compliance says there is still an obligation the AI programme does not discharge. Which is it?",
+    "options": [
+      "A. Telling this applicant the specific principal reasons the application was denied.",
+      "B. Showing that the model was tested for disparate impact before it was put into production.",
+      "C. Retaining the model version and the input data used to reach this particular decision.",
+      "D. Offering this applicant human review of the decision before it becomes final."
+    ],
+    "correct": "A",
+    "rationale": "Credit-denial law attaches to the individual decision, not to the quality of the programme behind it. Equal Credit Opportunity Act rules require a statement of the specific principal reasons for adverse action, and that duty is owed to this applicant about this denial — a model-level fairness test, however rigorous, does not produce it. B and C are genuine obligations and genuinely part of a defensible programme, and D is required in some jurisdictions and is good practice everywhere; but each is a programme-level or jurisdiction-specific control. The reason statement is what this applicant is owed, and the difficulty of extracting it from a complex model is a constraint on model choice, not an excuse from the requirement.",
+    "tags": [
+      "US federal law",
+      "credit",
+      "adverse action",
+      "explainability"
+    ]
+  },
+  {
+    "id": 300,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A bank's model team proposes replacing a scorecard with a gradient-boosted model that performs better but cannot produce per-applicant reason codes without an added explanation layer. The explanation layer approximates the model rather than reporting it. What governance position does this best support?",
+    "options": [
+      "A. Adopt both, recording in the model documentation that the explanations are approximations.",
+      "B. Adopt both, once the layer's reasons are shown to track the decision drivers within an agreed tolerance.",
+      "C. Reject the model, on the ground that a decision nobody can explain exactly cannot lawfully be communicated.",
+      "D. Adopt the model, and route any applicant who disputes the outcome to a manual re-underwrite by a human."
+    ],
+    "correct": "B",
+    "rationale": "The obligation is to give the applicant the actual principal reasons, so the governance question is evidentiary: can this explanation method be shown to track the model's real drivers closely enough to be relied on? That converts an abstract worry into a testable acceptance criterion, which is what a control is. A documents the problem without resolving it. C sets a standard — exactness — that no deployed scorecard meets either, and would rule out methods that are demonstrably faithful. D is a sensible safety net and many lenders run one, but it addresses disputes after the fact rather than the notice owed on every denial.",
+    "tags": [
+      "US federal law",
+      "credit",
+      "explainability",
+      "model risk"
+    ]
+  },
+  {
+    "id": 301,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "An employer's AI screening tool shows a selection-rate disparity by race in post-deployment monitoring. No one specified race, no proxy was intentionally included, and the vendor's documentation shows no intent to differentiate. Under long-standing federal employment law, what best describes the employer's position?",
+    "options": [
+      "A. Exposed: a neutral practice with a disparate impact must be shown job-related and consistent with business necessity.",
+      "B. Protected: liability turns on discriminatory intent, and the documentation here rules intent out entirely.",
+      "C. Exposed only once a complainant identifies the specific feature or proxy producing the observed disparity.",
+      "D. Protected: the vendor selected the features and the model, so responsibility for the disparity sits with it."
+    ],
+    "correct": "A",
+    "rationale": "Federal employment discrimination law has recognised disparate impact for decades: a facially neutral selection practice that disproportionately excludes a protected group must be shown to be job-related and consistent with business necessity, and even then can fail if a less discriminatory alternative exists. Intent is the standard for a different theory, not this one — which is exactly why an intent-based state statute does not displace this exposure. C asks for a causal account that the doctrine does not require of the complainant. D describes a commercial allocation of risk between employer and vendor, which does not move the employer's own statutory duty to the people it screens.",
+    "tags": [
+      "US federal law",
+      "employment",
+      "disparate impact"
+    ]
+  },
+  {
+    "id": 302,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A California retailer uses an automated system to decide which applicants are offered a salaried position. Privacy counsel says the company owes affected consumers something before the system runs, not only after. What does that obligation most directly require?",
+    "options": [
+      "A. A notice, before the system runs, describing the automated decision-making and how to exercise the attached rights.",
+      "B. A published summary of the system's accuracy and its error rates across demographic groups, refreshed annually.",
+      "C. Written consent from every applicant before any automated processing of their personal information occurs.",
+      "D. Registration of the system with the state privacy regulator, with a description of its purpose, before first use."
+    ],
+    "correct": "A",
+    "rationale": "California's automated decision-making rules are built on a pre-use notice: before using the technology for a significant decision, the business tells the person plainly that it is doing so and how to exercise the associated rights, including opting out and requesting access. B is a transparency measure some regimes impose and many organisations adopt, but it is not what this obligation is. C overstates the mechanism — the design is notice and opt-out, not prior consent, and treating it as consent would misdescribe what the business must build. D imports a registration step this framework does not create.",
+    "tags": [
+      "US state law",
+      "privacy",
+      "automated decision-making",
+      "transparency"
+    ]
+  },
+  {
+    "id": 303,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organisation operating in several US states maps its obligations and finds the state AI statutes differ on trigger, standard and remedy, and that at least one has already been repealed and replaced since the programme was designed. Which governance response best fits that pattern?",
+    "options": [
+      "A. Build to the most demanding state's requirements and apply that single standard across every jurisdiction.",
+      "B. Build around the controls the statutes share, and hold the jurisdiction-specific duties in a register reviewed on a schedule.",
+      "C. Defer the state-specific work until a federal standard arrives and pre-empts the patchwork altogether.",
+      "D. Run a separate programme for each state, so that no obligation is diluted by being averaged with another's."
+    ],
+    "correct": "B",
+    "rationale": "Impact assessment, inventory, notice, human review and monitoring recur across these statutes; trigger definitions, liability standards and penalties do not. Building the durable controls once and tracking the volatile obligations in a reviewed register is what survives a repeal-and-replace — which has already happened once here. A is a common and defensible strategy, and it does reduce complexity, but it silently adopts requirements that may not apply and still misses obligations the strictest state happens not to have. C waits on something that may not come. D is the most rigorous reading and the least sustainable: duplicated programmes drift apart, and the drift is invisible until an audit.",
+    "tags": [
+      "US state law",
+      "programme design",
+      "regulatory change"
+    ]
+  },
+  {
+    "id": 304,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A vendor markets its AI triage tool as \"clinically validated, 94% accurate.\" The 94% figure comes from a retrospective study on the developer's own curated dataset, and performance in customer deployments has not been measured. Which exposure should the vendor's governance function treat as most immediate?",
+    "options": [
+      "A. Consumer-protection exposure, for a performance claim the evidence does not support in the conditions of use.",
+      "B. Product-liability exposure, in the event a patient is harmed by acting on a triage recommendation.",
+      "C. Contractual exposure to customers whose own deployments fall short of the advertised accuracy figure.",
+      "D. Professional-licensure exposure, for supplying clinical judgement without a licence to practise medicine."
+    ],
+    "correct": "A",
+    "rationale": "A performance claim that holds only under conditions the buyer will never reproduce is a deceptive-practices problem, and it attaches now — on publication of the claim, with no patient harm and no customer complaint required. B and C are real and may be larger in damages, but both are contingent on an event that has not happened. D misreads the arrangement: supplying a tool to clinicians is not itself unlicensed practice. The governance move is to qualify the claim to the conditions the evidence actually covers, which is cheaper before a regulator asks than after.",
+    "tags": [
+      "US federal law",
+      "consumer protection",
+      "marketing claims",
+      "healthcare"
+    ]
+  },
+  {
+    "id": 305,
+    "domain": "Governing AI Development",
+    "question": "A bank's model risk function reviews a fraud model built by the team that will operate it. The documentation is complete, the testing is competent, and the developers answered every question. The reviewer still records the review as deficient. What is the most likely reason?",
+    "options": [
+      "A. The review confirmed the developers' conclusions without independently testing the assumptions they chose.",
+      "B. The documentation was never entered into the model inventory under a unique and durable identifier.",
+      "C. The model's performance was never benchmarked against a challenger model built on a different approach.",
+      "D. The validation dataset was selected by the developers themselves rather than by an independent party."
+    ],
+    "correct": "A",
+    "rationale": "Effective challenge is the core of model validation: critical analysis by people with the standing and incentive to disagree, aimed at the assumptions and limitations the builders are least likely to question themselves. A review that checks completeness and reproduces the team's reasoning has verified the work without challenging it. D is close and is a real weakness that often produces the failure in A — but dataset provenance is one assumption among several, and independent selection alone does not make a review challenging. B and C are genuine expectations of a mature programme; neither is what makes this particular review deficient.",
+    "tags": [
+      "US federal law",
+      "model risk management",
+      "validation",
+      "financial services"
+    ]
+  },
+  {
+    "id": 306,
+    "domain": "Governing AI Deployment and Use",
+    "question": "A hospital wants to send de-identified clinical notes to an AI vendor so the vendor can improve its own general model. The vendor's contract is a signed business associate agreement. What should the governance review conclude?",
+    "options": [
+      "A. The agreement covers it: de-identified data falls outside the rule, and improvement is a permitted use.",
+      "B. The use needs its own basis: the agreement authorises work done for the hospital, not the vendor's own use.",
+      "C. The disclosure is permitted provided the vendor contractually undertakes not to re-identify any individual.",
+      "D. The disclosure requires individual authorisation from every patient whose clinical notes would be included."
+    ],
+    "correct": "B",
+    "rationale": "A business associate agreement permits a vendor to use protected health information to perform functions for the covered entity. Improving the vendor's own product is the vendor's purpose, not the hospital's, and that is a different transaction needing its own analysis — of the de-identification standard actually met, what the agreement permits, and what patients were told. A is half right in a way that is easy to act on and wrong: properly de-identified data is outside the rule, but whether this data meets the standard is the question, not the assumption. C names a sensible contractual control that does not by itself establish the basis. D would be correct for identifiable data used for a purpose requiring authorisation, which is a different set of facts.",
+    "tags": [
+      "US federal law",
+      "healthcare",
+      "privacy",
+      "vendor management"
+    ]
+  },
+  {
+    "id": 307,
+    "domain": "Laws, Standards, and Frameworks",
+    "question": "A company fine-tunes a third-party general-purpose model on its own data and places the resulting system on the EU market under its own name. Which description of its obligations is most accurate?",
+    "options": [
+      "A. It becomes the provider of the system it markets; the model-level obligations stay with the original provider.",
+      "B. It stays a deployer, since it did not train the underlying model and only adapted it to its own data.",
+      "C. It inherits the original provider's obligations in full, including those attaching to the underlying model.",
+      "D. Obligations are divided between the two parties in proportion to each one's contribution to the result."
+    ],
+    "correct": "A",
+    "rationale": "Role under the EU regime follows what each party actually does. Putting a system on the market under your own name makes you its provider, with the documentation, risk management and conformity duties that attach to that system. It does not transfer to you the obligations the upstream general-purpose model provider holds for the model itself, which is why the information that provider must supply downstream matters so much. B understates the effect of placing a system on the market under your own name. C and D describe allocations the framework does not make: obligations attach to roles, and are not inherited wholesale or apportioned by contribution.",
+    "tags": [
+      "EU AI Act",
+      "value chain",
+      "roles",
+      "general-purpose AI"
+    ]
+  },
+  {
+    "id": 308,
+    "domain": "Governing AI Development",
+    "question": "A team adopts a general-purpose model under a licence permitting commercial use. Legal asks what the organisation can state about the lawfulness of the training data behind it. What is the most defensible position?",
+    "options": [
+      "A. That the provider published a sufficiently detailed summary of training content, which it reviewed and retained.",
+      "B. That the licence's grant of commercial use carries an implied warranty that the training data was lawful.",
+      "C. That lawfulness of training data is the provider's responsibility and sits outside this deployer's scope.",
+      "D. That no infringement claim has been brought against the model, which establishes the data was lawful."
+    ],
+    "correct": "A",
+    "rationale": "The EU framework obliges general-purpose model providers to publish a sufficiently detailed summary of training content and to have a copyright policy, which gives a downstream organisation something specific to ask for, review and keep. That is a position built on an artefact. B reads a warranty into a licence grant that usually disclaims exactly that. C is the most commonly held of the wrong answers and is defensible as a division of labour, but it describes who bears the duty rather than what this organisation can state, which is what was asked. D mistakes the absence of a claim so far for evidence about the data.",
+    "tags": [
+      "EU AI Act",
+      "general-purpose AI",
+      "training data",
+      "intellectual property"
+    ]
+  },
+  {
+    "id": 309,
+    "domain": "Governing AI Deployment and Use",
+    "question": "An organisation's AI inventory lists 40 systems. Internal audit finds three in production that are not on it: a spreadsheet macro calling a model API, a vendor feature switched on inside an existing SaaS product, and a team's prototype that quietly became load-bearing. Which inventory change most reduces the chance of a repeat?",
+    "options": [
+      "A. Trigger registration from procurement and change-management events rather than from a periodic survey of teams.",
+      "B. Widen the inventory's scope note so macros, embedded vendor features and prototypes are explicitly in scope.",
+      "C. Run the existing inventory survey once a quarter rather than once a year, shortening the window of exposure.",
+      "D. Require each team to attest annually that it has declared every AI system it builds, buys or operates."
+    ],
+    "correct": "A",
+    "rationale": "All three escapees entered by routes a survey does not watch: a tool built rather than bought, a feature toggled inside something already owned, and a prototype that changed status without changing hands. Tying registration to the events that actually create systems — a purchase, a contract change, a production release — catches them when they arrive instead of asking people to remember later. B is necessary and should be done; a scope note alone changes nothing about who notices. C shortens the gap without closing the route, and D relies on the same recall the current process already depends on, with the added weakness that the prototype team may not consider itself an operator of an AI system.",
+    "tags": [
+      "inventory",
+      "shadow AI",
+      "programme design",
+      "governance operations"
+    ]
+  },
+  {
+    "id": 310,
+    "domain": "Foundations of AI Governance",
+    "question": "A governance committee must decide whether a newly acquired subsidiary's AI systems fall under the parent's AI policy. The subsidiary operates in a different sector, under a different regulator, with its own risk committee. What should most drive the decision?",
+    "options": [
+      "A. Whether the policy states required outcomes that the subsidiary's own controls could meet in their own way.",
+      "B. Whether the subsidiary's regulator has issued AI requirements that conflict with what the parent's policy demands.",
+      "C. Whether the subsidiary's systems carry risks of the same kind and severity the parent's policy was written for.",
+      "D. Whether the acquisition agreement gives the parent authority to impose group-level policies on the subsidiary."
+    ],
+    "correct": "A",
+    "rationale": "A group policy that states required outcomes — risks identified, accountability assigned, decisions documented, systems monitored — can be satisfied by different procedures in different regulatory settings, which is what lets one policy govern a heterogeneous group without either forcing a bad fit or creating an exemption. C is a genuinely strong answer and is the right test for how much scrutiny the systems need; it determines intensity rather than whether the policy applies. B identifies a real constraint, which an outcome-based policy is precisely designed to absorb. D is a precondition — the authority has to exist — but authority to impose a policy says nothing about whether imposing this one is the right call.",
+    "tags": [
+      "programme design",
+      "policy",
+      "governance operations",
+      "mergers"
+    ]
   }
 ]

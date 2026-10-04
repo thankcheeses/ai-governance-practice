@@ -13,7 +13,7 @@
 */
 
 import { ALL_QUESTIONS } from "../src/content/registry";
-import { JURISDICTIONS } from "../src/content/types";
+import { JURISDICTIONS, namesLocatableInstrument } from "../src/content/types";
 import { SUBDOMAINS } from "../src/content/bok";
 import { readFileSync } from "node:fs";
 
@@ -94,8 +94,8 @@ const TODAY = new Date().toISOString().slice(0, 10);
 // A source is only worth carrying if a learner can go and read the named
 // thing. "FTC guidance" names nothing findable; "Lanham Act, Section 43(a)"
 // does. This is the check that caught nine of the author's own sources.
-const NAMED =
-  /NIST|EU AI Act|ISO\/IEC|ISO |OECD|GDPR|Annex|Art\.|Title [IVX]+|Act\b|Convention|Directive|CFR|Regulation \(EU\)/;
+// The patterns live in content/types so this file and scenarios.test.ts
+// cannot drift apart again.
 const VAGUE = [
   /^HIPAA (Privacy|Security) Rule$/i,
   /^(FTC|EU|EEOC|HHS|OCR) guidance/i,
@@ -106,7 +106,7 @@ const VAGUE = [
 for (const q of QS) {
   for (const ref of q.sources ?? []) {
     const s = ref.cite;
-    if (!NAMED.test(s)) fail(`${q.id}: source names nothing locatable — "${s}"`);
+    if (!namesLocatableInstrument(s)) fail(`${q.id}: source names nothing locatable — "${s}"`);
     if (VAGUE.some((r) => r.test(s.trim()))) {
       fail(`${q.id}: source too vague to locate — "${s}". Name the instrument and section.`);
     }

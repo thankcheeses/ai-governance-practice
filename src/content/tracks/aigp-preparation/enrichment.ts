@@ -6008,4 +6008,373 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       "GDPR Art. 22 and Recital 71 (meaningful information about the logic)",
     ],
   },
+  297: {
+    bokSubdomain: "II.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Liability standards decide what evidence you need. An effects-based regime is answered with impact assessments and what you did about the findings; an intent-based one is answered with what was specified, requested and known. One national testing protocol satisfies neither on its own.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+    distractorNotes: {
+      B:
+        "Independent audit is a real requirement in this space and is exactly what New York City imposes on employment tools — but it is not the line between these two states, and importing it here misplaces the distinction that matters.",
+      C:
+        "Both regimes reach developers and deployers, with duties that differ by role. Splitting them by who is covered rather than by what must be proved misreads both.",
+      D:
+        "Texas does impose specific restrictions on government deployments, which makes this option feel anchored — but its prohibitions are not confined to the public sector, and private employers are within reach.",
+    },
+    sources: [
+      { cite: "Colorado Artificial Intelligence Act (SB 24-205) — duty of reasonable care against algorithmic discrimination" },
+      { cite: "Texas Responsible Artificial Intelligence Governance Act (HB 149) — intent-based prohibitions; disparate impact insufficient to establish intent" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "watch",
+      jurisdictions: ["us-state"],
+      note:
+        "Colorado's 2024 act has been amended and re-enacted since passage; the question deliberately turns on the liability standard rather than on any effective date, but confirm the standard still holds at next review.",
+    },
+  },
+  298: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "Auditor independence is assessed against who performs the work, not how well it is performed. A rigorous audit by the supplier's own team fails a requirement that no methodology can cure.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      A:
+        "Configuration genuinely matters — an audit of the general product can miss what this employer's thresholds and weightings do — but a vendor could in principle audit this employer's configuration and still fail, because the defect is who is auditing.",
+      C:
+        "Publication of a summary of results is required, and vendor reluctance is a real commercial obstacle. It is a problem to negotiate, not the reason this arrangement fails on its face.",
+      D:
+        "The lawful basis for the vendor to process applicant data is a genuine question worth asking in the contract review. It would survive even if an independent auditor were appointed, so it is not what disqualifies this proposal.",
+    },
+    sources: [
+      { cite: "New York City Local Law 144 of 2021 — bias audit by an independent auditor; published summary of results; candidate notice" },
+      { cite: "6 RCNY \u00a7 5-300 et seq. \u2014 automated employment decision tools: bias audit, notice and publication" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["us-state"],
+    },
+  },
+  299: {
+    bokSubdomain: "II.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Programme-level assurance does not discharge decision-level duties. Credit law owes this applicant the specific reasons for this denial, and the difficulty of extracting them constrains model choice rather than excusing the notice.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+    distractorNotes: {
+      B:
+        "Pre-deployment disparate-impact testing is a real obligation under fair-lending law and belongs in any defensible programme. It is owed about the model; the adverse-action notice is owed to this applicant, and neither substitutes for the other.",
+      C:
+        "Retaining the model version and inputs is what makes a denial reconstructable and is required by record-keeping rules. It supports the reason statement rather than replacing it.",
+      D:
+        "Human review of automated decisions is required in some jurisdictions and is sound practice everywhere. It is a different control, and in this US credit context it is not what the applicant is owed on denial.",
+    },
+    sources: [
+      { cite: "Equal Credit Opportunity Act — statement of specific reasons for adverse action (Regulation B, 12 CFR 1002.9)" },
+      { cite: "Fair Credit Reporting Act — adverse action notice requirements (15 U.S.C. 1681m)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["us-federal"],
+    },
+  },
+  300: {
+    bokSubdomain: "II.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Turn an explainability worry into an acceptance criterion. If the law requires the real reasons, the governance question is whether this explanation method can be shown to track the model's drivers within an agreed tolerance.",
+    frameworkTags: ["AI Risk Management", "Responsible AI"],
+    distractorNotes: {
+      A:
+        "Documenting that explanations are approximations is honest and is better than silence. It records the risk without deciding whether the approximation is close enough to support the notice the law requires.",
+      C:
+        "Exactness is the wrong bar: a logistic scorecard's reason codes are also a simplification of a continuous model, and no deployed method would survive this standard. It would also exclude explanation methods that are demonstrably faithful.",
+      D:
+        "A manual re-underwrite on dispute is a genuine safety net and many lenders run one. It helps the applicants who complain; the reason statement is owed on every denial, including to those who do not.",
+    },
+    sources: [
+      { cite: "Equal Credit Opportunity Act — specific reasons must reflect the actual basis for the decision (Regulation B, 12 CFR 1002.9(b)(2))" },
+      { cite: "NIST AI RMF (Measure 2.9: model explanation is validated for the context of use)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["us-federal"],
+    },
+  },
+  301: {
+    bokSubdomain: "II.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Disparate impact needs no intent. A neutral tool that excludes a protected group disproportionately must be justified as job-related and consistent with business necessity — which is why an intent-based state statute does not retire this exposure.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      B:
+        "Intent is the standard for disparate treatment, and it is also the standard a state statute may adopt. Reading it across to federal employment law is the specific error that lets an organisation believe clean documentation of intent closes the question.",
+      C:
+        "Identifying the offending feature is useful for remediation and is what the organisation will want internally. The doctrine does not require a complainant to supply a causal account of the model before the burden shifts.",
+      D:
+        "Allocating responsibility to the vendor is a normal and sensible contractual move, and indemnities are worth negotiating. It changes who pays, not who owes the duty to the applicants being screened.",
+    },
+    sources: [
+      { cite: "Title VII of the Civil Rights Act of 1964 — disparate impact and the business-necessity defence (42 U.S.C. 2000e-2(k))" },
+      { cite: "Uniform Guidelines on Employee Selection Procedures (29 CFR Part 1607)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["us-federal"],
+    },
+  },
+  302: {
+    bokSubdomain: "II.A",
+    difficulty: "applied",
+    keyTakeaway:
+      "Pre-use notice is a design constraint, not a disclosure chore: the obligation lands before the system runs, so the opt-out path and the access route have to exist by the time the first decision is made.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      B:
+        "Published accuracy and error rates across groups are required by some regimes and are good practice. They are an assurance measure addressed to the public, not the individual pre-use notice this framework requires.",
+      C:
+        "Consent is the stronger-sounding protection, which is what makes it tempting. The architecture here is notice plus opt-out, and building a consent gate would misdescribe the right the person actually has.",
+      D:
+        "Pre-use registration with a regulator exists in other frameworks and may yet arrive in more. It is not part of this obligation, and planning for it would misdirect the compliance build.",
+    },
+    sources: [
+      { cite: "California Consumer Privacy Act regulations — automated decision-making technology: pre-use notice, opt-out and access rights (Cal. Code Regs. tit. 11)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "watch",
+      jurisdictions: ["us-state"],
+      note:
+        "California's ADMT obligations phase in on a staged timeline; the item tests the shape of the obligation rather than its commencement date.",
+    },
+  },
+  303: {
+    bokSubdomain: "I.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Separate the durable from the volatile. Impact assessment, inventory, notice, human review and monitoring recur across AI statutes; triggers, liability standards and penalties do not. Build the first once and register the second for scheduled review.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+    distractorNotes: {
+      A:
+        "Building to the strictest state is a real and widely used strategy that genuinely reduces complexity. It quietly adopts requirements that may not apply, and still misses any obligation the strictest state happens not to impose — so it is a simplification, not a map.",
+      C:
+        "Waiting for federal pre-emption is a defensible read of where the law may be heading, and it would resolve the patchwork if it arrived. It leaves present obligations unmet in the meantime, on a timetable nobody controls.",
+      D:
+        "Per-state programmes are the most rigorous reading and avoid averaging away real differences. They are also the hardest to keep synchronised: duplicated programmes drift, and the drift usually surfaces during an audit rather than before one.",
+    },
+    sources: [
+      { cite: "Colorado Artificial Intelligence Act (SB 24-205) — impact assessment and risk management programme duties" },
+      { cite: "NIST AI RMF (Govern 1.1: legal and regulatory requirements are understood and managed)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "watch",
+      jurisdictions: ["us-state"],
+      note:
+        "The premise — that at least one state AI statute has been repealed and replaced since programme design — is itself the volatile element and should be re-checked at review.",
+    },
+  },
+  304: {
+    bokSubdomain: "II.B",
+    difficulty: "applied",
+    keyTakeaway:
+      "A performance claim is a representation about the conditions of use. Evidence drawn from a curated internal dataset does not support a number advertised to buyers who will never reproduce those conditions, and the exposure attaches on publication.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      B:
+        "Product liability is a serious exposure for a clinical tool and may ultimately be the largest in damages. It is contingent on a harm that has not occurred; the misleading claim is live now.",
+      C:
+        "Customers whose deployments underperform will have contract remedies, and that risk is real. It depends on a customer measuring and complaining, which is exactly what the absence of deployment measurement makes unlikely in the short term.",
+      D:
+        "Supplying a decision-support tool to licensed clinicians is not unlicensed practice, so this misidentifies the regime. Scope-of-practice questions do arise for AI in care delivery, which is what makes the option sound plausible.",
+    },
+    sources: [
+      { cite: "Federal Trade Commission Act — unfair or deceptive acts or practices (15 U.S.C. 45)" },
+      { cite: "NIST AI RMF (Measure 2.5: validity is assessed in the deployment context, not only in development)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["us-federal"],
+    },
+  },
+  305: {
+    bokSubdomain: "IV.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Validation is challenge, not confirmation. A review that reproduces the builders' reasoning has verified their work; effective challenge tests the assumptions they were least likely to question.",
+    frameworkTags: ["AI Risk Management", "AI Governance"],
+    distractorNotes: {
+      B:
+        "Inventory registration with a unique identifier is a genuine expectation and its absence is a real finding. It is a record-keeping defect, not a defect in the quality of the review itself.",
+      C:
+        "Benchmarking against a challenger model is a strong validation technique and often expected for material models. It is one method of challenge among several; its absence does not by itself make a review deficient.",
+      D:
+        "Developer-selected validation data is a real weakness and frequently the mechanism by which the failure in A occurs. It is one assumption among several, and independent data selection alone would not convert a confirmatory review into a challenging one.",
+    },
+    sources: [
+      { cite: "Supervisory Guidance on Model Risk Management (SR 11-7 / OCC Bulletin 2011-12) — effective challenge" },
+      { cite: "NIST AI RMF (Measure 2.13: independent assessment of AI system performance)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["us-federal"],
+    },
+  },
+  306: {
+    bokSubdomain: "II.A",
+    difficulty: "advanced",
+    keyTakeaway:
+      "A business associate agreement authorises work done for you, not the vendor's own use of your data. Vendor model improvement is a separate transaction needing its own basis, and de-identification is a standard to be met rather than a label to be applied.",
+    frameworkTags: ["AI Governance", "Responsible AI"],
+    distractorNotes: {
+      A:
+        "Properly de-identified data does fall outside the rule, so the legal premise is sound — which is what makes this the most dangerous option. Whether clinical notes have met the de-identification standard is the open question, and this answer assumes it.",
+      C:
+        "A no-re-identification covenant is a sensible control and is often required. A contractual promise about what the vendor will not do does not by itself establish the basis for the disclosure.",
+      D:
+        "Individual authorisation is the right answer for identifiable data used for a purpose that requires it. Here it skips the prior question of what the data actually is and what the existing agreement already permits.",
+    },
+    sources: [
+      { cite: "Health Insurance Portability and Accountability Act — business associate uses and disclosures (45 CFR 164.504(e))" },
+      { cite: "Health Insurance Portability and Accountability Act — de-identification standard (45 CFR 164.514(b))" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["us-federal"],
+    },
+  },
+  307: {
+    bokSubdomain: "II.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Roles follow conduct. Placing a system on the market under your own name makes you its provider; it does not transfer to you the obligations the upstream model provider holds for the model itself.",
+    frameworkTags: ["EU AI Act", "AI Governance"],
+    distractorNotes: {
+      B:
+        "Not having trained the underlying model is a genuine and important distinction, and it is why the upstream provider's duties stay upstream. It does not survive putting a system on the market under your own name.",
+      C:
+        "Inheriting the full set of obligations sounds appropriately cautious and would be the safe assumption commercially. It misstates the structure: duties attach to what each party does, and the model-level obligations are not transferable by downstream conduct.",
+      D:
+        "Proportional sharing is how parties often allocate risk between themselves by contract, which makes it feel right. Regulatory obligations are not apportioned by contribution; each role carries its own.",
+    },
+    sources: [
+      { cite: "EU AI Act Art. 25 (responsibilities along the AI value chain)" },
+      { cite: "EU AI Act Art. 53 (obligations for providers of general-purpose AI models)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["eu"],
+    },
+  },
+  308: {
+    bokSubdomain: "II.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "State what you hold an artefact for. A downstream organisation's defensible position on training-data lawfulness is built on the provider's published training-content summary and copyright policy, reviewed and retained — not on inference from a licence.",
+    frameworkTags: ["EU AI Act", "AI Governance"],
+    distractorNotes: {
+      B:
+        "Commercial-use grants are what make adoption possible, so reading assurance into one is natural. Those licences commonly disclaim precisely this warranty, and the organisation would be relying on a term that is not there.",
+      C:
+        "Allocating the duty upstream is correct as a matter of who bears it, and is the position most organisations take. The question asked what this organisation can state, and 'someone else is responsible' is an answer about liability rather than about evidence.",
+      D:
+        "No claims so far is the kind of comfort that accumulates quietly in a risk register. Absence of litigation to date is a fact about enforcement timing, not about the lawfulness of the data.",
+    },
+    sources: [
+      { cite: "EU AI Act Art. 53(1)(d) (sufficiently detailed summary of content used for training)" },
+      { cite: "EU AI Act Art. 53(1)(c) (policy to comply with Union copyright law)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["eu"],
+    },
+  },
+  309: {
+    bokSubdomain: "I.C",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Register systems at the events that create them — a purchase, a contract change, a production release — rather than by asking teams to remember. Surveys miss what was built rather than bought, toggled inside something already owned, or promoted without changing hands.",
+    frameworkTags: ["AI Governance", "AI Risk Management"],
+    distractorNotes: {
+      B:
+        "Widening the scope note is necessary and should be done — the three escapees are exactly the categories people do not think of as AI systems. A definition change tells people what to declare without changing who notices when something arrives.",
+      C:
+        "Quarterly surveys shorten the window in which an undeclared system runs unseen, which is a real improvement. The entry routes stay unwatched, so the same three categories escape, just for less time.",
+      D:
+        "Annual attestation adds accountability and a signature, which matters when something is later found. It still depends on the same recall the current process relies on, and the prototype team may not believe it operates an AI system at all.",
+    },
+    sources: [
+      { cite: "ISO/IEC 42001 (AI management system: scope, inventory and change control)" },
+      { cite: "NIST AI RMF (Map 1.1: context and inventory of AI systems are established)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["neutral"],
+    },
+  },
+  310: {
+    bokSubdomain: "I.B",
+    difficulty: "advanced",
+    keyTakeaway:
+      "Write group policy as required outcomes rather than required procedures. Outcomes can be met by different controls in different regulatory settings, which is what lets one policy govern a heterogeneous group without forcing a bad fit or granting an exemption.",
+    frameworkTags: ["AI Governance", "ISO 42001"],
+    distractorNotes: {
+      B:
+        "A conflicting sectoral requirement is a real constraint and would have to be resolved. An outcome-based policy is designed to absorb exactly this, which is why the conflict shapes the subsidiary's procedures rather than deciding whether the policy applies.",
+      C:
+        "Risk kind and severity is a strong answer and the right test for how much scrutiny these systems need. It sets the intensity of oversight; the question was whether the policy reaches them at all.",
+      D:
+        "Authority under the acquisition agreement is a genuine precondition — without it nothing can be imposed. Having the power to apply a policy says nothing about whether applying this one is the right governance decision.",
+    },
+    sources: [
+      { cite: "ISO/IEC 42001 (AI management system: organisational context, leadership and policy)" },
+      { cite: "NIST AI RMF (Govern 1.2: policies are applied consistently across the organisation)" },
+    ],
+    maintenance: {
+      lastReviewed: "2026-10-04",
+      reviewStatus: "current",
+      rationaleStatus: "sufficient",
+      freshness: "stable",
+      jurisdictions: ["neutral"],
+    },
+  },
 };

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { SUBDOMAINS, domainOf } from "@/content/bok";
 import { getTrackQuestions } from "@/content/registry";
-import type { Question } from "@/content/types";
+import { namesLocatableInstrument, type Question } from "@/content/types";
 import { gradeAnswer, isMultiSelect, requiredSelections } from "./grading";
 import { groupScenarioFamilies, presentOptions, presentQuestions } from "./presentation";
 import { emptyProgress } from "./types";
@@ -273,10 +273,11 @@ test("items carrying sources name something checkable", () => {
   assert.ok(withSources.length >= 27, `only ${withSources.length} items cite a source`);
   // A source is usable when a learner can go and read the named thing: a
   // framework, a standard, a regulation, or a titled statute. Free prose is not.
-  const named = /NIST|EU AI Act|ISO\/IEC|OECD|GDPR|Annex|Art\.|Title [IVX]+|Act\b|Convention|Directive/;
+  // The pattern is imported rather than restated — this copy had already
+  // drifted from the content gate's, accepting citations the gate rejected.
   for (const q of withSources) {
     for (const s of q.sources!) {
-      assert.ok(named.test(s.cite), `${q.id}: unusable source reference "${s.cite}"`);
+      assert.ok(namesLocatableInstrument(s.cite), `${q.id}: unusable source reference "${s.cite}"`);
       // A recorded URL has to be a real absolute one. A relative or malformed
       // href in "Check it against" sends the learner nowhere and looks like a
       // citation that was verified when it was not.

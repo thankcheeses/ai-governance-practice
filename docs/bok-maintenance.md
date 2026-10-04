@@ -78,7 +78,7 @@ Re-check on an event, not on a calendar of our own:
 
 ## Coverage audit — completed 7 August 2026, recomputed 24 August 2026, date claim updated 25 August 2026
 
-**Result: 13/13 sub-domains covered, 296/296 questions mapped.**
+**Result: 13/13 sub-domains covered, 310/310 questions mapped.**
 
 Structural coverage of all thirteen AIGP BoK v2.1 sub-domains was confirmed.
 Per-domain counts are tracked in CI; gaps fail the gate. Proportional match to
