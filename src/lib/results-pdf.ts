@@ -12,7 +12,7 @@ import {
   wrapText,
 } from "./pdf/canvas";
 import { documentBytes } from "./pdf/document";
-import { drawFigure, drawGradeStamp } from "./pdf/figures";
+import { drawGradeStamp } from "./pdf/figures";
 import { GRADE_BANDS, type Readiness, assessReadiness, gradeFor } from "./readiness";
 import {
   type CompletedResult,
@@ -382,14 +382,17 @@ function drawHeader(report: Report, result: CompletedResult, now: Date): void {
 }
 
 /**
- * The hero: the grade written in marker on the left, the honest one-liner in
- * the middle, the illustration on the right.
+ * The hero: the grade written in marker on the left, the honest one-liner
+ * running out to the card's right edge.
+ *
+ * There was a cartoon figure in that right-hand space, keyed to the readiness
+ * state. It is gone with the rest of the artwork, and the verdict took the
+ * room rather than the card keeping a hole where a mascot used to be.
  */
 function drawGradeBlock(
   report: Report,
   score: SittingScore,
   readiness: Readiness,
-  seed: string,
 ): void {
   const top = report.y + 10;
   /*
@@ -424,7 +427,16 @@ function drawGradeBlock(
   });
 
   const midX = MARGIN + 140;
-  const midW = CONTENT_W - 140 - 120;
+  /*
+    The headline runs to the card's edge now.
+
+    120pt on the right was reserved for a cartoon figure that annotated the
+    verdict — on a flawless sitting it drew a character captioned "GO STUDY".
+    The artwork is gone, and rather than leave a hole the text takes the space:
+    a readiness verdict is three or four lines of prose and it was wrapping
+    narrower than it needed to.
+  */
+  const midW = CONTENT_W - 140 - 24;
   let y = top + 30;
   if (graded) {
     const headline = pct(score.percentage);
@@ -480,7 +492,6 @@ function drawGradeBlock(
     { font: "sansItalic", size: 7.5, color: MUTED },
   );
 
-  drawFigure(report.c, readiness.state, MARGIN + CONTENT_W - 96, top + 26, 72, INK, seed);
   report.y = top + H;
 }
 
@@ -953,7 +964,7 @@ export function resultReportPages(
   // can never run long enough to push it onto page two.
   const report = new Report(disclosureLayout().height + 20);
   drawHeader(report, result, now);
-  drawGradeBlock(report, score, readiness, result.sittingId);
+  drawGradeBlock(report, score, readiness);
   drawOverview(report, result, score, readiness);
   drawDomains(report, score);
   drawReadiness(report, readiness);

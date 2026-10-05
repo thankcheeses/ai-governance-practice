@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { DimensionalMark } from "@/components/civic/dimensional-mark";
 import { AppGate } from "@/components/app/app-gate";
-import { FlorkArt } from "@/components/app/flork-art";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getTrack, getTrackQuestions } from "@/content/registry";
@@ -91,17 +90,6 @@ function Study() {
             </div>
           ) : null}
         </div>
-        {/*
-          Hidden below `sm`. The asset is tall portrait (736×1308), so on a
-          phone it would either dominate the fold or shrink to an illegible
-          sliver — and the heading it sits beside is the thing a learner came
-          here to act on.
-        */}
-        <FlorkArt
-          name="goStudy"
-          size="lg"
-          className="hidden sm:inline-flex"
-        />
       </header>
 
       {/* Focus session — only once weak-domain accuracy means something. */}

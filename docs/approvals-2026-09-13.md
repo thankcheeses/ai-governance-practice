@@ -29,3 +29,13 @@ byte-for-byte, each with a recorded sha256 and a test that fails if any file is
 re-encoded. No generated or substitute artwork was produced at any point.
 
 See `docs/notes/flork-licensing.md`.
+
+**Withdrawn — 4 October 2026.** The owner removed the artwork from the
+project: "we are also getting rid of the flork shit". All twelve files,
+`src/lib/flork.ts`, `src/components/app/flork-art.tsx`, `flork.test.ts` and
+`docs/notes/flork-licensing.md` are deleted, and the five screens that used
+them carry no illustration in their place.
+
+The authorization above is kept rather than struck out, because it is the
+record of a decision that was made and acted on. Nothing here is an
+authorization to reinstate the artwork; that would need a fresh one.
