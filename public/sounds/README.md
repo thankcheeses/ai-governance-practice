@@ -1,8 +1,7 @@
 # Sound cues
 
-Audio cues live here. Both current files were supplied by the owner and are
-committed exactly as supplied — not re-encoded, not substituted, not
-synthesised.
+Audio cues live here. Every file was supplied by the owner and is committed
+exactly as supplied — not re-encoded, not substituted, not synthesised.
 
 ## What is expected here
 
@@ -10,9 +9,16 @@ synthesised.
 | --- | --- | --- |
 | `begin.mp3` | `begin` | A fresh practice, review or exam sitting opens. Not on a resume part-way through. |
 | `flawless-victory.mp3` | `flawless` | A sitting ends with every question answered and every one correct, at any length. |
+| `answer-correct.mp3` | `correct` | An answer is graded right, in practice or review. |
+| `answer-wrong.mp3` | `wrong` | An answer is graded wrong, in practice or review. |
 
-Both are MPEG layer III, 64 kbps, 44.1 kHz mono — about 1.3s and 1.9s, 26 KB
-for the pair.
+All four are MPEG layer III, 64 kbps, 44.1 kHz mono — about 37 KB in total.
+
+`correct` and `wrong` are the only cues that fire more than once a sitting, so
+they are played straight from the handler that grades the answer rather than
+through `useCueOnce`, whose contract is once per mount. Exam mode never plays
+them: it withholds per-question feedback by design, and a sound that announced
+the result would defeat that.
 
 The filenames are not free-form: `CUES` in `src/lib/sound.ts` maps each cue name
 to exactly one filename, and `sound.test.ts` asserts the shape. Add a cue there
