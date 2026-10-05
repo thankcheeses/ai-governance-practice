@@ -48,7 +48,8 @@ function Home() {
   const accuracy = overallAccuracy(progress.attempts);
   const mastered = masteredQuestionIds(progress.attempts).size;
   const available = getTrackQuestions(progress.trackId).length;
-  const answeredUnique = new Set(progress.attempts.map((a) => a.questionId)).size;
+  const answeredUnique = new Set(progress.attempts.map((a) => a.questionId))
+    .size;
   const due = dueCount(progress);
   const focus = focusDomains(progress, progress.trackId);
   const weakest = focus[0];
@@ -61,7 +62,9 @@ function Home() {
         <header>
           <p className="mb-3 text-[0.8125rem] text-muted-foreground">
             <Link href="/home">Home</Link>
-            <span aria-hidden className="mx-2 text-border-strong">/</span>
+            <span aria-hidden className="mx-2 text-border-strong">
+              /
+            </span>
             <span>Today</span>
           </p>
           <h1 className="text-balance text-[2.125rem] leading-[1.1] sm:text-[2.625rem]">
@@ -76,7 +79,7 @@ function Home() {
         </header>
 
         <FocusCard emphasis="focus">
-          <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
+          <div className="grid gap-7 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-start">
             <div className="min-w-0">
               <p className="mb-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-accent-strong">
                 Current focus
@@ -85,102 +88,152 @@ function Home() {
                 {isNew
                   ? "Pre-launch controls"
                   : weakest
-                    ? weakest.domain
-                    : "Keep your coverage even"}
+                  ? weakest.domain
+                  : "Keep your coverage even"}
               </h2>
               <p className="measure mt-2.5 text-[0.9375rem] leading-relaxed text-muted-foreground">
                 {isNew
                   ? "Turn a promising AI use case into a defensible go-live decision."
                   : weakest
-                    ? `${weakest.accuracy}% across ${weakest.answered} answered${
-                        focus.length > 1
-                          ? ` — ${focus.length - 1} other ${focus.length === 2 ? "domain is" : "domains are"} also below target.`
-                          : "."
-                      }`
-                    : "No domain is trailing. Practice is drawing from the full body of knowledge."}
+                  ? `${weakest.accuracy}% across ${weakest.answered} answered${
+                      focus.length > 1
+                        ? ` — ${focus.length - 1} other ${
+                            focus.length === 2 ? "domain is" : "domains are"
+                          } also below target.`
+                        : "."
+                    }`
+                  : "No domain is trailing. Practice is drawing from the full body of knowledge."}
               </p>
               <p className="mt-4 text-[0.875rem] text-muted-foreground">
                 {track.name}
-                <span aria-hidden className="mx-2 text-border-strong">·</span>
+                <span aria-hidden className="mx-2 text-border-strong">
+                  ·
+                </span>
                 {isNew ? "About 12 minutes" : `${today.goal} questions today`}
               </p>
               <div className="mt-6">
                 <Button asChild size="lg">
-                  <Link href={weakest ? "/study/session?focus=weak&count=10" : "/study"}>
+                  <Link
+                    href={
+                      weakest ? "/study/session?focus=weak&count=10" : "/study"
+                    }
+                  >
                     Continue practicing
                   </Link>
                 </Button>
               </div>
-
-              {/*
-                "Choose another focus" was a bare link to /study, which made
-                picking a different domain a two-step trip: read the card, open
-                the study page, find the domain grid, choose. The alternatives
-                are four fixed things, so they are offered here as the controls
-                they always were.
-
-                The current focus stays in the row rather than being filtered
-                out. Removing it would shuffle the remaining buttons every time
-                the weakest domain changed, so the position of a given domain
-                would never be learnable; it is marked instead.
-              */}
-              <div className="mt-5">
-                <p
-                  id="other-focus-label"
-                  className="mb-2.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground"
-                >
-                  Or focus somewhere else
-                </p>
-                <div
-                  role="group"
-                  aria-labelledby="other-focus-label"
-                  className="flex flex-wrap gap-2"
-                >
-                  {DOMAIN_NAMES.map((domain) => {
-                    const visual = domainVisual(domain);
-                    const current = weakest?.domain === domain;
-                    return (
-                      <Button
-                        key={domain}
-                        asChild
-                        variant="outline"
-                        size="sm"
-                        className={cn(current && "border-accent bg-accent-tint text-foreground")}
-                      >
-                        <Link
-                          href={`/study/session?domain=${encodeURIComponent(domain)}&count=10`}
-                          aria-current={current ? "true" : undefined}
-                          /* The full name is the accessible name; the button shows the short one. */
-                          aria-label={current ? `${domain} — current focus` : domain}
-                        >
-                          <span aria-hidden className="mr-1.5 text-[0.6875rem] text-muted-foreground">
-                            {visual.roman}
-                          </span>
-                          {visual.short}
-                        </Link>
-                      </Button>
-                    );
-                  })}
-                  <Button asChild variant="outline" size="sm">
-                    <Link href="/study/session?count=10" aria-label="Mixed practice across every domain">
-                      Mixed
-                    </Link>
-                  </Button>
-                </div>
-                <p className="mt-2.5 text-[0.875rem]">
-                  <Link href="/study">All study options</Link>
-                </p>
-              </div>
             </div>
             <div className="rounded-lg border border-border bg-background/60 p-5">
-              <p className="mb-4 text-center font-serif text-[1.0625rem]">Pre-launch gate</p>
-              <GateRail labels={["Purpose", "Risk", "Accountability", "Controls", "Go-live"]} />
+              <p className="mb-4 font-serif text-[1.0625rem]">
+                Pre-launch gate
+              </p>
+              {/*
+                Vertical here because this panel is about 390px wide, and five
+                labels across that give each one ~78px — "Accountability" is a
+                single 14-character word with no break opportunity, so it either
+                broke mid-word or overlapped "Controls". Turning the rail gives
+                each label the panel's full width, and the sequence reads
+                top-to-bottom just as well.
+              */}
+              <GateRail
+                orientation="vertical"
+                labels={[
+                  "Purpose",
+                  "Risk",
+                  "Accountability",
+                  "Controls",
+                  "Go-live",
+                ]}
+              />
+            </div>
+          </div>
+
+          {/*
+            "Choose another focus" was a bare link to /study, which made picking
+            a different domain a two-step trip: read the card, open the study
+            page, find the domain grid, choose. The alternatives are four fixed
+            things, so they are offered here as the controls they always were.
+
+            This sits below the grid rather than inside the left column. Inside
+            it, the column was narrow enough that five pills stacked one per
+            row — a column of buttons reading as a list, with the card running
+            past 1000px and a block of dead space beside it. Full width, they
+            flow as one row and the card loses the hole.
+
+            The current focus stays in the row rather than being filtered out.
+            Removing it would shuffle the remaining buttons every time the
+            weakest domain changed, so the position of a given domain would
+            never be learnable; it is marked instead.
+          */}
+          <div className="mt-7 border-t border-border/70 pt-5">
+            <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2.5">
+              <p
+                id="other-focus-label"
+                className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground"
+              >
+                Or focus somewhere else
+              </p>
+              <Link href="/study" className="text-[0.875rem]">
+                All study options
+              </Link>
+            </div>
+            <div
+              role="group"
+              aria-labelledby="other-focus-label"
+              className="mt-3 flex flex-wrap gap-2"
+            >
+              {DOMAIN_NAMES.map((domain) => {
+                const visual = domainVisual(domain);
+                const current = weakest?.domain === domain;
+                return (
+                  <Button
+                    key={domain}
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      current && "border-accent bg-accent-tint text-foreground"
+                    )}
+                  >
+                    <Link
+                      href={`/study/session?domain=${encodeURIComponent(
+                        domain
+                      )}&count=10`}
+                      aria-current={current ? "true" : undefined}
+                      /* The full name is the accessible name; the button shows the short one. */
+                      aria-label={
+                        current ? `${domain} — current focus` : domain
+                      }
+                    >
+                      <span
+                        aria-hidden
+                        className="mr-1.5 text-[0.6875rem] text-muted-foreground"
+                      >
+                        {visual.roman}
+                      </span>
+                      {visual.short}
+                    </Link>
+                  </Button>
+                );
+              })}
+              <Button asChild variant="outline" size="sm">
+                <Link
+                  href="/study/session?count=10"
+                  aria-label="Mixed practice across every domain"
+                >
+                  Mixed
+                </Link>
+              </Button>
             </div>
           </div>
         </FocusCard>
 
         <section>
-          <SectionHeading level={2} title="Governance toolkit" className="mb-4" />
+          <SectionHeading
+            level={2}
+            title="Governance toolkit"
+            className="mb-4"
+          />
           <div className="grid gap-4 sm:grid-cols-2">
             <OversightLevelComparison />
             <WhoIsAccountable />
@@ -189,7 +242,10 @@ function Home() {
           </div>
         </section>
 
-        <FocusCard emphasis="quiet" className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <FocusCard
+          emphasis="quiet"
+          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+        >
           <div className="min-w-0">
             <h3 className="text-[1rem]">Take a practice exam</h3>
             <p className="mt-0.5 text-[0.875rem] leading-relaxed text-muted-foreground">
@@ -208,7 +264,8 @@ function Home() {
             <div className="py-2 text-center">
               <p className="font-serif text-[1.125rem]">No reading yet</p>
               <p className="mx-auto mt-2 max-w-[15rem] text-[0.875rem] leading-relaxed text-muted-foreground">
-                Your confidence appears here once you have answered a few questions.
+                Your confidence appears here once you have answered a few
+                questions.
               </p>
             </div>
           ) : (
@@ -221,16 +278,27 @@ function Home() {
         </FocusCard>
 
         <InsightPanel title="Why this matters">
-          Good governance starts before launch. Clear ownership and controls are what make later monitoring mean anything.
+          Good governance starts before launch. Clear ownership and controls are
+          what make later monitoring mean anything.
         </InsightPanel>
 
         <FocusCard>
           <h2 className="mb-4 font-serif text-[1.25rem]">Session focus</h2>
           <div className="space-y-3">
-            <ProgressPath completed={today.answered} total={today.goal} label="Today's goal" />
-            <ProgressPath completed={answeredUnique} total={available} label="Bank covered" />
+            <ProgressPath
+              completed={today.answered}
+              total={today.goal}
+              label="Today's goal"
+            />
+            <ProgressPath
+              completed={answeredUnique}
+              total={available}
+              label="Bank covered"
+            />
             <div className="flex items-baseline justify-between gap-3 pt-1">
-              <span className="text-[0.875rem] font-medium">Consecutive days</span>
+              <span className="text-[0.875rem] font-medium">
+                Consecutive days
+              </span>
               <span className="text-[1.25rem] font-semibold tabular-nums">
                 {streak > 0 ? streak : "—"}
               </span>
@@ -239,10 +307,20 @@ function Home() {
           {mastered > 0 || due > 0 ? (
             <div className="mt-4 space-y-2 border-t border-border pt-4">
               {due > 0 ? (
-                <StatusSurface tone="accent" mark="review" label={`${due} due for review`} detail="Returning to a missed decision is where the learning is." />
+                <StatusSurface
+                  tone="accent"
+                  mark="review"
+                  label={`${due} due for review`}
+                  detail="Returning to a missed decision is where the learning is."
+                />
               ) : null}
               {mastered > 0 ? (
-                <StatusSurface tone="support" mark="progress" label={`${mastered} answered correctly`} detail="On the most recent attempt." />
+                <StatusSurface
+                  tone="support"
+                  mark="progress"
+                  label={`${mastered} answered correctly`}
+                  detail="On the most recent attempt."
+                />
               ) : null}
             </div>
           ) : null}

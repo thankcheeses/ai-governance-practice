@@ -57,16 +57,16 @@ const NODE_BASE = cn(
   "text-[0.6875rem] leading-none tracking-[0.01em]",
   "transition-[background-color,border-color,color,box-shadow,transform] duration-150 ease-out",
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-  "focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+  "focus-visible:ring-offset-2 focus-visible:ring-offset-card"
 );
 
 const NODE_IDLE = cn(
   "border-border-strong/40 bg-secondary font-medium text-muted-foreground shadow-raised",
-  "hover:-translate-y-px hover:border-accent/45 hover:text-foreground",
+  "hover:-translate-y-px hover:border-accent/45 hover:text-foreground"
 );
 
 const NODE_ACTIVE = cn(
-  "border-accent bg-accent-subtle font-semibold text-foreground shadow-accent",
+  "border-accent bg-accent-subtle font-semibold text-foreground shadow-accent"
 );
 
 function NodeButton({
@@ -105,9 +105,18 @@ function NodeButton({
  * The whole column is the control, bar and label together, so the hit target is
  * the full tier rather than a caption under it.
  */
-export function LevelLadder({ labels, active, onSelect, groupLabel }: DiagramProps) {
+export function LevelLadder({
+  labels,
+  active,
+  onSelect,
+  groupLabel,
+}: DiagramProps) {
   return (
-    <div role="group" aria-label={groupLabel} className="flex items-end justify-center gap-2.5">
+    <div
+      role="group"
+      aria-label={groupLabel}
+      className="flex items-end justify-center gap-2.5"
+    >
       {labels.map((label, i) => {
         const on = label === active;
         return (
@@ -120,7 +129,7 @@ export function LevelLadder({ labels, active, onSelect, groupLabel }: DiagramPro
               "group/tier flex flex-1 flex-col items-center gap-2 rounded-lg px-1 pt-1",
               "transition-transform duration-150 ease-out hover:-translate-y-px",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              "focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+              "focus-visible:ring-offset-2 focus-visible:ring-offset-card"
             )}
           >
             <span
@@ -131,15 +140,17 @@ export function LevelLadder({ labels, active, onSelect, groupLabel }: DiagramPro
                   ? "border-accent bg-gradient-to-t from-accent-subtle to-accent-tint shadow-accent"
                   : cn(
                       "border-success/30 bg-gradient-to-t from-success/30 to-success/15 shadow-raised",
-                      "group-hover/tier:border-accent/45",
-                    ),
+                      "group-hover/tier:border-accent/45"
+                    )
               )}
               style={{ height: `${34 + i * 16}px` }}
             />
             <span
               className={cn(
                 "text-[0.6875rem] leading-tight transition-colors duration-150",
-                on ? "font-semibold text-foreground" : "font-medium text-muted-foreground",
+                on
+                  ? "font-semibold text-foreground"
+                  : "font-medium text-muted-foreground"
               )}
             >
               {label}
@@ -207,7 +218,8 @@ export function RoleGraph({
           onSelect={onSelect}
           className={cn(
             "px-3.5 py-2",
-            centre !== active && "border-border-strong/60 bg-accent-tint text-foreground",
+            centre !== active &&
+              "border-border-strong/60 bg-accent-tint text-foreground"
           )}
         />
         <Rule horizontal />
@@ -239,7 +251,12 @@ export function RoleGraph({
  * the last stage feeds the first. A row with an arrow tacked on the end would
  * undercut exactly that.
  */
-export function LoopRing({ labels, active, onSelect, groupLabel }: DiagramProps) {
+export function LoopRing({
+  labels,
+  active,
+  onSelect,
+  groupLabel,
+}: DiagramProps) {
   const n = labels.length;
   /*
     Radii as percentages of the container rather than viewBox units, so the
@@ -295,9 +312,18 @@ export function LoopRing({ labels, active, onSelect, groupLabel }: DiagramProps)
  * band is narrower than the one above because that is the claim: you finish
  * with fewer defensible options than you started with.
  */
-export function NarrowingStack({ labels, active, onSelect, groupLabel }: DiagramProps) {
+export function NarrowingStack({
+  labels,
+  active,
+  onSelect,
+  groupLabel,
+}: DiagramProps) {
   return (
-    <div role="group" aria-label={groupLabel} className="flex flex-col items-center gap-1.5">
+    <div
+      role="group"
+      aria-label={groupLabel}
+      className="flex flex-col items-center gap-1.5"
+    >
       {labels.map((label, i) => {
         const on = label === active;
         return (
@@ -317,8 +343,8 @@ export function NarrowingStack({ labels, active, onSelect, groupLabel }: Diagram
                 : cn(
                     "border-border-strong/30 font-medium text-muted-foreground shadow-raised",
                     "hover:-translate-y-px hover:border-accent/45 hover:text-foreground",
-                    i === labels.length - 1 ? "bg-accent-tint" : "bg-secondary",
-                  ),
+                    i === labels.length - 1 ? "bg-accent-tint" : "bg-secondary"
+                  )
             )}
           >
             {label}
@@ -340,33 +366,97 @@ export function NarrowingStack({ labels, active, onSelect, groupLabel }: Diagram
  * than inside a teaching module, so there is no explanation for a click to
  * reveal.
  */
-export function GateRail({ labels }: { labels: readonly string[] }) {
-  return (
-    <div aria-hidden className="pt-1">
-      <div className="relative flex items-center justify-between">
-        <span className="absolute inset-x-4 top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-border-strong/30" />
+export function GateRail({
+  labels,
+  orientation = "horizontal",
+}: {
+  labels: readonly string[];
+  /**
+   * `vertical` runs the rail top to bottom with each label beside its bead.
+   *
+   * The horizontal rail cannot carry these labels in a side panel, and no
+   * amount of CSS makes it: five beads across ~390px give each label about
+   * 78px, and "Accountability" is a single 14-character word, so it has no
+   * break opportunity. Shrinking it until it fits was tried and ends in
+   * illegible 10px type that still collides with "Controls"; letting it wrap
+   * ends in "Accou / ntabili / ty". Turning the rail is the fix, because
+   * vertical gives the label the panel's full width and the sequence reads
+   * top-to-bottom just as well as left-to-right.
+   */
+  orientation?: "horizontal" | "vertical";
+}) {
+  if (orientation === "vertical") {
+    return (
+      <ol aria-hidden className="relative flex flex-col gap-3.5 py-1">
+        {/* The track, inset so it starts and ends inside the first and last bead. */}
+        <span className="absolute left-[13px] top-3 bottom-3 w-[3px] -translate-x-1/2 rounded-full bg-border-strong/30" />
         {labels.map((label, i) => {
           const last = i === labels.length - 1;
           return (
-            <span
-              key={label}
-              className={cn(
-                "relative z-10 h-7 w-7 rounded-full border shadow-raised",
-                last ? "border-accent/40 bg-accent" : "border-border-strong/30 bg-card",
-              )}
-            />
+            <li key={label} className="relative flex items-center gap-3">
+              <span
+                className={cn(
+                  "z-10 h-[26px] w-[26px] shrink-0 rounded-full border shadow-raised",
+                  last
+                    ? "border-accent/40 bg-accent"
+                    : "border-border-strong/30 bg-card"
+                )}
+              />
+              <span
+                className={cn(
+                  "text-[0.8125rem] leading-tight",
+                  last
+                    ? "font-medium text-accent-strong"
+                    : "text-muted-foreground"
+                )}
+              >
+                {label}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    );
+  }
+
+  return (
+    <div
+      aria-hidden
+      className="pt-1"
+      style={{ ["--gate-cols" as string]: labels.length }}
+    >
+      {/*
+        Beads and labels share one grid rather than being two independently
+        justified flex rows, so each label sits exactly under its own bead at
+        any width instead of depending on equal text widths.
+      */}
+      <div className="relative grid items-center [grid-template-columns:repeat(var(--gate-cols),minmax(0,1fr))]">
+        <span className="absolute inset-x-[10%] top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-border-strong/30" />
+        {labels.map((label, i) => {
+          const last = i === labels.length - 1;
+          return (
+            <span key={label} className="flex justify-center">
+              <span
+                className={cn(
+                  "relative z-10 h-7 w-7 rounded-full border shadow-raised",
+                  last
+                    ? "border-accent/40 bg-accent"
+                    : "border-border-strong/30 bg-card"
+                )}
+              />
+            </span>
           );
         })}
       </div>
-      <div className="mt-2 flex items-start justify-between gap-1">
+      <div className="mt-2 grid items-start gap-x-1 [grid-template-columns:repeat(var(--gate-cols),minmax(0,1fr))]">
         {labels.map((label, i) => (
           <span
             key={label}
             className={cn(
-              "flex-1 text-center text-[0.6875rem] leading-tight",
+              "text-center text-[0.6875rem] leading-[1.2]",
               i === labels.length - 1
                 ? "font-medium text-accent-strong"
-                : "text-muted-foreground",
+                : "text-muted-foreground"
             )}
           >
             {label}
@@ -386,7 +476,7 @@ function Rule({ horizontal = false }: { horizontal?: boolean }) {
       aria-hidden
       className={cn(
         "rounded-full bg-border-strong/30",
-        horizontal ? "h-[2px] w-4" : "h-3 w-[2px]",
+        horizontal ? "h-[2px] w-4" : "h-3 w-[2px]"
       )}
     />
   );
