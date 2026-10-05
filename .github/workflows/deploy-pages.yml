@@ -28,7 +28,25 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Pinned rather than `ubuntu-latest`.
+    #
+    # GitHub is migrating that label to Ubuntu 26 on 19 October 2026, and every
+    # run on 5 October 2026 carried the migration warning. Four deploys in a row
+    # then died with "The job was not acquired by Runner of type hosted even
+    # after multiple attempts" alongside an internal server error — GitHub
+    # failing to hand out a runner, not anything in this repository.
+    #
+    # Pinning does not fix that allocation failure, which is entirely GitHub's
+    # side and whose remedy is a re-run. It does two other things worth having:
+    # it takes these jobs off the label actively being migrated, which is the
+    # one variable that changed, and it stops 19 October silently moving the
+    # build to a new OS image.
+    runs-on: ubuntu-24.04
+    # A job that hangs should fail in bounded time rather than sit. This does
+    # not cover queue time — GitHub does not let a workflow bound how long it
+    # waits for a runner — so it is a guard against a stuck build, not against
+    # the acquisition failure above.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -82,7 +100,8 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

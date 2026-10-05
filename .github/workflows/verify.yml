@@ -41,7 +41,11 @@ concurrency:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    # Pinned for the same reason as the deploy workflow: `ubuntu-latest` is
+    # mid-migration to Ubuntu 26 (19 October 2026), and the two workflows
+    # should not drift onto different images.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
