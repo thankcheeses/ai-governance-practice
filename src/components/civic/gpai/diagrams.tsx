@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * The GPAI module diagrams.
  *
@@ -7,9 +9,17 @@
  * discards options as it goes. If the four were interchangeable they would be
  * decoration; they are not, so they aren't.
  *
- * Every one is `aria-hidden`. The stage names are repeated as real text in the
- * module's own list directly beneath, so announcing the drawing would read the
- * same words twice — and the drawing is reinforcement, never the only copy.
+ * **These are controls, not pictures.** Every stage is a real `<button>`, and
+ * selecting one is how its explanation is read. That replaces a disclosure that
+ * dumped all five explanations into a column underneath — the names appeared
+ * twice, once as a drawing and once as a list, and the card grew tall enough to
+ * bury the thing it was teaching. Because the nodes are ordinary buttons rather
+ * than SVG shapes with click handlers, focus order, hit area and the pointer
+ * cursor behave the way the rest of the app does.
+ *
+ * Only the connective tissue — rails, rules, the ring itself — is `aria-hidden`.
+ * The labels are real text nodes, so they can be read by a screen reader,
+ * selected, searched and translated.
  *
  * Built in HTML and SVG so they inherit theme tokens, scale without raster
  * artefacts, and cost no network request — which also means they still paint
@@ -18,33 +28,125 @@
 
 import { cn } from "@/lib/utils";
 
-/* Shared low-relief treatment, matching the dimensional marks. */
-const RAISED =
-  "shadow-[0_1px_2px_rgb(15_23_42/0.10),0_3px_8px_-2px_rgb(15_23_42/0.12),inset_0_1px_0_rgb(255_255_255/0.6)]";
+/**
+ * What every interactive diagram takes.
+ *
+ * `active` is a stage name rather than an index because the modules key their
+ * copy by name; an index would silently point at the wrong stage the first time
+ * someone reorders a list.
+ */
+export interface DiagramProps {
+  labels: readonly string[];
+  active: string;
+  onSelect: (label: string) => void;
+  /** Names the control group for assistive tech, e.g. "Oversight levels". */
+  groupLabel: string;
+}
+
+/*
+  The shared states for a selectable node.
+
+  Selection is never carried by colour alone: the active node also gains a
+  heavier border, a raised shadow and a weight change, and the detail panel
+  below names the stage in text. `accent-subtle` is used for the active fill
+  rather than `accent` because `--accent-foreground` is itself a dark orange in
+  the light theme — an accent-on-accent pill would fail contrast.
+*/
+const NODE_BASE = cn(
+  "relative inline-flex items-center justify-center whitespace-nowrap rounded-full border",
+  "text-[0.6875rem] leading-none tracking-[0.01em]",
+  "transition-[background-color,border-color,color,box-shadow,transform] duration-150 ease-out",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+  "focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+);
+
+const NODE_IDLE = cn(
+  "border-border-strong/40 bg-secondary font-medium text-muted-foreground shadow-raised",
+  "hover:-translate-y-px hover:border-accent/45 hover:text-foreground",
+);
+
+const NODE_ACTIVE = cn(
+  "border-accent bg-accent-subtle font-semibold text-foreground shadow-accent",
+);
+
+function NodeButton({
+  label,
+  active,
+  onSelect,
+  className,
+  style,
+  children,
+}: {
+  label: string;
+  active: boolean;
+  onSelect: (label: string) => void;
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(label)}
+      aria-pressed={active}
+      style={style}
+      className={cn(NODE_BASE, active ? NODE_ACTIVE : NODE_IDLE, className)}
+    >
+      {children ?? label}
+    </button>
+  );
+}
 
 /**
  * A ladder of blocks at increasing height — the shape for graded levels, where
  * the teaching point is that the tiers are ordered by degree rather than being
  * alternatives.
+ *
+ * The whole column is the control, bar and label together, so the hit target is
+ * the full tier rather than a caption under it.
  */
-export function LevelLadder({ labels }: { labels: readonly string[] }) {
+export function LevelLadder({ labels, active, onSelect, groupLabel }: DiagramProps) {
   return (
-    <div aria-hidden className="flex items-end justify-center gap-2 pt-2">
-      {labels.map((label, i) => (
-        <div key={label} className="flex flex-1 flex-col items-center gap-1.5">
-          <div
+    <div role="group" aria-label={groupLabel} className="flex items-end justify-center gap-2.5">
+      {labels.map((label, i) => {
+        const on = label === active;
+        return (
+          <button
+            key={label}
+            type="button"
+            onClick={() => onSelect(label)}
+            aria-pressed={on}
             className={cn(
-              "w-full rounded-md border border-success/30",
-              i === labels.length - 1 ? "bg-success/45" : "bg-success/25",
-              RAISED,
+              "group/tier flex flex-1 flex-col items-center gap-2 rounded-lg px-1 pt-1",
+              "transition-transform duration-150 ease-out hover:-translate-y-px",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "focus-visible:ring-offset-2 focus-visible:ring-offset-card",
             )}
-            style={{ height: `${34 + i * 16}px` }}
-          />
-          <span className="text-[0.6875rem] leading-tight text-muted-foreground">
-            {label}
-          </span>
-        </div>
-      ))}
+          >
+            <span
+              aria-hidden
+              className={cn(
+                "w-full rounded-md border transition-colors duration-150",
+                on
+                  ? "border-accent bg-gradient-to-t from-accent-subtle to-accent-tint shadow-accent"
+                  : cn(
+                      "border-success/30 bg-gradient-to-t from-success/30 to-success/15 shadow-raised",
+                      "group-hover/tier:border-accent/45",
+                    ),
+              )}
+              style={{ height: `${34 + i * 16}px` }}
+            />
+            <span
+              className={cn(
+                "text-[0.6875rem] leading-tight transition-colors duration-150",
+                on ? "font-semibold text-foreground" : "font-medium text-muted-foreground",
+              )}
+            >
+              {label}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -57,30 +159,76 @@ export function LevelLadder({ labels }: { labels: readonly string[] }) {
 export function RoleGraph({
   centre,
   around,
+  active,
+  onSelect,
+  groupLabel,
 }: {
   centre: string;
   around: readonly string[];
-}) {
+} & Omit<DiagramProps, "labels">) {
   const top = around.slice(0, 1);
   const sides = around.slice(1, 3);
   const bottom = around.slice(3);
 
   return (
-    <div aria-hidden className="flex flex-col items-center gap-1.5 py-1">
+    <div
+      role="group"
+      aria-label={groupLabel}
+      className="flex flex-col items-center gap-1.5"
+    >
       {top.map((n) => (
-        <Node key={n} label={n} />
+        <NodeButton
+          key={n}
+          label={n}
+          active={n === active}
+          onSelect={onSelect}
+          className="px-3 py-1.5"
+        />
       ))}
       <Rule />
       <div className="flex items-center gap-1.5">
-        {sides[0] ? <Node label={sides[0]} /> : null}
+        {sides[0] ? (
+          <NodeButton
+            label={sides[0]}
+            active={sides[0] === active}
+            onSelect={onSelect}
+            className="px-3 py-1.5"
+          />
+        ) : null}
         <Rule horizontal />
-        <Node label={centre} strong />
+        {/*
+          The centre is drawn heavier than its satellites even when another node
+          is selected: "one accountable owner" is the diagram's claim, and
+          letting selection flatten that would undercut the lesson.
+        */}
+        <NodeButton
+          label={centre}
+          active={centre === active}
+          onSelect={onSelect}
+          className={cn(
+            "px-3.5 py-2",
+            centre !== active && "border-border-strong/60 bg-accent-tint text-foreground",
+          )}
+        />
         <Rule horizontal />
-        {sides[1] ? <Node label={sides[1]} /> : null}
+        {sides[1] ? (
+          <NodeButton
+            label={sides[1]}
+            active={sides[1] === active}
+            onSelect={onSelect}
+            className="px-3 py-1.5"
+          />
+        ) : null}
       </div>
       <Rule />
       {bottom.map((n) => (
-        <Node key={n} label={n} />
+        <NodeButton
+          key={n}
+          label={n}
+          active={n === active}
+          onSelect={onSelect}
+          className="px-3 py-1.5"
+        />
       ))}
     </div>
   );
@@ -91,42 +239,51 @@ export function RoleGraph({
  * the last stage feeds the first. A row with an arrow tacked on the end would
  * undercut exactly that.
  */
-export function LoopRing({ labels }: { labels: readonly string[] }) {
+export function LoopRing({ labels, active, onSelect, groupLabel }: DiagramProps) {
   const n = labels.length;
-  const rx = 42;
-  const ry = 30;
+  /*
+    Radii as percentages of the container rather than viewBox units, so the
+    ring and the nodes stay on the same curve at every card width. An earlier
+    version put the nodes on a fixed 68px radius inside a 300px box, which
+    pinned five pills into the middle 45% of the card: they collided, and the
+    ring showed through the gaps as a wobble rather than reading as a circle.
+  */
+  const RX = 38;
+  const RY = 34;
 
   return (
-    <div aria-hidden className="relative mx-auto h-[124px] w-full max-w-[260px]">
-      <svg viewBox="0 0 200 124" className="absolute inset-0 h-full w-full">
-        <ellipse
-          cx="100"
-          cy="62"
-          rx={rx + 26}
-          ry={ry + 12}
-          fill="none"
-          stroke="var(--color-accent-subtle)"
-          strokeWidth="2.5"
-        />
-      </svg>
+    <div
+      role="group"
+      aria-label={groupLabel}
+      className="relative mx-auto h-[184px] w-full max-w-[360px]"
+    >
+      {/*
+        Drawn as a border rather than an SVG ellipse so it inherits the theme
+        token directly and cannot be distorted by viewBox scaling. The nodes are
+        opaque and sit centred on the curve, so the ring passes behind them —
+        beads on a loop.
+      */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[50%] border-2 border-accent-subtle"
+        style={{ width: `${RX * 2}%`, height: `${RY * 2}%` }}
+      />
       {labels.map((label, i) => {
-        // Start at the top and go clockwise, so reading order matches the list.
+        // Start at the top and go clockwise, so reading order matches the order
+        // the stages are taught in.
         const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
-        const x = 50 + (Math.cos(angle) * (rx + 26) * 100) / 200;
-        const y = 50 + (Math.sin(angle) * (ry + 12) * 100) / 124;
         return (
-          <span
+          <NodeButton
             key={label}
-            className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full",
-              "border border-border-strong/30 bg-accent-subtle px-2.5 py-1",
-              "text-[0.6875rem] font-medium text-foreground",
-              RAISED,
-            )}
-            style={{ left: `${x}%`, top: `${y}%` }}
-          >
-            {label}
-          </span>
+            label={label}
+            active={label === active}
+            onSelect={onSelect}
+            className="absolute -translate-x-1/2 -translate-y-1/2 px-2.5 py-1.5"
+            style={{
+              left: `${50 + Math.cos(angle) * RX}%`,
+              top: `${50 + Math.sin(angle) * RY}%`,
+            }}
+          />
         );
       })}
     </div>
@@ -138,23 +295,36 @@ export function LoopRing({ labels }: { labels: readonly string[] }) {
  * band is narrower than the one above because that is the claim: you finish
  * with fewer defensible options than you started with.
  */
-export function NarrowingStack({ labels }: { labels: readonly string[] }) {
+export function NarrowingStack({ labels, active, onSelect, groupLabel }: DiagramProps) {
   return (
-    <div aria-hidden className="flex flex-col items-center gap-1 py-1">
-      {labels.map((label, i) => (
-        <div
-          key={label}
-          className={cn(
-            "flex items-center justify-center rounded-md border border-border-strong/25 py-1.5",
-            "text-[0.6875rem] font-medium text-foreground",
-            i === labels.length - 1 ? "bg-accent-subtle" : "bg-secondary",
-            RAISED,
-          )}
-          style={{ width: `${100 - i * 13}%` }}
-        >
-          {label}
-        </div>
-      ))}
+    <div role="group" aria-label={groupLabel} className="flex flex-col items-center gap-1.5">
+      {labels.map((label, i) => {
+        const on = label === active;
+        return (
+          <button
+            key={label}
+            type="button"
+            onClick={() => onSelect(label)}
+            aria-pressed={on}
+            style={{ width: `${100 - i * 11}%` }}
+            className={cn(
+              "flex items-center justify-center rounded-md border py-2",
+              "text-[0.6875rem] leading-none transition-all duration-150 ease-out",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+              on
+                ? "border-accent bg-accent-subtle font-semibold text-foreground shadow-accent"
+                : cn(
+                    "border-border-strong/30 font-medium text-muted-foreground shadow-raised",
+                    "hover:-translate-y-px hover:border-accent/45 hover:text-foreground",
+                    i === labels.length - 1 ? "bg-accent-tint" : "bg-secondary",
+                  ),
+            )}
+          >
+            {label}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -165,6 +335,10 @@ export function NarrowingStack({ labels }: { labels: readonly string[] }) {
  * This is the reference's own treatment for the pre-launch gate — physical
  * beads on a rail rather than dots on a line — because the gate's argument is
  * that you pass *through* each one in order.
+ *
+ * Still static: it is used on its own beside the current-focus panel rather
+ * than inside a teaching module, so there is no explanation for a click to
+ * reveal.
  */
 export function GateRail({ labels }: { labels: readonly string[] }) {
   return (
@@ -177,11 +351,8 @@ export function GateRail({ labels }: { labels: readonly string[] }) {
             <span
               key={label}
               className={cn(
-                "relative z-10 h-7 w-7 rounded-full border",
-                last
-                  ? "border-accent/40 bg-accent"
-                  : "border-border-strong/30 bg-card",
-                RAISED,
+                "relative z-10 h-7 w-7 rounded-full border shadow-raised",
+                last ? "border-accent/40 bg-accent" : "border-border-strong/30 bg-card",
               )}
             />
           );
@@ -208,25 +379,11 @@ export function GateRail({ labels }: { labels: readonly string[] }) {
 
 /* ------------------------------------------------------------ internals -- */
 
-function Node({ label, strong = false }: { label: string; strong?: boolean }) {
-  return (
-    <span
-      className={cn(
-        "whitespace-nowrap rounded-full border px-2.5 py-1 text-[0.6875rem] font-medium",
-        strong
-          ? "border-border-strong/30 bg-accent-subtle text-foreground"
-          : "border-success/30 bg-success/25 text-foreground",
-        RAISED,
-      )}
-    >
-      {label}
-    </span>
-  );
-}
-
+/** The connective tissue between role nodes. Decoration, so hidden. */
 function Rule({ horizontal = false }: { horizontal?: boolean }) {
   return (
     <span
+      aria-hidden
       className={cn(
         "rounded-full bg-border-strong/30",
         horizontal ? "h-[2px] w-4" : "h-3 w-[2px]",
