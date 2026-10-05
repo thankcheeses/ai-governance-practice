@@ -131,7 +131,7 @@ function ReasoningPatternNote({ pattern }: { pattern: ReasoningPattern }) {
         </p>
         <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
           That is too little to call a pattern, and it may not hold up.
-          Practising a few of these is the quickest way to find out.
+          Practicing a few of these is the quickest way to find out.
         </p>
         <Button asChild variant="secondary" className="mt-4 w-full sm:w-auto">
           <Link href="/study/session?focus=pattern&count=10">
@@ -152,11 +152,11 @@ function ReasoningPatternNote({ pattern }: { pattern: ReasoningPattern }) {
         missed there, so treat it as a lead to check rather than a verdict.
       </p>
       <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
-        Worth practising: {pattern.practice}.
+        Worth practicing: {pattern.practice}.
       </p>
       <Button asChild variant="secondary" className="mt-4 w-full sm:w-auto">
         <Link href="/study/session?focus=pattern&count=10">
-          Practise this
+          Practice this
         </Link>
       </Button>
     </div>

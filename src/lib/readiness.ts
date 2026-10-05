@@ -160,7 +160,7 @@ const VERDICTS: Record<ReadinessState, string> = {
   earlySignal:
     "Too few questions were answered for the percentage above to mean much. " +
     "A small sample swings hard on a couple of lucky or unlucky items, so " +
-    "treat this as a first look rather than a measurement. Keep practising " +
+    "treat this as a first look rather than a measurement. Keep practicing " +
     "until a good deal more of the bank has been seen before reading anything " +
     "into the score.",
   insufficient:
@@ -173,7 +173,7 @@ const VERDICTS: Record<ReadinessState, string> = {
     "This is real progress and it is not finished. The score is high enough " +
     "to show the concepts are landing and low enough that the weaker domains " +
     "would cost you. Concentrate on the areas flagged below rather than " +
-    "practising evenly across everything, and widen coverage of the bank " +
+    "practicing evenly across everything, and widen coverage of the bank " +
     "before treating any score as settled.",
   mixed:
     "A good sitting. The remaining errors are concentrated rather than spread " +
@@ -236,7 +236,7 @@ function stepsFor(state: ReadinessState, weakLabels: string[], r: Omit<Readiness
   }
   if (r.domainsTouched < 4) {
     steps.push(
-      `Practise the domains this sitting did not reach - ${r.domainsTouched} of 4 were covered.`,
+      `Practice the domains this sitting did not reach - ${r.domainsTouched} of 4 were covered.`,
     );
   }
 

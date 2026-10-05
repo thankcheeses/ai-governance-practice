@@ -84,7 +84,7 @@ export default function RootPage() {
             {BRAND.tagline}
           </p>
           <h1 className="mt-3 text-[2.25rem] leading-[1.08] sm:text-[3.25rem]">
-            Practise the decision,{" "}
+            Practice the decision,{" "}
             <br className="hidden sm:inline" />
             not the definition.
           </h1>

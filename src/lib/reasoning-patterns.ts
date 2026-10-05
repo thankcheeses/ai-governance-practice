@@ -431,7 +431,7 @@ export function detectPattern(
 }
 
 /**
- * Questions available to practise a family, for the targeted-practice link.
+ * Questions available to practice a family, for the targeted-practice link.
  *
  * Drawn from the whole labelled bank rather than only the questions the learner
  * has already missed, so practice is not a re-run of the same items. Selection
