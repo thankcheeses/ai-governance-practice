@@ -1,0 +1,186 @@
+<!doctype html>
+<!--
+  Source for the social card.
+
+  This is the single image behind three things: the Open Graph / Twitter
+  thumbnail a shared link renders, the README hero, and anything posted to
+  social. It is authored as HTML rather than drawn as a PNG so the wording and
+  the counts stay editable and reviewable in a diff, and `npm run build:og`
+  re-renders it. `check:content` asserts the figures here match the question
+  bank, so the card cannot quietly age the way the README did.
+
+  1200x630 is the Open Graph standard and the ratio every major scraper
+  crops to. Rendered at 2x for sharpness on dense displays.
+
+  Fonts are the app's own — IBM Plex Serif for display, Inter for everything
+  else — so the card and the product look like the same thing.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Fonts are injected by scripts/build-og-card.mjs from the app's own
+         build output, so this file needs no network to render. -->
+    <style>
+      :root {
+        --paper: #f4ede4;
+        --card: #fffbf6;
+        --ink: #1a2332;
+        --muted: #5c534b;
+        --accent: #b85a32;
+        --accent-strong: #8c3f1f;
+        --accent-tint: #f8ede4;
+        --accent-subtle: #f0d4c4;
+        --success: #4a7c59;
+        --rule: rgb(26 35 50 / 0.1);
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Inter, system-ui, sans-serif;
+        position: relative;
+      }
+      /* The same two warm washes the brand banner uses. */
+      .wash-a, .wash-b { position: absolute; inset: 0; }
+      .wash-a {
+        background: radial-gradient(62% 62% at 16% 6%, rgb(232 168 124 / 0.34), transparent 70%);
+      }
+      .wash-b {
+        background: radial-gradient(52% 52% at 88% 92%, rgb(197 208 196 / 0.32), transparent 70%);
+      }
+
+      .frame {
+        position: relative;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 384px;
+        gap: 56px;
+        /* Bottom padding clears the absolutely positioned footer: without it the
+           last bullet and the URL overlap. */
+        padding: 58px 64px 128px;
+      }
+
+      .eyebrow {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent-strong);
+      }
+      h1 {
+        font-family: "IBM Plex Serif", Georgia, serif;
+        font-weight: 600;
+        font-size: 55px;
+        line-height: 1.06;
+        letter-spacing: -0.015em;
+        margin-top: 18px;
+        max-width: 13ch;
+      }
+      .sub {
+        margin-top: 18px;
+        font-size: 20px;
+        line-height: 1.45;
+        color: var(--muted);
+        max-width: 30ch;
+      }
+
+      ul { list-style: none; margin-top: 26px; display: grid; gap: 10px; }
+      li { display: flex; align-items: center; gap: 11px; font-size: 17.5px; color: var(--ink); }
+      li b { font-weight: 600; }
+      .tick {
+        width: 21px; height: 21px; flex: none; border-radius: 999px;
+        background: var(--success); position: relative;
+      }
+      .tick::after {
+        content: ""; position: absolute; left: 6.5px; top: 4.5px;
+        width: 5px; height: 9.5px; border: solid #fffbf6;
+        border-width: 0 2.2px 2.2px 0; transform: rotate(45deg);
+      }
+
+      .foot {
+        position: absolute; left: 64px; right: 64px; bottom: 40px;
+        display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+      }
+      .url { font-size: 19px; font-weight: 600; color: var(--accent-strong); }
+      .fine { font-size: 13.5px; color: var(--muted); text-align: right; }
+
+      /* ---- right panel: the app's own four-pass motif ---- */
+      .panel {
+        align-self: center;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 20px;
+        padding: 30px 28px 32px;
+        box-shadow: 0 2px 4px rgb(92 58 32 / 0.05), 0 22px 44px -18px rgb(92 58 32 / 0.22);
+      }
+      .panel h2 {
+        font-family: "IBM Plex Serif", Georgia, serif;
+        font-weight: 500; font-size: 20px; text-align: center; margin-bottom: 20px;
+      }
+      .stack { display: grid; gap: 9px; justify-items: center; }
+      .band {
+        display: flex; align-items: center; justify-content: center;
+        height: 46px; border-radius: 11px;
+        font-size: 16px; font-weight: 600; letter-spacing: 0.01em;
+        border: 1px solid rgb(26 35 50 / 0.14);
+        background: #efe6db; color: var(--ink);
+        box-shadow: 0 1px 2px rgb(92 58 32 / 0.06);
+      }
+      .band.b1 { width: 100%; }
+      .band.b2 { width: 88%; }
+      .band.b3 { width: 76%; }
+      .band.b4 {
+        width: 64%;
+        background: var(--accent-subtle);
+        border-color: rgb(184 90 50 / 0.45);
+        color: var(--accent-strong);
+      }
+      .panel p {
+        margin-top: 20px; font-size: 13.5px; line-height: 1.5;
+        color: var(--muted); text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wash-a"></div>
+    <div class="wash-b"></div>
+
+    <div class="frame">
+      <div>
+        <p class="eyebrow">Free · No account</p>
+        <h1>Practice the judgment, not the vocabulary.</h1>
+        <p class="sub">
+          Original AI governance scenarios that ask what you would actually do next.
+        </p>
+
+        <ul>
+          <li><span class="tick"></span><span><b data-count="questions">350</b> original scenarios</span></li>
+          <li><span class="tick"></span><span>Every wrong option explained, not just the right one</span></li>
+          <li><span class="tick"></span><span>Timed exam mode and spaced repetition</span></li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>How to read a scenario</h2>
+        <div class="stack">
+          <span class="band b1">Facts</span>
+          <span class="band b2">Obligations</span>
+          <span class="band b3">Risks</span>
+          <span class="band b4">Action</span>
+        </div>
+        <p>Four passes. Each one narrows what the next has to consider.</p>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span class="url">thankcheeses.github.io/ai-governance-practice</span>
+      <span class="fine">
+        Independent educational product.<br />
+        Not affiliated with any certification body.
+      </span>
+    </div>
+  </body>
+</html>

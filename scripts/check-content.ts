@@ -315,6 +315,20 @@ for (const [needle, where] of readmeClaims) {
   }
 }
 
+// The social card is the image every shared link renders, so a stale number
+// there is seen by more people than a stale README. Its count is marked up as
+// `data-count="questions"` precisely so it can be checked rather than eyeballed.
+const ogCard = readFileSync("scripts/og-card.html", "utf8");
+const ogCount = ogCard.match(/data-count="questions"[^>]*>([\d,]+)</);
+if (!ogCount) {
+  fail('scripts/og-card.html has no element marked data-count="questions"');
+} else if (ogCount[1].replace(/,/g, "") !== String(QS.length)) {
+  fail(
+    `scripts/og-card.html claims ${ogCount[1]} questions, the bank has ${QS.length} — ` +
+      "re-render it with `npm run build:og` after fixing",
+  );
+}
+
 // The hero banner states the count twice: once as visible text and once in the
 // <desc> a screen reader gets. Both have to move together.
 const banner = readFileSync("public/brand/agp-hero-banner.svg", "utf8");

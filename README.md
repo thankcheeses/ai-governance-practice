@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/hero-governance-orbit.png" alt="AI Governance Practice — build practical judgment for responsible AI decisions. A glass shield orbited by four cards: Facts, Obligations, Risks, Action." width="100%" />
+<img src="public/og-card.png" alt="AI Governance Practice — practice the judgment, not the vocabulary. Free, no account. 350 original scenarios, every wrong option explained, timed exam mode and spaced repetition." width="100%" />
 
 # AI Governance Practice
 
