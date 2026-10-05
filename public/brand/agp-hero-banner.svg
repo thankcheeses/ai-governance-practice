@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 840" width="1600" height="840" role="img" aria-labelledby="t d">
   <title id="t">AI Governance Practice</title>
-  <desc id="d">Scenario training for AI governance practitioners. 296 original scenarios.</desc>
+  <desc id="d">Scenario training for AI governance practitioners. 350 original scenarios.</desc>
   <rect width="1600" height="840" fill="#F4EDE4"/>
   <defs>
     <radialGradient id="h1" cx="18%" cy="8%" r="62%">
@@ -20,7 +20,7 @@
   <text x="96" y="300" font-family="Georgia, serif" font-size="72" fill="#1A2332">Practice</text>
   <text x="96" y="370" font-family="Inter, system-ui, sans-serif" font-size="24" fill="#5C534B">Scenario training for practitioners. Judgment, not vocabulary.</text>
   <rect x="96" y="420" width="280" height="44" rx="22" fill="#FFFBF6" stroke="#1A233218"/>
-  <text x="236" y="448" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" letter-spacing="2.4" fill="#8C3F1F">296 ORIGINAL SCENARIOS</text>
+  <text x="236" y="448" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" letter-spacing="2.4" fill="#8C3F1F">350 ORIGINAL SCENARIOS</text>
   <rect x="96" y="492" width="280" height="56" rx="28" fill="#1A2332"/>
   <text x="236" y="526" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="600" fill="#FFFBF6">Start practicing</text>
   <g transform="translate(920,180)">
