@@ -38,6 +38,7 @@ import {
 import { gradePreview, newReviewCard } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { ReviewGrade, StudyMode } from "@/lib/types";
+import { play } from "@/lib/sound";
 import { useCueOnce } from "@/lib/use-cue";
 import { cn } from "@/lib/utils";
 
@@ -154,6 +155,17 @@ export function StudySession({
     );
     setRevealed(true);
     setWasCorrect(result.correct);
+    /*
+      Played here rather than through `useCueOnce`, which fires once per mount:
+      this one has to sound on every graded answer. Being inside the click
+      handler also means the user gesture browsers require for audio is still
+      on the stack, so the first cue of a sitting is not refused.
+
+      The panel states "Correct"/"Incorrect" in text either way — the sound
+      carries no information the screen does not, which is what lets it stay
+      off by default without the learner losing anything.
+    */
+    play(result.correct ? "correct" : "wrong");
     /*
       Counted, not identified. The domain and sub-domain are what make
       "accuracy by area across everyone" answerable; the question id and the

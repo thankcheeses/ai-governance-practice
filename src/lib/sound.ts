@@ -12,17 +12,22 @@ import { BASE_PATH } from "./base-path";
  *
  * ## The files
  *
- * `CUES` maps each cue to one file under `public/sounds/`. Both current files
- * were supplied by the owner and are committed exactly as supplied; nothing
- * here was synthesised, and a cue with no file resolves to silence rather than
- * to a console error, so adding a name before its audio is safe.
+ * `CUES` maps each cue to one file under `public/sounds/`. Every current file
+ * was supplied by the owner and is committed exactly as supplied; nothing here
+ * was synthesised, and a cue with no file resolves to silence rather than to a
+ * console error, so adding a name before its audio is safe.
  *
  * ## Playback rules
  *
  * Browsers refuse audio that no gesture preceded. Every cue here fires after a
- * deliberate action — submitting an exam, finishing a session — so the gesture
+ * deliberate action — choosing an answer, finishing a session — so the gesture
  * exists, but a rejected `play()` is still caught and ignored: a blocked sound
  * must never surface as an error on a results screen.
+ *
+ * `correct` and `wrong` differ from the others in frequency rather than kind:
+ * they fire on every graded answer, so they are played from the handler that
+ * grades it rather than through `useCueOnce`, which is deliberately a
+ * once-per-mount contract.
  *
  * Elements are cached per cue so a second play does not re-fetch, and each is
  * rewound before playing so a repeat actually sounds.
@@ -34,6 +39,10 @@ export const CUES = {
   begin: "begin.mp3",
   /** Every question right, at any sitting length. */
   flawless: "flawless-victory.mp3",
+  /** An answer was graded right, in practice or review. */
+  correct: "answer-correct.mp3",
+  /** An answer was graded wrong, in practice or review. */
+  wrong: "answer-wrong.mp3",
 } as const;
 
 export type CueName = keyof typeof CUES;

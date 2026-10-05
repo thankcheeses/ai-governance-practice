@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { test } from "node:test";
 import { CUES, play, setSoundEnabled, soundEnabled } from "./sound";
 
@@ -70,7 +72,16 @@ test("a storage that throws is silence, not an exception", () => {
 });
 
 test("every declared cue names a real audio file", () => {
+  /*
+    This asserted only the shape of the filename, which is not what its name
+    claims and not what can actually go wrong: a cue whose file is missing or
+    misspelled fails silently by design, so nothing at runtime would ever
+    report it. Checking the file is on disk is the only way that mistake
+    surfaces before a learner turns sound on and hears nothing.
+  */
   for (const [name, file] of Object.entries(CUES)) {
     assert.match(file, /^[a-z0-9-]+\.(mp3|m4a|ogg|wav)$/, `${name} has an odd filename`);
+    const onDisk = join(process.cwd(), "public", "sounds", file);
+    assert.ok(existsSync(onDisk), `cue "${name}" names ${file}, which is not in public/sounds/`);
   }
 });
