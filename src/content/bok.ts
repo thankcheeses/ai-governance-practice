@@ -51,7 +51,7 @@ export interface DomainBlueprint {
  * content/registry.ts.
  */
 export const BLUEPRINT_SOURCE = {
-  document: "AIGP_Cert_BOK_13March2026_FINAL.PDF",
+  document: "AIGP_Cert_BOK_13March2026_FINAL2.PDF",
   title: "The AIGP Body of Knowledge",
   version: "2.1",
   effectiveDate: "2026-02-02",
@@ -61,7 +61,13 @@ export const BLUEPRINT_SOURCE = {
   /** Where in that document the numbers appear. */
   pages: "4-9",
   /** When these numbers were read out of the document and entered here. */
-  retrievedOn: "2026-09-13",
+  /**
+   * Re-read against the owner's copy of the document on 2026-10-05: every
+   * domain range, every competency range, the version, both dates and the
+   * supersedes line were confirmed unchanged. The competency wording was not
+   * verbatim and is now.
+   */
+  retrievedOn: "2026-10-05",
 } as const;
 
 export const DOMAIN_BLUEPRINT: Record<DomainRoman, DomainBlueprint> = {
@@ -71,10 +77,40 @@ export const DOMAIN_BLUEPRINT: Record<DomainRoman, DomainBlueprint> = {
   IV: { min: 21, max: 25 },
 };
 
+/**
+ * The exam blueprint at competency level.
+ *
+ * The published document carries min/max item counts per competency as well as
+ * per domain, and these are read from the same pages as `DOMAIN_BLUEPRINT`.
+ * They lived only inside `scripts/check-bok-currency.mjs`, where the app could
+ * not reach them — so a blueprint-apportioned sitting could be weighted by
+ * domain but never by competency, and the two copies could drift without
+ * anything noticing. One home, here, beside the domain figures and the source
+ * that justifies both.
+ *
+ * These are counts the *exam* draws, not a prescription for a practice bank.
+ * Nothing here says a 350-question bank should hold 4 to 6 questions on I.A.
+ */
+export const COMPETENCY_BLUEPRINT: Record<string, DomainBlueprint> = {
+  "I.A": { min: 4, max: 6 },
+  "I.B": { min: 5, max: 7 },
+  "I.C": { min: 6, max: 8 },
+  "II.A": { min: 4, max: 6 },
+  "II.B": { min: 4, max: 6 },
+  "II.C": { min: 6, max: 8 },
+  "II.D": { min: 3, max: 5 },
+  "III.A": { min: 6, max: 8 },
+  "III.B": { min: 6, max: 8 },
+  "III.C": { min: 8, max: 10 },
+  "IV.A": { min: 6, max: 8 },
+  "IV.B": { min: 5, max: 7 },
+  "IV.C": { min: 9, max: 11 },
+};
+
 export interface SubdomainEntry {
   id: string;
   domain: DomainRoman;
-  /** The competency, in the authority's wording. */
+  /** The competency, verbatim from the published Body of Knowledge. */
   competency: string;
   /** Our guidance on what to review when this area is weak. */
   recommendation: string;
@@ -91,42 +127,42 @@ export const SUBDOMAINS: SubdomainEntry[] = [
   {
     id: "I.B",
     domain: "I",
-    competency: "Establish and communicate organizational expectations",
+    competency: "Establish and communicate organizational expectations for AI governance",
     recommendation:
       "Review governance roles and responsibilities, cross-functional composition, training and awareness, and how developer, provider, deployer and user obligations differ.",
   },
   {
     id: "I.C",
     domain: "I",
-    competency: "Establish policies and procedures across the life cycle",
+    competency: "Establish policies and procedures to apply throughout the AI life cycle",
     recommendation:
       "Review lifecycle oversight policy, which existing policies need updating for AI — data, security, IP — and how third-party risk is managed through procurement, contracts and acceptable use.",
   },
   {
     id: "II.A",
     domain: "II",
-    competency: "How existing data privacy laws apply to AI",
+    competency: "Understand how existing data privacy laws apply to AI",
     recommendation:
       "Review lawful basis, purpose limitation and transparency as they apply to AI, plus controller duties: impact assessments, processors, cross-border transfers, data subject rights and special categories.",
   },
   {
     id: "II.B",
     domain: "II",
-    competency: "How other types of existing laws apply to AI",
+    competency: "Understand how other types of existing laws apply to AI",
     recommendation:
       "Review intellectual property, nondiscrimination across employment, credit, housing and insurance, consumer protection, and product liability as each applies to AI systems.",
   },
   {
     id: "II.C",
     domain: "II",
-    competency: "Main elements of AI-specific laws",
+    competency: "Understand the main elements of AI-specific laws",
     recommendation:
       "Review risk classification and prohibited practices, the obligations attaching to high-risk systems, requirements for general-purpose models, enforcement and penalties, and how duties differ by role in the value chain.",
   },
   {
     id: "II.D",
     domain: "II",
-    competency: "Main industry standards and tools",
+    competency: "Understand the main industry standards and tools that apply to AI",
     recommendation:
       "Review the major voluntary frameworks and standards — what each is for, how they differ, and which are certifiable.",
   },
@@ -140,21 +176,21 @@ export const SUBDOMAINS: SubdomainEntry[] = [
   {
     id: "III.B",
     domain: "III",
-    competency: "Govern data in training and testing",
+    competency: "Govern the collection and use of data in training and testing the AI model and system",
     recommendation:
       "Review data governance and lawful rights to use data, lineage and provenance, data quality and fitness for purpose, and how training and testing are planned, run and documented.",
   },
   {
     id: "III.C",
     domain: "III",
-    competency: "Govern release, monitoring and maintenance",
+    competency: "Govern the release, monitoring and maintenance of the AI system",
     recommendation:
       "Review release readiness and conformity, continuous monitoring with a retraining schedule, periodic assessment through audits and red teaming, incident documentation, and disclosures to deployers.",
   },
   {
     id: "IV.A",
     domain: "IV",
-    competency: "Evaluate factors and risks in the decision to deploy",
+    competency: "Evaluate key factors and risks relevant to the decision to deploy the AI system",
     recommendation:
       "Review use case context including data availability and workforce readiness, the differences between model types, and deployment options — hosting, fine-tuning, retrieval and agentic architectures.",
   },
