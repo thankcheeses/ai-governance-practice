@@ -24,6 +24,7 @@ type Q = (typeof ALL_QUESTIONS)[number] & {
   sources?: string[];
   distractorNotes?: Record<string, string>;
   tags?: string[];
+  scenario?: { id: string };
 };
 
 const QS = ALL_QUESTIONS as unknown as Q[];
@@ -287,6 +288,40 @@ if (!doc.includes(`${QS.length}/${QS.length} questions mapped`)) {
   fail(
     `docs/bok-maintenance.md does not record the current bank size — expected "${QS.length}/${QS.length} questions mapped"`,
   );
+}
+
+// The README carries the same numbers in four places — a badge, a stat table,
+// a prose sentence, and the hero banner's label — and the bank grew from 296 to
+// 350 without any of them moving. Nothing failed, because nothing was checking.
+// The fact-pattern figures drifted further: 38-of-11 became 62-of-15 while the
+// prose still said 38. Each number is derived here and matched literally, so the
+// next content change fails the gate rather than quietly ageing the front page.
+const readme = readFileSync("README.md", "utf8");
+// The loader resolves `scenarioId` into the scenario itself, so the grouping
+// key on a loaded question is `scenario.id`, not the raw field.
+const inPatterns = QS.filter((q) => q.scenario).length;
+const patterns = new Set(QS.filter((q) => q.scenario).map((q) => q.scenario!.id)).size;
+const standalone = QS.length - inPatterns;
+const readmeClaims: [string, string][] = [
+  [`badge/${QS.length}-original_questions`, "the shields.io count badge"],
+  [`| **${QS.length}** |`, "the stat table"],
+  [`**${QS.length} original questions**`, "the track description"],
+  [`**${inPatterns}** hang off **${patterns} multi-question fact patterns**`, "the fact-pattern sentence"],
+  [`The remaining ${standalone} are standalone items`, "the standalone count"],
+];
+for (const [needle, where] of readmeClaims) {
+  if (!readme.includes(needle)) {
+    fail(`README.md is stale in ${where} — expected to find "${needle}"`);
+  }
+}
+
+// The hero banner states the count twice: once as visible text and once in the
+// <desc> a screen reader gets. Both have to move together.
+const banner = readFileSync("public/brand/agp-hero-banner.svg", "utf8");
+for (const needle of [`${QS.length} ORIGINAL SCENARIOS`, `${QS.length} original scenarios.`]) {
+  if (!banner.includes(needle)) {
+    fail(`public/brand/agp-hero-banner.svg is stale — expected "${needle}"`);
+  }
 }
 
 /* -------------------------------------------------- metadata integrity -- */

@@ -11,7 +11,7 @@ AI governance principles into practical action.
 
 [![Try the live app](https://img.shields.io/badge/Try_the_live_app-1a2332?style=for-the-badge&logoColor=white)](https://thankcheeses.github.io/ai-governance-practice/)
 &nbsp;
-![296 original questions](https://img.shields.io/badge/296-original_questions-6b7fd7?style=for-the-badge)
+![350 original questions](https://img.shields.io/badge/350-original_questions-6b7fd7?style=for-the-badge)
 &nbsp;
 ![No account required](https://img.shields.io/badge/no_account-required-4a9d7f?style=for-the-badge)
 
@@ -30,7 +30,7 @@ thinking that carries into real governance work.
 
 |  |  |  |
 | :---: | :---: | :---: |
-| **296** | **4** | **0** |
+| **350** | **4** | **0** |
 | original questions | governance passes | accounts required to start |
 
 ---
@@ -71,7 +71,7 @@ without signing up.
 
 ## What you can explore
 
-The current track contains **296 original questions** across four areas:
+The current track contains **350 original questions** across four areas:
 
 | Track | What it gives you |
 | --- | --- |
@@ -80,9 +80,9 @@ The current track contains **296 original questions** across four areas:
 | **Governing AI Development** | Design choices, evaluation, controls, and risk reduction. |
 | **Governing AI Deployment and Use** | Oversight, transparency, incidents, monitoring, and impact. |
 
-Thirty-eight of those questions hang off **11 multi-question fact patterns** —
+Of those, **62** hang off **15 multi-question fact patterns** —
 one organisation, one system, one set of competing pressures, interrogated from
-several angles. The remaining 258 are standalone items written in the same
+several angles. The remaining 288 are standalone items written in the same
 situational style. "Scenario-based" describes how the questions read; the
 fact-pattern count is the smaller, separate number.
 
