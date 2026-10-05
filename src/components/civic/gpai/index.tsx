@@ -70,7 +70,7 @@ export function PreLaunchGate({ variant, className }: GpaiModuleProps) {
       stages={PRE_LAUNCH_STAGES}
       variant={variant}
       className={className}
-      diagram={<GateRail labels={PRE_LAUNCH_STAGES.map((s) => s.name)} />}
+      diagram={() => <GateRail labels={PRE_LAUNCH_STAGES.map((s) => s.name)} />}
     />
   );
 }
@@ -108,7 +108,14 @@ export function OversightLevelComparison({ variant, className }: GpaiModuleProps
       stages={OVERSIGHT_STAGES}
       variant={variant}
       className={className}
-      diagram={<LevelLadder labels={OVERSIGHT_STAGES.map((s) => s.name)} />}
+      diagram={({ active, select }) => (
+        <LevelLadder
+          labels={OVERSIGHT_STAGES.map((s) => s.name)}
+          active={active}
+          onSelect={select}
+          groupLabel="Oversight levels"
+        />
+      )}
     />
   );
 }
@@ -156,12 +163,15 @@ export function WhoIsAccountable({ variant, className }: GpaiModuleProps) {
       stages={ACCOUNTABILITY_STAGES}
       variant={variant}
       className={className}
-      diagram={
+      diagram={({ active, select }) => (
         <RoleGraph
           centre="Owner"
           around={["Sponsor", "Risk", "Legal", "Operations"]}
+          active={active}
+          onSelect={select}
+          groupLabel="Accountable roles"
         />
-      }
+      )}
     />
   );
 }
@@ -209,7 +219,14 @@ export function MonitoringThatActuallyWorks({ variant, className }: GpaiModulePr
       stages={MONITORING_STAGES}
       variant={variant}
       className={className}
-      diagram={<LoopRing labels={MONITORING_STAGES.map((s) => s.name)} />}
+      diagram={({ active, select }) => (
+        <LoopRing
+          labels={MONITORING_STAGES.map((s) => s.name)}
+          active={active}
+          onSelect={select}
+          groupLabel="Monitoring loop stages"
+        />
+      )}
     />
   );
 }
@@ -252,7 +269,14 @@ export function ScenarioDecisionFrame({ variant, className }: GpaiModuleProps) {
       stages={DECISION_STAGES}
       variant={variant}
       className={className}
-      diagram={<NarrowingStack labels={DECISION_STAGES.map((s) => s.name)} />}
+      diagram={({ active, select }) => (
+        <NarrowingStack
+          labels={DECISION_STAGES.map((s) => s.name)}
+          active={active}
+          onSelect={select}
+          groupLabel="Reading passes"
+        />
+      )}
     />
   );
 }
