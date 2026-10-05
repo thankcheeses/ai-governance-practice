@@ -26,8 +26,10 @@ import {
   overallAccuracy,
   todaySummary,
 } from "@/lib/adaptive";
+import { DOMAIN_NAMES, domainVisual } from "@/lib/domain-visual";
 import { dueCount } from "@/lib/spaced-repetition";
 import { effectiveStreak, useProgress } from "@/lib/store/progress-provider";
+import { cn } from "@/lib/utils";
 
 export default function HomePage() {
   return (
@@ -102,15 +104,72 @@ function Home() {
                 <span aria-hidden className="mx-2 text-border-strong">·</span>
                 {isNew ? "About 12 minutes" : `${today.goal} questions today`}
               </p>
-              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <div className="mt-6">
                 <Button asChild size="lg">
                   <Link href={weakest ? "/study/session?focus=weak&count=10" : "/study"}>
                     Continue practicing
                   </Link>
                 </Button>
-                <Link href="/study" className="text-[0.9375rem]">
-                  Choose another focus
-                </Link>
+              </div>
+
+              {/*
+                "Choose another focus" was a bare link to /study, which made
+                picking a different domain a two-step trip: read the card, open
+                the study page, find the domain grid, choose. The alternatives
+                are four fixed things, so they are offered here as the controls
+                they always were.
+
+                The current focus stays in the row rather than being filtered
+                out. Removing it would shuffle the remaining buttons every time
+                the weakest domain changed, so the position of a given domain
+                would never be learnable; it is marked instead.
+              */}
+              <div className="mt-5">
+                <p
+                  id="other-focus-label"
+                  className="mb-2.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground"
+                >
+                  Or focus somewhere else
+                </p>
+                <div
+                  role="group"
+                  aria-labelledby="other-focus-label"
+                  className="flex flex-wrap gap-2"
+                >
+                  {DOMAIN_NAMES.map((domain) => {
+                    const visual = domainVisual(domain);
+                    const current = weakest?.domain === domain;
+                    return (
+                      <Button
+                        key={domain}
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className={cn(current && "border-accent bg-accent-tint text-foreground")}
+                      >
+                        <Link
+                          href={`/study/session?domain=${encodeURIComponent(domain)}&count=10`}
+                          aria-current={current ? "true" : undefined}
+                          /* The full name is the accessible name; the button shows the short one. */
+                          aria-label={current ? `${domain} — current focus` : domain}
+                        >
+                          <span aria-hidden className="mr-1.5 text-[0.6875rem] text-muted-foreground">
+                            {visual.roman}
+                          </span>
+                          {visual.short}
+                        </Link>
+                      </Button>
+                    );
+                  })}
+                  <Button asChild variant="outline" size="sm">
+                    <Link href="/study/session?count=10" aria-label="Mixed practice across every domain">
+                      Mixed
+                    </Link>
+                  </Button>
+                </div>
+                <p className="mt-2.5 text-[0.875rem]">
+                  <Link href="/study">All study options</Link>
+                </p>
               </div>
             </div>
             <div className="rounded-lg border border-border bg-background/60 p-5">
