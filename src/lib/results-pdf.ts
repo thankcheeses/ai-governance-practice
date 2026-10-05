@@ -12,7 +12,7 @@ import {
   wrapText,
 } from "./pdf/canvas";
 import { documentBytes } from "./pdf/document";
-import { drawFigure, drawGradeStamp } from "./pdf/figures";
+import { drawGradeStamp } from "./pdf/figures";
 import { GRADE_BANDS, type Readiness, assessReadiness, gradeFor } from "./readiness";
 import {
   type CompletedResult,
@@ -382,14 +382,17 @@ function drawHeader(report: Report, result: CompletedResult, now: Date): void {
 }
 
 /**
- * The hero: the grade written in marker on the left, the honest one-liner in
- * the middle, the illustration on the right.
+ * The hero: the grade written in marker on the left, the honest one-liner
+ * running out to the card's right edge.
+ *
+ * There was a cartoon figure in that right-hand space, keyed to the readiness
+ * state. It is gone with the rest of the artwork, and the verdict took the
+ * room rather than the card keeping a hole where a mascot used to be.
  */
 function drawGradeBlock(
   report: Report,
   score: SittingScore,
   readiness: Readiness,
-  seed: string,
 ): void {
   const top = report.y + 10;
   /*
@@ -424,7 +427,16 @@ function drawGradeBlock(
   });
 
   const midX = MARGIN + 140;
-  const midW = CONTENT_W - 140 - 120;
+  /*
+    The headline runs to the card's edge now.
+
+    120pt on the right was reserved for a cartoon figure that annotated the
+    verdict — on a flawless sitting it drew a character captioned "GO STUDY".
+    The artwork is gone, and rather than leave a hole the text takes the space:
+    a readiness verdict is three or four lines of prose and it was wrapping
+    narrower than it needed to.
+  */
+  const midW = CONTENT_W - 140 - 24;
   let y = top + 30;
   if (graded) {
     const headline = pct(score.percentage);
@@ -480,7 +492,6 @@ function drawGradeBlock(
     { font: "sansItalic", size: 7.5, color: MUTED },
   );
 
-  drawFigure(report.c, readiness.state, MARGIN + CONTENT_W - 96, top + 26, 72, INK, seed);
   report.y = top + H;
 }
 
@@ -626,9 +637,14 @@ function drawWhatToReview(
   const weak = weakestSubdomains(score);
   if (!weak.length || readiness.state === "noEvidence") {
     report.paragraph(
-      "There is not enough data in this sitting to single out a weakest " +
-        "competency. Answer more questions across more domains and this " +
-        "section will name specific areas rather than staying silent.",
+      readiness.flawless
+        ? "Nothing in this sitting needs review - every question was answered " +
+            "correctly, so no competency is listed here. The way to make this " +
+            "section informative again is to widen the material, not to " +
+            "revisit it."
+        : "There is not enough data in this sitting to single out a weakest " +
+            "competency. Answer more questions across more domains and this " +
+            "section will name specific areas rather than staying silent.",
       { color: MUTED },
     );
     return;
@@ -795,19 +811,29 @@ function drawMissed(report: Report, result: CompletedResult, score: SittingScore
       }
       report.c.text(line, x, report.y, { font: "sans", size: 8.5, color: INK });
     });
-    report.need(11);
-    report.y += 11;
-    report.c.text(
-      truncate(
-        toAscii(`${question.bokSubdomain} - ${question.keyTakeaway}`),
-        "sansItalic",
-        7.5,
-        w,
-      ),
-      x,
-      report.y,
-      { font: "sansItalic", size: 7.5, color: MUTED },
-    );
+    /*
+      Wrapped, not truncated.
+
+      The stem directly above has always wrapped; the takeaway was cut to a
+      single line of the same width, so nearly every row in the report ended
+      mid-word — "You cannot assess risk against a use case nobody has
+      writt...". That is the one part of the report a learner reads away from
+      the screen, and it was the only part that could not be finished.
+
+      Nothing about the column forced it: the stem proves the width holds more
+      than one line. The cost is a slightly longer report on a bad sitting,
+      which is the right trade for advice that ends in a full stop.
+    */
+    wrapText(
+      toAscii(`${question.bokSubdomain} - ${question.keyTakeaway}`),
+      "sansItalic",
+      7.5,
+      w,
+    ).forEach((line, j) => {
+      report.need(11);
+      report.y += j === 0 ? 11 : 10;
+      report.c.text(line, x, report.y, { font: "sansItalic", size: 7.5, color: MUTED });
+    });
   }
 }
 
@@ -938,7 +964,7 @@ export function resultReportPages(
   // can never run long enough to push it onto page two.
   const report = new Report(disclosureLayout().height + 20);
   drawHeader(report, result, now);
-  drawGradeBlock(report, score, readiness, result.sittingId);
+  drawGradeBlock(report, score, readiness);
   drawOverview(report, result, score, readiness);
   drawDomains(report, score);
   drawReadiness(report, readiness);

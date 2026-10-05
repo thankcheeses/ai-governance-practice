@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { FlorkArt } from "@/components/app/flork-art";
 import { FlawlessBanner } from "@/components/results/flawless-banner";
 import { ResultActions } from "@/components/results/result-actions";
 import { Button } from "@/components/ui/button";
@@ -14,7 +13,6 @@ import {
   scoreSitting,
   weakestSubdomains,
 } from "@/lib/results";
-import { florkForScore } from "@/lib/flork";
 import { cn } from "@/lib/utils";
 
 
@@ -31,8 +29,12 @@ export function SessionComplete({
   return (
     <div className="mx-auto max-w-3xl pb-16">
       <header className="mb-6 text-center">
-        <div className="mb-5 flex items-center justify-center gap-4">
-          <FlorkArt name={florkForScore(score.percentage)} size="lg" />
+        {/*
+          The score dial, alone. A score-banded cartoon used to sit beside it,
+          which meant the most prominent thing on the screen commented on the
+          number instead of being it.
+        */}
+        <div className="mb-5 flex items-center justify-center">
           <div className="flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
             <span className="text-2xl font-semibold tabular-nums text-primary">
               {score.percentage}%

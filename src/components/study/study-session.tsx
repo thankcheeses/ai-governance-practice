@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { FlorkArt } from "@/components/app/flork-art";
 import { domainOf } from "@/content/bok";
 import { track } from "@/lib/telemetry";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
@@ -278,19 +277,16 @@ export function StudySession({
   if (!question) {
     return (
       /*
-        The illustration, because this is an empty state and empty states carry
-        one — /dashboard and /review both do, and all three now carry the same
-        kind. It used to be the brand mark. The mark identifies the product and
-        already sits in the chrome on every screen, so repeating it here spent
-        the most expressive slot on the page saying something the header had
-        already said; an empty state's job is to be warm and to get the learner
-        moving. This one is page-level rather than inside a Card, so it keeps
-        its own heading scale and gains only the illustration and the centring
-        that positions it.
+        Typographic, with no illustration.
+
+        This carried a meme image, and before that the brand mark. Neither
+        earned the slot: the mark restated a header the learner could already
+        see, and the image set a register the rest of the product does not
+        use. An empty state has one job — say what happened and offer the next
+        move — and it does that in words.
       */
       <div className="flex flex-col items-center py-16 text-center">
-        <FlorkArt name="confused" size="xl" />
-        <h1 className="mt-5 text-[2rem] leading-[1.15] sm:text-[2.25rem]">
+        <h1 className="text-[2rem] leading-[1.15] sm:text-[2.25rem]">
           Nothing to study here
         </h1>
         <p className="mt-2 text-muted-foreground">

@@ -249,14 +249,28 @@ export function flawlessTally(score: SittingScore): string {
 /* Study guidance                                                      */
 /* ------------------------------------------------------------------ */
 
-/** The weakest sub-domains with enough questions to say anything about. */
+/**
+ * The weakest sub-domains with enough questions to say anything about.
+ *
+ * A competency answered perfectly is not weak, and that needs saying because
+ * the obvious implementation gets it wrong: sorting by accuracy and taking
+ * three returns three slices whatever they contain. On a flawless sitting the
+ * results screen therefore headed "Where to study next" with three 100%
+ * competencies, and the report's "Recommended next steps" opened "Review the
+ * weakest competencies first" and named them — advice that is not merely
+ * useless but visibly wrong to the one learner who earned it.
+ *
+ * So anything fully correct is excluded outright. The list is allowed to come
+ * back short, or empty; callers already handle an empty list, and saying
+ * nothing is the honest output when there is nothing to review.
+ */
 export function weakestSubdomains(
   score: SittingScore,
   limit = 3,
   minimum = 2,
 ): ResultSlice[] {
   return score.bySubdomain
-    .filter((s) => s.total >= minimum)
+    .filter((s) => s.total >= minimum && s.accuracy < 100)
     .sort((a, b) => a.accuracy - b.accuracy)
     .slice(0, limit);
 }

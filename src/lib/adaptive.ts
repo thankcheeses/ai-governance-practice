@@ -185,6 +185,17 @@ export interface SelectionOptions {
    * the jitter falls back to Math.random.
    */
   seed?: number;
+  /**
+   * Turns off difficulty weighting entirely.
+   *
+   * Adaptive targeting is right for practice, where the point is to meet the
+   * learner where they are. It is wrong for an exam, which should sample the
+   * bank rather than aim at a level — and catastrophically wrong when the
+   * caller supplies a blank history, because `targetDifficulty` reads that as
+   * "foundational" and the difficulty term then outranks the jitter by enough
+   * to sort the pool into strict tiers.
+   */
+  ignoreDifficulty?: boolean;
 }
 
 /**
@@ -224,6 +235,7 @@ export function selectQuestions(
 
   const weak = new Set(weakDomains(progress, trackId).map((d) => d.domain));
   const target = DIFFICULTY_RANK[targetDifficulty(progress.attempts)];
+  const weighDifficulty = !options.ignoreDifficulty;
 
   // Seeded when the caller supplies one, so the same session can be rebuilt.
   const jitter = seededJitter(options.seed);
@@ -238,8 +250,20 @@ export function selectQuestions(
 
     if (weak.has(question.domain)) score += 18;
 
-    const gap = Math.abs(DIFFICULTY_RANK[question.difficulty] - target);
-    score += Math.max(0, 15 - gap * 7);
+    if (weighDifficulty) {
+      /*
+        Worth stating the magnitudes, because they are the whole bug.
+
+        This term is +15 / +8 / +1 as the gap widens, a 14-point spread, while
+        the jitter above spans 0-6. The tiers therefore cannot interleave: a
+        question one tier from the target can never outscore one at the target,
+        whatever the jitter does. That is the intended behaviour for an
+        adaptive practice session and it is why an exam has to opt out rather
+        than rely on randomness to mix the tiers.
+      */
+      const gap = Math.abs(DIFFICULTY_RANK[question.difficulty] - target);
+      score += Math.max(0, 15 - gap * 7);
+    }
 
     return { question, score };
   });
@@ -257,11 +281,31 @@ export function selectQuestions(
 function seededJitter(seed?: number): (questionId: string) => number {
   if (seed === undefined) return () => Math.random();
   return (questionId) => {
-    let h = seed >>> 0;
+    let h = (2166136261 ^ seed) >>> 0;
     for (let i = 0; i < questionId.length; i++) {
       h ^= questionId.charCodeAt(i);
       h = Math.imul(h, 16777619) >>> 0;
     }
+    /*
+      The avalanche step, and it is not a flourish.
+
+      Question ids are sequential and were authored in batches, so ids that sit
+      near each other in the bank tend to share a domain. FNV alone does not
+      avalanche: close inputs produced close outputs, the ordering kept that
+      structure, and whole id ranges rose or fell together. Measured over 300
+      seeds on a 50-question exam, every domain's *mean* was correct while its
+      *minimum* was zero — seed 83 dealt no Domain IV question at all, which
+      under a fair draw is about a 4-in-10-million event.
+
+      This is murmur3's finalizer, which exists for exactly this: scattering
+      the bits so neighbouring ids land nowhere near each other. Still a pure
+      function of seed and id, so a refresh rebuilds the same sitting.
+    */
+    h ^= h >>> 16;
+    h = Math.imul(h, 2246822507) >>> 0;
+    h ^= h >>> 13;
+    h = Math.imul(h, 3266489909) >>> 0;
+    h ^= h >>> 16;
     return (h >>> 8) / 0x1000000;
   };
 }

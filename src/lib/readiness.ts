@@ -1,5 +1,5 @@
 import { getTrackQuestions } from "@/content/registry";
-import type { SittingScore } from "./results";
+import { isFlawless, type SittingScore } from "./results";
 
 /**
  * Turns a scored sitting into a practice grade and a readiness statement.
@@ -107,6 +107,14 @@ export interface Readiness {
   coverage: number;
   /** How many of the four domains this sitting touched at all. */
   domainsTouched: number;
+  /**
+   * Every question answered and every one right.
+   *
+   * Carried here so the report's advice can tell "nothing was missed" apart
+   * from "not enough data", which otherwise produce the same empty list and
+   * so produced the same — wrong — sentence.
+   */
+  flawless: boolean;
   /** One line under the grade. Never a prediction. */
   headline: string;
   /** Three to five sentences saying what the numbers do and do not support. */
@@ -196,6 +204,18 @@ function stepsFor(state: ReadinessState, weakLabels: string[], r: Omit<Readiness
 
   if (weakLabels.length) {
     steps.push(`Review the weakest competencies first: ${weakLabels.join("; ")}.`);
+  } else if (r.flawless) {
+    /*
+      A flawless sitting used to be told to review its weakest competencies and
+      then handed three it had answered perfectly. With the mastered ones now
+      excluded the list is simply empty, and an empty list must not fall
+      through to "not enough data" — there was plenty of data, and none of it
+      pointed anywhere.
+    */
+    steps.push(
+      "Nothing in this sitting needs review - every question was answered " +
+        "correctly. Widen the material rather than revisiting it.",
+    );
   } else {
     steps.push(
       "No single competency stands out as weakest in this sitting - there is " +
@@ -203,7 +223,10 @@ function stepsFor(state: ReadinessState, weakLabels: string[], r: Omit<Readiness
     );
   }
 
-  steps.push("Re-read the rationale for every question marked incorrect or unanswered.");
+  // Pointless, and visibly so, when there is nothing in either category.
+  if (!r.flawless) {
+    steps.push("Re-read the rationale for every question marked incorrect or unanswered.");
+  }
 
   if (r.evidence === "thin" || r.evidence === "partial") {
     const seen = Math.round(r.coverage);
@@ -240,6 +263,7 @@ export function assessReadiness(
   const grade = gradeFor(accuracy);
   const state = stateFor(grade, evidence);
   const domainsTouched = score.byDomain.filter((d) => d.total > 0).length;
+  const flawless = isFlawless(score);
 
   const base = {
     state,
@@ -251,6 +275,7 @@ export function assessReadiness(
     bankSize,
     coverage: bankSize > 0 ? (score.total / bankSize) * 100 : 0,
     domainsTouched,
+    flawless,
   };
 
   return {
