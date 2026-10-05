@@ -209,18 +209,41 @@ if (context.includes("four-domain") && domains.size !== 4) {
 /* -- traceability: every sub-domain must have at least one question ----- */
 
 /**
- * AIGP BoK v2.1 exam blueprint, read from the published document. The numbers
- * are the min/max questions the *exam* draws from each competency — not a
- * prescription for a practice bank. They are used here only as a proportional
- * signal, which is meaningful because the bank (82) and the exam (~85) happen
- * to be close in size.
+ * The competency blueprint, parsed out of `bok.ts` rather than restated here.
+ *
+ * It used to be a second copy of the same thirteen ranges, with a comment
+ * claiming "the bank (82) and the exam (~85) happen to be close in size" — the
+ * bank is 350, so that reasoning had been stale for a long while and nothing
+ * caught it, because the copy had no way to disagree with anything. Parsing
+ * the real export means the guard fails if the two ever diverge, since there
+ * is now only one of them.
+ *
+ * These are counts the *exam* draws from each competency, used below only as a
+ * proportional signal. They are not a prescription for a practice bank.
  */
 const BLUEPRINT = [
-  ["I.A", 4, 6], ["I.B", 5, 7], ["I.C", 6, 8],
-  ["II.A", 4, 6], ["II.B", 4, 6], ["II.C", 6, 8], ["II.D", 3, 5],
-  ["III.A", 6, 8], ["III.B", 6, 8], ["III.C", 8, 10],
-  ["IV.A", 6, 8], ["IV.B", 5, 7], ["IV.C", 9, 11],
+  ...(function parseCompetencyBlueprint() {
+    const block = /export const COMPETENCY_BLUEPRINT[^{]*\{([\s\S]*?)\n\};/.exec(bok);
+    if (!block) {
+      errors.push(
+        "COMPETENCY_BLUEPRINT could not be parsed from bok.ts. The guard will not invent the numbers it is meant to be checking.",
+      );
+      return [];
+    }
+    return [...block[1].matchAll(/"([^"]+)":\s*\{\s*min:\s*(\d+),\s*max:\s*(\d+)\s*\}/g)].map(
+      (m) => [m[1], Number(m[2]), Number(m[3])],
+    );
+  })(),
 ];
+
+if (BLUEPRINT.length && BLUEPRINT.length !== 13) {
+  errors.push(
+    `COMPETENCY_BLUEPRINT parsed ${BLUEPRINT.length} competencies; the published blueprint names 13.`,
+  );
+}
+for (const [id, min, max] of BLUEPRINT) {
+  if (min > max) errors.push(`COMPETENCY_BLUEPRINT.${id} has min ${min} above max ${max}.`);
+}
 
 const enrichment = readFileSync(
   join(root, "src/content/tracks/aigp-preparation/enrichment.ts"),
