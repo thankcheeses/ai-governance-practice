@@ -5,10 +5,9 @@ import { BASE_PATH } from "./base-path";
 /**
  * Sound cues.
  *
- * The product has been silent since it shipped, and that is the right default
- * for something people use at a desk at work or on a commute — so this stays
- * off until the learner turns it on, and the preference is the first thing
- * every play consults.
+ * Result cues are enabled for new installs so the feedback is audible without
+ * requiring setup. An explicit local preference of "0" still disables sound.
+ *
  *
  * ## The files
  *
@@ -58,10 +57,8 @@ export type CueName = keyof typeof CUES;
 const STORAGE_KEY = "aigp.sound.enabled";
 
 /**
- * Off unless the learner has explicitly turned it on.
- *
- * Reads as `false` whenever storage is unavailable — a private window, cleared
- * site data, a server render. Silence is the safe failure for a sound.
+ * Enabled by default for new installs. An explicit "0" preference disables
+ * sound. Server rendering and unavailable storage still fail safely to silence.
  */
 export function soundEnabled(): boolean {
   if (typeof window === "undefined") return false;
