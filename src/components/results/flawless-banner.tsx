@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { assessReadiness, type ReadinessState } from "@/lib/readiness";
 import { type SittingScore } from "@/lib/results";
 import { useCueOnce } from "@/lib/use-cue";
@@ -27,6 +27,11 @@ export function FlawlessBanner({ score }: { score: SittingScore }) {
   const readiness = assessReadiness(score);
   const [visible, setVisible] = useState(true);
   const [dismissing, setDismissing] = useState(false);
+  useEffect(() => {
+    const dismiss = () => setDismissing(true);
+    window.addEventListener("aigp:result-action", dismiss);
+    return () => window.removeEventListener("aigp:result-action", dismiss);
+  }, []);
   if (!visible) return null;
   const cue = readiness.state === "insufficient" && readiness.accuracy === 0 ? "oof" : CUE_FOR[readiness.state];
   useCueOnce(cue, true);
