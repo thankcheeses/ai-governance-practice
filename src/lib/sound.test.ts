@@ -5,10 +5,10 @@ import { test } from "node:test";
 import { CUES, play, setSoundEnabled, soundEnabled } from "./sound";
 
 /**
- * Sound stays off unless it was deliberately turned on.
+ * Sound is enabled by default for a new install.
  *
  * The property worth protecting is the silence, not the noise: every path that
- * cannot establish an explicit opt-in has to resolve to off, and no path may
+ * cannot establish a safe audio path must not throw, and an explicit opt-out
  * throw. A results screen that raises because an audio file is missing is a
  * far worse outcome than one that is quiet.
  *
@@ -29,7 +29,7 @@ test("reading, writing and playing never throw without a window", () => {
   assert.equal(soundEnabled(), false);
 });
 
-test("an unset preference reads as off, and only \"1\" turns it on", () => {
+test("an unset preference reads as on, and only \"0\" turns it off", () => {
   const store = new Map<string, string>();
   const fake = {
     localStorage: {
@@ -39,17 +39,17 @@ test("an unset preference reads as off, and only \"1\" turns it on", () => {
   };
   (globalThis as { window?: unknown }).window = fake;
   try {
-    assert.equal(soundEnabled(), false, "unset must read as off");
-
-    setSoundEnabled(true);
-    assert.equal(soundEnabled(), true);
+    assert.equal(soundEnabled(), true, "unset must read as on");
 
     setSoundEnabled(false);
     assert.equal(soundEnabled(), false);
 
-    // A stray value is not an opt-in.
+    setSoundEnabled(true);
+    assert.equal(soundEnabled(), true);
+
+    // A stray value is not an explicit opt-out.
     store.set("aigp.sound.enabled", "true");
-    assert.equal(soundEnabled(), false);
+    assert.equal(soundEnabled(), true);
   } finally {
     delete (globalThis as { window?: unknown }).window;
   }
@@ -71,17 +71,16 @@ test("a storage that throws is silence, not an exception", () => {
   }
 });
 
-test("every declared cue names a real audio file", () => {
-  /*
-    This asserted only the shape of the filename, which is not what its name
-    claims and not what can actually go wrong: a cue whose file is missing or
-    misspelled fails silently by design, so nothing at runtime would ever
-    report it. Checking the file is on disk is the only way that mistake
-    surfaces before a learner turns sound on and hears nothing.
-  */
+test("every declared cue resolves to a local file or an explicit remote audio URL", () => {
   for (const [name, file] of Object.entries(CUES)) {
-    assert.match(file, /^[a-z0-9-]+\.(mp3|m4a|ogg|wav)$/, `${name} has an odd filename`);
+    if (/^https?:\\/\\//.test(file)) {
+      assert.match(file, /^https:\\/\\//, name + " has a non-HTTPS remote audio URL");
+      assert.match(file, /\\.mp3(?:$|[?#])/, name + " has a remote URL that is not an MP3");
+      continue;
+    }
+
+    assert.match(file, /^[a-z0-9-]+\\.(mp3|m4a|ogg|wav)$/, name + " has an odd local filename");
     const onDisk = join(process.cwd(), "public", "sounds", file);
-    assert.ok(existsSync(onDisk), `cue "${name}" names ${file}, which is not in public/sounds/`);
+    assert.ok(existsSync(onDisk), 'cue "' + name + '" names ' + file + ', which is not in public/sounds/');
   }
 });
