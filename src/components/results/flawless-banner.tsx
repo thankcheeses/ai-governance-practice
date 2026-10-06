@@ -24,7 +24,7 @@ const CUE_FOR: Record<ReadinessState, "oof" | "womp" | "keepGoing" | "yay"> = {
 
 export function FlawlessBanner({ score }: { score: SittingScore }) {
   const readiness = assessReadiness(score);
-  const cue = CUE_FOR[readiness.state];
+  const cue = readiness.state === "insufficient" && readiness.accuracy === 0 ? "oof" : CUE_FOR[readiness.state];
   useCueOnce(cue, true);
 
   return (
