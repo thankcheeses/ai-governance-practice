@@ -73,13 +73,13 @@ test("a storage that throws is silence, not an exception", () => {
 
 test("every declared cue resolves to a local file or an explicit remote audio URL", () => {
   for (const [name, file] of Object.entries(CUES)) {
-    if (/^https?:\\/\\//.test(file)) {
-      assert.match(file, /^https:\\/\\//, name + " has a non-HTTPS remote audio URL");
-      assert.match(file, /\\.mp3(?:$|[?#])/, name + " has a remote URL that is not an MP3");
+    if (/^https?:\/\//.test(file)) {
+      assert.match(file, /^https:\/\//, name + " has a non-HTTPS remote audio URL");
+      assert.match(file, /\.mp3(?:$|[?#])/, name + " has a remote URL that is not an MP3");
       continue;
     }
 
-    assert.match(file, /^[a-z0-9-]+\\.(mp3|m4a|ogg|wav)$/, name + " has an odd local filename");
+    assert.match(file, /^[a-z0-9-]+\.(mp3|m4a|ogg|wav)$/, name + " has an odd local filename");
     const onDisk = join(process.cwd(), "public", "sounds", file);
     assert.ok(existsSync(onDisk), 'cue "' + name + '" names ' + file + ', which is not in public/sounds/');
   }
