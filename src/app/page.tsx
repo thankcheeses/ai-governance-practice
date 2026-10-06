@@ -11,6 +11,7 @@ import { SUBDOMAINS } from "@/content/bok";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { withBasePath } from "@/lib/base-path";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 /**
  * The landing page.
@@ -44,6 +45,9 @@ export default function RootPage() {
   const available = questions.length;
   const domains = new Set(questions.map((q) => q.domain)).size;
   const subdomains = Object.keys(SUBDOMAINS).length;
+  const scenarioQuestions = questions.filter((q) => q.scenario);
+  const factPatterns = new Set(scenarioQuestions.map((q) => q.scenario!.id)).size;
+  const standaloneQuestions = available - scenarioQuestions.length;
   const optionNotes = questions.reduce(
     (n, q) => n + Object.keys(q.distractorNotes ?? {}).length,
     0,
@@ -89,8 +93,7 @@ export default function RootPage() {
             not the definition.
           </h1>
           <p className="mt-5 text-[1.0625rem] leading-relaxed text-muted-foreground">
-            {available} original scenarios put you inside a governance decision
-            and ask what you would do. Then every option is explained — including
+            {available} original questions, including {scenarioQuestions.length} questions across {factPatterns} multi-question fact patterns, put you inside a governance decision and ask what you would do. Then every option is explained — including
             the {optionNotes.toLocaleString()} wrong ones, and why each was
             tempting.
           </p>
@@ -177,7 +180,7 @@ export default function RootPage() {
               [`${domains}`, "governance domains"],
               [`${subdomains}`, "sub-domains covered"],
               [optionNotes.toLocaleString(), "wrong options explained"],
-            ].map(([value, label]) => (
+            ].slice(0, 4).map(([value, label]) => (
               <div key={label}>
                 <dt className="font-serif text-[2rem] leading-none tabular-nums">
                   {value}
