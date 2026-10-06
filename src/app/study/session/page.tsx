@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
 import { resumeActiveSession } from "@/lib/active-session";
@@ -39,18 +39,27 @@ function Session() {
   const { progress } = useProgress();
 
   /*
-   * The session seed drives both the question order and every option shuffle.
-   * It is written into the URL so a refresh reproduces the same sitting rather
-   * than dealing a new one — the same reason it is fixed for the session's
-   * lifetime instead of regenerated on render.
+   * An explicit seed is useful for deterministic QA links. Otherwise the seed
+   * belongs to this browser session, not the URL: sessionStorage survives a
+   * refresh but is cleared when the browser session ends. That gives the
+   * learner a stable sitting while they are actively studying, then a fresh
+   * question order the next time they reopen the browser.
    */
-  const [seed] = useState(() => parseSeed(params.get("seed")) ?? newSeed());
-  useEffect(() => {
-    if (params.get("seed")) return;
-    const next = new URLSearchParams(params.toString());
-    next.set("seed", String(seed));
-    router.replace(`?${next.toString()}`, { scroll: false });
-  }, [params, router, seed]);
+  const [seed] = useState(() => {
+    const explicit = parseSeed(params.get("seed"));
+    if (explicit !== undefined) return explicit;
+    if (typeof window === "undefined") return newSeed();
+    try {
+      const key = "aigp.practice.browser-seed";
+      const stored = Number(window.sessionStorage.getItem(key));
+      if (Number.isFinite(stored) && stored > 0) return stored;
+      const next = newSeed();
+      window.sessionStorage.setItem(key, String(next));
+      return next;
+    } catch {
+      return newSeed();
+    }
+  });
 
   const domainParam = params.get("domain");
   const focusParam = params.get("focus");
