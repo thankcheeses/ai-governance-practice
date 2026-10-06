@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/og-card.png" alt="AI Governance Practice — practice the judgment, not the vocabulary. Free, no account. 350 original scenarios, every wrong option explained, timed exam mode and spaced repetition." width="100%" />
+<img src="public/og-card.png" alt="AI Governance Practice — practice the judgment, not the vocabulary. Free, no account. 350 original questions, 62 questions across 15 fact patterns, every wrong option explained, timed exam mode and spaced repetition." width="100%" />
 
 # AI Governance Practice
 
