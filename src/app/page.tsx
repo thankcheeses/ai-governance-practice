@@ -47,7 +47,6 @@ export default function RootPage() {
   const subdomains = Object.keys(SUBDOMAINS).length;
   const scenarioQuestions = questions.filter((q) => q.scenario);
   const factPatterns = new Set(scenarioQuestions.map((q) => q.scenario!.id)).size;
-  const standaloneQuestions = available - scenarioQuestions.length;
   const optionNotes = questions.reduce(
     (n, q) => n + Object.keys(q.distractorNotes ?? {}).length,
     0,
@@ -176,11 +175,11 @@ export default function RootPage() {
         <section className="mt-16 border-y border-border py-7">
           <dl className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-4">
             {[
-              [available.toLocaleString(), "original scenarios"],
+              [available.toLocaleString(), "original questions"],
               [`${domains}`, "governance domains"],
               [`${subdomains}`, "sub-domains covered"],
               [optionNotes.toLocaleString(), "wrong options explained"],
-            ].slice(0, 4).map(([value, label]) => (
+            ].map(([value, label]) => (
               <div key={label}>
                 <dt className="font-serif text-[2rem] leading-none tabular-nums">
                   {value}
