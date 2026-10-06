@@ -23,7 +23,8 @@ const THEMES: { value: Theme; label: string }[] = [
   { value: "system", label: "System" },
 ];
 
-const GOALS = [5, 10, 20, 30];
+const DAILY_GOAL_MIN = 5;
+const DAILY_GOAL_MAX = 50;
 
 export default function SettingsPage() {
   return (
@@ -48,7 +49,12 @@ function Settings() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [dailyGoalDraft, setDailyGoalDraft] = useState(String(progress.dailyGoal));
   const track = getTrack(progress.trackId);
+
+  useEffect(() => {
+    setDailyGoalDraft(String(progress.dailyGoal));
+  }, [progress.dailyGoal]);
 
   return (
     <div className="space-y-7">
@@ -85,43 +91,66 @@ function Settings() {
       <Section title="Study">
         <div>
           <p className="measure mb-2.5 text-sm text-muted-foreground">
-            Daily goal — scenarios per day
+            Daily goal — questions per day
           </p>
-          <div className="grid grid-cols-4 gap-2">
-            {GOALS.map((goal) => (
-              <button
-                key={goal}
-                type="button"
-                onClick={() => setDailyGoal(goal)}
-                aria-pressed={progress.dailyGoal === goal}
-                className={cn(
-                  "min-h-11 rounded-md border bg-card py-2.5 text-sm tabular-nums transition-colors",
-                  progress.dailyGoal === goal
-                    ? "border-accent bg-accent-tint font-semibold text-accent-foreground ring-1 ring-inset ring-accent"
-                    : "border-border text-muted-foreground hover:bg-secondary",
-                )}
-              >
-                {goal}
-              </button>
-            ))}
-          </div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <input
+                type="range"
+                min={DAILY_GOAL_MIN}
+                max={DAILY_GOAL_MAX}
+                step={1}
+                value={progress.dailyGoal}
+                onChange={(e) => {
+                  const next = Number(e.target.value);
+                  setDailyGoal(next);
+                  setDailyGoalDraft(String(next));
+                }}
+                aria-label="Daily goal — questions per day"
+                className="min-w-0 flex-1 accent-accent"
+              />
+              <span className="w-16 text-right text-sm tabular-nums text-muted-foreground">
+                {DAILY_GOAL_MIN}–{DAILY_GOAL_MAX}
+              </span>
+            </div>
 
-          <label className="mt-3 flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">Or set your own</span>
-            <input
-              type="number"
-              inputMode="numeric"
-              min={1}
-              step={1}
-              value={progress.dailyGoal}
-              onChange={(e) => {
-                const next = Number(e.target.value);
-                if (Number.isFinite(next) && next >= 1) setDailyGoal(next);
-              }}
-              aria-label="Daily goal — scenarios per day"
-              className="h-11 w-24 rounded-md border border-input bg-card px-3 text-sm tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            />
-          </label>
+            <label className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">Questions</span>
+              <input
+                type="number"
+                inputMode="numeric"
+                min={DAILY_GOAL_MIN}
+                max={DAILY_GOAL_MAX}
+                step={1}
+                value={dailyGoalDraft}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  setDailyGoalDraft(raw);
+                  if (raw === "") return;
+                  const next = Number(raw);
+                  if (Number.isInteger(next) && next >= DAILY_GOAL_MIN && next <= DAILY_GOAL_MAX) {
+                    setDailyGoal(next);
+                  }
+                }}
+                onBlur={() => {
+                  const next = Number(dailyGoalDraft);
+                  if (!dailyGoalDraft || !Number.isInteger(next)) {
+                    setDailyGoalDraft(String(progress.dailyGoal));
+                    return;
+                  }
+                  const clamped = Math.min(DAILY_GOAL_MAX, Math.max(DAILY_GOAL_MIN, next));
+                  setDailyGoal(clamped);
+                  setDailyGoalDraft(String(clamped));
+                }}
+                aria-label="Daily goal — questions per day"
+                placeholder="5"
+                className="h-11 w-24 rounded-md border border-input bg-card px-3 text-sm tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              />
+            </label>
+          </div>
+          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            Choose any whole number from {DAILY_GOAL_MIN} to {DAILY_GOAL_MAX}. 50 is the cap so a daily goal stays useful for practice metrics without turning into a full-bank grind.
+          </p>
         </div>
 
         <Separator className="my-4" />
