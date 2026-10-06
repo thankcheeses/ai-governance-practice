@@ -11,7 +11,6 @@ import { SUBDOMAINS } from "@/content/bok";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { withBasePath } from "@/lib/base-path";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 /**
  * The landing page.
