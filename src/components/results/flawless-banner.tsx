@@ -1,68 +1,45 @@
 "use client";
 
-import { flawlessTally, isFlawless, type SittingScore } from "@/lib/results";
+import { assessReadiness, type ReadinessState } from "@/lib/readiness";
+import { type SittingScore } from "@/lib/results";
 import { useCueOnce } from "@/lib/use-cue";
 
-/**
- * Shown when every question in a sitting was answered and every one was right.
- *
- * It fires at any length — five questions, ten, a hundred — because it states
- * a fact about the sitting rather than a judgment about the learner. That is
- * the whole reason it can sit above the readiness verdict without contradicting
- * it: the verdict is about how much of the bank the sitting covered, and on a
- * perfect five it still reads "early signal only — too little practice to draw
- * a conclusion." Both are true, they answer different questions, and neither
- * is softened to accommodate the other.
- *
- * The wording is therefore a count and nothing else. No "you're ready", no
- * "exam-ready", no grade inflation — `readiness.ts` owns every claim of that
- * kind and this deliberately makes none.
- *
- * The cue plays once per mount. A results screen is reached by submitting,
- * which is the gesture browsers require before audio, and `play` is silent
- * unless the learner turned sound on in Settings.
- */
-export function FlawlessBanner({ score }: { score: SittingScore }) {
-  const flawless = isFlawless(score);
-  // A results screen re-renders as its record settles; the cue is not a
-  // notification, so `useCueOnce` holds it to one play per mount.
-  const resultCue = score.total > 0 && score.unanswered === 0\n    ? score.percentage < 70\n      ? "oof"\n      : score.percentage >= 80\n        ? "yay"\n        : flawless\n          ? "flawless"\n          : null\n    : null;\n  useCueOnce(resultCue ?? "flawless", Boolean(resultCue));
+const MESSAGES: Record<ReadinessState, { title: string; body: string }> = {
+  noEvidence: { title: "Start where you are.", body: "Answer some questions and build your evidence." },
+  earlySignal: { title: "Keep going.", body: "This is an early signal. A short sitting cannot tell you much yet." },
+  insufficient: { title: "Don't get discouraged.", body: "The misses are useful. Practice your weak areas, then try again." },
+  developing: { title: "You're building it.", body: "Good progress. Keep practicing the weak areas and widen your coverage." },
+  mixed: { title: "Good job. Keep going.", body: "You've got a solid base. Clean up the weak areas before you call it done." },
+  encouraging: { title: "Great job!", body: "This is a strong practice result with enough evidence to be encouraging. Keep reviewing your weak areas." },
+};
 
-  if (!flawless) return null;
+const CUE_FOR: Record<ReadinessState, "oof" | "womp" | "keepGoing" | "yay"> = {
+  noEvidence: "keepGoing",
+  earlySignal: "keepGoing",
+  insufficient: "womp",
+  developing: "keepGoing",
+  mixed: "keepGoing",
+  encouraging: "yay",
+};
+
+export function FlawlessBanner({ score }: { score: SittingScore }) {
+  const readiness = assessReadiness(score);
+  const cue = CUE_FOR[readiness.state];
+  useCueOnce(cue, true);
 
   return (
     <section
-      aria-label="Flawless sitting"
-      className="mb-6 overflow-hidden rounded-xl border border-success bg-success-tint shadow-[var(--shadow-card)]"
+      aria-live="polite"
+      aria-label="Practice result encouragement"
+      className="mb-6 overflow-hidden rounded-xl border border-accent/30 bg-accent-tint shadow-[var(--shadow-card)] transition-opacity duration-700 ease-out animate-in fade-in"
     >
-      <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
-        <span
-          aria-hidden
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-success bg-success text-success-foreground"
-        >
-          {/*
-            Drawn here rather than pulled from the icon set, so it matches the
-            correctness glyph the learner saw on every question.
-          */}
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={3}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-5 w-5"
-            aria-hidden
-          >
-            <path d="M5 12.5 10 17.5 19 7" />
-          </svg>
-        </span>
-        <div className="min-w-0">
-          <p className="font-serif text-[1.25rem] leading-snug">Flawless sitting</p>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            {flawlessTally(score)} correct, nothing left blank.
-          </p>
-        </div>
+      <div className="px-5 py-5 sm:px-6 sm:py-6">
+        <p className="font-serif text-[1.5rem] leading-tight sm:text-[1.75rem]">
+          {MESSAGES[readiness.state].title}
+        </p>
+        <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          {MESSAGES[readiness.state].body}
+        </p>
       </div>
     </section>
   );
