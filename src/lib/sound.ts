@@ -46,7 +46,7 @@ export const CUES = {
   /** Keep-going cue for a developing result. */
   keepGoing: "https://www.myinstants.com/media/sounds/anime-wow-sound-effect.mp3",
   /** Gentle failure cue. */
-  womp: "https://www.myinstants.com/media/sounds/womp-womp-womp.mp3",
+  womp: "https://www.myinstants.com/media/sounds/downer_noise.mp3",
   /** An answer was graded right, in practice or review. */
   correct: "answer-correct.mp3",
   /** An answer was graded wrong, in practice or review. */
