@@ -27,14 +27,14 @@ export function FlawlessBanner({ score }: { score: SittingScore }) {
   const readiness = assessReadiness(score);
   const [visible, setVisible] = useState(true);
   const [dismissing, setDismissing] = useState(false);
+  const cue = readiness.state === "insufficient" && readiness.accuracy === 0 ? "oof" : CUE_FOR[readiness.state];
+  useCueOnce(cue, true);
   useEffect(() => {
     const dismiss = () => setDismissing(true);
     window.addEventListener("aigp:result-action", dismiss);
     return () => window.removeEventListener("aigp:result-action", dismiss);
   }, []);
   if (!visible) return null;
-  const cue = readiness.state === "insufficient" && readiness.accuracy === 0 ? "oof" : CUE_FOR[readiness.state];
-  useCueOnce(cue, true);
 
   return (
     <section
