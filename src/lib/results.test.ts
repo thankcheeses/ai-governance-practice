@@ -559,7 +559,7 @@ test("progress bars are drawn geometry, never characters", () => {
   assert.ok(fills.length >= 1, "no bar was filled");
   for (const op of [...tracks, ...fills]) {
     assert.equal(op.kind, "rect", "a bar is not a rectangle");
-    assert.ok(op.kind === "rect" && op.fill, "a bar has no fill colour");
+    assert.ok(op.kind === "rect" && op.fill, "a bar has no fill color");
   }
 });
 
@@ -580,7 +580,7 @@ test("a bar's filled width is proportional to the value it reports", () => {
   );
 });
 
-test("nothing on the report is carried by colour alone", () => {
+test("nothing on the report is carried by color alone", () => {
   // Every bar reinforces a number that is also written out. If a bar were the
   // only carrier of a value, a monochrome printout would lose it.
   const result = practiceResult(4, 92, 12);

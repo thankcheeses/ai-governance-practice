@@ -5,7 +5,7 @@
     "sector": "financial services",
     "body": [
       "Meridian Retail Bank operates in the United States and, through a small subsidiary, in Ireland. Its Credit Products group has built a machine learning model that scores applications for unsecured personal loans. The model does not approve or decline on its own: it returns a score band, and underwriters hold final authority. In practice, underwriters follow the score band in roughly 94% of cases, and the underwriting handbook instructs them to record a written justification only when they depart from it.",
-      "The model was developed in-house on eleven years of the bank's own lending history. The data science team removed race, sex, age and postal code from the feature set before training. Remaining features include debt-to-income ratio, length of credit history, employment tenure, number of recent credit enquiries, and the applicant's device type at the point of application.",
+      "The model was developed in-house on eleven years of the bank's own lending history. The data science team removed race, sex, age and postal code from the feature set before training. Remaining features include debt-to-income ratio, length of credit history, employment tenure, number of recent credit inquiries, and the applicant's device type at the point of application.",
       "The bank has an AI governance committee chaired by the Chief Risk Officer, with standing members from Legal, Compliance, Model Risk Management, Data Science and the first-line business. Model Risk Management runs an independent validation before any model goes live, and owns the model inventory. The Credit Products group owns the business outcome and funds the work.",
       "Pre-deployment validation was completed nine months ago and the model went live shortly after. Validation covered discrimination performance, stability, and a fair-lending review that tested outcome rates across protected classes using proxy inference on the applicant population. No disparity exceeded the bank's internal threshold at that time.",
       "Last month's quarterly monitoring pack showed two things. First, the model's discrimination performance has degraded modestly but remains inside tolerance. Second, and separately, approval rates for applicants in one metropolitan area have fallen 14 percentage points relative to the same quarter last year, while approval rates elsewhere are flat. The area in question has a substantially higher share of one racial group than the national average. Model Risk Management has not yet established whether the shift is driven by the model, by a change in the applicant mix, or by an unrelated change to the bank's marketing spend in that region.",
@@ -45,10 +45,10 @@
     "body": [
       "Calderon Freight employs 18,000 people across warehouse, driving and corporate roles. Talent Acquisition has licensed a résumé-screening product from an external vendor to handle the first pass on warehouse applications, which run to about 40,000 a year. The tool ranks applicants and surfaces the top 20% to a recruiter. Applicants outside the top 20% are not seen by a human unless a recruiter searches for them specifically.",
       "The vendor built and trained the model. Calderon supplied no training data and cannot inspect the model weights or the feature set. The vendor supplies a model card, a summary of an annual third-party bias audit, and an SLA covering uptime and support response. The contract was negotiated by Procurement with input from Legal; the AI governance function was not consulted before signature, because the tool was classified as a recruitment SaaS purchase under the existing vendor policy.",
-      "Calderon configures the tool by uploading a job description and selecting weightings across three sliders labelled 'experience', 'reliability signals' and 'role fit'. What sits behind each slider is not documented beyond a one-paragraph description in the product help centre.",
+      "Calderon configures the tool by uploading a job description and selecting weightings across three sliders labelled 'experience', 'reliability signals' and 'role fit'. What sits behind each slider is not documented beyond a one-paragraph description in the product help center.",
       "Calderon operates in several US states and has a small distribution site in the Netherlands that uses the same tool for warehouse hiring.",
       "Six weeks into use, a recruiter notices that applicants whose résumés show employment gaps of more than four months are almost never surfaced, including several who went on to be hired successfully through referral. Nobody at Calderon configured a rule about employment gaps. The vendor's bias audit summary reports no adverse impact on race or sex, and does not mention employment history.",
-      "Calderon's Chief People Officer wants to expand the tool to driver hiring, where a licence check and a regulated safety record already form part of the process."
+      "Calderon's Chief People Officer wants to expand the tool to driver hiring, where a license check and a regulated safety record already form part of the process."
     ],
     "facts": [
       {
@@ -86,11 +86,11 @@
     "title": "Generative assistant for a municipal benefits agency",
     "sector": "government / public sector",
     "body": [
-      "The Department of Housing Support for a city of 900,000 residents administers rental assistance. Caseworkers field about 3,000 enquiries a week. The department has piloted an assistant built on a commercial large language model, accessed through the provider's API, that answers caseworker questions about programme rules by retrieving from the department's own policy manuals and returning a drafted answer with citations.",
+      "The Department of Housing Support for a city of 900,000 residents administers rental assistance. Caseworkers field about 3,000 inquiries a week. The department has piloted an assistant built on a commercial large language model, accessed through the provider's API, that answers caseworker questions about program rules by retrieving from the department's own policy manuals and returning a drafted answer with citations.",
       "The assistant is used by caseworkers, not by residents. A caseworker reads the drafted answer, checks the cited passage, and then communicates with the resident in their own words. Nothing the assistant produces reaches a resident directly, and it plays no part in deciding eligibility.",
       "The department is the deployer. The model provider is a general-purpose AI provider and offers no commitment on model version stability beyond 90 days' deprecation notice. The retrieval index is built and maintained by the department's own IT team from the current policy manuals, and is rebuilt nightly.",
       "During the pilot the department logged every query and every drafted answer. Review of a 400-item sample found that 6% of drafted answers cited a policy passage that did not support the claim made in the answer, and a further 2% cited a passage that had been superseded by a policy change the index had not yet picked up. In every one of those cases the caseworker caught the problem before speaking to a resident, because checking the citation is a required step.",
-      "The department's records-retention schedule requires that any record forming part of a benefits determination be retained for six years. Enquiry logs currently roll off after 30 days. Legal has raised, but not resolved, whether a drafted answer that a caseworker relied on becomes part of the determination record.",
+      "The department's records-retention schedule requires that any record forming part of a benefits determination be retained for six years. Inquiry logs currently roll off after 30 days. Legal has raised, but not resolved, whether a drafted answer that a caseworker relied on becomes part of the determination record.",
       "The city council has asked for a public statement about how AI is used in the department before the assistant moves from pilot to full deployment."
     ],
     "facts": [
@@ -154,8 +154,8 @@
     "sector": "retail / e-commerce",
     "body": [
       "Vantor operates an online marketplace serving customers in Canada, the United Kingdom and Germany. Its pricing team has deployed a model that adjusts listed prices for its own first-party goods several times a day, using inventory levels, competitor prices, historical demand curves and session-level signals including the customer's approximate location and device.",
-      "Prices are not personalised to an identified individual — every customer in the same location band and device class sees the same price at the same moment. Vantor's public pricing policy says prices 'vary with demand and availability' and does not mention the model.",
-      "Legal has raised that the session-level signals mean two customers in the same city can be shown different prices at the same moment, and that approximate location correlates with income in several of Vantor's markets. The pricing team's position is that the model optimises margin and was never given any protected attribute.",
+      "Prices are not personalized to an identified individual — every customer in the same location band and device class sees the same price at the same moment. Vantor's public pricing policy says prices 'vary with demand and availability' and does not mention the model.",
+      "Legal has raised that the session-level signals mean two customers in the same city can be shown different prices at the same moment, and that approximate location correlates with income in several of Vantor's markets. The pricing team's position is that the model optimizes margin and was never given any protected attribute.",
       "The model is retrained weekly on the previous eight weeks of transactions, including its own prior pricing decisions. No one has assessed whether the retraining loop reinforces its earlier choices."
     ],
     "facts": [
@@ -188,7 +188,7 @@
     "body": [
       "Ardal Power operates regional electricity distribution for about 2.1 million customers. It has run a predictive maintenance model for four years that ranks transformers by failure likelihood; field crews use the ranking to plan inspection routes. That system is well understood, validated annually, and has a documented override rate of about 18%.",
       "Ardal is now piloting an extension: an automated dispatch agent that reads the same ranking, checks crew availability and parts inventory, and issues work orders directly to crew tablets without a planner in the loop. The stated goal is to cut the lag between a ranking update and a crew arriving. A planner can cancel a dispatched order, but orders are issued continuously and no planner reviews them before issue.",
-      "During the eight-week pilot, the agent issued 4,100 work orders. Planners cancelled 61. Of those, 44 were cancelled because the agent had dispatched a crew to a site where another crew was already working — the agent reads inventory and availability from a system that updates every 15 minutes, and the crew management system updates in real time.",
+      "During the eight-week pilot, the agent issued 4,100 work orders. Planners canceled 61. Of those, 44 were canceled because the agent had dispatched a crew to a site where another crew was already working — the agent reads inventory and availability from a system that updates every 15 minutes, and the crew management system updates in real time.",
       "Ardal's regulator requires it to demonstrate that maintenance decisions affecting supply reliability are traceable to an accountable person. Ardal's existing evidence for this is the planner's name on each work order. Under the pilot, work orders carry the agent's identifier.",
       "The engineering lead argues the 61 cancellations out of 4,100 show the agent is performing well. The operations director notes that the 15-minute staleness has a known worst case that has not yet occurred: dispatching a crew to a transformer that another crew has already de-energised for work."
     ],
@@ -203,7 +203,7 @@
       },
       {
         "label": "Pilot volume",
-        "value": "4,100 orders; 61 cancelled; 44 were duplicate dispatches"
+        "value": "4,100 orders; 61 canceled; 44 were duplicate dispatches"
       },
       {
         "label": "Data staleness",
@@ -330,7 +330,7 @@
       "Vantage Components runs three plants making pressed-metal parts. Its newest plant installed a computer-vision system that watches the forming lines and raises an alert when a worker's hand approaches a press while it is cycling, or when a forklift and a pedestrian converge in an aisle. The system was bought and justified entirely as a safety control, and the works council was consulted on that basis.",
       "In its first eight months the system logged 1,240 proximity alerts. Recordable injuries at the plant fell by roughly a third over the same period, though the plant also changed its shift pattern and replaced two of the older presses during the trial.",
       "Alerts are written to a log that names the workstation, the time, and — because the cameras also read the badge readers at each station — the operator on shift. Three line supervisors have begun opening that log before performance conversations, and one has started citing alert counts in written feedback. Nobody decided this; the data was there and the reports were easy to build.",
-      "Operations now wants the system extended to the two older plants, where the ceilings are lower, the lighting is poorer, and camera coverage would be roughly half as dense. The vendor says the model 'generalises well across industrial environments' and has offered a discount for the additional sites."
+      "Operations now wants the system extended to the two older plants, where the ceilings are lower, the lighting is poorer, and camera coverage would be roughly half as dense. The vendor says the model 'generalizes well across industrial environments' and has offered a discount for the additional sites."
     ],
     "facts": [
       {
@@ -357,7 +357,7 @@
   },
   {
     "id": "sc-011",
-    "title": "Synthetic content labelling at a video platform",
+    "title": "Synthetic content labeling at a video platform",
     "sector": "media",
     "body": [
       "Meridian Stream hosts user-uploaded video and also produces its own short news explainers. Six months ago it began using generative tools in three places: synthetic presenters that read scripts on camera and are visually indistinguishable from people, AI-assisted editing that reconstructs missing frames in archive footage, and an automatic dubbing feature that reproduces a speaker's voice in other languages.",
@@ -371,7 +371,7 @@
         "value": "Synthetic presenters, frame reconstruction, voice dubbing"
       },
       {
-        "label": "Labelling rule",
+        "label": "Labeling rule",
         "value": "A detector confidence threshold in product configuration"
       },
       {
@@ -384,7 +384,7 @@
       },
       {
         "label": "External pressure",
-        "value": "A broadcaster wants the labelling process in writing"
+        "value": "A broadcaster wants the labeling process in writing"
       }
     ]
   },
@@ -469,7 +469,7 @@
     "title": "Agentic procurement assistant with spending authority",
     "sector": "corporate operations",
     "body": [
-      "A manufacturer has piloted an assistant that handles low-value indirect purchasing end to end. Given a request, it searches approved catalogues, compares quotes, selects a supplier, raises the purchase order and books the receipt. It acts without a human approval step for orders under $5,000 from suppliers already on the approved list. Above that, or for any supplier not on the list, it prepares the order and stops for a buyer to approve.",
+      "A manufacturer has piloted an assistant that handles low-value indirect purchasing end to end. Given a request, it searches approved catalogs, compares quotes, selects a supplier, raises the purchase order and books the receipt. It acts without a human approval step for orders under $5,000 from suppliers already on the approved list. Above that, or for any supplier not on the list, it prepares the order and stops for a buyer to approve.",
       "The assistant is built on a commercial model accessed through an API, with tools wired to the ERP and the supplier master. The supplier master is maintained by the procurement operations team. The approved-list check reads a flag on the supplier record.",
       "Over the pilot the assistant placed 1,840 orders. An internal audit sample of 200 finds every order within the authority limit and matched to a receipt. It also finds eleven orders placed with a supplier whose approved flag had been set by a request from a mailbox that procurement operations could not later attribute to a named requester. The orders themselves were ordinary office consumables at market prices and no money was lost.",
       "The assistant keeps a full trace of its reasoning for each order for thirty days, after which traces are deleted to control storage cost. The ERP retains the order and receipt records under the normal seven-year schedule. For the eleven orders in question the traces are gone.",

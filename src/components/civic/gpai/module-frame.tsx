@@ -106,10 +106,10 @@ export function GpaiFrame({
       </div>
 
       {/*
-        The diagram takes the slack and centres in it, rather than sitting tight
+        The diagram takes the slack and centers in it, rather than sitting tight
         under the summary with the leftover space dumped above the panel. The
         diagrams differ in height by design — a three-rung ladder is not a
-        five-node ring — so in a two-up grid one card always has slack; centring
+        five-node ring — so in a two-up grid one card always has slack; centering
         spends it as breathing room on both sides instead of one gap, and the
         panels still line up along the bottom edge.
 

@@ -103,7 +103,7 @@ export function OversightLevelComparison({ variant, className }: GpaiModuleProps
   return (
     <GpaiFrame
       title="Levels of human oversight"
-      summary="Three postures, in descending order of human involvement. Choosing one is a judgement about how reversible a wrong outcome is — not about how good the model is."
+      summary="Three postures, in descending order of human involvement. Choosing one is a judgment about how reversible a wrong outcome is — not about how good the model is."
       mark="oversight"
       stages={OVERSIGHT_STAGES}
       variant={variant}
@@ -131,7 +131,7 @@ const ACCOUNTABILITY_STAGES: GpaiStage[] = [
   {
     name: "Owner",
     detail:
-      "Runs it day to day and answers for its behaviour in production. The single name on the gate.",
+      "Runs it day to day and answers for its behavior in production. The single name on the gate.",
   },
   {
     name: "Risk",
@@ -165,7 +165,7 @@ export function WhoIsAccountable({ variant, className }: GpaiModuleProps) {
       className={className}
       diagram={({ active, select }) => (
         <RoleGraph
-          centre="Owner"
+          center="Owner"
           around={["Sponsor", "Risk", "Legal", "Operations"]}
           active={active}
           onSelect={select}
@@ -264,7 +264,7 @@ export function ScenarioDecisionFrame({ variant, className }: GpaiModuleProps) {
   return (
     <GpaiFrame
       title="How to read a governance scenario"
-      summary="Four passes over the same text. Working in this order stops the common failure: recognising a framework and answering from it before establishing what is actually happening."
+      summary="Four passes over the same text. Working in this order stops the common failure: recognizing a framework and answering from it before establishing what is actually happening."
       mark="decision"
       stages={DECISION_STAGES}
       variant={variant}

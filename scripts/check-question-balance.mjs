@@ -183,7 +183,7 @@ for (const [name, count] of Object.entries(domains).sort((a, b) => b[1] - a[1]))
     `  ${known ? " " : "?"} ${name.padEnd(34)} ${String(count).padStart(3)}  ${Math.round((count / questions.length) * 100)}%`,
   );
   if (!known) {
-    failures.push(`BANK: unrecognised domain "${name}" — check for a typo`);
+    failures.push(`BANK: unrecognized domain "${name}" — check for a typo`);
   }
 }
 

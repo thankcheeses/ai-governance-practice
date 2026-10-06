@@ -159,7 +159,7 @@ test("the correct answer's displayed letters follow the shuffle", () => {
 
 /* --------------------------------------------------------- position bias -- */
 
-test("the correct answer does not favour any letter across the bank", () => {
+test("the correct answer does not favor any letter across the bank", () => {
   const counts: Record<string, number> = { A: 0, B: 0, C: 0, D: 0 };
   let total = 0;
   // Ten sessions over every four-option single-select question.

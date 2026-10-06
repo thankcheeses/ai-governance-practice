@@ -1,7 +1,7 @@
 # Sound cues
 
 Audio cues live here. Every file was supplied by the owner and is committed
-exactly as supplied — not re-encoded, not substituted, not synthesised.
+exactly as supplied — not re-encoded, not substituted, not synthesized.
 
 ## What is expected here
 
@@ -35,7 +35,7 @@ and here together.
 Keep cues short (under about two seconds) and quiet. They play on a study
 screen, not in a game.
 
-## Playback behaviour
+## Playback behavior
 
 - **Off by default.** Sound plays only after a learner turns it on in Settings.
   The preference lives in `localStorage` under `aigp.sound.enabled` and is

@@ -6,7 +6,7 @@
  *  - `/settings/terms` and `/settings/privacy` — in-app, inside the shell
  *
  * Every clause describes what the app actually does and is checkable against
- * the code. Change behaviour and this text has to change with it.
+ * the code. Change behavior and this text has to change with it.
  */
 import { BRAND, COMPANY, LEGAL_EFFECTIVE_DATE } from "@/lib/brand";
 
@@ -34,7 +34,7 @@ export const TERMS_SECTIONS: LegalSection[] = [
   },
   {
     heading: "Intellectual property and restrictions",
-    body: `All content available through the service — including questions, scenarios, rationales, explanations, text, software, and related materials — is the intellectual property of ${COMPANY.name} and is protected by applicable copyright and intellectual property laws.\n\nYou may use the content only for your personal, non-commercial educational purposes.\n\nYou may not: copy, reproduce, distribute, or publicly display the content in bulk; scrape, harvest, crawl, or systematically extract the question bank or related materials; use the content to train a machine learning model; sell, license, sublicense, or otherwise commercially exploit the content; create derivative works intended for commercial distribution or resale; or remove, obscure, or alter any copyright or proprietary notices.\n\nUnauthorised commercial use, redistribution, or bulk extraction of the content is strictly prohibited.`,
+    body: `All content available through the service — including questions, scenarios, rationales, explanations, text, software, and related materials — is the intellectual property of ${COMPANY.name} and is protected by applicable copyright and intellectual property laws.\n\nYou may use the content only for your personal, non-commercial educational purposes.\n\nYou may not: copy, reproduce, distribute, or publicly display the content in bulk; scrape, harvest, crawl, or systematically extract the question bank or related materials; use the content to train a machine learning model; sell, license, sublicense, or otherwise commercially exploit the content; create derivative works intended for commercial distribution or resale; or remove, obscure, or alter any copyright or proprietary notices.\n\nUnauthorized commercial use, redistribution, or bulk extraction of the content is strictly prohibited.`,
   },
   {
     heading: "Acceptable use",

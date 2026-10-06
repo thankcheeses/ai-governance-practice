@@ -10,7 +10,7 @@ import type { QuestionEnrichment } from "@/content/types";
  *
  *  - difficulty      classification of the existing item (foundational /
  *                    applied / advanced), based on whether it tests a
- *                    definition, a situated judgement, or a multi-control
+ *                    definition, a situated judgment, or a multi-control
  *                    design decision.
  *  - keyTakeaway     the item's own rationale restated as a portable rule the
  *                    learner can carry to a new situation. Adds no new claim.
@@ -29,7 +29,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "PHI does attract obligations, and they are serious — but HIPAA already covers PHI wherever it is processed. Privacy law is not what the existing software framework fails to handle.",
       D:
-        "Third-party release cycles are a genuine supply-chain risk, and one that applies equally to conventional software the organisation does not build itself.",
+        "Third-party release cycles are a genuine supply-chain risk, and one that applies equally to conventional software the organization does not build itself.",
     },
     sources: [
       "NIST AI RMF (Govern 1: characteristics that distinguish AI risk)",
@@ -44,11 +44,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["Responsible AI"],
     distractorNotes: {
       B:
-        "Routing on wait time optimises throughput. It says nothing about whether a person remains in a position to judge the outcome.",
+        "Routing on wait time optimizes throughput. It says nothing about whether a person remains in a position to judge the outcome.",
       C:
         "Self-revising prompts move authority towards the system rather than the clinician — the opposite of what human-centricity asks for in a clinical setting.",
       D:
-        "Latency is a service-quality target. A faster wrong recommendation is not a more human-centred one.",
+        "Latency is a service-quality target. A faster wrong recommendation is not a more human-centered one.",
     },
     sources: [
       "OECD AI Principles (human-centred values and fairness)",
@@ -67,7 +67,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "A vendor's reference model reflects the vendor's risk posture, not the deployer's clinical and privacy obligations. It is a starting point, not a structure.",
       C:
-        "Reviewing after volume stabilises means the first production calls run ungoverned, which is when the unexamined risks land.",
+        "Reviewing after volume stabilizes means the first production calls run ungoverned, which is when the unexamined risks land.",
     },
     sources: [
       "NIST AI RMF (Govern 2: accountability structures and roles)",
@@ -86,7 +86,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Clinician confirmation is a mitigation applied to a high-risk system, not a reason the system stops being one.",
       D:
-        "Prohibited practices are a short, specific list — social scoring, manipulation and the like. Prioritising patients is regulated, not banned.",
+        "Prohibited practices are a short, specific list — social scoring, manipulation and the like. Prioritizing patients is regulated, not banned.",
     },
     sources: [
       "EU AI Act Annex III (access to essential private and public services)",
@@ -101,11 +101,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["NIST AI RMF"],
     distractorNotes: {
       B:
-        "Map establishes context and categorises risk, but it operates inside the culture and accountability that Govern has already set.",
+        "Map establishes context and categorizes risk, but it operates inside the culture and accountability that Govern has already set.",
       C:
         "Measure supplies the metrics and testing. It demonstrates whether controls work; it does not decide who is answerable for them.",
       D:
-        "Manage prioritises and treats the risks the other functions surfaced. It acts within the policies Govern established.",
+        "Manage prioritizes and treats the risks the other functions surfaced. It acts within the policies Govern established.",
     },
     sources: [
       "NIST AI RMF (Govern function overview)",
@@ -142,11 +142,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.C",
     difficulty: "advanced",
     keyTakeaway:
-      "Certification is about the organisation. Conformity assessment is about the system. Holding one does not discharge the other, though good management evidence makes the second easier to produce.",
+      "Certification is about the organization. Conformity assessment is about the system. Holding one does not discharge the other, though good management evidence makes the second easier to produce.",
     frameworkTags: ["ISO 42001", "EU AI Act"],
     distractorNotes: {
       A:
-        "This is the most tempting answer and the most costly mistake: a certificate covering the organisation's processes is not a determination about any individual system.",
+        "This is the most tempting answer and the most costly mistake: a certificate covering the organization's processes is not a determination about any individual system.",
       C:
         "Technical documentation is a system-level requirement with its own content. A certification audit examines the management system, not that dossier.",
       D:
@@ -257,7 +257,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management"],
     distractorNotes: {
       A:
-        "Whether the licence permits training is a genuine gating question and should be settled — but it governs whether the work may proceed, not the privacy risk the combination creates.",
+        "Whether the license permits training is a genuine gating question and should be settled — but it governs whether the work may proceed, not the privacy risk the combination creates.",
       B:
         "Incompatible coding schemes make the join harder to build. That is an engineering obstacle rather than a risk to the people in the data.",
       D:
@@ -318,7 +318,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Suspension is a reasonable response to a confirmed model-driven disparity. Imposed before the cause is known, it withdraws a service on the strength of an unexplained number.",
       D:
-        "An independent audit is a strong instrument and may well follow, but commissioning one takes time the organisation does not yet know it can afford to spend.",
+        "An independent audit is a strong instrument and may well follow, but commissioning one takes time the organization does not yet know it can afford to spend.",
     },
     sources: [
       "NIST AI RMF (Manage 4: response to identified risks)",
@@ -352,7 +352,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["Responsible AI", "AI Risk Management"],
     distractorNotes: {
       A:
-        "General medical information with a disclaimer is still a clinical answer from a system not authorised to give one, and the disclaimer does not change what the member acts on.",
+        "General medical information with a disclaimer is still a clinical answer from a system not authorized to give one, and the disclaimer does not change what the member acts on.",
       C:
         "Recording and routing the symptom defers the response. A member describing symptoms now may need a clinician now.",
       D:
@@ -392,7 +392,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Marginal benefit against retesting cost is a fair project argument, and it treats the question as a matter of effort rather than of what the member is entitled to know.",
       C:
-        "Auditability genuinely suffers when a control fires at a variable point. That is a governance cost, and it is the organisation's problem rather than the member's harm.",
+        "Auditability genuinely suffers when a control fires at a variable point. That is a governance cost, and it is the organization's problem rather than the member's harm.",
       D:
         "This is a real coverage gap and the closest competing answer. It identifies who misses the disclosure entirely; the stronger objection is that even those who receive it get it too late to act on.",
     },
@@ -463,7 +463,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Vendor-held logs available on request leave the deployer dependent on the vendor's cooperation and retention choices at exactly the moment it needs evidence.",
       B:
-        "Indefinite retention of full call audio maximises reconstructability and maximises exposure with it. Retention limits exist for a reason.",
+        "Indefinite retention of full call audio maximizes reconstructability and maximizes exposure with it. Retention limits exist for a reason.",
       D:
         "A SOC 2 attestation describes the vendor's control environment. It is not a record of what happened on any particular member's call.",
     },
@@ -480,7 +480,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["Responsible AI"],
     distractorNotes: {
       A:
-        "Data minimisation limits what is collected. The rule described governs what the agent may decide, not what it may gather.",
+        "Data minimization limits what is collected. The rule described governs what the agent may decide, not what it may gather.",
       C:
         "Purpose limitation confines processing to the disclosed purpose. It is adjacent and real, but the control here is about who handles the request rather than why data is held.",
       D:
@@ -518,7 +518,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "Responsible AI"],
     distractorNotes: {
       B:
-        "Rolling back restores the behaviour and discards the evidence of why it broke, leaving the same regression free to return in the next release.",
+        "Rolling back restores the behavior and discards the evidence of why it broke, leaving the same regression free to return in the next release.",
       C:
         "Answering identity questions on request is a weaker substitute for the control that failed, and it shifts the burden onto the member.",
       D:
@@ -615,7 +615,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Held-out evaluation belongs to testing. It measures a model that design decisions have already produced.",
       B:
-        "Monitoring thresholds are set for production. They are chosen once there is a system whose normal behaviour can be characterised.",
+        "Monitoring thresholds are set for production. They are chosen once there is a system whose normal behavior can be characterized.",
       D:
         "Red-teaming stresses a built system. It cannot be run against a use case that has not yet been defined.",
     },
@@ -724,7 +724,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Validating production performance against synthetic records measures the model against the generator's assumptions rather than against reality.",
       C:
-        "Minimisation is about processing no more real data than the purpose needs. Synthetic data usually has to be derived from real records in the first place.",
+        "Minimization is about processing no more real data than the purpose needs. Synthetic data usually has to be derived from real records in the first place.",
     },
     sources: [
       "NIST AI RMF (Map 2.3: data provenance and suitability)",
@@ -779,7 +779,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Benchmark quality measurement establishes typical performance. Red-teaming is interested in the atypical.",
       B:
-        "Load testing establishes behaviour under concurrency. It stresses the infrastructure rather than the model's judgement.",
+        "Load testing establishes behavior under concurrency. It stresses the infrastructure rather than the model's judgment.",
       D:
         "Confirming escalation rules fire for defined topics is valuable conformance testing against a known list. Red-teaming looks for the failures nobody listed.",
     },
@@ -798,7 +798,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Biometric privacy statutes bite where voice or face data is processed, which may well apply — but they govern the data, not the employment decision.",
       B:
-        "Contract law governs the licence between employer and vendor. It does not reach the candidate's rights.",
+        "Contract law governs the license between employer and vendor. It does not reach the candidate's rights.",
       C:
         "Trade secret law may shield the vendor's logic from disclosure. It is a shield for the tool, not a duty owed to applicants.",
     },
@@ -853,7 +853,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "ISO 42001"],
     distractorNotes: {
       A:
-        "Lineage can help evidence licensing, but a licence question is answered by the agreement rather than by the data's transformation history.",
+        "Lineage can help evidence licensing, but a license question is answered by the agreement rather than by the data's transformation history.",
       B:
         "Exact reconstruction is a backup and versioning concern. Lineage records where data came from, not a restorable copy of it.",
       D:
@@ -887,11 +887,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.A",
     difficulty: "foundational",
     keyTakeaway:
-      "Automation, reach, and probabilistic behaviour combine so that a single error propagates widely before anyone notices — which is why continuous monitoring is not optional.",
+      "Automation, reach, and probabilistic behavior combine so that a single error propagates widely before anyone notices — which is why continuous monitoring is not optional.",
     frameworkTags: ["AI Risk Management"],
     distractorNotes: {
       A:
-        "Many AI systems pass through the same change control as other software. Where they do not, that is an organisational gap rather than a property of AI.",
+        "Many AI systems pass through the same change control as other software. Where they do not, that is an organizational gap rather than a property of AI.",
       C:
         "An input space that cannot be exhaustively tested is a genuine and important difficulty. It explains why errors survive testing, not why they spread quickly once live.",
       D:
@@ -943,7 +943,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
-        "An SLA governs service quality, and it matters commercially. A vendor can meet every uptime target while using patient data in ways nobody authorised.",
+        "An SLA governs service quality, and it matters commercially. A vendor can meet every uptime target while using patient data in ways nobody authorized.",
       C:
         "An NDA restricts disclosure. It does not establish permitted uses, required safeguards, subcontractor obligations or a breach-notification duty.",
       D:
@@ -993,7 +993,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "A disclaimer transfers the burden of verification to the member while the agent continues to give wrong answers.",
       D:
-        "Refusing the topic removes the error and the service with it, when the fix is a content update the organisation already controls.",
+        "Refusing the topic removes the error and the service with it, when the fix is a content update the organization already controls.",
     },
     sources: [
       "NIST AI RMF (Manage 4: maintaining AI systems after deployment)",
@@ -1050,7 +1050,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "A new vendor means supplier assurances must be re-established, which is ordinary third-party risk and would apply to any replacement.",
       C:
-        "A larger operating footprint expands training and access management. That is a scale change, not a change in the nature of the system's behaviour.",
+        "A larger operating footprint expands training and access management. That is a scale change, not a change in the nature of the system's behavior.",
     },
     sources: [
       "NIST AI RMF (Govern 1.1: what distinguishes AI risk)",
@@ -1065,7 +1065,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["Responsible AI"],
     distractorNotes: {
       A:
-        "Minimisation governs how much personal data the ranking may use. The reviewer's concern is about understanding the output, not about limiting the input.",
+        "Minimization governs how much personal data the ranking may use. The reviewer's concern is about understanding the output, not about limiting the input.",
       C:
         "Accountability names who answers for the ranking. The reviewer is asking for the reasoning to be intelligible, which is a different requirement.",
       D:
@@ -1103,7 +1103,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "EU AI Act"],
     distractorNotes: {
       A:
-        "Licensing a tool does not remove organisational duties. Configuration, monitoring and the choice to use it are all governable decisions.",
+        "Licensing a tool does not remove organizational duties. Configuration, monitoring and the choice to use it are all governable decisions.",
       B:
         "Developer duties attach to building or training. Repeating the vendor's pre-training governance is neither required nor possible for a licensee.",
       D:
@@ -1287,7 +1287,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "ISO 42001"],
     distractorNotes: {
       A:
-        "A broken pipeline producing stale or default values is a real failure mode and the closest competing answer. It is worth ruling out, and it is a fault in the plumbing rather than in the judgement the thresholds encode.",
+        "A broken pipeline producing stale or default values is a real failure mode and the closest competing answer. It is worth ruling out, and it is a fault in the plumbing rather than in the judgment the thresholds encode.",
       C:
         "An unread dashboard is a genuine governance problem. It explains why nobody would notice a breach, not why no breach has been recorded.",
       D:
@@ -1306,7 +1306,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["ISO 42001"],
     distractorNotes: {
       A:
-        "ISO/IEC 22989 supplies terminology and concepts. It gives a shared vocabulary, not requirements an organisation can be audited against.",
+        "ISO/IEC 22989 supplies terminology and concepts. It gives a shared vocabulary, not requirements an organization can be audited against.",
       C:
         "ISO/IEC 42005 addresses how to conduct AI system impact assessments. It is guidance for an activity, not a certifiable management system.",
       D:
@@ -1340,13 +1340,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "III.A",
     difficulty: "advanced",
     keyTakeaway:
-      "Prioritise by severity and likelihood: eliminate, then reduce, then control, then accept with monitoring. Treating all risks equally and escalating everything are both ways of avoiding the judgement.",
+      "Prioritize by severity and likelihood: eliminate, then reduce, then control, then accept with monitoring. Treating all risks equally and escalating everything are both ways of avoiding the judgment.",
     frameworkTags: ["AI Risk Management", "NIST AI RMF"],
     distractorNotes: {
       B:
-        "Documenting every risk equally records the inventory and withholds the judgement. Governance has to say which risks matter most.",
+        "Documenting every risk equally records the inventory and withholds the judgment. Governance has to say which risks matter most.",
       C:
-        "Escalating everything to executives moves the prioritisation problem upward rather than solving it, and it exhausts the attention it depends on.",
+        "Escalating everything to executives moves the prioritization problem upward rather than solving it, and it exhausts the attention it depends on.",
       D:
         "Waiting six months for production data means accepting the risk by default while the evidence accumulates from real misroutings.",
     },
@@ -1391,7 +1391,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance"],
     distractorNotes: {
       A:
-        "Minimisation asks whether more data was collected than needed. The gap described is knowing where the data came from, not how much there is.",
+        "Minimization asks whether more data was collected than needed. The gap described is knowing where the data came from, not how much there is.",
       B:
         "Retention asks whether data has been kept beyond its purpose. Nothing in the scenario indicates the data is stale, only that its history is unknown.",
       D:
@@ -1452,7 +1452,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "A system card describes the deployed system in its context of use. It is complementary to a model card, covering the surrounding system rather than the model's own properties.",
       D:
-        "A validation report records measured performance against thresholds. It feeds the model card rather than serving as the standardised stakeholder summary.",
+        "A validation report records measured performance against thresholds. It feeds the model card rather than serving as the standardized stakeholder summary.",
     },
     sources: [
       "NIST AI RMF (Govern 4.2: model documentation for stakeholders)",
@@ -1467,7 +1467,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "NIST AI RMF"],
     distractorNotes: {
       A:
-        "A security compromise is possible and would warrant incident response, but it typically produces abrupt or anomalous behaviour rather than a year-long gradual decline.",
+        "A security compromise is possible and would warrant incident response, but it typically produces abrupt or anomalous behavior rather than a year-long gradual decline.",
       C:
         "A licensing violation is a legal exposure attaching to the data. It has no mechanism by which it would degrade prediction accuracy over time.",
       D:
@@ -1520,7 +1520,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.A",
     difficulty: "applied",
     keyTakeaway:
-      "Choose between open and proprietary models on how much visibility and control you need, not on licence. Neither choice changes which obligations apply — one you can inspect, the other you must take on the vendor's assurances.",
+      "Choose between open and proprietary models on how much visibility and control you need, not on license. Neither choice changes which obligations apply — one you can inspect, the other you must take on the vendor's assurances.",
     frameworkTags: ["AI Governance"],
     distractorNotes: {
       A:
@@ -1587,7 +1587,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance"],
     distractorNotes: {
       A:
-        "Assuming liability sits with the vendor is precisely the assumption the silence leaves untested. Default rules rarely favour the party that did not draft the contract.",
+        "Assuming liability sits with the vendor is precisely the assumption the silence leaves untested. Default rules rarely favor the party that did not draft the contract.",
       B:
         "Liability allocation is a legal matter and a governance one: identifying the gap before signature is the governance contribution.",
       D:
@@ -1625,7 +1625,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["NIST AI RMF", "AI Risk Management"],
     distractorNotes: {
       A:
-        "Pre-deployment testing characterises the system against the conditions tested. Fraud patterns change specifically to evade what was tested.",
+        "Pre-deployment testing characterizes the system against the conditions tested. Fraud patterns change specifically to evade what was tested.",
       B:
         "Complaint-driven oversight starts after customers have already been affected, and most model degradation generates no complaint at all.",
       C:
@@ -1648,7 +1648,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Vendor scope creep is the supplier changing what the tool does. In this case the tool is unchanged and the users have changed what they do with it.",
       D:
-        "Model drift is a change in the system's behaviour over time. Nothing here suggests the chatbot behaves differently — only that it is being asked different things.",
+        "Model drift is a change in the system's behavior over time. Nothing here suggests the chatbot behaves differently — only that it is being asked different things.",
     },
     sources: [
       "NIST AI RMF (Map 3.4 and Manage 4: monitoring for unintended uses)",
@@ -1667,7 +1667,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Refusing to operate wherever AI regulation is evolving would exclude most major markets, since nearly all of them are.",
       D:
-        "Delegating a regulatory decision to the pricing model's optimisation logic gives a compliance judgement to a system built to maximise revenue.",
+        "Delegating a regulatory decision to the pricing model's optimization logic gives a compliance judgment to a system built to maximize revenue.",
     },
     sources: [
       "NIST AI RMF (Manage 2.4: mechanisms to deactivate or decommission systems)",
@@ -1697,11 +1697,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.B",
     difficulty: "applied",
     keyTakeaway:
-      "Governance that cannot be staffed is not governance. Match the structure to the organisation's size, maturity and risk, or it will exist only on the org chart.",
+      "Governance that cannot be staffed is not governance. Match the structure to the organization's size, maturity and risk, or it will exist only on the org chart.",
     frameworkTags: ["AI Governance"],
     distractorNotes: {
       A:
-        "Committees work well in many organisations. The failure here is the weight of the structure relative to the company, not the mechanism.",
+        "Committees work well in many organizations. The failure here is the weight of the structure relative to the company, not the mechanism.",
       B:
         "Sequencing board reporting before a risk function would not have helped: at thirty people, neither was going to convene.",
       D:
@@ -1741,7 +1741,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.C",
     difficulty: "applied",
     keyTakeaway:
-      "AI failures are rarely outages. If the incident policy only recognises breaches and downtime, a model quietly harming people has no escalation path at all.",
+      "AI failures are rarely outages. If the incident policy only recognizes breaches and downtime, a model quietly harming people has no escalation path at all.",
     frameworkTags: ["AI Governance", "AI Risk Management"],
     distractorNotes: {
       A:
@@ -1768,7 +1768,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "A headquarters requirement is a procurement preference. Location does not indicate how the model was trained or evaluated.",
       D:
-        "Publishing the contract value serves transparency about spending, not about the system's behaviour.",
+        "Publishing the contract value serves transparency about spending, not about the system's behavior.",
     },
     sources: [
       "NIST AI RMF (Govern 6.1: third-party criteria in procurement)",
@@ -1779,7 +1779,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.C",
     difficulty: "advanced",
     keyTakeaway:
-      "Before an AI-assisted deliverable reaches a client, know what the tool's licence lets you hand over. Ownership of output is a term you accepted, not a default you can assume.",
+      "Before an AI-assisted deliverable reaches a client, know what the tool's license lets you hand over. Ownership of output is a term you accepted, not a default you can assume.",
     frameworkTags: ["AI Governance"],
     distractorNotes: {
       A:
@@ -1869,7 +1869,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Product liability addresses harm from a defective product. An exaggerated marketing claim is deceptive rather than dangerous.",
       D:
-        "Recommendations differing between shoppers is what personalisation does. Nondiscrimination law is concerned with protected characteristics.",
+        "Recommendations differing between shoppers is what personalization does. Nondiscrimination law is concerned with protected characteristics.",
     },
     sources: [
       "FTC Act Section 5 (unfair or deceptive acts or practices)",
@@ -1986,7 +1986,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Replacing accuracy entirely with a fairness metric trades one single-objective failure for another and would degrade the screening the system exists to perform.",
       B:
-        "Minimising manual review optimises workload. It selects the threshold that is cheapest, not the one that is defensible.",
+        "Minimizing manual review optimizes workload. It selects the threshold that is cheapest, not the one that is defensible.",
       D:
         "Training on the full history first defers metric choice until after the model exists, which is the sequencing error being corrected.",
     },
@@ -2026,7 +2026,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Support capacity matters for operating the system. It is a staffing readiness question rather than a gate on the release itself.",
       C:
-        "Communicating the release date coordinates the launch. It records no judgement about whether the system should launch.",
+        "Communicating the release date coordinates the launch. It records no judgment about whether the system should launch.",
     },
     sources: [
       "NIST AI RMF (Manage 3: readiness and deployment decisions are documented)",
@@ -2037,7 +2037,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "III.C",
     difficulty: "advanced",
     keyTakeaway:
-      "A model that retrains on user behaviour can be taught by users. Security assessment has to cover the pipeline that feeds the model, not just the answers it returns.",
+      "A model that retrains on user behavior can be taught by users. Security assessment has to cover the pipeline that feeds the model, not just the answers it returns.",
     frameworkTags: ["AI Risk Management", "NIST AI RMF"],
     distractorNotes: {
       B:
@@ -2102,7 +2102,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Lawyer review of each summary is a sound accuracy control. It does not stop the underlying documents leaving firm infrastructure.",
       C:
-        "A larger model may summarise better and does nothing about where the processing happens, which is the binding constraint.",
+        "A larger model may summarize better and does nothing about where the processing happens, which is the binding constraint.",
     },
     sources: [
       "NIST AI RMF (Map 4 and Manage 1: deployment options and data control)",
@@ -2132,7 +2132,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.A",
     difficulty: "advanced",
     keyTakeaway:
-      "How often the source changes decides the technique. Retrieval suits knowledge that moves; fine-tuning suits behaviour and format that stay put.",
+      "How often the source changes decides the technique. Retrieval suits knowledge that moves; fine-tuning suits behavior and format that stay put.",
     frameworkTags: ["AI Governance"],
     distractorNotes: {
       A:
@@ -2220,7 +2220,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Debt-to-income has a direct, well-understood relationship to repayment capacity and is standard in credit assessment.",
       C:
-        "Length of credit history measures observation time. It can correlate with age, but it is also a recognised credit-risk factor with a defensible rationale.",
+        "Length of credit history measures observation time. It can correlate with age, but it is also a recognized credit-risk factor with a defensible rationale.",
       D:
         "Employment tenure relates to income stability and is verified against payroll, so it is grounded rather than inferred.",
     },
@@ -2239,15 +2239,15 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.C",
     difficulty: "applied",
     keyTakeaway:
-      "A change of scope needs the authority that granted the original scope. The team funding the work and the team validating it both have a role, but neither decides what the organisation is willing to use a model for.",
+      "A change of scope needs the authority that granted the original scope. The team funding the work and the team validating it both have a role, but neither decides what the organization is willing to use a model for.",
     frameworkTags: ["AI Governance"],
     distractorNotes: {
       A:
-        "Model Risk Management validates and maintains the inventory. Validating a use is not the same as authorising it.",
+        "Model Risk Management validates and maintains the inventory. Validating a use is not the same as authorizing it.",
       B:
         "Credit Products proposes and funds the change. A business approving its own scope extension removes the control rather than exercising it.",
       D:
-        "Concentrating the decision in the chair replaces a cross-functional judgement with a single one, losing the perspectives the committee exists to combine.",
+        "Concentrating the decision in the chair replaces a cross-functional judgment with a single one, losing the perspectives the committee exists to combine.",
     },
     sources: [
       "ISO/IEC 42001 (roles, responsibilities and authorities)",
@@ -2288,7 +2288,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Inventory requirements concern registration and metadata, not override rates. Nothing about 94% breaches an inventory rule.",
       C:
-        "Nothing in the facts suggests a training gap, and better training would not fix an incentive that penalises only one of the two decisions.",
+        "Nothing in the facts suggests a training gap, and better training would not fix an incentive that penalizes only one of the two decisions.",
       B:
         "Full automation would remove the oversight rather than repair it, and the low override rate is evidence about the process, not about whether a human should be there.",
     },
@@ -2309,7 +2309,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Suspension imposes a hiring cost across 40,000 applications a year before anyone has confirmed the pattern is real.",
       D:
-        "A manual-review instruction mitigates the suspected effect while leaving the organisation unable to say whether it exists or how large it is.",
+        "A manual-review instruction mitigates the suspected effect while leaving the organization unable to say whether it exists or how large it is.",
     },
     sources: [
       "NIST AI RMF (Measure: track identified risks over time)",
@@ -2339,11 +2339,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "III.B",
     difficulty: "applied",
     keyTakeaway:
-      "Ask what the organisation is accountable for and cannot currently explain. Where you operate controls whose effects you cannot predict, documentation of those controls beats access you could not use.",
+      "Ask what the organization is accountable for and cannot currently explain. Where you operate controls whose effects you cannot predict, documentation of those controls beats access you could not use.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
-        "Training data is almost never released by a vendor, and analysing it would demand capability and lawful basis Calderon does not have.",
+        "Training data is almost never released by a vendor, and analyzing it would demand capability and lawful basis Calderon does not have.",
       B:
         "Model weights are proprietary and, without the feature definitions, would not tell Calderon what its own configuration does.",
       D:
@@ -2377,7 +2377,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.B",
     difficulty: "applied",
     keyTakeaway:
-      "Recruitment filtering is a heightened-risk use, and the roles are fixed by function: the organisation putting the system on the market is the provider, the one using it under its own authority is the deployer. Deployer duties cannot be contracted back.",
+      "Recruitment filtering is a heightened-risk use, and the roles are fixed by function: the organization putting the system on the market is the provider, the one using it under its own authority is the deployer. Deployer duties cannot be contracted back.",
     frameworkTags: ["EU AI Act"],
     distractorNotes: {
       B:
@@ -2533,7 +2533,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Reusing the development split imports the same selection decisions and cannot surface what that split omitted.",
       C:
-        "More detailed self-documentation improves the record while leaving the judgement with the same people.",
+        "More detailed self-documentation improves the record while leaving the judgment with the same people.",
       D:
         "A schedule constrains when the verdict arrives, not who is free to give it.",
     },
@@ -2550,7 +2550,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management"],
     distractorNotes: {
       A:
-        "Overfitting degrades generalisation broadly. It does not specifically explain a gap between retrospective and real-time data.",
+        "Overfitting degrades generalization broadly. It does not specifically explain a gap between retrospective and real-time data.",
       C:
         "Latency affects whether a prediction arrives in time, not whether it is accurate.",
       D:
@@ -2662,7 +2662,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Time since last refresh is a useful trigger but treats a trivial model and a critical one identically.",
       D:
-        "Internal dependency counts measure reach inside the organisation rather than harm outside it.",
+        "Internal dependency counts measure reach inside the organization rather than harm outside it.",
     },
     sources: [
       "ISO/IEC 42001 (AI system inventory; risk assessment)",
@@ -2699,15 +2699,15 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "III.B",
     difficulty: "applied",
     keyTakeaway:
-      "Open weights are not unrestricted use. Before fine-tuning, establish that the base model's licence permits the intended purpose and note what it requires downstream.",
+      "Open weights are not unrestricted use. Before fine-tuning, establish that the base model's license permits the intended purpose and note what it requires downstream.",
     frameworkTags: ["AI Governance"],
     distractorNotes: {
       B:
-        "Publishing fine-tuned weights is a licence-specific requirement, not a general obligation.",
+        "Publishing fine-tuned weights is a license-specific requirement, not a general obligation.",
       C:
         "There is no general duty to register a fine-tuned model with the base developer.",
       D:
-        "Retraining from scratch discards the purpose of fine-tuning and is not required to manage inherited behaviour.",
+        "Retraining from scratch discards the purpose of fine-tuning and is not required to manage inherited behavior.",
     },
     sources: [
       "ISO/IEC 42001 (third-party and supplier controls)",
@@ -2738,13 +2738,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
-      "When two legitimate objectives conflict, the deciding question is what the organisation has already committed to. A named harm settles the trade-off in advance; an unnamed one means the commitment is being made now.",
+      "When two legitimate objectives conflict, the deciding question is what the organization has already committed to. A named harm settles the trade-off in advance; an unnamed one means the commitment is being made now.",
     frameworkTags: ["Responsible AI", "AI Governance"],
     distractorNotes: {
       A:
         "Recovery timeline informs how to sequence the change, not whether the concentration is a harm worth addressing.",
       C:
-        "Competitor behaviour is a benchmark, not a standard. Widespread practice does not make a harm acceptable.",
+        "Competitor behavior is a benchmark, not a standard. Widespread practice does not make a harm acceptable.",
       D:
         "Implementation cost affects how the fix is delivered, not whether it should be.",
     },
@@ -2792,7 +2792,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.A",
     difficulty: "advanced",
     keyTakeaway:
-      "Look for the control the organisation already has and the pipeline that fails to consult it. Connecting existing machinery usually beats adding new machinery.",
+      "Look for the control the organization already has and the pipeline that fails to consult it. Connecting existing machinery usually beats adding new machinery.",
     frameworkTags: ["Responsible AI", "AI Governance"],
     distractorNotes: {
       A:
@@ -2945,7 +2945,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management"],
     distractorNotes: {
       C:
-        "The ranking threshold governs which transformers are prioritised — a different system and a different failure.",
+        "The ranking threshold governs which transformers are prioritized — a different system and a different failure.",
       D:
         "Post-issue review catches a bad order after the crew has it, which is detection rather than prevention.",
       E:
@@ -3026,7 +3026,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Applying the looser standard everywhere accepts a known breach in the stricter market.",
       A:
-        "Suspension forgoes the tool precisely where its use is most scrutinised, without addressing the requirement.",
+        "Suspension forgoes the tool precisely where its use is most scrutinized, without addressing the requirement.",
     },
     sources: [
       "NIST AI RMF (Govern: legal and regulatory requirements)",
@@ -3094,7 +3094,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.C",
     difficulty: "applied",
     keyTakeaway:
-      "Fairness has several incompatible formalisations. An undefined commitment cannot be complied with, tested, or breached — say which notion applies to which use, and how it will be measured.",
+      "Fairness has several incompatible formalizations. An undefined commitment cannot be complied with, tested, or breached — say which notion applies to which use, and how it will be measured.",
     frameworkTags: ["Responsible AI", "AI Governance"],
     distractorNotes: {
       A:
@@ -3157,7 +3157,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.B",
     difficulty: "applied",
     keyTakeaway:
-      "An agent acts rather than advising, which removes the human step where review used to sit. Authorisation, scoping and reversibility become the primary controls.",
+      "An agent acts rather than advising, which removes the human step where review used to sit. Authorization, scoping and reversibility become the primary controls.",
     frameworkTags: ["AI Governance", "AI Risk Management"],
     distractorNotes: {
       A:
@@ -3227,7 +3227,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Poor documentation is likely how it happened and is not what is broken.",
       C:
-        "Inconsistent labelling is a separate defect. Here the definition itself diverges.",
+        "Inconsistent labeling is a separate defect. Here the definition itself diverges.",
       D:
         "Thin consultation explains the cause without describing the fault.",
     },
@@ -3299,7 +3299,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "AI Governance"],
     distractorNotes: {
       A:
-        "A faster timeline speeds a process that never starts if nothing is recognised as an incident.",
+        "A faster timeline speeds a process that never starts if nothing is recognized as an incident.",
       C:
         "An on-call rota staffs a response to incidents already declared.",
       B:
@@ -3337,7 +3337,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "AI Governance"],
     distractorNotes: {
       A:
-        "Licence exposure accrues but is remediable once identified.",
+        "License exposure accrues but is remediable once identified.",
       C:
         "Tone inconsistency is a quality issue with no irreversible consequence.",
       D:
@@ -3427,7 +3427,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["Responsible AI", "AI Governance"],
     distractorNotes: {
       B:
-        "Global feature importances describe average behaviour and may not explain any particular case.",
+        "Global feature importances describe average behavior and may not explain any particular case.",
       C:
         "Architecture and hyperparameters serve researchers, not affected individuals.",
       D:
@@ -3512,7 +3512,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Magnitude is arguable and does not identify what existing controls fail to observe.",
       C:
-        "No regime requires a structurally separate programme with separate reporting.",
+        "No regime requires a structurally separate program with separate reporting.",
       B:
         "Expertise can be added to a function that is still monitoring the wrong signals.",
     },
@@ -3525,7 +3525,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.C",
     difficulty: "applied",
     keyTakeaway:
-      "Classification is a judgement about a system in a use, and it expires when the use changes. Re-run it on change rather than treating it as a permanent property.",
+      "Classification is a judgment about a system in a use, and it expires when the use changes. Re-run it on change rather than treating it as a permanent property.",
     frameworkTags: ["EU AI Act", "AI Risk Management"],
     distractorNotes: {
       B:
@@ -3585,7 +3585,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Inventory size measures how much exists, not whether any of it was reviewed.",
       B:
-        "Completion counts are easy to gather and show the programme reached people. They record attendance rather than whether any system was governed better as a result.",
+        "Completion counts are easy to gather and show the program reached people. They record attendance rather than whether any system was governed better as a result.",
       D:
         "Policy count measures writing, and can rise while nothing changes.",
     },
@@ -3642,7 +3642,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Complaint clustering is measured evidence too; dismissing it as subjective is a preference, not a finding.",
       C:
-        "A blanket priority rule replaces the judgement governance exists to make.",
+        "A blanket priority rule replaces the judgment governance exists to make.",
       D:
         "Escalation without framing the trade-off moves the same open question upward.",
     },
@@ -3776,7 +3776,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Both are subject to regulation in various forms; the distinction is not voluntary versus mandatory.",
       A:
-        "Ownership varies by organisation and does not explain what the two disciplines cover.",
+        "Ownership varies by organization and does not explain what the two disciplines cover.",
       D:
         "AI governance builds on data governance rather than superseding it; the input controls are still required.",
     },
@@ -3957,7 +3957,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "A legal register tracks obligations; certification does not enumerate or satisfy them.",
       A:
-        "Liability stays with the organisation; a certification body attests, it does not indemnify.",
+        "Liability stays with the organization; a certification body attests, it does not indemnify.",
     },
     sources: [
       "ISO/IEC 42001 (scope; management system requirements)",
@@ -3983,7 +3983,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Voluntary frameworks are widely referenced in supervisory expectations and contracts.",
       D:
-        "Regulated organisations commonly use such frameworks to structure how they meet obligations.",
+        "Regulated organizations commonly use such frameworks to structure how they meet obligations.",
     },
     sources: [
       "NIST AI RMF 1.0 (framing and intended use)",
@@ -3999,7 +3999,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Training duration is a scheduling matter, not a property of what the model learns.",
       C:
-        "Licensing cost affects the budget and not the model's behaviour.",
+        "Licensing cost affects the budget and not the model's behavior.",
       D:
         "More data generally reduces overfitting; the problem here is composition, not volume.",
     },
@@ -4037,7 +4037,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Minutes show the deployment was approved; they say nothing about a particular output.",
       C:
-        "Marketing documentation describes intended capability rather than actual behaviour.",
+        "Marketing documentation describes intended capability rather than actual behavior.",
       A:
         "Staffing records identify who built the system, not what it did on a given day.",
     },
@@ -4197,7 +4197,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Regulatory terminology can be precise and still leave a reader with nothing to do.",
       D:
-        "Acknowledgement records that a notice was shown, not that it was useful.",
+        "Acknowledgment records that a notice was shown, not that it was useful.",
     },
     sources: [
       "GDPR Art. 13-14 and Recital 71 (meaningful information)",
@@ -4233,7 +4233,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Opacity would make the model hard to explain from day one, not gradually less accurate.",
       C:
-        "Autonomy describes who authorises an output, not whether it stays right.",
+        "Autonomy describes who authorizes an output, not whether it stays right.",
       B:
         "Scale multiplies whatever the model does, well or badly, without changing over time.",
     },
@@ -4309,7 +4309,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Transparency concerns what is disclosed, not how errors are shared out.",
       B:
-        "Robustness is about behaviour under perturbation, not across populations.",
+        "Robustness is about behavior under perturbation, not across populations.",
       D:
         "Accountability is about who answers for the outcome, not its distribution.",
     },
@@ -4341,7 +4341,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.A",
     difficulty: "advanced",
     keyTakeaway:
-      "Low-stakes individual outputs can still produce high-stakes aggregate effects. Ask what the system optimises for and what it does cumulatively, not how consequential one output is.",
+      "Low-stakes individual outputs can still produce high-stakes aggregate effects. Ask what the system optimizes for and what it does cumulatively, not how consequential one output is.",
     frameworkTags: ["Responsible AI", "AI Risk Management"],
     distractorNotes: {
       C:
@@ -4436,7 +4436,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.B",
     difficulty: "applied",
     keyTakeaway:
-      "Match training to the decision the person makes. Awareness content is for people who need to recognise AI; role training is for people who must judge it.",
+      "Match training to the decision the person makes. Awareness content is for people who need to recognize AI; role training is for people who must judge it.",
     frameworkTags: ["AI Governance", "ISO 42001"],
     distractorNotes: {
       C:
@@ -4504,7 +4504,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "ISO 42001"],
     distractorNotes: {
       C:
-        "An inventory is genuinely necessary, and it is required whichever model the organisation adopts, so it does not distinguish between the two options being weighed.",
+        "An inventory is genuinely necessary, and it is required whichever model the organization adopts, so it does not distinguish between the two options being weighed.",
       D:
         "Embedded governance still needs a written standard to be embedded against.",
       E:
@@ -4525,7 +4525,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Output quality matters but does not stop confidential input leaving today.",
       B:
-        "A licence negotiation takes months while the exposure continues.",
+        "A license negotiation takes months while the exposure continues.",
       D:
         "Disclosure is useful once there is a rule to disclose against.",
     },
@@ -4742,7 +4742,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.A",
     difficulty: "applied",
     keyTakeaway:
-      "One user's input surfacing to another is an unauthorised disclosure. Retention design may contribute, but the obligation engaged is security of processing.",
+      "One user's input surfacing to another is an unauthorized disclosure. Retention design may contribute, but the obligation engaged is security of processing.",
     frameworkTags: ["AI Governance", "AI Risk Management"],
     distractorNotes: {
       A:
@@ -4881,7 +4881,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Corpus size is a technical adequacy question, not a legal one.",
       D:
-        "Unchallenged competitor practice is not a defence.",
+        "Unchallenged competitor practice is not a defense.",
       E:
         "Storage region affects transfers, not the right to use the material.",
     },
@@ -4967,7 +4967,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Emergency triage is high-risk, not prohibited.",
       A:
-        "Creditworthiness assessment is a recognised high-risk use.",
+        "Creditworthiness assessment is a recognized high-risk use.",
     },
     sources: [
       "EU AI Act (prohibited practices; high-risk classification)",
@@ -5050,7 +5050,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       D:
         "Build or buy changes which obligations you hold, not the tier.",
       E:
-        "Organisation size does not determine the risk tier.",
+        "Organization size does not determine the risk tier.",
     },
     sources: [
       "EU AI Act (classification rules for high-risk AI systems)",
@@ -5087,7 +5087,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.D",
     difficulty: "foundational",
     keyTakeaway:
-      "Both are voluntary. The framework organises the work; the management system standard is the one you can be certified against and show to a third party.",
+      "Both are voluntary. The framework organizes the work; the management system standard is the one you can be certified against and show to a third party.",
     frameworkTags: ["NIST AI RMF", "ISO 42001"],
     distractorNotes: {
       A:
@@ -5171,7 +5171,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Information security obligations do not disappear when AI ones arrive.",
       D:
-        "The harmonised structure already exists; there is nothing to wait for.",
+        "The harmonized structure already exists; there is nothing to wait for.",
     },
     sources: [
       "ISO/IEC 42001 (harmonised structure with other management system standards)",
@@ -5205,7 +5205,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["ISO 42001", "NIST AI RMF"],
     distractorNotes: {
       C:
-        "Frequency of citation indicates which instrument the market is talking about, which has some signalling value. It says nothing about which one suits this organisation.",
+        "Frequency of citation indicates which instrument the market is talking about, which has some signaling value. It says nothing about which one suits this organization.",
       D:
         "A recent publication is more likely to address current technology, which is a fair consideration. Recency alone does not establish that an instrument fits this purpose.",
       E:
@@ -5296,7 +5296,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "III.B",
     difficulty: "applied",
     keyTakeaway:
-      "Lineage is cheap to capture at assembly and unrecoverable later. Without it, rights, deletion and behaviour questions all become unanswerable at once.",
+      "Lineage is cheap to capture at assembly and unrecoverable later. Without it, rights, deletion and behavior questions all become unanswerable at once.",
     frameworkTags: ["AI Governance", "ISO 42001"],
     distractorNotes: {
       B:
@@ -5315,7 +5315,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "III.B",
     difficulty: "advanced",
     keyTakeaway:
-      "Random splits assume independent rows. When an entity recurs, split by entity — otherwise the score measures recall and reports it as generalisation.",
+      "Random splits assume independent rows. When an entity recurs, split by entity — otherwise the score measures recall and reports it as generalization.",
     frameworkTags: ["AI Risk Management", "AI Governance"],
     distractorNotes: {
       C:
@@ -5323,7 +5323,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       D:
         "Feature dominance is not caused by how the split was made.",
       E:
-        "Minimisation concerns what data is held, not how it is partitioned.",
+        "Minimization concerns what data is held, not how it is partitioned.",
     },
     sources: [
       "NIST AI RMF (Measure: validity and reliability of evaluation)",
@@ -5403,7 +5403,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Bandwidth is a feasibility constraint, not evidence the system works there.",
       A:
-        "Licence pricing is a commercial term unrelated to safety performance.",
+        "License pricing is a commercial term unrelated to safety performance.",
       D:
         "Consultation is required but does not establish whether detection holds up.",
     },
@@ -5416,7 +5416,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.A",
     difficulty: "applied",
     keyTakeaway:
-      "Retrieval buys currency and citation; fine-tuning buys behaviour and style. Choose on whether the knowledge moves and whether answers must be traceable.",
+      "Retrieval buys currency and citation; fine-tuning buys behavior and style. Choose on whether the knowledge moves and whether answers must be traceable.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       C:
@@ -5435,7 +5435,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.A",
     difficulty: "advanced",
     keyTakeaway:
-      "Text can be discarded; an action cannot. Agentic systems need authorisation limits, action logs and a route back before they are switched on, not after.",
+      "Text can be discarded; an action cannot. Agentic systems need authorization limits, action logs and a route back before they are switched on, not after.",
     frameworkTags: ["AI Risk Management", "Responsible AI"],
     distractorNotes: {
       A:
@@ -5530,15 +5530,15 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.B",
     difficulty: "advanced",
     keyTakeaway:
-      "Model licences constrain two things: what use is permitted, and what may be done with the output. Internal and customer-facing use are routinely priced and licensed apart.",
+      "Model licenses constrain two things: what use is permitted, and what may be done with the output. Internal and customer-facing use are routinely priced and licensed apart.",
     frameworkTags: ["AI Governance", "ISO 42001"],
     distractorNotes: {
       C:
-        "Capacity planning is an engineering concern, not a licence question.",
+        "Capacity planning is an engineering concern, not a license question.",
       D:
-        "No general duty requires publishing licence terms.",
+        "No general duty requires publishing license terms.",
       E:
-        "Registration with competitors is not a thing any licence requires.",
+        "Registration with competitors is not a thing any license requires.",
     },
     sources: [
       "ISO/IEC 42001 (Annex A: supplier agreements and acceptable use)",
@@ -5621,7 +5621,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Policy and accountability are Govern, which surrounds the other three.",
       D:
-        "Prioritising and closing risks is Manage, which acts on what Measure found.",
+        "Prioritizing and closing risks is Manage, which acts on what Measure found.",
     },
     sources: [
       "NIST AI RMF 1.0 (Map, Measure, Manage and Govern functions)",
@@ -5645,7 +5645,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Audit staffing is a delivery detail with no bearing on coverage.",
       D:
-        "Certification bodies are internationally recognised; jurisdiction is not the test.",
+        "Certification bodies are internationally recognized; jurisdiction is not the test.",
       E:
         "A stack of certificates still does not cover an out-of-scope product.",
     },
@@ -5723,7 +5723,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Debuggability is a benefit to the team, not the reason the duty exists.",
       D:
-        "Enforcement attention does not reliably track organisation size.",
+        "Enforcement attention does not reliably track organization size.",
     },
     sources: [
       "GDPR Art. 22 and Recital 71 (contesting automated decisions)",
@@ -5949,7 +5949,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.B",
     difficulty: "applied",
     keyTakeaway:
-      "A licence to read is not a licence to train. Check the granted uses before the material becomes weights.",
+      "A license to read is not a license to train. Check the granted uses before the material becomes weights.",
     frameworkTags: ["AI Governance", "ISO 42001"],
     distractorNotes: {
       A:
@@ -5974,7 +5974,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.B",
     difficulty: "applied",
     keyTakeaway:
-      "A chatbot on your channel speaks for you. \"The model said it\" is not a defence to a customer or a regulator.",
+      "A chatbot on your channel speaks for you. \"The model said it\" is not a defense to a customer or a regulator.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       C:
@@ -6066,11 +6066,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.B",
     difficulty: "advanced",
     keyTakeaway:
-      "Programme-level assurance does not discharge decision-level duties. Credit law owes this applicant the specific reasons for this denial, and the difficulty of extracting them constrains model choice rather than excusing the notice.",
+      "Program-level assurance does not discharge decision-level duties. Credit law owes this applicant the specific reasons for this denial, and the difficulty of extracting them constrains model choice rather than excusing the notice.",
     frameworkTags: ["AI Governance", "AI Risk Management"],
     distractorNotes: {
       B:
-        "Pre-deployment disparate-impact testing is a real obligation under fair-lending law and belongs in any defensible programme. It is owed about the model; the adverse-action notice is owed to this applicant, and neither substitutes for the other.",
+        "Pre-deployment disparate-impact testing is a real obligation under fair-lending law and belongs in any defensible program. It is owed about the model; the adverse-action notice is owed to this applicant, and neither substitutes for the other.",
       C:
         "Retaining the model version and inputs is what makes a denial reconstructable and is required by record-keeping rules. It supports the reason statement rather than replacing it.",
       D:
@@ -6122,9 +6122,9 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       B:
-        "Intent is the standard for disparate treatment, and it is also the standard a state statute may adopt. Reading it across to federal employment law is the specific error that lets an organisation believe clean documentation of intent closes the question.",
+        "Intent is the standard for disparate treatment, and it is also the standard a state statute may adopt. Reading it across to federal employment law is the specific error that lets an organization believe clean documentation of intent closes the question.",
       C:
-        "Identifying the offending feature is useful for remediation and is what the organisation will want internally. The doctrine does not require a complainant to supply a causal account of the model before the burden shifts.",
+        "Identifying the offending feature is useful for remediation and is what the organization will want internally. The doctrine does not require a complainant to supply a causal account of the model before the burden shifts.",
       D:
         "Allocating responsibility to the vendor is a normal and sensible contractual move, and indemnities are worth negotiating. It changes who pays, not who owes the duty to the applicants being screened.",
     },
@@ -6179,7 +6179,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Waiting for federal pre-emption is a defensible read of where the law may be heading, and it would resolve the patchwork if it arrived. It leaves present obligations unmet in the meantime, on a timetable nobody controls.",
       D:
-        "Per-state programmes are the most rigorous reading and avoid averaging away real differences. They are also the hardest to keep synchronised: duplicated programmes drift, and the drift usually surfaces during an audit rather than before one.",
+        "Per-state programs are the most rigorous reading and avoid averaging away real differences. They are also the hardest to keep synchronised: duplicated programs drift, and the drift usually surfaces during an audit rather than before one.",
     },
     sources: [
       { cite: "Colorado Artificial Intelligence Act (SB 24-205) — impact assessment and risk management programme duties" },
@@ -6192,7 +6192,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       freshness: "watch",
       jurisdictions: ["us-state"],
       note:
-        "The premise — that at least one state AI statute has been repealed and replaced since programme design — is itself the volatile element and should be re-checked at review.",
+        "The premise — that at least one state AI statute has been repealed and replaced since program design — is itself the volatile element and should be re-checked at review.",
     },
   },
   304: {
@@ -6251,7 +6251,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.A",
     difficulty: "advanced",
     keyTakeaway:
-      "A business associate agreement authorises work done for you, not the vendor's own use of your data. Vendor model improvement is a separate transaction needing its own basis, and de-identification is a standard to be met rather than a label to be applied.",
+      "A business associate agreement authorizes work done for you, not the vendor's own use of your data. Vendor model improvement is a separate transaction needing its own basis, and de-identification is a standard to be met rather than a label to be applied.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
@@ -6259,7 +6259,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "A no-re-identification covenant is a sensible control and is often required. A contractual promise about what the vendor will not do does not by itself establish the basis for the disclosure.",
       D:
-        "Individual authorisation is the right answer for identifiable data used for a purpose that requires it. Here it skips the prior question of what the data actually is and what the existing agreement already permits.",
+        "Individual authorization is the right answer for identifiable data used for a purpose that requires it. Here it skips the prior question of what the data actually is and what the existing agreement already permits.",
     },
     sources: [
       { cite: "Health Insurance Portability and Accountability Act — business associate uses and disclosures (45 CFR 164.504(e))" },
@@ -6303,13 +6303,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.C",
     difficulty: "advanced",
     keyTakeaway:
-      "State what you hold an artefact for. A downstream organisation's defensible position on training-data lawfulness is built on the provider's published training-content summary and copyright policy, reviewed and retained — not on inference from a licence.",
+      "State what you hold an artefact for. A downstream organization's defensible position on training-data lawfulness is built on the provider's published training-content summary and copyright policy, reviewed and retained — not on inference from a license.",
     frameworkTags: ["EU AI Act", "AI Governance"],
     distractorNotes: {
       B:
-        "Commercial-use grants are what make adoption possible, so reading assurance into one is natural. Those licences commonly disclaim precisely this warranty, and the organisation would be relying on a term that is not there.",
+        "Commercial-use grants are what make adoption possible, so reading assurance into one is natural. Those licenses commonly disclaim precisely this warranty, and the organization would be relying on a term that is not there.",
       C:
-        "Allocating the duty upstream is correct as a matter of who bears it, and is the position most organisations take. The question asked what this organisation can state, and 'someone else is responsible' is an answer about liability rather than about evidence.",
+        "Allocating the duty upstream is correct as a matter of who bears it, and is the position most organizations take. The question asked what this organization can state, and 'someone else is responsible' is an answer about liability rather than about evidence.",
       D:
         "No claims so far is the kind of comfort that accumulates quietly in a risk register. Absence of litigation to date is a fact about enforcement timing, not about the lawfulness of the data.",
     },
@@ -6385,7 +6385,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "Responsible AI"],
     distractorNotes: {
       A:
-        "This correctly locates the disparity in underwriter behaviour rather than in the model, which is the harder half of the observation. It stops one step short: the premium a policyholder pays is the combined output, so 'the model is clean' does not end the enquiry.",
+        "This correctly locates the disparity in underwriter behavior rather than in the model, which is the harder half of the observation. It stops one step short: the premium a policyholder pays is the combined output, so 'the model is clean' does not end the inquiry.",
       C:
         "A model recommending higher in low-income tracts would be a serious finding and is worth ruling out. The data described points the other way — overrides moved, recommendations were not reported to differ.",
       D:
@@ -6415,7 +6415,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Training on the insurer's own ten-year history does raise a live question about whether the actuarial support still holds. It is a maintenance issue on a slower clock than the disclosure gap, which is answerable the first time a regulator asks how a premium was set.",
       D:
-        "Eleven filings may well be the eventual remedy, and state-by-state variation is real. Jumping to the remedy before characterising the issue tends to produce filings that describe the wrong thing.",
+        "Eleven filings may well be the eventual remedy, and state-by-state variation is real. Jumping to the remedy before characterizing the issue tends to produce filings that describe the wrong thing.",
     },
     sources: [
       { cite: "NIST AI RMF (Govern 1.1: legal and regulatory requirements involving AI are understood and documented)" },
@@ -6439,9 +6439,9 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "AI Governance"],
     distractorNotes: {
       B:
-        "A bright-line rule would reach the right answer in this case and has real appeal where intake judgement has proved unreliable. It also removes the judgement the policy exists to exercise, and would classify a trivial pricing utility alongside this one.",
+        "A bright-line rule would reach the right answer in this case and has real appeal where intake judgment has proved unreliable. It also removes the judgment the policy exists to exercise, and would classify a trivial pricing utility alongside this one.",
       C:
-        "Periodic re-classification is a sound control and would eventually catch this. It describes a process that would correct the error later rather than explaining why the original judgement was wrong.",
+        "Periodic re-classification is a sound control and would eventually catch this. It describes a process that would correct the error later rather than explaining why the original judgment was wrong.",
       D:
         "Review by the building team is not independent, and that is a genuine defect. It is the consequence of the misclassification — a model assessed as material would have attracted independent validation — rather than the flaw in the classification itself.",
     },
@@ -6465,7 +6465,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "AI Risk Management"],
     distractorNotes: {
       B:
-        "Aggregate override rates by tract are exactly how the pattern was found and should certainly be retained. An aggregate cannot answer a question about one policyholder, which is what an enquiry asks.",
+        "Aggregate override rates by tract are exactly how the pattern was found and should certainly be retained. An aggregate cannot answer a question about one policyholder, which is what an inquiry asks.",
       C:
         "The rating plan in force is necessary context and will be requested alongside the decision record. It establishes what was permitted rather than what happened in this case.",
       D:
@@ -6513,13 +6513,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.B",
     difficulty: "applied",
     keyTakeaway:
-      "Put accountability where the behaviour can change. Several functions will have a legitimate interest; the owner is the one who can alter what happens on the next decision.",
+      "Put accountability where the behavior can change. Several functions will have a legitimate interest; the owner is the one who can alter what happens on the next decision.",
     frameworkTags: ["AI Governance", "ISO 42001"],
     distractorNotes: {
       A:
         "The chief actuary owns the rating plan and its justification, and will be needed on the filing question. Actuarial cannot change how an underwriter prices the next quote, which is where the disparity is arising.",
       C:
-        "Model risk surfaced the issue through monitoring and will own the validation gap this scenario also reveals. Owning the finding is not the same as owning the behaviour that produced it.",
+        "Model risk surfaced the issue through monitoring and will own the validation gap this scenario also reveals. Owning the finding is not the same as owning the behavior that produced it.",
       D:
         "The data science team controls the features and the retraining cadence, which would matter if the recommendations were the problem. The evidence locates the disparity after the model's output.",
     },
@@ -6565,13 +6565,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.A",
     difficulty: "advanced",
     keyTakeaway:
-      "What a contract term says a vendor will do is not the same as what the law permits. Establish the authorised purpose first; the de-identification question only arises if the use is permitted at all.",
+      "What a contract term says a vendor will do is not the same as what the law permits. Establish the authorized purpose first; the de-identification question only arises if the use is permitted at all.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
-        "Whether the transcripts actually meet a recognised de-identification standard is the right next question and a demanding one for free-text clinical speech. It only becomes relevant once the agreement is shown to permit the use.",
+        "Whether the transcripts actually meet a recognized de-identification standard is the right next question and a demanding one for free-text clinical speech. It only becomes relevant once the agreement is shown to permit the use.",
       C:
-        "Patient expectation is a legitimate test and would likely fail here, which matters for trust and for the privacy notice. It does not settle whether the disclosure is authorised.",
+        "Patient expectation is a legitimate test and would likely fail here, which matters for trust and for the privacy notice. It does not settle whether the disclosure is authorized.",
       D:
         "Whether the vendor's own model supplier also receives the transcripts is a real supply-chain question that the review should reach. It extends the scope of the problem rather than establishing whether there is one.",
     },
@@ -6595,9 +6595,9 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "AI Governance"],
     distractorNotes: {
       B:
-        "Labelling the summary as automated and unverified is cheap, honest and probably part of the answer. A label tells clinicians what they are reading without deciding whether a scheduling tool should be feeding clinical judgement at all.",
+        "Labeling the summary as automated and unverified is cheap, honest and probably part of the answer. A label tells clinicians what they are reading without deciding whether a scheduling tool should be feeding clinical judgment at all.",
       C:
-        "Instructing clinicians not to rely on it addresses the behaviour directly and is a reasonable interim step. Guidance against using information that is sitting in the record where it is needed tends not to hold.",
+        "Instructing clinicians not to rely on it addresses the behavior directly and is a reasonable interim step. Guidance against using information that is sitting in the record where it is needed tends not to hold.",
       D:
         "Measuring how often the summary misrepresents the caller is exactly the evidence a reassessment would want. Running the measurement without reopening the approval treats an accuracy figure as the whole question.",
     },
@@ -6623,7 +6623,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Telling patients they are dealing with an automated system is a genuine transparency obligation, and the agent does attempt it in the call. The recording and retention of what they say is disclosed nowhere at all.",
       C:
-        "Naming the vendor is rarely required at that level of specificity, though categories of recipient usually are. It would not repair a notice that mischaracterises the activity itself.",
+        "Naming the vendor is rarely required at that level of specificity, though categories of recipient usually are. It would not repair a notice that mischaracterizes the activity itself.",
       D:
         "A stated retention period would improve the notice and patients are entitled to understand how long records are kept. It describes the handling of data the notice has not yet admitted to collecting.",
     },
@@ -6643,7 +6643,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "III.A",
     difficulty: "advanced",
     keyTakeaway:
-      "A safety rule that fires on nearly every interaction was written for a conversation that does not happen. Specify controls against observed behaviour, not against an idealised transcript.",
+      "A safety rule that fires on nearly every interaction was written for a conversation that does not happen. Specify controls against observed behavior, not against an idealised transcript.",
     frameworkTags: ["AI Risk Management", "Responsible AI"],
     distractorNotes: {
       A:
@@ -6669,13 +6669,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "I.B",
     difficulty: "advanced",
     keyTakeaway:
-      "Contracting out the work does not contract out the duty. Technical causation determines how organisations recover from each other; the person harmed is owed an answer by the organisation that chose to serve them this way.",
+      "Contracting out the work does not contract out the duty. Technical causation determines how organizations recover from each other; the person harmed is owed an answer by the organization that chose to serve them this way.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
         "The vendor built and operates the system and will carry contractual responsibility, very likely including indemnity. The patient has no relationship with the vendor and did not choose it.",
       C:
-        "Proportional sharing is how liability between the three organisations may eventually be settled, and the contracts will be read closely. It leaves the patient with no single party answerable in the meantime.",
+        "Proportional sharing is how liability between the three organizations may eventually be settled, and the contracts will be read closely. It leaves the patient with no single party answerable in the meantime.",
       D:
         "Tracing the failure to a component is necessary work and determines where recovery is sought. It answers a question between suppliers rather than the question the patient is asking.",
     },
@@ -6699,7 +6699,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "AI Governance"],
     distractorNotes: {
       A:
-        "Extrapolating eleven in two hundred across the full pilot is a fair statistical move and sizes the exposure, which the organisation will need. Sizing a defect is work that follows naming it, and on its own it invites a debate about sampling rather than about the control.",
+        "Extrapolating eleven in two hundred across the full pilot is a fair statistical move and sizes the exposure, which the organization will need. Sizing a defect is work that follows naming it, and on its own it invites a debate about sampling rather than about the control.",
       B:
         "The supplier master being maintained without segregation from the buyers who rely on it is a genuine weakness and one route to exactly this failure. It describes a contributing condition rather than the thing that broke.",
       D:
@@ -6727,7 +6727,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Ageing the trace with the order record is tidy, probably over-retains, and would have preserved the eleven traces. It reaches a workable period by analogy without ever asking what the trace is for, which is how it would be defended if challenged.",
       C:
-        "The limitation period for supplier disputes is a real bound and covers the commercial case properly. It misses regulatory enquiries, discrimination questions and internal conduct investigations, which have their own clocks.",
+        "The limitation period for supplier disputes is a real bound and covers the commercial case properly. It misses regulatory inquiries, discrimination questions and internal conduct investigations, which have their own clocks.",
       D:
         "Surviving long enough to be sampled by internal audit is a sensible floor and would at least have caught this. It derives the period from one consumer of the data rather than from the obligation the data discharges.",
     },
@@ -6803,9 +6803,9 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "AI Risk Management"],
     distractorNotes: {
       B:
-        "Requiring a second signal before acting alone is reasonable defence in depth and would reduce dependence on a single field. It layers verification over an input that is still uncontrolled, and the second signal will need its own governance.",
+        "Requiring a second signal before acting alone is reasonable defense in depth and would reduce dependence on a single field. It layers verification over an input that is still uncontrolled, and the second signal will need its own governance.",
       C:
-        "The ERP's authorisation limits are a genuine and important constraint, and they are why no single order could do catastrophic damage. They govern how much may be committed rather than whether a supplier is legitimate.",
+        "The ERP's authorization limits are a genuine and important constraint, and they are why no single order could do catastrophic damage. They govern how much may be committed rather than whether a supplier is legitimate.",
       D:
         "Periodic review of placed orders is a standard and worthwhile control, and it is what found this. It is detective rather than preventive, and the deleted traces have already demonstrated how little review can recover after the fact.",
     },
@@ -6857,7 +6857,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Independently verifying the record before relying on it sounds like basic diligence and would have avoided this outcome. The verification and correction duty generally sits with the agency that compiles the report, not with every user of it.",
       C:
-        "Escalating to the regional manager uses the exception route the organisation has actually built and might get this applicant housed. It is an internal remedy that leaves the applicant's statutory entitlement undelivered.",
+        "Escalating to the regional manager uses the exception route the organization has actually built and might get this applicant housed. It is an internal remedy that leaves the applicant's statutory entitlement undelivered.",
       D:
         "Consent to obtain a screening report is a real requirement and worth confirming. It attaches to getting the report rather than to acting on it, and was most likely handled in the application paperwork.",
     },
@@ -6981,7 +6981,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.B",
     difficulty: "advanced",
     keyTakeaway:
-      "Criminal and eviction records correlate with characteristics protected in housing. A screening practice built on them can exclude disproportionately while naming nothing protected, and the organisation applying it has to justify it.",
+      "Criminal and eviction records correlate with characteristics protected in housing. A screening practice built on them can exclude disproportionately while naming nothing protected, and the organization applying it has to justify it.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
@@ -7013,7 +7013,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "A severity scale covering degraded output quality is genuinely needed and will shape the response. Severity is assessed after something has been classified as an incident, which is the step this event never reaches.",
       B:
-        "Having someone on call who can read model behaviour is a real gap, and without it the signal would be escalated to people unable to interpret it. A rota only matters once a page is raised.",
+        "Having someone on call who can read model behavior is a real gap, and without it the signal would be escalated to people unable to interpret it. A rota only matters once a page is raised.",
       C:
         "Monitoring segment-level output quality as closely as uptime is exactly how this would be caught earlier and belongs in the answer. Detection produces a signal; the definition decides whether anyone is obliged to act on it.",
     },
@@ -7041,7 +7041,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Requiring a cited source passage improves the auditability of what the model asserts and would help a reviewer spot the fabrication. It constrains what the model says rather than what it is permitted to do.",
       D:
-        "Logging every tool call is essential and is how an unauthorised payment change is traced and reversed. It operates after the money has moved, which is a different objective from preventing the instruction being followed.",
+        "Logging every tool call is essential and is how an unauthorized payment change is traced and reversed. It operates after the money has moved, which is a different objective from preventing the instruction being followed.",
     },
     sources: [
       { cite: "EU AI Act Art. 15 (accuracy, robustness and cybersecurity of high-risk AI systems)" },
@@ -7063,7 +7063,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Risk Management", "AI Governance"],
     distractorNotes: {
       A:
-        "Checking whether recent outcomes are the ones the organisation wants guards against training a model on its own past behaviour, which is a real feedback trap. It is the right question once the cause of the shift is understood.",
+        "Checking whether recent outcomes are the ones the organization wants guards against training a model on its own past behavior, which is a real feedback trap. It is the right question once the cause of the shift is understood.",
       C:
         "A rollback plan is basic release discipline and should exist whether or not anything has drifted. It bounds the damage from a bad retrain without helping decide whether to retrain.",
       D:
@@ -7085,11 +7085,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.A",
     difficulty: "advanced",
     keyTakeaway:
-      "Human review takes a decision out of the solely-automated category only if the reviewer genuinely exercises judgement. Near-total deference is evidence the safeguard is nominal.",
+      "Human review takes a decision out of the solely-automated category only if the reviewer genuinely exercises judgment. Near-total deference is evidence the safeguard is nominal.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
-        "The manager's formal authority to depart is real and is what the organisation would point to first. Applying the test to the authority on paper rather than to its exercise is precisely the box-tick the provision was written to defeat.",
+        "The manager's formal authority to depart is real and is what the organization would point to first. Applying the test to the authority on paper rather than to its exercise is precisely the box-tick the provision was written to defeat.",
       C:
         "Arguing promotion is not a qualifying effect tests the right element of the rule, and the threshold does exclude trivial consequences. Effects on someone's employment and earnings sit well within what the rules contemplate.",
       D:
@@ -7143,7 +7143,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "A lawful basis, an impact assessment and a transparent notice are the correct package for a permitted high-risk use, and reaching for them shows the right instincts. They operate on practices the law allows to proceed with safeguards.",
       B:
-        "Voluntary participation with no consequence for declining is the strongest available version of a consent argument. Consent in an employment relationship is rarely free, and consent cannot authorise a practice that is prohibited outright.",
+        "Voluntary participation with no consequence for declining is the strongest available version of a consent argument. Consent in an employment relationship is rarely free, and consent cannot authorize a practice that is prohibited outright.",
       D:
         "Classification and conformity assessment is the right route for a high-risk system and would be the answer for most workplace AI. It presupposes the practice is permitted at all, which is the prior question here.",
     },
@@ -7167,11 +7167,11 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     frameworkTags: ["AI Governance", "AI Risk Management"],
     distractorNotes: {
       A:
-        "The provider's model card is genuinely valuable, should be retained, and is the right starting point for understanding limitations the fine-tune inherits. It describes the base model, not the adapted one the organisation actually serves.",
+        "The provider's model card is genuinely valuable, should be retained, and is the right starting point for understanding limitations the fine-tune inherits. It describes the base model, not the adapted one the organization actually serves.",
       B:
         "Fine-tuning dataset documentation records what the model was adapted to do and is necessary for reproducibility. It captures intent rather than result, which is exactly the gap evaluation exists to close.",
       C:
-        "Independent benchmark results add an outside view that a provider's own numbers lack, which is worth having. They measure standard tasks rather than the organisation's, and an external benchmark cannot speak to a private fine-tune.",
+        "Independent benchmark results add an outside view that a provider's own numbers lack, which is worth having. They measure standard tasks rather than the organization's, and an external benchmark cannot speak to a private fine-tune.",
     },
     sources: [
       { cite: "EU AI Act Art. 11 and Annex IV (technical documentation for high-risk AI systems)" },
@@ -7195,7 +7195,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       A:
         "Resemblance to protected training material is a real infringement exposure and is the risk most people raise first. It concerns liability for using the output, which is a different problem from whether the asset is worth owning.",
       B:
-        "Terms reserving rights in output to the provider do exist and are worth checking before relying on anything generated. This is usually settled by reading the licence, and a broad grant still leaves the protection question open.",
+        "Terms reserving rights in output to the provider do exist and are worth checking before relying on anything generated. This is usually settled by reading the license, and a broad grant still leaves the protection question open.",
       D:
         "Indemnity scope matters a great deal once a third-party claim arrives, and many indemnities are narrower than assumed. It allocates the cost of a dispute rather than establishing what the company owns.",
     },
@@ -7217,7 +7217,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "II.B",
     difficulty: "advanced",
     keyTakeaway:
-      "Whoever places the finished product on the market answers for its safety. A defective component is a matter between manufacturer and supplier, not a defence against the person injured.",
+      "Whoever places the finished product on the market answers for its safety. A defective component is a matter between manufacturer and supplier, not a defense against the person injured.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
@@ -7279,7 +7279,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       C:
         "Mapping the regimes applying to customers' sectors is thoughtful and genuinely useful where the supplier knows the market. It cannot be done exhaustively by a party that does not control the context of use, and attempting it invites false comfort.",
       D:
-        "Warranty scope does shape what ends up in the document, and legal review will insist on it. Treating it as the determinant produces documentation optimised to limit liability rather than to let the deployer decide.",
+        "Warranty scope does shape what ends up in the document, and legal review will insist on it. Treating it as the determinant produces documentation optimized to limit liability rather than to let the deployer decide.",
     },
     sources: [
       { cite: "EU AI Act Art. 13 (transparency and provision of information to deployers)" },
@@ -7297,7 +7297,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.B",
     difficulty: "advanced",
     keyTakeaway:
-      "Global and local explanations answer different questions — is the model sensible, and why this case. An organisation deploying a consequential system generally needs both rather than a choice between them.",
+      "Global and local explanations answer different questions — is the model sensible, and why this case. An organization deploying a consequential system generally needs both rather than a choice between them.",
     frameworkTags: ["Responsible AI", "AI Risk Management"],
     distractorNotes: {
       A:
@@ -7349,13 +7349,13 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "IV.C",
     difficulty: "advanced",
     keyTakeaway:
-      "Notification serves the person notified. Ask what it lets them do — appeal, reapply, correct a record, seek a remedy — rather than what it costs the organisation to send.",
+      "Notification serves the person notified. Ask what it lets them do — appeal, reapply, correct a record, seek a remedy — rather than what it costs the organization to send.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       B:
-        "Waiting for the regulator's direction is cautious, keeps the organisation aligned with its supervisor, and is common practice. It subordinates a duty owed to individuals to a process concerned with the organisation's own compliance.",
+        "Waiting for the regulator's direction is cautious, keeps the organization aligned with its supervisor, and is common practice. It subordinates a duty owed to individuals to a process concerned with the organization's own compliance.",
       C:
-        "Where the organisation can correct everything itself, the case for notifying looks weaker and the instinct is understandable. The test still asks whether anything remains that only the individual can do — appeal, re-apply, or correct a record held elsewhere.",
+        "Where the organization can correct everything itself, the case for notifying looks weaker and the instinct is understandable. The test still asks whether anything remains that only the individual can do — appeal, re-apply, or correct a record held elsewhere.",
       D:
         "Avoiding disproportionate distress is a legitimate consideration and should shape how the message is written. It becomes a reason to withhold information people need to protect themselves only in rare cases.",
     },
@@ -7375,7 +7375,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     bokSubdomain: "III.B",
     difficulty: "applied",
     keyTakeaway:
-      "Minimisation is a design discipline, not an external restriction. Asking what the model needs produces a smaller set, a reason for every field, and a defensible answer to why any of it is there.",
+      "Minimization is a design discipline, not an external restriction. Asking what the model needs produces a smaller set, a reason for every field, and a defensible answer to why any of it is there.",
     frameworkTags: ["AI Governance", "Responsible AI"],
     distractorNotes: {
       A:
@@ -7407,7 +7407,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
       B:
         "Keeping the logs while the replacement needs a comparison baseline is a sound engineering reason and gives a definite period. It derives the retention from an internal consumer, and that period will expire long before the affected applicants' questions do.",
       C:
-        "Applying the organisation's standard schedule is defensible and is what most teams would do without thinking. It assumes the schedule was written with automated lending decisions and their contestability in mind.",
+        "Applying the organization's standard schedule is defensible and is what most teams would do without thinking. It assumes the schedule was written with automated lending decisions and their contestability in mind.",
       D:
         "Retaining the artefacts alongside the logs is a strong answer — reproducing a decision takes more than reading what it was. It refines the same principle rather than stating it, and the logs are the part without which nothing can be answered at all.",
     },

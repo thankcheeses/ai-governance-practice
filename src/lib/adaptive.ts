@@ -9,7 +9,7 @@ import { daysBetween, shuffle, todayISO } from "./utils";
  *
  * Intentionally simple for the MVP: track difficulty, track accuracy, identify
  * weak domains, and use those three signals to order the next questions. No
- * model, no personalisation service — just transparent scoring that a
+ * model, no personalization service — just transparent scoring that a
  * practitioner could read and predict. The seams are here for more later.
  */
 
@@ -257,7 +257,7 @@ export function selectQuestions(
         This term is +15 / +8 / +1 as the gap widens, a 14-point spread, while
         the jitter above spans 0-6. The tiers therefore cannot interleave: a
         question one tier from the target can never outscore one at the target,
-        whatever the jitter does. That is the intended behaviour for an
+        whatever the jitter does. That is the intended behavior for an
         adaptive practice session and it is why an exam has to opt out rather
         than rely on randomness to mix the tiers.
       */
@@ -298,7 +298,7 @@ function seededJitter(seed?: number): (questionId: string) => number {
       under a fair draw is about a 4-in-10-million event.
 
       This is murmur3's finalizer, which exists for exactly this: scattering
-      the bits so neighbouring ids land nowhere near each other. Still a pure
+      the bits so neighboring ids land nowhere near each other. Still a pure
       function of seed and id, so a refresh rebuilds the same sitting.
     */
     h ^= h >>> 16;

@@ -14,12 +14,12 @@ import { DEFAULT_MAINTENANCE, JURISDICTIONS, type Jurisdiction } from "./types";
  * invent a review that did not happen, and it must not let a status exist
  * without the date that would make it checkable. `scripts/check-content.ts`
  * enforces the same invariants over the real bank at gate time; this covers
- * the normalisation that produces them.
+ * the normalization that produces them.
  */
 
 const QS = getTrackQuestions("aigp-preparation");
 
-test("every question carries a maintenance block after normalisation", () => {
+test("every question carries a maintenance block after normalization", () => {
   // Absent in the enrichment entry must become an explicit "unreviewed",
   // not undefined — the app has to be able to count unreviewed items.
   for (const q of QS) {
@@ -50,7 +50,7 @@ test("a review claim is complete, and nothing else claims one", () => {
       continue;
     }
     assert.notEqual(m.reviewStatus, "unreviewed", `${q.id}: review date with no finding`);
-    assert.notEqual(m.freshness, "unreviewed", `${q.id}: review date with no freshness judgement`);
+    assert.notEqual(m.freshness, "unreviewed", `${q.id}: review date with no freshness judgment`);
     assert.ok(m.jurisdictions.length > 0, `${q.id}: reviewed but no jurisdiction recorded`);
   }
 });
@@ -79,7 +79,7 @@ test("jurisdictions stay inside the controlled vocabulary", () => {
 });
 
 test("sources are always structured, never a bare string", () => {
-  // 296 entries author their sources as plain strings. Normalisation widens
+  // 296 entries author their sources as plain strings. Normalization widens
   // them so no consumer branches on which form the author happened to use —
   // the failure that would otherwise show up as "[object Object]" in the
   // "Check it against" list.

@@ -55,7 +55,7 @@ export interface Slice {
  */
 export const MIN_ATTEMPTS_FOR_SIGNAL = 3;
 
-function summarise(
+function summarize(
   id: string,
   label: string,
   attempts: Attempt[],
@@ -120,7 +120,7 @@ export function domainSlices(
   }
   const attempts = progress.attempts.filter((a) => a.trackId === trackId);
   return Array.from(available.keys()).map((domain) =>
-    summarise(
+    summarize(
       domain,
       domain,
       attempts.filter((a) => a.domain === domain),
@@ -159,7 +159,7 @@ export function subdomainSlices(
   // Ordered by the Body of Knowledge, not by score, so the shape of the
   // qualification stays legible even when the numbers move.
   return SUBDOMAINS.filter((s) => available.has(s.id)).map((s) =>
-    summarise(s.id, s.competency, byId.get(s.id) ?? [], available.get(s.id) ?? 0),
+    summarize(s.id, s.competency, byId.get(s.id) ?? [], available.get(s.id) ?? 0),
   );
 }
 

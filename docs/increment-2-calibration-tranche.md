@@ -53,10 +53,10 @@ Roughly even by design rather than by accident. An uneven tranche would make
 the first pattern-detection experiments measure the tranche instead of the
 learner.
 
-### Distractor labelling rule
+### Distractor labeling rule
 
 **Only the tempting wrong options are labelled.** Where a distractor is an
-obvious throwaway, it gets nothing. Labelling every wrong option would inflate
+obvious throwaway, it gets nothing. Labeling every wrong option would inflate
 the count and teach the engine that every miss is diagnostic, when most misses
 on a weak distractor mean only that the learner was guessing.
 
@@ -79,7 +79,7 @@ sorting exercise over four facts, only one of which changes the category.
 
 **aigp-110** · III.A · applied — *device type as proxy*
 Primary `material_facts`. Four features, one without a defensible causal link.
-- `C` → `plausible_but_incomplete` — credit-history length genuinely correlates with age, but has a recognised risk rationale. The strongest near-miss in the item.
+- `C` → `plausible_but_incomplete` — credit-history length genuinely correlates with age, but has a recognized risk rationale. The strongest near-miss in the item.
 
 **aigp-124** · III.A · advanced — *prior interventions contaminate the label*
 Primary `material_facts`, secondary `lifecycle_stage`.
@@ -134,7 +134,7 @@ Primary `governing_obligation`, secondary `legal_vs_ethical`.
 - `C` → `wrong_accountable_party` — the burden of justification stays with the regulated firm.
 - `D` → `wrong_governing_obligation` — treats AI-specific rules as substitutional rather than additional.
 
-**aigp-294** · II.B · applied — *a licence to read is not a licence to train*
+**aigp-294** · II.B · applied — *a license to read is not a license to train*
 Primary `governing_obligation`.
 - `D` → `wrong_governing_obligation` — base-model terms do not propagate to downstream output.
 
@@ -150,9 +150,9 @@ Primary `accountability`.
 - `B` → `wrong_accountable_party` — developer duties attach to building or training.
 - `D` → `wrong_governing_obligation` — role identified correctly, obligations denied. *(Matches the approved decision for Q54 option D.)*
 
-**aigp-111** · I.C · applied — *scope change needs the authorising body*
+**aigp-111** · I.C · applied — *scope change needs the authorizing body*
 Primary `accountability`.
-- `A` → `wrong_accountable_party` — validating a use is not authorising it.
+- `A` → `wrong_accountable_party` — validating a use is not authorizing it.
 - `B` → `wrong_accountable_party` — a business approving its own scope extension removes the control.
 
 **aigp-141** · IV.A · advanced — *automation moves who must be named*
@@ -184,7 +184,7 @@ Primary `sequencing`, secondary `lifecycle_stage`.
 
 **aigp-019** · IV.C · advanced — *disclosure timing*
 Primary `sequencing`.
-- `C` → `secondary_risk_prioritized` — auditability is the organisation's problem, not the member's harm.
+- `C` → `secondary_risk_prioritized` — auditability is the organization's problem, not the member's harm.
 - `D` → `plausible_but_incomplete` — the closest competing answer: a real coverage gap, but weaker than the timing harm.
 
 **aigp-020** · IV.C · advanced — *preventive control moved after the event*
@@ -217,7 +217,7 @@ Primary `sequencing`.
 
 **aigp-030** · III.A · foundational — *design-phase activities*
 Primary `lifecycle_stage`.
-- `B` → `lifecycle_confusion` — monitoring thresholds feel like planning; they are set once normal behaviour can be characterised.
+- `B` → `lifecycle_confusion` — monitoring thresholds feel like planning; they are set once normal behavior can be characterized.
 
 **aigp-034** · III.C · applied — *the interval between release gates*
 Primary `lifecycle_stage`.
@@ -239,7 +239,7 @@ Primary `lifecycle_stage`.
 **aigp-277** · II.D · foundational — *Measure as distinct from Map*
 Primary `lifecycle_stage`.
 - `A` → `lifecycle_confusion` — context and cataloguing are Map.
-- `D` → `lifecycle_confusion` — prioritising and closing risks is Manage.
+- `D` → `lifecycle_confusion` — prioritizing and closing risks is Manage.
 
 ### legal_vs_ethical — hard requirement vs commitment
 
@@ -250,7 +250,7 @@ Primary `legal_vs_ethical`, secondary `governing_obligation`.
 
 **aigp-135** · IV.C · advanced — *is concentration a named harm*
 Primary `legal_vs_ethical`.
-- `C` → `legal_ethical_conflation` — treats industry practice as the standard rather than the organisation's own commitment.
+- `C` → `legal_ethical_conflation` — treats industry practice as the standard rather than the organization's own commitment.
 - `D` → `plausible_but_incomplete` — implementation cost affects how, not whether.
 
 **aigp-152** · I.C · applied — *"fair" needs an operable definition*
@@ -260,7 +260,7 @@ Primary `legal_vs_ethical`.
 **aigp-178** · I.C · advanced — *trade-off against stated risk appetite*
 Primary `legal_vs_ethical`.
 - `A` → `missed_material_fact` — complaint clustering is measured evidence too.
-- `C` → `legal_ethical_conflation` — a blanket ethical priority replaces the judgement governance exists to make.
+- `C` → `legal_ethical_conflation` — a blanket ethical priority replaces the judgment governance exists to make.
 
 **aigp-193** · II.D · applied — *certification ≠ compliance*
 Primary `legal_vs_ethical`.
@@ -276,7 +276,7 @@ Primary `legal_vs_ethical`.
 
 **aigp-066** · III.A · advanced — *risk mitigation hierarchy*
 Primary `risk_prioritization`, secondary `proportionality`.
-- `B` → `plausible_but_incomplete` — documenting every risk equally withholds the judgement.
+- `B` → `plausible_but_incomplete` — documenting every risk equally withholds the judgment.
 - `C` → `risk_overreaction` — escalating everything exhausts the attention it depends on.
 - `D` → `risk_underestimation` — **conflicts with an approved decision; see Open questions.**
 
@@ -302,11 +302,11 @@ Primary `risk_prioritization`.
 
 **aigp-164** · IV.A · applied — *order by reversibility*
 Primary `risk_prioritization`, secondary `sequencing`. **Ambiguous; see Open questions.**
-- `A` → `secondary_risk_prioritized` — licence exposure accrues but is remediable.
+- `A` → `secondary_risk_prioritized` — license exposure accrues but is remediable.
 
 ### proportionality — matching response to risk
 
-**aigp-084** · I.B · applied — *structure scaled to the organisation*
+**aigp-084** · I.B · applied — *structure scaled to the organization*
 Primary `proportionality`.
 - `A` → `plausible_but_incomplete` — the failure is the weight of the structure, not the mechanism.
 
@@ -369,13 +369,13 @@ history sees an approval was set aside and why.
 ### 2. `aigp-164` — `risk_prioritization`, with `sequencing` secondary
 
 The stem asks which risk to address **FIRST**, which reads as sequencing; the
-takeaway is "order by reversibility", which is a prioritisation rule. Applied as
+takeaway is "order by reversibility", which is a prioritization rule. Applied as
 `risk_prioritization` primary: the item tests *how to rank*, and the ordering is
 the output rather than the skill.
 
 The same tension resolves the other way in `aigp-109` and `aigp-174`, both
 labelled `sequencing`, because there the wrong answers fail by acting out of
-order rather than by mis-ranking severity. This is a judgement, not a rule —
+order rather than by mis-ranking severity. This is a judgment, not a rule —
 if pattern data later shows learners miss 164 the way they miss 109, swap it.
 
 ### 3. `aigp-182` option D — left unlabelled

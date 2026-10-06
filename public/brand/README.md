@@ -37,7 +37,7 @@ in the product.
 
 ### How the background was removed
 
-Worth recording, because the obvious method is wrong. A global white colour key
+Worth recording, because the obvious method is wrong. A global white color key
 punches holes in the shield: its chrome rim and specular highlights contain true
 `#ffffff` *inside* the object. The background was instead found by **connected
 flood fill from the image border**, so interior whites are unreachable and
@@ -46,8 +46,8 @@ survive.
 Anti-aliased edge pixels were already blended with the old background
 (`P = a·C + (1−a)·B`). Left at full alpha they keep that tint and read as a
 bright fringe on a dark ground, so the edge band is unpremultiplied: the object
-colour is estimated from opaque neighbours, alpha solved per pixel, and the
-recovered colour written back instead of the blended one.
+color is estimated from opaque neighbors, alpha solved per pixel, and the
+recovered color written back instead of the blended one.
 
 Verified after extraction: zero enclosed transparent pixels (no holes), and rim
 luminance sits *between* the ground and the object on both themes rather than

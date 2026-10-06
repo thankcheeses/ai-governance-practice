@@ -159,7 +159,7 @@ for (const q of QS) {
   if (lastReviewed !== null && reviewStatus === "unreviewed") {
     fail(`${q.id}: lastReviewed is set but reviewStatus is still "unreviewed"`);
   }
-  // Freshness is a judgement made during a review; it cannot precede one.
+  // Freshness is a judgment made during a review; it cannot precede one.
   if (freshness !== "unreviewed" && lastReviewed === null) {
     fail(`${q.id}: freshness "${freshness}" asserted without a review`);
   }

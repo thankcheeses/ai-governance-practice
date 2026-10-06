@@ -46,7 +46,7 @@ export interface DiagramProps {
 /*
   The shared states for a selectable node.
 
-  Selection is never carried by colour alone: the active node also gains a
+  Selection is never carried by color alone: the active node also gains a
   heavier border, a raised shadow and a weight change, and the detail panel
   below names the stage in text. `accent-subtle` is used for the active fill
   rather than `accent` because `--accent-foreground` is itself a dark orange in
@@ -163,18 +163,18 @@ export function LevelLadder({
 }
 
 /**
- * A centre node with satellites — the shape for distributed responsibility.
- * The point is that the roles surround one accountable centre; a linear path
+ * A center node with satellites — the shape for distributed responsibility.
+ * The point is that the roles surround one accountable center; a linear path
  * would say the opposite.
  */
 export function RoleGraph({
-  centre,
+  center,
   around,
   active,
   onSelect,
   groupLabel,
 }: {
-  centre: string;
+  center: string;
   around: readonly string[];
 } & Omit<DiagramProps, "labels">) {
   const top = around.slice(0, 1);
@@ -208,17 +208,17 @@ export function RoleGraph({
         ) : null}
         <Rule horizontal />
         {/*
-          The centre is drawn heavier than its satellites even when another node
+          The center is drawn heavier than its satellites even when another node
           is selected: "one accountable owner" is the diagram's claim, and
           letting selection flatten that would undercut the lesson.
         */}
         <NodeButton
-          label={centre}
-          active={centre === active}
+          label={center}
+          active={center === active}
           onSelect={onSelect}
           className={cn(
             "px-3.5 py-2",
-            centre !== active &&
+            center !== active &&
               "border-border-strong/60 bg-accent-tint text-foreground"
           )}
         />
@@ -277,7 +277,7 @@ export function LoopRing({
       {/*
         Drawn as a border rather than an SVG ellipse so it inherits the theme
         token directly and cannot be distorted by viewBox scaling. The nodes are
-        opaque and sit centred on the curve, so the ring passes behind them —
+        opaque and sit centered on the curve, so the ring passes behind them —
         beads on a loop.
       */}
       <div

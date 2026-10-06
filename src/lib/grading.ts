@@ -51,10 +51,10 @@ export function gradeAnswer(
 }
 
 /**
- * Toggle one option within a selection, honouring the question's arity.
+ * Toggle one option within a selection, honoring the question's arity.
  *
  * Single-select replaces; multi-select adds or removes. Kept here rather than
- * in the component so selection behaviour and grading cannot drift apart.
+ * in the component so selection behavior and grading cannot drift apart.
  */
 export function toggleSelection(
   question: Question,

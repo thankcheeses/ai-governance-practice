@@ -104,7 +104,7 @@ export function buildSitting(
  *
  * Returns null if any id no longer resolves — the caller starts clean rather
  * than showing a partial sitting. The snapshot is expected to have been
- * validated already; this is the second line of defence, not the first.
+ * validated already; this is the second line of defense, not the first.
  */
 export function sittingFromSnapshot(session: ActiveSession): Sitting | null {
   return sittingFromComposition(

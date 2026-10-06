@@ -29,7 +29,7 @@ export function ServiceWorker() {
 
         The explicit scope keeps the worker confined to this app's sub-path. A
         GitHub Pages user site puts every project on one origin, so a worker
-        scoped to "/" would be claiming its neighbours' pages too.
+        scoped to "/" would be claiming its neighbors' pages too.
       */
       navigator.serviceWorker
         .register(withBasePath("/sw.js"), { scope: withBasePath("/") })

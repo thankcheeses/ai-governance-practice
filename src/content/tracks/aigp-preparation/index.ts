@@ -47,7 +47,7 @@ function normalizeOptions(
 /**
  * "A" for single-select, "A,C,D" for multi-select. Parsed here so the source
  * file keeps one readable convention and the rest of the app only ever sees a
- * normalised array.
+ * normalized array.
  */
 function normalizeCorrect(questionId: string, correct: string): string[] {
   return correct
@@ -188,7 +188,7 @@ function normalize(item: RawQuestion): Question {
  * Widen a source to its structured form.
  *
  * Enrichment entries may write a bare citation string — 296 of them do — or a
- * SourceRef with a URL and an instrument date. Normalising here means every
+ * SourceRef with a URL and an instrument date. Normalizing here means every
  * consumer sees one shape, so nothing downstream has to branch on which form
  * the author happened to use.
  */

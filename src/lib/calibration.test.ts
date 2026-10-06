@@ -124,7 +124,7 @@ test("underconfidence is reported too, and does not read as a problem", () => {
 
 test("guessing wrong is never held against the learner", () => {
   // Wrong on everything guessed, right on everything confident. That is
-  // well-calibrated behaviour and must not be reported as a failure.
+  // well-calibrated behavior and must not be reported as a failure.
   const c = assessCalibration([
     ...many(10, true, "confident"),
     ...many(10, false, "guessed"),

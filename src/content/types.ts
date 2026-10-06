@@ -180,7 +180,7 @@ export interface VisualAid {
  * A fact pattern several questions interrogate.
  *
  * Certification testing at this level is not a definition quiz: a candidate is
- * given an organisation, a system, a lifecycle stage, competing priorities and
+ * given an organization, a system, a lifecycle stage, competing priorities and
  * a set of signals, and has to work out which facts bear on the decision in
  * front of them. A scenario is authored once and its questions attack different
  * dimensions of it — sequencing, accountability, risk priority, control
@@ -199,7 +199,7 @@ export interface VisualAid {
 export interface Scenario {
   id: string;
   title: string;
-  /** Industry or organisational context, e.g. "financial services". */
+  /** Industry or organizational context, e.g. "financial services". */
   sector: string;
   /** The fact pattern, one entry per paragraph. */
   body: string[];
@@ -226,7 +226,7 @@ export interface RawScenario {
  * richer form: the same citation, plus the two things a reader needs to verify
  * it themselves and the maintainer needs to know whether it has moved.
  *
- * Normalised to this shape on load, so nothing downstream has to handle both.
+ * Normalized to this shape on load, so nothing downstream has to handle both.
  */
 /**
  * Citation forms that name something a learner can actually go and read.
@@ -397,7 +397,7 @@ export interface Question {
    * Why each wrong option is wrong, keyed by option id.
    *
    * Kept per option rather than folded into the rationale because most of the
-   * learning in a judgement item is in the near-miss: an answer that is a real
+   * learning in a judgment item is in the near-miss: an answer that is a real
    * governance action but the wrong one *here*, or right but out of sequence.
    */
   distractorNotes?: Record<string, string>;
@@ -407,7 +407,7 @@ export interface Question {
    * rather than trust it.
    *
    * Always `SourceRef` here even when the enrichment entry wrote a bare
-   * string: normalisation widens it, so no consumer handles two shapes.
+   * string: normalization widens it, so no consumer handles two shapes.
    */
   sources?: SourceRef[];
   frameworkTags: FrameworkTag[];
@@ -429,7 +429,7 @@ export interface Question {
    */
   reasoning?: ReasoningMeta;
   /**
-   * Freshness and review state. Always present after normalisation; an item
+   * Freshness and review state. Always present after normalization; an item
    * that was never reviewed carries DEFAULT_MAINTENANCE rather than nothing,
    * so "unreviewed" is a value the app can read and count.
    */
@@ -510,7 +510,7 @@ export interface QuestionEnrichment {
   };
   /**
    * Freshness and review state. Omit it entirely until someone has genuinely
-   * reviewed the item — absence normalises to DEFAULT_MAINTENANCE, which
+   * reviewed the item — absence normalizes to DEFAULT_MAINTENANCE, which
    * asserts nothing, and that is the honest default for content nobody has
    * re-read yet.
    */

@@ -3,7 +3,7 @@
  *
  * `normalize()` throws when a question has no entry, so the bank cannot load
  * until every id is covered. Difficulty follows the existing convention:
- * foundational for recognising a concept, applied for a situated judgement,
+ * foundational for recognizing a concept, applied for a situated judgment,
  * advanced for a decision balancing several controls or obligations.
  *
  * Run once: node scripts/add-enrichment-batch-2.mjs
@@ -28,7 +28,7 @@ const ENTRIES = [
   [63, "foundational", "Govern, map, measure, manage identifies the NIST AI RMF — a voluntary framework, not binding law and not a certifiable standard.", ["NIST AI RMF"]],
   [64, "foundational", "ISO/IEC 42001 is the certifiable one. If the goal is an audited certificate for an AI management system, that is the standard; the rest serve terminology, assessment, or voluntary risk work.", ["ISO 42001"]],
   [65, "applied", "Undefined scope makes every later governance activity weaker. You cannot assess risk against a use case nobody has written down.", ["AI Governance", "AI Risk Management"]],
-  [66, "advanced", "Prioritise by severity and likelihood: eliminate, then reduce, then control, then accept with monitoring. Treating all risks equally and escalating everything are both ways of avoiding the judgement.", ["AI Risk Management", "NIST AI RMF"]],
+  [66, "advanced", "Prioritize by severity and likelihood: eliminate, then reduce, then control, then accept with monitoring. Treating all risks equally and escalating everything are both ways of avoiding the judgment.", ["AI Risk Management", "NIST AI RMF"]],
   [67, "applied", "Design documentation exists so you can defend a decision later, to a regulator or an affected person. Its value is proactive, and code comments do not substitute for it.", ["AI Governance"]],
   [68, "foundational", "Lineage and provenance mean knowing where data came from and what was done to it. Without that trail you cannot answer questions about a model's inputs after the fact.", ["AI Governance"]],
   [69, "foundational", "Accuracy and fairness are separate properties tested separately. A model can be accurate overall and still disadvantage a group systematically.", ["Responsible AI", "AI Risk Management"]],

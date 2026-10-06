@@ -29,7 +29,7 @@
  */
 
 /* ------------------------------------------------------------------ */
-/* Colour                                                              */
+/* Color                                                              */
 /* ------------------------------------------------------------------ */
 
 export interface Rgb {
@@ -38,7 +38,7 @@ export interface Rgb {
   b: number;
 }
 
-/** `#6b7fd7` or `#fff` to a PDF colour triple in 0–1. */
+/** `#6b7fd7` or `#fff` to a PDF color triple in 0–1. */
 export function rgb(hex: string): Rgb {
   const h = hex.replace("#", "").trim();
   const full =
@@ -49,7 +49,7 @@ export function rgb(hex: string): Rgb {
           .join("")
       : h;
   if (!/^[0-9a-fA-F]{6}$/.test(full)) {
-    throw new Error(`not a colour: ${hex}`);
+    throw new Error(`not a color: ${hex}`);
   }
   return {
     r: parseInt(full.slice(0, 2), 16) / 255,
@@ -98,7 +98,7 @@ export const FONT_KEYS: Record<FontId, string> = {
 
 /*
   Advance widths in 1/1000 em, from Adobe's AFM metrics for the standard
-  fourteen. Needed because centring and right-aligning text requires knowing
+  fourteen. Needed because centering and right-aligning text requires knowing
   how wide it is, and a proportional font will not tell you for free.
 
   Only ASCII 32–126 is tabulated. Everything written to the document is folded
@@ -431,7 +431,7 @@ export function serialize(canvas: Canvas): SerializedPage {
 
   const parts: string[] = [];
   for (const op of canvas.ops) {
-    // `q`/`Q` around every op: colour, line width and alpha are all graphics
+    // `q`/`Q` around every op: color, line width and alpha are all graphics
     // state, and leaking one op's state into the next produced the kind of bug
     // that only shows up in the fifth element painted.
     parts.push("q");
@@ -451,7 +451,7 @@ export function serialize(canvas: Canvas): SerializedPage {
         const cos = Math.cos(rad);
         const sin = Math.sin(rad);
         // Rotate about the anchor, then apply the alignment offset in the
-        // rotated frame so centred rotated text stays centred.
+        // rotated frame so centered rotated text stays centered.
         const ox = dx * cos;
         const oy = dx * sin;
         parts.push(

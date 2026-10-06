@@ -12,7 +12,7 @@ import { DiagramFrame, FlowRule } from "./primitives";
 const NODES = [
   {
     id: "org",
-    label: "Your organisation",
+    label: "Your organization",
     role: "Deployer / controller",
     duty: "Remains accountable for outcomes even when work is outsourced. Must know who is in the chain and what data moves.",
     lever: "Internal policy + board/executive ownership of AI risk",

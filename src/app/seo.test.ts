@@ -73,7 +73,7 @@ test("the sitemap lists only absolute URLs on the real origin", () => {
 
 test("the sitemap and the crawl rules do not contradict each other", () => {
   // Listing a page in the sitemap while disallowing it is the classic
-  // self-cancelling SEO bug: it asks a crawler to fetch what it just forbade.
+  // self-canceling SEO bug: it asks a crawler to fetch what it just forbade.
   const [rule] = robots().rules as { disallow: string[] }[];
   for (const entry of sitemap()) {
     const path = entry.url.slice(SITE_URL.length) || "/";

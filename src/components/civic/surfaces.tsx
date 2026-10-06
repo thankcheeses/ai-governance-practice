@@ -71,7 +71,7 @@ export function SectionHeading({
  * The standard Civic card: 18px radius, fine border, soft layered shadow.
  *
  * `emphasis="focus"` is the dominant surface on a screen — the one thing the
- * learner should act on. It is deliberately not a colour-only distinction: it
+ * learner should act on. It is deliberately not a color-only distinction: it
  * carries a periwinkle edge *and* more internal space, so it still reads as
  * primary in greyscale.
  */
@@ -106,7 +106,7 @@ export function FocusCard({
 /**
  * Apricot teaching block — "why this matters", context, and caution.
  *
- * Apricot is the insight colour, not a universal warning colour: the design
+ * Apricot is the insight color, not a universal warning color: the design
  * system says so explicitly. A genuine destructive warning uses
  * `StatusSurface tone="danger"`, which is a different surface with different
  * wording, so the two are never confused.
@@ -188,12 +188,12 @@ export function TactileButton({
 /**
  * A premium selectable surface for answer options.
  *
- * The correctness signal is never colour alone: a selected, revealed option
+ * The correctness signal is never color alone: a selected, revealed option
  * carries a dimensional correct/incorrect mark and a text label as well as the
  * tint. That is what keeps the study flow usable in greyscale and for a
- * colour-blind learner, and it is a requirement rather than a nicety.
+ * color-blind learner, and it is a requirement rather than a nicety.
  *
- * The element is a real `button` with `aria-pressed`, so keyboard behaviour,
+ * The element is a real `button` with `aria-pressed`, so keyboard behavior,
  * focus, and screen-reader state come from the platform rather than from
  * anything reimplemented here.
  */
@@ -275,7 +275,7 @@ export function SelectSurface({
 /* -------------------------------------------------------------- Status --- */
 
 /**
- * A labelled state surface. The label is mandatory — colour never carries the
+ * A labelled state surface. The label is mandatory — color never carries the
  * meaning on its own, which is why `tone` alone cannot be passed without one.
  */
 export function StatusSurface({

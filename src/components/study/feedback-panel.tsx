@@ -33,7 +33,7 @@ interface FeedbackPanelProps {
  *      It is the
  *      part worth carrying into the next scenario, so it outweighs the score.
  *
- * Colour is functional throughout: green confirms, red alerts, and the left
+ * Color is functional throughout: green confirms, red alerts, and the left
  * rule carries the signal so the text beside it stays fully legible.
  */
 /**
@@ -68,7 +68,7 @@ export function FeedbackPanel({
 }: FeedbackPanelProps) {
   /*
     Wrong options that carry a note, ordered so the learner's own choice comes
-    first. Most of the learning in a judgement item is in the near-miss — an
+    first. Most of the learning in a judgment item is in the near-miss — an
     action that is genuinely governance work but wrong here, or right but out
     of sequence — and the one they picked is the one they need explained.
   */
@@ -125,7 +125,7 @@ export function FeedbackPanel({
       {/*
         The anchor of the screen. Apricot rather than periwinkle: this is a
         teaching block — the "why this matters" of the answer — which is
-        exactly what the insight colour is for. It outweighs everything around
+        exactly what the insight color is for. It outweighs everything around
         it because it is the part worth carrying into the next scenario.
       */}
       <section className="rounded-xl border border-border bg-insight-tint p-5 shadow-card sm:p-6">

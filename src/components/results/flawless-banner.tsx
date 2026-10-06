@@ -7,7 +7,7 @@ import { useCueOnce } from "@/lib/use-cue";
  * Shown when every question in a sitting was answered and every one was right.
  *
  * It fires at any length — five questions, ten, a hundred — because it states
- * a fact about the sitting rather than a judgement about the learner. That is
+ * a fact about the sitting rather than a judgment about the learner. That is
  * the whole reason it can sit above the readiness verdict without contradicting
  * it: the verdict is about how much of the bank the sitting covered, and on a
  * perfect five it still reads "early signal only — too little practice to draw

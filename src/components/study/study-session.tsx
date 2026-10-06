@@ -426,7 +426,7 @@ export function StudySession({
       {/*
         The action bar, now reading as a layer rather than an edge.
 
-        It was `bg-background` — the same colour as the page — separated from
+        It was `bg-background` — the same color as the page — separated from
         the content by a single hairline. So a sentence scrolling past it did
         not look like a sentence passing *behind* something; it looked like a
         sentence that had been cut off, which is exactly how it was reported.

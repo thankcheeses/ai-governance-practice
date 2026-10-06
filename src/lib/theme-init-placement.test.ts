@@ -5,8 +5,8 @@ import { test } from "node:test";
 /**
  * Where the theme-init script sits in the root layout.
  *
- * This is a source-shape test rather than a behavioural one, which is unusual
- * enough to justify. The behaviour it protects can only be measured in a real
+ * This is a source-shape test rather than a behavioral one, which is unusual
+ * enough to justify. The behavior it protects can only be measured in a real
  * browser against a production build — the test runner here is
  * `tsx --test "src/**\/*.test.ts"` with no DOM — so the alternative to
  * asserting on the source is asserting nothing at all, and this regressed once

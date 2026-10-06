@@ -25,7 +25,7 @@ export interface Attempt {
   responseTimeMs: number;
   difficulty: Difficulty;
   domain: string;
-  /** Self-reported confidence, used to prioritise the review queue. */
+  /** Self-reported confidence, used to prioritize the review queue. */
   confidence: Confidence | null;
   createdAt: string;
   mode: StudyMode;

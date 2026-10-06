@@ -81,7 +81,7 @@ The current track contains **350 original questions** across four areas:
 | **Governing AI Deployment and Use** | Oversight, transparency, incidents, monitoring, and impact. |
 
 Of those, **62** hang off **15 multi-question fact patterns** —
-one organisation, one system, one set of competing pressures, interrogated from
+one organization, one system, one set of competing pressures, interrogated from
 several angles. The remaining 288 are standalone items written in the same
 situational style. "Scenario-based" describes how the questions read; the
 fact-pattern count is the smaller, separate number.
