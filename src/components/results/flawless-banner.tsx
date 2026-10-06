@@ -26,6 +26,7 @@ const CUE_FOR: Record<ReadinessState, "oof" | "womp" | "keepGoing" | "yay"> = {
 export function FlawlessBanner({ score }: { score: SittingScore }) {
   const readiness = assessReadiness(score);
   const [visible, setVisible] = useState(true);
+  const [dismissing, setDismissing] = useState(false);
   if (!visible) return null;
   const cue = readiness.state === "insufficient" && readiness.accuracy === 0 ? "oof" : CUE_FOR[readiness.state];
   useCueOnce(cue, true);
@@ -34,7 +35,8 @@ export function FlawlessBanner({ score }: { score: SittingScore }) {
     <section
       aria-live="polite"
       aria-label="Practice result encouragement"
-      className="mb-6 overflow-hidden rounded-xl border border-accent/30 bg-accent-tint shadow-[var(--shadow-card)] transition-opacity duration-700 ease-out animate-in fade-in"
+      onTransitionEnd={() => { if (dismissing) setVisible(false); }}
+      className={`mb-6 overflow-hidden rounded-xl border border-accent/30 bg-accent-tint shadow-[var(--shadow-card)] transition-opacity duration-700 ease-out ${dismissing ? "opacity-0" : "animate-in fade-in opacity-100"}`}
     >
       <div className="px-5 py-5 sm:px-6 sm:py-6">
         <p className="font-serif text-[1.5rem] leading-tight sm:text-[1.75rem]">
@@ -45,7 +47,7 @@ export function FlawlessBanner({ score }: { score: SittingScore }) {
         </p>
         <button
           type="button"
-          onClick={() => setVisible(false)}
+          onClick={() => setDismissing(true)}
           className="mt-4 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium transition-opacity hover:opacity-75"
         >
           Continue
