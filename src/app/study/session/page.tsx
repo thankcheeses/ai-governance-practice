@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { StudySession } from "@/components/study/study-session";
@@ -35,7 +35,6 @@ export default function StudySessionPage() {
 
 function Session() {
   const params = useSearchParams();
-  const router = useRouter();
   const { progress } = useProgress();
 
   /*
