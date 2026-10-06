@@ -26,7 +26,7 @@ export function FlawlessBanner({ score }: { score: SittingScore }) {
   const flawless = isFlawless(score);
   // A results screen re-renders as its record settles; the cue is not a
   // notification, so `useCueOnce` holds it to one play per mount.
-  useCueOnce("flawless", flawless);
+  const resultCue = score.total > 0 && score.unanswered === 0\n    ? score.percentage < 70\n      ? "oof"\n      : score.percentage >= 80\n        ? "yay"\n        : flawless\n          ? "flawless"\n          : null\n    : null;\n  useCueOnce(resultCue ?? "flawless", Boolean(resultCue));
 
   if (!flawless) return null;
 
