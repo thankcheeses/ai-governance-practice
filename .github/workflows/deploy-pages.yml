@@ -57,17 +57,22 @@ jobs:
 
       - run: npm ci
 
-      # The same gate used locally: lint, types, unit tests, and the question
-      # bank checks. Publishing is not the place to discover a type error.
-      # `check:originality` is deliberately excluded — it exits non-zero on a
-      # known, accepted duplicate pair and would block every deploy.
-      - name: Verify
-        run: |
-          npm run lint
-          npm run typecheck
-          npm test
-          npm run check:questions
-          npm run check:bok
+      # Keep each gate separate so a failed deployment tells us exactly which
+      # verification command stopped the publish.
+      - name: Verify lint
+        run: npm run lint
+
+      - name: Verify types
+        run: npm run typecheck
+
+      - name: Verify tests
+        run: npm test
+
+      - name: Verify question bank
+        run: npm run check:questions
+
+      - name: Verify BoK coverage
+        run: npm run check:bok
 
       - name: Build static export
         env:
