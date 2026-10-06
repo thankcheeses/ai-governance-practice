@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { assessReadiness, type ReadinessState } from "@/lib/readiness";
 import { type SittingScore } from "@/lib/results";
 import { useCueOnce } from "@/lib/use-cue";
@@ -24,6 +25,8 @@ const CUE_FOR: Record<ReadinessState, "oof" | "womp" | "keepGoing" | "yay"> = {
 
 export function FlawlessBanner({ score }: { score: SittingScore }) {
   const readiness = assessReadiness(score);
+  const [visible, setVisible] = useState(true);
+  if (!visible) return null;
   const cue = readiness.state === "insufficient" && readiness.accuracy === 0 ? "oof" : CUE_FOR[readiness.state];
   useCueOnce(cue, true);
 
@@ -40,6 +43,13 @@ export function FlawlessBanner({ score }: { score: SittingScore }) {
         <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {MESSAGES[readiness.state].body}
         </p>
+        <button
+          type="button"
+          onClick={() => setVisible(false)}
+          className="mt-4 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium transition-opacity hover:opacity-75"
+        >
+          Continue
+        </button>
       </div>
     </section>
   );
