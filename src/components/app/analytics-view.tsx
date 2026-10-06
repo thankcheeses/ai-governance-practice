@@ -16,9 +16,9 @@ import { cn } from "@/lib/utils";
  * the recommendation, not the bar: a percentage tells a learner they are weak
  * somewhere, and only the recommendation tells them what to read.
  *
- * Colour is a signal here, as everywhere in this system — but it is never the
+ * Color is a signal here, as everywhere in this system — but it is never the
  * only signal. Every band carries a text label too, so the meaning survives
- * greyscale, colour blindness, and a phone in sunlight.
+ * greyscale, color blindness, and a phone in sunlight.
  */
 
 const BAND_LABEL: Record<Band, string> = {
@@ -27,7 +27,7 @@ const BAND_LABEL: Record<Band, string> = {
   focus: "Focus",
 };
 
-/** Fill colours. `--warning` and `--success` already clear AA in both themes. */
+/** Fill colors. `--warning` and `--success` already clear AA in both themes. */
 const BAND_FILL: Record<Band, string> = {
   strong: "bg-success",
   moderate: "bg-warning",
@@ -131,7 +131,7 @@ function ReasoningPatternNote({ pattern }: { pattern: ReasoningPattern }) {
         </p>
         <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
           That is too little to call a pattern, and it may not hold up.
-          Practising a few of these is the quickest way to find out.
+          Practicing a few of these is the quickest way to find out.
         </p>
         <Button asChild variant="secondary" className="mt-4 w-full sm:w-auto">
           <Link href="/study/session?focus=pattern&count=10">
@@ -152,11 +152,11 @@ function ReasoningPatternNote({ pattern }: { pattern: ReasoningPattern }) {
         missed there, so treat it as a lead to check rather than a verdict.
       </p>
       <p className="measure mt-2 text-sm leading-relaxed text-muted-foreground">
-        Worth practising: {pattern.practice}.
+        Worth practicing: {pattern.practice}.
       </p>
       <Button asChild variant="secondary" className="mt-4 w-full sm:w-auto">
         <Link href="/study/session?focus=pattern&count=10">
-          Practise this
+          Practice this
         </Link>
       </Button>
     </div>
@@ -185,7 +185,7 @@ export function AnalyticsView({
   /**
    * Calibration and miss-type notes. Both are plain sentences or null; the
    * null case renders nothing rather than a placeholder, for the same reason
-   * the pattern note does — a greyed-out card promising an insight later is a
+   * the pattern note does — a grayed-out card promising an insight later is a
    * volume prompt wearing pedagogy's clothes.
    */
   calibration?: Calibration | null;

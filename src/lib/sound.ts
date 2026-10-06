@@ -14,7 +14,7 @@ import { BASE_PATH } from "./base-path";
  *
  * `CUES` maps each cue to one file under `public/sounds/`. Every current file
  * was supplied by the owner and is committed exactly as supplied; nothing here
- * was synthesised, and a cue with no file resolves to silence rather than to a
+ * was synthesized, and a cue with no file resolves to silence rather than to a
  * console error, so adding a name before its audio is safe.
  *
  * ## Playback rules
@@ -70,7 +70,7 @@ export function setSoundEnabled(on: boolean): void {
     window.localStorage.setItem(STORAGE_KEY, on ? "1" : "0");
   } catch {
     // A learner who cannot persist the preference still gets the session's
-    // behaviour; there is nothing useful to report here.
+    // behavior; there is nothing useful to report here.
   }
 }
 

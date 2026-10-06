@@ -72,7 +72,7 @@ Then delete a real test account end to end and confirm the rows are gone.
 
 Both stores require a reachable URL. `/settings/privacy` and `/settings/terms`
 exist and are correctly badged "Placeholder" (verified), and they describe the
-app's real data behaviour — a good drafting base, but not reviewed legal copy.
+app's real data behavior — a good drafting base, but not reviewed legal copy.
 
 ### B4. Support contact — **resolved**
 
@@ -189,7 +189,7 @@ regenerate rather than commit them.
    deployment now does this too, via a network-first service worker, but only
    after one online visit has primed the cache
 5. Account deletion end to end, after deploying the edge function
-6. Back-gesture behaviour on Android from a study session
+6. Back-gesture behavior on Android from a study session
 
 ---
 

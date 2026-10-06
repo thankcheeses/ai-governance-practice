@@ -17,7 +17,7 @@ import {
  * One slot per mode, under a single key. Finishing an exam must not erase the
  * practice sitting someone completed this morning, and the two results screens
  * each need to survive a refresh independently. A third, fourth and fifth key
- * would give the same behaviour with more to keep consistent.
+ * would give the same behavior with more to keep consistent.
  *
  * Deliberately separate from `nhid-clinical:progress:v1`. Progress is the
  * durable record of what has been learned across every sitting; this is a

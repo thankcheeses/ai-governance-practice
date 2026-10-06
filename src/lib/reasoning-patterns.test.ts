@@ -495,7 +495,7 @@ test("the staleness gate is inert at the emerging tier, by arithmetic", () => {
    * most four, so every observation is always "recent" there and the gate can
    * never suppress anything.
    *
-   * That is the right behaviour and not a gap to plug: with four observations
+   * That is the right behavior and not a gap to plug: with four observations
    * there is no meaningful split between old and recent to draw. The assertion
    * exists so the limit is visible in CI, and so that raising the emerging
    * ceiling above RECENT_WINDOW later cannot happen without this failing and
@@ -528,7 +528,7 @@ test("both tiers report the denominator they were drawn from", () => {
 /*
  * Three of the emerging constants cannot be caught by mutating them, because
  * the margin rule already entails them. Mutation testing said so: lowering
- * EMERGING_MIN_FOR_PATTERN or EMERGING_MIN_SHARE changed no behaviour at all.
+ * EMERGING_MIN_FOR_PATTERN or EMERGING_MIN_SHARE changed no behavior at all.
  *
  * That does not make them decoration — they state the rule that was agreed, and
  * they become load-bearing the moment the margin changes. What follows asserts

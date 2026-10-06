@@ -1,9 +1,9 @@
 /**
  * Presentation-only visual identity for AIGP domains.
  *
- * Colour is a scanning aid, not a ranking. Each domain gets a stable accent
+ * Color is a scanning aid, not a ranking. Each domain gets a stable accent
  * from the Civic Studio palette so lists and progress surfaces can be
- * distinguished without implying importance. Meaning is never colour-only:
+ * distinguished without implying importance. Meaning is never color-only:
  * every use pairs tint with a label, number, or mark.
  */
 
@@ -78,7 +78,7 @@ const FALLBACK: DomainVisual = {
  * Exported so a control can offer every domain without re-deriving the list
  * from the bank on each render. `domain-visual.test.ts` asserts this matches
  * the bank exactly, because these strings are routed on — a name that drifted
- * would not merely lose a colour, it would deal an empty session.
+ * would not merely lose a color, it would deal an empty session.
  */
 export const DOMAIN_NAMES = [
   "Foundations of AI Governance",

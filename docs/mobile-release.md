@@ -102,7 +102,7 @@ npx cap sync
 | Support contact | ✅ | `contact@nhid-clinical.org`, from `COMPANY` in `src/lib/brand.ts`. |
 | Store description | ⚠️ Draft below | Not yet finalised. |
 | Screenshots | ❌ | Required per device class: 6.7" and 5.5" iPhone, 12.9" iPad if iPad is supported; phone and tablet for Play. |
-| Data safety / privacy nutrition labels | ⚠️ | Answers drafted below; must match actual behaviour. |
+| Data safety / privacy nutrition labels | ⚠️ | Answers drafted below; must match actual behavior. |
 | Account deletion | ✅ Implemented | Settings → Account → Delete account, shown only when signed in. Calls the `delete-account` edge function, which deletes the auth user with the service role; cascades clear progress. **Must be deployed** — see blockers. |
 | Age rating | ⚠️ | 4+ / Everyone. No objectionable content. |
 | Export compliance | ⚠️ | Uses HTTPS only. Standard exemption applies; declare it. |
@@ -359,7 +359,7 @@ Ordered by what stops a submission.
    Then verify deletion end to end against a real project. **Until deployed,
    the delete button surfaces an error rather than deleting.**
 2. **Hosted privacy policy and terms.** Reviewed copy at stable public URLs.
-   The in-app pages are badged placeholders and describe real behaviour, which
+   The in-app pages are badged placeholders and describe real behavior, which
    makes them a good drafting base — they are not reviewed legal copy.
 3. **Real support address.** Change `SUPPORT` in `src/lib/brand.ts` to a
    monitored address and set `configured: true` to drop the placeholder badge.

@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/hero-governance-orbit.png" alt="AI Governance Practice — build practical judgment for responsible AI decisions. A glass shield orbited by four cards: Facts, Obligations, Risks, Action." width="100%" />
+<img src="public/og-card.png" alt="AI Governance Practice — practice the judgment, not the vocabulary. Free, no account. 350 original scenarios, every wrong option explained, timed exam mode and spaced repetition." width="100%" />
 
 # AI Governance Practice
 
@@ -81,7 +81,7 @@ The current track contains **350 original questions** across four areas:
 | **Governing AI Deployment and Use** | Oversight, transparency, incidents, monitoring, and impact. |
 
 Of those, **62** hang off **15 multi-question fact patterns** —
-one organisation, one system, one set of competing pressures, interrogated from
+one organization, one system, one set of competing pressures, interrogated from
 several angles. The remaining 288 are standalone items written in the same
 situational style. "Scenario-based" describes how the questions read; the
 fact-pattern count is the smaller, separate number.

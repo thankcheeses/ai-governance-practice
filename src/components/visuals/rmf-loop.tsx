@@ -27,7 +27,7 @@ const STAGES = [
     id: "measure",
     label: "Measure",
     role: "Cycle",
-    objective: "Analyse, assess, and track risk with methods appropriate to the system.",
+    objective: "Analyze, assess, and track risk with methods appropriate to the system.",
     question: "How do we know the risk is still within the bounds we set?",
     control: "Evaluation protocol with acceptance thresholds and monitoring signals",
     evidence: "Test reports, metric dashboards, drift alerts",
@@ -36,7 +36,7 @@ const STAGES = [
     id: "manage",
     label: "Manage",
     role: "Cycle",
-    objective: "Prioritise, respond to, and recover from risk events.",
+    objective: "Prioritize, respond to, and recover from risk events.",
     question: "What is the narrowest defensible next action when a signal fires?",
     control: "Incident playbook with containment, escalation, and remediation steps",
     evidence: "Incident tickets, post-mortems, residual-risk register",
@@ -54,7 +54,7 @@ const STAGES = [
   inside rather than a fourth box in the queue.
 */
 const VIEW = { w: 340, h: 290 };
-const CENTRE = { x: 170, y: 150 };
+const CENTER = { x: 170, y: 150 };
 /** Where the three cycle nodes sit. */
 const NODE_R = 80;
 /** The arc the connecting arrows ride, pulled inside the nodes. */
@@ -63,8 +63,8 @@ const ARC_R = 86;
 const CLEAR = 27;
 
 const polar = (deg: number, r: number) => ({
-  x: CENTRE.x + r * Math.cos((deg * Math.PI) / 180),
-  y: CENTRE.y + r * Math.sin((deg * Math.PI) / 180),
+  x: CENTER.x + r * Math.cos((deg * Math.PI) / 180),
+  y: CENTER.y + r * Math.sin((deg * Math.PI) / 180),
 });
 
 /** Clockwise from the top: Map, Measure, Manage. */
@@ -88,7 +88,7 @@ const ARROWS = [
   arc(ANGLE.manage, ANGLE.map + 360),
 ];
 
-/** Node centres as percentages, so the real buttons can sit over the drawing. */
+/** Node centers as percentages, so the real buttons can sit over the drawing. */
 const NODE_POS = (Object.keys(ANGLE) as (keyof typeof ANGLE)[]).reduce(
   (acc, key) => {
     const p = polar(ANGLE[key], NODE_R);
@@ -126,8 +126,8 @@ export function RmfLoop({ className }: { className?: string }) {
           >
             {/* The Govern ring. Dashed because it is a condition, not a step. */}
             <circle
-              cx={CENTRE.x}
-              cy={CENTRE.y}
+              cx={CENTER.x}
+              cy={CENTER.y}
               r={128}
               fill="none"
               stroke="var(--border-strong)"
@@ -136,8 +136,8 @@ export function RmfLoop({ className }: { className?: string }) {
               opacity={active === "govern" ? 1 : 0.55}
             />
             <circle
-              cx={CENTRE.x}
-              cy={CENTRE.y}
+              cx={CENTER.x}
+              cy={CENTER.y}
               r={112}
               fill="var(--accent-tint)"
               opacity={active === "govern" ? 0.5 : 0.22}
@@ -147,7 +147,7 @@ export function RmfLoop({ className }: { className?: string }) {
               The arrows carry the one thing the old row of pills could not
               say — that this returns to Map rather than ending at Manage — so
               they are drawn at ink weight rather than as hairline decoration.
-              `--border-strong` is a 0.18-alpha rule colour and was too faint
+              `--border-strong` is a 0.18-alpha rule color and was too faint
               to read as direction at this size.
             */}
             {ARROWS.map((a, i) => (
@@ -172,7 +172,7 @@ export function RmfLoop({ className }: { className?: string }) {
 
           {/*
             Govern sits on the ring rather than in the cycle, with the card
-            colour behind it so the ring reads as passing underneath — the
+            color behind it so the ring reads as passing underneath — the
             whole point being that it surrounds the other three.
           */}
           <StageButton

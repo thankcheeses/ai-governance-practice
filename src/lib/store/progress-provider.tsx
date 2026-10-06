@@ -79,28 +79,28 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   userRef.current = user;
 
   useEffect(() => {
-    let cancelled = false;
+    let canceled = false;
 
     async function hydrate() {
       const local = readLocal();
-      if (local && !cancelled) setProgress(local);
+      if (local && !canceled) setProgress(local);
 
       if (!supabase) {
-        if (!cancelled) setReady(true);
+        if (!canceled) setReady(true);
         return;
       }
 
       const {
         data: { user: currentUser },
       } = await supabase.auth.getUser();
-      if (cancelled) return;
+      if (canceled) return;
       setUser(currentUser ?? null);
 
       if (currentUser) {
         setSyncing(true);
         try {
           const remote = await loadProgress(supabase, currentUser.id);
-          if (!cancelled) {
+          if (!canceled) {
             const current = progressRef.current;
             setProgress(
               remote.attempts.length >= current.attempts.length ? remote : current,
@@ -108,22 +108,22 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
             setSyncError(null);
           }
         } catch (err) {
-          if (!cancelled) {
+          if (!canceled) {
             setSyncError(
               err instanceof Error ? err.message : "Progress could not be synced.",
             );
           }
         } finally {
-          if (!cancelled) setSyncing(false);
+          if (!canceled) setSyncing(false);
         }
       }
 
-      if (!cancelled) setReady(true);
+      if (!canceled) setReady(true);
     }
 
     void hydrate();
     return () => {
-      cancelled = true;
+      canceled = true;
     };
   }, [supabase]);
 

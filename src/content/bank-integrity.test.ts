@@ -31,7 +31,7 @@ test("ids are unique", () => {
 });
 
 test("no two questions ask the same thing", () => {
-  // Normalised so that a reformatted duplicate is still caught.
+  // Normalized so that a reformatted duplicate is still caught.
   const seen = new Map<string, string>();
   for (const q of ALL) {
     const key = q.question.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();

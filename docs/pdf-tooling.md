@@ -82,7 +82,7 @@ The CDN allowlist does block `cdnjs.cloudflare.com` and `unpkg.com`, so a
 browser-side approach such as loading pdf.js is genuinely unavailable. Chromium
 is present and renders PDFs, but `pdftoppm` is the simpler route for page images.
 
-## Application behaviour
+## Application behavior
 
 None of this is application tooling. The app neither reads nor writes PDFs with
 these packages — `src/lib/pdf/` writes PDFs from scratch and is unaffected.

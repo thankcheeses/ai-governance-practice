@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
  *
  * Deliberately unlike practice in the ways that matter:
  *
- *  - **Nothing is graded on screen.** No correct/incorrect colour, no
+ *  - **Nothing is graded on screen.** No correct/incorrect color, no
  *    rationale, no key takeaway until the paper is submitted. A candidate who
  *    learns the answer to question 4 while sitting question 4 is no longer
  *    being measured.
@@ -258,7 +258,7 @@ export function ExamRunner({
                   /*
                     Selected, never "right". The only state an option has during
                     an exam is chosen or not chosen — no success or destructive
-                    colour appears anywhere on this screen.
+                    color appears anywhere on this screen.
                   */
                   chosen
                     ? "border-accent bg-accent-tint ring-1 ring-inset ring-accent"

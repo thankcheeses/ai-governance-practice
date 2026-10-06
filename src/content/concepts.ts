@@ -8,8 +8,8 @@
  * Two rules keep highlighting useful rather than decorative:
  *
  *  - Only terms of art. A phrase earns a place here if a practitioner would
- *    recognise it as a named concept with obligations attached, not because it
- *    sounds important. "Impact assessment" qualifies; "organisation" does not.
+ *    recognize it as a named concept with obligations attached, not because it
+ *    sounds important. "Impact assessment" qualifies; "organization" does not.
  *  - Longest match wins, so "AI impact assessment" is marked once rather than
  *    as three fragments.
  *
@@ -52,7 +52,6 @@ export const CONCEPT_TERMS: string[] = [
   "data lineage",
   "data provenance",
   "data minimization",
-  "data minimisation",
   "privacy by design",
   "purpose limitation",
   "lawful basis",
@@ -78,7 +77,6 @@ export const CONCEPT_TERMS: string[] = [
   "technical documentation",
   "red teaming",
   "red-teaming",
-  "threat modelling",
   "threat modeling",
   "adversarial testing",
   "bias testing",
@@ -88,7 +86,6 @@ export const CONCEPT_TERMS: string[] = [
   "model drift",
   "data drift",
   "concept drift",
-  "behavioural drift",
   "behavioral drift",
   "retraining",
   "post-market monitoring",
@@ -122,7 +119,6 @@ export const CONCEPT_TERMS: string[] = [
   "authorized scope",
   "scope control",
   "defense-in-depth",
-  "defence-in-depth",
   "third-party risk",
   "vendor risk",
   "incident response",

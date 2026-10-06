@@ -47,14 +47,14 @@ export function StarButton({ className }: { className?: string }) {
       setState("unauthenticated");
       return;
     }
-    let cancelled = false;
+    let canceled = false;
     void checkStarred(token).then((next) => {
-      if (cancelled) return;
+      if (canceled) return;
       if (next === "unauthenticated") clearToken();
       setState(next);
     });
     return () => {
-      cancelled = true;
+      canceled = true;
     };
   }, [configured]);
 

@@ -95,7 +95,7 @@ export function scheduleReview(
   };
 }
 
-/** Interval each grade would produce, for labelling the rating buttons. */
+/** Interval each grade would produce, for labeling the rating buttons. */
 export function gradePreview(card: ReviewCard, now = todayISO()) {
   const grades: ReviewGrade[] = ["again", "hard", "good", "easy"];
   return grades.map((grade) => {
@@ -138,7 +138,7 @@ const REASON_PRIORITY: Record<ReviewReason, number> = {
 const LOW_CONFIDENCE: Confidence[] = ["guessed", "unsure"];
 
 /**
- * Builds the review queue, prioritising in the order the product calls for:
+ * Builds the review queue, prioritizing in the order the product calls for:
  * missed questions, then low-confidence answers, then everything else due.
  */
 export function buildReviewQueue(

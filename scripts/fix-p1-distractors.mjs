@@ -31,7 +31,7 @@ const byId = (id) => questions.find((q) => q.id === id);
 const REPLACEMENTS = {
   65: {
     A: "The team may select a model architecture more complex than the problem requires.",
-    B: "The tool may reach production without a named owner accountable for its behaviour.",
+    B: "The tool may reach production without a named owner accountable for its behavior.",
     C: "The people who will operate the tool may first hear about it at launch.",
   },
   67: {
@@ -52,7 +52,7 @@ const REPLACEMENTS = {
   81: {
     B: "Shadow deployment, where an unapproved copy of a system runs alongside the approved one.",
     C: "Vendor scope creep, where the supplier extends what the tool does without notifying customers.",
-    D: "Model drift, where the system's behaviour changes as the pattern of use shifts.",
+    D: "Model drift, where the system's behavior changes as the pattern of use shifts.",
   },
   89: {
     B: "Business continuity, because an unavailable model interrupts service as any outage does.",

@@ -108,8 +108,8 @@ function markerLoop(
  * marker, ringed with four loose overlapping passes.
  *
  * The ring is decoration and carries no meaning of its own. Nothing is ever
- * conveyed by colour alone in this report — the letter, the percentage and the
- * grading convention all appear as text beside it, so a reader with no colour
+ * conveyed by color alone in this report — the letter, the percentage and the
+ * grading convention all appear as text beside it, so a reader with no color
  * vision, or one holding a monochrome printout, loses nothing.
  *
  * `size` is the cap height of the letter; the ring is sized from it.

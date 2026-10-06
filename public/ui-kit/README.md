@@ -13,7 +13,7 @@ silver accents.
 
 Nothing in this folder is wired into a React component, and nothing here should
 be. The product's visual language is **OpenCode Terminal Mono** — monospace,
-flat colour, 4px radius, restrained borders, "the tool is the interface". These
+flat color, 4px radius, restrained borders, "the tool is the interface". These
 renders are the opposite of that by construction: glossy, bevelled, chromed.
 
 Two concrete reasons to keep the separation, beyond taste:
@@ -21,7 +21,7 @@ Two concrete reasons to keep the separation, beyond taste:
 1. **The palette does not match the product.** The app's surfaces are warm
    (`#201d1d` dark, `#f7f5f5` / `#fdfcfc` light) and its accent is Apple blue
    `#007AFF`. These assets are cool navy and teal. Dropping one into a screen
-   puts two unrelated colour systems on it at once.
+   puts two unrelated color systems on it at once.
 2. **The interactive components are real components.** Buttons, frames and bars
    here are pictures of buttons. `src/components/ui/button.tsx` renders a
    button that focuses, disables, and responds to a keyboard. An image cannot

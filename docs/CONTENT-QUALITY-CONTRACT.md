@@ -30,7 +30,7 @@ machine can check them:
 | Invented terminology presented as established | See §6. |
 
 No question may be added **merely to increase the item count.** A question that
-does not teach a distinct governance judgement does not belong in the bank
+does not teach a distinct governance judgment does not belong in the bank
 regardless of how many gaps it appears to fill.
 
 ---
@@ -143,7 +143,7 @@ individual note.
 
 A question in this bank once tested the definition of a "pre-data gate," a term
 appearing in no published body of knowledge, standard or regulation. A candidate
-who learned it acquired a word no examiner or practitioner would recognise.
+who learned it acquired a word no examiner or practitioner would recognize.
 
 If a concept is real but unnamed in the literature, describe it. Do not coin a
 term and test it.

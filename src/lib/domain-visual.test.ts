@@ -6,7 +6,7 @@ import { DOMAIN_NAMES, domainVisual } from "./domain-visual";
 /**
  * The domain names are routed on, so they have to match the bank exactly.
  *
- * `domainVisual` falls back rather than throwing, which is right for a colour —
+ * `domainVisual` falls back rather than throwing, which is right for a color —
  * a surface with the wrong tint is better than a surface that crashes. But the
  * home page now builds links from these same strings, and there the same
  * silence is a dead end: `?domain=Governing%20AI%20Developement` deals an empty

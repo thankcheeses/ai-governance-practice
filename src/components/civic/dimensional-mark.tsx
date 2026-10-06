@@ -194,7 +194,7 @@ export interface DimensionalMarkProps {
   size?: MarkSize;
   /**
    * Only for a mark with no adjacent text. Leaving this unset is the common
-   * case and the correct one: the neighbouring label is the accessible name.
+   * case and the correct one: the neighboring label is the accessible name.
    */
   label?: string;
   /** Periwinkle treatment for the current route or an active state. */
@@ -218,7 +218,7 @@ export interface DimensionalMarkProps {
   This is the one place gradients are permitted, and deliberately so: the
   design system rules them out on *surfaces* — no gradient backgrounds, no
   glass — while the dimensional objects are the thing it asks to have depth.
-  The gradients here are tonal shading within a single hue, never a colour
+  The gradients here are tonal shading within a single hue, never a color
   transition, so nothing reads as a gradient in the sense the system forbids.
 */
 const RELIEF =

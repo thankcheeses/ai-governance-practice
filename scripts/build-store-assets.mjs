@@ -52,13 +52,13 @@ const iconBackground = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
 /**
  * Android adaptive foreground: the mark alone on transparency. The outer ~27%
  * of an adaptive icon can be cropped by the launcher mask, so the mark is
- * scaled to 62% and centred to stay inside the safe zone.
+ * scaled to 62% and centered to stay inside the safe zone.
  */
 const iconForeground = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <g transform="translate(256 256) scale(0.62) translate(-256 -256)">${MARK}</g>
 </svg>`;
 
-/** Splash: mark centred on the themed app background, matching capacitor.config.ts. */
+/** Splash: mark centered on the themed app background, matching capacitor.config.ts. */
 const splash = (bg) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" fill="${bg}"/>
   <g transform="translate(256 256) scale(0.30) translate(-256 -256)">

@@ -15,7 +15,7 @@ import { getBrowserSupabase } from "@/lib/supabase/client";
  * Where a password-reset link lands.
  *
  * Supabase puts a recovery token in the URL fragment and the browser client
- * exchanges it for a short-lived session on load, which is what authorises the
+ * exchanges it for a short-lived session on load, which is what authorizes the
  * password change. So this page has to wait for that exchange before it can
  * say whether the link is usable — rendering the form immediately would offer
  * a control that cannot work yet.
@@ -42,7 +42,7 @@ export default function ResetPage() {
       setReady(true);
       return;
     }
-    let cancelled = false;
+    let canceled = false;
 
     /*
       Two ways the session can arrive: it is already established by the time
@@ -51,19 +51,19 @@ export default function ResetPage() {
       happens is a race with the client's own initialisation.
     */
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (cancelled || !session) return;
+      if (canceled || !session) return;
       setLinkValid(true);
       setReady(true);
     });
 
     supabase.auth.getSession().then(({ data }) => {
-      if (cancelled) return;
+      if (canceled) return;
       if (data.session) setLinkValid(true);
       setReady(true);
     });
 
     return () => {
-      cancelled = true;
+      canceled = true;
       sub.subscription.unsubscribe();
     };
   }, []);

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * The point is scanning: a practitioner reading a scenario should be able to
  * find the concept under test without reading every word. Marked terms are set
  * in italic and the brand accent, which reads as emphasis in both themes and
- * survives greyscale — the italic carries the meaning if the colour does not.
+ * survives greyscale — the italic carries the meaning if the color does not.
  *
  * Which terms mark, and how often, is decided in lib/highlight.ts. Never style
  * a question by hand; add the term to content/concepts.ts and it is marked

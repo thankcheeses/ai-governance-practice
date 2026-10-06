@@ -143,7 +143,7 @@ export function createExamSession(
   };
 
   /*
-    `ignoreDifficulty` is not an optimisation; without it the blank history
+    `ignoreDifficulty` is not an optimization; without it the blank history
     above silently makes every exam the easiest 50 or 100 questions in the
     bank.
 

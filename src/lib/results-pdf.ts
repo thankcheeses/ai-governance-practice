@@ -45,9 +45,9 @@ import {
  *     probability, not a readiness determination for anyone's certification.
  *     The grade is a practice grade over this project's own questions.
  *  2. **Completion gates the verdict.** One correct answer out of one is 100%
- *     and means nothing; `readiness.ts` is where that judgement lives and this
+ *     and means nothing; `readiness.ts` is where that judgment lives and this
  *     module only renders it.
- *  3. **Nothing is carried by colour alone.** Every bar prints its percentage,
+ *  3. **Nothing is carried by color alone.** Every bar prints its percentage,
  *     its grade and its counts as text, so the report survives a monochrome
  *     printer and a reader who cannot distinguish the hues.
  */
@@ -66,7 +66,7 @@ const FOOTER_TOP = PAGE_H - 42;
   Drawn from the application's own light-theme tokens in `globals.css` rather
   than picked fresh, so the report and the screen are recognisably the same
   product. Borders are given as opaque hexes because PDF has no alpha on a
-  stroke colour without an ExtGState, and a 10%-black border over cream is this.
+  stroke color without an ExtGState, and a 10%-black border over cream is this.
 */
 const GROUND = rgb("#f5f3f0");
 const CARD = rgb("#fbfaf8");
@@ -85,7 +85,7 @@ const TRACK = rgb("#e6e2dd");
 const MARKER = rgb("#d3231b");
 
 /**
- * Bar colour by percentage.
+ * Bar color by percentage.
  *
  * A severity ramp — attention at the low end, settled green at the high end —
  * in the app's own hues rather than the saturated rainbow a progress-bar sprite
@@ -527,7 +527,7 @@ function drawOverview(
   /*
     Coverage is a fact about the sitting, not a mark against the learner: 41%
     of the bank is neither good nor bad, it is simply how much was drawn on.
-    Running it through the severity ramp painted it the same alarming colour as
+    Running it through the severity ramp painted it the same alarming color as
     a failing score, so it gets the neutral accent instead.
   */
   labelledBar(
@@ -1006,7 +1006,7 @@ export function resultReportText(
  *
  * Provenance, and nothing more. It names the application that produced the
  * file and states what the file is, so that anything reading it — a person
- * checking document properties, a search index, a model summarising an
+ * checking document properties, a search index, a model summarizing an
  * attachment — is told plainly that this is practice output from an
  * unaffiliated tool and should not be treated as anyone's only study source.
  * It is not addressed to any particular software and issues no instructions.

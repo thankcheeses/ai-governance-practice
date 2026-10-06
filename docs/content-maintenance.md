@@ -34,7 +34,7 @@ to run a maintenance system — only a way to say one existed.
 ## The shape
 
 One optional block on a `QuestionEnrichment` entry. Absent means nobody has
-reviewed the item, which is normalised to `DEFAULT_MAINTENANCE` at load so the
+reviewed the item, which is normalized to `DEFAULT_MAINTENANCE` at load so the
 app can count it rather than treating it as a gap.
 
 ```ts

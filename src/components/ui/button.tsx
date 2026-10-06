@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
  * where it goes wrong twice over.
  *
  * Measured: `--primary` is `#1a2332` and `--primary-foreground` is `#fffbf6`.
- * At 50% over the `#f4ede4` page, the surface lands on a dead mid-grey and the
+ * At 50% over the `#f4ede4` page, the surface lands on a dead mid-gray and the
  * label on it falls to roughly 1.9:1 — far under the 4.5:1 floor. The case
  * that found it was the study screen's submit button, whose disabled label was
  * the one instruction telling the learner how to proceed and the least

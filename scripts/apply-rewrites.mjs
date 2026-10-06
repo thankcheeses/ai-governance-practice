@@ -5,14 +5,14 @@
   not because a percentage needed moving:
 
     - aigp-007, aigp-010, aigp-289 were conceptual duplicates of aigp-064,
-      aigp-071 and aigp-149. Each now tests a materially different judgement.
+      aigp-071 and aigp-149. Each now tests a materially different judgment.
     - aigp-019, aigp-021, aigp-046, aigp-050 were four of six items asking
       variations of "why disclose that the agent is not human". They now test
       timing, subcontractor flow-down, the business associate relationship and
       secondary use of de-identified data.
     - aigp-032, aigp-034, aigp-036, aigp-040, aigp-063 asked a candidate to
-      name a concept — a pillar, a NIST programme, a failure mode, a framework.
-      This project's claim is that it exercises judgement, and a definition
+      name a concept — a pillar, a NIST program, a failure mode, a framework.
+      This project's claim is that it exercises judgment, and a definition
       question does not. Each now poses a decision.
 
   Because each rewrite also carries a new bokSubdomain, the effect is to move

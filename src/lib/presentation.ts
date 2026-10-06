@@ -11,7 +11,7 @@ import { shuffle } from "./utils";
  *
  * Everything here is seeded and pure. The same seed yields the same
  * presentation, which is what makes a session survivable across a refresh and
- * what makes the behaviour testable rather than merely plausible.
+ * what makes the behavior testable rather than merely plausible.
  */
 
 const OPTION_KEYS: OptionKey[] = ["A", "B", "C", "D", "E"];

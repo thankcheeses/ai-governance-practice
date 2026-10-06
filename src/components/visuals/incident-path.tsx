@@ -13,7 +13,7 @@ const STEPS = [
     id: "detect",
     label: "Detect",
     purpose: "Surface the signal that something is wrong.",
-    action: "Monitoring alert, user report, or model-behaviour anomaly is recorded and timestamped.",
+    action: "Monitoring alert, user report, or model-behavior anomaly is recorded and timestamped.",
     fail: "No one is watching, or the signal is dismissed as noise.",
   },
   {

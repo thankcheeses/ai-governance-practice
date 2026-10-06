@@ -2,7 +2,7 @@
 
 **This is a candidate tranche, not approved content.** Nothing here is applied.
 `enrichment.ts` is untouched, and no threshold, copy, taxonomy, deduplication,
-evidence rule or UI behaviour changes. The only file this branch adds is this
+evidence rule or UI behavior changes. The only file this branch adds is this
 document.
 
 12 questions, four for each of the three families that cannot currently fire.
@@ -36,9 +36,9 @@ Every candidate was read in full — stem, all options, correct answer and
 rationale — from the 244 questions that carry no labels. Selection was on
 whether the item genuinely exercises the reasoning the family names, not on
 keyword matching, which finds questions containing a word rather than questions
-about the judgement.
+about the judgment.
 
-Only tempting distractors are proposed for labelling, as in the first tranche.
+Only tempting distractors are proposed for labeling, as in the first tranche.
 A throwaway option left unlabelled keeps the engine from learning that every
 miss is diagnostic.
 
@@ -63,7 +63,7 @@ Correct: **C**. Primary `sequencing`, secondary `accountability`.
 - `B` → `premature_remediation` — suspending the pathway withdraws a service on
   the strength of an unexplained number. The item's own rationale names this.
 - `D` → `technically_correct_but_premature` — an independent audit is a real
-  control and the wrong first move; it outsources a finding the organisation has
+  control and the wrong first move; it outsources a finding the organization has
   not yet made itself.
 
 The closest sibling to `aigp-109` in the bank, and the clearest single candidate
@@ -134,7 +134,7 @@ Correct: **C**. Primary `lifecycle_stage`, secondary `proportionality`.
 
 - `A` → `risk_overreaction` — replacing accuracy outright with a single fairness
   metric overcorrects.
-- `B` → `secondary_risk_prioritized` — optimising the threshold for review
+- `B` → `secondary_risk_prioritized` — optimizing the threshold for review
   workload ranks a real but secondary concern first.
 - `D` → `lifecycle_confusion` — deferring metric choice until after training
   moves a design-phase decision downstream, which is the whole point of the item.

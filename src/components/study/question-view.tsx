@@ -129,7 +129,7 @@ export function QuestionView({
               {/*
                 The leading node carries the option letter, and after the reveal
                 it carries a drawn glyph instead. Correctness is never signalled
-                by colour alone: the glyph shape differs, and `FeedbackPanel`
+                by color alone: the glyph shape differs, and `FeedbackPanel`
                 states the outcome in words directly beneath.
               */}
               <span
@@ -172,7 +172,7 @@ export function QuestionView({
 /**
  * The correctness glyphs, drawn inline rather than pulled from an icon set.
  *
- * They live inside a node that is already sized and coloured by the caller, so
+ * They live inside a node that is already sized and colored by the caller, so
  * they are pure geometry at 14px: a confirmed path and a crossed path. Both are
  * `aria-hidden` — the option's `aria-checked` state and the feedback panel's
  * wording carry the meaning to a screen reader.

@@ -12,13 +12,13 @@ import type { Attempt, UserProgress } from "./types";
  *
  * Everything here is written against the evidence being thin, because it is.
  * Only 52 of 296 questions carry reasoning labels, and within those only 92 of
- * 156 wrong options are labelled — deliberately, since labelling a throwaway
+ * 156 wrong options are labelled — deliberately, since labeling a throwaway
  * option would teach the engine that every miss is diagnostic. A miss therefore
  * yields a usable observation only when the learner picked a labelled option,
  * which works out to roughly one observation per thirty questions answered.
  *
  * The consequence is that this returns null for most learners most of the time.
- * That is the intended behaviour and not a bug to tune away: the way to make it
+ * That is the intended behavior and not a bug to tune away: the way to make it
  * speak more often is to label more questions, never to lower a threshold. A
  * confident sentence built on four data points is worse than silence, because a
  * learner will believe it and study the wrong thing.
@@ -431,7 +431,7 @@ export function detectPattern(
 }
 
 /**
- * Questions available to practise a family, for the targeted-practice link.
+ * Questions available to practice a family, for the targeted-practice link.
  *
  * Drawn from the whole labelled bank rather than only the questions the learner
  * has already missed, so practice is not a re-run of the same items. Selection

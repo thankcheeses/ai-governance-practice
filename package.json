@@ -23,7 +23,8 @@
     "check:exclusion": "node scripts/check-exclusion.mjs",
     "render:reports": "tsx scripts/render-sample-reports.ts",
     "check:content": "tsx scripts/check-content.ts && npm run check:questions && npm run check:bok && npm run check:originality",
-    "release:gate": "npm run lint && npm run typecheck && npm test && npm run check:content && npm run build:pages && npm run build:mobile"
+    "release:gate": "npm run lint && npm run typecheck && npm test && npm run check:content && npm run build:pages && npm run build:mobile",
+    "build:og": "node scripts/build-og-card.mjs"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.15",
