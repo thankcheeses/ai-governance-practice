@@ -22,6 +22,7 @@ export function ResultActions({ result }: { result: CompletedResult }) {
   const [pdfError, setPdfError] = useState<string | null>(null);
 
   const download = useCallback(() => {
+    window.dispatchEvent(new Event("aigp:result-action"));
     setPdfError(null);
     try {
       const bytes = resultPdfBytes(result);
