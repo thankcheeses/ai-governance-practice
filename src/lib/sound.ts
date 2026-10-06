@@ -39,6 +39,10 @@ export const CUES = {
   begin: "begin.mp3",
   /** Every question right, at any sitting length. */
   flawless: "flawless-victory.mp3",
+  /** Practice/exam result did not meet the strong-evidence threshold. */
+  oof: "https://www.myinstants.com/media/sounds/roblox-death-sound_1.mp3",
+  /** Practice/exam result reached the strong-evidence threshold. */
+  yay: "https://www.myinstants.com/media/sounds/kids-saying-yay-sound-effect_3.mp3",
   /** An answer was graded right, in practice or review. */
   correct: "answer-correct.mp3",
   /** An answer was graded wrong, in practice or review. */
@@ -58,7 +62,7 @@ const STORAGE_KEY = "aigp.sound.enabled";
 export function soundEnabled(): boolean {
   if (typeof window === "undefined") return false;
   try {
-    return window.localStorage.getItem(STORAGE_KEY) === "1";
+    const stored = window.localStorage.getItem(STORAGE_KEY);\n    // New installs get the requested result cues. An explicit off setting still wins.\n    return stored !== "0";
   } catch {
     return false;
   }
@@ -80,7 +84,7 @@ function element(cue: CueName): HTMLAudioElement | null {
   const existing = cache.get(cue);
   if (existing) return existing;
   try {
-    const audio = new Audio(`${BASE_PATH}/sounds/${CUES[cue]}`);
+    const source = CUES[cue];\n    const url = source.startsWith("http") ? source : `${BASE_PATH}/sounds/${source}`;\n    const audio = new Audio(url);
     audio.preload = "none";
     cache.set(cue, audio);
     return audio;
