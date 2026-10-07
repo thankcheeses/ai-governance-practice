@@ -398,25 +398,24 @@ export function StudySession({
           />
           {withScheduling ? (
             <div className="mt-6">
-              <p className="mb-2.5 text-xs font-medium text-muted-foreground">When should this come back?</p>
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                {scheduling.map(({ grade, label: interval }) => (
-                  <button
-                    key={grade}
-                    type="button"
-                    onClick={() => handleGrade(grade)}
-                    className={cn(
-                      "rounded-lg border border-l-4 bg-card p-3 text-center shadow-[var(--shadow-card)] transition-colors active:translate-y-px",
-                      grade === "again" && "border-destructive hover:bg-destructive-tint",
-                      grade === "hard" && "border-warning hover:bg-warning/15",
-                      grade === "good" && "border-border-strong hover:bg-secondary",
-                      grade === "easy" && "border-success hover:bg-success-tint",
-                    )}
-                  >
-                    <div className="text-sm font-medium capitalize">{grade}</div>
-                    <div className="mt-0.5 text-xs text-muted-foreground">{interval}</div>
-                  </button>
-                ))}
+              <p className="mb-2.5 text-xs font-medium text-muted-foreground">
+                What do you want to do with this question?
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleGrade("again")}
+                  className="rounded-lg border border-destructive bg-card p-3 text-center text-sm font-medium shadow-[var(--shadow-card)] transition-colors hover:bg-destructive-tint active:translate-y-px"
+                >
+                  Try again
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleGrade("good")}
+                  className="rounded-lg border border-border-strong bg-card p-3 text-center text-sm font-medium shadow-[var(--shadow-card)] transition-colors hover:bg-secondary active:translate-y-px"
+                >
+                  Move on
+                </button>
               </div>
             </div>
           ) : null}
@@ -470,7 +469,7 @@ export function StudySession({
                 : "Choosing an answer submits it — there is no undo"}
             </p>
           ) : withScheduling ? (
-            <p className="text-center text-sm text-muted-foreground">Choose an interval above to continue</p>
+            <p className="text-center text-sm text-muted-foreground">Choose an option above to continue</p>
           ) : (
             <Button size="lg" className="w-full sm:w-auto sm:min-w-[20rem]" onClick={advance}>
               Continue
