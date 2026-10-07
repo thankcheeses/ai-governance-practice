@@ -9,9 +9,12 @@ import { getTrack, getTrackQuestions } from "@/content/registry";
 import { domainStats, focusDomains } from "@/lib/adaptive";
 import { domainVisual } from "@/lib/domain-visual";
 import { useProgress } from "@/lib/store/progress-provider";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const SESSION_LENGTHS = [5, 10, 20];
+const MIN_SESSION_LENGTH = 5;
+const MAX_SESSION_LENGTH = 50;
 
 /**
  * ISO date to "25 August 2026". Parsed and formatted in UTC so the displayed
@@ -39,6 +42,7 @@ export default function StudyPage() {
 
 function Study() {
   const { progress } = useProgress();
+  const [customCount, setCustomCount] = useState("");
   const track = getTrack(progress.trackId);
   const questions = getTrackQuestions(progress.trackId);
   const stats = domainStats(progress, progress.trackId);
@@ -130,16 +134,114 @@ function Study() {
         <h2 className="mb-3 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
           Session length
         </h2>
-        <div className="flex flex-wrap gap-2">
-          {SESSION_LENGTHS.map((n) => (
-            <Button key={n} asChild variant="outline" size="sm">
-              <Link href={`/study/session?count=${n}`}>{n} questions</Link>
-            </Button>
-          ))}
-          <Button asChild variant="outline" size="sm">
-            <Link href="/study/session">Continue</Link>
-          </Button>
-        </div>
+        <Card>
+          <CardContent className="p-5">
+            <div className="flex flex-wrap items-end gap-4">
+              <div className="min-w-[14rem] flex-1">
+                <label
+                  htmlFor="custom-session-count"
+                  className="text-sm font-medium"
+                >
+                  How many questions?
+                </label>
+                <input
+                  id="custom-session-count"
+                  type="range"
+                  min={MIN_SESSION_LENGTH}
+                  max={MAX_SESSION_LENGTH}
+                  value={customCount === "" ? MIN_SESSION_LENGTH : customCount}
+                  onChange={(event) => setCustomCount(event.target.value)}
+                  aria-label={`Session length, ${customCount || MIN_SESSION_LENGTH} questions`}
+                  className="mt-4 w-full accent-primary"
+                />
+                <div className="mt-1 flex justify-between text-[0.6875rem] tabular-nums text-muted-foreground">
+                  <span>{MIN_SESSION_LENGTH}</span>
+                  <span>{MAX_SESSION_LENGTH}</span>
+                </div>
+              </div>
+
+              <div className="w-28">
+                <label
+                  htmlFor="custom-session-count-input"
+                  className="text-xs text-muted-foreground"
+                >
+                  Enter amount
+                </label>
+                <input
+                  id="custom-session-count-input"
+                  type="number"
+                  min={MIN_SESSION_LENGTH}
+                  max={MAX_SESSION_LENGTH}
+                  step={1}
+                  inputMode="numeric"
+                  placeholder="5–50"
+                  value={customCount}
+                  onChange={(event) => {
+                    const value = event.target.value;
+                    if (value === "") {
+                      setCustomCount("");
+                      return;
+                    }
+                    const parsed = Number(value);
+                    if (
+                      Number.isInteger(parsed) &&
+                      parsed >= MIN_SESSION_LENGTH &&
+                      parsed <= MAX_SESSION_LENGTH
+                    ) {
+                      setCustomCount(value);
+                    }
+                  }}
+                  aria-label="Custom number of practice questions"
+                  className="mt-1 flex h-11 w-full rounded-lg border border-input bg-card px-3 py-2 text-base tabular-nums focus-visible:border-ring md:text-sm"
+                />
+              </div>
+
+              <Button
+                asChild
+                disabled={
+                  customCount === "" ||
+                  Number(customCount) < MIN_SESSION_LENGTH ||
+                  Number(customCount) > MAX_SESSION_LENGTH
+                }
+              >
+                <Link
+                  href={
+                    customCount === ""
+                      ? "#"
+                      : `/study/session?count=${Number(customCount)}`
+                  }
+                  aria-disabled={customCount === "" ? true : undefined}
+                  tabIndex={customCount === "" ? -1 : undefined}
+                >
+                  Start session
+                </Link>
+              </Button>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2 border-t border-border pt-4">
+              <span className="mr-1 self-center text-xs text-muted-foreground">
+                Quick pick:
+              </span>
+              {SESSION_LENGTHS.map((n) => (
+                <Button
+                  key={n}
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCustomCount(String(n))}
+                >
+                  {n}
+                </Button>
+              ))}
+            </div>
+
+            <p className="mt-3 text-xs text-muted-foreground">
+              Choose any whole number from {MIN_SESSION_LENGTH} to {MAX_SESSION_LENGTH}.
+              {MAX_SESSION_LENGTH} is high enough to give your metrics a meaningful sitting
+              without turning normal practice into a full exam.
+            </p>
+          </CardContent>
+        </Card>
       </section>
 
       <section>
