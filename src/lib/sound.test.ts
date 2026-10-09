@@ -84,3 +84,47 @@ test("every declared cue resolves to a local file or an explicit remote audio UR
     assert.ok(existsSync(onDisk), 'cue "' + name + '" names ' + file + ', which is not in public/sounds/');
   }
 });
+
+/**
+ * The audio the owner supplied must keep being the audio that plays.
+ *
+ * Four of the six result cues started life as `myinstants.com` URLs. Two of
+ * them — the failure cue and the success cue — now have files in `public/`, and
+ * because both export targets ship `public/` verbatim, those bytes are the ones
+ * a learner hears. A hotlink is a different promise: it depends on someone
+ * else's host, it can change under us, and nothing records a license for it.
+ *
+ * So the allowlist is explicit rather than a count. Adding a remote cue, or
+ * quietly pointing a supplied cue back at a URL, fails here and names the cue.
+ */
+const CUES_ALLOWED_REMOTE = new Set(["keepGoing"]);
+
+test("only an allowlisted cue may be remote; supplied audio stays local", () => {
+  const remote = Object.entries(CUES)
+    .filter(([, file]) => /^https?:\/\//.test(file))
+    .map(([name]) => name);
+
+  for (const name of remote) {
+    assert.ok(
+      CUES_ALLOWED_REMOTE.has(name),
+      'cue "' + name + '" points at a third-party URL. If audio for it was ' +
+        "supplied, commit the file under public/sounds/ and name it here; if a " +
+        "hotlink is genuinely intended, add it to CUES_ALLOWED_REMOTE and say why.",
+    );
+  }
+});
+
+test("the two result cues the owner supplied are committed files", () => {
+  for (const name of ["oof", "yay"] as const) {
+    const file = CUES[name];
+    assert.doesNotMatch(
+      file,
+      /^https?:\/\//,
+      'cue "' + name + '" was supplied as a file and must not be hotlinked',
+    );
+    assert.ok(
+      existsSync(join(process.cwd(), "public", "sounds", file)),
+      'cue "' + name + '" names ' + file + ", which is not committed",
+    );
+  }
+});

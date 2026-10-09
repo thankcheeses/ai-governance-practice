@@ -14,10 +14,27 @@ const MESSAGES: Record<ReadinessState, { title: string; body: string }> = {
   encouraging: { title: "Great job!", body: "This is a strong practice result with enough evidence to be encouraging. Keep reviewing your weak areas." },
 };
 
-const CUE_FOR: Record<ReadinessState, "oof" | "womp" | "keepGoing" | "yay"> = {
+/**
+ * One cue per verdict, and the verdict is `assessReadiness`'s rather than a
+ * percentage of its own.
+ *
+ * That is the whole reason this is keyed on `ReadinessState`: readiness is
+ * already two-axis, so neither of the two strong cues can fire on a sitting too
+ * thin to mean anything. A three-question wipeout is `earlySignal`, not
+ * `insufficient`, and gets no "oof"; a lucky five-for-five is `earlySignal`,
+ * not `encouraging`, and gets no "yay". A second threshold here would have
+ * reintroduced exactly the cheap reactions the readiness model exists to avoid.
+ *
+ * `oof` covers the whole `insufficient` band rather than only a literal 0%.
+ * Gating it on zero correct made it effectively unreachable — a learner has to
+ * answer questions and miss every one of them — so the failure sound would
+ * almost never have played. `insufficient` is the model's own "this sitting
+ * failed", which is what the cue is for.
+ */
+const CUE_FOR: Record<ReadinessState, "oof" | "keepGoing" | "yay"> = {
   noEvidence: "keepGoing",
   earlySignal: "keepGoing",
-  insufficient: "womp",
+  insufficient: "oof",
   developing: "keepGoing",
   mixed: "keepGoing",
   encouraging: "yay",
@@ -27,8 +44,7 @@ export function FlawlessBanner({ score }: { score: SittingScore }) {
   const readiness = assessReadiness(score);
   const [visible, setVisible] = useState(true);
   const [dismissing, setDismissing] = useState(false);
-  const cue = readiness.state === "insufficient" && readiness.accuracy === 0 ? "oof" : CUE_FOR[readiness.state];
-  useCueOnce(cue, true);
+  useCueOnce(CUE_FOR[readiness.state], true);
   useEffect(() => {
     const dismiss = () => setDismissing(true);
     window.addEventListener("aigp:result-action", dismiss);

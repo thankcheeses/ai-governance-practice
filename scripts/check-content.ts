@@ -331,10 +331,27 @@ if (!ogCount) {
 
 // The hero banner states the count twice: once as visible text and once in the
 // <desc> a screen reader gets. Both have to move together.
+//
+// Matched as a pattern rather than as two literal strings. The literal version
+// of this check failed the gate when the banner was redesigned and "350
+// ORIGINAL SCENARIOS" became "350 ORIGINAL QUESTIONS" — a wording change that
+// left the number perfectly correct. The number is the thing that goes stale,
+// so that is what is asserted; the noun is the designer's to choose. A redesign
+// that drops the phrase entirely still fails, because then there is nothing
+// left holding the count accountable.
 const banner = readFileSync("public/brand/agp-hero-banner.svg", "utf8");
-for (const needle of [`${QS.length} ORIGINAL SCENARIOS`, `${QS.length} original scenarios.`]) {
-  if (!banner.includes(needle)) {
-    fail(`public/brand/agp-hero-banner.svg is stale — expected "${needle}"`);
+const bannerCounts = [...banner.matchAll(/([\d,]+)\s+original\s+\w+/gi)];
+if (bannerCounts.length < 2) {
+  fail(
+    `public/brand/agp-hero-banner.svg states the question count ${bannerCounts.length} time(s); ` +
+      "it has to appear as visible text and in the <desc> a screen reader gets",
+  );
+}
+for (const m of bannerCounts) {
+  if (m[1].replace(/,/g, "") !== String(QS.length)) {
+    fail(
+      `public/brand/agp-hero-banner.svg is stale — it says "${m[0]}", the bank has ${QS.length}`,
+    );
   }
 }
 

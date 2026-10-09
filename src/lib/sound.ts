@@ -38,14 +38,28 @@ export const CUES = {
   begin: "begin.mp3",
   /** Every question right, at any sitting length. */
   flawless: "flawless-victory.mp3",
-  /** Result below the practice success threshold. */
-  oof: "https://www.myinstants.com/media/sounds/roblox-death-sound_1.mp3",
-  /** Strong result with enough evidence to be encouraging. */
-  yay: "https://www.myinstants.com/media/sounds/kids-saying-yay-sound-effect_3.mp3",
-  /** Keep-going cue for a developing result. */
+  /**
+   * The sitting failed: grade D or F with enough answered for that to mean
+   * something. Not a thin sitting — `earlySignal` never reaches this.
+   */
+  oof: "oof.mp3",
+  /**
+   * The sitting is the strongest verdict the readiness model will give: grade
+   * A across a substantial or broader share of the bank.
+   */
+  yay: "yay.mp3",
+  /**
+   * Everything between the two: nothing to grade yet, an early signal, or real
+   * progress with real gaps.
+   *
+   * Still hotlinked, and the only cue that is. Every other cue is a file in
+   * `public/sounds/`, which both export targets ship verbatim, so its bytes are
+   * this repository's bytes. This one's are someone else's: it needs a
+   * third-party host to stay up and keep serving the same audio, and no license
+   * is recorded for it either way. Dropping a file in and changing this line
+   * fixes it.
+   */
   keepGoing: "https://www.myinstants.com/media/sounds/anime-wow-sound-effect.mp3",
-  /** Gentle failure cue. */
-  womp: "https://www.myinstants.com/media/sounds/downer_noise.mp3",
   /** An answer was graded right, in practice or review. */
   correct: "answer-correct.mp3",
   /** An answer was graded wrong, in practice or review. */
