@@ -8,6 +8,7 @@ import {
   RATE_STEPS,
   cancelSpeech,
   chunkForSpeech,
+  isLocalVoice,
   clampRate,
   getRate,
   getVoiceURI,
@@ -71,12 +72,12 @@ test("every offered speed survives clamping unchanged", () => {
 });
 
 /** A voice is a plain record as far as `pickVoice` is concerned. */
-function voice(name: string, lang: string): SpeechSynthesisVoice {
+function voice(name: string, lang: string, localService = true): SpeechSynthesisVoice {
   return {
     name,
     lang,
     voiceURI: `urn:${name}`,
-    localService: true,
+    localService,
     default: false,
   } as SpeechSynthesisVoice;
 }
@@ -376,4 +377,118 @@ test("speak() queues the chunks, not the raw parts", () => {
   } finally {
     delete (globalThis as { window?: unknown }).window;
   }
+});
+
+/*
+  Where the voice runs.
+
+  A network voice sends the text it reads to whoever supplies it, and the text
+  here is the question a learner is working on. Chrome lists network voices
+  beside on-device ones with nothing to distinguish them, so "whichever sorted
+  first" was silently deciding where study text went. These pin the preference
+  so that cannot come back.
+*/
+
+test("isLocalVoice treats only an explicit true as on-device", () => {
+  // Guessing wrong toward "local" would mislabel text that does leave the
+  // device; guessing wrong the other way only over-warns.
+  assert.equal(isLocalVoice({ localService: true }), true);
+  assert.equal(isLocalVoice({ localService: false }), false);
+  assert.equal(isLocalVoice({}), false);
+});
+
+test("an on-device voice wins over a network voice in the same language", () => {
+  const voices = [
+    voice("Cloud Spanish", "es-ES", false),
+    voice("Monica", "es-ES", true),
+  ];
+  assert.equal(pickVoice(voices, null, "es-ES")?.name, "Monica");
+});
+
+test("an on-device near-match beats a network exact match", () => {
+  /*
+    The deliberate part. A pt-BR voice on the device is a slightly worse accent
+    than a network pt-PT voice; it is a much better default than shipping the
+    learner's question text to a third party without asking. Accent loses.
+  */
+  const voices = [
+    voice("Cloud Portuguese", "pt-PT", false),
+    voice("Luciana", "pt-BR", true),
+  ];
+  assert.equal(pickVoice(voices, null, "pt-PT")?.name, "Luciana");
+});
+
+test("a network voice is still used when it is the only one for the language", () => {
+  // Preferring on-device must not become a filter: for some languages a
+  // network voice is the only voice there is, and silence would be worse.
+  const voices = [voice("Alex", "en-US", true), voice("Cloud Korean", "ko-KR", false)];
+  assert.equal(pickVoice(voices, null, "ko-KR")?.name, "Cloud Korean");
+});
+
+test("an explicit choice of a network voice is still honored", () => {
+  // The learner chose it knowing what the picker says. Overriding that would
+  // be a different kind of disrespect.
+  const voices = [voice("Monica", "es-ES", true), voice("Cloud Spanish", "es-ES", false)];
+  assert.equal(pickVoice(voices, "urn:Cloud Spanish", "es-ES")?.name, "Cloud Spanish");
+});
+
+test("no voice for the language still means the engine default", () => {
+  const voices = [voice("Cloud Spanish", "es-ES", false)];
+  assert.equal(pickVoice(voices, null, "ja-JP"), null);
+});
+
+/*
+  The reading language from Settings, fed into voice selection.
+
+  The rule it has to obey: the language of the *text* decides pronunciation,
+  and the chosen language refines that target without ever replacing it. Get
+  this backwards and someone who reads Spanish hears English words read by a
+  Spanish voice — fluent-sounding nonsense, and strictly worse than having no
+  preference, since they asked for better pronunciation and got worse.
+*/
+
+test("the chosen language never overrides the language of the text", () => {
+  const voices = [voice("Alex", "en-US"), voice("Monica", "es-ES")];
+  // Page still English, learner reads Spanish. English voice, every time.
+  assert.equal(pickVoice(voices, null, "en-US", "es")?.name, "Alex");
+});
+
+test("a translated page uses the language it was translated into", () => {
+  const voices = [voice("Alex", "en-US"), voice("Monica", "es-ES")];
+  assert.equal(pickVoice(voices, null, "es", "es")?.name, "Monica");
+  // Even when the learner's stored choice is something else entirely.
+  assert.equal(pickVoice(voices, null, "es", "ko")?.name, "Monica");
+});
+
+test("the chosen language breaks a tie the page language leaves open", () => {
+  /*
+    The case this exists for. A translator sets a bare `lang="zh"`, which says
+    Chinese without saying which script, and the device offers both. The
+    learner already told us which they read.
+  */
+  const voices = [voice("Tingting", "zh-Hans"), voice("Meijia", "zh-TW")];
+  assert.equal(pickVoice(voices, null, "zh", "zh-Hans")?.name, "Tingting");
+});
+
+test("a more specific page language is not thrown away for a vaguer preference", () => {
+  // `lang` says pt-BR, the preference says pt. The page knows more.
+  const voices = [voice("Luciana", "pt-BR"), voice("Joana", "pt-PT")];
+  assert.equal(pickVoice(voices, null, "pt-BR", "pt")?.name, "Luciana");
+});
+
+test("an explicit voice choice still beats both", () => {
+  const voices = [voice("Alex", "en-US"), voice("Monica", "es-ES")];
+  assert.equal(pickVoice(voices, "urn:Monica", "en-US", "en")?.name, "Monica");
+});
+
+test("the preference is used when the page states no language at all", () => {
+  const voices = [voice("Alex", "en-US"), voice("Monica", "es-ES")];
+  assert.equal(pickVoice(voices, null, undefined, "es")?.name, "Monica");
+  assert.equal(pickVoice(voices, null, undefined, null), null);
+});
+
+test("on-device still wins after the language is refined", () => {
+  // The privacy preference must survive the new argument, not be bypassed by it.
+  const voices = [voice("Cloud Chinese", "zh-Hans", false), voice("Tingting", "zh-Hans", true)];
+  assert.equal(pickVoice(voices, null, "zh", "zh-Hans")?.name, "Tingting");
 });

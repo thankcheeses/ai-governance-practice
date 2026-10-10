@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DimensionalMark, type MarkName } from "@/components/civic/dimensional-mark";
 import { dueCount } from "@/lib/spaced-repetition";
+import { useClickFeedback } from "@/lib/use-click-feedback";
 import { useProgress } from "@/lib/store/progress-provider";
 import { BRAND } from "@/lib/brand";
 import { cn } from "@/lib/utils";
@@ -37,6 +38,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { progress } = useProgress();
   const due = dueCount(progress);
+
+  /*
+    Mounted here rather than in the root layout because this is the component
+    every in-app route already shares, and because the marketing and legal
+    pages outside the shell have no reason to tick.
+  */
+  useClickFeedback();
 
   return (
     <div className="min-h-dvh lg:flex">

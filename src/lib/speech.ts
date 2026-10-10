@@ -13,10 +13,18 @@
  * go stale the moment a stem is edited, and it would still need the paid API to
  * produce them.
  *
- * `speechSynthesis` has none of those problems: no key, no request, no cost, no
- * per-question artifact, and it works offline. It also reads in whatever voices
- * the learner has already chosen to install, which is usually the voice they
- * are used to hearing on everything else.
+ * `speechSynthesis` has none of those problems: no key, no cost, no
+ * per-question artifact. It reads in whatever voices the learner already has,
+ * which is usually the voice they are used to hearing on everything else.
+ *
+ * One caveat worth stating precisely, because it is easy to get wrong in
+ * user-facing copy: not every voice runs on the device. Chrome in particular
+ * lists network voices alongside local ones, and a network voice sends the text
+ * being read to whoever supplies it. For this app that text is the question a
+ * learner is working on. So `pickVoice` prefers on-device voices at every step,
+ * the picker labels the network ones rather than hiding them, and the
+ * accessibility statement says "on-device voices" instead of claiming nothing
+ * is ever sent anywhere.
  *
  * ## Reading what is on screen, not what is in the bank
  *
@@ -186,21 +194,94 @@ export function pickVoice(
   voices: SpeechSynthesisVoice[],
   storedURI: string | null,
   lang?: string,
+  preferred?: string | null,
 ): SpeechSynthesisVoice | null {
   if (storedURI) {
     const exact = voices.find((v) => v.voiceURI === storedURI);
     if (exact) return exact;
   }
-  if (lang) {
+
+  /*
+    `preferred` is the reading language chosen in Settings. It refines the
+    target, it never replaces it.
+
+    The language of the *text* decides pronunciation, and that is what `lang`
+    reports. Letting a stored preference override it would mean English words
+    read by a Spanish voice for anyone who picked Spanish — fluent-sounding
+    nonsense, and worse than no preference at all, since the learner asked for
+    better pronunciation and got worse.
+
+    Where it does help is specificity. A translator typically sets a bare base
+    tag: `lang="zh"` says Chinese without saying which script, and the device
+    may offer both a zh-Hans and a zh-TW voice. The learner already told us
+    which they read, so when the preference agrees with the text's base
+    language, its fuller tag is the better target.
+  */
+  const target = refineTarget(lang, preferred);
+
+  if (target) {
+    const lang = target;
     const tag = lang.toLowerCase();
     const base = tag.split("-")[0]!;
+    const matches = (v: SpeechSynthesisVoice, exact: boolean) =>
+      exact
+        ? v.lang.toLowerCase() === tag
+        : v.lang.toLowerCase().split("-")[0] === base;
+
+    /*
+      On-device voices are preferred over network ones at every step, not just
+      as a tiebreak. A network voice sends the text being read to whoever
+      supplies it, and the text here is the question a learner is working on.
+      Choosing that for them, silently, because it happened to sort first is
+      not a defensible default for this app — so an on-device voice in roughly
+      the right language beats a network voice in exactly the right one.
+
+      It stays a preference rather than a filter: `listVoices` still returns
+      everything and the picker still offers everything, labelled. Someone
+      whose only voice for their language is a network voice should be able to
+      use it, knowingly.
+    */
     return (
-      voices.find((v) => v.lang.toLowerCase() === tag) ??
-      voices.find((v) => v.lang.toLowerCase().split("-")[0] === base) ??
+      voices.find((v) => v.localService && matches(v, true)) ??
+      voices.find((v) => v.localService && matches(v, false)) ??
+      voices.find((v) => matches(v, true)) ??
+      voices.find((v) => matches(v, false)) ??
       null
     );
   }
   return null;
+}
+
+/**
+ * The language tag to look a voice up by.
+ *
+ * Returns the text's own language, except when the chosen reading language
+ * names the same base language more precisely — then the chosen one, because
+ * the learner has told us which variety of it they read.
+ */
+function refineTarget(lang?: string, preferred?: string | null): string | undefined {
+  if (!lang) return preferred ?? undefined;
+  if (!preferred) return lang;
+
+  const base = (t: string) => t.toLowerCase().split("-")[0];
+  if (base(lang) !== base(preferred)) return lang;
+
+  // Same language; take whichever tag says more. A bare "zh" from a translator
+  // is less useful than the "zh-Hans" the learner picked.
+  return preferred.includes("-") && !lang.includes("-") ? preferred : lang;
+}
+
+/**
+ * Whether this voice runs on the device.
+ *
+ * `localService` is the spec's flag for it. Treating an undefined value as
+ * *not* local is deliberate: the consequence of guessing wrong in that
+ * direction is a voice labelled more cautiously than it needed to be, and in
+ * the other direction it is text leaving the device under a label saying it
+ * did not.
+ */
+export function isLocalVoice(voice: { localService?: boolean }): boolean {
+  return voice.localService === true;
 }
 
 /**

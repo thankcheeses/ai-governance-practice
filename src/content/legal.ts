@@ -158,7 +158,7 @@ export const ACCESSIBILITY_SECTIONS: LegalSection[] = [
   },
   {
     heading: "Reading questions aloud",
-    body: "Every question screen has a Read aloud control that speaks the scenario, the question and each answer choice in the order they appear. It uses your browser's own speech synthesis and the voices already installed on your device, so it works offline, costs nothing, sends no text anywhere, and needs no account. If your device has no speech voices installed, the control says so rather than appearing to work: adding a voice in your system settings enables it, and nothing needs to change in the app. Read-aloud is available in exam mode as well as in practice, because a reading accommodation that disappears under timed conditions is not an accommodation.",
+    body: "Every question screen has a Read aloud control that speaks the scenario, the question and each answer choice in the order they appear. It uses your browser's own speech synthesis, with the voices already on your device, so it costs nothing and needs no account. On-device voices are preferred automatically and nothing you read leaves your device. Some browsers, Chrome in particular, also offer network voices in the same list; those are labelled as such in the voice picker, and choosing one sends the text being read to that voice's provider. Nothing selects one for you. If your device has no speech voices installed, the control says so rather than appearing to work: adding a voice in your system settings enables it, and nothing needs to change in the app. Read-aloud is available in exam mode as well as in practice, because a reading accommodation that disappears under timed conditions is not an accommodation.",
   },
   {
     heading: "Speed and voice",
