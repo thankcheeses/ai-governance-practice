@@ -8,6 +8,7 @@ import {
   RATE_STEPS,
   cancelSpeech,
   chunkForSpeech,
+  isLocalVoice,
   clampRate,
   getRate,
   getVoiceURI,
@@ -71,12 +72,12 @@ test("every offered speed survives clamping unchanged", () => {
 });
 
 /** A voice is a plain record as far as `pickVoice` is concerned. */
-function voice(name: string, lang: string): SpeechSynthesisVoice {
+function voice(name: string, lang: string, localService = true): SpeechSynthesisVoice {
   return {
     name,
     lang,
     voiceURI: `urn:${name}`,
-    localService: true,
+    localService,
     default: false,
   } as SpeechSynthesisVoice;
 }
@@ -376,4 +377,62 @@ test("speak() queues the chunks, not the raw parts", () => {
   } finally {
     delete (globalThis as { window?: unknown }).window;
   }
+});
+
+/*
+  Where the voice runs.
+
+  A network voice sends the text it reads to whoever supplies it, and the text
+  here is the question a learner is working on. Chrome lists network voices
+  beside on-device ones with nothing to distinguish them, so "whichever sorted
+  first" was silently deciding where study text went. These pin the preference
+  so that cannot come back.
+*/
+
+test("isLocalVoice treats only an explicit true as on-device", () => {
+  // Guessing wrong toward "local" would mislabel text that does leave the
+  // device; guessing wrong the other way only over-warns.
+  assert.equal(isLocalVoice({ localService: true }), true);
+  assert.equal(isLocalVoice({ localService: false }), false);
+  assert.equal(isLocalVoice({}), false);
+});
+
+test("an on-device voice wins over a network voice in the same language", () => {
+  const voices = [
+    voice("Cloud Spanish", "es-ES", false),
+    voice("Monica", "es-ES", true),
+  ];
+  assert.equal(pickVoice(voices, null, "es-ES")?.name, "Monica");
+});
+
+test("an on-device near-match beats a network exact match", () => {
+  /*
+    The deliberate part. A pt-BR voice on the device is a slightly worse accent
+    than a network pt-PT voice; it is a much better default than shipping the
+    learner's question text to a third party without asking. Accent loses.
+  */
+  const voices = [
+    voice("Cloud Portuguese", "pt-PT", false),
+    voice("Luciana", "pt-BR", true),
+  ];
+  assert.equal(pickVoice(voices, null, "pt-PT")?.name, "Luciana");
+});
+
+test("a network voice is still used when it is the only one for the language", () => {
+  // Preferring on-device must not become a filter: for some languages a
+  // network voice is the only voice there is, and silence would be worse.
+  const voices = [voice("Alex", "en-US", true), voice("Cloud Korean", "ko-KR", false)];
+  assert.equal(pickVoice(voices, null, "ko-KR")?.name, "Cloud Korean");
+});
+
+test("an explicit choice of a network voice is still honored", () => {
+  // The learner chose it knowing what the picker says. Overriding that would
+  // be a different kind of disrespect.
+  const voices = [voice("Monica", "es-ES", true), voice("Cloud Spanish", "es-ES", false)];
+  assert.equal(pickVoice(voices, "urn:Cloud Spanish", "es-ES")?.name, "Cloud Spanish");
+});
+
+test("no voice for the language still means the engine default", () => {
+  const voices = [voice("Cloud Spanish", "es-ES", false)];
+  assert.equal(pickVoice(voices, null, "ja-JP"), null);
 });

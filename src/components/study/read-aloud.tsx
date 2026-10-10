@@ -4,6 +4,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import {
   RATE_STEPS,
   cancelSpeech,
+  isLocalVoice,
   getRate,
   getVoiceURI,
   listVoices,
@@ -43,6 +44,14 @@ import { cn } from "@/lib/utils";
  * Using the learner's own translator keeps that an explicitly unofficial aid
  * they invoked, instead of this app presenting a machine translation of the law
  * as its own study material.
+ *
+ * ## Where the voice runs is part of the choice
+ *
+ * The picker separates on-device voices from network ones and says what the
+ * difference costs, because Chrome lists them together with nothing to
+ * distinguish them. `pickVoice` prefers on-device at every step, so the default
+ * never sends a learner’s question text anywhere; a network voice stays
+ * reachable, but only deliberately.
  *
  * ## No voices is a real state
  *
@@ -147,16 +156,32 @@ export function ReadAloud({
     setSpeaking(false);
   }, []);
 
-  /** Grouped for the picker; a device can list fifty voices in one flat list. */
-  const grouped = useMemo(() => {
-    const byLang = new Map<string, SpeechSynthesisVoice[]>();
-    for (const v of voices) {
-      const key = v.lang || "other";
-      const list = byLang.get(key);
-      if (list) list.push(v);
-      else byLang.set(key, [v]);
-    }
-    return [...byLang.entries()].sort(([a], [b]) => a.localeCompare(b));
+  /*
+    Split on where the voice runs before grouping by language, because that
+    distinction matters more here than the language does.
+
+    A network voice sends the text it reads to whoever supplies it, and here
+    that text is the question the learner is working on. Chrome lists those
+    alongside on-device voices with nothing to tell them apart, so someone
+    picking "a nicer voice" has no way to know they just changed where their
+    study text goes. Labelling is the minimum; hiding them would be worse,
+    because for some languages a network voice is the only one there is.
+  */
+  const [onDevice, network] = useMemo(() => {
+    const local: SpeechSynthesisVoice[] = [];
+    const remote: SpeechSynthesisVoice[] = [];
+    for (const v of voices) (isLocalVoice(v) ? local : remote).push(v);
+    const byLang = (list: SpeechSynthesisVoice[]) => {
+      const m = new Map<string, SpeechSynthesisVoice[]>();
+      for (const v of list) {
+        const key = v.lang || "other";
+        const got = m.get(key);
+        if (got) got.push(v);
+        else m.set(key, [v]);
+      }
+      return [...m.entries()].sort(([a], [b]) => a.localeCompare(b));
+    };
+    return [byLang(local), byLang(remote)];
   }, [voices]);
 
   // Render nothing at all before mount rather than a disabled shell: the server
@@ -274,10 +299,22 @@ export function ReadAloud({
               )}
             >
               <option value="">
-                Match the page language (device default)
+                Match the page language (on-device voice)
               </option>
-              {grouped.map(([lang, list]) => (
-                <optgroup key={lang} label={lang}>
+              {onDevice.map(([lang, list]) => (
+                <optgroup key={`local-${lang}`} label={`${lang} — on this device`}>
+                  {list.map((v) => (
+                    <option key={v.voiceURI} value={v.voiceURI}>
+                      {v.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+              {network.map(([lang, list]) => (
+                <optgroup
+                  key={`net-${lang}`}
+                  label={`${lang} — network voice (text is sent to the provider)`}
+                >
                   {list.map((v) => (
                     <option key={v.voiceURI} value={v.voiceURI}>
                       {v.name}
@@ -292,6 +329,14 @@ export function ReadAloud({
               {" — "}pick a voice in that language here. The questions
               themselves are written and stored in English only.
             </p>
+            {network.length > 0 ? (
+              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                On-device voices are used by default, and nothing leaves your
+                device. Your browser also offers network voices, marked above:
+                choosing one sends the text being read to that voice&rsquo;s
+                provider.
+              </p>
+            ) : null}
           </div>
         </div>
       ) : null}
