@@ -13,6 +13,14 @@ import { getTrack } from "@/content/registry";
 import { BRAND, COMPANY, SUPPORT } from "@/lib/brand";
 import { useProgress } from "@/lib/store/progress-provider";
 import { useTheme, type Theme } from "@/lib/store/theme-provider";
+import {
+  DEFAULT_PREFS,
+  TEXT_SCALES,
+  applyPrefs,
+  readPrefs,
+  writePrefs,
+  type ReadingPrefs,
+} from "@/lib/reading-prefs";
 import { setSoundEnabled, soundEnabled } from "@/lib/sound";
 import { hasOptedOut, setOptedOut } from "@/lib/telemetry";
 import { cn } from "@/lib/utils";
@@ -85,6 +93,13 @@ function Settings() {
             </button>
           ))}
         </div>
+      </Section>
+
+      {/* Accessibility */}
+      <Section title="Accessibility">
+        <ReadingControls />
+        <Separator className="my-5" />
+        <LinkRow href="/settings/accessibility" label="Accessibility statement" />
       </Section>
 
       {/* Study */}
@@ -440,6 +455,146 @@ function Section({
  * it lives in localStorage, which does not exist on the server; reading it
  * inline would mismatch the static export's markup on hydration.
  */
+/**
+ * Text size, text spacing and motion.
+ *
+ * Mounted state is tracked for the same reason `SoundToggle` and
+ * `TelemetryToggle` track it: the values live in `localStorage`, which does not
+ * exist during the static export’s render, so reading them inline would
+ * mismatch on hydration. Unlike those two, the stored value here is *already*
+ * applied to the document by the pre-paint script — so the flash this guard
+ * avoids is only in the control, never in the page.
+ */
+function ReadingControls() {
+  const [prefs, setPrefs] = useState<ReadingPrefs | null>(null);
+
+  useEffect(() => {
+    const stored = readPrefs();
+    setPrefs(stored);
+    // The inline script already did this on load. Re-applying covers the case
+    // where it could not run — a strict CSP, an extension that strips inline
+    // scripts — so the preference still takes effect, one paint later.
+    applyPrefs(stored);
+  }, []);
+
+  const current = prefs ?? DEFAULT_PREFS;
+  const ready = prefs !== null;
+
+  const update = (next: Partial<ReadingPrefs>) => setPrefs(writePrefs(next));
+
+  return (
+    <div className="space-y-5">
+      <fieldset disabled={!ready} className="disabled:opacity-40">
+        <legend className="mb-2.5 text-sm text-muted-foreground">Text size</legend>
+        <div className="grid grid-cols-4 gap-2">
+          {TEXT_SCALES.map((option) => (
+            <button
+              key={option.id}
+              type="button"
+              onClick={() => update({ textScale: option.id })}
+              aria-pressed={current.textScale === option.id}
+              className={cn(
+                "flex min-h-11 items-center justify-center rounded-md border bg-card px-2 py-3 text-center transition-colors",
+                current.textScale === option.id
+                  ? "border-accent bg-accent-tint font-medium text-accent-foreground ring-1 ring-inset ring-accent"
+                  : "border-border text-muted-foreground hover:bg-secondary",
+              )}
+            >
+              {/* Each label is set at the size it selects, so the control is a
+                  preview rather than a word. */}
+              <span style={{ fontSize: `${option.scale * 0.875}rem` }}>
+                {option.label}
+              </span>
+            </button>
+          ))}
+        </div>
+      </fieldset>
+
+      <Separator />
+
+      <div className="flex items-center justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-sm font-medium">Wider text spacing</p>
+          <p className="measure text-xs text-muted-foreground">
+            {ready
+              ? current.spacing === "wide"
+                ? "On \u2014 looser lines, letters and words in long passages"
+                : "Off \u2014 standard spacing"
+              : "\u00a0"}
+          </p>
+        </div>
+        <Switch
+          label="Wider text spacing"
+          on={ready ? current.spacing === "wide" : null}
+          onToggle={(next) => update({ spacing: next ? "wide" : "standard" })}
+        />
+      </div>
+
+      <div className="flex items-center justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-sm font-medium">Reduce motion</p>
+          <p className="measure text-xs text-muted-foreground">
+            {ready
+              ? current.motion === "reduced"
+                ? "On \u2014 animations and transitions are off here"
+                : "Following your system setting"
+              : "\u00a0"}
+          </p>
+        </div>
+        <Switch
+          label="Reduce motion"
+          on={ready ? current.motion === "reduced" : null}
+          onToggle={(next) => update({ motion: next ? "reduced" : "system" })}
+        />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The switch `SoundToggle` and `TelemetryToggle` each had their own copy of.
+ *
+ * Extracted when the accessibility section needed two more of them rather than
+ * on principle: four hand-rolled copies of the same `role="switch"` is four
+ * places for the disabled state or the `aria-checked` mapping to drift, and
+ * this one is the part a screen reader depends on.
+ *
+ * `on === null` means "not read yet" and renders as off-but-disabled, which is
+ * why the prop is nullable instead of defaulting to false.
+ */
+function Switch({
+  label,
+  on,
+  onToggle,
+}: {
+  label: string;
+  on: boolean | null;
+  onToggle: (next: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on === true}
+      aria-label={label}
+      disabled={on === null}
+      onClick={() => onToggle(!on)}
+      className={cn(
+        "relative h-6 w-11 shrink-0 rounded-full border transition-colors disabled:opacity-40",
+        on ? "border-accent bg-accent" : "border-border bg-secondary",
+      )}
+    >
+      <span
+        aria-hidden
+        className={cn(
+          "absolute top-0.5 h-4 w-4 rounded-full bg-card shadow-sm transition-transform",
+          on ? "translate-x-[1.4rem]" : "translate-x-0.5",
+        )}
+      />
+    </button>
+  );
+}
+
 function SoundToggle() {
   const [on, setOn] = useState<boolean | null>(null);
 

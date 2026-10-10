@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, IBM_Plex_Serif, Inter } from "next/font/google";
 import { ServiceWorker } from "@/components/app/service-worker";
 import { TelemetryBoot } from "@/components/app/telemetry-boot";
 import { SITE_URL, withBasePath } from "@/lib/base-path";
+import { READING_INIT_SCRIPT } from "@/lib/reading-prefs";
 import { BRAND } from "@/lib/brand";
 import { ProgressProvider } from "@/lib/store/progress-provider";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/store/theme-provider";
@@ -168,6 +169,20 @@ export default function RootLayout({
           reaches it, before any paintable element below it exists.
         */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/*
+          Text size, text spacing and the motion preference, applied before
+          first paint for the same reason as the theme and under the same
+          constraints — a plain inline script, inside <body>, with nothing
+          paintable above it.
+
+          The stake is higher here than it is for the theme. A theme flash is
+          unpleasant; a text-size flash shows the person who told the app they
+          need larger text the small text, on every single load, in the moment
+          they are trying to start reading. It is placed after the theme script
+          only because one of them has to be second and the theme has a
+          placement test pinning it to the front.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: READING_INIT_SCRIPT }} />
         {/*
           After the theme script, deliberately. Placed above it this failed
           theme-init-placement.test.ts: anything rendered before that script is

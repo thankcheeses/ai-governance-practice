@@ -1,7 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import type { PresentedOption, Question, Scenario } from "@/content/types";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
+import { ReadAloud } from "@/components/study/read-aloud";
 import { ProtectedText } from "@/components/study/protected-text";
 import { VisualAid } from "@/components/study/visual-aid";
 import { isMultiSelect, requiredSelections } from "@/lib/grading";
@@ -30,6 +32,12 @@ interface QuestionViewProps {
  * requirement afterwards would be an interface failure rather than a knowledge
  * one.
  *
+ * Read-aloud reads this screen rather than the `Question` object, by walking
+ * the `[data-speak]` elements below in document order. Marking them here rather
+ * than assembling a string in the control is what keeps the spoken order and
+ * the visual order the same thing, and it is why a page the learner has
+ * translated in their browser reads back translated — see `read-aloud.tsx`.
+ *
  * `onSelect` is a commitment, not a preference. The caller grades the answer
  * the moment the selection is complete, so on a single-select question the
  * first tap is the answer and on a multi-select the tap that completes the set
@@ -46,9 +54,13 @@ export function QuestionView({
 }: QuestionViewProps) {
   const multi = isMultiSelect(question);
   const required = requiredSelections(question);
+  const spoken = useRef<HTMLDivElement>(null);
 
   return (
     <div>
+      <ReadAloud targetRef={spoken} questionId={question.id} />
+
+      <div ref={spoken}>
       {question.scenario ? <ScenarioPanel scenario={question.scenario} /> : null}
 
       {/*
@@ -59,6 +71,7 @@ export function QuestionView({
       */}
       <ProtectedText
         as="h1"
+        data-speak
         className="measure text-pretty font-serif text-[1.375rem] leading-snug sm:text-[1.625rem] sm:leading-snug"
       >
         <ConceptHighlight text={question.question} limit={3} />
@@ -157,6 +170,8 @@ export function QuestionView({
               </span>
               <ProtectedText
                 as="span"
+                data-speak
+                data-speak-label={`Option ${option.key}`}
                 className="measure text-[0.9375rem] leading-relaxed sm:text-base"
               >
                 {option.text}
@@ -164,6 +179,7 @@ export function QuestionView({
             </button>
           );
         })}
+      </div>
       </div>
     </div>
   );
@@ -229,15 +245,27 @@ function ScenarioPanel({ scenario }: { scenario: Scenario }) {
       {/* The brief's title is display type, so it takes the serif. */}
       <ProtectedText
         as="p"
+        data-speak
+        data-speak-label="Scenario"
         className="measure mb-4 font-serif text-[1.125rem] leading-snug text-foreground"
       >
         {scenario.title}
       </ProtectedText>
 
+      {/*
+        `data-speak` goes on each paragraph, never on the wrapper. The wrapper's
+        textContent is every paragraph joined, which would hand read-aloud one
+        very long utterance — and a single long utterance is precisely what
+        Chrome truncates at about fifteen seconds. A multi-paragraph fact
+        pattern is the longest text in the app and so the most likely to be cut
+        off. Marking the wrapper *as well* would be worse again: the selector
+        would match both and every paragraph would be read twice.
+      */}
       <ProtectedText className="space-y-3.5">
         {scenario.body.map((paragraph, i) => (
           <p
             key={i}
+            data-speak
             className="measure text-[0.9375rem] leading-[1.75] text-foreground/90"
           >
             <ConceptHighlight text={paragraph} limit={2} />

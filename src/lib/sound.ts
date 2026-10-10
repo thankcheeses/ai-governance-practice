@@ -11,10 +11,17 @@ import { BASE_PATH } from "./base-path";
  *
  * ## The files
  *
- * `CUES` maps each cue to one file under `public/sounds/`. Every current file
- * was supplied by the owner and is committed exactly as supplied; nothing here
- * was synthesized, and a cue with no file resolves to silence rather than to a
- * console error, so adding a name before its audio is safe.
+ * `CUES` maps each cue to one file under `public/sounds/`, and only to a file:
+ * no cue is fetched from a third-party host, so the audio a learner hears is
+ * the audio this repository ships. Every file came from the owner; nothing was
+ * synthesized, and `yay.mp3` is the only one not committed byte-for-byte as
+ * supplied — see `public/sounds/README.md` for exactly what was cut from it.
+ *
+ * A cue with no file resolves to silence rather than to a console error, so
+ * naming one before its audio exists is safe. The verdicts between the two
+ * extremes deliberately have no cue at all: a sound on every result is
+ * nagging rather than informative, so only a failed sitting and a strong one
+ * make a noise.
  *
  * ## Playback rules
  *
@@ -48,18 +55,6 @@ export const CUES = {
    * A across a substantial or broader share of the bank.
    */
   yay: "yay.mp3",
-  /**
-   * Everything between the two: nothing to grade yet, an early signal, or real
-   * progress with real gaps.
-   *
-   * Still hotlinked, and the only cue that is. Every other cue is a file in
-   * `public/sounds/`, which both export targets ship verbatim, so its bytes are
-   * this repository's bytes. This one's are someone else's: it needs a
-   * third-party host to stay up and keep serving the same audio, and no license
-   * is recorded for it either way. Dropping a file in and changing this line
-   * fixes it.
-   */
-  keepGoing: "https://www.myinstants.com/media/sounds/anime-wow-sound-effect.mp3",
   /** An answer was graded right, in practice or review. */
   correct: "answer-correct.mp3",
   /** An answer was graded wrong, in practice or review. */
