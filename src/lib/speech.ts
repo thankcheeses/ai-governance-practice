@@ -194,12 +194,33 @@ export function pickVoice(
   voices: SpeechSynthesisVoice[],
   storedURI: string | null,
   lang?: string,
+  preferred?: string | null,
 ): SpeechSynthesisVoice | null {
   if (storedURI) {
     const exact = voices.find((v) => v.voiceURI === storedURI);
     if (exact) return exact;
   }
-  if (lang) {
+
+  /*
+    `preferred` is the reading language chosen in Settings. It refines the
+    target, it never replaces it.
+
+    The language of the *text* decides pronunciation, and that is what `lang`
+    reports. Letting a stored preference override it would mean English words
+    read by a Spanish voice for anyone who picked Spanish — fluent-sounding
+    nonsense, and worse than no preference at all, since the learner asked for
+    better pronunciation and got worse.
+
+    Where it does help is specificity. A translator typically sets a bare base
+    tag: `lang="zh"` says Chinese without saying which script, and the device
+    may offer both a zh-Hans and a zh-TW voice. The learner already told us
+    which they read, so when the preference agrees with the text's base
+    language, its fuller tag is the better target.
+  */
+  const target = refineTarget(lang, preferred);
+
+  if (target) {
+    const lang = target;
     const tag = lang.toLowerCase();
     const base = tag.split("-")[0]!;
     const matches = (v: SpeechSynthesisVoice, exact: boolean) =>
@@ -229,6 +250,25 @@ export function pickVoice(
     );
   }
   return null;
+}
+
+/**
+ * The language tag to look a voice up by.
+ *
+ * Returns the text's own language, except when the chosen reading language
+ * names the same base language more precisely — then the chosen one, because
+ * the learner has told us which variety of it they read.
+ */
+function refineTarget(lang?: string, preferred?: string | null): string | undefined {
+  if (!lang) return preferred ?? undefined;
+  if (!preferred) return lang;
+
+  const base = (t: string) => t.toLowerCase().split("-")[0];
+  if (base(lang) !== base(preferred)) return lang;
+
+  // Same language; take whichever tag says more. A bare "zh" from a translator
+  // is less useful than the "zh-Hans" the learner picked.
+  return preferred.includes("-") && !lang.includes("-") ? preferred : lang;
 }
 
 /**

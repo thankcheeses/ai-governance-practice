@@ -436,3 +436,59 @@ test("no voice for the language still means the engine default", () => {
   const voices = [voice("Cloud Spanish", "es-ES", false)];
   assert.equal(pickVoice(voices, null, "ja-JP"), null);
 });
+
+/*
+  The reading language from Settings, fed into voice selection.
+
+  The rule it has to obey: the language of the *text* decides pronunciation,
+  and the chosen language refines that target without ever replacing it. Get
+  this backwards and someone who reads Spanish hears English words read by a
+  Spanish voice — fluent-sounding nonsense, and strictly worse than having no
+  preference, since they asked for better pronunciation and got worse.
+*/
+
+test("the chosen language never overrides the language of the text", () => {
+  const voices = [voice("Alex", "en-US"), voice("Monica", "es-ES")];
+  // Page still English, learner reads Spanish. English voice, every time.
+  assert.equal(pickVoice(voices, null, "en-US", "es")?.name, "Alex");
+});
+
+test("a translated page uses the language it was translated into", () => {
+  const voices = [voice("Alex", "en-US"), voice("Monica", "es-ES")];
+  assert.equal(pickVoice(voices, null, "es", "es")?.name, "Monica");
+  // Even when the learner's stored choice is something else entirely.
+  assert.equal(pickVoice(voices, null, "es", "ko")?.name, "Monica");
+});
+
+test("the chosen language breaks a tie the page language leaves open", () => {
+  /*
+    The case this exists for. A translator sets a bare `lang="zh"`, which says
+    Chinese without saying which script, and the device offers both. The
+    learner already told us which they read.
+  */
+  const voices = [voice("Tingting", "zh-Hans"), voice("Meijia", "zh-TW")];
+  assert.equal(pickVoice(voices, null, "zh", "zh-Hans")?.name, "Tingting");
+});
+
+test("a more specific page language is not thrown away for a vaguer preference", () => {
+  // `lang` says pt-BR, the preference says pt. The page knows more.
+  const voices = [voice("Luciana", "pt-BR"), voice("Joana", "pt-PT")];
+  assert.equal(pickVoice(voices, null, "pt-BR", "pt")?.name, "Luciana");
+});
+
+test("an explicit voice choice still beats both", () => {
+  const voices = [voice("Alex", "en-US"), voice("Monica", "es-ES")];
+  assert.equal(pickVoice(voices, "urn:Monica", "en-US", "en")?.name, "Monica");
+});
+
+test("the preference is used when the page states no language at all", () => {
+  const voices = [voice("Alex", "en-US"), voice("Monica", "es-ES")];
+  assert.equal(pickVoice(voices, null, undefined, "es")?.name, "Monica");
+  assert.equal(pickVoice(voices, null, undefined, null), null);
+});
+
+test("on-device still wins after the language is refined", () => {
+  // The privacy preference must survive the new argument, not be bypassed by it.
+  const voices = [voice("Cloud Chinese", "zh-Hans", false), voice("Tingting", "zh-Hans", true)];
+  assert.equal(pickVoice(voices, null, "zh", "zh-Hans")?.name, "Tingting");
+});

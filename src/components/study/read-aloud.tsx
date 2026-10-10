@@ -15,6 +15,7 @@ import {
   speak,
   speechSupported,
 } from "@/lib/speech";
+import { getLanguage, languageFor } from "@/lib/languages";
 import { cn } from "@/lib/utils";
 
 /**
@@ -76,6 +77,7 @@ export function ReadAloud({
   const [rate, setRateState] = useState(1);
   const [voiceURI, setVoiceURIState] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [readingLang, setReadingLang] = useState<string | null>(null);
   const panelId = useId();
 
   // Latest-value box for the unmount cleanup, which must not re-run on changes.
@@ -92,6 +94,7 @@ export function ReadAloud({
     setMounted(true);
     setRateState(getRate());
     setVoiceURIState(getVoiceURI());
+    setReadingLang(getLanguage());
 
     const sync = () => setVoices(listVoices());
     sync();
@@ -146,10 +149,17 @@ export function ReadAloud({
     speak(parts, {
       rate,
       lang,
-      voice: pickVoice(voices, voiceURI, lang),
+      /*
+        The reading language from Settings refines the lookup; it never
+        overrides what is on screen. See `pickVoice` — reading English text in
+        a Spanish voice because the learner reads Spanish would be worse
+        pronunciation, not better, which is the opposite of what they asked
+        for.
+      */
+      voice: pickVoice(voices, voiceURI, lang, readingLang),
       onDone: () => setSpeaking(false),
     });
-  }, [rate, targetRef, voiceURI, voices]);
+  }, [rate, readingLang, targetRef, voiceURI, voices]);
 
   const stop = useCallback(() => {
     cancelSpeech();
@@ -299,7 +309,9 @@ export function ReadAloud({
               )}
             >
               <option value="">
-                Match the page language (on-device voice)
+                {readingLang && languageFor(readingLang)
+                  ? `Match the page — ${languageFor(readingLang)!.english} when translated`
+                  : "Match the page language (on-device voice)"}
               </option>
               {onDevice.map(([lang, list]) => (
                 <optgroup key={`local-${lang}`} label={`${lang} — on this device`}>
