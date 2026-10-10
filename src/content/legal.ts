@@ -8,7 +8,7 @@
  * Every clause describes what the app actually does and is checkable against
  * the code. Change behavior and this text has to change with it.
  */
-import { BRAND, COMPANY, LEGAL_EFFECTIVE_DATE } from "@/lib/brand";
+import { BRAND, COMPANY, LEGAL_EFFECTIVE_DATE, SUPPORT } from "@/lib/brand";
 
 export interface LegalSection {
   heading: string;
@@ -132,5 +132,68 @@ export const PRIVACY_SECTIONS: LegalSection[] = [
   {
     heading: "Changes to this policy",
     body: "If we change how data is handled, the effective date above will change and material changes will be surfaced in the app before they take effect.",
+  },
+];
+
+/**
+ * Accessibility statement.
+ *
+ * Held to the same rule as the two documents above: every sentence describes
+ * what the app does today and is checkable against the code.
+ *
+ * It deliberately makes **no conformance claim**. Saying "WCAG 2.1 AA
+ * compliant" or "ADA compliant" is a legal conclusion that rests on an audit
+ * nobody has performed on this app, and in a product about governance a
+ * confident unverified compliance claim would be the exact failure it teaches
+ * learners to spot. So the wording names the standard it is built toward, maps
+ * individual features to the criteria they answer, states plainly that no
+ * audit has happened, and lists the gaps it knows about.
+ */
+export const ACCESSIBILITY_SUMMARY = `What ${BRAND.name} does today to be usable with assistive technology, which parts are known to fall short, and how to tell us about a barrier. This describes the current state of the app — it is not a certificate of conformance and not legal advice.`;
+
+export const ACCESSIBILITY_SECTIONS: LegalSection[] = [
+  {
+    heading: "The standard this is built toward",
+    body: "The target is WCAG 2.1 Level AA, the version referenced by Section 508 in the United States and by EN 301 549 in the European Union. Specific features below name the success criterion they answer. No independent accessibility audit has been carried out on this app, and no automated checker has been run as a gate on every release, so nothing here should be read as a conformance claim — a conformance claim without an audit behind it is exactly the kind of unverified assertion this app exists to teach people to question. What follows is an honest account of what has been built and tested, and of what has not.",
+  },
+  {
+    heading: "Reading questions aloud",
+    body: "Every question screen has a Read aloud control that speaks the scenario, the question and each answer choice in the order they appear. It uses your browser's own speech synthesis and the voices already installed on your device, so it works offline, costs nothing, sends no text anywhere, and needs no account. If your device has no speech voices installed, the control says so rather than appearing to work: adding a voice in your system settings enables it, and nothing needs to change in the app. Read-aloud is available in exam mode as well as in practice, because a reading accommodation that disappears under timed conditions is not an accommodation.",
+  },
+  {
+    heading: "Speed and voice",
+    body: "Reading speed is adjustable from 0.5× to 2× in seven steps, and the choice is remembered on that device. You can also choose which installed voice reads, grouped by language, or leave it to match the page. Speed and voice changes take effect on the next read rather than mid-sentence, because no speech engine can change rate part-way through an utterance; the control stops rather than pretending otherwise. Each passage is spoken as a separate piece, so stopping is immediate and long scenarios are not cut off part-way, which is a real limitation of some browsers on a single long passage.",
+  },
+  {
+    heading: "Other languages",
+    body: "The questions are written and stored in English only, and this app does not translate them. That is a deliberate limit rather than an oversight: the questions turn on legal obligations, where terms like controller, provider, deployer and substantial modification carry specific meanings that already have official renderings in other languages, and an unreviewed machine translation would quietly teach the wrong word while looking perfectly fluent. Presenting that as study material would be worse than presenting nothing. What does work is your own translator — the browser or operating system translation you already use is not blocked anywhere in the app, including on the question text. Read aloud then speaks whatever is on screen, so a translated page is read back translated, and you can pick a voice in that language. A translation you invoked is clearly your own unofficial aid; a translation we shipped would look like ours. If a reviewed translation into a particular language would be useful to you, say so through the Help page.",
+  },
+  {
+    heading: "Text size and spacing",
+    body: "Settings offers four text sizes up to 1.5× (WCAG 2.1 §1.4.4, Resize Text). Browser zoom already satisfies that criterion and keeps working; the in-app control exists because it is discoverable and zoom is not. There is also a wider text spacing setting that applies exactly the values named in WCAG 2.1 §1.4.12 — line height 1.5×, letter spacing 0.12em, word spacing 0.16em and paragraph spacing 2× — to the app's reading-width prose. Both preferences are applied before the page first paints, so a stored setting is never shown at the wrong size first, and both are stored on the device rather than on an account, so they work before and whether or not you ever sign in.",
+  },
+  {
+    heading: "Motion",
+    body: "The app honours your operating system's reduced-motion setting. Settings also has its own Reduce motion switch (WCAG 2.1 §2.3.3, Animation from Interactions) for turning animation off here without changing your whole system. Nothing in the app flashes, blinks, auto-plays video, or moves without you starting it, and there is no carousel or auto-advancing content.",
+  },
+  {
+    heading: "Keyboard and screen readers",
+    body: "Every control is reachable and operable by keyboard, answer choices are real buttons with radio or checkbox semantics and a checked state, and the study screen has keyboard shortcuts for answering and moving on. Results and feedback appear in live regions so they are announced rather than silently replacing what was there. Correctness is never signalled by colour alone: the marker's shape changes and the outcome is also stated in words. Multi-select questions state how many choices are required before you answer, in one sentence a screen reader reads as a sentence.",
+  },
+  {
+    heading: "A trade-off we made against you, stated plainly",
+    body: "Question text and answer choices cannot be selected or copied. This is friction against pasting a question straight into a chatbot, and it is a speed bump rather than protection — a screenshot or retyping defeats it. It does not affect screen readers, which read the accessibility tree rather than the selection, and it does not affect browser translation or read-aloud. What it does cost is selecting text while reading, which some people rely on to hold their place on a long passage. That is a genuine accessibility cost, accepted knowingly, and confined to the question and its options: explanations, rationales, takeaways, labels and controls are all freely selectable.",
+  },
+  {
+    heading: "Known gaps",
+    body: "No independent audit or formal assistive-technology test pass has been done, so there are almost certainly barriers nobody has found yet. Specifically untested: screen magnification above 400%, Windows High Contrast and forced-colours modes, braille displays, and voice-control software. Read-aloud depends on voices your device has installed and on your browser's speech support, neither of which the app can supply. Diagrams carry text labels as real text, but the decorative illustrations are not individually described. The downloadable PDF report has not been checked for tagged-PDF accessibility. This list is what is known; it is not a guarantee that the rest is fine.",
+  },
+  {
+    heading: "Telling us about a barrier",
+    body: `If something stops you using this app, the Help page has a form that needs no account, and an email address on it is optional. A report describing a barrier is treated as a defect rather than as feedback. If it is easier, email ${SUPPORT.email} instead. Please say what you were trying to do, what happened, and which assistive technology, browser and device you were using — that is usually the difference between a problem that can be reproduced and one that cannot.`,
+  },
+  {
+    heading: "Not legal advice",
+    body: `This statement describes an independent study tool. It is not legal advice, not a conformance report, and not an accessibility audit, and it does not state anyone's obligations under the Americans with Disabilities Act, Section 508, the European Accessibility Act or any other law. ${COMPANY.name} is not affiliated with, endorsed by, or sponsored by the IAPP, and nothing here speaks for them.`,
   },
 ];

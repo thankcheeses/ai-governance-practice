@@ -326,3 +326,66 @@
     box-shadow: var(--shadow-inset);
   }
 }
+
+/*
+  Reading preferences, set on <html> by READING_INIT_SCRIPT before first paint
+  and by applyPrefs() thereafter. See src/lib/reading-prefs.ts for why each one
+  exists and which success criterion it answers.
+
+  Text size is not here: it is an inline `font-size` on the root, because the
+  value is numeric and a rule per step would mean editing CSS to add a step.
+*/
+
+/*
+  WCAG 2.1 §1.4.12 Text Spacing, applied rather than merely survived.
+
+  The criterion is about content not breaking when a reader *imposes* these
+  values through their own stylesheet. The numbers below are exactly the ones it
+  names, offered as a setting, so a learner who needs them does not have to know
+  how to inject CSS into someone else's site to get them.
+
+  Scoped to text that is read rather than to everything: buttons, labels and
+  controls are sized to their content, and 0.12em of letter spacing inside a
+  7x7 option letter or a nav item wraps it. `.measure` marks the app's
+  reading-width prose, which is the text this is for.
+*/
+:root[data-text-spacing="wide"] {
+  p.measure,
+  .measure p,
+  h1.measure,
+  h2.measure,
+  span.measure {
+    line-height: 1.5 !important;
+    letter-spacing: 0.12em !important;
+    word-spacing: 0.16em !important;
+  }
+
+  .measure p + p,
+  .measure > * + * {
+    margin-block-start: 2em !important;
+  }
+}
+
+/*
+  WCAG 2.1 §2.3.3 Animation from Interactions.
+
+  The app already honours the OS-level `prefers-reduced-motion` through
+  Tailwind's `motion-safe:` variant in components. This is the in-app
+  equivalent, for a learner who wants motion stopped here without changing
+  their whole system — and it is deliberately a blunt instrument, because the
+  people who need it are the people for whom a missed animation is a symptom
+  rather than a nuisance.
+
+  `0.01ms` rather than `0`: a zero duration can skip the `transitionend` and
+  `animationend` events some components wait on, which would leave a dismissed
+  banner on screen forever. One hundredth of a millisecond is imperceptible and
+  still fires.
+*/
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
