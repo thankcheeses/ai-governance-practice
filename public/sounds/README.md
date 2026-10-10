@@ -15,6 +15,7 @@ below. The other five are byte-for-byte as supplied.
 | `answer-correct.mp3` | `correct` | An answer is graded right, in practice or review. |
 | `answer-wrong.mp3` | `wrong` | An answer is graded wrong, in practice or review. |
 | `oof.mp3` | `oof` | A sitting lands on the `insufficient` verdict — grade D or F with enough answered for that to mean something. |
+| `click.mp3` | `click` | Any control is activated — button, link, tab — by mouse, touch or keyboard. |
 | `yay.mp3` | `yay` | A sitting lands on the `encouraging` verdict — grade A across a substantial or broader share of the bank. |
 
 Measured, not assumed — and the two stereo files are a different encode from
@@ -26,6 +27,7 @@ the four mono ones, so the figures are per file rather than a blanket claim:
 | `answer-wrong.mp3` | 5,685 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 0.68s |
 | `begin.mp3` | 10,283 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 1.25s |
 | `flawless-victory.mp3` | 15,507 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 1.91s |
+| `click.mp3` | 669 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 0.052s |
 | `oof.mp3` | 16,971 | MPEG-1 layer III, 128 kbps, 44.1 kHz joint stereo | 1.04s |
 | `yay.mp3` | 69,008 | MPEG-1 layer III, 128 kbps, 44.1 kHz joint stereo | 4.31s |
 
@@ -70,6 +72,33 @@ the result would defeat that.
 The filenames are not free-form: `CUES` in `src/lib/sound.ts` maps each cue name
 to exactly one filename, and `sound.test.ts` asserts the shape. Add a cue there
 and here together.
+
+## The click tick is a different kind of cue
+
+Every other cue here marks an **outcome**: a sitting began, an answer was
+graded, a verdict landed. They fire once or twice a session and each one says
+something.
+
+`click` marks an **input**. It fires on every activation — dozens of times a
+minute — and carries no information beyond "that registered". Three things
+follow from that difference:
+
+- **It has its own preference**, `aigp.sound.clicks`, nested under the master
+  sound switch. Wanting the verdict sounds without a tick on every tap is an
+  ordinary preference, and conflating them would mean silencing the tick costs
+  the verdict too.
+- **It is wired once, not per button.** `use-click-feedback.ts` puts a single
+  delegated listener on the document, so everything ticks and the exceptions
+  are declared rather than the other way round. It listens for `click` and not
+  `pointerdown`, which means keyboard activation gets the same feedback as a
+  mouse, and a touch that turns into a scroll does not.
+- **The answer options are excluded.** Choosing an answer submits it, so
+  `correct` or `wrong` already fires on that same tap. A tick two milliseconds
+  ahead of the verdict is noise competing with the only part that carries
+  information.
+
+At 52ms it is by far the shortest file here, which is the point: anything long
+enough to notice as a sound would be intolerable at this frequency.
 
 ## Silence is a cue too
 

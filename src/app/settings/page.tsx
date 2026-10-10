@@ -22,7 +22,12 @@ import {
   writePrefs,
   type ReadingPrefs,
 } from "@/lib/reading-prefs";
-import { setSoundEnabled, soundEnabled } from "@/lib/sound";
+import {
+  clickSoundEnabled,
+  setClickSoundEnabled,
+  setSoundEnabled,
+  soundEnabled,
+} from "@/lib/sound";
 import { hasOptedOut, setOptedOut } from "@/lib/telemetry";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +36,9 @@ const THEMES: { value: Theme; label: string }[] = [
   { value: "light", label: "Light" },
   { value: "system", label: "System" },
 ];
+
+/** Fired when the master sound switch changes, so siblings can re-read it. */
+const SOUND_CHANGED = "aigp:sound-changed";
 
 const DAILY_GOAL_MIN = 5;
 const DAILY_GOAL_MAX = 50;
@@ -305,6 +313,8 @@ function Settings() {
 
       <Section title="Sound">
         <SoundToggle />
+        <Separator className="my-5" />
+        <ClickSoundToggle />
         <p className="measure mt-3 text-xs leading-relaxed text-muted-foreground">
           Off by default, and off until you turn it on here. The only cue is a
           short one when you finish a sitting with every question right.
@@ -601,6 +611,77 @@ function Switch({
   );
 }
 
+/**
+ * The click tick, separate from the result cues on purpose.
+ *
+ * It fires on every activation rather than once a sitting, so wanting the
+ * verdict sounds without a tick on every tap is an ordinary preference rather
+ * than an edge case. Nested under the main switch: with sound off this reads
+ * as off and disabled, because it is.
+ */
+function ClickSoundToggle() {
+  const [on, setOn] = useState<boolean | null>(null);
+  const [soundOn, setSoundOn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setSoundOn(soundEnabled());
+    setOn(clickSoundEnabled());
+  }, []);
+
+  /*
+    The main switch and this one are siblings, so flipping sound off has to be
+    observed rather than passed down. A custom event rather than a poll, and
+    rather than lifting state into a section that has no other reason to hold
+    it — the same mechanism `flawless-banner` already uses for
+    `aigp:result-action`. `storage` covers the same preference changed in
+    another tab, which the custom event cannot reach.
+  */
+  useEffect(() => {
+    const sync = () => {
+      setSoundOn(soundEnabled());
+      setOn(clickSoundEnabled());
+    };
+    window.addEventListener(SOUND_CHANGED, sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener(SOUND_CHANGED, sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
+
+  const available = soundOn === true;
+
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <div className="min-w-0">
+        <p className="text-sm font-medium">Click feedback</p>
+        <p className="measure text-xs text-muted-foreground">
+          {on === null
+            ? "\u00a0"
+            : !available
+              ? "Off \u2014 all sound is off"
+              : on
+                ? "On \u2014 a short tick when you tap a control"
+                : "Off \u2014 result sounds still play"}
+        </p>
+      </div>
+      {/*
+        `null` when sound is off, which renders the switch greyed and
+        unclickable. Showing it as live would mean a control that visibly
+        refuses to move when tapped; the line to the left says why it is out.
+      */}
+      <Switch
+        label="Click feedback"
+        on={on === null || !available ? null : on}
+        onToggle={(next) => {
+          setClickSoundEnabled(next);
+          setOn(next);
+        }}
+      />
+    </div>
+  );
+}
+
 function SoundToggle() {
   const [on, setOn] = useState<boolean | null>(null);
 
@@ -626,6 +707,8 @@ function SoundToggle() {
           const next = !on;
           setSoundEnabled(next);
           setOn(next);
+          // Click feedback is nested under this switch and renders separately.
+          window.dispatchEvent(new Event(SOUND_CHANGED));
         }}
         className={cn(
           "relative h-6 w-11 shrink-0 rounded-full border transition-colors disabled:opacity-40",

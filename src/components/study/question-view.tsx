@@ -106,6 +106,13 @@ export function QuestionView({
             <button
               key={option.id}
               type="button"
+              /*
+                No click tick here. Choosing an answer submits it, so `correct`
+                or `wrong` fires on this very tap — a tick two milliseconds
+                before the verdict is noise competing with the thing that
+                actually carries information.
+              */
+              data-no-click-sound
               role={multi ? "checkbox" : "radio"}
               aria-checked={isSelected}
               disabled={revealed}
