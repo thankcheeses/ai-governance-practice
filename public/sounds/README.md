@@ -15,6 +15,7 @@ below. The other five are byte-for-byte as supplied.
 | `answer-correct.mp3` | `correct` | An answer is graded right, in practice or review. |
 | `answer-wrong.mp3` | `wrong` | An answer is graded wrong, in practice or review. |
 | `oof.mp3` | `oof` | A sitting lands on the `insufficient` verdict — grade D or F with enough answered for that to mean something. |
+| `bonus.mp3` | `bonus` | A bonus review question is offered mid-practice. Never in an exam. |
 | `click.mp3` | `click` | Any control is activated — button, link, tab — by mouse, touch or keyboard. |
 | `yay.mp3` | `yay` | A sitting lands on the `encouraging` verdict — grade A across a substantial or broader share of the bank. |
 
@@ -27,6 +28,7 @@ the four mono ones, so the figures are per file rather than a blanket claim:
 | `answer-wrong.mp3` | 5,685 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 0.68s |
 | `begin.mp3` | 10,283 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 1.25s |
 | `flawless-victory.mp3` | 15,507 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 1.91s |
+| `bonus.mp3` | 4,849 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 0.575s |
 | `click.mp3` | 669 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 0.052s |
 | `oof.mp3` | 16,971 | MPEG-1 layer III, 128 kbps, 44.1 kHz joint stereo | 1.04s |
 | `yay.mp3` | 69,008 | MPEG-1 layer III, 128 kbps, 44.1 kHz joint stereo | 4.31s |

@@ -56,6 +56,15 @@ export const CUES = {
    */
   yay: "yay.mp3",
   /**
+   * A bonus review question is offered mid-practice.
+   *
+   * Announces an interruption rather than an outcome, which is why it exists
+   * at all: the card appears between questions, and a learner heads-down in a
+   * run needs to know the thing in front of them changed kind. Never fires in
+   * an exam — the exam cannot reach this feature.
+   */
+  bonus: "bonus.mp3",
+  /**
    * A control was activated — a button, a link, a tab.
    *
    * Different in kind from every other cue here: the rest mark an *outcome*,
