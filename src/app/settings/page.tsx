@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AppGate } from "@/components/app/app-gate";
 import { Disclaimer } from "@/components/app/disclaimer";
+import { LanguageChoice } from "@/components/app/language-choice";
 import { StarButton } from "@/components/civic/star-button";
 import { isStarConfigured } from "@/lib/github/stars";
 import { Button } from "@/components/ui/button";
@@ -93,6 +94,11 @@ function Settings() {
             </button>
           ))}
         </div>
+      </Section>
+
+      {/* Language */}
+      <Section title="Language">
+        <LanguageChoice />
       </Section>
 
       {/* Accessibility */}
