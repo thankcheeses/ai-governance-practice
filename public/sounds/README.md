@@ -1,7 +1,10 @@
 # Sound cues
 
-Audio cues live here. Every file was supplied by the owner and is committed
-exactly as supplied — not re-encoded, not substituted, not synthesized.
+Audio cues live here. Every file came from the owner — nothing was
+synthesized, substituted or re-encoded, and no cue is fetched from a
+third-party host, so the audio a learner hears is the audio this repository
+ships. One file, `yay.mp3`, was shortened; exactly what came off it is recorded
+below. The other five are byte-for-byte as supplied.
 
 ## What is expected here
 
@@ -14,23 +17,49 @@ exactly as supplied — not re-encoded, not substituted, not synthesized.
 | `oof.mp3` | `oof` | A sitting lands on the `insufficient` verdict — grade D or F with enough answered for that to mean something. |
 | `yay.mp3` | `yay` | A sitting lands on the `encouraging` verdict — grade A across a substantial or broader share of the bank. |
 
-Measured, not assumed:
+Measured, not assumed — and the two stereo files are a different encode from
+the four mono ones, so the figures are per file rather than a blanket claim:
 
 | File | Bytes | Format | Length |
 | --- | --- | --- | --- |
-| `answer-correct.mp3` | 5,476 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 0.68s |
-| `answer-wrong.mp3` | 5,685 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 0.71s |
-| `begin.mp3` | 10,283 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 1.28s |
-| `flawless-victory.mp3` | 15,507 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 1.93s |
-| `oof.mp3` | 16,971 | MPEG-1 layer III, 64 kbps, 44.1 kHz joint stereo | 1.07s |
-| `yay.mp3` | 131,074 | MPEG-1 layer III, 64 kbps, 44.1 kHz joint stereo | **8.20s** |
+| `answer-correct.mp3` | 5,476 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 0.65s |
+| `answer-wrong.mp3` | 5,685 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 0.68s |
+| `begin.mp3` | 10,283 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 1.25s |
+| `flawless-victory.mp3` | 15,507 | MPEG-1 layer III, 64 kbps, 44.1 kHz mono | 1.91s |
+| `oof.mp3` | 16,971 | MPEG-1 layer III, 128 kbps, 44.1 kHz joint stereo | 1.04s |
+| `yay.mp3` | 69,008 | MPEG-1 layer III, 128 kbps, 44.1 kHz joint stereo | 4.31s |
 
-`yay.mp3` is four times the length guidance below and three and a half times the
-size of every other cue put together. It is committed anyway, unchanged, because
-it is what the owner supplied and the rule here is that supplied audio is not
-re-encoded or trimmed to fit a guideline. Recorded rather than quietly fixed: a
-shorter cut of the same recording would drop it to roughly 30 KB and stop the
-sound outlasting the screen that triggered it.
+Lengths count audio frames only. Each file except `yay.mp3` also carries a
+leading LAME `Info` metadata frame, which decodes to about 26ms of silence; an
+earlier version of this table read *that* frame's header and so reported the
+two stereo files as 64 kbps, which was wrong.
+
+## What was cut from `yay.mp3`
+
+As supplied it ran **8.15s / 131,074 bytes**, and **the last 3.5s of that were
+digital silence** — exact zeros, not a quiet tail. Decoded to PCM, the cheer
+begins at 0.10s, peaks through 3.0s, decays to inaudible by 4.15s, and from
+4.65s to the end every sample is zero.
+
+It now ends at 4.31s, which keeps the whole cheer and its natural decay and
+drops only the silence. The cut is a truncation at an MP3 frame boundary, not a
+re-encode: the retained frames are copied byte-for-byte. Verified by decoding
+both files and comparing — **188,975 overlapping samples, 100% bit-exact, max
+difference 0.0**. The file lost 47% of its bytes and none of its audio.
+
+The leading `Info` frame was dropped with it, because a truncation invalidates
+the frame count, byte count and CRC it carries, and dropping it is cleaner than
+rewriting three fields and leaving a stale checksum. These are constant-bitrate
+files, so duration stays exactly computable without it.
+
+For provenance, the file as supplied was sha256
+`3029aafb117205e93b3a59b57a167b79ab0e58a062e6dd97170893fb7e97eb0b`; what is
+committed here is sha256
+`32525ffef41501a1d2132865c8dda11cb2220f0ec537d2ef16f4902d3ec2782e`.
+
+At 4.31s it is still longer than the guidance below. That is the length of the
+clip itself, and cutting into the cheer would be a judgment about the audio
+rather than the removal of nothing, so it was left whole.
 
 `correct` and `wrong` are the only cues that fire more than once a sitting, so
 they are played straight from the handler that grades the answer rather than
@@ -42,17 +71,23 @@ The filenames are not free-form: `CUES` in `src/lib/sound.ts` maps each cue name
 to exactly one filename, and `sound.test.ts` asserts the shape. Add a cue there
 and here together.
 
-## Not every cue has a file
+## Silence is a cue too
 
-`keepGoing` — the cue for the four middle verdicts, and so the one a learner
-hears most often — points at `myinstants.com` rather than at a file here. It is
-the only cue that does. That means its bytes are not this repository's bytes: it
-needs a third-party host to stay up and keep serving the same audio, it is
-subject to whatever that host does with hotlinks, and no license is recorded for
-it either way. Everything else here was supplied by the owner and is committed
-exactly as supplied. Dropping a file in and changing one line in `CUES` fixes
-it; `sound.test.ts` asserts that the two result cues above stay local, so this
-cannot spread back to them unnoticed.
+Only two verdicts make a sound: `insufficient` (the sitting failed) and
+`encouraging` (the strongest verdict the readiness model gives). The four in
+between are deliberately silent.
+
+They used to share one "keep going" noise, hotlinked from `myinstants.com`. Two
+problems, and removing the cue fixed both. Most results land in that middle
+band, so a sound covering four of six verdicts fired on nearly every result a
+learner ever saw — which is exactly when a cue stops marking anything and just
+becomes the noise the app makes. And it was the only cue whose bytes were not
+this repository's: it needed a third-party host to stay up and serve the same
+audio, with no license recorded either way. `sound.test.ts` now fails if any
+cue points at a URL.
+
+The banner still says something encouraging in text on every verdict. Only the
+audio is reserved for the two ends.
 
 ## Adding another cue
 

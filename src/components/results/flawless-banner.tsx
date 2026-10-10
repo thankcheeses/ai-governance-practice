@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { assessReadiness, type ReadinessState } from "@/lib/readiness";
 import { type SittingScore } from "@/lib/results";
+import { type CueName } from "@/lib/sound";
 import { useCueOnce } from "@/lib/use-cue";
 
 const MESSAGES: Record<ReadinessState, { title: string; body: string }> = {
@@ -30,13 +31,24 @@ const MESSAGES: Record<ReadinessState, { title: string; body: string }> = {
  * answer questions and miss every one of them — so the failure sound would
  * almost never have played. `insufficient` is the model's own "this sitting
  * failed", which is what the cue is for.
+ *
+ * The four verdicts in between are silent on purpose. They previously shared
+ * one "keep going" noise, which meant every result a learner ever saw made a
+ * sound — and since most results land in this middle band, that noise was the
+ * one they heard most. A cue that fires on nearly every outcome carries no
+ * information: it stops marking anything and just becomes the sound the app
+ * makes. Reserving audio for the two ends keeps it meaningful, and the banner
+ * still says something encouraging in text either way.
+ *
+ * Exhaustive over `ReadinessState` rather than a partial map, so adding a
+ * verdict forces a decision here instead of silently inheriting silence.
  */
-const CUE_FOR: Record<ReadinessState, "oof" | "keepGoing" | "yay"> = {
-  noEvidence: "keepGoing",
-  earlySignal: "keepGoing",
+const CUE_FOR: Record<ReadinessState, CueName | null> = {
+  noEvidence: null,
+  earlySignal: null,
   insufficient: "oof",
-  developing: "keepGoing",
-  mixed: "keepGoing",
+  developing: null,
+  mixed: null,
   encouraging: "yay",
 };
 
