@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ExamRedemption } from "@/components/exam/exam-redemption";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { getQuestion } from "@/content/registry";
 import { SUBDOMAINS } from "@/content/bok";
@@ -138,6 +139,22 @@ export function ExamResults({
             })}
           </ul>
         </Section>
+      ) : null}
+
+      {/*
+        Offered above the read-only list rather than below it, because working
+        the questions is the more useful of the two and burying it under a long
+        accordion of them would make the list the default.
+
+        It takes the submitted `session` as a read-only prop and the ids it
+        missed. Nothing it does can reach `result`, which is computed from that
+        same session by `scoreExam` — the score above is a record of the sitting
+        and stays one.
+      */}
+      {result.missedIds.length ? (
+        <div className="mb-7">
+          <ExamRedemption session={session} missedIds={result.missedIds} />
+        </div>
       ) : null}
 
       {result.missedIds.length && sitting ? (
