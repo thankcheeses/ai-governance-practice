@@ -7,6 +7,7 @@ import { GateRail } from "@/components/civic/gpai/diagrams";
 import {
   MonitoringThatActuallyWorks,
   OversightLevelComparison,
+  PreLaunchGate,
   ScenarioDecisionFrame,
   WhoIsAccountable,
 } from "@/components/civic/gpai";
@@ -235,6 +236,12 @@ function Home() {
             className="mb-4"
           />
           <div className="grid gap-4 sm:grid-cols-2">
+            {/*
+              First, because it is first in a system's life: the gate decides
+              whether a thing launches at all, and everything below — oversight
+              posture, monitoring, the decision frame — presumes it already did.
+            */}
+            <PreLaunchGate />
             <OversightLevelComparison />
             <WhoIsAccountable />
             <MonitoringThatActuallyWorks />

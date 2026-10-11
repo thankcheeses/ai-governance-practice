@@ -70,7 +70,14 @@ export function PreLaunchGate({ variant, className }: GpaiModuleProps) {
       stages={PRE_LAUNCH_STAGES}
       variant={variant}
       className={className}
-      diagram={() => <GateRail labels={PRE_LAUNCH_STAGES.map((s) => s.name)} />}
+      diagram={({ active, select }) => (
+        <GateRail
+          labels={PRE_LAUNCH_STAGES.map((s) => s.name)}
+          active={active}
+          onSelect={select}
+          groupLabel="Pre-launch gate stages"
+        />
+      )}
     />
   );
 }

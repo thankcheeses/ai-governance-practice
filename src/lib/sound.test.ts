@@ -2,7 +2,14 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
-import { CUES, play, setSoundEnabled, soundEnabled } from "./sound";
+import {
+  CUES,
+  clickSoundEnabled,
+  play,
+  setClickSoundEnabled,
+  setSoundEnabled,
+  soundEnabled,
+} from "./sound";
 
 /**
  * Sound is enabled by default for a new install.
@@ -100,5 +107,98 @@ test("the two result cues the owner supplied are present", () => {
       existsSync(join(process.cwd(), "public", "sounds", CUES[name])),
       'cue "' + name + '" names ' + CUES[name] + ", which is not committed",
     );
+  }
+});
+
+/*
+  The click tick's own preference.
+
+  It is nested under the master switch rather than parallel to it: sound off
+  must mean silent whatever this says. The reason it exists separately is
+  frequency — this cue fires on every activation, where the others fire once or
+  twice a sitting — so "verdicts yes, tick no" has to be reachable without
+  turning everything off.
+*/
+
+test("the click cue is a committed file like every other cue", () => {
+  assert.equal(CUES.click, "click.mp3");
+  assert.ok(
+    existsSync(join(process.cwd(), "public", "sounds", CUES.click)),
+    "the click cue names a file that is not committed",
+  );
+});
+
+test("click feedback is silent when there is no window", () => {
+  assert.equal(typeof globalThis.window, "undefined");
+  assert.equal(clickSoundEnabled(), false);
+  assert.doesNotThrow(() => setClickSoundEnabled(true));
+});
+
+test("sound off means no clicks, whatever the click preference says", () => {
+  const store = new Map<string, string>();
+  (globalThis as { window?: unknown }).window = {
+    localStorage: {
+      getItem: (k: string) => store.get(k) ?? null,
+      setItem: (k: string, v: string) => void store.set(k, v),
+    },
+  };
+  try {
+    setClickSoundEnabled(true);
+    setSoundEnabled(false);
+    assert.equal(
+      clickSoundEnabled(),
+      false,
+      "the master switch must win; a nested preference cannot re-enable sound",
+    );
+
+    setSoundEnabled(true);
+    assert.equal(clickSoundEnabled(), true, "restoring sound restores the tick");
+  } finally {
+    delete (globalThis as { window?: unknown }).window;
+  }
+});
+
+test("clicks default to on, and only an explicit \"0\" turns them off", () => {
+  const store = new Map<string, string>();
+  (globalThis as { window?: unknown }).window = {
+    localStorage: {
+      getItem: (k: string) => store.get(k) ?? null,
+      setItem: (k: string, v: string) => void store.set(k, v),
+    },
+  };
+  try {
+    assert.equal(clickSoundEnabled(), true, "unset must read as on");
+
+    setClickSoundEnabled(false);
+    assert.equal(clickSoundEnabled(), false);
+
+    setClickSoundEnabled(true);
+    assert.equal(clickSoundEnabled(), true);
+
+    // A stray value is not an explicit opt-out, matching soundEnabled.
+    store.set("aigp.sound.clicks", "true");
+    assert.equal(clickSoundEnabled(), true);
+  } finally {
+    delete (globalThis as { window?: unknown }).window;
+  }
+});
+
+test("a storage that throws is silence, not an exception", () => {
+  (globalThis as { window?: unknown }).window = {
+    localStorage: {
+      getItem() {
+        throw new Error("blocked site data");
+      },
+      setItem() {
+        throw new Error("blocked site data");
+      },
+    },
+  };
+  try {
+    assert.equal(clickSoundEnabled(), false);
+    assert.doesNotThrow(() => setClickSoundEnabled(true));
+    assert.doesNotThrow(() => play("click"));
+  } finally {
+    delete (globalThis as { window?: unknown }).window;
   }
 });

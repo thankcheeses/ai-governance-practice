@@ -369,6 +369,9 @@ export function NarrowingStack({
 export function GateRail({
   labels,
   orientation = "horizontal",
+  active,
+  onSelect,
+  groupLabel,
 }: {
   labels: readonly string[];
   /**
@@ -384,34 +387,93 @@ export function GateRail({
    * top-to-bottom just as well as left-to-right.
    */
   orientation?: "horizontal" | "vertical";
+  /**
+   * Selection, supplied only when this rail is a module's control surface.
+   *
+   * Optional because this diagram has two jobs that the other four do not.
+   * Inside `PreLaunchGate` it is the control: each bead selects a stage and
+   * the frame reveals that stage's explanation, exactly as `LevelLadder` and
+   * the rest behave. On the home page it is a small static illustration beside
+   * "Continue practicing" — there is no panel there for a selection to reveal,
+   * so beads that depressed and did nothing would be worse than beads that are
+   * plainly decoration.
+   *
+   * So: given `onSelect`, it renders real buttons with `aria-pressed`. Without
+   * it, it stays `aria-hidden` ornament. The distinction is in the props
+   * rather than in a `decorative` flag because this way the interactive
+   * version cannot be built without saying what it does when clicked.
+   */
+  active?: string;
+  onSelect?: (label: string) => void;
+  /** Names the control group for assistive tech. Required when interactive. */
+  groupLabel?: string;
 }) {
+  const interactive = typeof onSelect === "function";
+
   if (orientation === "vertical") {
     return (
-      <ol aria-hidden className="relative flex flex-col gap-3.5 py-1">
+      <ol
+        {...(interactive
+          ? { role: "group", "aria-label": groupLabel }
+          : { "aria-hidden": true })}
+        className="relative flex flex-col gap-3.5 py-1"
+      >
         {/* The track, inset so it starts and ends inside the first and last bead. */}
         <span className="absolute left-[13px] top-3 bottom-3 w-[3px] -translate-x-1/2 rounded-full bg-border-strong/30" />
         {labels.map((label, i) => {
           const last = i === labels.length - 1;
+          const on = interactive && label === active;
+          const bead = (
+            <span
+              aria-hidden
+              className={cn(
+                "z-10 h-[26px] w-[26px] shrink-0 rounded-full border shadow-raised transition-colors duration-150",
+                on
+                  ? "border-accent bg-accent ring-2 ring-accent/30"
+                  : last && !interactive
+                    ? "border-accent/40 bg-accent"
+                    : "border-border-strong/30 bg-card",
+              )}
+            />
+          );
+          const text = (
+            <span
+              className={cn(
+                "text-[0.8125rem] leading-tight transition-colors duration-150",
+                on
+                  ? "font-medium text-accent-strong"
+                  : last && !interactive
+                    ? "font-medium text-accent-strong"
+                    : "text-muted-foreground",
+              )}
+            >
+              {label}
+            </span>
+          );
+
           return (
             <li key={label} className="relative flex items-center gap-3">
-              <span
-                className={cn(
-                  "z-10 h-[26px] w-[26px] shrink-0 rounded-full border shadow-raised",
-                  last
-                    ? "border-accent/40 bg-accent"
-                    : "border-border-strong/30 bg-card"
-                )}
-              />
-              <span
-                className={cn(
-                  "text-[0.8125rem] leading-tight",
-                  last
-                    ? "font-medium text-accent-strong"
-                    : "text-muted-foreground"
-                )}
-              >
-                {label}
-              </span>
+              {interactive ? (
+                <button
+                  type="button"
+                  onClick={() => onSelect(label)}
+                  aria-pressed={on}
+                  className={cn(
+                    "flex flex-1 items-center gap-3 rounded-lg py-0.5 pr-1 text-left",
+                    "transition-transform duration-150 ease-out hover:translate-x-px",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    "focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+                  )}
+                >
+                  {bead}
+                  {text}
+                </button>
+              ) : (
+                <>
+                  {bead}
+                  {text}
+                </>
+              )}
             </li>
           );
         })}
@@ -421,7 +483,9 @@ export function GateRail({
 
   return (
     <div
-      aria-hidden
+      {...(interactive
+        ? { role: "group", "aria-label": groupLabel }
+        : { "aria-hidden": true })}
       className="pt-1"
       style={{ ["--gate-cols" as string]: labels.length }}
     >
@@ -429,40 +493,88 @@ export function GateRail({
         Beads and labels share one grid rather than being two independently
         justified flex rows, so each label sits exactly under its own bead at
         any width instead of depending on equal text widths.
+
+        When interactive, one button spans both rows per column instead, so the
+        hit target covers the bead and its label rather than a 28px circle —
+        and so a screen reader hears one control per stage, not a bead and a
+        caption it has to associate itself.
       */}
-      <div className="relative grid items-center [grid-template-columns:repeat(var(--gate-cols),minmax(0,1fr))]">
-        <span className="absolute inset-x-[10%] top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-border-strong/30" />
-        {labels.map((label, i) => {
-          const last = i === labels.length - 1;
-          return (
-            <span key={label} className="flex justify-center">
-              <span
+      {interactive ? (
+        <div className="relative grid [grid-template-columns:repeat(var(--gate-cols),minmax(0,1fr))]">
+          <span className="pointer-events-none absolute inset-x-[10%] top-[14px] h-[3px] -translate-y-1/2 rounded-full bg-border-strong/30" />
+          {labels.map((label) => {
+            const on = label === active;
+            return (
+              <button
+                key={label}
+                type="button"
+                onClick={() => onSelect(label)}
+                aria-pressed={on}
                 className={cn(
-                  "relative z-10 h-7 w-7 rounded-full border shadow-raised",
-                  last
-                    ? "border-accent/40 bg-accent"
-                    : "border-border-strong/30 bg-card"
+                  "flex flex-col items-center gap-2 rounded-lg px-1 pt-0",
+                  "transition-transform duration-150 ease-out hover:-translate-y-px",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "focus-visible:ring-offset-2 focus-visible:ring-offset-card",
                 )}
-              />
-            </span>
-          );
-        })}
-      </div>
-      <div className="mt-2 grid items-start gap-x-1 [grid-template-columns:repeat(var(--gate-cols),minmax(0,1fr))]">
-        {labels.map((label, i) => (
-          <span
-            key={label}
-            className={cn(
-              "text-center text-[0.6875rem] leading-[1.2]",
-              i === labels.length - 1
-                ? "font-medium text-accent-strong"
-                : "text-muted-foreground"
-            )}
-          >
-            {label}
-          </span>
-        ))}
-      </div>
+              >
+                <span
+                  aria-hidden
+                  className={cn(
+                    "relative z-10 h-7 w-7 rounded-full border shadow-raised transition-colors duration-150",
+                    on
+                      ? "border-accent bg-accent ring-2 ring-accent/30"
+                      : "border-border-strong/30 bg-card",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "text-center text-[0.6875rem] leading-[1.2] transition-colors duration-150",
+                    on ? "font-medium text-accent-strong" : "text-muted-foreground",
+                  )}
+                >
+                  {label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <>
+          <div className="relative grid items-center [grid-template-columns:repeat(var(--gate-cols),minmax(0,1fr))]">
+            <span className="absolute inset-x-[10%] top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-border-strong/30" />
+            {labels.map((label, i) => {
+              const last = i === labels.length - 1;
+              return (
+                <span key={label} className="flex justify-center">
+                  <span
+                    className={cn(
+                      "relative z-10 h-7 w-7 rounded-full border shadow-raised",
+                      last
+                        ? "border-accent/40 bg-accent"
+                        : "border-border-strong/30 bg-card",
+                    )}
+                  />
+                </span>
+              );
+            })}
+          </div>
+          <div className="mt-2 grid items-start gap-x-1 [grid-template-columns:repeat(var(--gate-cols),minmax(0,1fr))]">
+            {labels.map((label, i) => (
+              <span
+                key={label}
+                className={cn(
+                  "text-center text-[0.6875rem] leading-[1.2]",
+                  i === labels.length - 1
+                    ? "font-medium text-accent-strong"
+                    : "text-muted-foreground",
+                )}
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

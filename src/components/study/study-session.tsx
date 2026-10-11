@@ -6,6 +6,7 @@ import { domainOf } from "@/content/bok";
 import { track } from "@/lib/telemetry";
 import { FeedbackPanel } from "@/components/study/feedback-panel";
 import { FirstAnswerNote } from "@/components/study/first-answer-note";
+import { BonusReview } from "@/components/study/bonus-review";
 import { QuestionView } from "@/components/study/question-view";
 import { ReadCoach } from "@/components/study/read-coach";
 import { SessionComplete } from "@/components/study/session-complete";
@@ -39,6 +40,7 @@ import { gradePreview, newReviewCard } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { ReviewGrade, StudyMode } from "@/lib/types";
 import { play } from "@/lib/sound";
+import { bonusSlots, pickBonus } from "@/lib/bonus-review";
 import { useCueOnce } from "@/lib/use-cue";
 import { cn } from "@/lib/utils";
 
@@ -65,25 +67,60 @@ export function StudySession({
   const { seed, questions } = sitting;
 
   const [index, setIndex] = useState(() => resumed?.index ?? 0);
-  const [selected, setSelected] = useState<string[]>(() => resumed?.selected ?? []);
+  const [selected, setSelected] = useState<string[]>(
+    () => resumed?.selected ?? []
+  );
   const [revealed, setRevealed] = useState(() => resumed?.revealed ?? false);
   const [wasCorrect, setWasCorrect] = useState(() => {
     if (!resumed?.revealed) return false;
     const q = sitting.questions[resumed.index];
     return q ? gradeAnswer(q, resumed.selected) : false;
   });
-  const [answers, setAnswers] = useState<Record<string, string[]>>(() => resumed?.answers ?? {});
-  const [startedAt] = useState(() => resumed?.startedAt ?? new Date().toISOString());
-  const [correctCount, setCorrectCount] = useState(() => resumed?.correctCount ?? 0);
-  const [queuedCount, setQueuedCount] = useState(() => resumed?.queuedCount ?? 0);
+  const [answers, setAnswers] = useState<Record<string, string[]>>(
+    () => resumed?.answers ?? {}
+  );
+  const [startedAt] = useState(
+    () => resumed?.startedAt ?? new Date().toISOString()
+  );
+  const [correctCount, setCorrectCount] = useState(
+    () => resumed?.correctCount ?? 0
+  );
+  const [queuedCount, setQueuedCount] = useState(
+    () => resumed?.queuedCount ?? 0
+  );
   const [finished, setFinished] = useState(() => completedResult !== null);
-  const [completed, setCompleted] = useState<CompletedResult | null>(() => completedResult ?? null);
+  const [completed, setCompleted] = useState<CompletedResult | null>(
+    () => completedResult ?? null
+  );
 
   const questionStart = useRef(Date.now());
   const feedbackAnchor = useRef<HTMLDivElement>(null);
 
   const question = questions[index];
   const total = questions.length;
+
+  /*
+    Bonus review questions, interleaved into practice.
+
+    Never in a review session: that sitting is already nothing but review
+    questions, so interleaving more would be a tautology. Never in an exam
+    either, but that one needs no check here — the exam renders `ExamRunner`
+    and cannot reach this component at all.
+
+    The slots come from the sitting's own seed rather than from `Math.random`,
+    so a refresh restores the same run. `offered` is session-local on purpose:
+    it stops the same card appearing twice in one sitting, and if a resume
+    clears it the worst case is a learner seeing a card they already answered
+    correctly, which is a far smaller problem than persisting yet another
+    field.
+  */
+  const bonusEnabled = mode !== "review";
+  const slots = useMemo(
+    () => (bonusEnabled ? bonusSlots(seed, total) : []),
+    [bonusEnabled, seed, total]
+  );
+  const [bonus, setBonus] = useState<ReturnType<typeof pickBonus>>(null);
+  const [offered, setOffered] = useState<string[]>([]);
   /*
     The opening cue, once, on a sitting that was dealt rather than restored.
     `resumed` is the stored sitting a refresh or a return brings back, so a
@@ -94,7 +131,7 @@ export function StudySession({
   const options = useMemo(() => sitting.options[index] ?? [], [sitting, index]);
   const answerKeys = useMemo(
     () => (question ? correctKeys(options, question) : []),
-    [options, question],
+    [options, question]
   );
 
   useEffect(() => {
@@ -121,9 +158,22 @@ export function StudySession({
       updatedAt: new Date().toISOString(),
     });
   }, [
-    sitting, seed, progress.trackId, mode, label, withScheduling, exitHref,
-    index, selected, revealed, answers, correctCount, queuedCount,
-    startedAt, finished, question,
+    sitting,
+    seed,
+    progress.trackId,
+    mode,
+    label,
+    withScheduling,
+    exitHref,
+    index,
+    selected,
+    revealed,
+    answers,
+    correctCount,
+    queuedCount,
+    startedAt,
+    finished,
+    question,
   ]);
 
   /*
@@ -138,24 +188,24 @@ export function StudySession({
   */
   const submitAnswer = useCallback(
     (ids: string[]) => {
-    if (revealed || !question || !canSubmit(question, ids)) return;
-    const result = recordAnswer(
-      question,
-      ids,
-      Date.now() - questionStart.current,
-      mode,
-      /*
+      if (revealed || !question || !canSubmit(question, ids)) return;
+      const result = recordAnswer(
+        question,
+        ids,
+        Date.now() - questionStart.current,
+        mode,
+        /*
         No confidence rating is collected any more, so every attempt from here
         on stores null. `calibration.ts` already distinguishes rated from
         unrated attempts and stays silent below its floor, so the calibration
         read degrades to saying nothing rather than to saying something wrong —
         and attempts recorded before this change keep their ratings.
       */
-      null,
-    );
-    setRevealed(true);
-    setWasCorrect(result.correct);
-    /*
+        null
+      );
+      setRevealed(true);
+      setWasCorrect(result.correct);
+      /*
       Played here rather than through `useCueOnce`, which fires once per mount:
       this one has to sound on every graded answer. Being inside the click
       handler also means the user gesture browsers require for audio is still
@@ -165,27 +215,30 @@ export function StudySession({
       carries no information the screen does not, which is what lets it stay
       off by default without the learner losing anything.
     */
-    play(result.correct ? "correct" : "wrong");
-    /*
+      play(result.correct ? "correct" : "wrong");
+      /*
       Counted, not identified. The domain and sub-domain are what make
       "accuracy by area across everyone" answerable; the question id and the
       chosen option are deliberately not sent, because they are not needed to
       answer it and they are what would make a row about a person.
     */
-    track("question_answered", {
-      mode,
-      domain: domainOf(question.bokSubdomain),
-      subdomain: question.bokSubdomain,
-      correct: result.correct,
-    });
-    setAnswers((a) => ({ ...a, [question.id]: ids }));
-    if (result.correct) setCorrectCount((c) => c + 1);
-    if (result.queuedForReview) setQueuedCount((c) => c + 1);
-    requestAnimationFrame(() =>
-      feedbackAnchor.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
-    );
+      track("question_answered", {
+        mode,
+        domain: domainOf(question.bokSubdomain),
+        subdomain: question.bokSubdomain,
+        correct: result.correct,
+      });
+      setAnswers((a) => ({ ...a, [question.id]: ids }));
+      if (result.correct) setCorrectCount((c) => c + 1);
+      if (result.queuedForReview) setQueuedCount((c) => c + 1);
+      requestAnimationFrame(() =>
+        feedbackAnchor.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        })
+      );
     },
-    [revealed, question, recordAnswer, mode],
+    [revealed, question, recordAnswer, mode]
   );
 
   /*
@@ -211,7 +264,7 @@ export function StudySession({
       setSelected(ids);
       if (question && canSubmit(question, ids)) submitAnswer(ids);
     },
-    [question, submitAnswer],
+    [question, submitAnswer]
   );
 
   const advance = useCallback(() => {
@@ -238,22 +291,87 @@ export function StudySession({
         updatedAt: new Date().toISOString(),
       });
       writeResult(record);
-      track(mode === "review" ? "review_completed" : "study_completed", { mode });
+      track(mode === "review" ? "review_completed" : "study_completed", {
+        mode,
+      });
       setCompleted(record);
       clearActiveSession();
       setFinished(true);
       return;
     }
+    /*
+      The bonus sits between this question and the next rather than replacing
+      either, so it interrupts without consuming a slot of the run the learner
+      chose. Questions already in this sitting are excluded along with anything
+      offered already — showing a card they are about to meet normally is the
+      most obvious way this could look broken.
+    */
+    if (bonusEnabled && slots.includes(index)) {
+      const candidate = pickBonus(progress, [
+        ...questions.map((q) => q.id),
+        ...offered,
+      ]);
+      if (candidate) {
+        setBonus(candidate);
+        setOffered((o) => [...o, candidate.question.id]);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+    }
+
     setIndex((i) => i + 1);
     setSelected([]);
     setRevealed(false);
     questionStart.current = Date.now();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [
-    index, total, sitting, seed, progress.trackId, mode, label, withScheduling,
-    exitHref, selected, revealed, answers, correctCount,
-    queuedCount, startedAt,
+    index,
+    total,
+    sitting,
+    seed,
+    progress,
+    mode,
+    label,
+    withScheduling,
+    exitHref,
+    selected,
+    revealed,
+    answers,
+    correctCount,
+    queuedCount,
+    startedAt,
+    bonusEnabled,
+    slots,
+    offered,
+    questions,
   ]);
+
+  /*
+    Dismissing a bonus resumes the run exactly where `advance` left off. The
+    bonus answer is recorded and rescheduled, and deliberately changes nothing
+    about the sitting: not `correctCount`, not `index`, not the progress bar.
+    A ten question run stays a ten question run, because `assessReadiness`
+    reads its grade off that count.
+  */
+  const dismissBonus = useCallback(() => {
+    setBonus(null);
+    setIndex((i) => i + 1);
+    setSelected([]);
+    setRevealed(false);
+    questionStart.current = Date.now();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  const answerBonus = useCallback(
+    (correct: boolean, ids: string[]) => {
+      if (!bonus) return;
+      // Recorded so the question stops reading as missed, and rescheduled so
+      // it actually moves — those are the two reasons to show it at all.
+      recordAnswer(bonus.question, ids, 0, mode, null);
+      gradeReview(bonus.question.id, correct ? "good" : "again");
+    },
+    [bonus, recordAnswer, gradeReview, mode]
+  );
 
   const handleGrade = useCallback(
     (grade: ReviewGrade) => {
@@ -261,13 +379,14 @@ export function StudySession({
       gradeReview(question.id, grade);
       advance();
     },
-    [question, gradeReview, advance],
+    [question, gradeReview, advance]
   );
 
   const scheduling = useMemo(() => {
     if (!question || !withScheduling) return [];
     const card =
-      progress.reviewCards[question.id] ?? newReviewCard(question.id, question.trackId);
+      progress.reviewCards[question.id] ??
+      newReviewCard(question.id, question.trackId);
     return gradePreview(card);
   }, [question, withScheduling, progress.reviewCards]);
 
@@ -330,7 +449,9 @@ export function StudySession({
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <Badge>{question.domain}</Badge>
-        <Badge variant="outline" className="capitalize">{question.difficulty}</Badge>
+        <Badge variant="outline" className="capitalize">
+          {question.difficulty}
+        </Badge>
         {/*
           Shown only where there is something to press.
 
@@ -347,22 +468,42 @@ export function StudySession({
           additive, so over-showing it costs nothing the way under-showing a
           control would.
         */}
-        <span className="keys-hint text-[0.75rem] text-muted-foreground">Keys A–D · Enter · N</span>
+        <span className="keys-hint text-[0.75rem] text-muted-foreground">
+          Keys A–D · Enter · N
+        </span>
       </div>
 
-      <ReadCoach questionId={question.id} />
-
-      <QuestionView
-        question={question}
-        options={options}
-        selected={selected}
-        revealed={revealed}
-        onSelect={(key) => chooseOption(toggleSelection(question, selected, key))}
-      />
-
-      <div ref={feedbackAnchor} className="scroll-mt-6" />
-
       {/*
+        The bonus replaces the question in place rather than overlaying it. A
+        modal would trap focus over a run the learner is mid-way through and
+        would have to re-solve scrolling, dismissal and the back button; this
+        is one question swapped for another on the same surface, which is what
+        it actually is.
+      */}
+      {bonus ? (
+        <BonusReview
+          item={bonus}
+          seed={seed}
+          onAnswered={answerBonus}
+          onDismiss={dismissBonus}
+        />
+      ) : (
+        <>
+          <ReadCoach questionId={question.id} />
+
+          <QuestionView
+            question={question}
+            options={options}
+            selected={selected}
+            revealed={revealed}
+            onSelect={(key) =>
+              chooseOption(toggleSelection(question, selected, key))
+            }
+          />
+
+          <div ref={feedbackAnchor} className="scroll-mt-6" />
+
+          {/*
         The verdict, announced.
 
         The feedback panel states "Correct"/"Incorrect" in text, so a screen
@@ -382,47 +523,50 @@ export function StudySession({
         cannot drift apart silently; `formatAnswer` is the same helper the
         visible verdict uses.
       */}
-      <p role="status" aria-live="polite" className="sr-only">
-        {revealed ? verdictAnnouncement(wasCorrect, answerKeys) : ""}
-      </p>
+          <p role="status" aria-live="polite" className="sr-only">
+            {revealed ? verdictAnnouncement(wasCorrect, answerKeys) : ""}
+          </p>
 
-      {revealed ? (
-        <div className="mt-7">
-          <FirstAnswerNote attemptCount={progress.attempts.length} revealed={revealed} />
-          <FeedbackPanel
-            question={question}
-            correct={wasCorrect}
-            correctKeys={answerKeys}
-            options={options}
-            selected={selected}
-          />
-          {withScheduling ? (
-            <div className="mt-6">
-              <p className="mb-2.5 text-xs font-medium text-muted-foreground">
-                What do you want to do with this question?
-              </p>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleGrade("again")}
-                  className="rounded-lg border border-destructive bg-card p-3 text-center text-sm font-medium shadow-[var(--shadow-card)] transition-colors hover:bg-destructive-tint active:translate-y-px"
-                >
-                  Try again
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleGrade("good")}
-                  className="rounded-lg border border-border-strong bg-card p-3 text-center text-sm font-medium shadow-[var(--shadow-card)] transition-colors hover:bg-secondary active:translate-y-px"
-                >
-                  Move on
-                </button>
-              </div>
+          {revealed ? (
+            <div className="mt-7">
+              <FirstAnswerNote
+                attemptCount={progress.attempts.length}
+                revealed={revealed}
+              />
+              <FeedbackPanel
+                question={question}
+                correct={wasCorrect}
+                correctKeys={answerKeys}
+                options={options}
+                selected={selected}
+              />
+              {withScheduling ? (
+                <div className="mt-6">
+                  <p className="mb-2.5 text-xs font-medium text-muted-foreground">
+                    What do you want to do with this question?
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleGrade("again")}
+                      className="rounded-lg border border-destructive bg-card p-3 text-center text-sm font-medium shadow-[var(--shadow-card)] transition-colors hover:bg-destructive-tint active:translate-y-px"
+                    >
+                      Try again
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleGrade("good")}
+                      className="rounded-lg border border-border-strong bg-card p-3 text-center text-sm font-medium shadow-[var(--shadow-card)] transition-colors hover:bg-secondary active:translate-y-px"
+                    >
+                      Move on
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
           ) : null}
-        </div>
-      ) : null}
 
-      {/*
+          {/*
         The action bar, now reading as a layer rather than an edge.
 
         It was `bg-background` — the same color as the page — separated from
@@ -444,10 +588,10 @@ export function StudySession({
         not a button, it is a horizon. Before an answer there is no button at
         all, which is why the bar is shorter in that state.
       */}
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 px-4 py-3 pb-safe-nav shadow-[0_-10px_28px_-18px_rgb(0_0_0_/_0.35)] backdrop-blur-sm sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:shadow-none lg:backdrop-blur-none">
-        <div className="mx-auto flex max-w-3xl flex-col items-stretch sm:items-center">
-          {!revealed ? (
-            /*
+          <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 px-4 py-3 pb-safe-nav shadow-[0_-10px_28px_-18px_rgb(0_0_0_/_0.35)] backdrop-blur-sm sm:px-6 lg:static lg:mt-8 lg:border-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:shadow-none lg:backdrop-blur-none">
+            <div className="mx-auto flex max-w-3xl flex-col items-stretch sm:items-center">
+              {!revealed ? (
+                /*
               No pre-answer control, because there is no longer a pre-answer
               step: the choosing tap is the submission.
 
@@ -463,20 +607,30 @@ export function StudySession({
               is, and because a fixed bar with nothing in it reads as a
               rendering fault.
             */
-            <p className="text-center text-sm text-muted-foreground">
-              {isMultiSelect(question)
-                ? `Completing your ${requiredSelections(question)} choices submits the answer — there is no undo`
-                : "Choosing an answer submits it — there is no undo"}
-            </p>
-          ) : withScheduling ? (
-            <p className="text-center text-sm text-muted-foreground">Choose an option above to continue</p>
-          ) : (
-            <Button size="lg" className="w-full sm:w-auto sm:min-w-[20rem]" onClick={advance}>
-              Continue
-            </Button>
-          )}
-        </div>
-      </div>
+                <p className="text-center text-sm text-muted-foreground">
+                  {isMultiSelect(question)
+                    ? `Completing your ${requiredSelections(
+                        question
+                      )} choices submits the answer — there is no undo`
+                    : "Choosing an answer submits it — there is no undo"}
+                </p>
+              ) : withScheduling ? (
+                <p className="text-center text-sm text-muted-foreground">
+                  Choose an option above to continue
+                </p>
+              ) : (
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto sm:min-w-[20rem]"
+                  onClick={advance}
+                >
+                  Continue
+                </Button>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
