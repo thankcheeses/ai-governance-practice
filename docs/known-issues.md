@@ -117,6 +117,61 @@ A fresh context per trial without the reload will report zero every time.
 
 ---
 
+## Fixed — a recorded answer silently discarded by the review grade next to it
+
+**Status:** fixed in `src/lib/progress-updates.ts` and
+`src/lib/store/progress-provider.tsx`. Kept here because it shipped, ran in
+production for a release, and left no trace anywhere a user or a test would
+look.
+
+### Symptom
+
+None, from the outside. The mid-practice bonus card (shipped in #88) asked a
+question the learner had missed before, they answered it, the card said "Right
+this time", and the spaced-repetition schedule moved. But no attempt was
+recorded: the question still read as unanswered, it did not count toward the
+daily goal, and it did not count toward the streak. Every visible signal said
+the answer had landed.
+
+### Why nothing caught it
+
+`recordAnswer` and `gradeReview` each built their new state from
+`progressRef.current`, a ref assigned during render. A caller that invoked both
+in one tick — which is exactly what the bonus card and, later, the post-exam
+second look do, since an answer there is both an attempt and a review grade —
+handed the second call a snapshot taken *before* the first, and
+`setProgress(next)` with that snapshot overwrote the attempt.
+
+Each function is correct alone, and both were exercised alone by the study loop,
+where grading happens on a later tick via the grade buttons. Unit tests passed.
+The UI was right. Only the persisted state was wrong, and nothing on screen
+reads it back.
+
+### The measurement
+
+Driving a real five-question exam in Chromium and reading
+`localStorage["nhid-clinical:progress:v1"]` after the second look:
+
+| | `attempts` with `mode: "review"` | `reviewCards` entries |
+|---|---|---|
+| Before the fix | **0** | 4 |
+| After the fix | **3** (for 3 second looks) | 3 |
+
+Four cards with a `lastReviewedAt` and a bumped `lapses` count, and not one
+attempt to explain them — the schedule had moved for answers the record said
+were never given.
+
+### The fix
+
+Both transitions are now pure functions of the state passed to them, and the
+provider applies each with a functional update that rebuilds on current state
+rather than on a render-time snapshot. `src/lib/progress-updates.test.ts` pins
+the composition, including a test that asserts the *old* shared-snapshot
+behavior still loses the attempt — so if that ever stops being true, the test
+says the provider's composition is no longer what is protecting it.
+
+---
+
 ## Cannot be verified from this environment
 
 These are not defects. They are claims this project cannot check from a
@@ -148,7 +203,7 @@ but it is not the same CDN, and it is not proof the live site renders.
 
 ### Content review by a second AIGP holder — NOT DONE
 
-296 items, written and reviewed by one person. The release gate enforces
+350 items, written and reviewed by one person. The release gate enforces
 structure — sourcing, distractor quality, answer-position balance, length
 bias — and structure is not accuracy. An item can satisfy every check and still
 be wrong about the law. This is the largest open risk in the project and no

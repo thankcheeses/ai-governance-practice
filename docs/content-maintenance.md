@@ -15,7 +15,7 @@ Before this existed, the bank had no per-item freshness signal at all.
 
 `createdDate` and `updatedDate` look like per-item fields and are not. They are
 two module-level constants in
-`src/content/tracks/aigp-preparation/index.ts`, applied identically to all 296
+`src/content/tracks/aigp-preparation/index.ts`, applied identically to all 350
 questions:
 
 ```ts
@@ -49,7 +49,7 @@ maintenance?: {
 ```
 
 Sources gained two optional fields on the same principle — a bare string stays
-valid, because 296 entries are authored that way:
+valid, because most entries are authored that way:
 
 ```ts
 sources?: (string | { cite: string; url?: string; sourceDate?: string })[]
@@ -96,21 +96,22 @@ project exists not to make. The rest follow from it.
 The gate also reports coverage on every run:
 
 ```
-reviewed: 0/296  needs-review: 0  citing a URL: 0
+reviewed: 54/350  needs-review: 0  citing a URL: 0
 ```
 
-## Why the backfill is zero
+## Why the backfill started at zero
 
-Every one of the 296 items is `unreviewed`, and that is deliberate.
+It read `reviewed: 0/350` on the day this landed, and that was deliberate.
 
 Stamping today's date across the bank would have replaced a visible
-placeholder with an invisible false claim — it would say 296 items had been
+placeholder with an invisible false claim — it would say 350 items had been
 reviewed on a day when none had. That is strictly worse than the stub, because
 the stub is obviously a stub and a date is not.
 
-So the counter starts at zero and is meant to be watched going up. A bank where
-40 of 296 items carry a genuine review date is more trustworthy than one where
-all 296 carry a fabricated one, and it is honest about the other 256.
+So the counter started at zero and is meant to be watched going up. A bank where
+54 of 350 items carry a genuine review date is more trustworthy than one where
+all 350 carry a fabricated one, and it is honest about the other 296. It now
+reads 54, every one of them a date on which an item was actually read.
 
 ## Reviewing an item
 
