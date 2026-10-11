@@ -12,7 +12,10 @@ import {
 } from "react";
 import type { OptionKey, Question } from "@/content/types";
 import { gradeAnswer } from "@/lib/grading";
-import { newReviewCard, scheduleReview } from "@/lib/spaced-repetition";
+import {
+  applyAttempt,
+  applyReviewGrade,
+} from "@/lib/progress-updates";
 import { getBrowserSupabase } from "@/lib/supabase/client";
 import {
   loadProgress,
@@ -202,37 +205,27 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         mode,
       };
 
-      const reviewCards = { ...prev.reviewCards };
-      const queuedForReview = !correct && !reviewCards[question.id];
-      if (queuedForReview) {
-        reviewCards[question.id] = newReviewCard(
-          question.id,
-          question.trackId,
-          today,
-        );
-      }
+      const { next, queuedForReview, card } = applyAttempt(prev, attempt, today);
 
-      const streak = nextStreak(prev, today);
-
-      const next: UserProgress = {
-        ...prev,
-        attempts: [...prev.attempts, attempt],
-        reviewCards,
-        streak: streak.streak,
-        longestStreak: streak.longestStreak,
-        lastStudyDate: streak.lastStudyDate,
-        updatedAt: now,
-      };
-
-      setProgress(next);
+      /*
+        Applied as a function of whatever state is current, not as the `next`
+        built above. `progressRef` is assigned during render, so a caller that
+        records an answer and then immediately grades the review schedule — the
+        bonus card mid-practice and the post-exam second look both do — would
+        hand the second write a snapshot taken before the first, and the attempt
+        would be dropped on the floor. Rebuilding on `current` makes both land.
+      */
+      setProgress((current) =>
+        current === prev ? next : applyAttempt(current, attempt, today).next,
+      );
 
       const currentUser = userRef.current;
       if (supabase && currentUser) {
         void (async () => {
           try {
             await pushAttempt(supabase, currentUser.id, attempt);
-            if (!correct && reviewCards[question.id]) {
-              await pushReviewCard(supabase, currentUser.id, reviewCards[question.id]);
+            if (card) {
+              await pushReviewCard(supabase, currentUser.id, card);
             }
             await pushProfile(supabase, currentUser.id, next, currentUser.email);
           } catch {
@@ -249,16 +242,17 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const gradeReview = useCallback<ProgressContextValue["gradeReview"]>(
     (questionId, grade) => {
       const prev = progressRef.current;
-      const existing =
-        prev.reviewCards[questionId] ?? newReviewCard(questionId, prev.trackId);
-      const card = scheduleReview(existing, grade, todayISO());
+      const today = todayISO();
+      const now = new Date().toISOString();
+      const { next, card } = applyReviewGrade(prev, questionId, grade, today, now);
 
-      const next: UserProgress = {
-        ...prev,
-        reviewCards: { ...prev.reviewCards, [questionId]: card },
-        updatedAt: new Date().toISOString(),
-      };
-      setProgress(next);
+      // Same reason as `recordAnswer`: this often runs in the same tick as a
+      // recorded attempt, and must not overwrite it.
+      setProgress((current) =>
+        current === prev
+          ? next
+          : applyReviewGrade(current, questionId, grade, today, now).next,
+      );
 
       const currentUser = userRef.current;
       if (supabase && currentUser) {
@@ -387,32 +381,6 @@ export function useProgress() {
   return ctx;
 }
 
-function nextStreak(progress: UserProgress, today: string) {
-  const { lastStudyDate } = progress;
-  if (!lastStudyDate) {
-    return {
-      streak: 1,
-      longestStreak: Math.max(1, progress.longestStreak),
-      lastStudyDate: today,
-    };
-  }
-
-  const gap = daysBetween(lastStudyDate, today);
-  if (gap === 0) {
-    return {
-      streak: progress.streak,
-      longestStreak: progress.longestStreak,
-      lastStudyDate,
-    };
-  }
-
-  const streak = gap === 1 ? progress.streak + 1 : 1;
-  return {
-    streak,
-    longestStreak: Math.max(streak, progress.longestStreak),
-    lastStudyDate: today,
-  };
-}
 
 export function effectiveStreak(progress: UserProgress, now = todayISO()) {
   if (!progress.lastStudyDate) return 0;
