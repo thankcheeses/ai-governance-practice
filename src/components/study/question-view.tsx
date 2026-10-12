@@ -234,7 +234,7 @@ function MarkGlyph({ kind }: { kind: "correct" | "incorrect" }) {
  * every question is gradable on its own, so a learner who meets one in
  * isolation still has everything they need.
  */
-function ScenarioPanel({ scenario }: { scenario: Scenario }) {
+export function ScenarioPanel({ scenario }: { scenario: Scenario }) {
   return (
     <section
       aria-label="Scenario"

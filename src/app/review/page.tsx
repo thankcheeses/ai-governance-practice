@@ -26,6 +26,40 @@ export default function ReviewPage() {
   );
 }
 
+/**
+ * Flashcards, offered beside the review session rather than instead of it.
+ *
+ * Both run on the same schedule, so this is one choice about *how* to meet the
+ * queue, not a second queue: with the options, which rehearses the exam's
+ * format, or without them, which is harder and the only mode here that asks
+ * for recall rather than recognition. It is offered even when nothing is due,
+ * because a deck fills itself out with questions the learner has not met yet
+ * and "nothing due" is exactly when that is useful.
+ */
+function FlashcardsCard() {
+  return (
+    <Card className="shadow-card">
+      <CardContent className="p-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+          <h2 className="font-serif text-[1.125rem] leading-snug">Flashcards</h2>
+          <span className="text-[0.75rem] text-muted-foreground">
+            no options shown
+          </span>
+        </div>
+        <p className="measure mt-1.5 text-[0.875rem] leading-relaxed text-muted-foreground">
+          The same questions with the four choices taken away: recall the
+          answer, then rate how well you knew it. Rating a card moves when it
+          comes back; it does not touch your accuracy, because you are grading
+          yourself.
+        </p>
+        <Button asChild variant="outline" className="mt-4">
+          <Link href="/review/cards">Deal a deck</Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
 function Review() {
   const { progress } = useProgress();
 
@@ -66,9 +100,14 @@ function Review() {
                 ? `${upcomingTotal} ${upcomingTotal === 1 ? "question" : "questions"} scheduled over the next 7 days.`
                 : "Work through some scenarios and anything you miss will appear here."}
             </p>
-            <Button asChild className="mt-5">
-              <Link href="/study">Go to study</Link>
-            </Button>
+            <div className="mt-5 flex flex-wrap justify-center gap-2">
+              <Button asChild>
+                <Link href="/study">Go to study</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/review/cards">Deal a flashcard deck</Link>
+              </Button>
+            </div>
           </CardContent>
         </Card>
       ) : (
@@ -102,6 +141,8 @@ function Review() {
               </Button>
             </CardContent>
           </Card>
+
+          <FlashcardsCard />
 
           <MonitoringThatActuallyWorks />
 
