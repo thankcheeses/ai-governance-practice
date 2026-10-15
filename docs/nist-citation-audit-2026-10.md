@@ -370,7 +370,7 @@ Playbook / AI 100-1 / AI 600-1 text relied on.
 | aigp-347 | NIST AI RMF (Measure 2.7: AI system security and resilience are evaluated before and after deployment) | NIST AI RMF 1.0 (MEASURE 2.7: security and resilience are evaluated and documented; MEASURE 3.1: unanticipated and emergent risks are tracked in deployment) | MEASURE 2.7: "AI system security and resilience – as identified in the MAP function – are evaluated and documented."; MEASURE 3.1: "Approaches, personnel, and documentation are in place to regularly identify and track existing, unanticipated, and emergent AI risks based on factors …" |
 | aigp-348 | NIST AI RMF (Manage 4.3: incident information is communicated to relevant AI actors and affected parties) | NIST AI RMF 1.0 (MANAGE 4.3: incidents and errors are communicated to relevant AI actors, including affected communities) | MANAGE 4.3: "Incidents and errors are communicated to relevant AI actors including affected communities. Processes for tracking, responding to, and recovering …" |
 
-## Task 2 — subcategory coverage after this change
+## Subcategory coverage after this change
 
 **54 of 72** subcategories are cited by at least one question
 (52 through the Core statement,
