@@ -59,6 +59,11 @@ sources?: (string | { cite: string; url?: string; sourceDate?: string })[]
 link when present and as plain text when not. `sourceDate` is the date of the
 *instrument*, not the date we read it.
 
+Every NIST AI RMF and Playbook citation was re-pointed at a named subcategory
+or section, with a URL, in October 2026; the per-source record, including the
+citations that did not support their claims, is
+[`docs/nist-citation-audit-2026-10.md`](nist-citation-audit-2026-10.md).
+
 ### Why each status exists
 
 | Field | Answers |
@@ -96,7 +101,7 @@ project exists not to make. The rest follow from it.
 The gate also reports coverage on every run:
 
 ```
-reviewed: 54/350  needs-review: 0  citing a URL: 0
+reviewed: 54/350  needs-review: 0  citing a URL: 259
 ```
 
 ## Why the backfill started at zero
