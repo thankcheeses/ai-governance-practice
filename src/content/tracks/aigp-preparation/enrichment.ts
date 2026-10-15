@@ -6754,7 +6754,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Alerting a buyer to orders above the threshold is a sound monitoring control. It covers the population that already stops for human approval, and leaves the unsupervised population — the one being enlarged — unwatched.",
     },
     sources: [
-      { cite: "NIST AI RMF Playbook (MAP 3.5 suggested actions: when oversight practices are substantially changed, retest and evaluate before relying on them)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
+      { cite: "NIST AI RMF Playbook (MAP 3.5 suggested actions: when oversight practices undergo extensive updates, retest, evaluate results and course correct)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
       { cite: "ISO/IEC 42001 (AI management system: change management for AI systems)" },
     ],
     maintenance: {
