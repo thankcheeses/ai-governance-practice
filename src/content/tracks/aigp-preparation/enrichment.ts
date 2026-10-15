@@ -32,7 +32,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Third-party release cycles are a genuine supply-chain risk, and one that applies equally to conventional software the organization does not build itself.",
     },
     sources: [
-      "NIST AI RMF (Govern 1: characteristics that distinguish AI risk)",
+      { cite: "NIST AI RMF 1.0 (Appendix B: how AI risks differ from traditional software risks)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 22989 (AI system characteristics)",
     ],
   },
@@ -52,7 +52,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "OECD AI Principles (human-centred values and fairness)",
-      "NIST AI RMF (Govern 4: human oversight in high-stakes contexts)",
+      { cite: "NIST AI RMF 1.0 (MAP 3.5: processes for human oversight are defined, assessed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   3: {
@@ -70,7 +70,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Reviewing after volume stabilizes means the first production calls run ungoverned, which is when the unexamined risks land.",
     },
     sources: [
-      "NIST AI RMF (Govern 2: accountability structures and roles)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 3.1: AI risk decisions are informed by a team diverse in disciplines, experience and expertise)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (organisational roles, responsibilities and authorities)",
     ],
   },
@@ -108,8 +108,8 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Manage prioritizes and treats the risks the other functions surfaced. It acts within the policies Govern established.",
     },
     sources: [
-      "NIST AI RMF (Govern function overview)",
-      "NIST AI RMF Playbook (relationship between the four functions)",
+      { cite: "NIST AI RMF 1.0 (Part 2, Section 5.1: Govern function — cross-cutting, enabling Map, Measure and Manage)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
+      { cite: "NIST AI RMF 1.0 (Part 2, Section 5: AI RMF Core — Govern in place first, then Map, Measure and Manage iteratively)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   6: {
@@ -128,7 +128,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "Health Insurance Portability and Accountability Act — Privacy Rule (45 CFR Part 164)",
-      "NIST AI RMF (Map 1: legal and regulatory context)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: context-specific laws, norms and expectations are understood and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "governing_obligation",
@@ -181,7 +181,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42005 (AI system impact assessment)",
-      "NIST AI RMF (Map 5: impacts on individuals, groups and society)",
+      { cite: "NIST AI RMF 1.0 (MAP 5.1: likelihood and magnitude of each identified impact are identified and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "sequencing",
@@ -207,7 +207,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Repurposing member records raises a genuine purpose-limitation question, but it applies to the whole dataset rather than to this feature specifically.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.11: fairness and bias evaluation)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: identify input features that may serve as proxies for demographic group membership)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "EU AI Act Art. 10 (data governance, examination for possible biases)",
     ],
   },
@@ -227,7 +227,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (control of documented information)",
-      "NIST AI RMF (Govern 1.2: policies across the AI lifecycle)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.4 suggested actions: documentation policies are regularly reviewed and remain current)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   11: {
@@ -246,7 +246,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "NIST SP 800-226 (evaluating differential privacy guarantees)",
-      "NIST AI RMF (Measure 2.7: privacy risk of AI systems)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.10: privacy risk of the AI system is examined and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   12: {
@@ -265,7 +265,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "Health Insurance Portability and Accountability Act — de-identification standard (45 CFR 164.514)",
-      "NIST AI RMF (Measure 2.7: re-identification and linkage risk)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.10: privacy risk of the AI system is examined and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   13: {
@@ -283,7 +283,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An untracked template change is a real and common cause — but it produces a step change at the moment of the edit, not a steady drift over three months.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.4: monitoring for performance degradation)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.4: functionality and behavior of the AI system are monitored in production)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (performance evaluation and monitoring)",
     ],
   },
@@ -302,7 +302,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Indemnification allocates the cost of harm after it occurs. It does nothing to help the deployer detect harm in the first place.",
     },
     sources: [
-      "NIST AI RMF (Govern 6: third-party risk and contractual arrangements)",
+      { cite: "NIST AI RMF Playbook (GOVERN 6.1 transparency and documentation questions: auditability of third-party AI, including logging and audit by independent parties)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
       "ISO/IEC 42001 (control of externally provided processes and services)",
     ],
   },
@@ -321,7 +321,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An independent audit is a strong instrument and may well follow, but commissioning one takes time the organization does not yet know it can afford to spend.",
     },
     sources: [
-      "NIST AI RMF (Manage 4: response to identified risks)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 4.3: incidents and errors are communicated to relevant AI actors and affected communities; response processes followed)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (nonconformity and corrective action)",
     ],
   },
@@ -359,7 +359,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A self-service symptom checker moves the member to another automated tool rather than to the qualified human the situation calls for.",
     },
     sources: [
-      "NIST AI RMF (Manage 2.3: mechanisms to supersede or deactivate AI decisions)",
+      { cite: "NIST AI RMF 1.0 (MAP 3.5: processes for human oversight are defined, assessed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (operational controls and human oversight)",
     ],
   },
@@ -378,7 +378,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Latency and volume are operational metrics. They describe how the service performed, not whether what it said was permissible.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.6: evaluation against intended behaviour)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.4: functionality and behavior of the AI system are monitored in production)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (monitoring, measurement, analysis and evaluation)",
     ],
   },
@@ -398,7 +398,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 50 (disclosure at the point of interaction)",
-      "NIST AI RMF (Measure 2.8 and Manage 2.3: transparency controls in operation)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.8: risks associated with transparency and accountability are examined and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "sequencing",
@@ -423,7 +423,6 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Where the burden sits is a commercial question. Even if the vendor performed the audit itself at its own cost, the control would still be running after the member had already spoken.",
     },
     sources: [
-      "NIST AI RMF (Manage: controls applied in the operating flow)",
       "ISO/IEC 42001 (operational planning and control)",
     ],
     reasoning: {
@@ -450,7 +449,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "Health Insurance Portability and Accountability Act — business associate contracts and subcontractors (45 CFR 164.504(e)(2))",
-      "NIST AI RMF (Govern 6.1: third-party and supply-chain risk)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies and procedures address AI risks associated with third-party entities)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   22: {
@@ -487,7 +486,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Fail-safe design defaults to the least harmful action under uncertainty. Escalation is more specific: it names a qualified person as the destination.",
     },
     sources: [
-      "NIST AI RMF (Manage 2.3: human oversight and override)",
+      { cite: "NIST AI RMF 1.0 (MAP 3.5: processes for human oversight are defined, assessed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "EU AI Act Art. 14 (human oversight for high-risk systems)",
     ],
   },
@@ -506,7 +505,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Contractual liability allocates cost after a bad answer reaches a member. It does not give the deployer any means of preventing one.",
     },
     sources: [
-      "NIST AI RMF (Govern 6: third-party risk management)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies and procedures address AI risks associated with third-party entities)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (supplier and third-party controls)",
     ],
   },
@@ -525,7 +524,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Logging the defect for the vendor treats a failed transparency control as a product bug rather than as a governance incident with people already affected.",
     },
     sources: [
-      "NIST AI RMF (Manage 4.1: incident response and recovery)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 4.3: incidents and errors are communicated, and processes for tracking, responding to and recovering from them are followed)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (nonconformity, corrective action and AI incidents)",
     ],
   },
@@ -544,7 +543,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A feature-computation fault is worth ruling out and would produce a fall in accuracy. It would not explain a documented change in the mix of customers arriving.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.4: monitoring for degradation and its causes)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.4: functionality and behavior of the AI system are monitored in production)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 22989 (AI system life cycle and drift concepts)",
     ],
   },
@@ -583,7 +582,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42005 (AI system impact assessment)",
-      "NIST AI RMF (Map 5: impacts to individuals, groups and society)",
+      { cite: "NIST AI RMF 1.0 (MAP 5.1: likelihood and magnitude of each identified impact are identified and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   29: {
@@ -620,7 +619,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Red-teaming stresses a built system. It cannot be run against a use case that has not yet been defined.",
     },
     sources: [
-      "NIST AI RMF (Map 1: context is established at the outset)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.4: the business value or context of business use is clearly defined)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (planning and design of AI systems)",
     ],
     reasoning: {
@@ -645,7 +644,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Retrieval usually lengthens prompts by adding retrieved passages. Cost is a consideration against it, not for it.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.9: grounding and accuracy of generative outputs)",
+      { cite: "NIST AI 600-1 (Generative AI Profile, Section 2.2: confabulation)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf", sourceDate: "2024-07-26" },
       "ISO/IEC 42001 (control of AI system inputs and information sources)",
     ],
   },
@@ -665,7 +664,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "GDPR Art. 22(3) (right to obtain human intervention and to contest the decision)",
-      "NIST AI RMF (Measure 2.8: explainability sufficient for the people relying on outputs)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.9: the model is explained and its output interpreted within context; MEASURE 3.3: processes to appeal system outcomes)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   33: {
@@ -683,7 +682,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An inline classifier is a genuine and useful control, but a single automated screen is one layer. Screening the member's words also misses agent-initiated drift.",
     },
     sources: [
-      "NIST AI RMF (Manage 2.3: layered controls and human oversight)",
+      { cite: "NIST AI RMF 1.0 (MAP 3.3: targeted application scope is specified and documented; MEASURE 2.6: system can fail safely beyond its knowledge limits)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (operational planning and control)",
     ],
   },
@@ -702,7 +701,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Independent evaluation strengthens the gate and is good practice. It would not observe anything in the months when no evaluation runs at all.",
     },
     sources: [
-      "NIST AI RMF (Manage 4.1: continuous monitoring after deployment)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 4.1: post-deployment AI system monitoring plans are implemented)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "EU AI Act Art. 72 (post-market monitoring)",
     ],
     reasoning: {
@@ -727,7 +726,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Minimization is about processing no more real data than the purpose needs. Synthetic data usually has to be derived from real records in the first place.",
     },
     sources: [
-      "NIST AI RMF (Map 2.3: data provenance and suitability)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.3: TEVV considerations for data collection and selection, including representativeness and suitability, are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (data for AI systems)",
     ],
   },
@@ -746,7 +745,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Staff reports are a monitoring signal in their own right, and here they are the only one detecting the fault. Discounting them waits for a measurement designed not to see it.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.4 and 3.1: monitoring adequacy and feedback from operators)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 1.2: appropriateness of AI metrics is regularly assessed and updated, including reports of errors)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (monitoring, measurement, analysis and evaluation)",
     ],
   },
@@ -765,7 +764,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Liability allocation decides who pays. It does not decide who is responsible for getting the decision right in the first place.",
     },
     sources: [
-      "NIST AI RMF (Govern 2: roles, responsibilities and lines of accountability)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 2.1: roles, responsibilities and lines of communication for AI risk are documented and clear)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (organisational roles, responsibilities and authorities)",
     ],
   },
@@ -784,7 +783,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Confirming escalation rules fire for defined topics is valuable conformance testing against a known list. Red-teaming looks for the failures nobody listed.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.7: security and resilience testing)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.7 suggested actions: red-team exercises test the system under adversarial or stress conditions and assess failure modes)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (verification and validation of AI systems)",
     ],
   },
@@ -823,7 +822,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 14 (human oversight, including automation bias)",
-      "NIST AI RMF (Manage 2.3: oversight mechanisms that can actually be exercised)",
+      { cite: "NIST AI RMF Playbook (MAP 3.5 suggested actions: evaluate AI system oversight practices for validity and reliability)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
     ],
   },
   41: {
@@ -841,7 +840,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A representative training corpus is a reasonable input control. Proportionate data does not guarantee proportionate outcomes.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.11: fairness evaluated across groups)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.11: fairness and bias are evaluated and results documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "NIST SP 1270 (managing bias in artificial intelligence)",
     ],
   },
@@ -860,7 +859,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Recording transformations is part of lineage rather than its purpose. Reproducing feature engineering is one use of the record, not the reason to keep it.",
     },
     sources: [
-      "NIST AI RMF (Map 2.3: documentation of data provenance)",
+      { cite: "NIST AI RMF Playbook (MAP 2.3 suggested actions: understand and trace test and training data lineage)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
       "ISO/IEC 42001 (documented information and traceability)",
     ],
   },
@@ -880,7 +879,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 14 (human oversight proportionate to risk)",
-      "NIST AI RMF (Manage 1: risk-based prioritisation of controls)",
+      { cite: "NIST AI RMF Playbook (GOVERN 3.2 suggested actions: define human-AI configurations in relation to organizational risk tolerances)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   44: {
@@ -898,7 +897,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Operational inexperience is contingent on staffing. It is not something inherent to the technology.",
     },
     sources: [
-      "NIST AI RMF (Govern 1.1: AI risks that differ from traditional software risks)",
+      { cite: "NIST AI RMF 1.0 (Appendix B: how AI risks differ from traditional software risks)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "OECD AI Principles (robustness, security and safety)",
     ],
   },
@@ -996,7 +995,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Refusing the topic removes the error and the service with it, when the fix is a content update the organization already controls.",
     },
     sources: [
-      "NIST AI RMF (Manage 4: maintaining AI systems after deployment)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 2.2: mechanisms are in place and applied to sustain the value of deployed AI systems)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (control of documented information used by AI systems)",
     ],
   },
@@ -1015,7 +1014,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Existing law applies to AI systems now. Sector-specific AI rules add to that baseline rather than switching it on.",
     },
     sources: [
-      "NIST AI RMF (Map 1: legal and regulatory requirements in context)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.1: legal and regulatory requirements involving AI are understood, managed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "OECD AI Principles (rule of law and human rights)",
     ],
   },
@@ -1053,7 +1052,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A larger operating footprint expands training and access management. That is a scale change, not a change in the nature of the system's behavior.",
     },
     sources: [
-      "NIST AI RMF (Govern 1.1: what distinguishes AI risk)",
+      { cite: "NIST AI RMF 1.0 (Appendix B: how AI risks differ from traditional software risks)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 22989 (characteristics of machine learning systems)",
     ],
   },
@@ -1073,7 +1072,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "OECD AI Principles (transparency and explainability)",
-      "NIST AI RMF (Measure 2.8: explainability for the people relying on outputs)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.9: the AI model is explained and its output interpreted within its context)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   53: {
@@ -1091,7 +1090,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "The concern described is narrow composition rather than size. A small single-function body has the same blind spot as a large one.",
     },
     sources: [
-      "NIST AI RMF (Govern 3: diversity of perspectives in AI governance)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 3.1: AI risk decisions are informed by a team diverse in disciplines, experience and expertise)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (competence and cross-functional involvement)",
     ],
   },
@@ -1111,7 +1110,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 26 (obligations of deployers)",
-      "NIST AI RMF (Govern 6: roles across the AI value chain)",
+      { cite: "NIST AI RMF 1.0 (Appendix A: AI actor tasks — deployment distinguished from design and development)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "accountability",
@@ -1136,7 +1135,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Deferring policy until after the pilot means the pilot itself runs under no rule, which is when the first decisions get made.",
     },
     sources: [
-      "NIST AI RMF (Govern 1.2: policies updated to address AI)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.2 suggested actions: connect AI governance to existing organizational governance and risk controls)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
       "ISO/IEC 42001 (integration with existing management systems)",
     ],
   },
@@ -1155,7 +1154,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Building in-house replaces vendor risk with development risk and does not address the process gap that let an unassessed purchase proceed.",
     },
     sources: [
-      "NIST AI RMF (Govern 6.1: third-party requirements in procurement)",
+      { cite: "NIST AI RMF Playbook (GOVERN 6.1 suggested actions: policies for procurement of third-party AI, including transparency into training data and testing)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
       "ISO/IEC 42001 (control of externally provided processes, products and services)",
     ],
   },
@@ -1294,7 +1293,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Eight months is ample. Length of record is not what makes this one hard to interpret.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.4 and Manage 4.2: thresholds reviewed as conditions change)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 1.2: appropriateness of AI metrics and effectiveness of existing controls are regularly assessed and updated)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (evaluation of monitoring effectiveness)",
     ],
   },
@@ -1332,7 +1331,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Operators hearing about the tool at launch is a stakeholder-engagement failure. It is adjacent, and it does not explain why risk cannot be assessed.",
     },
     sources: [
-      "NIST AI RMF (Map 1.1: intended purpose and context are established)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose and context of deployment are understood and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (planning: objectives and criteria for AI systems)",
     ],
   },
@@ -1351,7 +1350,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Waiting six months for production data means accepting the risk by default while the evidence accumulates from real misroutings.",
     },
     sources: [
-      "NIST AI RMF (Manage 1: risks are prioritised and treatment selected)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 1.2: risk treatment prioritized by impact and likelihood; MANAGE 1.3: responses include mitigating, transferring, avoiding or accepting)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (actions to address risks and opportunities)",
     ],
     reasoning: {
@@ -1379,7 +1378,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Repeating evaluation work is a cost to the team. It is an efficiency loss rather than a governance exposure.",
     },
     sources: [
-      "NIST AI RMF (Govern 4.2: documentation of design decisions)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.4 suggested actions: documentation policies covering algorithmic methodology, assumptions and evaluated alternative approaches)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
       "EU AI Act Art. 11 and Annex IV (technical documentation)",
     ],
   },
@@ -1398,7 +1397,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Portability concerns moving data between environments or controllers. The team's problem is not export but explanation.",
     },
     sources: [
-      "NIST AI RMF (Map 2.3: data provenance is documented)",
+      { cite: "NIST AI RMF Playbook (MAP 2.3 suggested actions: understand and trace test and training data lineage)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
       "ISO/IEC 42001 (data governance for AI systems)",
     ],
   },
@@ -1417,7 +1416,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Performance testing measures speed and resource use. It is unrelated to who is advantaged by the output.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.11: fairness and bias are evaluated)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.11: fairness and bias are evaluated and results documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "NIST SP 1270 (identifying and managing bias in AI)",
     ],
   },
@@ -1436,7 +1435,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Insufficient volume usually depresses performance on both training and unseen data rather than producing a large gap between them.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.5: validity and generalisation)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.5: system is demonstrated valid and reliable; limits of generalizability are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (verification and validation)",
     ],
   },
@@ -1455,7 +1454,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A validation report records measured performance against thresholds. It feeds the model card rather than serving as the standardized stakeholder summary.",
     },
     sources: [
-      "NIST AI RMF (Govern 4.2: model documentation for stakeholders)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.2: knowledge limits and how output may be used and overseen are documented for relevant AI actors)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (documented information)",
     ],
   },
@@ -1474,7 +1473,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An ownership dispute affects whether the model may be used. It does not affect how well it predicts.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.4: monitoring for degradation in deployment)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.4: functionality and behavior of the AI system are monitored in production)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (performance evaluation and continual improvement)",
     ],
   },
@@ -1512,7 +1511,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Vendor reputation speaks to the supplier's track record. It says nothing about whether this workforce can use the tool appropriately.",
     },
     sources: [
-      "NIST AI RMF (Govern 3.2 and Map 3: workforce competence and context of use)",
+      { cite: "NIST AI RMF 1.0 (MAP 3.4: processes for operator and practitioner proficiency are defined, assessed and documented; GOVERN 2.2: personnel receive AI risk management training)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (competence and awareness)",
     ],
   },
@@ -1531,7 +1530,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Obligations follow the use and the role, not the licensing model. Deploying an open model in a high-risk setting attracts the same duties.",
     },
     sources: [
-      "NIST AI RMF (Govern 6: transparency across the AI value chain)",
+      { cite: "NIST AI RMF Playbook (GOVERN 6.1 suggested actions: transparency into third-party system functions, training data, assumptions and limitations)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
       "EU AI Act Art. 25 (responsibilities along the AI value chain)",
     ],
   },
@@ -1550,7 +1549,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Relying on original training leaves the model unaware of every document written or revised since, which is the whole problem.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.9: grounding generative outputs in trusted sources)",
+      { cite: "NIST AI 600-1 (Generative AI Profile, Section 2.2: confabulation)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf", sourceDate: "2024-07-26" },
       "ISO/IEC 42001 (control of information used by AI systems)",
     ],
   },
@@ -1570,7 +1569,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42005 (impact assessment, including for acquired systems)",
-      "NIST AI RMF (Govern 6.1: third-party systems are assessed before use)",
+      { cite: "NIST AI RMF Playbook (GOVERN 6.1 suggested actions: thorough testing of third-party AI systems)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
     reasoning: {
       primaryDimension: "sequencing",
@@ -1594,7 +1593,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Ending the relationship over an unaddressed term treats a negotiable omission as disqualifying, and most first drafts are silent on it.",
     },
     sources: [
-      "NIST AI RMF (Govern 6.1: contractual arrangements with third parties)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies and procedures address AI risks associated with third-party entities)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (control of externally provided processes and services)",
     ],
   },
@@ -1614,7 +1613,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 16 (provider obligations) and Art. 26 (deployer obligations)",
-      "NIST AI RMF (Govern 2: accountability across roles)",
+      { cite: "NIST AI RMF 1.0 (Appendix A: AI actor tasks — development and deployment as distinct roles)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   80: {
@@ -1632,7 +1631,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Handover does not transfer the deployer's obligations. The vendor cannot see how the system performs in this deployer's population.",
     },
     sources: [
-      "NIST AI RMF (Manage 4: post-deployment monitoring and maintenance)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 4.1: post-deployment monitoring plans are implemented; MANAGE 2.2: mechanisms sustain the value of deployed AI systems)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "EU AI Act Art. 72 (post-market monitoring by providers)",
     ],
   },
@@ -1651,7 +1650,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Model drift is a change in the system's behavior over time. Nothing here suggests the chatbot behaves differently — only that it is being asked different things.",
     },
     sources: [
-      "NIST AI RMF (Map 3.4 and Manage 4: monitoring for unintended uses)",
+      { cite: "NIST AI RMF Playbook (MAP 1.5 suggested actions: review uses of AI systems for “off-label” purposes)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
       "ISO/IEC 42001 (intended use and operational controls)",
     ],
   },
@@ -1670,7 +1669,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Delegating a regulatory decision to the pricing model's optimization logic gives a compliance judgment to a system built to maximize revenue.",
     },
     sources: [
-      "NIST AI RMF (Manage 2.4: mechanisms to deactivate or decommission systems)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 2.4: mechanisms and responsibilities to supersede, disengage or deactivate AI systems)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (operational control and change management)",
     ],
   },
@@ -1689,7 +1688,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A monthly accuracy report gives executives visibility. It does nothing for the manager deciding whether to act on today's forecast.",
     },
     sources: [
-      "NIST AI RMF (Govern 3.2: workforce training for AI oversight)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 2.2: personnel receive AI risk management training; MAP 3.4: operator and practitioner proficiency processes are defined)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
       "EU AI Act Art. 4 (AI literacy) and Art. 14 (human oversight)",
     ],
   },
@@ -1708,7 +1707,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An external adviser might have counselled a lighter structure, and engaging one is not itself the governance error being illustrated.",
     },
     sources: [
-      "NIST AI RMF (Govern 1: governance proportionate to context and risk)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.3: the needed level of risk management activity is determined by the organization's risk tolerance)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (context of the organisation)",
     ],
     reasoning: {
@@ -1733,7 +1732,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A disclaimer in engagement letters addresses the firm's exposure to clients. It does not stop client material reaching a public tool.",
     },
     sources: [
-      "NIST AI RMF (Govern 1.2: policies for acceptable AI use)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.2 suggested actions: policies define the scope of AI systems' purposes and intended uses)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
       "ISO/IEC 42001 (AI policy and operational controls)",
     ],
   },
@@ -1752,7 +1751,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Designing the response during the first incident means improvising escalation and notification while people are already affected.",
     },
     sources: [
-      "NIST AI RMF (Manage 4.1: incident response extended to AI failure modes)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.5 suggested actions: establish AI incident response policies or confirm existing ones apply to AI)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
       "ISO/IEC 42001 (nonconformity, corrective action and AI incidents)",
     ],
   },
@@ -1771,7 +1770,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Publishing the contract value serves transparency about spending, not about the system's behavior.",
     },
     sources: [
-      "NIST AI RMF (Govern 6.1: third-party criteria in procurement)",
+      { cite: "NIST AI RMF Playbook (GOVERN 6.1 suggested actions: policies for procurement of third-party AI, including transparency into training data and testing)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
       "ISO/IEC 42001 (control of externally provided processes, products and services)",
     ],
   },
@@ -1790,7 +1789,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Registration presumes ownership has been established. The prior question is whether the agency and its client hold rights at all.",
     },
     sources: [
-      "NIST AI RMF (Govern 1.2: policies updated for AI, including IP)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies address third-party AI risks, including infringement of intellectual property or other rights)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "Berne Convention for the Protection of Literary and Artistic Works (authorship and originality)",
     ],
   },
@@ -1807,7 +1806,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Physical and environmental security governs access to sites and equipment. Introducing AI does not change what a badge controls.",
     },
     sources: [
-      "NIST AI RMF (Govern 1.2: existing policies evaluated and updated for AI)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.2 suggested actions: align with data governance, cover third-party AI systems, and detail incident response plans)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
       "ISO/IEC 42001 (integration of AI requirements into existing management systems)",
     ],
   },
@@ -1892,7 +1891,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU Product Liability Directive (as revised to cover software and AI)",
-      "NIST AI RMF (Measure 2.6: safety of AI systems in physical contexts)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.6: AI system is evaluated for safety risks and demonstrated to be safe and to fail safely)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "governing_obligation",
@@ -1991,7 +1990,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Training on the full history first defers metric choice until after the model exists, which is the sequencing error being corrected.",
     },
     sources: [
-      "NIST AI RMF (Map 2.3 and Measure 1: metrics defined before development)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: TEVV and system metrics considered when context is established; MEASURE 1.1: measurement approaches and metrics are selected)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (planning: objectives and acceptance criteria)",
     ],
   },
@@ -2010,7 +2009,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Infrastructure location is a deployment decision with security and cost implications. It does not involve the people the system decides about.",
     },
     sources: [
-      "NIST AI RMF (Map 1.6 and Govern 5: stakeholder engagement)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.6: system requirements are elicited from relevant AI actors; GOVERN 5.1: feedback from those external to the team is collected and integrated)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
       "ISO/IEC 42005 (identifying interested and affected parties)",
     ],
   },
@@ -2029,7 +2028,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Communicating the release date coordinates the launch. It records no judgment about whether the system should launch.",
     },
     sources: [
-      "NIST AI RMF (Manage 3: readiness and deployment decisions are documented)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 1.1: determination whether the system achieves its intended purpose and whether deployment should proceed)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (release criteria and documented information)",
     ],
   },
@@ -2048,7 +2047,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Accuracy against the launch measurement is ordinary performance monitoring, which the stem already excludes.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.7: security and resilience, including data poisoning)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.7: security and resilience are evaluated and documented; Section 3.3 names data poisoning)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (periodic assessment: audits, red teaming and threat modelling)",
     ],
   },
@@ -2067,7 +2066,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A public statement may be warranted depending on who was affected. It communicates the incident rather than establishing why it happened.",
     },
     sources: [
-      "NIST AI RMF (Manage 4.1 and 4.3: incident documentation and cross-functional review)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 4.3: processes for tracking, responding to and recovering from incidents are followed and documented; GOVERN 4.3: practices enable incident identification and information sharing)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (corrective action and continual improvement)",
     ],
   },
@@ -2086,7 +2085,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An annual audit inspects once a year. The failures described developed over weeks.",
     },
     sources: [
-      "NIST AI RMF (Manage 4: continuous monitoring and scheduled maintenance)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 4.1: post-deployment monitoring plans are implemented; MANAGE 2.2: mechanisms sustain the value of deployed AI systems)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (monitoring, measurement, analysis and evaluation)",
     ],
   },
@@ -2105,7 +2104,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A larger model may summarize better and does nothing about where the processing happens, which is the binding constraint.",
     },
     sources: [
-      "NIST AI RMF (Map 4 and Manage 1: deployment options and data control)",
+      { cite: "NIST AI RMF 1.0 (MAP 4.1: approaches for mapping technology and legal risks of AI components, including third-party data or software, are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (AI system deployment and operational controls)",
     ],
   },
@@ -2124,7 +2123,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Converting structured claims into text is an implementation cost, and a symptom of the mismatch rather than the governance objection itself.",
     },
     sources: [
-      "NIST AI RMF (Map 2.1: selecting AI approaches appropriate to the task)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.1: the task and the methods used to implement it, e.g. classifiers or generative models, are defined)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (design and development of AI systems)",
     ],
   },
@@ -2143,7 +2142,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Training from scratch on a single handbook discards the language ability the assistant needs and would produce a far weaker system.",
     },
     sources: [
-      "NIST AI RMF (Measure 2.9: accuracy against current authoritative sources)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.1: the task and the methods used to implement it, e.g. classifiers or generative models, are defined)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (control of information used by AI systems)",
     ],
   },
@@ -2160,7 +2159,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Vendor engineering headcount is a proxy for supplier scale. It says nothing about whether this system suits this use case.",
     },
     sources: [
-      "NIST AI RMF (Map 1 and 3: use case, data and workforce context)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.4: business value or context of use is defined; MAP 2.3: data availability and suitability are documented; MAP 3.4: operator proficiency is defined and assessed)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (planning and context for AI deployment)",
     ],
   },
@@ -2179,7 +2178,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Indemnity against assessment error shifts cost after the fact. It gives the buyer no better understanding of the system it is about to operate.",
     },
     sources: [
-      "NIST AI RMF (Govern 6.1: deployer assessment of third-party systems)",
+      { cite: "NIST AI RMF 1.0 (Part 1, Section 1.2.1: risk metrics of the developer may not align with those of the deploying organization)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42005 (impact assessment in the deployer's context of use)",
     ],
   },
@@ -2198,7 +2197,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Retraining assumes the model is the cause. If the shift is applicant mix or marketing spend, retraining changes the model without touching what moved.",
     },
     sources: [
-      "NIST AI RMF (Manage function: response to identified risks)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: investigate substantial measurement differences and identify root causes)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (performance evaluation and monitoring)",
     ],
     reasoning: {
@@ -2225,7 +2224,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Employment tenure relates to income stability and is verified against payroll, so it is grounded rather than inferred.",
     },
     sources: [
-      "NIST AI RMF (Measure: fairness and bias assessment)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: identify input features that may serve as proxies for demographic group membership)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "EU AI Act Art. 10 (data governance, examination for bias)",
     ],
     reasoning: {
@@ -2251,7 +2250,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (roles, responsibilities and authorities)",
-      "NIST AI RMF (Govern: accountability structures)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 2.1: roles, responsibilities and lines of communication for AI risk are documented and clear)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "accountability",
@@ -2275,7 +2274,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (change management; AI system impact assessment)",
-      "NIST AI RMF (Map: context and intended use)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.5: validity is demonstrated and limits of generalizability beyond development conditions are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   113: {
@@ -2294,7 +2293,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 14 (human oversight; ability to disregard or override)",
-      "NIST AI RMF (Govern: human-AI configuration)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.8 suggested actions: measure and document human oversight, including statistics on overrides)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
     ],
   },
   114: {
@@ -2312,7 +2311,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A manual-review instruction mitigates the suspected effect while leaving the organization unable to say whether it exists or how large it is.",
     },
     sources: [
-      "NIST AI RMF (Measure: track identified risks over time)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 3.1: existing and emergent AI risks are identified and tracked based on actual performance in deployed contexts)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (monitoring, measurement and analysis)",
     ],
   },
@@ -2332,7 +2331,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (supplier and third-party controls)",
-      "NIST AI RMF (Govern: third-party risk; Map: system categorisation)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies address AI risks associated with third-party entities; GOVERN 1.3: level of risk management activity is set by risk)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   116: {
@@ -2370,7 +2369,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Annex III (employment, worker management)",
-      "NIST AI RMF (Map: intended use and context of deployment)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose and context of deployment are documented; MEASURE 2.5: limits of generalizability are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
     ],
   },
   118: {
@@ -2408,7 +2407,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A 6% unsupported-citation rate is a grounding and retrieval problem, not evidence that the underlying model is unfit for retrieval.",
     },
     sources: [
-      "NIST AI RMF (Measure: evaluate effectiveness of controls)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 1.2: effectiveness of existing controls is regularly assessed and updated)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (operational control and verification)",
     ],
     reasoning: {
@@ -2439,7 +2438,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (documented information; retention)",
-      "NIST AI RMF (Govern: policies and documentation)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.1: legal and regulatory requirements involving AI are understood, managed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   121: {
@@ -2475,7 +2474,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "OECD AI Principles (transparency and explainability)",
-      "NIST AI RMF (Govern: transparency and accountability)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.4 suggested actions: policies and processes for public disclosure of the use of AI)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   123: {
@@ -2493,7 +2492,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Self-hosting a commercial model is not available under the API terms and would transfer obligations the department is not resourced to hold.",
     },
     sources: [
-      "NIST AI RMF (Measure: ongoing monitoring; Manage: third-party dependencies)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 3.1: third-party AI resources are regularly monitored; MANAGE 3.2: pre-trained models are monitored as part of regular monitoring)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (change management)",
     ],
   },
@@ -2512,7 +2511,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Export format is an engineering convenience with no bearing on validity.",
     },
     sources: [
-      "NIST AI RMF (Map: assumptions about data and context)",
+      { cite: "NIST AI RMF Playbook (MAP 2.3 suggested actions: document assumptions in data selection, including constructs and proxy targets)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
       "EU AI Act Art. 10 (relevance and representativeness of data)",
     ],
     reasoning: {
@@ -2539,7 +2538,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (internal audit; competence and objectivity)",
-      "NIST AI RMF (Govern: independent review)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 1.3: internal experts who were not front-line developers, or independent assessors, are involved in regular assessments)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   126: {
@@ -2557,7 +2556,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Population shift is plausible in general but would not be explained by a feature's 40-day settlement window.",
     },
     sources: [
-      "NIST AI RMF (Measure: validity and reliability)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.3: performance is measured and demonstrated for conditions similar to the deployment setting)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (AI system verification)",
     ],
     reasoning: {
@@ -2602,7 +2601,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Data protection approval attaches to personal data. Equipment telemetry does not raise that requirement.",
     },
     sources: [
-      "NIST AI RMF (Map: data provenance and representativeness)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.3: TEVV considerations for data collection and selection, including representativeness and suitability, are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (data for AI systems)",
     ],
   },
@@ -2621,7 +2620,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An aggregate comparison is precisely the average that a disaggregated view exists to interrogate.",
     },
     sources: [
-      "NIST AI RMF (Measure: disaggregated evaluation)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.2 suggested actions: use disaggregated evaluation methods, e.g. by region, to improve performance in real-world settings)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (performance evaluation)",
     ],
   },
@@ -2640,7 +2639,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Latency on a small share of long prompts is a performance issue, not a release blocker of this kind.",
     },
     sources: [
-      "NIST AI RMF (Measure: TEVV, red-teaming)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 1.2: treatment of documented AI risks is prioritized based on impact and likelihood)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (operational planning and control)",
     ],
     reasoning: {
@@ -2666,7 +2665,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (AI system inventory; risk assessment)",
-      "NIST AI RMF (Map: risk prioritisation)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.6: AI system inventory mechanisms are resourced according to organizational risk priorities)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "risk_prioritization",
@@ -2691,7 +2690,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Omitting the feature from documentation conceals the one thing an independent reviewer most needs to see.",
     },
     sources: [
-      "NIST AI RMF (Measure: bias assessment)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: identify input features that may serve as proxies for demographic group membership)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "EU AI Act Art. 10 (examination for possible biases)",
     ],
   },
@@ -2711,7 +2710,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (third-party and supplier controls)",
-      "NIST AI RMF (Govern: third-party software and data)",
+      { cite: "NIST AI RMF Playbook (MAP 4.1 suggested actions: review terms of service, end user license agreements and contracts of third-party entities)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
     ],
   },
   134: {
@@ -2730,7 +2729,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 10 (data governance and provenance)",
-      "NIST AI RMF (Map: data provenance)",
+      { cite: "NIST AI RMF 1.0 (MAP 4.1: legal risks of components, including third-party data, are mapped; MAP 2.3: data collection and representativeness are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (data quality and lineage)",
     ],
   },
@@ -2750,7 +2749,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "OECD AI Principles (human-centred values and fairness)",
-      "NIST AI RMF (Govern: organisational risk tolerance and values)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.5: organizational risk tolerances are determined and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "legal_vs_ethical",
@@ -2776,7 +2775,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (supplier controls; verification of claims)",
-      "NIST AI RMF (Govern: third-party assurance)",
+      { cite: "NIST AI RMF Playbook (GOVERN 6.1 suggested actions: transparency into third-party system functions and thorough testing of third-party AI systems)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
     reasoning: {
       primaryDimension: "proportionality",
@@ -2822,7 +2821,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Weekly retraining is unremarkable. Frequency is not what makes this loop self-confirming.",
     },
     sources: [
-      "NIST AI RMF (Map: assumptions; Measure: validity)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.4 suggested actions: when anomalies are observed in production, consider feedback loop risks)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (data for AI systems)",
     ],
   },
@@ -2841,7 +2840,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Customer awareness is a transparency question. It does not change who pays more.",
     },
     sources: [
-      "NIST AI RMF (Measure: fairness and bias)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.11: fairness and bias are evaluated and results documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "OECD AI Principles (fairness)",
     ],
   },
@@ -2881,7 +2880,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     sources: [
       "EU AI Act Art. 14 (human oversight)",
       "ISO/IEC 42001 (roles, responsibilities and authorities)",
-      "NIST AI RMF (Govern: accountability)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 2.1: roles and responsibilities for AI risk are documented and clear; GOVERN 3.2: roles for human-AI configurations and oversight are defined)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "accountability",
@@ -2907,7 +2906,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Calling 1.5% high asserts a threshold the facts do not supply, and still accepts the flawed metric.",
     },
     sources: [
-      "NIST AI RMF (Measure: evaluation validity)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.13: effectiveness of the TEVV metrics and processes is evaluated and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (monitoring, measurement, analysis and evaluation)",
     ],
     reasoning: {
@@ -2933,7 +2932,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Planner cancellation is precisely the control that already let 44 duplicates through.",
     },
     sources: [
-      "NIST AI RMF (Manage: risk prioritisation)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 1.2: treatment of documented AI risks is prioritized based on impact and likelihood)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (nonconformity and corrective action)",
     ],
   },
@@ -2952,7 +2951,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A longer cancellation window improves the odds of catching an error that has already been made.",
     },
     sources: [
-      "NIST AI RMF (Manage: risk treatment)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 1.3: responses to high-priority risks are developed, planned and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (operational control)",
     ],
   },
@@ -3011,7 +3010,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Deciding to accept, transfer or mitigate is management.",
     },
     sources: [
-      "NIST AI RMF 1.0 (Govern, Map, Measure, Manage functions)",
+      { cite: "NIST AI RMF 1.0 (Part 2, Sections 5.2 and 5.3: Map establishes context to frame risks; Measure analyzes and assesses them)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   148: {
@@ -3029,7 +3028,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Suspension forgoes the tool precisely where its use is most scrutinized, without addressing the requirement.",
     },
     sources: [
-      "NIST AI RMF (Govern: legal and regulatory requirements)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.1: legal and regulatory requirements involving AI are understood, managed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (compliance obligations)",
     ],
   },
@@ -3068,7 +3067,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 6 and Annex III (classification by use)",
-      "NIST AI RMF (Map: context and impact)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose, context of deployment and potential impacts are understood and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   151: {
@@ -3086,7 +3085,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Robustness concerns stable performance under varied conditions, not the completeness of the record.",
     },
     sources: [
-      "NIST AI RMF (Measure: accountable and transparent)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.8 suggested actions: instrument the system with histories and audit logs so AI actors can review sources of error)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (records and traceability)",
     ],
   },
@@ -3106,7 +3105,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "OECD AI Principles (fairness)",
-      "NIST AI RMF (Govern: policies and principles)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.2: trustworthy AI characteristics are integrated into policies; MEASURE 2.11: fairness and bias are evaluated)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "legal_vs_ethical",
@@ -3131,7 +3130,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (leadership and commitment)",
-      "NIST AI RMF (Govern: accountability structures)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 1.1: determination whether deployment should proceed; GOVERN 3.1: risk decisions informed by a diverse team)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
     ],
   },
   154: {
@@ -3150,7 +3149,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (organisational roles and authorities)",
-      "NIST AI RMF (Govern: independent oversight)",
+      { cite: "NIST AI RMF Playbook (GOVERN 4.1 suggested actions: policies promoting effective challenge of AI design and deployment decisions, e.g. three lines of defense)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   155: {
@@ -3168,7 +3167,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Integration method is an engineering choice with no bearing on reach.",
     },
     sources: [
-      "NIST AI RMF (Map: system autonomy and human-AI configuration)",
+      { cite: "NIST AI RMF Playbook (MAP 3.4, About: human-AI configurations span from fully autonomous to fully manual)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
       "ISO/IEC 42001 (AI system impact assessment)",
     ],
   },
@@ -3187,7 +3186,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A baseline comparison inherits whatever blind spot the chosen metric has.",
     },
     sources: [
-      "NIST AI RMF (Measure: appropriate metrics)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 1.1: measurement approaches and metrics are selected starting with the most significant AI risks)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (performance evaluation)",
     ],
     reasoning: {
@@ -3232,7 +3231,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Thin consultation explains the cause without describing the fault.",
     },
     sources: [
-      "NIST AI RMF (Measure: validity and reliability)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.5 suggested actions: measure forms of validity, including construct validity)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (AI system requirements)",
     ],
   },
@@ -3251,7 +3250,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Parity applies whether or not a human reviews the output.",
     },
     sources: [
-      "NIST AI RMF (Measure: disaggregated and intersectional evaluation)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: examine differences in outcomes across and within groups, including intersecting groups)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "EU AI Act Art. 10 (bias examination)",
     ],
   },
@@ -3269,7 +3268,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (AI system impact assessment)",
-      "NIST AI RMF (Map: impacts to individuals and society)",
+      { cite: "NIST AI RMF 1.0 (MAP 5.1: likelihood and magnitude of each identified impact are identified and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   161: {
@@ -3288,7 +3287,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 10 (representativeness of data)",
-      "NIST AI RMF (Measure and Manage: bias mitigation)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: consider completeness, representativeness and balance of data sources)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
     ],
   },
   162: {
@@ -3306,7 +3305,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Ticketing integration routes incidents that have already been identified.",
     },
     sources: [
-      "NIST AI RMF (Manage: incident response)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 4.3: organizational practices enable AI testing, identification of incidents and information sharing)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (nonconformity and corrective action)",
     ],
   },
@@ -3325,7 +3324,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Retraining on an unexplained shift risks fitting the model to a pipeline defect.",
     },
     sources: [
-      "NIST AI RMF (Measure: monitoring for drift)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.4 suggested actions: measure distribution differences in new input or output data relative to test environments)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (monitoring and measurement)",
     ],
   },
@@ -3344,7 +3343,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Dependency is a future risk and does not compound while unaddressed today.",
     },
     sources: [
-      "NIST AI RMF (Govern: shadow AI and unapproved use)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 1.2: treatment of documented AI risks is prioritized based on impact and likelihood)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (operational control)",
     ],
     reasoning: {
@@ -3371,7 +3370,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 14 (human oversight; ability to intervene)",
-      "NIST AI RMF (Govern: human-AI configuration)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 3.2: roles and responsibilities for human-AI configurations and oversight are defined and differentiated)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   166: {
@@ -3416,7 +3415,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (supplier changes; change management)",
-      "NIST AI RMF (Govern: third-party risk)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 3.1: AI risks from third-party resources are regularly monitored and risk controls applied)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
     ],
   },
   168: {
@@ -3454,7 +3453,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 10 (examination for biases)",
-      "NIST AI RMF (Map: historical and societal bias)",
+      { cite: "NIST AI RMF 1.0 (Part 1, Section 3.7: systemic bias can be present in AI datasets and organizational practices)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   170: {
@@ -3499,7 +3498,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (documented information; traceability)",
-      "NIST AI RMF (Measure: reproducibility)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.1: test sets, metrics and details about TEVV tools are documented; Appendix B: concerns about reproducibility)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   172: {
@@ -3517,7 +3516,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Expertise can be added to a function that is still monitoring the wrong signals.",
     },
     sources: [
-      "NIST AI RMF (Govern: integrating AI risk into enterprise risk management)",
+      { cite: "NIST AI RMF 1.0 (Appendix B: AI risks not comprehensively addressed by current risk frameworks)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (context of the organisation)",
     ],
   },
@@ -3563,7 +3562,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Contractual cost recovery is commercial and affects no customer's experience.",
     },
     sources: [
-      "NIST AI RMF (Manage: incident response and recovery)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 2.4: mechanisms to supersede, disengage or deactivate AI systems with outcomes inconsistent with intended use)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (corrective action)",
     ],
     reasoning: {
@@ -3591,7 +3590,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (performance evaluation; internal audit)",
-      "NIST AI RMF (Govern: measuring programme effectiveness)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.5: ongoing monitoring and periodic review of the risk management process and its outcomes are planned)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   176: {
@@ -3609,7 +3608,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Feasibility of a remedy is premature while the mechanism is unknown.",
     },
     sources: [
-      "NIST AI RMF (Measure: harmful bias and fairness)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: identify input features that may serve as proxies for demographic group membership)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (performance evaluation)",
     ],
   },
@@ -3628,7 +3627,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An annual trigger is a policy some firms adopt, not the reason this gap opened.",
     },
     sources: [
-      "NIST AI RMF (Measure: TEVV throughout the lifecycle)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 1.2: appropriateness of AI metrics and effectiveness of existing controls are regularly assessed and updated)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (monitoring, measurement, analysis and evaluation)",
     ],
   },
@@ -3647,7 +3646,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Escalation without framing the trade-off moves the same open question upward.",
     },
     sources: [
-      "NIST AI RMF (Govern: risk tolerance and trade-offs)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.5: organizational risk tolerances are determined and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (risk criteria; management review)",
     ],
     reasoning: {
@@ -3674,7 +3673,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: suppliers and third parties)",
-      "NIST AI RMF (Govern: third-party risks in the value chain)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies and procedures address AI risks associated with third-party entities)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   180: {
@@ -3693,7 +3692,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act (obligations along the value chain; provider and deployer roles)",
-      "NIST AI RMF (Govern: roles and responsibilities across the supply chain)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies address third-party AI risks, including infringement of intellectual property or other rights)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   181: {
@@ -3711,7 +3710,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Override volume is the symptom being explained, not an explanation.",
     },
     sources: [
-      "NIST AI RMF (Map: data representativeness; Measure: disaggregated evaluation)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.3: data representativeness is documented; MEASURE 2.11: fairness and bias are evaluated)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (data quality for AI systems)",
     ],
     reasoning: {
@@ -3737,7 +3736,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act (education as a high-risk use context)",
-      "NIST AI RMF (Map: context of use and potential impacts)",
+      { cite: "NIST AI RMF 1.0 (MAP 5.1: likelihood and magnitude of each identified impact are documented; GOVERN 1.3: level of risk management activity is set by risk)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "proportionality",
@@ -3762,7 +3761,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Treating the claim as disqualifying forecloses a tool without evidence either way.",
     },
     sources: [
-      "NIST AI RMF (Measure: independent validity evidence)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.3: performance is measured and demonstrated for conditions similar to the deployment setting)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: third-party and supplier assurance)",
     ],
   },
@@ -3781,7 +3780,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "AI governance builds on data governance rather than superseding it; the input controls are still required.",
     },
     sources: [
-      "NIST AI RMF (Govern: integration with existing governance)",
+      { cite: "NIST AI RMF 1.0 (Part 1, Section 1.2.4: AI risk management integrated into broader enterprise risk management; MEASURE 2.4: behavior monitored in production)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (context and scope)",
     ],
   },
@@ -3800,7 +3799,6 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Many are open-weight and run internally; access method is a commercial choice.",
     },
     sources: [
-      "NIST AI RMF (Map: system characteristics)",
       "OECD AI Principles (general-purpose AI)",
     ],
   },
@@ -3819,7 +3817,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A retrieval index goes stale, which is an additional monitoring obligation rather than fewer.",
     },
     sources: [
-      "NIST AI RMF (Measure: validity; Manage: monitoring)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.4: functionality and behavior of the AI system and its components are monitored in production)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (operational control)",
     ],
   },
@@ -3839,7 +3837,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (policy; operational planning and control)",
-      "NIST AI RMF (Govern: policies and procedures)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.4: the risk management process is established through transparent policies, procedures and other controls)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   188: {
@@ -3858,7 +3856,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "Title VII of the Civil Rights Act (US)",
-      "NIST AI RMF (Govern: legal and regulatory requirements)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.1: legal and regulatory requirements involving AI are understood, managed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   189: {
@@ -3896,7 +3894,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 6 and Annex III (classification by use)",
-      "NIST AI RMF (Map: context)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose, context of deployment and potential impacts are understood and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   191: {
@@ -3934,7 +3932,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 6 (classification)",
-      "NIST AI RMF (Map: impact assessment)",
+      { cite: "NIST AI RMF 1.0 (MAP 5.1: likelihood and magnitude of each identified impact are identified and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "proportionality",
@@ -3961,7 +3959,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (scope; management system requirements)",
-      "NIST AI RMF (Govern: compliance)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.1: legal and regulatory requirements involving AI are understood, managed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "legal_vs_ethical",
@@ -3986,7 +3984,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Regulated organizations commonly use such frameworks to structure how they meet obligations.",
     },
     sources: [
-      "NIST AI RMF 1.0 (framing and intended use)",
+      { cite: "NIST AI RMF 1.0 (Executive Summary: voluntary and use-case agnostic; Part 2, Section 5: Core actions are not a checklist)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   195: {
@@ -4005,7 +4003,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 10 (representativeness)",
-      "NIST AI RMF (Map: data provenance)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.3: TEVV considerations for data collection and selection, including representativeness, are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   196: {
@@ -4024,7 +4022,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 10(3) (relevance and representativeness)",
-      "NIST AI RMF (Map: intended population)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: the specific users and deployment setting are documented; MAP 2.3: data representativeness is documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   197: {
@@ -4062,7 +4060,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (documented information; control of documents)",
-      "NIST AI RMF (Govern: transparency artefacts)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.4 suggested actions: documentation policies are regularly reviewed and remain current)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   199: {
@@ -4080,7 +4078,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Training duration is unrelated to whether a designed test suite was comprehensive.",
     },
     sources: [
-      "NIST AI RMF (Measure: TEVV limitations)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 3.1: unanticipated and emergent risks are tracked in deployed contexts; Part 1, Section 1.2.1: risk in real-world settings)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (verification and validation)",
     ],
   },
@@ -4099,7 +4097,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "A disparity on one measure requires interpretation against what that error costs, not an automatic verdict.",
     },
     sources: [
-      "NIST AI RMF (Measure: fairness metrics and trade-offs)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: use context-specific fairness metrics, e.g. statistical parity or error-rate equality)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "OECD AI Principles (fairness)",
     ],
   },
@@ -4119,7 +4117,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act Art. 14 (human oversight, proportionate to risk)",
-      "NIST AI RMF (Govern: human-AI configuration)",
+      { cite: "NIST AI RMF Playbook (GOVERN 3.2 suggested actions: define human-AI configurations in relation to organizational risk tolerances)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
     reasoning: {
       primaryDimension: "proportionality",
@@ -4162,7 +4160,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Fewer overrides may indicate automation bias rather than a better model.",
     },
     sources: [
-      "NIST AI RMF (Measure: monitoring for drift)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.4 suggested actions: measure distribution differences in new input data relative to test environments)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (monitoring and measurement)",
     ],
   },
@@ -4181,7 +4179,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Cost recovery is a commercial question with no bearing on the immediate response.",
     },
     sources: [
-      "NIST AI RMF (Manage: incident response)",
+      { cite: "NIST AI RMF 1.0 (MANAGE 2.4: mechanisms to disengage or deactivate AI systems; MANAGE 4.3: incidents are tracked, responded to and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (nonconformity and corrective action)",
     ],
   },
@@ -4220,7 +4218,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "GDPR Art. 22 and Recital 71 (contesting automated decisions)",
-      "NIST AI RMF (Measure: explainability)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.9: the AI model is explained and its output interpreted within its context)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   207: {
@@ -4238,7 +4236,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Scale multiplies whatever the model does, well or badly, without changing over time.",
     },
     sources: [
-      "NIST AI RMF (Measure: monitoring for performance change)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.4: functionality and behavior of the AI system are monitored in production)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (monitoring and measurement)",
     ],
   },
@@ -4258,7 +4256,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "OECD AI Principles (human-centred values; transparency)",
-      "NIST AI RMF (Map: potential impacts and affected parties)",
+      { cite: "NIST AI RMF 1.0 (MAP 5.1: likelihood and magnitude of each identified impact are identified and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   209: {
@@ -4276,7 +4274,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Training-data provenance varies by model and is not what makes output open-ended.",
     },
     sources: [
-      "NIST AI RMF (Measure: TEVV for generative systems)",
+      { cite: "NIST AI RMF 1.0 (Appendix B: difficulty determining what to test in AI-based software)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: AI system impact assessment)",
     ],
   },
@@ -4296,7 +4294,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (scope of the AI management system)",
-      "NIST AI RMF (Map: context and intended purpose)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose, context of deployment and potential impacts are understood and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   211: {
@@ -4314,7 +4312,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Accountability is about who answers for the outcome, not its distribution.",
     },
     sources: [
-      "NIST AI RMF (Measure: harmful bias; disaggregated metrics)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.11: fairness and bias are evaluated and results documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "OECD AI Principles (fairness)",
     ],
   },
@@ -4333,7 +4331,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Whether buying raises total risk depends on what the alternative would have been.",
     },
     sources: [
-      "NIST AI RMF (Govern: roles across the value chain)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose and context of deployment are understood and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: use of AI systems supplied by others)",
     ],
   },
@@ -4352,7 +4350,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Latency is a performance target unrelated to the risk being disputed.",
     },
     sources: [
-      "NIST AI RMF (Map: impacts beyond the individual decision)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: impacts to individuals, communities, organizations and society are documented; MAP 1.3: the organization's mission and goals for the AI are understood)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "OECD AI Principles (human-centred values and wellbeing)",
     ],
   },
@@ -4372,7 +4370,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act (human oversight requirements for high-risk systems)",
-      "NIST AI RMF (Manage: human-AI configuration)",
+      { cite: "NIST AI RMF Playbook (MAP 3.5 suggested actions: evaluate AI system oversight practices for validity and reliability)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
     ],
   },
   215: {
@@ -4391,7 +4389,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (scope; roles, responsibilities and authorities)",
-      "NIST AI RMF (Govern: accountability structures)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.6 suggested actions: policies define which systems are inventoried, preferring all systems)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   216: {
@@ -4410,7 +4408,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (roles, responsibilities and competence)",
-      "NIST AI RMF (Govern: diverse expertise and perspectives)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 3.1: AI risk decisions are informed by a team diverse in disciplines, experience and expertise)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   217: {
@@ -4429,7 +4427,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (management review; internal audit)",
-      "NIST AI RMF (Govern: accountability and oversight effectiveness)",
+      { cite: "NIST AI RMF Playbook (GOVERN 4.1 suggested actions: include oversight functions from the outset of design and promote effective challenge)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   218: {
@@ -4448,7 +4446,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (competence and awareness)",
-      "NIST AI RMF (Govern: workforce competency)",
+      { cite: "NIST AI RMF Playbook (GOVERN 2.2 suggested actions: training suited to each AI actor sub-group, technical and oversight roles alike)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   219: {
@@ -4467,7 +4465,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act (provider, deployer and substantial modification)",
-      "NIST AI RMF (Govern: value chain roles)",
+      { cite: "NIST AI RMF 1.0 (Appendix A: AI actor tasks — development and deployment as distinct roles)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "accountability",
@@ -4493,7 +4491,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (performance evaluation)",
-      "NIST AI RMF (Govern: measuring programme effectiveness)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.5: ongoing monitoring and periodic review of the risk management process and its outcomes are planned)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   221: {
@@ -4512,7 +4510,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (organisational roles and authorities)",
-      "NIST AI RMF (Govern: organisational structures)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 2.1: roles, responsibilities and lines of communication for AI risk are documented and clear)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   222: {
@@ -4531,7 +4529,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: acceptable use of AI systems)",
-      "NIST AI RMF (Govern: policies and procedures)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies address third-party AI risks, including infringement of intellectual property or other rights)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   223: {
@@ -4550,7 +4548,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (documented information; control of changes)",
-      "NIST AI RMF (Govern: policies, processes and accountability)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 2.1: roles and responsibilities for AI risk are documented and clear; GOVERN 1.4: risk management is established through transparent policies and controls)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   224: {
@@ -4569,7 +4567,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: data for AI systems)",
-      "NIST AI RMF (Govern: legal and policy alignment)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.2 suggested actions: align to broader data governance policies; MEASURE 2.2: follow intellectual property and privacy rights in datasets)", url: "https://airc.nist.gov/airmf-resources/playbook/" },
     ],
   },
   225: {
@@ -4588,7 +4586,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: supplier relationships)",
-      "NIST AI RMF (Govern: third-party agreements)",
+      { cite: "NIST AI RMF Playbook (MAP 4.1 suggested actions: review third-party release schedules and change management plans)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
     ],
   },
   226: {
@@ -4607,7 +4605,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: AI system inventory and documentation)",
-      "NIST AI RMF (Map: cataloguing systems and their contexts)",
+      { cite: "NIST AI RMF Playbook (GOVERN 1.6 suggested actions: policies define the system attributes to be inventoried)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   227: {
@@ -4626,7 +4624,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "GDPR Art. 5(1)(b) and Art. 6(4) (purpose limitation and compatibility)",
-      "NIST AI RMF (Map: data provenance and permitted use)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.2 suggested actions: follow privacy rights related to datasets and their use)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
     ],
     reasoning: {
       primaryDimension: "governing_obligation",
@@ -4651,7 +4649,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "GDPR Art. 17 (right to erasure)",
-      "NIST AI RMF (Map: data lifecycle and memorisation risk)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.10: privacy risk of the AI system is examined and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   229: {
@@ -4670,7 +4668,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "GDPR Art. 35 (data protection impact assessment)",
-      "NIST AI RMF (Map: impact assessment before deployment)",
+      { cite: "NIST AI RMF 1.0 (MAP 5.1: likelihood and magnitude of each identified impact are identified and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   230: {
@@ -4708,7 +4706,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "GDPR Recital 26 (means reasonably likely to be used to identify)",
-      "NIST AI RMF (Map: data characteristics and privacy risk)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.10: privacy risk examined; Section 3.6: AI can enable inference that identifies individuals)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "material_facts",
@@ -4754,7 +4752,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "GDPR Art. 5(1)(f) and Art. 32 (integrity, confidentiality and security)",
-      "NIST AI RMF (Manage: incident response)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.7: security and resilience are evaluated; MEASURE 2.10: privacy risk is examined and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   234: {
@@ -4773,7 +4771,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "GDPR Art. 9 (special categories of personal data)",
-      "NIST AI RMF (Measure: proxy and inferred attributes)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.10: privacy risk examined; Section 3.6: AI can infer previously private information about individuals)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   235: {
@@ -4811,7 +4809,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "Title VII of the Civil Rights Act and the Fair Housing Act (disparate impact framework)",
-      "NIST AI RMF (Measure: harmful bias evaluation)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.11: fairness and bias are evaluated and results documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   237: {
@@ -4868,7 +4866,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU Product Liability Directive as revised (software and AI components)",
-      "NIST AI RMF (Map: safety-critical contexts)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.6: AI system is evaluated for safety risks and demonstrated to be safe and to fail safely)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   240: {
@@ -4906,7 +4904,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "OECD AI Principles (accountability)",
-      "NIST AI RMF (Govern: legal and regulatory alignment)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.1: legal and regulatory requirements involving AI are understood, managed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "governing_obligation",
@@ -4971,7 +4969,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act (prohibited practices; high-risk classification)",
-      "NIST AI RMF (Map: intended purpose and context)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose and context-specific laws, norms and expectations are understood and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   245: {
@@ -5016,7 +5014,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act (obligations for general-purpose AI model providers)",
-      "NIST AI RMF (Govern: transparency across the value chain)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.2: documentation of knowledge limits and output use gives relevant AI actors sufficient information to decide)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   247: {
@@ -5054,7 +5052,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act (classification rules for high-risk AI systems)",
-      "NIST AI RMF (Map: context, purpose and impact)",
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose, context of deployment and potential impacts are understood and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   249: {
@@ -5098,7 +5096,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Neither is limited to a single value-chain role.",
     },
     sources: [
-      "NIST AI RMF 1.0 (purpose and voluntary status)",
+      { cite: "NIST AI RMF 1.0 (Executive Summary: intended for voluntary use)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (certifiable management system requirements)",
     ],
   },
@@ -5117,7 +5115,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Measurement sensitivity is a different problem from inaction.",
     },
     sources: [
-      "NIST AI RMF 1.0 (Manage function)",
+      { cite: "NIST AI RMF 1.0 (Part 2, Section 5.4: Manage — allocating risk resources to mapped and measured risks)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (risk treatment and monitoring)",
     ],
   },
@@ -5137,7 +5135,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (certification and scope statements)",
-      "NIST AI RMF (Govern: third-party assurance)",
+      { cite: "NIST AI RMF Playbook (GOVERN 6.1 transparency and documentation questions: whether the AI system can be audited by independent third parties)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   253: {
@@ -5156,7 +5154,6 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (scope of certification)",
-      "NIST AI RMF (Govern: assurance and its limits)",
     ],
   },
   254: {
@@ -5175,7 +5172,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (harmonised structure with other management system standards)",
-      "NIST AI RMF (Govern: integrating with existing processes)",
+      { cite: "NIST AI RMF 1.0 (Part 1, Section 1.2.4: AI risk management integrated into broader enterprise risk management)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   255: {
@@ -5194,7 +5191,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "OECD AI Principles (definition of an AI system; values-based principles)",
-      "NIST AI RMF (alignment with international principles)",
+      { cite: "NIST AI RMF 1.0 (definition of AI system, adapted from the OECD Recommendation on AI:2019)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   256: {
@@ -5213,7 +5210,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (conformity and certification)",
-      "NIST AI RMF 1.0 (flexible, outcome-based application)",
+      { cite: "NIST AI RMF 1.0 (Executive Summary: flexibility for organizations of all sizes; Part 2, Section 5: Core actions are not a checklist)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
     ],
   },
   257: {
@@ -5232,7 +5229,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (documented information as evidence; internal audit)",
-      "NIST AI RMF (Govern: measurement and accountability)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.8 suggested actions: track and audit the effectiveness of organizational AI risk management mechanisms)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
     ],
   },
   258: {
@@ -5250,7 +5247,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Both exist to inform whoever relies on the system.",
     },
     sources: [
-      "NIST AI RMF (Map: documentation of system and context)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.2: knowledge limits and how system output is used and overseen by humans are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: AI system documentation)",
     ],
   },
@@ -5269,7 +5266,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Inheriting a vendor metric inherits its blind spots too.",
     },
     sources: [
-      "NIST AI RMF (Map: defining benefits and metrics; Measure: metric selection)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.5 suggested actions: document measurement assumptions so proxies accurately reflect the concept being measured)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (objectives and planning to achieve them)",
     ],
   },
@@ -5288,7 +5285,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Documentation form does not address the missing perspective.",
     },
     sources: [
-      "NIST AI RMF (Map: engagement with affected communities)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 5.1: feedback from those external to the team on individual and societal impacts is collected and integrated)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: interested parties)",
     ],
   },
@@ -5308,7 +5305,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: data provenance and lineage)",
-      "NIST AI RMF (Map: data documentation)",
+      { cite: "NIST AI RMF Playbook (MAP 2.3 suggested actions: understand and trace test and training data lineage)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
     ],
   },
   262: {
@@ -5326,7 +5323,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Minimization concerns what data is held, not how it is partitioned.",
     },
     sources: [
-      "NIST AI RMF (Measure: validity and reliability of evaluation)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.5: validity is demonstrated and limits of generalizability beyond development conditions are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: verification and validation of AI systems)",
     ],
   },
@@ -5345,7 +5342,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Training time is a cost, not a reason the approach fails.",
     },
     sources: [
-      "NIST AI RMF (Measure: bias sources across the lifecycle)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: understand and consider sources of bias in training and TEVV data)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "ISO/IEC 42001 (Annex A: data quality for AI systems)",
     ],
   },
@@ -5364,7 +5361,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Distinguishability matters for disclosure, not for whether the model learns.",
     },
     sources: [
-      "NIST AI RMF (Map: data representativeness)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.3: TEVV considerations for data collection and selection, including representativeness, are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: data for AI systems)",
     ],
   },
@@ -5384,7 +5381,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: AI system lifecycle including retirement)",
-      "NIST AI RMF (Manage: decommissioning)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.7: AI systems are decommissioned safely and without increasing risk)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     reasoning: {
       primaryDimension: "lifecycle_stage",
@@ -5408,7 +5405,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Consultation is required but does not establish whether detection holds up.",
     },
     sources: [
-      "NIST AI RMF (Map: context of use; Measure: validity in deployment conditions)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.3: performance is measured and demonstrated for conditions similar to the deployment setting)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: AI system impact assessment)",
     ],
   },
@@ -5427,7 +5424,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Adopting a house style is what fine-tuning does well.",
     },
     sources: [
-      "NIST AI RMF (Map: system design choices and their risk profile)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.1: the task and the methods used to implement it, e.g. classifiers or generative models, are defined)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: AI system design and development)",
     ],
   },
@@ -5446,7 +5443,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Prompt sophistication is an engineering difficulty, not a risk driver.",
     },
     sources: [
-      "NIST AI RMF (Manage: human-AI configuration and autonomy)",
+      { cite: "NIST AI RMF Playbook (MAP 3.4, About: human-AI configurations span from fully autonomous to fully manual)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
       "ISO/IEC 42001 (Annex A: control of AI system operation)",
     ],
   },
@@ -5465,7 +5462,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An audit verifies the measurement, not that it describes Meridian's content.",
     },
     sources: [
-      "NIST AI RMF (Measure: evaluation validity and error analysis)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.3: performance is measured and demonstrated for conditions similar to the deployment setting)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: third-party AI system assessment)",
     ],
   },
@@ -5485,7 +5482,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: supplier assessment and agreements)",
-      "NIST AI RMF (Govern: third-party transparency)",
+      { cite: "NIST AI RMF Playbook (GOVERN 6.1 suggested actions: transparency into third-party training data, assumptions and limitations)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   271: {
@@ -5504,7 +5501,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: AI system impact assessment)",
-      "NIST AI RMF (Map: impacts on individuals and groups)",
+      { cite: "NIST AI RMF 1.0 (MAP 5.1: likelihood and magnitude of each identified impact are identified and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
   },
   272: {
@@ -5542,7 +5539,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: supplier agreements and acceptable use)",
-      "NIST AI RMF (Govern: contractual controls in the value chain)",
+      { cite: "NIST AI RMF Playbook (MAP 4.1 suggested actions: review terms of service, end user license agreements and contracts of third-party entities)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
     ],
   },
   274: {
@@ -5579,7 +5576,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Changing the deferral threshold acts on an undiagnosed problem.",
     },
     sources: [
-      "NIST AI RMF (Measure: disaggregated monitoring; Manage: feedback channels)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 3.3: end-user feedback on problems is integrated into evaluation metrics; MEASURE 3.1: risks tracked against actual performance)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (monitoring, measurement and improvement)",
     ],
   },
@@ -5598,7 +5595,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Publishing a framework creates no liability for those who apply it.",
     },
     sources: [
-      "NIST AI RMF 1.0 (voluntary, outcome-based application)",
+      { cite: "NIST AI RMF 1.0 (Part 2, Section 6: comparing Current and Target Profiles reveals gaps; Executive Summary: voluntary)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (internal audit versus certification)",
     ],
     reasoning: {
@@ -5624,7 +5621,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Prioritizing and closing risks is Manage, which acts on what Measure found.",
     },
     sources: [
-      "NIST AI RMF 1.0 (Map, Measure, Manage and Govern functions)",
+      { cite: "NIST AI RMF 1.0 (Part 2, Section 5.3: Measure — tools to analyze, assess, benchmark and monitor AI risk)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (performance evaluation)",
     ],
     reasoning: {
@@ -5651,7 +5648,6 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (scope of the management system and its certification)",
-      "NIST AI RMF (Govern: third-party assurance)",
     ],
   },
   279: {
@@ -5669,7 +5665,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "External demand is one reason among several, not the only one.",
     },
     sources: [
-      "NIST AI RMF 1.0 (applying the framework across the lifecycle)",
+      { cite: "NIST AI RMF 1.0 (Part 2, Section 5: functions may be performed in any order across the AI lifecycle)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (planning and operational control)",
     ],
   },
@@ -5688,7 +5684,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Legal status varies by jurisdiction and by the system's risk classification.",
     },
     sources: [
-      "NIST AI RMF (Map: documentation; Measure: reporting)",
+      { cite: "NIST AI RMF 1.0 (MAP 2.2: knowledge limits and output use are documented for relevant AI actors; MAP 5.1: likelihood and magnitude of impacts are documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       "ISO/IEC 42001 (Annex A: AI system documentation and impact assessment)",
     ],
   },
@@ -5707,7 +5703,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Pipeline documentation is a control, unrelated to how the score is reported.",
     },
     sources: [
-      "NIST AI RMF (Measure: disaggregated evaluation)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: use fairness metrics to examine how system performance varies across groups)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "OECD AI Principles (fairness)",
     ],
   },
@@ -5727,7 +5723,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "GDPR Art. 22 and Recital 71 (contesting automated decisions)",
-      "NIST AI RMF (Measure: explainability and interpretability)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.8 suggested actions: test explanations with decision subjects to enable recourse for consequential decisions)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
     ],
   },
   283: {
@@ -5745,7 +5741,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Maintenance burden has no bearing on whether the claim is true.",
     },
     sources: [
-      "NIST AI RMF (Measure: harmful bias and proxy attributes)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: identify input features that may serve as proxies for demographic group membership)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       "OECD AI Principles (fairness and non-discrimination)",
     ],
   },
@@ -5765,7 +5761,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "EU AI Act (human oversight for high-risk systems)",
-      "NIST AI RMF (Manage: human-AI configuration)",
+      { cite: "NIST AI RMF Playbook (MAP 3.4, About: systems may decide autonomously, defer to a human expert, or inform a human decision-maker)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
     ],
   },
   285: {
@@ -5784,7 +5780,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (roles, responsibilities and authorities)",
-      "NIST AI RMF (Govern: accountability structures)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 2.1: roles, responsibilities and lines of communication for AI risk are documented and clear)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   286: {
@@ -5803,7 +5799,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (organisational roles, responsibilities and authorities)",
-      "NIST AI RMF (Govern: accountability for AI system outcomes)",
+      { cite: "NIST AI RMF Playbook (MEASURE 2.8 suggested actions: document go/no-go decisions made by accountable parties)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
     ],
     reasoning: {
       primaryDimension: "accountability",
@@ -5828,7 +5824,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (awareness, communication and operational planning)",
-      "NIST AI RMF (Govern: policies that are actually operationalised)",
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.4: the risk management process is established through transparent policies, procedures and other controls)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
   },
   288: {
@@ -5847,7 +5843,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "ISO/IEC 42001 (Annex A: supplier assessment)",
-      "NIST AI RMF (Govern: third-party transparency and disclosure)",
+      { cite: "NIST AI RMF Playbook (GOVERN 6.1 suggested actions: transparency into third-party system assumptions and limitations)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/" },
     ],
   },
   289: {
@@ -5942,7 +5938,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       "Age Discrimination in Employment Act and equivalent national law",
-      "NIST AI RMF (Measure: harmful bias in consequential decisions)",
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.11: fairness and bias are evaluated and results documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
   },
   294: {
@@ -6104,7 +6100,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "Equal Credit Opportunity Act — specific reasons must reflect the actual basis for the decision (Regulation B, 12 CFR 1002.9(b)(2))" },
-      { cite: "NIST AI RMF (Measure 2.9: model explanation is validated for the context of use)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.9: the AI model is explained, validated and documented, and output interpreted within its context)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6183,7 +6179,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "Colorado Artificial Intelligence Act (SB 24-205) — impact assessment and risk management programme duties" },
-      { cite: "NIST AI RMF (Govern 1.1: legal and regulatory requirements are understood and managed)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.1: legal and regulatory requirements involving AI are understood, managed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6211,7 +6207,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "Federal Trade Commission Act — unfair or deceptive acts or practices (15 U.S.C. 45)" },
-      { cite: "NIST AI RMF (Measure 2.5: validity is assessed in the deployment context, not only in development)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.3: performance demonstrated for conditions similar to deployment; MEASURE 2.5: limits of generalizability documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6237,7 +6233,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "Supervisory Guidance on Model Risk Management (SR 11-7 / OCC Bulletin 2011-12) — effective challenge" },
-      { cite: "NIST AI RMF (Measure 2.13: independent assessment of AI system performance)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 1.3: internal experts who were not front-line developers, or independent assessors, are involved in regular assessments)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6341,7 +6337,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "ISO/IEC 42001 (AI management system: scope, inventory and change control)" },
-      { cite: "NIST AI RMF (Map 1.1: context and inventory of AI systems are established)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.6: mechanisms are in place to inventory AI systems, resourced according to risk priorities)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6367,7 +6363,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "ISO/IEC 42001 (AI management system: organisational context, leadership and policy)" },
-      { cite: "NIST AI RMF (Govern 1.2: policies are applied consistently across the organisation)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.2: characteristics of trustworthy AI are integrated into organizational policies, processes and procedures)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6392,8 +6388,8 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Uneven telematics opt-in is a genuine data-quality concern in this design and could bias recommendations in either direction. Nothing in the review measured opt-in by tract, so this is a hypothesis rather than a reading of the evidence.",
     },
     sources: [
-      { cite: "NIST AI RMF (Measure 2.11: fairness and bias are evaluated in the deployed socio-technical system)" },
-      { cite: "NIST AI RMF (Manage 4.1: post-deployment monitoring includes human interaction with the system)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.11: fairness and bias are evaluated and results documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
+      { cite: "NIST AI RMF 1.0 (MANAGE 4.1: post-deployment monitoring plans include mechanisms for user input, appeal and override)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6418,8 +6414,8 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Eleven filings may well be the eventual remedy, and state-by-state variation is real. Jumping to the remedy before characterizing the issue tends to produce filings that describe the wrong thing.",
     },
     sources: [
-      { cite: "NIST AI RMF (Govern 1.1: legal and regulatory requirements involving AI are understood and documented)" },
-      { cite: "NIST AI RMF (Map 4.1: approaches for mapping third-party and internal system risks are in place)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 1.1: legal and regulatory requirements involving AI are understood, managed and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
+      { cite: "NIST AI RMF 1.0 (MAP 4.1: approaches for mapping technology and legal risks of AI system components are in place and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6472,7 +6468,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Training data and the feature list would let someone re-derive a recommendation in principle. They say nothing about what the model actually returned for this quote or what the underwriter then did.",
     },
     sources: [
-      { cite: "NIST AI RMF (Govern 4.2: organizational records enable AI system decisions to be examined)" },
+      { cite: "NIST AI RMF Playbook (MEASURE 2.8 suggested actions: maintain histories and audit logs so AI actors can review sources of error)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       { cite: "ISO/IEC 42001 (AI management system: documented information and traceability)" },
     ],
     maintenance: {
@@ -6498,7 +6494,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "An actuarially justified factor in a filed plan is not lightly removed, and the filing consequence is real. Treating the filing as settling the fairness question gives it more work than it can do.",
     },
     sources: [
-      { cite: "NIST AI RMF (Measure 2.11: bias evaluation distinguishes model behaviour from system behaviour)" },
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: investigate substantial measurement differences and identify root causes)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       { cite: "ISO/IEC 42001 (AI management system: data quality and feature governance)" },
     ],
     maintenance: {
@@ -6525,7 +6521,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "ISO/IEC 42001 (AI management system: roles, responsibilities and authorities)" },
-      { cite: "NIST AI RMF (Govern 2.1: roles and responsibilities for AI risk are documented and assigned)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 2.1: roles, responsibilities and lines of communication for AI risk are documented and clear)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6602,7 +6598,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Measuring how often the summary misrepresents the caller is exactly the evidence a reassessment would want. Running the measurement without reopening the approval treats an accuracy figure as the whole question.",
     },
     sources: [
-      { cite: "NIST AI RMF (Map 1.1: intended purpose and context of use are documented and revisited)" },
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose and context of use are documented; MAP 1.4: business use of existing systems is re-evaluated)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       { cite: "ISO/IEC 42001 (AI management system: change management and impact assessment)" },
     ],
     maintenance: {
@@ -6654,8 +6650,8 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Nurse-line capacity almost certainly was not sized for this volume, and that consequence is real and immediate. It follows from the same root cause rather than naming it.",
     },
     sources: [
-      { cite: "NIST AI RMF (Measure 2.6: AI system safety controls are evaluated in realistic conditions of use)" },
-      { cite: "NIST AI RMF (Map 3.4: processes for human oversight are defined against actual operator context)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.6: AI system is evaluated regularly for safety risks and demonstrated to be safe)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
+      { cite: "NIST AI RMF Playbook (MAP 3.5 suggested actions: test oversight with relevant AI actors under scenarios similar to deployment conditions)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6706,7 +6702,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Asking the assistant to confirm the flag was set through the documented process sounds like the right instinct about verification. The assistant reads a field and has no way to see its provenance, so this puts the control where it cannot operate.",
     },
     sources: [
-      { cite: "NIST AI RMF (Govern 1.3: processes for AI system autonomy and human involvement are defined)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 3.2: roles and responsibilities for human-AI configurations and oversight are defined and differentiated)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       { cite: "ISO/IEC 42001 (AI management system: operational controls and access to system configuration)" },
     ],
     maintenance: {
@@ -6732,7 +6728,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Surviving long enough to be sampled by internal audit is a sensible floor and would at least have caught this. It derives the period from one consumer of the data rather than from the obligation the data discharges.",
     },
     sources: [
-      { cite: "NIST AI RMF (Govern 4.2: records enable AI system decisions to be examined after the fact)" },
+      { cite: "NIST AI RMF Playbook (MEASURE 2.8 suggested actions: maintain histories and audit logs so AI actors can review sources of error)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
       { cite: "ISO/IEC 42001 (AI management system: control of documented information)" },
     ],
     maintenance: {
@@ -6758,7 +6754,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Alerting a buyer to orders above the threshold is a sound monitoring control. It covers the population that already stops for human approval, and leaves the unsupervised population — the one being enlarged — unwatched.",
     },
     sources: [
-      { cite: "NIST AI RMF (Manage 2.3: mechanisms are in place to supersede or deactivate AI systems that exceed intended use)" },
+      { cite: "NIST AI RMF Playbook (MAP 3.5 suggested actions: when oversight practices are substantially changed, retest and evaluate before relying on them)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
       { cite: "ISO/IEC 42001 (AI management system: change management for AI systems)" },
     ],
     maintenance: {
@@ -6784,8 +6780,8 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Deleted traces genuinely do limit what an investigation can reconstruct, and the concern is reasonable. It overstates this case: the ERP keeps orders and receipts for seven years, so an actual loss would have been visible without the traces.",
     },
     sources: [
-      { cite: "NIST AI RMF (Measure 1.1: approaches for assessing AI risks are documented and applied)" },
-      { cite: "NIST AI RMF (Govern 1.5: ongoing monitoring is informed by risk rather than by realised loss)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 1.2: effectiveness of existing controls is regularly assessed and updated)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
+      { cite: "NIST AI RMF 1.0 (MAP 5.1: likelihood and magnitude of each identified impact are identified and documented)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6811,7 +6807,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "ISO/IEC 42001 (AI management system: operational planning and control)" },
-      { cite: "NIST AI RMF (Map 3.5: human oversight boundaries are defined by what the system is permitted to decide)" },
+      { cite: "NIST AI RMF Playbook (MAP 3.5 suggested actions: identify and document system capabilities that require human oversight)", url: "https://airc.nist.gov/airmf-resources/playbook/map/" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6836,7 +6832,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Time-critical schedules compress the window for detection and correction, which matters operationally. Speed changes how quickly a control must act, not what the control is protecting against.",
     },
     sources: [
-      { cite: "NIST AI RMF (Map 1.1: intended purpose and context of use are documented and revisited on change)" },
+      { cite: "NIST AI RMF 1.0 (MAP 1.1: intended purpose and context of use are documented; MAP 1.4: business use of existing systems is re-evaluated)", url: "https://airc.nist.gov/airmf-resources/playbook/map/", sourceDate: "2023-01-26" },
       { cite: "ISO/IEC 42001 (AI management system: AI system impact assessment on significant change)" },
     ],
     maintenance: {
@@ -6888,7 +6884,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Deferring to the vendor because it holds the model and the data acknowledges a real asymmetry — the deployer genuinely cannot run the test alone. It defers precisely where the vendor has the strongest incentive and faces the least scrutiny.",
     },
     sources: [
-      { cite: "NIST AI RMF (Measure 2.11: bias evaluation results are documented sufficiently to be independently assessed)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.11: fairness and bias are evaluated and results documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
       { cite: "ISO/IEC 42001 (AI management system: supplier and third-party assurance)" },
     ],
     maintenance: {
@@ -6915,7 +6911,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "EU AI Act Art. 14 (human oversight must be meaningful, not nominal)" },
-      { cite: "NIST AI RMF (Govern 3.2: human oversight roles carry real authority over AI system outputs)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 3.2: roles and responsibilities for human-AI configurations and oversight are defined and differentiated)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6941,7 +6937,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "ISO/IEC 42001 (AI management system: third-party agreements and information requirements)" },
-      { cite: "NIST AI RMF (Govern 6.1: third-party risks are addressed through contractual means)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies and procedures address AI risks associated with third-party entities)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6967,7 +6963,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "ISO/IEC 42001 (AI management system: scope, inventory and periodic review)" },
-      { cite: "NIST AI RMF (Map 4.1: third-party AI is inventoried and assessed on acquisition and renewal)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 6.1: policies address third-party AI risks; MANAGE 3.1: third-party AI risks are regularly monitored and controls applied)", url: "https://airc.nist.gov/airmf-resources/playbook/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -6993,7 +6989,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "Fair Housing Act — discriminatory effect liability (42 U.S.C. 3604; 24 CFR 100.500)" },
-      { cite: "NIST AI RMF (Measure 2.11: disparate outcomes are evaluated for the affected population)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.11: fairness and bias are evaluated and results documented)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -7018,7 +7014,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
         "Monitoring segment-level output quality as closely as uptime is exactly how this would be caught earlier and belongs in the answer. Detection produces a signal; the definition decides whether anyone is obliged to act on it.",
     },
     sources: [
-      { cite: "NIST AI RMF (Manage 4.3: incidents and errors are communicated and responded to)" },
+      { cite: "NIST AI RMF 1.0 (GOVERN 4.3: organizational practices enable AI testing, identification of incidents and information sharing)", url: "https://airc.nist.gov/airmf-resources/playbook/govern/", sourceDate: "2023-01-26" },
       { cite: "EU AI Act Art. 73 (reporting of serious incidents by providers of high-risk AI systems)" },
     ],
     maintenance: {
@@ -7045,7 +7041,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "EU AI Act Art. 15 (accuracy, robustness and cybersecurity of high-risk AI systems)" },
-      { cite: "NIST AI RMF (Manage 2.4: mechanisms limit AI system actions to those intended by the operator)" },
+      { cite: "NIST AI 600-1 (Generative AI Profile, Section 2.9: information security, including indirect prompt injection)", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf", sourceDate: "2024-07-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -7071,7 +7067,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "EU AI Act Art. 72 (post-market monitoring by providers of high-risk AI systems)" },
-      { cite: "NIST AI RMF (Measure 2.4: AI system performance is monitored against deployment conditions)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.4: functionality and behavior of the AI system are monitored in production)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -7175,7 +7171,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "EU AI Act Art. 11 and Annex IV (technical documentation for high-risk AI systems)" },
-      { cite: "NIST AI RMF (Measure 2.3: AI system performance is evaluated in the deployment context)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.3: performance is measured and demonstrated for conditions similar to the deployment setting)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -7257,7 +7253,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "Federal Trade Commission Act — unfair or deceptive acts or practices (15 U.S.C. 45)" },
-      { cite: "NIST AI RMF (Measure 2.11: proxy variables are evaluated for disparate outcomes)" },
+      { cite: "NIST AI RMF Playbook (MEASURE 2.11 suggested actions: identify input features that may serve as proxies for demographic group membership)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -7309,7 +7305,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "EU AI Act Art. 13 (interpretability of high-risk AI system output for deployers)" },
-      { cite: "NIST AI RMF (Measure 2.9: explanation methods are matched to the audience and the decision)" },
+      { cite: "NIST AI RMF Playbook (MEASURE 2.9 suggested actions: explain systems by several methods and assess local and global fidelity of explanations)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -7335,7 +7331,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "EU AI Act Art. 55 (obligations for providers of general-purpose AI models with systemic risk, including adversarial testing)" },
-      { cite: "NIST AI RMF (Measure 2.7: AI system security and resilience are evaluated before and after deployment)" },
+      { cite: "NIST AI RMF 1.0 (MEASURE 2.7: security and resilience are evaluated and documented; MEASURE 3.1: unanticipated and emergent risks are tracked in deployment)", url: "https://airc.nist.gov/airmf-resources/playbook/measure/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
@@ -7361,7 +7357,7 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     },
     sources: [
       { cite: "EU AI Act Art. 86 (right to explanation of individual decision-making)" },
-      { cite: "NIST AI RMF (Manage 4.3: incident information is communicated to relevant AI actors and affected parties)" },
+      { cite: "NIST AI RMF 1.0 (MANAGE 4.3: incidents and errors are communicated to relevant AI actors, including affected communities)", url: "https://airc.nist.gov/airmf-resources/playbook/manage/", sourceDate: "2023-01-26" },
     ],
     maintenance: {
       lastReviewed: "2026-10-04",
