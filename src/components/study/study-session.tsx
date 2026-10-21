@@ -491,7 +491,9 @@ export function StudySession({
         <>
           <ReadCoach questionId={question.id} />
 
+          {/* Keyed per question so a translated page shows the new one: see translation-guard.ts. */}
           <QuestionView
+            key={question.id}
             question={question}
             options={options}
             selected={selected}
@@ -534,6 +536,7 @@ export function StudySession({
                 revealed={revealed}
               />
               <FeedbackPanel
+                key={question.id}
                 question={question}
                 correct={wasCorrect}
                 correctKeys={answerKeys}

@@ -174,6 +174,7 @@ export function ExamRedemption({
       </header>
 
       <QuestionView
+        key={question.id}
         question={question}
         options={options}
         selected={selected}

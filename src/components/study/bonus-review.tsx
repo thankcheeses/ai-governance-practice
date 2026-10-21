@@ -98,6 +98,7 @@ export function BonusReview({
       </header>
 
       <QuestionView
+        key={item.question.id}
         question={item.question}
         options={options}
         selected={selected}

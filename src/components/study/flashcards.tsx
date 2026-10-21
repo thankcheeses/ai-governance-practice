@@ -237,7 +237,7 @@ export function Flashcards({
       {/* Read-aloud covers the scenario and the card face together. */}
       <div ref={spoken}>
       {question.scenario ? (
-        <ScenarioPanel scenario={question.scenario} />
+        <ScenarioPanel key={question.id} scenario={question.scenario} />
       ) : null}
 
       {/*
@@ -261,7 +261,9 @@ export function Flashcards({
         ))}
 
         <article
-          key={revealed ? "back" : "front"}
+          // Per card and per face: replays the flip, and gives a translated page
+          // fresh text to translate instead of the last card's (translation-guard.ts).
+          key={`${question.id}-${revealed ? "back" : "front"}`}
           className={cn(
             "relative overflow-hidden rounded-2xl border bg-card shadow-[0_2px_4px_rgb(15_23_42/0.06),0_14px_32px_-12px_rgb(15_23_42/0.25)]",
             "motion-safe:animate-[card-flip-in_280ms_ease-out]",

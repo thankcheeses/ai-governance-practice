@@ -4,6 +4,7 @@ import { ServiceWorker } from "@/components/app/service-worker";
 import { TelemetryBoot } from "@/components/app/telemetry-boot";
 import { SITE_URL, withBasePath } from "@/lib/base-path";
 import { READING_INIT_SCRIPT } from "@/lib/reading-prefs";
+import { TRANSLATION_GUARD_SCRIPT } from "@/lib/translation-guard";
 import { BRAND } from "@/lib/brand";
 import { ProgressProvider } from "@/lib/store/progress-provider";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/store/theme-provider";
@@ -183,6 +184,12 @@ export default function RootLayout({
           placement test pinning it to the front.
         */}
         <script dangerouslySetInnerHTML={{ __html: READING_INIT_SCRIPT }} />
+        {/*
+          Keeps a browser-translated page from crashing. It has to run before
+          React hydrates, which is why it is an inline script here rather than
+          an effect. See src/lib/translation-guard.ts.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: TRANSLATION_GUARD_SCRIPT }} />
         {/*
           After the theme script, deliberately. Placed above it this failed
           theme-init-placement.test.ts: anything rendered before that script is
