@@ -185,7 +185,12 @@ export function ExamRunner({
         />
       ) : null}
 
-      <div className="mx-auto max-w-3xl">
+      {/*
+        Keyed on the question so each one gets fresh DOM. A browser translating
+        the page replaces text nodes React still holds; reusing them across
+        questions left the previous question's translated text on screen.
+      */}
+      <div key={question.id} className="mx-auto max-w-3xl">
         {question.scenario ? (
           <section
             aria-label="Scenario"

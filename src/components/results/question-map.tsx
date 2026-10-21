@@ -88,6 +88,7 @@ export function QuestionMap({
 
       {open && sitting ? (
         <QuestionDetail
+          key={open.questionId}
           outcome={open}
           sitting={sitting}
           chosen={result.answers[open.questionId] ?? []}
