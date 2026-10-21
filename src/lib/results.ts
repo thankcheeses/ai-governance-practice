@@ -181,6 +181,42 @@ export function scoreResult(result: CompletedResult): SittingScore {
   return scoreSitting(result);
 }
 
+/** How one question in a sitting came out. */
+export type QuestionStatus = "correct" | "incorrect" | "unanswered";
+
+export interface QuestionOutcome {
+  /** 1-based position in the sitting, as numbered on screen. */
+  number: number;
+  questionId: string;
+  status: QuestionStatus;
+}
+
+/**
+ * Every question in sitting order with how it came out — the data behind the
+ * green and red question buttons on the results screen and in the PDF.
+ *
+ * Numbered by position in the sitting, not by position in this list, so a
+ * question that has since left the bank leaves a gap rather than renumbering
+ * the rest. `incorrect` and `unanswered` are both "missed": they are the
+ * `missedIds` of `scoreSitting`, which this agrees with by construction.
+ */
+export function questionOutcomes(sitting: ScorableSitting): QuestionOutcome[] {
+  const out: QuestionOutcome[] = [];
+  sitting.questionIds.forEach((questionId, i) => {
+    const question = getQuestion(questionId);
+    if (!question) return;
+    const chosen = sitting.answers[questionId];
+    const attempted = Array.isArray(chosen) && chosen.length > 0;
+    const status: QuestionStatus = !attempted
+      ? "unanswered"
+      : gradeAnswer(question, chosen)
+        ? "correct"
+        : "incorrect";
+    out.push({ number: i + 1, questionId, status });
+  });
+  return out;
+}
+
 /* ------------------------------------------------------------------ */
 /* Time                                                                */
 /* ------------------------------------------------------------------ */

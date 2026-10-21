@@ -22,7 +22,9 @@ import {
   scoreResult,
   timeRemainingAtFinish,
   weakestSubdomains,
-  isFlawless,} from "./results";
+  isFlawless,
+  questionOutcomes,
+} from "./results";
 
 /**
  * The results report.
@@ -772,6 +774,63 @@ function drawGradingConvention(report: Report): void {
   );
 }
 
+const WHITE = rgb("#ffffff");
+
+/**
+ * Every question as a numbered button: green when it was answered correctly,
+ * red when it was missed (wrong or blank), matching the results screen. A
+ * blank also carries a dash so the two kinds of miss stay distinguishable in a
+ * black-and-white print, where the fill colours collapse to similar greys.
+ */
+function drawQuestionMap(report: Report, result: CompletedResult): void {
+  const outcomes = questionOutcomes(result);
+  if (!outcomes.length) return;
+
+  const CELL_W = 24;
+  const CELL_H = 18;
+  const GAP = 4;
+  const cols = Math.max(1, Math.floor((CONTENT_W + GAP) / (CELL_W + GAP)));
+  const right = outcomes.filter((o) => o.status === "correct").length;
+
+  report.heading("Every question", 30 + CELL_H);
+
+  // Legend: two swatches with counts.
+  report.need(14);
+  report.y += 2;
+  let lx = MARGIN;
+  for (const [label, fill] of [
+    [`Correct (${right})`, SUCCESS],
+    [`Missed (${outcomes.length - right})`, DESTRUCTIVE],
+  ] as const) {
+    report.c.rect(lx, report.y, 9, 9, { radius: 2, fill, tag: "legend-swatch" });
+    report.c.text(label, lx + 13, report.y + 7.5, { font: "sans", size: 8, color: MUTED });
+    lx += 13 + textWidth(label, "sans", 8) + 16;
+  }
+  report.y += 16;
+
+  for (let row = 0; row * cols < outcomes.length; row++) {
+    report.need(CELL_H + GAP);
+    const slice = outcomes.slice(row * cols, (row + 1) * cols);
+    slice.forEach((o, i) => {
+      const x = MARGIN + i * (CELL_W + GAP);
+      const fill = o.status === "correct" ? SUCCESS : DESTRUCTIVE;
+      report.c.rect(x, report.y, CELL_W, CELL_H, {
+        radius: 4,
+        fill,
+        tag: o.status === "correct" ? "question-correct" : "question-missed",
+      });
+      report.c.text(
+        o.status === "unanswered" ? `${o.number}-` : String(o.number),
+        x + CELL_W / 2,
+        report.y + 12.2,
+        { font: "sansBold", size: 7.5, color: WHITE, align: "center" },
+      );
+    });
+    report.y += CELL_H + GAP;
+  }
+  report.y += 2;
+}
+
 function drawMissed(report: Report, result: CompletedResult, score: SittingScore): void {
   if (!score.missedIds.length) return;
   report.heading(`To revisit (${score.missedIds.length})`, 44);
@@ -797,10 +856,17 @@ function drawMissed(report: Report, result: CompletedResult, score: SittingScore
       size: 8,
       color: MUTED,
     });
-    report.c.text(status, MARGIN + 22, report.y, {
+    // A red button, the same red as the question map, with the status on it.
+    report.c.rect(MARGIN + 18, report.y - 8, 40, 11, {
+      radius: 3,
+      fill: DESTRUCTIVE,
+      tag: "missed-pill",
+    });
+    report.c.text(status, MARGIN + 38, report.y, {
       font: "sansBold",
-      size: 7,
-      color: status === "incorrect" ? DESTRUCTIVE : WARNING,
+      size: 6.5,
+      color: WHITE,
+      align: "center",
     });
     const x = MARGIN + 62;
     const w = CONTENT_W - 62;
@@ -971,6 +1037,7 @@ export function resultReportPages(
   drawWhatToReview(report, score, readiness);
   drawNextSteps(report, readiness);
   drawGradingConvention(report);
+  drawQuestionMap(report, result);
   drawMissed(report, result, score);
 
   // Page one, always, in the band held back for it.

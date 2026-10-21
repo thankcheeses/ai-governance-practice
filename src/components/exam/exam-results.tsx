@@ -9,6 +9,7 @@ import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { getQuestion } from "@/content/registry";
 import { SUBDOMAINS } from "@/content/bok";
 import { FlawlessBanner } from "@/components/results/flawless-banner";
+import { QuestionMap } from "@/components/results/question-map";
 import { ResultActions } from "@/components/results/result-actions";
 import {
   type ExamSession,
@@ -157,7 +158,16 @@ export function ExamResults({
         </div>
       ) : null}
 
-      {result.missedIds.length && sitting ? (
+      {/*
+        Every question as a green (correct) or red (missed) button that opens
+        its review. Falls back to the missed-only list below when the sitting
+        cannot be turned into a result record.
+      */}
+      {record ? (
+        <QuestionMap result={record} title="Your answers, question by question" />
+      ) : null}
+
+      {!record && result.missedIds.length && sitting ? (
         <Section title={`Review — ${result.missedIds.length} to revisit`}>
           <ul className="space-y-2.5">
             {result.missedIds.map((id) => {
@@ -182,10 +192,8 @@ export function ExamResults({
                     </span>
                     <span
                       className={cn(
-                        "shrink-0 rounded-md border px-2 py-0.5 text-[0.6875rem]",
-                        chosen.length
-                          ? "border-destructive/40 text-destructive"
-                          : "border-border text-muted-foreground",
+                        "shrink-0 rounded-md border border-destructive bg-destructive px-2 py-0.5 text-[0.6875rem] font-semibold text-destructive-foreground",
+                        !chosen.length && "border-dashed",
                       )}
                     >
                       {chosen.length ? "incorrect" : "blank"}
