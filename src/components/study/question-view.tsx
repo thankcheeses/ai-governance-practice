@@ -8,6 +8,7 @@ import { ProtectedText } from "@/components/study/protected-text";
 import { VisualAid } from "@/components/study/visual-aid";
 import { isMultiSelect, requiredSelections } from "@/lib/grading";
 import { cn } from "@/lib/utils";
+import { ScenarioBoard } from "@/components/visuals/scenario-board";
 
 interface QuestionViewProps {
   question: Question;
@@ -280,17 +281,13 @@ export function ScenarioPanel({ scenario }: { scenario: Scenario }) {
         ))}
       </ProtectedText>
 
+      {/*
+        The facts as a case board rather than a list: the same entries,
+        verbatim, laid out in the order the brief should be read. See
+        components/visuals/scenario-board.tsx.
+      */}
       {scenario.facts?.length ? (
-        <dl className="mt-5 grid gap-x-5 gap-y-2 border-t border-border pt-4 text-[0.875rem] sm:grid-cols-[minmax(9rem,auto)_1fr]">
-          {scenario.facts.map((fact) => (
-            <div key={fact.label} className="contents">
-              <dt className="text-[0.6875rem] uppercase tracking-[0.1em] text-muted-foreground sm:pt-1">
-                {fact.label}
-              </dt>
-              <dd className="measure mb-2 leading-relaxed sm:mb-0">{fact.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <ScenarioBoard scenario={scenario} className="mt-5" />
       ) : null}
     </section>
   );

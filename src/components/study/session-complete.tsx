@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FlawlessBanner } from "@/components/results/flawless-banner";
+import { QuestionMap } from "@/components/results/question-map";
 import { ResultActions } from "@/components/results/result-actions";
 import { Button } from "@/components/ui/button";
 import { SUBDOMAINS } from "@/content/bok";
@@ -114,6 +115,7 @@ export function SessionComplete({
           </ul>
         </section>
       ) : null}
+      <QuestionMap result={result} />
       <ResultActions result={result} />
       <div className="mt-8 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
         {showQueue ? (
