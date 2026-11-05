@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, IBM_Plex_Serif, Inter } from "next/font/google";
 import { ServiceWorker } from "@/components/app/service-worker";
 import { TelemetryBoot } from "@/components/app/telemetry-boot";
 import { SITE_URL, withBasePath } from "@/lib/base-path";
+import { startupImages } from "@/lib/pwa-splash";
 import { READING_INIT_SCRIPT } from "@/lib/reading-prefs";
 import { TRANSLATION_GUARD_SCRIPT } from "@/lib/translation-guard";
 import { BRAND } from "@/lib/brand";
@@ -58,7 +59,22 @@ export const metadata: Metadata = {
     capable: true,
     title: BRAND.name,
     statusBarStyle: "black-translucent",
+    /*
+      iOS matches a launch image on exact device geometry, so these are derived
+      from one table rather than written out — see src/lib/pwa-splash.ts. A
+      device not in the list gets the default blank launch, which is what every
+      device got before any of them existed, so the list being incomplete
+      cannot be a regression.
+    */
+    startupImage: startupImages,
   },
+  /*
+    The touch icon is a PNG because iOS ignores an SVG one. It used to be
+    `apple-icon.svg`, which emitted a link that did nothing: a home-screen
+    install showed a screenshot of the page where the mark should have been.
+    `src/app/apple-icon.png` is picked up by Next's file convention, which
+    prefixes the base path itself.
+  */
   keywords: [
     "AI governance",
     "governance scenarios",
@@ -122,6 +138,16 @@ export const metadata: Metadata = {
     override it themselves.
   */
   robots: { index: true, follow: true },
+  /*
+    Next emits the standardised `mobile-web-app-capable` for
+    `appleWebApp.capable` and no longer emits Apple's original spelling. On
+    iOS 16.4 and later the manifest's `display: standalone` is what opens the
+    app full screen, so this is belt and braces for older iOS, where the
+    Apple-prefixed meta was the only thing that did it. One line, and the
+    alternative is a browser bar on an installed app for anyone who has not
+    updated.
+  */
+  other: { "apple-mobile-web-app-capable": "yes" },
 };
 
 export const viewport: Viewport = {

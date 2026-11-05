@@ -8,6 +8,7 @@ import { LanguageChoice } from "@/components/app/language-choice";
 import { StarButton } from "@/components/civic/star-button";
 import { isStarConfigured } from "@/lib/github/stars";
 import { Button } from "@/components/ui/button";
+import { InstallApp } from "@/components/app/install-app";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getTrack } from "@/content/registry";
@@ -83,6 +84,13 @@ function Settings() {
       </header>
 
       {/* Appearance */}
+      {/*
+        Also here, not only on the landing screen: the home card is for the
+        first visit, and this is where someone who decided later goes looking.
+        Both render nothing once the app is installed.
+      */}
+      <InstallApp className="mb-6" />
+
       <Section title="Appearance">
         <div className="grid grid-cols-3 gap-2">
           {THEMES.map((option) => (

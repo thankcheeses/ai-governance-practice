@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
+import { InstallApp } from "@/components/app/install-app";
 import { ResumeChip } from "@/components/app/resume-chip";
 import { GateRail } from "@/components/civic/gpai/diagrams";
 import {
@@ -228,6 +229,15 @@ function Home() {
             </div>
           </div>
         </FocusCard>
+
+        {/*
+          Renders nothing unless the browser can actually install, so it costs
+          an installed user and an unsupported browser no space at all. It sits
+          on the landing screen because that is the one screen a first visit is
+          guaranteed to see, and a home-screen install is the thing most likely
+          to bring them back.
+        */}
+        <InstallApp />
 
         <section>
           <SectionHeading
