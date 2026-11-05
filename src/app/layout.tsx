@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Serif, Inter } from "next/font/google";
 import { ServiceWorker } from "@/components/app/service-worker";
 import { TelemetryBoot } from "@/components/app/telemetry-boot";
 import { SITE_URL, withBasePath } from "@/lib/base-path";
@@ -19,30 +18,20 @@ import "./motion.css";
   headings and key learning questions). All UI, labels, controls, body copy,
   and data use humanist sans-serif (Inter). Monospace is retained only for
   code/content blocks and as a fallback.
+
+  The faces are served from this repository rather than fetched from Google at
+  build time — see ./fonts.css and scripts/build-local-fonts.mjs. `next/font`
+  made every build depend on `fonts.googleapis.com` answering, which took CI
+  red on a change that touched no typography at all. The same 57 files and the
+  same unicode-range subsetting still ship; only where they come from changed.
+
+  The three `--font-*` variables the rest of the stylesheet reads used to be
+  minted by `next/font` and applied as a class on <html>. They are declared in
+  globals.css now, next to the `--font-sans` / `--font-serif` / `--font-mono`
+  stacks that consume them, which is where someone looking for them would
+  think to look.
 */
-const plexSerif = IBM_Plex_Serif({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  // Upright carries the editorial headings; italic is kept for the wordmark,
-  // which is a signature rather than interface text.
-  style: ["normal", "italic"],
-  variable: "--font-plex-serif",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-plex-mono",
-  display: "swap",
-});
+import "./fonts.css";
 
 export const metadata: Metadata = {
   title: {
@@ -167,7 +156,6 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="light"
-      className={`${plexSerif.variable} ${inter.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-dvh antialiased">
