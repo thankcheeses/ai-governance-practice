@@ -21,9 +21,10 @@ import "./motion.css";
 
   The faces are served from this repository rather than fetched from Google at
   build time — see ./fonts.css and scripts/build-local-fonts.mjs. `next/font`
-  made every build depend on `fonts.googleapis.com` answering, which took CI
-  red on a change that touched no typography at all. The same 57 files and the
-  same unicode-range subsetting still ship; only where they come from changed.
+  made every build depend on `fonts.googleapis.com` answering, and a build
+  that touched no typography at all went red inside that loader. The same 57
+  files and the same unicode-range subsetting still ship; only where they come
+  from changed.
 
   The three `--font-*` variables the rest of the stylesheet reads used to be
   minted by `next/font` and applied as a class on <html>. They are declared in

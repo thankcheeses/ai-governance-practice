@@ -6,9 +6,10 @@ import { test } from "node:test";
  * The webfonts are served from this repository, and these tests are what keep
  * them that way.
  *
- * `next/font/google` fetched the font CSS from Google on every build, so a bad
- * response there failed the build — which is what took CI red on #95, on a
- * change that touched no typography at all. The fix is only a fix for as long
+ * The font CSS used to be fetched from Google on every build, so the build
+ * could fail on something no commit here controls — and one did, inside that
+ * loader, on #95, on a change that touched no typography at all. The fix is
+ * only a fix for as long
  * as nobody reintroduces the import, and reintroducing it would look like a
  * tidy-up: the `next/font` form is shorter and reads more idiomatically.
  */
@@ -16,20 +17,69 @@ const LAYOUT = "src/app/layout.tsx";
 const FONT_CSS = "src/app/fonts.css";
 const FONT_DIR = "src/app/fonts";
 
-test("the layout does not fetch fonts at build time", () => {
-  const source = readFileSync(LAYOUT, "utf8");
-  // Matched on the import rather than the identifier: a comment may well
-  // mention `next/font` while explaining why it is not used.
-  assert.ok(
-    !/from\s+["']next\/font\/google["']/.test(source),
-    "layout.tsx imports next/font/google again — every build now depends on " +
-      "fonts.googleapis.com answering, which is the failure this removed",
+test("nothing under src/ fetches fonts at build time", () => {
+  /*
+    Searched across the whole tree, not just the layout.
+
+    The first version of this test read `layout.tsx` alone, which is where the
+    import happened to live. An import added to any other page or component
+    would have reinstated exactly the same build-time fetch with the test
+    still green — and it is the kind of thing that looks like a tidy-up,
+    because the framework helper is shorter than a stylesheet plus a variable
+    declaration.
+
+    The needle is assembled at runtime rather than written out, because a test
+    that greps for a literal it also contains matches itself. That already
+    happened once in this repo, to the test guarding the post-exam second
+    look, and it fails in the confusing direction: the suite goes red with
+    nothing wrong in the code.
+  */
+  const needle = new RegExp(`from\\s+["']next/${"fo" + "nt"}`);
+  const offenders: string[] = [];
+
+  const walk = (dir: string) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const path = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) {
+        walk(path);
+      } else if (/\.(tsx?|jsx?|mts|mjs)$/.test(entry.name)) {
+        if (needle.test(readFileSync(path, "utf8"))) offenders.push(path);
+      }
+    }
+  };
+  walk("src");
+
+  assert.deepEqual(
+    offenders,
+    [],
+    `these files import the framework's font helper, so the build depends on ` +
+      `Google again:\n${offenders.join("\n")}`,
   );
+
   assert.match(
-    source,
+    readFileSync(LAYOUT, "utf8"),
     /import\s+["']\.\/fonts\.css["']/,
     "the local font stylesheet is no longer imported",
   );
+});
+
+test("the committed font names carry no build hash", () => {
+  /*
+    Webpack re-hashes an asset it emits, so a build made from these files
+    names them `X-s.<hash>.woff2`. Harvesting that output verbatim baked the
+    hash in, and the next run appended another — three runs in, every file was
+    called `X-s.<h1>.<h2>.<h3>.woff2` and each regeneration rewrote all 57
+    names. The generator normalises back to the name `next/font` gave; this is
+    what keeps a regeneration an empty diff rather than a rename of everything.
+  */
+  for (const file of readdirSync(FONT_DIR)) {
+    if (!file.endsWith(".woff2")) continue;
+    assert.ok(
+      /^[0-9a-f]+-s(?:\.p)?\.woff2$/.test(file),
+      `${file} carries a build hash — re-run the generator rather than ` +
+        "committing a build's own output",
+    );
+  }
 });
 
 test("every face the stylesheet declares points at a committed file", () => {
