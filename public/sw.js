@@ -22,7 +22,7 @@
  */
 
 // Bump to invalidate every cached asset. Old caches are deleted on activate.
-const CACHE = "ai-governance-practice-v1";
+const CACHE = "ai-governance-practice-v2";
 
 /**
  * Where this app is served from — "/" at a domain root, "/<repo>/" on a GitHub
@@ -42,7 +42,19 @@ const at = (path) => `${BASE}${path}`;
 
 /**
  * Fetched on install so a first-time visitor who goes offline immediately still
- * has somewhere to land. Everything else is cached as it is actually used —
+ * has somewhere to land.
+ *
+ * Every screen reachable from the navigation, rather than the landing page and
+ * `study/` alone: those two were enough to prove offline worked and not enough
+ * to study offline, because the first tap on Review or Exam left the app
+ * showing its offline shell instead of the screen the learner asked for. The
+ * questions themselves are in the JavaScript bundle, which `_next/static` has
+ * always cached, so the shells were the only missing piece.
+ *
+ * Session routes (`study/session/`, `exam/session/`) are deliberately absent:
+ * they are reached from these screens, by which point the cache has them.
+ *
+ * Everything else is cached as it is actually used —
  * Next emits content-hashed chunk names, so a hardcoded asset list would be
  * stale the moment anything is rebuilt.
  *
@@ -50,7 +62,17 @@ const at = (path) => `${BASE}${path}`;
  * writes `home/index.html`). Requesting the unslashed form would take a
  * redirect, and `cache.add` will not store a redirected response.
  */
-const SHELL = [at(""), at("home/"), at("study/"), at("manifest.webmanifest")];
+const SHELL = [
+  at(""),
+  at("home/"),
+  at("study/"),
+  at("review/"),
+  at("review/cards/"),
+  at("exam/"),
+  at("dashboard/"),
+  at("settings/"),
+  at("manifest.webmanifest"),
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -87,6 +109,7 @@ function isCacheableAsset(url) {
   return (
     url.pathname.startsWith(at("_next/static/")) ||
     url.pathname.startsWith(at("icons/")) ||
+    url.pathname.startsWith(at("splash/")) ||
     url.pathname.startsWith(at("visual-aids/")) ||
     // Brand imagery: the splash mark. Without it an offline launch paints the
     // one route guaranteed to be hit before anything has warmed the cache, with

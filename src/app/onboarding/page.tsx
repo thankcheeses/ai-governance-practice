@@ -42,7 +42,16 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-8 sm:py-12">
+    /*
+      A <main>, like every other route's content region.
+
+      Onboarding sits outside `AppGate`, so it never inherited `AppShell`'s
+      landmark — and it is the screen a first visit actually lands on, because
+      the gate redirects here until onboarding is done. So the one page a new
+      visitor and an automated audit both see was the one page with nothing to
+      navigate by.
+    */
+    <main className="mx-auto flex min-h-dvh max-w-lg flex-col px-5 py-8 sm:py-12">
       <header className="mb-9">
         <span className="font-serif text-[1.125rem]">{BRAND.name}</span>
       </header>
@@ -188,7 +197,7 @@ export default function OnboardingPage() {
           </Button>
         ) : null}
       </footer>
-    </div>
+    </main>
   );
 }
 
