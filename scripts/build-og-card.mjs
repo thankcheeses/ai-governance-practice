@@ -91,8 +91,16 @@ function brandFontCss() {
         // can catch exactly that frame. `block` holds the text until the real
         // face is ready.
         .replace("font-display:swap", "font-display:block")
+        /*
+          The base path is optional in this match. A `build:pages` output
+          carries it (`/ai-governance-practice/_next/...`) and a plain `build`
+          does not, and a pattern that insisted on the bare form matched
+          nothing against the former — surfacing as "brand fonts did not load",
+          which points at the fonts rather than at the build you happen to have
+          on disk. Either form resolves to the same file.
+        */
         .replace(
-          /url\(\/_next\/static\/(media\/[^)]+)\)/g,
+          /url\((?:[^)]*?)?\/_next\/static\/(media\/[^)]+)\)/g,
           (_m, rel) => `url("file://${resolve(NEXT_STATIC, rel)}")`,
         ),
     )
