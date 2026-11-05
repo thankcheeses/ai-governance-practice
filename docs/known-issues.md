@@ -172,6 +172,61 @@ says the provider's composition is no longer what is protecting it.
 
 ---
 
+## Fixed — a build that could fail on something no commit controlled
+
+**Status:** fixed by serving the webfonts from this repository — see
+`scripts/build-local-fonts.mjs`. Kept here because the failure looked like a
+flake, and treating it as one would have been wrong.
+
+### Symptom
+
+`verify` red on a pull request, in `build:mobile`:
+
+```
+An error occurred in `next/font`.
+TypeError: Cannot read properties of null (reading '1')
+    at @next/font/dist/google/loader.js:122:78
+```
+
+`next/font/google` downloaded the font CSS from Google on every build, so any
+build could fail on a response nothing in this repository controls.
+
+### What was measured, and what was not
+
+The response itself was never captured, so the cause is recorded as evidence
+rather than as a diagnosis:
+
+| | |
+|---|---|
+| `build:pages`, same job, seconds earlier | **passed** |
+| `build:mobile`, same three families | **failed in the loader** |
+| `release:gate` locally on that commit | **passed**, `build:mobile` included |
+| Re-run of the failed job, no code change | **passed** |
+
+That is consistent with a bad or throttled response from Google and
+inconsistent with anything in the diff. It is enough to justify removing the
+dependency; it is not enough to say what Google returned.
+
+### The fix, and how it is checked
+
+The generator copies what a build already produced — the same 57 files, 81
+`@font-face` rules and unicode ranges — into `src/app/fonts/`, referenced
+relatively from `src/app/fonts.css`. **A build with every proxy pointed at a
+dead port now completes**, which is the whole claim and the only measurement
+that settles it.
+
+Two traps found while doing it, both silent:
+
+- The rule filter matched `font-family:"IBM Plex Serif"` but not
+  `"IBM Plex Serif Fallback"`, so the serif lost its generated `size-adjust`
+  metrics — invisible in a diff, a reflow on a slow connection.
+- Harvesting a build made *from* these files baked webpack's content hash into
+  the committed name, and each run appended another. Three runs in, every file
+  was `X-s.<h1>.<h2>.<h3>.woff2`. The generator normalises the name back, and a
+  test asserts no committed name carries a build hash.
+
+---
+
 ## Cannot be verified from this environment
 
 These are not defects. They are claims this project cannot check from a
@@ -212,6 +267,28 @@ amount of further tooling closes it.
 ---
 
 ## Open, accepted
+
+### No `<link rel="preload">` for the font subsets
+
+`next/font` emitted eleven preload hints — one per preloadable Latin subset,
+the files whose names carry `-s.p.`. Plain `@font-face` CSS gets none, so
+those faces are discovered only once the stylesheet has parsed. Measured: the
+build before the fonts moved emits eleven `as="font"` preloads; the one after
+emits zero.
+
+It is a real first-paint cost, and it is not fixed, because every route to it
+reaches past "stop the build fetching fonts":
+
+- importing the files so webpack resolves their hashed URLs **does not
+  build** — `next/font` was what taught webpack about `.woff2`, and with it
+  gone there is no loader for a bare font import;
+- adding a webpack asset rule may not be honoured by `next dev`, depending on
+  which bundler it runs;
+- moving the stylesheet and the files into `public/` and preloading stable
+  unhashed URLs works, but changes how the app's CSS is delivered.
+
+The third is the most likely answer. It wants its own change and its own
+measurement rather than a rider on a build fix.
 
 ### `npm run check` exits non-zero on the originality flag
 

@@ -12,10 +12,15 @@
  *   An error occurred in `next/font`.
  *   TypeError: Cannot read properties of null (reading '1')
  *
- * which is the loader's regex finding nothing in a response it expected CSS
- * in. It happened on PR #95 — `build:pages` passed and `build:mobile`, running
- * seconds later against the same three families, did not. Nothing about the
- * change caused it and nothing about the next change will prevent it.
+ * That is the loader dereferencing null after a regex found nothing in what it
+ * fetched. What the response actually contained was never captured, so the
+ * cause is given here as the evidence rather than as a diagnosis: on PR #95
+ * `build:pages` passed and `build:mobile`, running seconds later in the same
+ * job against the same three families, failed here; `release:gate` passed
+ * locally on that commit; and re-running the job with no code change went
+ * green. That is consistent with a bad or throttled response from Google and
+ * inconsistent with anything in the diff — enough to justify removing the
+ * dependency, and not enough to claim what Google returned.
  *
  * `scripts/build-og-card.mjs` already refuses this dependency in as many
  * words: it reads the font files off disk so that "the render needs no egress
@@ -74,9 +79,9 @@ const OUT_CSS = resolve(HERE, "..", "src", "app", "fonts.css");
 const FAMILIES = ["IBM Plex Serif", "IBM Plex Mono", "Inter"];
 
 const cssDir = resolve(NEXT_STATIC, "css");
-let sheets;
+let allCss;
 try {
-  sheets = readdirSync(cssDir)
+  allCss = readdirSync(cssDir)
     .filter((f) => f.endsWith(".css"))
     .map((f) => readFileSync(resolve(cssDir, f), "utf8"))
     .join("\n");
@@ -100,7 +105,7 @@ try {
 const familyPattern = new RegExp(
   `font-family:"?(?:${FAMILIES.map((f) => f.replace(/ /g, "\\s")).join("|")})(?:\\sFallback)?"?[;}]`,
 );
-const rules = (sheets.match(/@font-face\{[^}]*\}/g) ?? []).filter((rule) =>
+const rules = (allCss.match(/@font-face\{[^}]*\}/g) ?? []).filter((rule) =>
   familyPattern.test(rule),
 );
 if (!rules.length) {
@@ -123,14 +128,37 @@ for (const file of readdirSync(OUT_DIR)) {
   if (file.endsWith(".woff2")) rmSync(resolve(OUT_DIR, file));
 }
 
+/**
+ * The name `next/font` gave a file, with any hash a later build appended
+ * stripped back off.
+ *
+ * Webpack re-hashes an asset it emits, so a build made *from* these committed
+ * files names them `X-s.<hash>.woff2`. Harvesting that output verbatim baked
+ * the hash into the committed name, and the next run appended another —
+ * renaming all 57 files every time and making the diff unreadable. It took
+ * three runs here before anyone noticed, which is the argument for
+ * normalising rather than for being careful.
+ *
+ * Every trailing hex segment is stripped, not just one, so a name that has
+ * already accumulated several collapses back to the original. That makes a
+ * re-run idempotent: same bytes, same names, identical `fonts.css`, whether
+ * the build it read came from `next/font` or from these files.
+ */
+function stableName(file) {
+  return file.replace(/^(.*?-s(?:\.p)?)(?:\.[0-9a-f]{6,10})+\.woff2$/, "$1.woff2");
+}
+
 const copied = new Set();
 const rewritten = rules.map((rule) =>
-  rule.replace(/url\(\/_next\/static\/media\/([^)]+)\)/g, (_m, file) => {
-    if (!copied.has(file)) {
-      copyFileSync(resolve(NEXT_STATIC, "media", file), resolve(OUT_DIR, file));
-      copied.add(file);
+  // The base path is optional: a `build:pages` output carries it, a plain
+  // `build` does not, and both name the same file.
+  rule.replace(/url\((?:[^)]*?)?\/_next\/static\/media\/([^)]+)\)/g, (_m, file) => {
+    const name = stableName(file);
+    if (!copied.has(name)) {
+      copyFileSync(resolve(NEXT_STATIC, "media", file), resolve(OUT_DIR, name));
+      copied.add(name);
     }
-    return `url("./fonts/${file}")`;
+    return `url("./fonts/${name}")`;
   }),
 );
 
@@ -151,6 +179,26 @@ for (const [family, file] of [
   }
 }
 
+/*
+  No preload hints are emitted, and that is a known gap rather than an
+  oversight.
+
+  `next/font` emitted `<link rel="preload">` for the eleven subsets whose
+  names carry `-s.p.`, and plain `@font-face` CSS gets none, so those faces
+  are now discovered only once the stylesheet has parsed. Measured: the
+  pre-change build emits eleven `as="font"` preloads, this one emits zero.
+
+  Restoring them needs a URL that webpack has hashed, and the obvious route —
+  importing the files so webpack resolves them — does not build: `next/font`
+  was what taught webpack about `.woff2`, and with it gone there is no loader
+  for a bare font import. The two ways out both reach past this change: add a
+  webpack asset rule (which `next dev` may not honour, depending on the
+  bundler), or move the stylesheet and the files into `public/` and reference
+  stable unhashed URLs from both the preload and the CSS. Either is a change
+  to how CSS is delivered, which is more than removing a build-time fetch, so
+  it is left for a decision of its own.
+*/
+
 const header = `/*
  * The app's webfonts, served from this repository.
  *
@@ -166,4 +214,6 @@ const header = `/*
 `;
 
 writeFileSync(OUT_CSS, `${header}\n${rewritten.join("\n")}\n`);
-console.log(`${rewritten.length} @font-face rules, ${copied.size} files -> src/app/fonts/`);
+console.log(
+  `${rewritten.length} @font-face rules, ${copied.size} files -> src/app/fonts/`,
+);
