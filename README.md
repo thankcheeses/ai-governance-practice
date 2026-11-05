@@ -107,6 +107,49 @@ locally on the device. Optional sign-in adds synchronization across devices.
 
 ---
 
+## Visual language
+
+The product is built in **OpenCode Terminal Mono**: monospace type, flat colour,
+4px radius, restrained borders. Warm paper (`#f4ede4`), navy ink (`#1a2332`),
+terracotta accent (`#b85a32`). That system is the default and the fallback — if
+a screen is in doubt, it stays flat.
+
+Within it, illustration is allowed, and these are the rules it follows.
+
+**1. A visual has to do a job.** Every graphic earns its place by carrying
+information the text cannot: a diagram that shows a shape, a chart that shows a
+quantity, a mark that tells you a surface is empty rather than broken. Art that
+only decorates does not ship.
+
+**2. Line art over rendered art, inside the app.** Illustration in the
+interface is drawn in the product's own palette as flat line work —
+`currentColor` where it can be, so it inherits the surface it sits on and
+survives both themes. Glossy, bevelled or chromed treatments stay out of
+operating surfaces; they belong to splash, store listings and marketing. The
+reference renders in [`public/ui-kit/`](public/ui-kit/) are briefing material,
+not components, and nothing there is imported into `src/components/ui/`.
+
+**3. A picture of a control is never a control.** Buttons, inputs and bars are
+real components that focus, disable and answer a keyboard. An image of one
+cannot, and swapping it in trades accessibility for gloss.
+
+**4. Diagrams are content, and content is accountable.** A diagram that teaches
+is authored like any other material: `alt` text is required, not optional, and a
+figure that makes a claim carries the same sourcing as the prose around it. See
+[Content quality](#content-quality).
+
+**5. Degrade to text, never to a hole.** A missing or failed asset renders
+nothing and leaves the text standing on its own — the behaviour
+`src/components/study/visual-aid.tsx` already implements. A screen is never
+allowed to look broken because a picture did not arrive.
+
+Where visuals belong: empty and zero states, onboarding, teaching diagrams
+(`VisualAid`), progress and results, splash, and marketing surfaces. Where they
+do not: as chrome on surfaces whose job is to be operated, and anywhere they
+would compete with the question a learner is trying to answer.
+
+---
+
 ## Run it locally
 
 ```bash
