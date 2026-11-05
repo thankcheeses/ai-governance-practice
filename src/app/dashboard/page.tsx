@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
+import { EmptyMark } from "@/components/app/empty-mark";
 import { OversightLevelComparison } from "@/components/civic/gpai";
 import { ReviewForecast } from "@/components/app/domain-bar";
 import { Button } from "@/components/ui/button";
@@ -58,6 +59,7 @@ function Dashboard() {
         </header>
         <Card className="border-accent/20 bg-gradient-to-br from-accent-tint/40 via-card to-card shadow-card">
           <CardContent className="flex flex-col items-center p-8 text-center">
+            <EmptyMark name="chart" />
             <h2 className="mt-5 font-semibold">No data yet</h2>
             <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
               Work through a few scenarios and this page will show accuracy by
@@ -92,6 +94,7 @@ function Dashboard() {
         pattern={pattern}
         calibration={calibration}
         misses={misses}
+        attempts={attempts}
       />
 
       <section>

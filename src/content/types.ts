@@ -158,8 +158,20 @@ export interface ReasoningMeta {
  * decision flow, failure points. Target for v1 is 8-12 questions, never all of
  * them, and never decoration.
  *
- * `src` points at a static asset under /public. Assets are supplied separately;
- * the app renders what exists and shows nothing when the field is absent.
+ * A diagram arrives one of two ways, and exactly one of them is set.
+ *
+ * `figure` names a diagram drawn inline in `src/components/study/diagrams.tsx`.
+ * Prefer this. An inline figure is stroked in `currentColor`, so it inherits
+ * the surface it lands on and reads in both themes from one definition — the
+ * behaviour README "Visual language" rule 2 asks for. It also costs no network
+ * request and cannot 404.
+ *
+ * `src` points at a static raster under /public, for figures that are rendered
+ * rather than drawn. An image cannot inherit the theme, so a raster has to be
+ * legible on both the light and dark card: check it on both before shipping.
+ *
+ * Either way the app renders what exists and shows nothing when neither field
+ * resolves.
  */
 export type VisualAidType =
   | "workflow"
@@ -168,13 +180,19 @@ export type VisualAidType =
   | "architecture"
   | "timeline";
 
-export interface VisualAid {
+/** Diagrams drawn inline. Keep in sync with `DIAGRAMS` in `diagrams.tsx`. */
+export type DiagramName = "eu-risk-ladder" | "disclosure-timing";
+
+interface VisualAidBase {
   type: VisualAidType;
-  src: string;
   /** Required — the diagram must be described for non-visual readers. */
   alt: string;
   caption?: string;
 }
+
+export type VisualAid =
+  | (VisualAidBase & { figure: DiagramName; src?: never })
+  | (VisualAidBase & { src: string; figure?: never });
 
 /**
  * A fact pattern several questions interrogate.

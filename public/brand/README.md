@@ -62,8 +62,10 @@ without a raster, weighs nothing, and belongs to the monospace, flat,
 4px-radius system the product is built in.
 
 Where a rendered treatment is used at all it is opt-in, and confined to the
-splash. Everywhere the product *operates* rather than *presents* — including
-empty states, which `README.md` §11 covers explicitly — keeps the flat mark.
+splash. Everywhere the product *operates* rather than *presents* keeps the flat
+mark. That includes empty states: they now carry illustration, but flat line art
+in the product's own palette, never one of these renders. See "Visual language"
+in the root `README.md` for the rules that govern both.
 
 ## Weight
 

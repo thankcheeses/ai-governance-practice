@@ -9,8 +9,10 @@ import {
   type MarkName,
 } from "@/components/civic/dimensional-mark";
 import { ScenarioDecisionFrame } from "@/components/civic/gpai";
+import { TrackShape } from "@/components/app/track-shape";
 import { Button } from "@/components/ui/button";
 import { getTrack } from "@/content/registry";
+import { bokDomainSlices } from "@/lib/analytics";
 import {
   BRAND,
   ONBOARDING_POINTS,
@@ -32,9 +34,15 @@ const POINT_MARKS: MarkName[] = ["study", "decision", "progress"];
  */
 export default function OnboardingPage() {
   const router = useRouter();
-  const { completeOnboarding } = useProgress();
+  const { completeOnboarding, progress } = useProgress();
   const [step, setStep] = useState(0);
   const track = getTrack();
+  /*
+    Domain sizes come from the bank, not from progress — at onboarding there is
+    none. `bokDomainSlices` reads `available` straight off the content, so a
+    blank history still yields the real distribution.
+  */
+  const domainSlices = bokDomainSlices(progress, track.id);
 
   function finish() {
     completeOnboarding();
@@ -79,6 +87,7 @@ export default function OnboardingPage() {
                   {track.questionCount} questions across {track.domains.length}{" "}
                   domains.
                 </p>
+                <TrackShape slices={domainSlices} className="mt-4" />
               </div>
             </Step>
           ) : step === 1 ? (
