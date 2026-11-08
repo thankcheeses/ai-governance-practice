@@ -142,6 +142,57 @@
         margin-top: 20px; font-size: 13.5px; line-height: 1.5;
         color: var(--muted); text-align: center;
       }
+
+      /*
+        ---- The animated card (og-card.gif) ----
+
+        The four passes light up in order, Facts to Action, and the loop comes
+        to rest on Action. Time zero IS the finished card: platforms that do not
+        animate a link preview (X, LinkedIn, Facebook, WhatsApp) show the first
+        frame, so the first frame has to be the whole message on its own. The
+        same timeline is used for the still PNG, captured at t=0.
+
+        One 4.8 s loop. Each band is lit for its slot; Action is lit at the
+        start and from its slot to the end, so the GIF's last frame meets its
+        first without a jump.
+      */
+      .band { transition: none; }
+      .band.b1 { animation: lit-1 4.8s linear infinite; }
+      .band.b2 { animation: lit-2 4.8s linear infinite; }
+      .band.b3 { animation: lit-3 4.8s linear infinite; }
+      .band.b4 { animation: lit-4 4.8s linear infinite; }
+      .pointer { animation: point 4.8s cubic-bezier(.45,0,.25,1) infinite; }
+
+      @keyframes lit-1 { 0%,12%,30%,100% { background:#efe6db; color:var(--ink); border-color:rgb(26 35 50 / .14); transform:none }
+                         15%,27% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(184 90 50 / .45); transform:scale(1.03) } }
+      @keyframes lit-2 { 0%,28%,46%,100% { background:#efe6db; color:var(--ink); border-color:rgb(26 35 50 / .14); transform:none }
+                         31%,43% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(184 90 50 / .45); transform:scale(1.03) } }
+      @keyframes lit-3 { 0%,44%,62%,100% { background:#efe6db; color:var(--ink); border-color:rgb(26 35 50 / .14); transform:none }
+                         47%,59% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(184 90 50 / .45); transform:scale(1.03) } }
+      @keyframes lit-4 { 0%,9%,63%,100% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(184 90 50 / .45) }
+                         12%,60% { background:#efe6db; color:var(--ink); border-color:rgb(26 35 50 / .14) }
+                         66%,72% { transform:scale(1.05) } 0%,80%,100% { transform:none } }
+
+      /* A small marker that walks down the four passes. */
+      .stack { position: relative; }
+      .pointer {
+        position: absolute; left: -16px; top: 0; width: 9px; height: 9px;
+        border-radius: 999px; background: var(--accent);
+        box-shadow: 0 0 0 4px rgb(184 90 50 / .18);
+      }
+      /* Band centres sit 55 px apart; each band is 6% narrower per side than
+         the one above, so the marker steps in by ~20 px as it steps down. */
+      @keyframes point {
+        0%, 9% { transform: translate(59px, 183px) }
+        13%, 27% { transform: translate(0, 18px) }
+        29%, 43% { transform: translate(20px, 73px) }
+        45%, 59% { transform: translate(39px, 128px) }
+        61%, 100% { transform: translate(59px, 183px) }
+      }
+
+      /* Rendering a still or a frame: the build script pauses every animation
+         and seeks it, so frames are exact rather than sampled from a clock. */
+      .frozen * { animation-play-state: paused !important; }
     </style>
   </head>
   <body>
@@ -160,12 +211,14 @@
           <li><span class="tick"></span><span><b data-count="questions">350</b> original questions</span></li>
           <li><span class="tick"></span><span>Every wrong option explained, not just the right one</span></li>
           <li><span class="tick"></span><span>Timed exam mode and spaced repetition</span></li>
+          <li><span class="tick"></span><span>Flashcards, read-aloud, and it works with your browser&rsquo;s translate</span></li>
         </ul>
       </div>
 
       <div class="panel">
         <h2>How to read a scenario</h2>
         <div class="stack">
+          <span class="pointer" aria-hidden="true"></span>
           <span class="band b1">Facts</span>
           <span class="band b2">Obligations</span>
           <span class="band b3">Risks</span>

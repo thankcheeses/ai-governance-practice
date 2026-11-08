@@ -65,7 +65,18 @@ if (!chromium) {
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SOURCE = resolve(HERE, "og-card.html");
 const OUT = resolve(HERE, "..", "public", "og-card.png");
+const OUT_GIF = resolve(HERE, "..", "public", "og-card.gif");
 const NEXT_STATIC = resolve(HERE, "..", ".next", "static");
+
+/*
+  The animated card. One 4.8 s loop (the CSS timeline in og-card.html),
+  sampled at 12 fps. 1x, not 2x: a GIF's size grows with every pixel of every
+  frame, and the platforms that animate a preview show it at card size. Frame
+  one is t=0, the same instant as the still, so a platform that shows only the
+  first frame shows the finished card.
+*/
+const LOOP_MS = 4800;
+const FPS = 12;
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -146,9 +157,49 @@ try {
     );
   }
 
+  // Every animation paused and seeked, so each capture is an exact instant of
+  // the timeline rather than whatever the clock happened to reach.
+  const seek = (ms) =>
+    page.evaluate((t) => {
+      document.body.classList.add("frozen");
+      for (const a of document.getAnimations()) a.currentTime = t;
+    }, ms);
+
+  await seek(0);
   await page.screenshot({ path: OUT, clip: { x: 0, y: 0, width: WIDTH, height: HEIGHT } });
   const kb = (statSync(OUT).size / 1024).toFixed(0);
   console.log(`wrote public/og-card.png  ${WIDTH * SCALE}x${HEIGHT * SCALE}  ${kb} KB`);
+
+  // ---- animated GIF ----
+  let sharp;
+  try {
+    sharp = require("sharp");
+  } catch {
+    console.error("sharp is not installed (it comes with next). Skipping og-card.gif.");
+  }
+  if (sharp) {
+    const gifPage = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: 1 });
+    await gifPage.goto(`file://${SOURCE}`, { waitUntil: "load" });
+    await gifPage.addStyleTag({ content: FONT_CSS });
+    await gifPage.evaluate(() => document.fonts.ready);
+    const frames = [];
+    const count = Math.round((LOOP_MS / 1000) * FPS);
+    for (let i = 0; i < count; i++) {
+      await gifPage.evaluate((t) => {
+        document.body.classList.add("frozen");
+        for (const a of document.getAnimations()) a.currentTime = t;
+      }, (i * LOOP_MS) / count);
+      frames.push(await gifPage.screenshot({ clip: { x: 0, y: 0, width: WIDTH, height: HEIGHT } }));
+    }
+    // The first frame holds a beat longer, so a viewer reads the card before
+    // the passes start lighting up.
+    const delay = frames.map((_, i) => (i === 0 ? 900 : Math.round(1000 / FPS)));
+    await sharp(frames, { join: { animated: true } })
+      .gif({ loop: 0, delay, effort: 10, dither: 0.6 })
+      .toFile(OUT_GIF);
+    const gkb = (statSync(OUT_GIF).size / 1024).toFixed(0);
+    console.log(`wrote public/og-card.gif  ${WIDTH}x${HEIGHT}  ${frames.length} frames  ${gkb} KB`);
+  }
 } finally {
   await browser.close();
 }
