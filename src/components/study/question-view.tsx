@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useStaggerIn } from "@/lib/motion";
 import type { PresentedOption, Question, Scenario } from "@/content/types";
 import { ConceptHighlight } from "@/components/study/concept-highlight";
 import { ReadAloud } from "@/components/study/read-aloud";
@@ -56,6 +57,9 @@ export function QuestionView({
   const multi = isMultiSelect(question);
   const required = requiredSelections(question);
   const spoken = useRef<HTMLDivElement>(null);
+  // The choices arrive in reading order with each new scenario.
+  const choices = useRef<HTMLDivElement>(null);
+  useStaggerIn(choices, question.id, ":scope > *");
 
   return (
     <div>
@@ -90,6 +94,7 @@ export function QuestionView({
       ) : null}
 
       <div
+        ref={choices}
         role={multi ? "group" : "radiogroup"}
         aria-label="Answer choices"
         className={cn(
