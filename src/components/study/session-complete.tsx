@@ -14,6 +14,7 @@ import {
   scoreSitting,
   weakestSubdomains,
 } from "@/lib/results";
+import { useCountUp } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 
@@ -27,6 +28,7 @@ export function SessionComplete({
   const score = scoreSitting(result);
   const showQueue = queued > 0;
   const weak = weakestSubdomains(score);
+  const shownPct = useCountUp(score.percentage);
   return (
     <div className="mx-auto max-w-3xl pb-16">
       <header className="mb-6 text-center">
@@ -37,8 +39,12 @@ export function SessionComplete({
         */}
         <div className="mb-5 flex items-center justify-center">
           <div className="flex h-20 w-20 items-center justify-center rounded-full border border-primary/25 bg-accent-tint shadow-[var(--shadow-card)]">
-            <span className="text-2xl font-semibold tabular-nums text-primary">
-              {score.percentage}%
+            {/* Counts up once on arrival; the label carries the real score throughout. */}
+            <span
+              className="text-2xl font-semibold tabular-nums text-primary"
+              aria-label={`${score.percentage}%`}
+            >
+              {shownPct}%
             </span>
           </div>
         </div>
@@ -60,7 +66,7 @@ export function SessionComplete({
         </dl>
       </section>
       {showQueue ? (
-        <div className="mb-6 rounded-lg border border-l-4 border-primary bg-accent-tint p-4">
+        <div className="mb-6 rounded-lg border border-primary/40 bg-accent-tint p-4">
           <p className="text-sm font-medium">
             {queued} {queued === 1 ? "scenario is" : "scenarios are"} now in your review queue
           </p>

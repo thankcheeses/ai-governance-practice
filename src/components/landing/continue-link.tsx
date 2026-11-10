@@ -20,7 +20,8 @@ export function ContinueLink() {
   if (!returning) {
     return (
       <Button asChild size="lg">
-        <Link href="/onboarding">Start practicing — no account needed</Link>
+        {/* "No account" is said in the line above the button; saying it twice wrapped the label. */}
+        <Link href="/onboarding">Start practicing</Link>
       </Button>
     );
   }

@@ -273,7 +273,9 @@ export function Flashcards({
           {/* The coloured band an index card has along its top edge. */}
           <div
             aria-hidden
-            className={cn("h-2", revealed ? "bg-success" : "bg-primary")}
+            // Accent, not primary: primary is cream on dark surfaces, where it
+            // read as a glaring white strip across the top of the card.
+            className={cn("h-2", revealed ? "bg-success" : "bg-accent")}
           />
           <div
             className="px-5 pb-6 pt-4 sm:px-7"
