@@ -34,6 +34,11 @@ export function MascotAvatar({
     <span
       aria-hidden
       className={cn(
+        // `bg-[#2b2b2e]` is not a theme colour and deliberately does not follow the
+        // palette: the portraits are fully opaque (no alpha channel), so this is only
+        // ever seen in the moment before the image paints. It matches the artwork's
+        // own backdrop; a palette token here would flash a colour the picture then
+        // covers.
         "relative block shrink-0 overflow-hidden rounded-full bg-[#2b2b2e] ring-2 ring-card shadow-[var(--shadow-card)]",
         className ?? "h-14 w-14",
       )}

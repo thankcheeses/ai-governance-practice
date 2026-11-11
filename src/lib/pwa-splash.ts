@@ -1,4 +1,5 @@
 import { withBasePath } from "@/lib/base-path";
+import { INSTALLED_BACKGROUNDS } from "@/lib/palette";
 
 /**
  * The iOS launch images, and the one table the generator and the metadata both
@@ -43,15 +44,20 @@ export const LAUNCH_DEVICES: readonly LaunchDevice[] = [
 ];
 
 /**
- * The surfaces the images are painted on, from the `--background` tokens in
- * `globals.css`. A launch image in any other colour flashes the wrong colour
- * for the moment before first paint, which is the whole thing it exists to
- * prevent.
+ * The surfaces the images are painted on.
+ *
+ * Re-exported from `src/lib/palette.ts` rather than declared here. A launch
+ * image in any other colour flashes the wrong colour for the moment before
+ * first paint, which is the whole thing it exists to prevent — and a second
+ * copy of the hex is exactly how that drifts.
+ *
+ * There are three palettes and only one set of launch images, because the
+ * images are files and the choice is made at runtime. They follow the default
+ * palette; someone studying in another palette sees the default one for the
+ * moment before first paint, which is strictly better than the wrong colour
+ * entirely and is the same tradeoff the manifest's single `theme_color` forces.
  */
-export const LAUNCH_BACKGROUNDS = {
-  light: "#f4ede4",
-  dark: "#16120e",
-} as const;
+export const LAUNCH_BACKGROUNDS = INSTALLED_BACKGROUNDS;
 
 export type LaunchScheme = keyof typeof LAUNCH_BACKGROUNDS;
 

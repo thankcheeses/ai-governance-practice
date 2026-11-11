@@ -26,6 +26,14 @@ export default function GlobalError({
     console.error("Global error:", error);
   }, [error]);
 
+  /*
+    The colours below are literal copies of the default palette's `background`
+    and `foreground`, in both modes. They cannot read the tokens: this component
+    renders when the app failed to start, which includes the case where the
+    stylesheet never loaded. src/lib/palette.test.ts holds them to
+    src/lib/palette.ts, so a palette change cannot leave this screen on the old
+    scheme without failing the suite.
+  */
   return (
     <html lang="en">
       <body
@@ -38,14 +46,14 @@ export default function GlobalError({
           padding: "2rem 1.5rem",
           fontFamily:
             "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-          background: "#f4ede4",
-          color: "#1a2332",
+          background: "#f7f5ff",
+          color: "#1b1733",
         }}
       >
         <style>{`
           @media (prefers-color-scheme: dark) {
-            body { background: #16120e !important; color: #f3eee6 !important; }
-            a, button { border-color: #4a4038 !important; color: inherit !important; }
+            body { background: #121026 !important; color: #ece9f7 !important; }
+            a, button { border-color: #2e2756 !important; color: inherit !important; }
           }
         `}</style>
         <main style={{ maxWidth: "34rem" }}>
