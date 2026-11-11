@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AppGate } from "@/components/app/app-gate";
+import { EmptyMark } from "@/components/app/empty-mark";
 import { MonitoringThatActuallyWorks } from "@/components/civic/gpai";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -94,6 +95,7 @@ function Review() {
       {queue.length === 0 ? (
         <Card className="border-accent/20 bg-gradient-to-br from-accent-tint/40 via-card to-card shadow-card">
           <CardContent className="flex flex-col items-center p-8 text-center">
+            <EmptyMark name="cleared" />
             <h2 className="mt-5 font-semibold">Nothing due right now</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
               {upcomingTotal > 0

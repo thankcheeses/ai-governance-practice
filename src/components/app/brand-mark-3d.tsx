@@ -16,10 +16,11 @@ import { cn } from "@/lib/utils";
  * mark does not need.
  *
  * Why only the splash: the app's own visual language is flat, monospace and
- * warm-neutral, and README §11 rules out decorative art inside the interface.
- * The splash is the one surface whose job is to present the product rather than
- * operate it — the same reasoning that already allows a navy/teal gradient in
- * `src/app/icon.svg` at the OS boundary while banning one in-app.
+ * warm-neutral, and README "Visual language" rule 2 keeps rendered treatments
+ * out of surfaces that are operated rather than presented. The splash is the
+ * one surface whose job is to present the product — the same reasoning that
+ * already allows a navy/teal gradient in `src/app/icon.svg` at the OS boundary
+ * while keeping one out of the interface.
  *
  * On error this degrades to the flat-filled mark rather than to nothing. That
  * differs from `VisualAid`, which renders nothing when a diagram is missing: a

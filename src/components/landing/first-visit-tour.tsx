@@ -71,9 +71,16 @@ export function FirstVisitTour({
   const current = STEPS[step];
   const last = step === STEPS.length - 1;
 
+  /*
+    The scrim is a neutral black at the opacity the design pass chose. It was
+    `bg-[#16120e]/60` — the old dark-mode background, hardcoded, which is now a
+    colour no palette contains. A scrim is an absence of light rather than a
+    brand surface, so black is both correct and the one value here that does not
+    need a token per palette.
+  */
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/55 p-4 sm:items-center"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 sm:items-center"
       role="dialog"
       aria-modal="true"
       aria-labelledby="tour-title"

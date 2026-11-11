@@ -72,6 +72,9 @@ export function PreLaunchGate({ variant, className }: GpaiModuleProps) {
       className={className}
       diagram={({ active, select }) => (
         <GateRail
+          // Vertical: five labels across a toolkit card collide ("Accountability"
+          // has no break point), and the rail reads top-to-bottom just as well.
+          orientation="vertical"
           labels={PRE_LAUNCH_STAGES.map((s) => s.name)}
           active={active}
           onSelect={select}

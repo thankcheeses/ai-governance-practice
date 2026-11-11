@@ -388,6 +388,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     keyTakeaway:
       "The timing of a disclosure is part of the control, not a detail of its delivery. Told late, it informs a choice the person has already made.",
     frameworkTags: ["EU AI Act", "Responsible AI"],
+    visualAid: {
+      type: "workflow",
+      figure: "disclosure-timing",
+      alt:
+        "One interaction drawn as a sequence: the point of interaction, then the member sharing protected health information, then the decision being made. The same disclosure badge is drawn at two positions on that line. Placed at the point of interaction it is solid, and the member still has a choice to make. Placed after the decision it is dashed and faded, because the words are identical but there is nothing left to decide. Only the position differs.",
+      caption:
+        "Same disclosure, two positions. Only the one that arrives first is a control.",
+    },
     distractorNotes: {
       A:
         "Marginal benefit against retesting cost is a fair project argument, and it treats the question as a matter of effort rather than of what the member is entitled to know.",
@@ -1926,6 +1934,14 @@ export const AIGP_ENRICHMENT: Record<number, QuestionEnrichment> = {
     keyTakeaway:
       "The top tier of a risk framework is not the strictest set of controls — it is the line past which no controls help. Check whether a use is prohibited before designing its assessment.",
     frameworkTags: ["EU AI Act", "AI Risk Management"],
+    visualAid: {
+      type: "decision-tree",
+      figure: "eu-risk-ladder",
+      alt:
+        "The EU AI Act risk tiers as a ladder checked from the top down. Prohibited, under Article 5, has no route to market and no set of controls that cures it. High risk, classified under Article 6, is permitted through the conformity assessment of Article 43. Limited risk, under Article 50, is permitted with disclosure at the point of interaction. Minimal risk carries no obligation. Because the first rung removes a use entirely rather than tightening its controls, it is checked before any assessment is designed.",
+      caption:
+        "The first rung is a gate, not a control level — which is why it is checked first.",
+    },
     distractorNotes: {
       A:
         "Public availability of the underlying records does not license combining them into a general rating that governs access to services.",

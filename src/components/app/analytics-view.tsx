@@ -7,6 +7,8 @@ import { domainOf, type DomainRoman } from "@/content/bok";
 import type { Band, FocusArea, Slice } from "@/lib/analytics";
 import type { ReasoningPattern } from "@/lib/reasoning-patterns";
 import type { Calibration, MissBreakdown } from "@/lib/calibration";
+import type { Attempt } from "@/lib/types";
+import { AccuracyTrend } from "@/components/app/accuracy-trend";
 import { cn } from "@/lib/utils";
 
 /**
@@ -173,6 +175,7 @@ export function AnalyticsView({
   pattern,
   calibration,
   misses,
+  attempts,
 }: {
   overall: { answered: number; correct: number; accuracy: number; seen: number; available: number };
   domains: (Slice & { roman: DomainRoman })[];
@@ -190,6 +193,13 @@ export function AnalyticsView({
    */
   calibration?: Calibration | null;
   misses?: MissBreakdown | null;
+  /**
+   * Raw attempts, for the rolling-accuracy trend. Optional: the overall score
+   * above is one number and cannot say whether it is climbing or slipping,
+   * which is the question this page exists to answer. The trend renders
+   * nothing when there are too few attempts to have a shape.
+   */
+  attempts?: Attempt[];
 }) {
   const [open, setOpen] = useState<DomainRoman | null>(null);
 
@@ -215,6 +225,7 @@ export function AnalyticsView({
             value={weakest ? `${weakest.id} · ${weakest.accuracy}%` : "Not yet measured"}
           />
         </div>
+        {attempts ? <AccuracyTrend attempts={attempts} className="mt-4" /> : null}
       </section>
 
       {/* Focus areas — the recommendation is the product, not the bar. */}
