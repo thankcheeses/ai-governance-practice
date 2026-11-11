@@ -241,6 +241,34 @@ test("the global error screen carries no colour from another palette", () => {
   }
 });
 
+/*
+  The native shell, which is a static config read at build time and so cannot
+  follow a runtime preference. It is the fourth single-value surface, after the
+  manifest, `viewport.themeColor` and the launch images, and it was missed on
+  the first pass through them — hence this.
+*/
+test("the Capacitor shell background is the default palette's light page", () => {
+  const config = readFileSync("capacitor.config.ts", "utf8");
+  const expected = PALETTES[DEFAULT_PALETTE].light.background.toLowerCase();
+  const found = [...config.matchAll(/backgroundColor:\s*"(#[0-9a-fA-F]{6})"/g)].map(
+    (m) => m[1].toLowerCase(),
+  );
+  assert.ok(
+    found.length > 0,
+    "capacitor.config.ts declares no backgroundColor; if that is deliberate, " +
+      "delete this test — otherwise the packaged app flashes white on launch",
+  );
+  for (const value of found) {
+    assert.equal(
+      value,
+      expected,
+      `the native shell is ${value} but the app paints ${expected}. A packaged ` +
+        "app shows this colour before the web layer paints, so a mismatch is a " +
+        "flash of the wrong colour on every cold start.",
+    );
+  }
+});
+
 /* ---------- the init script ---------- */
 
 test("the palette init script falls back to the default and never throws", () => {

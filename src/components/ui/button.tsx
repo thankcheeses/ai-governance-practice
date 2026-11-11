@@ -21,9 +21,13 @@ import { cn } from "@/lib/utils";
  * filled ones opt out of it, because fading a filled control is the one case
  * where it goes wrong twice over.
  *
- * Measured: `--primary` is `#1a2332` and `--primary-foreground` is `#fffbf6`.
- * At 50% over the `#f4ede4` page, the surface lands on a dead mid-gray and the
- * label on it falls to roughly 1.9:1 — far under the 4.5:1 floor. The case
+ * Measured, in the default palette: `--primary` is `#1b1733` and
+ * `--primary-foreground` is `#ffffff`. At 50% over the `#f7f5ff` page the
+ * surface lands on a dead mid-gray (`#898699`) and the label on it falls to
+ * 2.03:1 — far under the 4.5:1 floor. The figure moves a little with the
+ * palette (it was 1.9:1 under the previous warm scheme) and stays nowhere near
+ * passing under any of them, which is the point: this is a property of fading
+ * a filled control, not of one set of colours. The case
  * that found it was the study screen's submit button, whose disabled label was
  * the one instruction telling the learner how to proceed and the least
  * readable text on the page. That button is gone — answers now commit on the
