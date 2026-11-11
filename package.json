@@ -27,7 +27,8 @@
     "build:og": "node scripts/build-og-card.mjs",
     "build:fonts": "node scripts/build-local-fonts.mjs",
     "build:palettes": "tsx scripts/build-palette-css.mts",
-    "build:screenshots": "node scripts/build-store-screenshots.mjs"
+    "build:screenshots": "node scripts/build-store-screenshots.mjs",
+    "build:feature": "node scripts/build-feature-graphic.mjs"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.15",

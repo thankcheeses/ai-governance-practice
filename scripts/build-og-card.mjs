@@ -41,7 +41,8 @@
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
-import { statSync, readdirSync, readFileSync } from "node:fs";
+import { statSync } from "node:fs";
+import { appFontCss, NEXT_STATIC } from "./lib/app-fonts.mjs";
 
 /* Resolved at runtime so a missing Playwright is a sentence, not a stack trace. */
 const require = createRequire(import.meta.url);
@@ -66,7 +67,6 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const SOURCE = resolve(HERE, "og-card.html");
 const OUT = resolve(HERE, "..", "public", "og-card.png");
 const OUT_GIF = resolve(HERE, "..", "public", "og-card.gif");
-const NEXT_STATIC = resolve(HERE, "..", ".next", "static");
 
 /*
   The animated card. One 4.8 s loop (the CSS timeline in og-card.html),
@@ -82,45 +82,10 @@ const WIDTH = 1200;
 const HEIGHT = 630;
 const SCALE = 2;
 
-/** The app's own @font-face rules, re-pointed at the files on disk. */
-function brandFontCss() {
-  const cssDir = resolve(NEXT_STATIC, "css");
-  const sheets = readdirSync(cssDir)
-    .filter((f) => f.endsWith(".css"))
-    .map((f) => readFileSync(resolve(cssDir, f), "utf8"))
-    .join("\n");
-
-  const rules = (sheets.match(/@font-face\{[^}]*\}/g) ?? []).filter((r) =>
-    /IBM Plex Serif|Inter/.test(r),
-  );
-  if (!rules.length) throw new Error("no IBM Plex Serif or Inter @font-face rules found");
-
-  return rules
-    .map((r) =>
-      r
-        // `swap` lets the first paint use a fallback, and a one-shot screenshot
-        // can catch exactly that frame. `block` holds the text until the real
-        // face is ready.
-        .replace("font-display:swap", "font-display:block")
-        /*
-          The base path is optional in this match. A `build:pages` output
-          carries it (`/ai-governance-practice/_next/...`) and a plain `build`
-          does not, and a pattern that insisted on the bare form matched
-          nothing against the former — surfacing as "brand fonts did not load",
-          which points at the fonts rather than at the build you happen to have
-          on disk. Either form resolves to the same file.
-        */
-        .replace(
-          /url\((?:[^)]*?)?\/_next\/static\/(media\/[^)]+)\)/g,
-          (_m, rel) => `url("file://${resolve(NEXT_STATIC, rel)}")`,
-        ),
-    )
-    .join("\n");
-}
 
 let FONT_CSS;
 try {
-  FONT_CSS = brandFontCss();
+  FONT_CSS = appFontCss();
 } catch (err) {
   console.error(
     `Could not read the app's font CSS under ${NEXT_STATIC} (${err.message}). ` +

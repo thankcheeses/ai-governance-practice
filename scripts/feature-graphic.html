@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!--
+  Google Play feature graphic, 1024 x 500.
+
+  Rendered to docs/store/feature-graphic.png by scripts/build-feature-graphic.mjs.
+  Edit this, not the PNG.
+
+  Three constraints shape the layout:
+
+  1. Play crops and overlays this image differently across surfaces, so nothing
+     that has to be read sits within 64px of an edge.
+  2. It is shown small. There is one headline at a size that survives being
+     scaled to a phone's listing header, and no body copy below 19px.
+  3. It does not name the certification. "AIGP" is IAPP's certification mark,
+     and a store listing is where a trademark complaint gets filed. The product
+     is described by what it does instead, which is also more useful to someone
+     deciding whether to install it.
+
+  Colours are the default palette from src/lib/palette.ts, light mode. They are
+  literal here because this is a static file rendered headless; the washes match
+  --wash-1 and --wash-2 so the graphic belongs to the same family as the app.
+-->
+<style>
+  :root {
+    --page: #f7f5ff;
+    --card: #ffffff;
+    --ink: #1b1733;
+    --muted: #55507a;
+    --accent: #5b3df5;
+    --accent-strong: #4526d6;
+    --teal: #00756f;
+    --amber: #ffb020;
+    --border: rgb(27 23 51 / 0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1024px; height: 500px; overflow: hidden;
+    background: var(--page);
+    background-image:
+      radial-gradient(620px 420px at 2% -24%, rgb(91 61 245 / 0.20), transparent 60%),
+      radial-gradient(520px 380px at 104% 118%, rgb(0 166 160 / 0.16), transparent 58%);
+    font-family: Inter, system-ui, sans-serif;
+    color: var(--ink);
+    display: grid; grid-template-columns: 1fr 384px;
+    align-items: center; gap: 40px;
+    padding: 56px 64px;
+  }
+  .eyebrow {
+    font-size: 15px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent-strong); margin-bottom: 18px;
+  }
+  h1 {
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-size: 46px; line-height: 1.08; font-weight: 600;
+    letter-spacing: -0.015em; margin-bottom: 16px;
+  }
+  .sub { font-size: 20px; line-height: 1.45; color: var(--muted); max-width: 32ch; }
+  .pill {
+    display: inline-block; margin-top: 22px;
+    padding: 9px 18px; border-radius: 999px;
+    background: var(--card); border: 1px solid var(--border);
+    font-size: 15px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--accent-strong);
+  }
+  .passes { display: grid; gap: 10px; }
+  .pass {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 13px 18px;
+    box-shadow: 0 1px 2px rgb(27 23 51 / 0.04), 0 8px 24px -12px rgb(27 23 51 / 0.14);
+  }
+  .pass .n {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--accent); margin-bottom: 3px;
+  }
+  .pass .t { font-family: "IBM Plex Serif", Georgia, serif; font-size: 21px; font-weight: 600; }
+  .pass.last { background: var(--ink); border-color: var(--ink); }
+  .pass.last .n { color: var(--amber); }
+  .pass.last .t { color: #ffffff; }
+</style>
+</head>
+<body>
+  <div>
+    <p class="eyebrow">Independent practice tool</p>
+    <h1>Practice the decision,<br>not the definition.</h1>
+    <p class="sub">Scenario training for AI governance practitioners.</p>
+    <span class="pill">350 original scenarios</span>
+  </div>
+
+  <div class="passes">
+    <div class="pass"><div class="n">01</div><div class="t">Facts</div></div>
+    <div class="pass"><div class="n">02</div><div class="t">Obligations</div></div>
+    <div class="pass"><div class="n">03</div><div class="t">Risks</div></div>
+    <div class="pass last"><div class="n">04</div><div class="t">Action</div></div>
+  </div>
+</body>
+</html>
