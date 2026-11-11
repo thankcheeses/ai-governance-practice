@@ -13,6 +13,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getTrack } from "@/content/registry";
 import { BRAND, COMPANY, SUPPORT } from "@/lib/brand";
+import { PALETTE_IDS, PALETTES } from "@/lib/palette";
+import { usePalette } from "@/lib/store/palette-provider";
 import { useProgress } from "@/lib/store/progress-provider";
 import { useTheme, type Theme } from "@/lib/store/theme-provider";
 import {
@@ -110,6 +112,8 @@ function Settings() {
             </button>
           ))}
         </div>
+
+        <PaletteChoice />
       </Section>
 
       {/* Language */}
@@ -479,6 +483,98 @@ function Section({
  * it lives in localStorage, which does not exist on the server; reading it
  * inline would mismatch the static export's markup on hydration.
  */
+/**
+ * Which of the three colour schemes to study in.
+ *
+ * The swatches are drawn from the palette data in the *currently resolved*
+ * theme, so what the row shows is what choosing it gives you. Showing the light
+ * values to someone in dark mode would be a preview of a screen they are not
+ * going to see.
+ *
+ * No mounted-state guard is needed here, unlike the reading controls: the
+ * provider starts on the default palette and corrects itself in an effect, so
+ * the control follows the same value the document already has.
+ */
+function PaletteChoice() {
+  const { palette, setPalette } = usePalette();
+  const { resolvedTheme } = useTheme();
+
+  return (
+    <fieldset className="mt-3 border-0 p-0">
+      <legend className="mb-2.5 text-sm text-muted-foreground">
+        Colour scheme
+      </legend>
+      <div className="grid gap-2">
+        {PALETTE_IDS.map((id) => {
+          const option = PALETTES[id];
+          const tokens = option[resolvedTheme];
+          const selected = palette === id;
+          return (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setPalette(id)}
+              aria-pressed={selected}
+              className={cn(
+                "flex min-h-11 items-center gap-3 rounded-md border bg-card p-3 text-left transition-colors",
+                selected
+                  ? "border-accent bg-accent-tint ring-1 ring-inset ring-accent"
+                  : "border-border hover:bg-secondary",
+              )}
+            >
+              <span
+                aria-hidden
+                className="flex shrink-0 items-center gap-1 rounded-sm p-1"
+                style={{ backgroundColor: tokens.background }}
+              >
+                {/*
+                  Three distinct hues, picked in preference order rather than
+                  fixed: "Mint and grape" uses one green for both accent and
+                  success, and a fixed triple rendered it as two identical dots,
+                  which reads as a bug in the swatch rather than a property of
+                  the palette.
+                */}
+                {Array.from(
+                  new Set([
+                    tokens.accent,
+                    tokens.insight,
+                    tokens.success,
+                    tokens.link,
+                    tokens.destructive,
+                  ]),
+                )
+                  .slice(0, 3)
+                  .map((c) => (
+                  <span
+                    key={c}
+                    className="block h-4 w-4 rounded-full"
+                    style={{ backgroundColor: c }}
+                  />
+                ))}
+              </span>
+              <span className="min-w-0">
+                <span
+                  className={cn(
+                    "block text-sm",
+                    selected
+                      ? "font-medium text-accent-foreground"
+                      : "text-foreground",
+                  )}
+                >
+                  {option.label}
+                </span>
+                <span className="block text-xs text-muted-foreground">
+                  {option.description}
+                </span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}
+
 /**
  * Text size, text spacing and motion.
  *

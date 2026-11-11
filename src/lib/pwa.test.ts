@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { test } from "node:test";
+import { INSTALLED_BACKGROUNDS } from "@/lib/palette";
 import {
   LAUNCH_BACKGROUNDS,
   LAUNCH_DEVICES,
@@ -66,13 +67,32 @@ test("the manifest asks for a full-screen app", () => {
 });
 
 test("the manifest's colours are the app's own background", () => {
-  // Both must match the light `--background` token, or an install flashes a
-  // colour the app never uses before first paint.
-  const css = readFileSync("src/app/globals.css", "utf8");
-  const light = /--background:\s*(#[0-9a-f]{6})/i.exec(css)?.[1];
-  assert.ok(light, "could not read --background from globals.css");
-  assert.equal(manifest.theme_color.toLowerCase(), light.toLowerCase());
-  assert.equal(manifest.background_color.toLowerCase(), light.toLowerCase());
+  /*
+    Both must match the light `--background` the app actually paints, or an
+    install flashes a colour the app never uses before first paint.
+
+    There are three palettes and the manifest has one `theme_color`, so the
+    target is the DEFAULT palette — the same one the launch images and
+    `viewport.themeColor` follow. This walks the whole chain rather than one
+    hop of it: the module is the source of truth, `palettes.css` is generated
+    from it, and the manifest is written by hand. Checking the module against
+    the manifest alone would pass while the generated stylesheet was stale, and
+    the app would paint a colour the manifest does not know about.
+  */
+  const css = readFileSync("src/app/palettes.css", "utf8");
+  // The default block, the one that applies with no attributes set.
+  const defaultBlock = /:root,\s*:root\[data-palette="[a-z]+"\]\s*\{([^}]*)\}/.exec(css)?.[1];
+  assert.ok(defaultBlock, "could not find the default palette block in palettes.css");
+  const painted = /--background:\s*(#[0-9a-f]{6})/i.exec(defaultBlock)?.[1];
+  assert.ok(painted, "the default palette block declares no --background");
+
+  assert.equal(
+    painted.toLowerCase(),
+    INSTALLED_BACKGROUNDS.light.toLowerCase(),
+    "palettes.css is stale against src/lib/palette.ts — run `npm run build:palettes`",
+  );
+  assert.equal(manifest.theme_color.toLowerCase(), painted.toLowerCase());
+  assert.equal(manifest.background_color.toLowerCase(), painted.toLowerCase());
 });
 
 /**

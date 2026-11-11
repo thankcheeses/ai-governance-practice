@@ -25,17 +25,29 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: "https",
   },
+  /*
+    `backgroundColor` is the NATIVE shell behind the webview — what a packaged
+    app shows for the moment before the web layer paints, and behind any
+    overscroll. It has to match the app's own page colour or the launch reads as
+    a flash of the wrong colour, which is the same defect the splash images
+    exist to prevent.
+
+    It takes one value, so like the manifest's `theme_color` and the launch
+    images it follows the DEFAULT palette's light background — see
+    src/lib/palette.ts. Capacitor resolves this at build time from a static
+    config, so it cannot follow the palette or the theme the person picked.
+  */
   ios: {
     // Keeps content clear of the notch and home indicator; the app's own
     // safe-area padding then handles the rest.
     contentInset: "always",
     // Pinch-zoom would break the fixed question layout.
     zoomEnabled: false,
-    backgroundColor: "#f7f5f5",
+    backgroundColor: "#f7f5ff",
   },
   android: {
     zoomEnabled: false,
-    backgroundColor: "#f7f5f5",
+    backgroundColor: "#f7f5ff",
   },
 };
 

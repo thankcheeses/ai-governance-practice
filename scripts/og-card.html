@@ -22,16 +22,16 @@
          build output, so this file needs no network to render. -->
     <style>
       :root {
-        --paper: #f4ede4;
-        --card: #fffbf6;
-        --ink: #1a2332;
-        --muted: #5c534b;
-        --accent: #b85a32;
-        --accent-strong: #8c3f1f;
-        --accent-tint: #f8ede4;
-        --accent-subtle: #f0d4c4;
-        --success: #4a7c59;
-        --rule: rgb(26 35 50 / 0.1);
+        --paper: #f7f5ff;
+        --card: #ffffff;
+        --ink: #1b1733;
+        --muted: #55507a;
+        --accent: #5b3df5;
+        --accent-strong: #4526d6;
+        --accent-tint: #f1edff;
+        --accent-subtle: #ded7fe;
+        --success: #00756f;
+        --rule: rgb(27 23 51 / 0.1);
       }
       * { box-sizing: border-box; margin: 0; padding: 0; }
       body {
@@ -46,10 +46,10 @@
       /* The same two warm washes the brand banner uses. */
       .wash-a, .wash-b { position: absolute; inset: 0; }
       .wash-a {
-        background: radial-gradient(62% 62% at 16% 6%, rgb(232 168 124 / 0.34), transparent 70%);
+        background: radial-gradient(62% 62% at 16% 6%, rgb(91 61 245 / 0.24), transparent 70%);
       }
       .wash-b {
-        background: radial-gradient(52% 52% at 88% 92%, rgb(197 208 196 / 0.32), transparent 70%);
+        background: radial-gradient(52% 52% at 88% 92%, rgb(0 166 160 / 0.22), transparent 70%);
       }
 
       .frame {
@@ -96,7 +96,7 @@
       }
       .tick::after {
         content: ""; position: absolute; left: 6.5px; top: 4.5px;
-        width: 5px; height: 9.5px; border: solid #fffbf6;
+        width: 5px; height: 9.5px; border: solid #ffffff;
         border-width: 0 2.2px 2.2px 0; transform: rotate(45deg);
       }
 
@@ -114,7 +114,7 @@
         border: 1px solid var(--rule);
         border-radius: 20px;
         padding: 30px 28px 32px;
-        box-shadow: 0 2px 4px rgb(92 58 32 / 0.05), 0 22px 44px -18px rgb(92 58 32 / 0.22);
+        box-shadow: 0 2px 4px rgb(27 23 51 / 0.05), 0 22px 44px -18px rgb(27 23 51 / 0.22);
       }
       .panel h2 {
         font-family: "IBM Plex Serif", Georgia, serif;
@@ -125,9 +125,9 @@
         display: flex; align-items: center; justify-content: center;
         height: 46px; border-radius: 11px;
         font-size: 16px; font-weight: 600; letter-spacing: 0.01em;
-        border: 1px solid rgb(26 35 50 / 0.14);
-        background: #efe6db; color: var(--ink);
-        box-shadow: 0 1px 2px rgb(92 58 32 / 0.06);
+        border: 1px solid rgb(27 23 51 / 0.14);
+        background: #ece8fb; color: var(--ink);
+        box-shadow: 0 1px 2px rgb(27 23 51 / 0.06);
       }
       .band.b1 { width: 100%; }
       .band.b2 { width: 88%; }
@@ -135,7 +135,7 @@
       .band.b4 {
         width: 64%;
         background: var(--accent-subtle);
-        border-color: rgb(184 90 50 / 0.45);
+        border-color: rgb(91 61 245 / 0.38);
         color: var(--accent-strong);
       }
       .panel p {
@@ -163,14 +163,14 @@
       .band.b4 { animation: lit-4 4.8s linear infinite; }
       .pointer { animation: point 4.8s cubic-bezier(.45,0,.25,1) infinite; }
 
-      @keyframes lit-1 { 0%,12%,30%,100% { background:#efe6db; color:var(--ink); border-color:rgb(26 35 50 / .14); transform:none }
-                         15%,27% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(184 90 50 / .45); transform:scale(1.03) } }
-      @keyframes lit-2 { 0%,28%,46%,100% { background:#efe6db; color:var(--ink); border-color:rgb(26 35 50 / .14); transform:none }
-                         31%,43% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(184 90 50 / .45); transform:scale(1.03) } }
-      @keyframes lit-3 { 0%,44%,62%,100% { background:#efe6db; color:var(--ink); border-color:rgb(26 35 50 / .14); transform:none }
-                         47%,59% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(184 90 50 / .45); transform:scale(1.03) } }
-      @keyframes lit-4 { 0%,9%,63%,100% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(184 90 50 / .45) }
-                         12%,60% { background:#efe6db; color:var(--ink); border-color:rgb(26 35 50 / .14) }
+      @keyframes lit-1 { 0%,12%,30%,100% { background:#ece8fb; color:var(--ink); border-color:rgb(27 23 51 / .14); transform:none }
+                         15%,27% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(91 61 245 / .45); transform:scale(1.03) } }
+      @keyframes lit-2 { 0%,28%,46%,100% { background:#ece8fb; color:var(--ink); border-color:rgb(27 23 51 / .14); transform:none }
+                         31%,43% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(91 61 245 / .45); transform:scale(1.03) } }
+      @keyframes lit-3 { 0%,44%,62%,100% { background:#ece8fb; color:var(--ink); border-color:rgb(27 23 51 / .14); transform:none }
+                         47%,59% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(91 61 245 / .45); transform:scale(1.03) } }
+      @keyframes lit-4 { 0%,9%,63%,100% { background:var(--accent-subtle); color:var(--accent-strong); border-color:rgb(91 61 245 / .45) }
+                         12%,60% { background:#ece8fb; color:var(--ink); border-color:rgb(27 23 51 / .14) }
                          66%,72% { transform:scale(1.05) } 0%,80%,100% { transform:none } }
 
       /* A small marker that walks down the four passes. */
@@ -178,7 +178,7 @@
       .pointer {
         position: absolute; left: -16px; top: 0; width: 9px; height: 9px;
         border-radius: 999px; background: var(--accent);
-        box-shadow: 0 0 0 4px rgb(184 90 50 / .18);
+        box-shadow: 0 0 0 4px rgb(91 61 245 / .18);
       }
       /* Band centres sit 55 px apart; each band is 6% narrower per side than
          the one above, so the marker steps in by ~20 px as it steps down. */

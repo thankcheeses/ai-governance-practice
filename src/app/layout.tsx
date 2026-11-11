@@ -6,6 +6,12 @@ import { startupImages } from "@/lib/pwa-splash";
 import { READING_INIT_SCRIPT } from "@/lib/reading-prefs";
 import { TRANSLATION_GUARD_SCRIPT } from "@/lib/translation-guard";
 import { BRAND } from "@/lib/brand";
+import {
+  DEFAULT_PALETTE,
+  INSTALLED_BACKGROUNDS,
+  PALETTE_INIT_SCRIPT,
+} from "@/lib/palette";
+import { PaletteProvider } from "@/lib/store/palette-provider";
 import { ProgressProvider } from "@/lib/store/progress-provider";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/store/theme-provider";
 import "./globals.css";
@@ -156,9 +162,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  /*
+    The browser chrome colour, which can only be one pair of values while there
+    are three palettes to choose from. It follows the default palette, for the
+    same reason the manifest's single `theme_color` does — see
+    src/lib/palette.ts. Read from the module rather than written out, so the
+    chrome cannot be left on an old scheme.
+  */
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4ede4" },
-    { media: "(prefers-color-scheme: dark)", color: "#16120e" },
+    { media: "(prefers-color-scheme: light)", color: INSTALLED_BACKGROUNDS.light },
+    { media: "(prefers-color-scheme: dark)", color: INSTALLED_BACKGROUNDS.dark },
   ],
   width: "device-width",
   initialScale: 1,
@@ -172,6 +185,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="light"
+      data-palette={DEFAULT_PALETTE}
       suppressHydrationWarning
     >
       <body className="min-h-dvh antialiased">
@@ -200,6 +214,17 @@ export default function RootLayout({
           reaches it, before any paintable element below it exists.
         */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/*
+          Which of the three palettes to use, applied before first paint under
+          exactly the same constraints as the theme — a plain inline script,
+          inside <body>, nothing paintable above it.
+
+          It sits after the theme script because that one has a test pinning it
+          to the front of <body>, and one of them has to be second. Order
+          between these two does not matter: they set different attributes and
+          neither reads the other, so the first frame is correct either way.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: PALETTE_INIT_SCRIPT }} />
         {/*
           Text size, text spacing and the motion preference, applied before
           first paint for the same reason as the theme and under the same
@@ -230,7 +255,9 @@ export default function RootLayout({
         <TelemetryBoot />
         <ServiceWorker />
         <ThemeProvider>
-          <ProgressProvider>{children}</ProgressProvider>
+          <PaletteProvider>
+            <ProgressProvider>{children}</ProgressProvider>
+          </PaletteProvider>
         </ThemeProvider>
       </body>
     </html>

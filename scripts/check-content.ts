@@ -355,6 +355,30 @@ for (const m of bannerCounts) {
   }
 }
 
+/*
+  The Play feature graphic carries the same number, and it is the one asset a
+  person sees before they install anything. It is guarded the same way and for
+  the same reason: the count is what goes stale, the noun is the designer's.
+  The HTML source is checked rather than the PNG, because the PNG is generated
+  from it by `npm run build:feature` — a stale number in the image is always a
+  stale number here first.
+*/
+const feature = readFileSync("scripts/feature-graphic.html", "utf8");
+const featureCounts = [...feature.matchAll(/([\d,]+)\s+original\s+\w+/gi)];
+if (featureCounts.length < 1) {
+  fail(
+    "scripts/feature-graphic.html no longer states the question count; it is " +
+      "the first thing a visitor to the store listing reads",
+  );
+}
+for (const m of featureCounts) {
+  if (m[1].replace(/,/g, "") !== String(QS.length)) {
+    fail(
+      `scripts/feature-graphic.html is stale — it says "${m[0]}", the bank has ${QS.length}`,
+    );
+  }
+}
+
 /* -------------------------------------------------- metadata integrity -- */
 const DIFFICULTIES = new Set(["foundational", "applied", "advanced"]);
 for (const q of QS) {

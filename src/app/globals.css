@@ -1,18 +1,32 @@
 @import "tailwindcss";
 
 /*
-  AI Governance Practice — Warm Civic design system.
+  The colour tokens live in ./palettes.css, which is generated from
+  src/lib/palette.ts by `npm run build:palettes`.
 
-  Same semantic token names as Civic Studio. Values shift warmer so the
-  product reads as a daily practice surface rather than a policy memo.
-  Components do not branch on theme; they keep using bg-card, text-muted-foreground,
-  bg-accent, etc.
+  There are three palettes now rather than one, each in light and dark, and the
+  person studying picks one in Settings. They used to be written out here by
+  hand; with three of them that is six blocks of forty values, which is a
+  quantity of hex nobody can keep in step by eye. The module is the source of
+  truth and src/lib/palette.test.ts fails if the generated file is stale.
 
-  Ground:   Warm paper with a faint atmospheric wash
-  Ink:      Midnight navy for text and primary controls
-  Accent:   Muted terracotta for focus, progress, and active states
-  Insight:  Apricot for teaching blocks
-  Support:  Muted sage for healthy / correct states
+  Nothing else changes for components: the same semantic names resolve, so they
+  keep using bg-card, text-muted-foreground, bg-accent and the rest, and none of
+  them branches on which palette is active.
+*/
+@import "./palettes.css";
+
+/*
+  AI Governance Practice — design system.
+
+  Semantic tokens, three palettes. A component never names a colour or branches
+  on the active palette or theme; it names a role (card, muted-foreground,
+  accent, destructive) and the cascade resolves it. That is what makes adding a
+  third palette a data change rather than a sweep through the components.
+
+  The values are in src/lib/palette.ts and the cascade in ./palettes.css.
+  Radii, type and shadow geometry are below; only the shadow *colour* varies by
+  palette.
 
   Typography is unchanged: IBM Plex Serif for display, Inter for UI.
 */
@@ -81,100 +95,22 @@
   --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo,
     Consolas, monospace;
 
-  --shadow-card: 0 1px 2px rgb(92 58 32 / 0.04), 0 8px 24px -10px rgb(92 58 32 / 0.12);
-  --shadow-card-hover: 0 2px 6px rgb(92 58 32 / 0.06),
-    0 14px 32px -12px rgb(92 58 32 / 0.16);
-  --shadow-raised: 0 1px 2px rgb(92 58 32 / 0.06),
-    0 4px 12px rgb(92 58 32 / 0.08);
-  --shadow-inset: inset 0 1px 1px rgb(255 252 246 / 0.7);
-  --shadow-accent: 0 1px 3px rgb(184 90 50 / 0.12),
-    0 8px 20px -8px rgb(184 90 50 / 0.18);
-}
-
-:root,
-:root[data-theme="light"] {
-  --background: #f4ede4;
-  --foreground: #1a2332;
-  --card: #fffbf6;
-  --card-foreground: #1a2332;
-  --popover: #fffbf6;
-  --popover-foreground: #1a2332;
-  --primary: #1a2332;
-  --primary-foreground: #fffbf6;
-  --primary-strong: #0f1620;
-  --accent: #b85a32;
-  --accent-foreground: #8c3f1f;
-  --accent-strong: #8c3f1f;
-  --accent-subtle: #f0d4c4;
-  --accent-tint: #f8ede4;
-  --link: #8c3f1f;
-  --link-hover: #6e3018;
-  --secondary: #efe6db;
-  --secondary-foreground: #1a2332;
-  --muted: #efe6db;
-  --muted-foreground: #5c534b;
-  --destructive: #c4453a;
-  --destructive-foreground: #fffbf6;
-  --destructive-tint: #fdeeed;
-  --success: #4a7c59;
-  --success-foreground: #fffbf6;
-  --success-tint: #eaf2ec;
-  --warning: #a86232;
-  --warning-foreground: #fffbf6;
-  --insight: #e8a87c;
-  --insight-tint: #fdf2e9;
-  --insight-foreground: #a86232;
-  --border: rgb(26 35 50 / 0.09);
-  --border-strong: rgb(26 35 50 / 0.18);
-  --input: rgb(26 35 50 / 0.18);
-  --ring: #b85a32;
-  color-scheme: light;
-}
-
-:root[data-theme="dark"] {
-  --background: #16120e;
-  --foreground: #f3eee6;
-  --card: #211c17;
-  --card-foreground: #f3eee6;
-  --popover: #211c17;
-  --popover-foreground: #f3eee6;
-  --primary: #f3eee6;
-  --primary-foreground: #16120e;
-  --primary-strong: #ddd6cc;
-  --accent: #e08a5e;
-  --accent-foreground: #f0c3a1;
-  --accent-strong: #f0c3a1;
-  --accent-subtle: #3a2a22;
-  --accent-tint: #2a211b;
-  --link: #e08a5e;
-  --link-hover: #f0c3a1;
-  --secondary: #2a241e;
-  --secondary-foreground: #f3eee6;
-  --muted: #2a241e;
-  --muted-foreground: #b0a79c;
-  --destructive: #e8776b;
-  --destructive-foreground: #16120e;
-  --destructive-tint: #2e2222;
-  --success: #7fb08c;
-  --success-foreground: #16120e;
-  --success-tint: #1d2a23;
-  --warning: #e8a87c;
-  --warning-foreground: #16120e;
-  --insight: #e8a87c;
-  --insight-tint: #2c2620;
-  --insight-foreground: #f0c3a1;
-  --border: rgb(243 238 230 / 0.1);
-  --border-strong: rgb(243 238 230 / 0.2);
-  --input: rgb(243 238 230 / 0.2);
-  --ring: #e08a5e;
-  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.35), 0 10px 28px rgb(0 0 0 / 0.4);
-  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.4),
-    0 14px 36px rgb(0 0 0 / 0.5);
-  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 12px rgb(0 0 0 / 0.45);
-  --shadow-inset: inset 0 1px 1px rgb(255 255 255 / 0.06);
-  --shadow-accent: 0 1px 3px rgb(224 138 94 / 0.18),
-    0 8px 20px rgb(0 0 0 / 0.35);
-  color-scheme: dark;
+  /*
+    Geometry here, colour from the palette. The channels come from
+    --shadow-rgb / --shadow-accent-rgb / --shadow-inset-rgb, which each palette
+    block derives from its own ink, accent and card. These were a literal
+    `rgb(92 58 32)` — a brown, chosen for a warm palette and wrong under a cool
+    one, in a way that reads as grubby rather than as a colour mistake.
+  */
+  --shadow-card: 0 1px 2px rgb(var(--shadow-rgb) / 0.04),
+    0 8px 24px -10px rgb(var(--shadow-rgb) / 0.12);
+  --shadow-card-hover: 0 2px 6px rgb(var(--shadow-rgb) / 0.06),
+    0 14px 32px -12px rgb(var(--shadow-rgb) / 0.16);
+  --shadow-raised: 0 1px 2px rgb(var(--shadow-rgb) / 0.06),
+    0 4px 12px rgb(var(--shadow-rgb) / 0.08);
+  --shadow-inset: inset 0 1px 1px rgb(var(--shadow-inset-rgb) / 0.7);
+  --shadow-accent: 0 1px 3px rgb(var(--shadow-accent-rgb) / 0.12),
+    0 8px 20px -8px rgb(var(--shadow-accent-rgb) / 0.18);
 }
 
 @layer base {
@@ -188,9 +124,9 @@
   body {
     background-color: var(--color-background);
     background-image:
-      radial-gradient(1100px 560px at 8% -12%, rgb(232 168 124 / 0.28), transparent 58%),
-      radial-gradient(900px 480px at 96% 4%, rgb(196 186 160 / 0.2), transparent 52%),
-      radial-gradient(780px 640px at 78% 118%, rgb(176 188 168 / 0.16), transparent 58%);
+      radial-gradient(1100px 560px at 8% -12%, var(--wash-1), transparent 58%),
+      radial-gradient(900px 480px at 96% 4%, var(--wash-2), transparent 52%),
+      radial-gradient(780px 640px at 78% 118%, var(--wash-3), transparent 58%);
     background-attachment: fixed;
     color: var(--color-foreground);
     font-family: var(--font-sans);
