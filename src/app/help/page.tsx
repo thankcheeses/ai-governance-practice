@@ -5,7 +5,7 @@ import { BRAND } from "@/lib/brand";
 import { withBasePath } from "@/lib/base-path";
 
 export const metadata = {
-  title: `How this works \u00b7 ${BRAND.name}`,
+  title: "How this works",
 };
 
 export default function HelpPage() {

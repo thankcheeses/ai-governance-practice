@@ -36,13 +36,11 @@ import {
   type Sitting,
   sittingComposition,
 } from "@/lib/session";
-import { gradePreview, newReviewCard } from "@/lib/spaced-repetition";
 import { useProgress } from "@/lib/store/progress-provider";
 import type { ReviewGrade, StudyMode } from "@/lib/types";
 import { play } from "@/lib/sound";
 import { bonusSlots, pickBonus } from "@/lib/bonus-review";
 import { useCueOnce } from "@/lib/use-cue";
-import { cn } from "@/lib/utils";
 
 interface StudySessionProps {
   sitting: Sitting;
@@ -381,14 +379,6 @@ export function StudySession({
     },
     [question, gradeReview, advance]
   );
-
-  const scheduling = useMemo(() => {
-    if (!question || !withScheduling) return [];
-    const card =
-      progress.reviewCards[question.id] ??
-      newReviewCard(question.id, question.trackId);
-    return gradePreview(card);
-  }, [question, withScheduling, progress.reviewCards]);
 
   useStudyHotkeys({
     question,
