@@ -288,6 +288,7 @@ content and visual refinements added as the learning experience evolves.
 <br />
 
 <sub>Built by Brianna Baynard · <a href="https://www.linkedin.com/in/brianna-baynard">LinkedIn</a> · <a href="https://github.com/thankcheeses">GitHub</a><br />
+The source code is released under the <a href="LICENSE">MIT License</a>. The questions, scenarios and explanations are not: they remain subject to the app's Terms.<br />
 AI Governance Practice is an independent educational project.<br />
 Framework and organization names belong to their respective owners.</sub>
 
