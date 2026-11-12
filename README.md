@@ -109,10 +109,13 @@ locally on the device. Optional sign-in adds synchronization across devices.
 
 ## Visual language
 
-The product is built in **OpenCode Terminal Mono**: monospace type, flat colour,
-4px radius, restrained borders. Warm paper (`#f4ede4`), navy ink (`#1a2332`),
-terracotta accent (`#b85a32`). That system is the default and the fallback — if
-a screen is in doubt, it stays flat.
+The product is built in a calm editorial system: IBM Plex Serif for headings and
+the question itself, Inter for everything you operate, flat colour, soft rounded
+cards, restrained borders. The default palette, **Risk tiers**, is a lavender
+page (`#f7f5ff`), deep indigo ink (`#1b1733`) and an indigo accent (`#5b3df5`),
+with teal and amber in support; two alternative palettes and a dark theme are in
+Settings. That system is the default and the fallback — if a screen is in doubt,
+it stays flat.
 
 Within it, illustration is allowed, and these are the rules it follows.
 
@@ -159,6 +162,11 @@ npm run dev
 
 Then open <http://localhost:3000>. **No environment variables are required** for
 the core study experience.
+
+Accounts and cross-device sync are optional and need a Supabase project: copy
+[`.env.example`](.env.example) to `.env.local` and fill in the two
+`NEXT_PUBLIC_SUPABASE_*` values. Without them the app runs in local mode and
+the sign-in page says so.
 
 <details>
 <summary><strong>Other commands</strong></summary>
@@ -279,7 +287,8 @@ content and visual refinements added as the learning experience evolves.
 
 <br />
 
-<sub>AI Governance Practice is an independent educational project.<br />
+<sub>Built by Brianna Baynard · <a href="https://www.linkedin.com/in/brianna-baynard">LinkedIn</a> · <a href="https://github.com/thankcheeses">GitHub</a><br />
+AI Governance Practice is an independent educational project.<br />
 Framework and organization names belong to their respective owners.</sub>
 
 </div>

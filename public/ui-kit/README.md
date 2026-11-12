@@ -12,15 +12,16 @@ silver accents.
 ## These are reference assets, not UI chrome
 
 Nothing in this folder is wired into a React component, and nothing here should
-be. The product's visual language is **OpenCode Terminal Mono** — monospace,
-flat color, 4px radius, restrained borders, "the tool is the interface". These
-renders are the opposite of that by construction: glossy, bevelled, chromed.
+be. The product's visual language is flat and editorial — IBM Plex Serif
+headings, Inter for controls, flat color, soft rounded cards, restrained
+borders (see "Visual language" in the root README). These renders are the
+opposite of that by construction: glossy, bevelled, chromed.
 
 Two concrete reasons to keep the separation, beyond taste:
 
-1. **The palette does not match the product.** The app's surfaces are warm
-   (`#201d1d` dark, `#f7f5f5` / `#fdfcfc` light) and its accent is Apple blue
-   `#007AFF`. These assets are cool navy and teal. Dropping one into a screen
+1. **The palette does not match the product.** The app's default palette is a
+   lavender page (`#f7f5ff` light, `#121026` dark) with an indigo accent
+   (`#5b3df5`). These assets are cool navy and teal. Dropping one into a screen
    puts two unrelated color systems on it at once.
 2. **The interactive components are real components.** Buttons, frames and bars
    here are pictures of buttons. `src/components/ui/button.tsx` renders a

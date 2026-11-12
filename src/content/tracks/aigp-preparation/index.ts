@@ -18,9 +18,13 @@ import { AIGP_ENRICHMENT } from "./enrichment";
 
 const TRACK_ID = "aigp-preparation" as const;
 
-/** Source content authored 2025; enrichment layer added at integration. */
-const CREATED_DATE = "2025-01-01T00:00:00.000Z";
-const UPDATED_DATE = "2025-01-01T00:00:00.000Z";
+/**
+ * Taken from this repository's history rather than estimated: the bank was
+ * first committed on 3 August 2026 (408d64a), and questions.json last changed
+ * on 6 October 2026 (958f096). Move UPDATED_DATE when the questions change.
+ */
+const CREATED_DATE = "2026-08-03T00:00:00.000Z";
+const UPDATED_DATE = "2026-10-06T00:00:00.000Z";
 
 const OPTION_KEYS: OptionKey[] = ["A", "B", "C", "D", "E"];
 

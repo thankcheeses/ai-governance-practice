@@ -44,7 +44,7 @@ Ordered by what stops a submission. Nothing here is architectural.
 ### B1. Store icons and splash — **resolved**
 
 `scripts/build-store-assets.mjs` rasterises the existing shield in
-`public/icon.svg` into the five sources `@capacitor/assets` consumes, producing
+`src/app/icon.svg` into the five sources `@capacitor/assets` consumes, producing
 136 Android assets, 13 iOS assets, and the PWA icon set. Verified that
 `mipmap-xxxhdpi/ic_launcher.png` renders the brand mark, not the Capacitor
 placeholder.
@@ -53,7 +53,7 @@ Re-run after any change to the mark:
 ```bash
 node scripts/build-store-assets.mjs && npx capacitor-assets generate
 ```
-That generator deletes `public/icon.svg` and rewrites the web manifest — see
+That generator deletes `public/icon-maskable.svg` and rewrites the web manifest — see
 `mobile-release.md` §4a for what to restore afterwards.
 
 ### B2. `delete-account` edge function is not deployed — **hard blocker (iOS)**
