@@ -84,7 +84,7 @@ export interface Palette {
 const tiers: Palette = {
   id: "tiers",
   label: "Risk tiers",
-  description: "Indigo, teal and amber, keyed to the risk levels on the exam.",
+  description: "Indigo, teal and amber, keyed to the tiers of a risk scale.",
   light: {
     background: "#f7f5ff", foreground: "#1b1733",
     card: "#ffffff", cardForeground: "#1b1733",

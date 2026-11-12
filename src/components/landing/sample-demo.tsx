@@ -21,34 +21,31 @@ export function SampleDemo() {
   if (!question) return null;
 
   const correct = gradeAnswer(question, selected);
-  const ready = canSubmit(question, selected);
 
   return (
     <div>
       <p className="mb-5 text-[0.8125rem] text-muted-foreground">
-        Pick one. This does not save.
+        Pick one. Choosing an answer submits it, as it does in the app. This
+        does not save.
       </p>
       <QuestionView
         question={question}
         options={options}
         selected={selected}
         revealed={revealed}
-        onSelect={(id) =>
-          setSelected((current) => toggleSelection(question, current, id))
-        }
+        onSelect={(id) => {
+          /*
+            The choosing tap is the submission, exactly as in a study session,
+            so the page's "one tap, and the answer is final" is shown rather
+            than contradicted by a separate check button.
+          */
+          const next = toggleSelection(question, selected, id);
+          setSelected(next);
+          if (canSubmit(question, next)) setRevealed(true);
+        }}
       />
 
-      {!revealed ? (
-        <Button
-          size="lg"
-          variant={ready ? "default" : "outline"}
-          className="mt-7 w-full"
-          disabled={!ready}
-          onClick={() => setRevealed(true)}
-        >
-          {ready ? "Check answer" : "Choose an answer"}
-        </Button>
-      ) : (
+      {revealed ? (
         <div className="mt-8">
           <FeedbackPanel
             question={question}
@@ -68,7 +65,7 @@ export function SampleDemo() {
             Try it again
           </Button>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

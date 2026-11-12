@@ -15,7 +15,7 @@ import type { Difficulty, FrameworkTag, Question, Track, TrackId } from "./types
 const TRACKS: Track[] = [
   {
     id: "aigp-preparation",
-    name: "AIGP Preparation",
+    name: "AI Governance Practitioner",
     summary:
       "Build practical governance judgment across AI foundations, laws and frameworks, development, and deployment.",
     /*

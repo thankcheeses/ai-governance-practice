@@ -1,18 +1,18 @@
 /**
- * Rasterises the existing brand mark in `public/icon.svg` into the source
+ * Rasterises the existing brand mark in `src/app/icon.svg` into the source
  * assets `@capacitor/assets` expects, then hands off to that generator.
  *
  * Nothing here designs anything. Every variant reuses the same gradient stops,
  * shield path, and check path already in the SVG; the only per-variant changes
  * are the corner radius, which surface the mark sits on, and how much of the
- * frame it occupies. Re-run it whenever `public/icon.svg` changes:
+ * frame it occupies. Re-run it whenever `src/app/icon.svg` changes:
  *
  *   node scripts/build-store-assets.mjs && npx capacitor-assets generate
  */
 import sharp from "sharp";
 import { mkdir, writeFile } from "node:fs/promises";
 
-// Kept in sync with public/icon.svg and the --background tokens in globals.css.
+// Kept in sync with src/app/icon.svg and the --background tokens in globals.css.
 const BODY_GRADIENT = `
   <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
     <stop offset="0%" stop-color="#0F172A"/>

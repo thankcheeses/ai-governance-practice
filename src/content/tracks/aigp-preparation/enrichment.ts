@@ -1,7 +1,7 @@
 import type { QuestionEnrichment } from "@/content/types";
 
 /**
- * Editorial metadata for the AIGP Preparation track, keyed by source question id.
+ * Editorial metadata for the AI Governance Practitioner track, keyed by source question id.
  *
  * Why this file exists: `questions.json` is the canonical content and is checked
  * in exactly as authored, so no question, option, or rationale is ever altered.

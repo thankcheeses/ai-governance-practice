@@ -95,7 +95,7 @@ npx cap sync
 | --- | --- | --- |
 | App name | ✅ | AI Governance Practice |
 | Bundle / application ID | ✅ | `org.nhidclinical.app` (set in `capacitor.config.ts`) |
-| App icon | ⚠️ Partial | `public/icon.svg` exists. Stores need **raster PNG** at many sizes — 1024×1024 for App Store, adaptive icon for Play. Generate with `@capacitor/assets`. |
+| App icon | ⚠️ Partial | `src/app/icon.svg` exists. Stores need **raster PNG** at many sizes — 1024×1024 for App Store, adaptive icon for Play. Generate with `@capacitor/assets`. |
 | Splash screen | ⚠️ Partial | Brand mark renders in-app at `/`. A **native** splash asset is still needed. |
 | Privacy policy URL | ✅ In-app | `/settings/privacy` carries a full policy naming NHID-Clinical as controller, with an effective date. Still needs to be reachable at a **public URL** for the store listing, and reviewed by counsel. |
 | Terms URL | ✅ In-app | `/settings/terms` carries full Terms of Service. Same two caveats: public URL for the listing, and counsel review. |
@@ -213,7 +213,7 @@ pages were exercised with no console errors.
 ### Regenerating
 
 Source assets live in `assets/` and are derived mechanically from the existing
-brand mark in `public/icon.svg` — nothing is drawn by hand:
+brand mark in `src/app/icon.svg` — nothing is drawn by hand:
 
 ```bash
 node scripts/build-store-assets.mjs   # icon.svg -> assets/*.png
@@ -233,8 +233,9 @@ placeholder — verified against `mipmap-xxxhdpi/ic_launcher.png`.
 
 It is destructive outside the platform folders. After every run, check:
 
-1. **It deletes `public/icon.svg` and `public/icon-maskable.svg`.** Restore them
-   (`git checkout public/icon.svg public/icon-maskable.svg`).
+1. **It deletes `public/icon-maskable.svg`.** Restore it
+   (`git checkout public/icon-maskable.svg`). The main mark now lives at
+   `src/app/icon.svg`, outside the folder the generator touches.
 2. **It rewrites `public/manifest.webmanifest`**, replacing the icon list with
    entries pointing at `../icons/...` — a path that escapes the web root and
    404s — and mislabels the WebP files as `image/png`. The committed manifest is

@@ -35,7 +35,7 @@ export const BRAND = {
  */
 export const COMPANY = {
   name: "NHID-Clinical",
-  descriptor: "an AI governance and security platform",
+  descriptor: "an independent research project and open reference implementation",
   email: "contact@nhid-clinical.org",
 } as const;
 

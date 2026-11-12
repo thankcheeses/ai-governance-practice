@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-
-const STORAGE_KEY = "agp.how-to-operate.v1";
 
 const STEPS = [
   {
@@ -29,44 +27,19 @@ const STEPS = [
   {
     kicker: "Start",
     title: "Try one on this page",
-    body: "The sample question is a real item. Nothing you do there is recorded. Help stays in the header if you need this again.",
+    body: "The sample question is a real item. Nothing you do there is recorded. “How this works” stays in the header if you need this again.",
   },
 ] as const;
 
-export function FirstVisitTour({
-  forceOpen = false,
-  onClose,
-}: {
-  forceOpen?: boolean;
-  onClose?: () => void;
-}) {
-  const [open, setOpen] = useState(false);
+/*
+  Opened only from the "How this works" button. It used to open by itself on a
+  first visit, which put a modal over the landing hero before anyone had read a
+  word of it. The page already explains itself; the tour is there for whoever
+  asks for it.
+*/
+function HowToOperateTour({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    if (forceOpen) {
-      setStep(0);
-      setOpen(true);
-      return;
-    }
-    try {
-      if (window.localStorage.getItem(STORAGE_KEY) !== "seen") setOpen(true);
-    } catch {
-      setOpen(true);
-    }
-  }, [forceOpen]);
-
-  function dismiss() {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, "seen");
-    } catch {
-      /* private mode */
-    }
-    setOpen(false);
-    onClose?.();
-  }
-
-  if (!open) return null;
+  const dismiss = onClose;
 
   const current = STEPS[step];
   const last = step === STEPS.length - 1;
@@ -136,7 +109,7 @@ export function HowToOperateButton() {
       >
         How this works
       </button>
-      {open ? <FirstVisitTour forceOpen onClose={() => setOpen(false)} /> : null}
+      {open ? <HowToOperateTour onClose={() => setOpen(false)} /> : null}
     </>
   );
 }

@@ -1,9 +1,6 @@
 import Link from "next/link";
 import { ContinueLink } from "@/components/landing/continue-link";
-import {
-  FirstVisitTour,
-  HowToOperateButton,
-} from "@/components/landing/first-visit-tour";
+import { HowToOperateButton } from "@/components/landing/first-visit-tour";
 import { SampleDemo } from "@/components/landing/sample-demo";
 import { sampleQuestion } from "@/components/landing/sample-question";
 import { getTrackQuestions } from "@/content/registry";
@@ -54,27 +51,31 @@ export default function RootPage() {
 
   return (
     <div className="min-h-dvh">
-      <FirstVisitTour />
       <header className="sticky top-0 z-20 border-b border-border bg-card/80 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-[1180px] items-center gap-3 px-5 py-4 sm:px-6 lg:px-10">
+        <div className="mx-auto flex max-w-[1180px] items-center gap-2 px-5 py-4 sm:gap-3 sm:px-6 lg:px-10">
           <img
             src={withBasePath("/brand/agp-mark.svg")}
             alt=""
             width={32}
             height={32}
-            className="h-8 w-8 rounded-lg"
+            className="h-7 w-7 rounded-lg sm:h-8 sm:w-8"
           />
           {/*
             Both the wordmark and the nav wrapped to two lines at 390px, which
-            made the first thing anyone sees look cramped. Neither needs to
-            wrap: the bar has room once they are allowed to stay on one line.
+            made the first thing anyone sees look cramped. Keeping them on one
+            line then truncated the product's own name to "AI Governance …".
+            The name is the one thing here that must be whole, so on a phone
+            the bar gives up the Help link instead — it is still in the footer,
+            and "How this works" stays beside the name.
           */}
-          <span className="truncate whitespace-nowrap font-serif text-[1.0625rem] sm:text-[1.125rem]">
+          <span className="whitespace-nowrap font-serif text-[1.0625rem] sm:text-[1.125rem]">
             {BRAND.name}
           </span>
           <nav className="ml-auto flex shrink-0 items-center gap-4 whitespace-nowrap text-[0.875rem]">
             <HowToOperateButton />
-            <Link href="/help">Help</Link>
+            <Link href="/help" className="hidden sm:inline">
+              Help
+            </Link>
           </nav>
         </div>
       </header>
@@ -204,7 +205,7 @@ export default function RootPage() {
               },
               {
                 h: "One tap, and the answer is final",
-                p: "There is no submit button to hover over and no selection to nudge while you re-read the options. Choosing commits the answer, which is the condition you sit the exam under — and it stops practice rewarding the habit of narrowing to two and fishing.",
+                p: "There is no submit button to hover over and no selection to nudge while you re-read the options. Choosing commits the answer, the way a real decision commits you — and it stops practice rewarding the habit of narrowing to two and fishing.",
               },
               {
                 h: "Missed items come back on a schedule",
