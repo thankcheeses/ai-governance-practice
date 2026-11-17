@@ -159,7 +159,7 @@ function SummaryRow({
   return (
     <li>
       <div className="mb-1.5 flex items-baseline justify-between gap-3">
-        <span className="truncate text-sm">
+        <span className="min-w-0 text-sm">
           <span className="text-muted-foreground">{prefix}</span> {label}
         </span>
         <span className="shrink-0 text-sm tabular-nums text-muted-foreground">

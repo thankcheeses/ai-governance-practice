@@ -41,7 +41,7 @@ export function ProtectedText({
   children,
   ...props
 }: React.HTMLAttributes<HTMLElement> & {
-  as?: "div" | "span" | "p" | "h1" | "h2";
+  as?: "div" | "span" | "p" | "h1" | "h2" | "h3";
 }) {
   return (
     <Tag

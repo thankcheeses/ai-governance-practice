@@ -290,7 +290,7 @@ export default function RootPage() {
             or approved by any certification body. Published by{" "}
             NHID-Clinical.
           </p>
-          <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[0.875rem]">
+          <p className="mt-1 flex flex-wrap gap-x-5 text-[0.875rem] [&>a]:inline-flex [&>a]:min-h-11 [&>a]:items-center">
             <Link href="/help">Help</Link>
             <Link href="/terms">Terms of Service</Link>
             <Link href="/privacy">Privacy Policy</Link>

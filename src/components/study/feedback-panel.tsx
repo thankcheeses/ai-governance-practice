@@ -107,7 +107,7 @@ export function FeedbackPanel({
         <div className="text-[0.9375rem] font-semibold">
           {correct ? "Correct" : "Incorrect"}
           {!correct ? (
-            <span className="ml-1.5 font-normal opacity-90">
+            <span className="ml-1.5 font-normal">
               — the {isMultiSelect(question) ? "answers are" : "answer is"}{" "}
               {formatAnswer(correctKeys)}
             </span>

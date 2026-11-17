@@ -33,6 +33,7 @@ export function SampleDemo() {
         options={options}
         selected={selected}
         revealed={revealed}
+        stemAs="h3"
         onSelect={(id) => {
           /*
             The choosing tap is the submission, exactly as in a study session,

@@ -31,7 +31,7 @@ export function FirstAnswerNote({
       Wrong items go to Review. Exam will not.
       <button
         type="button"
-        className="ml-3 font-medium text-link underline decoration-link/40 underline-offset-4"
+        className="ml-3 inline-flex min-h-11 items-center font-medium text-link underline decoration-link/40 underline-offset-4"
         onClick={() => {
           try {
             window.localStorage.setItem(KEY, "seen");

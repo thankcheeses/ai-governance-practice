@@ -196,22 +196,17 @@ function Study() {
                 />
               </div>
 
-              <Button
-                asChild
-                disabled={
-                  customCount === "" ||
-                  Number(customCount) < MIN_SESSION_LENGTH ||
-                  Number(customCount) > MAX_SESSION_LENGTH
-                }
-              >
+              {/*
+                An untouched form starts the length the slider is already
+                showing. It used to be a disabled link to "#" until something
+                was changed, so the page's primary button did nothing on a
+                first visit while the slider sat on a perfectly valid 5.
+              */}
+              <Button asChild>
                 <Link
-                  href={
-                    customCount === ""
-                      ? "#"
-                      : `/study/session?count=${Number(customCount)}`
-                  }
-                  aria-disabled={customCount === "" ? true : undefined}
-                  tabIndex={customCount === "" ? -1 : undefined}
+                  href={`/study/session?count=${
+                    customCount === "" ? MIN_SESSION_LENGTH : Number(customCount)
+                  }`}
                 >
                   Start session
                 </Link>

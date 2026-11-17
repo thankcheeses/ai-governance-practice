@@ -104,7 +104,7 @@ export function HowToOperateButton() {
     <>
       <button
         type="button"
-        className="text-[0.875rem] font-medium text-link underline decoration-link/40 underline-offset-4 hover:text-link-hover"
+        className="inline-flex min-h-11 items-center text-[0.875rem] font-medium text-link underline decoration-link/40 underline-offset-4 hover:text-link-hover"
         onClick={() => setOpen(true)}
       >
         How this works

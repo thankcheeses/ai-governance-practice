@@ -19,6 +19,12 @@ interface QuestionViewProps {
   selected: readonly string[];
   revealed: boolean;
   onSelect: (optionId: string) => void;
+  /**
+   * Heading level of the stem. A session screen has nothing above it, so the
+   * stem is the page's h1. Embedded under another heading — the landing page's
+   * sample — it has to sit below that heading instead of being a second h1.
+   */
+  stemAs?: "h1" | "h3";
 }
 
 /**
@@ -53,6 +59,7 @@ export function QuestionView({
   selected,
   revealed,
   onSelect,
+  stemAs = "h1",
 }: QuestionViewProps) {
   const multi = isMultiSelect(question);
   const required = requiredSelections(question);
@@ -75,7 +82,7 @@ export function QuestionView({
         space it needs to be read carefully rather than skimmed.
       */}
       <ProtectedText
-        as="h1"
+        as={stemAs}
         data-speak
         className="measure text-pretty font-serif text-[1.375rem] leading-snug sm:text-[1.625rem] sm:leading-snug"
       >
