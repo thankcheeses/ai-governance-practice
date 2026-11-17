@@ -34,7 +34,7 @@ export function ReadCoach({ questionId }: { questionId: string }) {
     <div className="mb-5">
       <button
         type="button"
-        className="text-[0.8125rem] font-medium text-link underline decoration-link/40 underline-offset-4 hover:text-link-hover"
+        className="inline-flex min-h-11 items-center text-[0.8125rem] font-medium text-link underline decoration-link/40 underline-offset-4 hover:text-link-hover"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
       >

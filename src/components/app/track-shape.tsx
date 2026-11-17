@@ -60,7 +60,7 @@ export function TrackShape({
                 style={{ opacity: 1 - i * 0.18 }}
                 aria-hidden
               />
-              <span className="truncate">{s.label}</span>
+              <span className="min-w-0">{s.label}</span>
             </span>
             <span className="shrink-0 tabular-nums">{s.available}</span>
           </li>

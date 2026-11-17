@@ -55,7 +55,7 @@ function Meter({ slice }: { slice: Slice }) {
       }`}
     >
       <div className="flex items-baseline justify-between gap-3">
-        <span className="truncate text-sm">{slice.label}</span>
+        <span className="min-w-0 text-sm">{slice.label}</span>
         <span className="shrink-0 text-sm tabular-nums">
           {measured ? (
             <>

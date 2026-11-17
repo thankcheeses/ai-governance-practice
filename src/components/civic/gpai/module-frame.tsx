@@ -145,7 +145,7 @@ export function GpaiFrame({
             <p className="min-w-0 flex-1 text-[0.9375rem] font-medium text-foreground">
               {current.name}
             </p>
-            <span className="shrink-0 text-[0.6875rem] tabular-nums text-muted-foreground/80">
+            <span className="shrink-0 text-[0.6875rem] tabular-nums text-muted-foreground">
               {index + 1} / {stages.length}
             </span>
           </div>

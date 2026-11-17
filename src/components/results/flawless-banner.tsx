@@ -81,7 +81,7 @@ export function FlawlessBanner({ score }: { score: SittingScore }) {
         <button
           type="button"
           onClick={() => setDismissing(true)}
-          className="mt-4 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium transition-opacity hover:opacity-75"
+          className="mt-4 inline-flex min-h-11 items-center rounded-md border border-border bg-card px-4 text-xs font-medium transition-opacity hover:opacity-75"
         >
           Continue
         </button>
