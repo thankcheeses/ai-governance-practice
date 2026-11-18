@@ -87,9 +87,7 @@ export default function RootPage() {
             {BRAND.tagline}
           </p>
           <h1 className="mt-3 text-[2.25rem] leading-[1.08] sm:text-[3.25rem]">
-            Practice the decision,{" "}
-            <br className="hidden sm:inline" />
-            not the definition.
+            {BRAND.lines.apply}
           </h1>
           <p className="mt-5 text-[1.0625rem] leading-relaxed text-muted-foreground">
             {available} original questions, including {scenarioQuestions.length} questions across {factPatterns} multi-question fact patterns, put you inside a governance decision and ask what you would do. Then every option is explained — including
